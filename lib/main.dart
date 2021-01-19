@@ -7,6 +7,8 @@ import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_circular_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
+import 'main_app/views/widgets/common_prompt_dialog.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   //await FlutterDownloader.initialize(debug: true);
@@ -81,6 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   '$_counter',
                   style: Theme.of(context).textTheme.headline4,
                 ),
+                CustomCircularButton(
+                  label: "Common Alert", onTap: (){
+                  _showAlert();
+                },),
+
+                SizedBox(height: 10,),
                 CustomCircularButton(onTap: (){
                   _incrementCounter();
                 },
@@ -103,5 +111,20 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+  _showAlert() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CommonPromptDialog(
+            titleText: 'Common Prompt Alert',
+            onAccept: () {
+              Navigator.pop(context);
+            },
+            onCancel: () {
+              Navigator.pop(context);
+            },
+          );
+        });
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myhealthbd_app/main_app/flavour/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 
 enum Flavor { DEV, QA, PRODUCTION }
 

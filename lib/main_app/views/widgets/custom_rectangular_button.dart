@@ -5,28 +5,42 @@ class CustomRectangularButton extends StatelessWidget {
   final Function onPressed;
   final bool primaryFill;
 
+  final double width;
+  final double height;
+  final double fontSize;
+  final Key key;
+
   CustomRectangularButton(
       {@required this.text,
         @required this.onPressed,
-        this.primaryFill = true});
+        this.primaryFill = true,
+        this.key,
+        this.fontSize = 18,
+        this.width = 90,
+        this.height = 40,
+      });
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      shape: Border.all(color: Theme.of(context).primaryColor),
-      color: primaryFill
-          ? Theme.of(context).primaryColor
-          : Theme.of(context).backgroundColor,
-      child: InkWell(
-        onTap: onPressed,
-        child: Padding(
-          padding:  EdgeInsets.all(primaryFill?5.0:5.0),
-          child: Text(
-            text,
-            style: TextStyle(
-                color: primaryFill?Theme.of(context).backgroundColor:Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 15),
+    return Container(
+      height: height,
+      width: width,
+      child: Material(
+        shape: Border.all(color: Theme.of(context).primaryColor),
+        color: primaryFill
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).backgroundColor,
+        child: InkWell(
+          onTap: onPressed,
+          child: Padding(
+            padding:  EdgeInsets.all(primaryFill?5.0:5.0),
+            child: Text(
+              text,
+              style: TextStyle(
+                  color: primaryFill?Theme.of(context).backgroundColor:Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15),
+            ),
           ),
         ),
       ),

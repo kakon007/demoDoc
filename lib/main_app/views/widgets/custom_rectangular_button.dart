@@ -15,9 +15,9 @@ class CustomRectangularButton extends StatelessWidget {
         @required this.onPressed,
         this.primaryFill = true,
         this.key,
-        this.fontSize = 18,
+        this.fontSize = 20,
         this.width = 90,
-        this.height = 40,
+        this.height = 35,
       });
 
   @override
@@ -34,12 +34,14 @@ class CustomRectangularButton extends StatelessWidget {
           onTap: onPressed,
           child: Padding(
             padding:  EdgeInsets.all(primaryFill?5.0:5.0),
-            child: Text(
-              text,
-              style: TextStyle(
-                  color: primaryFill?Theme.of(context).backgroundColor:Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15),
+            child: Center(
+              child: Text(
+                text,
+                style: TextStyle(
+                    color: primaryFill?Theme.of(context).backgroundColor:Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: fontSize),
+              ),
             ),
           ),
         ),

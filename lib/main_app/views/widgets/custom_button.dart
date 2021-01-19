@@ -7,6 +7,7 @@ class CustomButton extends StatelessWidget {
   final Function onTap;
   final double circularRadius;
   final Key key;
+  final Color color;
 
   /// width could be null
   /// default width 135 for large device and 115 for mobile device
@@ -17,18 +18,19 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     @required this.label,
     @required this.onTap,
+    @required this.color,
     this.key,
     this.fontSize = 18,
-    this.width = 115,
-    this.height = 60,
-    this.circularRadius = 60,
+    this.width = 180,
+    this.height = 35,
+    this.circularRadius = 100,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(circularRadius),
-      color: Colors.transparent,
+      color: color,
       elevation: onTap == null ? 0 : 5.0,
       child: Container(
         width: width,
@@ -48,6 +50,7 @@ class CustomButton extends StatelessWidget {
                 style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
               ),
             ),
+
           ),
         ),
       ),

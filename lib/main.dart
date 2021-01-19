@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_banner.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_button.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_circular_button.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,6 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 label: 'Get Appointment',
                   color: Colors.orange,
+                ),
+
+                CustomRectangularButton(
+                  onPressed: (){},
+                  text:'ok',
                 ),
               ],
             ),

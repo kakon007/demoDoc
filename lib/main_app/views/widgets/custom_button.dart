@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 
-class CustomButton extends StatelessWidget {
+class CustomCircularButton extends StatelessWidget {
   final String label;
   final Function onTap;
   final double circularRadius;
@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
   final double height;
   final double fontSize;
 
-  const CustomButton({
+  const CustomCircularButton({
     @required this.label,
     @required this.onTap,
     @required this.color,

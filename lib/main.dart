@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: 'Get Appointment',
                   color: Colors.orange,
                 ),
-
+                SizedBox(height: 10,),
                 CustomRectangularButton(
                   onPressed: (){},
                   text:'ok',

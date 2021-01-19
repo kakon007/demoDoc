@@ -47,7 +47,7 @@ class CustomCircularButton extends StatelessWidget {
             child: Center(
               child: Text(
                 label,
-                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold,color: Colors.white),
               ),
             ),
 

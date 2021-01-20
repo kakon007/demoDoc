@@ -4,6 +4,7 @@ import 'package:quill_delta/quill_delta.dart';
 //import 'package:p7app/method_extension.dart';
 import 'package:myhealthbd_app/method_extension.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
+import 'package:zefyr/zefyr.dart';
 
 class ZeyfrHelper {
   static NotusDocument htmlToNotusDocument(String htmlString) {

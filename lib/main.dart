@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/main_app/new_view.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_circular_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_textformfield.dart';
 import 'main_app/test_screen2.dart';
 import 'main_app/views/widgets/common_prompt_dialog.dart';
@@ -99,6 +100,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.orange,
                 ),
                 SizedBox(height: 10,),
+                // CustomCircularButton(onTap: (){
+                //   Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>CustomTextFieldRounded()));
+                // },
+                //   label: "CustomTextField",
+                //   color: Colors.orange,
+                // ),
+
                 CustomRectangularButton(
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>TestScreen2()));
@@ -116,6 +124,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   hintText: "Write Your CGPA",
                   validator: Validator().numberFieldValidateOptional,
                   keyboardType: TextInputType.number,
+                ),
+
+                SizedBox(height: 10,),
+                CustomTextFieldRounded(
+                  textFieldKey: Key("signUpName"),
+                  errorText: "Error",
+                  keyboardType: TextInputType.text,
+                  //focusNode: _nameFocusNode,
+                  textInputAction: TextInputAction.next,
+                  //controller: _nameEditingController,
+                  hintText: "Enter",
+                  prefixIcon: Icon(
+                    Icons.person_outline,
+                  ),
+                  //onChanged: signUpModel.validateNameLocal,
+                  // onSubmitted: (s) {
+                  //   _nameFocusNode.unfocus();
+                  //   FocusScope.of(_scaffoldKey.currentState.context)
+                  //       .requestFocus(_emailFocusNode);
+                  // },
                 ),
 
               ],

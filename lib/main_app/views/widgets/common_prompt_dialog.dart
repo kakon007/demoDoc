@@ -44,7 +44,7 @@ class CommonPromptDialog extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 8,
+          width: 20,
         ),
       ],
     );

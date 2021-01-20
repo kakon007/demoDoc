@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/main_app/new_screen.dart';
+import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_date_picker.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/edit_screen_save_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/rounded_loading_button.dart';
 
@@ -12,7 +15,7 @@ class NewScreen extends StatefulWidget {
 
 class _NewScreenState extends State<NewScreen> {
   Widget spaceBetweenSections = SizedBox(height: 30);
-
+  DateTime applicationDeadline;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +50,7 @@ class _NewScreenState extends State<NewScreen> {
               ),
               spaceBetweenSections,
               RoundedLoadingButton(
+
                 valueColor: Colors.black,
                 height: 55,
                 width: 200,
@@ -55,11 +59,26 @@ class _NewScreenState extends State<NewScreen> {
                   key: Key('signInButtonKey'),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>NewScreen2()));
+                },
               ),
               spaceBetweenSections,
               EditScreenSaveButton(
-                  onPressed: () {}, text: 'Shakil')
+                  onPressed: () {}, text: 'Shakil'),
+
+              spaceBetweenSections,
+              CommonDatePickerFormField(
+                dateFieldKey: Key('applicationDeadlineDatePickerKey'),
+                onDateTimeChanged: (DateTime d) {
+                  applicationDeadline = d;
+                  setState(() {});
+                },
+                date: applicationDeadline,
+                label: 'Your date',
+              ),
+
+
             ],
           ),
         ),

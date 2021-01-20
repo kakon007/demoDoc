@@ -35,6 +35,7 @@ dependencies:
   notustohtml: ^0.0.7
   quill_delta: 1.1.3
   flutter_typeahead: ^1.9.1
+  dropdown_search: ^0.4.8
 
 
 dev_dependencies:

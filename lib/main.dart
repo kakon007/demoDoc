@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.
 import 'package:myhealthbd_app/main_app/views/widgets/custom_textfield.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_textformfield.dart';
 
+import 'main_app/my_screen.dart';
 import 'main_app/views/widgets/common_prompt_dialog.dart';
 import './main_app/resource/strings_resource.dart';
 
@@ -22,9 +23,9 @@ void main() async{
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   //setupLocator();
   FlavorConfig(
-      flavor: Flavor.DEV,
-      color: Colors.deepOrange,
-      //values: FlavorValues(baseUrl: kBaseUrDev)
+    flavor: Flavor.DEV,
+    color: Colors.deepOrange,
+    //values: FlavorValues(baseUrl: kBaseUrDev)
   );
   runApp(
     MyApp(),
@@ -97,18 +98,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 CustomCircularButton(onTap: (){
                   _incrementCounter();
                 },
-                label: 'Get Appointment',
+                  label: 'Get Appointment',
                   color: Colors.orange,
                 ),
                 SizedBox(height: 10,),
                 CustomRectangularButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>MyScreen()));
+                  },
                   text:'ok',
                 ),
 
-                CustomTextField(
-                  hintText: 'Shakil',
-                ),
+                // CustomTextField(
+                //   hintText: 'Shakil',
+                // ),
 
                 SizedBox(height: 10,),
 

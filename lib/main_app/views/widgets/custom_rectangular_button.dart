@@ -38,7 +38,7 @@ class CustomRectangularButton extends StatelessWidget {
               child: Text(
                 text,
                 style: TextStyle(
-                    color: primaryFill?Theme.of(context).backgroundColor:Theme.of(context).primaryColor,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: fontSize),
               ),

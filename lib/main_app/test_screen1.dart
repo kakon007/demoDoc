@@ -32,7 +32,7 @@ class _MyScreenState extends State<MyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Screen"),
+        title: Text("Test Screen"),
       ),
       body: Container(
         child: ZefyrScaffold(

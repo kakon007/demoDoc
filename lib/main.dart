@@ -1,14 +1,18 @@
-import 'dart:io';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_banner.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
+//import 'package:myhealthbd_app/main_app/flavour/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_circular_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_textfield.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_textformfield.dart';
 
 import 'main_app/views/widgets/common_prompt_dialog.dart';
+import './main_app/resource/strings_resource.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,6 +108,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 CustomTextField(
                   hintText: 'Shakil',
+                ),
+
+                SizedBox(height: 10,),
+
+                CustomTextFormField(
+                  //controller: gpaTextController,
+                  textFieldKey: Key('educationCGPA'),
+                  labelText: StringResources.gpaText,
+                  hintText: StringResources.gpaHintText,
+                  validator: Validator().nameValidator,
+                  keyboardType: TextInputType.number,
                 ),
 
               ],

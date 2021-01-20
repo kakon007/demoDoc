@@ -78,14 +78,15 @@ class CustomTextFormField extends StatelessWidget {
           height: 5,
         ),
         Container(
+          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
-            borderRadius: BorderRadius.circular(7),
+            borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                  color: Color(0xff000000).withOpacity(0.2), blurRadius: 20),
+                  color: Color(0xff000000).withOpacity(0.2), blurRadius: 15),
               BoxShadow(
-                  color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 20),
+                  color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 15),
             ],
           ),
           child: TextFormField(

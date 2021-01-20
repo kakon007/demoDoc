@@ -37,6 +37,7 @@ dependencies:
   flutter_typeahead: ^1.9.1
   dropdown_search: ^0.4.8
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

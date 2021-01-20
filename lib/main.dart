@@ -18,9 +18,9 @@ void main() async{
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   //setupLocator();
   FlavorConfig(
-      flavor: Flavor.DEV,
-      color: Colors.deepOrange,
-      //values: FlavorValues(baseUrl: kBaseUrDev)
+    flavor: Flavor.DEV,
+    color: Colors.deepOrange,
+    //values: FlavorValues(baseUrl: kBaseUrDev)
   );
   runApp(
     MyApp(),
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 CustomCircularButton(onTap: (){
                   _incrementCounter();
                 },
-                label: 'Get Appointment',
+                  label: 'Get Appointment',
                   color: Colors.orange,
                 ),
                 SizedBox(height: 10,),
@@ -102,9 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   text:'ok',
                 ),
 
-                CustomTextField(
-                  hintText: 'Shakil',
-                ),
+                // CustomTextField(
+                //   hintText: 'Shakil',
+                // ),
 
               ],
             ),

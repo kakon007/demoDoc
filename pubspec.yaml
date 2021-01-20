@@ -19,7 +19,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   zefyr: ^0.12.0
   quill_delta: any
-
+  notustohtml: any
 
 dev_dependencies:
   flutter_test:

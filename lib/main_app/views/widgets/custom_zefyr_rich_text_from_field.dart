@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+//import 'package:p7app/professional/main_app/util/zefyr_helper.dart';
+import 'package:myhealthbd_app/main_app/util/zefyr_helper.dart';
 import 'package:zefyr/zefyr.dart';
+export 'package:zefyr/zefyr.dart';
+export 'package:notustohtml/notustohtml.dart';
+//export 'package:p7app/professional/main_app/util/zefyr_helper.dart';
+export 'package:myhealthbd_app/main_app/util/zefyr_helper.dart';
+//import 'package:p7app/method_extension.dart';
+import 'package:myhealthbd_app/method_extension.dart';
+//export  'package:p7app/method_extension.dart';
+export 'package:myhealthbd_app/method_extension.dart';
+
+// extension NotusDocumentEx on NotusDocument {
+//   String get toHTML {
+//     return ZeyfrHelper.notusDocumentToHTML(this);
+//   }
+// }
+
+// extension StringEx on String {
+//   NotusDocument get htmlToNotusDocument {
+//     return ZeyfrHelper.htmlToNotusDocument(this);
+//   }
+// }
 
 class CustomZefyrRichTextFormField extends StatelessWidget {
-
   final ZefyrController controller;
   final String labelText;
   final String hintText;
@@ -33,7 +54,7 @@ class CustomZefyrRichTextFormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        if(labelText != null)
+        if (labelText != null)
           Row(
             children: [
               Flexible(
@@ -77,8 +98,8 @@ class CustomZefyrRichTextFormField extends StatelessWidget {
             ),
           ),
         ),
+//        errorText != null ? Text('') : SizedBox(),
       ],
     );
   }
 }
-

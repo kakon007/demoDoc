@@ -1,21 +1,15 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_banner.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/main_app/new_view.dart';
-import 'package:myhealthbd_app/main_app/test_screen2.dart';
-//import 'package:myhealthbd_app/main_app/flavour/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_circular_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_textfield.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_textformfield.dart';
-
-import 'main_app/test_screen1.dart';
 import 'main_app/views/widgets/common_prompt_dialog.dart';
 import './main_app/resource/strings_resource.dart';
+import './main_app/views/widgets/please_sign_in_widget.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +19,9 @@ void main() async{
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   //setupLocator();
   FlavorConfig(
-    flavor: Flavor.DEV,
-    color: Colors.deepOrange,
-    //values: FlavorValues(baseUrl: kBaseUrDev)
+      flavor: Flavor.DEV,
+      color: Colors.deepOrange,
+      //values: FlavorValues(baseUrl: kBaseUrDev)
   );
   runApp(
     MyApp(),
@@ -98,22 +92,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 SizedBox(height: 10,),
                 CustomCircularButton(onTap: (){
-                  _incrementCounter();
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>SignInMessageWidget()));
                 },
-                  label: 'Get Appointment',
+                label: 'Get Appointment',
                   color: Colors.orange,
                 ),
                 SizedBox(height: 10,),
                 CustomRectangularButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>TestScreen2()));
+
                   },
                   text:'ok',
                 ),
 
-                // CustomTextField(
-                //   hintText: 'Shakil',
-                // ),
 
                 SizedBox(height: 10,),
 
@@ -121,8 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   //controller: gpaTextController,
                   textFieldKey: Key('educationCGPA'),
                   labelText: StringResources.gpaText,
-                  hintText: StringResources.gpaHintText,
-                  validator: Validator().nameValidator,
+                  hintText: "Write Your CGPA",
+                  validator: Validator().numberFieldValidateOptional,
                   keyboardType: TextInputType.number,
                 ),
 

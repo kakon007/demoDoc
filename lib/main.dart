@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/main_app/flavour/flavour_banner.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_circular_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_textfield.dart';
 
 import 'main_app/views/widgets/common_prompt_dialog.dart';
 
@@ -100,6 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: (){},
                   text:'ok',
                 ),
+
+                CustomTextField(
+                  hintText: 'Shakil',
+                ),
+
               ],
             ),
           ),

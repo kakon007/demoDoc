@@ -7,7 +7,7 @@ class CustomCircularButton extends StatelessWidget {
   final Function onTap;
   final double circularRadius;
   final Key key;
-  final Color color;
+  //final Color color;
 
   /// width could be null
   /// default width 135 for large device and 115 for mobile device
@@ -18,7 +18,7 @@ class CustomCircularButton extends StatelessWidget {
   const CustomCircularButton({
     @required this.label,
     @required this.onTap,
-    @required this.color,
+   // @required this.color,
     this.key,
     this.fontSize = 18,
     this.width = 180,
@@ -30,7 +30,7 @@ class CustomCircularButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(circularRadius),
-      color: color,
+     // color: color,
       elevation: onTap == null ? 0 : 5.0,
       child: Container(
         width: width,

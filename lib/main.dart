@@ -12,6 +12,7 @@ import 'main_app/test_screen2.dart';
 import 'main_app/views/widgets/common_prompt_dialog.dart';
 import './main_app/resource/strings_resource.dart';
 import './main_app/views/widgets/please_sign_in_widget.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.indigo,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -97,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext)=>SignInMessageWidget()));
                 },
                 label: 'Get Appointment',
-                  color: Colors.orange,
+                  //color: Colors.orange,
                 ),
                 SizedBox(height: 10,),
                 // CustomCircularButton(onTap: (){

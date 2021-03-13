@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_banner.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/new_view.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_circular_button.dart';
@@ -27,7 +28,7 @@ void main() async{
       //values: FlavorValues(baseUrl: kBaseUrDev)
   );
   runApp(
-    MyApp(),
+    HomeScreen(),
   );
 }
 

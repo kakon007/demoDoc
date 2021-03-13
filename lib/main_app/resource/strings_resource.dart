@@ -1,6 +1,15 @@
 
 
 class StringResources {
+  //Dashboard
+  static String dashboardNavBarText="DashBoard";
+  //Apointment
+  static String appointmentNavBarText="Appointments";
+  //Hospitals
+  static String hospitalNavBarText="Hospitals";
+  //My_health
+  static String myHealthNavBarText="My Health";
+
   //common resource
   static String imageAWSbaseUrl = "https://jobxprss-media.s3.us-east-2.amazonaws.com";
 

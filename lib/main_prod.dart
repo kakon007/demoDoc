@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_banner.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 
 void main() async{
   await WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ void main() async{
     //values: FlavorValues(baseUrl: kBaseUrlProd),
   );
   runApp(
-    MyApp(),
+    HomeScreen(),
   );
 }
 

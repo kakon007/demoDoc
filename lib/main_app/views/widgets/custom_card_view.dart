@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class CustomCard extends StatelessWidget {
   String titleText;
@@ -38,7 +39,24 @@ class CustomCard extends StatelessWidget {
                       ),
                       SizedBox(width: 3,),
                       Text(countText,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold),),
+
                     ],
+                  ),
+                  SizedBox(height: 10,),
+                  Material(
+                    elevation: 2  ,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    color: HexColor("#354291"),
+                    child: SizedBox(
+                      width: 130,
+                      height: 30,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Get An Appointment",style: TextStyle(color: Colors.white,fontSize: 11),),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

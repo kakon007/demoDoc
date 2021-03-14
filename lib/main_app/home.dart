@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }
         },
         currentIndex: currentIndex,
-        selectedItemColor: Theme.of(context).accentColor,
+        selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey[800],
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         unselectedLabelStyle: TextStyle(
@@ -45,28 +45,56 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         selectedFontSize: 10,
         unselectedFontSize: 10,
-        elevation: 4,
+        elevation: 20.0,
         type: BottomNavigationBarType.fixed,
         items: [
       //dashboard
-      // ignore: deprecated_member_use
-      BottomNavigationBarItem(icon: Padding(
-        padding: EdgeInsets.all(10),
+      BottomNavigationBarItem(icon: Material(
+        color: Colors.transparent,
         child: Image.asset("assets/icons/dashboard_icon.png"),
 
-      ),title: Text(StringResources.dashboardNavBarText)),
+      // ignore: deprecated_member_use
+      ),title: Padding(
+        padding: const EdgeInsets.only(top:8.0),
+        child: Text(StringResources.dashboardNavBarText),
+      )),
       //appointments
       // ignore: deprecated_member_use
-      BottomNavigationBarItem(icon: Icon(Icons.add_box),title: Text(StringResources.appointmentNavBarText)),
+      BottomNavigationBarItem(icon: Material(
+        color: Colors.transparent,
+        child: Image.asset("assets/icons/appointment_icon.png"),
+
+        // ignore: deprecated_member_use
+      ),title: Padding(
+        padding: const EdgeInsets.only(top:8.0),
+        child: Text(StringResources.appointmentNavBarText),
+      )),
       //hospitals
       // ignore: deprecated_member_use
-      BottomNavigationBarItem(icon:  Icon(Icons.add_box_outlined),title: Text(StringResources.hospitalNavBarText)),
+      BottomNavigationBarItem(icon:  Material(
+        color: Colors.transparent,
+        child: Image.asset("assets/icons/hospital_icon.png"),
+
+        // ignore: deprecated_member_use
+      ),title: Padding(
+        padding: const EdgeInsets.only(top:8.0),
+        child: Text(StringResources.hospitalNavBarText),
+      )),
       //my_health
       // ignore: deprecated_member_use
-      BottomNavigationBarItem(icon:  Icon(Icons.cake),title: Text(StringResources.myHealthNavBarText))
+      BottomNavigationBarItem(icon: Material(
+        color: Colors.transparent,
+        child: Image.asset("assets/icons/myhealth_icon.png"),
+
+        // ignore: deprecated_member_use
+      ),title: Padding(
+        padding: const EdgeInsets.only(top:8.0),
+        child: Text(StringResources.myHealthNavBarText),
+      ))
     ]);
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: WillPopScope(child: Scaffold(
          bottomNavigationBar: bottomNavBar,
         body: pages[currentIndex],

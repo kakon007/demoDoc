@@ -3,6 +3,7 @@
 class StringResources {
   //Dashboard
   static String dashboardNavBarText="DashBoard";
+  static String dasboardAppBarText="Welcome to MyHealthBD";
   //Apointment
   static String appointmentNavBarText="Appointments";
   //Hospitals

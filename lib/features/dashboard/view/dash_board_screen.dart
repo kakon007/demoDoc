@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -22,11 +23,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 style: TextStyle(fontSize: 17),
               ),
               actions: [
-                Row(
-                  children: [
-                    Text("Sign In"),
-                    Icon(Icons.login)
-                  ],
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                  },
+                  child: Row(
+                    children: [
+                      Text("Sign In"),
+                      Icon(Icons.login)
+                    ],
+                  ),
                 )
               ],
               backgroundColor: Colors.transparent,

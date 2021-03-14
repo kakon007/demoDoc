@@ -40,6 +40,7 @@ dependencies:
   dropdown_search: ^0.4.8
   hexcolor: ^1.0.6
   package_info: ^0.4.3
+  flutter_svg: ^0.19.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

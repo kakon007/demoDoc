@@ -45,76 +45,75 @@ class CustomTextFieldRounded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double circularRadius = 35;
+    double circularRadius = 20;
     bool hasError = errorText != null;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          if(labelText != null)
-            Text("   ${labelText ?? ""}",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(height: 5),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.circular(circularRadius),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey[200],
-                    spreadRadius: 3,
-                    blurRadius: 10,
-                    offset: Offset(1, 1))
-              ],
-            ),
-            child: TextField(
-              key: textFieldKey,
-              minLines: minLines,
-              onChanged: onChanged,
-              onSubmitted: onSubmitted,
-              autofocus: autofocus,
-              focusNode: focusNode,
-              maxLines: maxLines,
-              keyboardType: keyboardType,
-              controller: controller,
-              textInputAction: textInputAction,
-              obscureText: obscureText,
-              decoration: InputDecoration(
-                suffixIcon: suffixIcon,
-                prefixIcon: prefixIcon,
-                prefix: prefix,
-                border: InputBorder.none,
-                hintText: hintText,
-                contentPadding: contentPadding,
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                    width: 1.6,
-                  ),
-                  borderRadius: BorderRadius.circular(circularRadius),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if(labelText != null)
+          Text("   ${labelText ?? ""}",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+        SizedBox(height: 2),
+        Container(
+
+          decoration: BoxDecoration(
+           // color: Theme.of(context).backgroundColor,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(circularRadius),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey[200],
+                  spreadRadius: 3,
+                  blurRadius: 50,
+                  offset: Offset(1, 1))
+            ],
+          ),
+          child: TextField(
+            key: textFieldKey,
+            minLines: minLines,
+            onChanged: onChanged,
+            onSubmitted: onSubmitted,
+            autofocus: autofocus,
+            focusNode: focusNode,
+            maxLines: maxLines,
+            keyboardType: keyboardType,
+            controller: controller,
+            textInputAction: textInputAction,
+            obscureText: obscureText,
+            decoration: InputDecoration(
+              suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
+              prefix: prefix,
+              border: InputBorder.none,
+              hintText: hintText,
+              contentPadding: contentPadding,
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).primaryColor,
+                  width: 1.6,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color:hasError?Colors.red: Colors.transparent,
-                    width: 1.6,
-                  ),
-                  borderRadius: BorderRadius.circular(circularRadius),
+                borderRadius: BorderRadius.circular(circularRadius),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color:hasError?Colors.red: Colors.transparent,
+                  width: 1.6,
                 ),
+                borderRadius: BorderRadius.circular(circularRadius),
               ),
             ),
           ),
-          errorText == null
-              ? Text("")
-              : Padding(
-            padding: const EdgeInsets.only(left: 38, top: 8,right: 38),
-            child: Text(
-              errorText,
-              style: TextStyle(color: Colors.red),
-            ),
+        ),
+        errorText == null
+            ? Text("")
+            : Padding(
+          padding: const EdgeInsets.only(left: 38, top: 8,right: 38),
+          child: Text(
+            errorText,
+            style: TextStyle(color: Colors.red),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

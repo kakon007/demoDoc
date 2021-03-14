@@ -39,7 +39,7 @@ dependencies:
   flutter_webview_plugin: ^0.3.11
   dropdown_search: ^0.4.8
   hexcolor: ^1.0.6
-
+  package_info: ^0.4.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -59,7 +59,7 @@ flutter:
   assets:
     - assets/
     - assets/icons/
-
+    - assets/images/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

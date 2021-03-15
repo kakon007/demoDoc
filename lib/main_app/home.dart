@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
@@ -20,7 +22,46 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
-
+    final String dashboardiconiamg = "assets/icons/dashboard_icon.svg";
+    final Widget dashboardicon = SvgPicture.asset(
+      dashboardiconiamg,
+      width: 10,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+    final String appointmenticonimg = "assets/icons/appointment_icon.svg";
+    final Widget appointmenticon = SvgPicture.asset(
+      appointmenticonimg,
+      width: 10,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+    final String hospitaliconimag = "assets/icons/hospital_icon.svg";
+    final Widget hospitalicon = SvgPicture.asset(
+      hospitaliconimag,
+      width: 10,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+    final String myhealthiconimag = "assets/icons/myhealth_icon.svg";
+    final Widget myhealthicon = SvgPicture.asset(
+      myhealthiconimag,
+      width: 10,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
     var pages=<Widget>[
       DashboardScreen(),
       AppointmentScreen(),
@@ -37,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }
         },
         currentIndex: currentIndex,
-        selectedItemColor: Theme.of(context).primaryColor,
+        selectedItemColor: HexColor('#8592E5'),
         unselectedItemColor: Colors.grey[800],
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         unselectedLabelStyle: TextStyle(
@@ -51,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //dashboard
       BottomNavigationBarItem(icon: Material(
         color: Colors.transparent,
-        child: Image.asset("assets/icons/dashboard_icon.png"),
+        child: dashboardicon,
 
       // ignore: deprecated_member_use
       ),title: Padding(
@@ -62,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // ignore: deprecated_member_use
       BottomNavigationBarItem(icon: Material(
         color: Colors.transparent,
-        child: Image.asset("assets/icons/appointment_icon.png"),
+        child: appointmenticon,
 
         // ignore: deprecated_member_use
       ),title: Padding(
@@ -73,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // ignore: deprecated_member_use
       BottomNavigationBarItem(icon:  Material(
         color: Colors.transparent,
-        child: Image.asset("assets/icons/hospital_icon.png"),
+        child:hospitalicon,
 
         // ignore: deprecated_member_use
       ),title: Padding(
@@ -84,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // ignore: deprecated_member_use
       BottomNavigationBarItem(icon: Material(
         color: Colors.transparent,
-        child: Image.asset("assets/icons/myhealth_icon.png"),
+        child: myhealthicon,
 
         // ignore: deprecated_member_use
       ),title: Padding(

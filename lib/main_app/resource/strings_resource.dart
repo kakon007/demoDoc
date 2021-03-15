@@ -4,6 +4,10 @@ class StringResources {
   //Dashboard
   static String dashboardNavBarText="DashBoard";
   static String dasboardAppBarText="Welcome to MyHealthBD";
+  static String dasboardAppBarSignInText="Sign In";
+  static String esayDoctorAppointmentText="Easy Doctor Appointment";
+  static String hospitalDiagnosticsText="Hospitals & Diagnostics";
+  //static String viewAllText="View All";
   //Apointment
   static String appointmentNavBarText="Appointments";
   //Hospitals

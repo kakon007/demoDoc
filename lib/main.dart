@@ -9,6 +9,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_circular_button.dar
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_textformfield.dart';
+import 'package:myhealthbd_app/root.dart';
 import 'main_app/test_screen2.dart';
 import 'main_app/views/widgets/common_prompt_dialog.dart';
 import './main_app/resource/strings_resource.dart';
@@ -28,7 +29,9 @@ void main() async{
       //values: FlavorValues(baseUrl: kBaseUrDev)
   );
   runApp(
-    HomeScreen(),
+    MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Root()),
   );
 }
 

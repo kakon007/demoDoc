@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -70,12 +71,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(right:8.0),
+                  padding: const EdgeInsets.only(right:10),
                   child: Row(
                     children: [
                       Text(StringResources.dasboardAppBarSignInText,style: TextStyle(fontWeight: FontWeight.w500),),
                       SizedBox(width: 3,),
                       svg
+                      // CircleAvatar(
+                      //   radius: 18,
+                      //   backgroundColor: Colors.white,
+                      //   child: CircleAvatar(
+                      //     backgroundImage: AssetImage('assets/images/proimg.png'),
+                      //     radius: 16,
+                      //   ),
+                      // ),
                     ],
                   ),
                 )
@@ -111,8 +120,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             SizedBox(height: 10,),
                             SearchBarViewWidget(),
+                            //SizedBox(height: 10,),
+                            // CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
+                            // SizedBox(height: 10,),
                             SizedBox(height: 30,),
-                           // SizedBox(height: 30,),
                             Row(
                               children: [
                                 Text(StringResources.hospitalDiagnosticsText,style: TextStyle(fontSize: 17

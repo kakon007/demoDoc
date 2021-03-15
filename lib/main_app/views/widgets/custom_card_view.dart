@@ -69,7 +69,7 @@ class CustomCard extends StatelessWidget {
             ),
           ],
         ),
-        elevation:3,
+        elevation:2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
           side: BorderSide(
@@ -77,7 +77,7 @@ class CustomCard extends StatelessWidget {
             width: 1,
           ),
         ),
-        //shadowColor: HexColor("#354291"),
+        shadowColor: HexColor("#354291").withOpacity(0.2),
       ),
     );
   }

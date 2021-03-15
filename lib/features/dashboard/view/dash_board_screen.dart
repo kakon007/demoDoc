@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
@@ -57,11 +58,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right:8.0),
-                  child: Row(
-                    children: [
-                      Text(StringResources.dasboardAppBarSignInText),
-                      Icon(Icons.login)
-                    ],
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                    },
+                    child: Row(
+                      children: [
+                        Text(StringResources.dasboardAppBarSignInText),
+                        Icon(Icons.login)
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -182,7 +188,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: FadeInImage(
         fit: BoxFit.cover,
         image:AssetImage("assets/images/dashboard_back.png"),
-        placeholder: AssetImage('assetName'),
+        placeholder: AssetImage(''),
       ),
     );
   }

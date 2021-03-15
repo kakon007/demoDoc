@@ -20,8 +20,17 @@ class StringResources {
 
   /// login screen
 
-  static var signSuccessfulText =
+  static String signSuccessfulText =
       "Sign up Successful \n Check your email to verify account !";
+  static String signInButton= "SIGN IN";
+  static String or= "or ";
+  static String dontHaveAccount ="Don't have an account? ";
+  static String signUpText= "Sign Up";
+  static String welcomeBack= "Welcome Back";
+  static String rememberMe= "Remember Me";
+  static String forgetPassword= "Forgot Password?";
+  static String usernameHint= 'Username';
+  static String passwordHint= 'Password';
 
   static String passwordChangeSuccessful =
       "Your password has been changed successfully";
@@ -35,7 +44,6 @@ class StringResources {
   static String loginUnsuccessfulMessage = "Sign in unsuccessful";
   static String unableToReachServerMessage = "Unable To Reach Server";
   static String forgotPassword = "Forgot Password ?";
-  static String welcomeBack = "Welcome back!";
   static String loginToYourExistingAccount = "Sign in to your existing account";
 
 
@@ -409,7 +417,6 @@ class StringResources {
   static var signInText = "Sign In";
   static var signupText = "Sign Up";
   static var registerAccountText = "Register Account";
-  static var signUpText = "Sign Up";
   static var proceedText = "Proceed";
   static var signUpWithEmailText = "Sign Up with email";
   static var emailAlreadyExistText =

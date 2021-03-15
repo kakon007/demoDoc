@@ -12,7 +12,7 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
-  @override
+ @override
   void initState() {
     super.initState();
     Timer(
@@ -50,7 +50,7 @@ class _RootState extends State<Root> {
         ],
       );
       return Scaffold(
-        backgroundColor: HexColor('#F1F9FF'),
+        //backgroundColor: HexColor('#F1F9FF'),
         body: Center(
           child: Container(
             height: height,

@@ -45,7 +45,7 @@ class CustomTextFieldRounded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double circularRadius = 20;
+    double circularRadius = 10;
     bool hasError = errorText != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

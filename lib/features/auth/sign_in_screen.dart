@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/rounded_loading_button.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -17,26 +12,27 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   bool value = false;
 
-
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+    print(height);
     var spaceBetween = SizedBox(
-      height: width>=400 ? 10.0: 20.0,
+      height: height >= 600 ? 20.0 : 10.0,
     );
     var userName = Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: CustomTextFieldRounded(
-        hintText: 'Username',
+        hintText: StringResources.usernameHint,
       ),
     );
-    var password=    Padding(
+    var password = Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: CustomTextFieldRounded(
-        hintText: 'Password',
+        hintText: StringResources.passwordHint,
       ),
     );
-    var rememberMe=   Padding(
+    var rememberMe = Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,6 +40,7 @@ class _SignInState extends State<SignIn> {
           Row(
             children: [
               Checkbox(
+                  activeColor: HexColor('#141D53'),
                   key: Key('checkBoxKey'),
                   value: this.value,
                   onChanged: (bool value) {
@@ -52,130 +49,122 @@ class _SignInState extends State<SignIn> {
                     });
                   }),
               Text(
-                "Remember Me",
-                style:
-                TextStyle(color: HexColor('#354291')),
+                StringResources.rememberMe,
+                style: TextStyle(color: HexColor('#141D53'),),
               )
             ],
           ),
           Text(
-            "Forgot Password?",
-            style: TextStyle(color: HexColor('#354291')),
+            StringResources.forgetPassword,
+            style: TextStyle(color: HexColor('#141D53'),),
           )
         ],
       ),
     );
-    var signInButton=   Padding(
+    var signInButton = Padding(
       padding: const EdgeInsets.only(left: 12.0),
       child: Material(
         elevation: 2,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10)),
-        color: HexColor('#354291'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        color: HexColor('#141D53'),
         child: SizedBox(
-          height: width>=400 ? 30 :40,
+          height: height >= 600 ? 40 : 30,
           width: MediaQuery.of(context).size.width / .2,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("SIGN IN"),
+              child: Text(StringResources.signInButton, style: TextStyle(color: Colors.white),),
             ),
           ),
         ),
       ),
     );
-    var socialSignIn=      Row(
+    var socialSignIn = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "sign in with ",
-          style: TextStyle(fontWeight: FontWeight.w300),
+          StringResources.signInButton,
+          style: TextStyle(fontWeight: FontWeight.w300, color: HexColor("#8592E5")),
         ),
         Container(
           height: 28,
           width: 30,
-          child: Image.asset("assets/images/facebook.png"),
+          child: Image.asset(facebookIcon),
         ),
-        Text("or ",
-            style: TextStyle(fontWeight: FontWeight.w300)),
+        Text(StringResources.or, style: TextStyle( color: HexColor("#8592E5"), fontWeight: FontWeight.w300)),
         Container(
           height: 30,
           child: Image.asset(
-            "assets/images/Google.png",
+            googleIcon,
           ),
         ),
       ],
     );
-    var signUp =   Row(
+    var signUp = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Don't have an account? ",
-            style: TextStyle(
-                fontWeight: FontWeight.w300, fontSize: 12)),
+        Text(StringResources.dontHaveAccount,
+            style: TextStyle(color:  HexColor("#8592E5"), fontWeight: FontWeight.w300)),
         Text(
-          "Sign Up",
-          style: TextStyle(fontSize: 14),
+          StringResources.signUpText,
+          style: TextStyle(color:  HexColor("#8592E5"),  fontWeight: FontWeight.bold),
         )
       ],
     );
-
-    return Scaffold(
-      body: Stack(
+    return  Stack(
         children: <Widget>[
           this._backgroundImage(),
           Scaffold(
-            backgroundColor: HexColor('#F1F9FF'),
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.transparent,
             body: Padding(
-              padding: width >= 400
-                  ? EdgeInsets.only(top: 160.0)
-                  : EdgeInsets.only(top: 350),
+              padding: height >= 600
+                  ? EdgeInsets.only(top: 350.0)
+                  : EdgeInsets.only(top: 160),
               child: new Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40)),
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25)),
                       color: Colors.white),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 20),
+                    padding: const EdgeInsets.only(right: 10.0),
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: width>=400? 10.0: 20.0,
-                        ),
+                       spaceBetween,
+                        spaceBetween,
                         Center(
                             child: Text(
-                          "Welcome Back",
-                          style: TextStyle(
+                          StringResources.welcomeBack,
+                          style: TextStyle(color: HexColor("#0D1231"),
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         )),
                         spaceBetween,
                         userName,
                         password,
-                      rememberMe,
+                        rememberMe,
                         signInButton,
                         spaceBetween,
-                   socialSignIn,
-                       spaceBetween,
+                        socialSignIn,
+                        spaceBetween,
                         signUp
                       ],
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ]);
   }
 
   Widget _backgroundImage() {
     return Container(
-      height: 500.0,
+      height: 370.0,
       width: MediaQuery.of(context).size.width,
       child: FadeInImage(
         fit: BoxFit.cover,
-        image: NetworkImage(
-            'https://images.unsplash.com/photo-1527555197883-98e27ca0c1ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'),
-        placeholder: AssetImage('assetName'),
+        image: AssetImage("assets/images/dashboard_back.png"),
+        placeholder: AssetImage(''),
       ),
     );
   }

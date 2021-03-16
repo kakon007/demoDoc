@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
@@ -71,20 +72,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right:10),
-                  child: Row(
-                    children: [
-                      Text(StringResources.dasboardAppBarSignInText,style: TextStyle(fontWeight: FontWeight.w500),),
-                      SizedBox(width: 3,),
-                      svg
-                      // CircleAvatar(
-                      //   radius: 18,
-                      //   backgroundColor: Colors.white,
-                      //   child: CircleAvatar(
-                      //     backgroundImage: AssetImage('assets/images/proimg.png'),
-                      //     radius: 16,
-                      //   ),
-                      // ),
-                    ],
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                    },
+                    child: Row(
+                      children: [
+                        Text(StringResources.dasboardAppBarSignInText,style: TextStyle(fontWeight: FontWeight.w500),),
+                        SizedBox(width: 3,),
+                        svg
+                        // CircleAvatar(
+                        //   radius: 18,
+                        //   backgroundColor: Colors.white,
+                        //   child: CircleAvatar(
+                        //     backgroundImage: AssetImage('assets/images/proimg.png'),
+                        //     radius: 16,
+                        //   ),
+                        // ),
+                      ],
+                    ),
                   ),
                 )
               ],

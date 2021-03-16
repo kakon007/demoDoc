@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -13,6 +14,11 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  BorderRadiusGeometry radius = BorderRadius.only(
+    topLeft: Radius.circular(25.0),
+    topRight: Radius.circular(25.0),
+  );
+
   @override
   Widget build(BuildContext context) {
     final String assetName1 = "assets/icons/sign_in.svg";
@@ -113,108 +119,103 @@ class _DashboardScreenState extends State<DashboardScreen> {
               elevation: 0.0,
             ),
             drawer: Drawer(),
-            body: Padding(
-              padding: const EdgeInsets.only(top:150.0),
-              child: new Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25)),
-                  color: Colors.white
-                ),
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(StringResources.esayDoctorAppointmentText,style: TextStyle(fontSize: 17
-                                    ,fontWeight: FontWeight.bold),),
-                                Spacer(),
-                                Container(
-                                    width: 100,
+            body: SlidingUpPanel(
+              minHeight: 500,
+        maxHeight: 700,
+        isDraggable: true,
+        //backdropEnabled: true,
+              borderRadius: radius,
+              panel:Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(StringResources.esayDoctorAppointmentText,style: TextStyle(fontSize: 17
+                                      ,fontWeight: FontWeight.bold),),
+                                  Spacer(),
+                                  Container(
+                                      width: 100,
 
-                                    child: Image.asset("assets/images/my_health_logo.png")),
+                                      child: Image.asset("assets/images/my_health_logo.png")),
 
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            SearchBarViewWidget(),
-                            //SizedBox(height: 10,),
-                            // CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
-                            // SizedBox(height: 10,),
-                            SizedBox(height: 30,),
-                            Row(
-                              children: [
-                                Text(StringResources.hospitalDiagnosticsText,style: TextStyle(fontSize: 17
-                                    ,fontWeight: FontWeight.bold),),
-                                Spacer(),
-                                Text(StringResources.viewAllText,style: TextStyle(color:HexColor("#8592E5") ),),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                              children: [
-                                CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                                SizedBox(width:20),
-                                CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                                SizedBox(width:20),
-                                CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              ],
-                            )
-                            ),
-                            SizedBox(height: 30,),
-                            Row(
-                              children: [
-                                Text("News & Update",style: TextStyle(fontSize: 17
-                                    ,fontWeight: FontWeight.bold),),
-                                Spacer(),
-                                Text(StringResources.viewAllText,style: TextStyle(color:HexColor("#8592E5") ),),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                                    SizedBox(width:20),
-                                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                                    SizedBox(width:20),
-                                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                                  ],
-                                )
-                            ),
-                            SizedBox(height: 30,),
-                            Row(
-                              children: [
-                                Text("My Health Video",style: TextStyle(fontSize: 17
-                                    ,fontWeight: FontWeight.bold),),
-                                Spacer(),
-                                Text(StringResources.viewAllText,style: TextStyle(color:HexColor("#8592E5") ),),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                                    SizedBox(width:20),
-                                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                                    SizedBox(width:20),
-                                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                                  ],
-                                )
-                            ),
-                          ],
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              SearchBarViewWidget(),
+                              //SizedBox(height: 10,),
+                              // CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
+                              // SizedBox(height: 10,),
+                              SizedBox(height: 30,),
+                              Row(
+                                children: [
+                                  Text(StringResources.hospitalDiagnosticsText,style: TextStyle(fontSize: 17
+                                      ,fontWeight: FontWeight.bold),),
+                                  Spacer(),
+                                  Text(StringResources.viewAllText,style: TextStyle(color:HexColor("#8592E5") ),),
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                children: [
+                                  CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                  SizedBox(width:20),
+                                  CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                  SizedBox(width:20),
+                                  CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                ],
+                              )
+                              ),
+                              SizedBox(height: 30,),
+                              Row(
+                                children: [
+                                  Text("News & Update",style: TextStyle(fontSize: 17
+                                      ,fontWeight: FontWeight.bold),),
+                                  Spacer(),
+                                  Text(StringResources.viewAllText,style: TextStyle(color:HexColor("#8592E5") ),),
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                      SizedBox(width:20),
+                                      CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                      SizedBox(width:20),
+                                      CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                    ],
+                                  )
+                              ),
+                              SizedBox(height: 30,),
+                              Row(
+                                children: [
+                                  Text("My Health Video",style: TextStyle(fontSize: 17
+                                      ,fontWeight: FontWeight.bold),),
+                                  Spacer(),
+                                  Text(StringResources.viewAllText,style: TextStyle(color:HexColor("#8592E5") ),),
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                      SizedBox(width:20),
+                                      CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                      SizedBox(width:20),
+                                      CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                                    ],
+                                  )
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-              ),
+
             ),
           ),
         ],
@@ -224,7 +225,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
   Widget _backgroundImage() {
     return Container(
-      height: 370.0,
+      height: 418.0,
       width: MediaQuery.of(context).size.width,
       child: FadeInImage(
         fit: BoxFit.cover,
@@ -233,5 +234,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
 }

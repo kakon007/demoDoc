@@ -178,6 +178,7 @@ class _SignInState extends State<SignIn> {
                       style:  GoogleFonts.poppins(
                         color: HexColor("#0D1231"),
                         fontSize: 20.0,
+                        fontWeight: FontWeight.w600
                       ),
                     )),
                    // spaceBetween,

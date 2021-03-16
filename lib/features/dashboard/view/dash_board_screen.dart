@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -13,7 +15,16 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
-
+    final String assetName1 = "assets/icons/sign_in.svg";
+    final Widget svg = SvgPicture.asset(
+        assetName1,
+      width: 10,
+      height: 15,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+        //semanticsLabel: 'Acme Logo'
+    );
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -51,13 +62,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: new AppBar(
+              // leading: Container(
+              //     height: 10,
+              //     child: svg),
               title: new Text(
                 StringResources.dasboardAppBarText,
                 style: TextStyle(fontSize: 17),
               ),
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(right:8.0),
+                  padding: const EdgeInsets.only(right:10),
                   child: GestureDetector(
                     onTap: (){
                       Navigator.push(context, PageRouteBuilder(
@@ -79,8 +93,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     },
                     child: Row(
                       children: [
-                        Text(StringResources.dasboardAppBarSignInText),
-                        Icon(Icons.login)
+                        Text(StringResources.dasboardAppBarSignInText,style: TextStyle(fontWeight: FontWeight.w500),),
+                        SizedBox(width: 3,),
+                        svg
+                        // CircleAvatar(
+                        //   radius: 18,
+                        //   backgroundColor: Colors.white,
+                        //   child: CircleAvatar(
+                        //     backgroundImage: AssetImage('assets/images/proimg.png'),
+                        //     radius: 16,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -117,6 +140,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             SizedBox(height: 10,),
                             SearchBarViewWidget(),
+                            //SizedBox(height: 10,),
+                            // CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
+                            // SizedBox(height: 10,),
                             SizedBox(height: 30,),
                             Row(
                               children: [

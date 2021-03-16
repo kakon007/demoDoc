@@ -2,7 +2,7 @@
 
 class StringResources {
   //Dashboard
-  static String dashboardNavBarText="DashBoard";
+  static String dashboardNavBarText="Dashboard";
   static String dasboardAppBarText="Welcome to MyHealthBD";
   static String dasboardAppBarSignInText="Sign In";
   static String esayDoctorAppointmentText="Easy Doctor Appointment";

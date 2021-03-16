@@ -16,8 +16,13 @@ class CommonDatePickerFormField extends StatefulWidget {
   final DateTime maxDate;
   final FocusNode focusNode;
   final bool isRequired;
+  final double height;
+  final double width;
   final Key dateFieldKey;
   final Color color;
+  final Widget prefixIcon;
+  final Widget suffixIcon;
+  final String hintText;
   final FormFieldValidator<DateTime> validator;
 
   const CommonDatePickerFormField(
@@ -28,7 +33,12 @@ class CommonDatePickerFormField extends StatefulWidget {
         this.maxDate,
         this.validator,
         this.minDate,
+        this.height,
+        this.width,
         this.errorText,
+        this.prefixIcon,
+        this.suffixIcon,
+        this.hintText,
         this.focusNode,
         this.color,
         this.isRequired = false,
@@ -55,37 +65,43 @@ class _CommonDatePickerFormFieldState extends State<CommonDatePickerFormField> {
 //          height: 8,
 //        ),
 
-        CustomTextFormField(
-          errorText: widget.errorText,
-          validator: (v) {
-            if (widget.validator != null) {
-              return widget.validator(widget.date);
-            } else if (widget.isRequired) {
-              return Validator().nullFieldValidate(v);
-            } else {
-              return null;
-            }
-          },
-          isRequired: widget.isRequired,
-          labelText: widget.label,
-          textFieldKey: widget.dateFieldKey,
-          onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(context);
-            currentFocus?.unfocus();
-            _showCupertinoDatePicker(context);
+        Container(
+          height: widget.height,
+          width: widget.width,
+          child: CustomTextFormField(
+            errorText: widget.errorText,
+            validator: (v) {
+              if (widget.validator != null) {
+                return widget.validator(widget.date);
+              } else if (widget.isRequired) {
+                return Validator().nullFieldValidate(v);
+              } else {
+                return null;
+              }
+            },
+            suffixIcon: widget.suffixIcon,
+            prefixIcon: widget.prefixIcon,
+            isRequired: widget.isRequired,
+            labelText: widget.label,
+            textFieldKey: widget.dateFieldKey,
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              currentFocus?.unfocus();
+              _showCupertinoDatePicker(context);
 //            Theme.of(context).platform == TargetPlatform.iOS
 //                ?
 //            _showCupertinoDatePicker(context):
 //            _showDatePicker(context);
 //            _selectDateAndroid(context);
-          },
-          readOnly: true,
-          focusNode: widget.focusNode,
-          controller: TextEditingController()
-            ..text = widget.date != null
-                ? DateFormatUtil.formatDate(widget.date)
-                : "",
-          hintText: StringResources.chooseDateText,
+            },
+            readOnly: true,
+            focusNode: widget.focusNode,
+            controller: TextEditingController()
+              ..text = widget.date != null
+                  ? DateFormatUtil.formatDate(widget.date)
+                  : "",
+            hintText: widget.hintText,
+          ),
         ),
       ],
     );

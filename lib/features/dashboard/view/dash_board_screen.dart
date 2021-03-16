@@ -60,7 +60,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   padding: const EdgeInsets.only(right:8.0),
                   child: GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn()));
+                      Navigator.push(context, PageRouteBuilder(
+                        transitionDuration: Duration(seconds: 1),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          var begin = Offset(0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.easeInOut;
+
+                          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                          return SlideTransition(
+                            position: animation.drive(tween),
+                            child: child,
+                          );
+                        },
+                        pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
+                      ));
                     },
                     child: Row(
                       children: [

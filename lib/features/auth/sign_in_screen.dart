@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/after_sign_in.dart';
 import 'package:myhealthbd_app/features/auth/sign_up_screen.dart';
+import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
@@ -21,7 +23,7 @@ class _SignInState extends State<SignIn> {
     var height = MediaQuery.of(context).size.height;
     print(height);
     var spaceBetween = SizedBox(
-      height: height >= 600 ? 20.0 : 10.0,
+      height: height >= 600 ? 15.0 : 10.0,
     );
     var userName = SignUpField(
       contentPadding: EdgeInsets.all(15),
@@ -121,8 +123,8 @@ class _SignInState extends State<SignIn> {
     );
     var signUp = GestureDetector(
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SignUp()));
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => SignUp()));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -183,7 +185,13 @@ class _SignInState extends State<SignIn> {
                     password,
                     rememberMe,
                     spaceBetween,
-                    signInButton,
+                    GestureDetector(
+                        onTap: (){
+
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => AfterSignIn()));
+                        },
+                        child: signInButton),
                     spaceBetween,
                     socialSignIn,
                     spaceBetween,

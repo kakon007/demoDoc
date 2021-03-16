@@ -55,20 +55,14 @@ class _RootState extends State<Root> {
               SizedBox(),
               SizedBox(),
               SizedBox(),
-              SizedBox(),
-              SizedBox(),
-              SizedBox(),
               Container(
                   child: Column(
                 children: [
                   Stack(
-                    children: [  Container(
-
-                      child: appLogoText,
-                    ),
+                    children: [
                       Center(
                       child: Container(
-                        height: 100,
+                        height: 420,
                         child: Positioned(
                           top: 30,
                           left: 130,

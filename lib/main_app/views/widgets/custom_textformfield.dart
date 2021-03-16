@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 
 
@@ -25,6 +26,8 @@ class CustomTextFormField extends StatelessWidget {
   final int maxLength;
   final GestureTapCallback onTap;
   final Key textFieldKey;
+  final Widget prefixIcon;
+  final Widget suffixIcon;
 
   const CustomTextFormField({
     this.readOnly = false,
@@ -44,6 +47,8 @@ class CustomTextFormField extends StatelessWidget {
     this.labelText,
     this.hintText,
     this.minLines,
+    this.prefixIcon,
+    this.suffixIcon,
     this.onTap,
     this.keyboardType,
     this.contentPadding =
@@ -70,7 +75,7 @@ class CustomTextFormField extends StatelessWidget {
               if (isRequired)
                 Text(
                   " *",
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: HexColor("#FF5B71")),
                 )
             ],
           ),
@@ -80,13 +85,13 @@ class CustomTextFormField extends StatelessWidget {
         Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: Theme.of(context).backgroundColor,
-            borderRadius: BorderRadius.circular(15),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                  color: Color(0xff000000).withOpacity(0.2), blurRadius: 15),
+                  color: HexColor("#0D1231").withOpacity(0.1), blurRadius: 10),
               BoxShadow(
-                  color: Color(0xfffafafa).withOpacity(0.2), blurRadius: 15),
+                  color: HexColor("#0D1231").withOpacity(0.1), blurRadius: 10),
             ],
           ),
           child: TextFormField(
@@ -108,16 +113,27 @@ class CustomTextFormField extends StatelessWidget {
             controller: controller,
             textInputAction: textInputAction,
             decoration: InputDecoration(
+              suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
               prefix: prefix,
               border: InputBorder.none,
-              errorText: errorText,
-              errorMaxLines: width>350?2:3,
               hintText: hintText,
+              hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
               contentPadding: contentPadding,
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(7),
-                  borderSide:
-                  BorderSide(color: Theme.of(context).primaryColor)),
+                borderSide: BorderSide(
+                  color: HexColor("#D6DCFF"),
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: HexColor("#EAEBED"),
+                  width: 1.6,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
             ),
           ),
         ),

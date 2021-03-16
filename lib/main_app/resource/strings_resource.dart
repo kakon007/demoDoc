@@ -23,6 +23,7 @@ class StringResources {
   static String signSuccessfulText =
       "Sign up Successful \n Check your email to verify account !";
   static String signInButton= "SIGN IN";
+  static String signInWith= "Sign in with";
   static String or= "or ";
   static String dontHaveAccount ="Don't have an account? ";
   static String signUpText= "Sign Up";
@@ -45,6 +46,14 @@ class StringResources {
   static String unableToReachServerMessage = "Unable To Reach Server";
   static String forgotPassword = "Forgot Password ?";
   static String loginToYourExistingAccount = "Sign in to your existing account";
+// sign up screen
+  static String name= "Name";
+  static String email= "Email Address";
+  static String signUpButton= "SIGN UP";
+  static String createAccount= "Create an Account";
+  static List<String> genderList = [
+ "Male", "Female", "Other"
+  ];
 
 
   //Verify Email Screen

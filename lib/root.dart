@@ -12,76 +12,83 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
- @override
+  @override
   void initState() {
     super.initState();
     Timer(
         Duration(seconds: 3),
-            () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => HomeScreen())));
   }
-  var myHealthLogo = Image.asset(
-    kMyHealthLogo,
-    fit: BoxFit.cover,
-  );
+
   @override
   Widget build(BuildContext context) {
-      var height = MediaQuery
-          .of(context)
-          .size
-          .height;
-      var width = MediaQuery
-          .of(context)
-          .size
-          .width;
-      var appLogoText = Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            width: width * 0.7,
-            child: Hero(
-              tag: '',
-              child: Image.asset(
-                kDefaultLogoFull,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ],
-      );
-      return Scaffold(
-        //backgroundColor: HexColor('#F1F9FF'),
-        body: Center(
-          child: Container(
-            height: height,
-            width: width,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                SizedBox(),
-                SizedBox(),
-                SizedBox(),
-                SizedBox(),
-                SizedBox(),
-                SizedBox(),
-                SizedBox(),
-                Container(
-                  child: Column(
-                    children: [
-                      myHealthLogo,
-                      appLogoText
-                    ],
-                  )
-                ),
-              //  appLogoText,
-                SizedBox(),
-
-                AppVersionWidgetLowerCase()
-              ],
-            ),
+    var myHealthLogo = Image.asset(
+      kMyHealthLogo,
+      fit: BoxFit.cover,
+    );
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    var appLogoText = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          width: width,
+          child: Image.asset(
+            "assets/images/background_signin_1.png",
+            fit: BoxFit.cover,
           ),
         ),
-      );
-    }
+      ],
+    );
+    return Scaffold(
+      backgroundColor: HexColor('#F1F9FF'),
+      body: Center(
+        child: Container(
+          height: height,
+          width: width,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(),
+              SizedBox(),
+              SizedBox(),
+              SizedBox(),
+              Container(
+                  child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Center(
+                      child: Container(
+                        height: 420,
+                        child: Positioned(
+                          top: 30,
+                          left: 130,
+                          height: 180,
+                          width: 120,
+                          child: Image.asset(kMyHealthLogo,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+
+
+                    ],
+                  ),
+                ],
+              )),
+              //  appLogoText,
+              SizedBox(),
+
+              AppVersionWidgetLowerCase(),
+              SizedBox(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
+}

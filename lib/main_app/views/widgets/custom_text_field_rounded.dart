@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class CustomTextFieldRounded extends StatelessWidget {
   final TextEditingController controller;
@@ -12,12 +13,16 @@ class CustomTextFieldRounded extends StatelessWidget {
   final bool autofocus;
   final bool autovalidate;
   final bool obscureText;
+  final double height;
+  final double width;
   final TextInputAction textInputAction;
   final ValueChanged<String> onSubmitted;
   final Widget prefix;
   final Widget prefixIcon;
   final Widget suffixIcon;
+  final bool isRequired;
   final Function onChanged;
+  final double fontSize;
   final String errorText;
   final Key textFieldKey;
 
@@ -25,9 +30,13 @@ class CustomTextFieldRounded extends StatelessWidget {
     this.textFieldKey,
     this.errorText,
     this.prefix,
+    this.width,
+    this.height,
     this.prefixIcon,
     this.suffixIcon,
+    this.fontSize=20,
     this.onChanged,
+    this.isRequired=false,
     this.textInputAction,
     this.autovalidate = false,
     this.controller,
@@ -45,16 +54,28 @@ class CustomTextFieldRounded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double circularRadius = 10;
+    double circularRadius = 15;
     bool hasError = errorText != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        if(labelText != null)
-          Text("   ${labelText ?? ""}",
-              style: TextStyle(fontWeight: FontWeight.bold)),
+        if (labelText != null)
+          Row(
+            children: [
+              Flexible(
+                child: Text("  ${labelText ?? ""}",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              if (isRequired)
+                Text(
+                  " *",
+                  style: TextStyle(color: HexColor("#FF5B71")),
+                )
+            ],
+          ),
         SizedBox(height: 2),
         Container(
+          height: height,
 
           decoration: BoxDecoration(
            // color: Theme.of(context).backgroundColor,
@@ -62,7 +83,7 @@ class CustomTextFieldRounded extends StatelessWidget {
             borderRadius: BorderRadius.circular(circularRadius),
             boxShadow: [
               BoxShadow(
-                  color: Colors.grey[200],
+                  color: HexColor("#D6DCFF "),
                   spreadRadius: 3,
                   blurRadius: 50,
                   offset: Offset(1, 1))
@@ -86,17 +107,18 @@ class CustomTextFieldRounded extends StatelessWidget {
               prefix: prefix,
               border: InputBorder.none,
               hintText: hintText,
+              hintStyle: TextStyle(fontSize: fontSize, color: HexColor("#D2D2D2")),
               contentPadding: contentPadding,
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor,
-                  width: 1.6,
+                  color: HexColor("#D6DCFF"),
+                  width: 1.0,
                 ),
                 borderRadius: BorderRadius.circular(circularRadius),
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color:hasError?Colors.red: Colors.transparent,
+                  color: HexColor("#EAEBED"),
                   width: 1.6,
                 ),
                 borderRadius: BorderRadius.circular(circularRadius),

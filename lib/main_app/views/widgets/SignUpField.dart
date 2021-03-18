@@ -13,6 +13,7 @@ class SignUpField extends StatelessWidget {
   final int maxLines;
   final int minLines;
   final EdgeInsetsGeometry contentPadding;
+  final EdgeInsetsGeometry margin;
   final FocusNode focusNode;
   final bool autofocus;
   final bool enabled;
@@ -28,6 +29,7 @@ class SignUpField extends StatelessWidget {
   final Key textFieldKey;
   final Widget prefixIcon;
   final Widget suffixIcon;
+  final double borderRadius;
 
   const SignUpField(
       {this.readOnly = false,
@@ -49,7 +51,9 @@ class SignUpField extends StatelessWidget {
       this.minLines,
       this.prefixIcon,
       this.suffixIcon,
+        this.borderRadius= 10,
       this.onTap,
+        this.margin= const EdgeInsets.all(8),
       this.keyboardType,
       this.contentPadding =
           const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -62,7 +66,7 @@ class SignUpField extends StatelessWidget {
     FocusScopeNode currentFocus = FocusScope.of(context);
 
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: margin,
       child: Column(
         children: [
           if (labelText != null)
@@ -113,13 +117,13 @@ class SignUpField extends StatelessWidget {
                 focusedBorder: OutlineInputBorder(
                   borderSide:
                       BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(borderRadius),
                 ),
-                contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 20.0, 0.0),
+                contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
                 enabledBorder: OutlineInputBorder(
                   borderSide:
                       BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 hintText: hintText,
               ),

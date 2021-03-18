@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^0.19.0
   google_fonts: ^1.0.0
   modal_bottom_sheet:
+  sliding_up_panel: ^1.0.2
 
 dev_dependencies:
   flutter_test:

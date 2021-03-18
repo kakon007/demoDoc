@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/after_sign_in.dart';
 import 'package:myhealthbd_app/features/auth/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
@@ -26,10 +27,12 @@ class _SignInState extends State<SignIn> {
       height: height >= 600 ? 15.0 : 10.0,
     );
     var userName = SignUpField(
+      margin: EdgeInsets.all(8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
     var password = SignUpField(
+      margin: EdgeInsets.all(8),
         contentPadding: EdgeInsets.all(15),
         hintText: StringResources.passwordHint,
     );
@@ -71,7 +74,7 @@ class _SignInState extends State<SignIn> {
       child: Material(
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: HexColor('#141D53'),
+        color: AppTheme.colorPrimary,
         child: SizedBox(
           height: height >= 600 ? 50 : 40,
           width: MediaQuery.of(context).size.width / .2,
@@ -99,8 +102,8 @@ class _SignInState extends State<SignIn> {
           width: 8,
         ),
         Container(
-          height: 30,
-          width: 30,
+          height: 35,
+          width: 35,
           child: Image.asset(facebookIcon),
         ),
         SizedBox(
@@ -113,8 +116,8 @@ class _SignInState extends State<SignIn> {
           width: 5,
         ),
         Container(
-          height: 32,
-          width: 32,
+          height: 37,
+          width: 37,
           child: Image.asset(
             googleIcon,
           ),
@@ -123,8 +126,8 @@ class _SignInState extends State<SignIn> {
     );
     var signUp = GestureDetector(
         onTap: () {
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => SignUp()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SignUp()));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +138,7 @@ class _SignInState extends State<SignIn> {
             Text(
               StringResources.signUpText,
               style:  GoogleFonts.poppins(
-                  color: HexColor("#141D53"), fontWeight: FontWeight.bold),
+                  color: AppTheme.colorPrimary, fontWeight: FontWeight.bold),
             )
           ],
         ));
@@ -189,7 +192,7 @@ class _SignInState extends State<SignIn> {
                         onTap: (){
 
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => AfterSignIn()));
+                              context, MaterialPageRoute(builder: (context) => SignUp()));
                         },
                         child: signInButton),
                     spaceBetween,

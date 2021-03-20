@@ -7,8 +7,10 @@ class SearchBarViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var deviceWidth=MediaQuery.of(context).size.width;
+    var contrainerWidth=deviceWidth>=400?double.infinity:400.00;
     return Container(
-      width: double.infinity,
+      width: contrainerWidth,
       height: 50,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -33,6 +35,7 @@ class SearchBarViewWidget extends StatelessWidget {
               "  Type hospital / Diagnosis / Doctor Camber",
               style: TextStyle(
                 color: Colors.grey[400],
+                fontSize: deviceWidth>=400?15:12,
               ),
             ),
             Spacer(),

@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/custom_dialog_box.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
@@ -23,6 +24,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var deviceHeight=MediaQuery.of(context).size.height;
+    var deviceWidth=MediaQuery.of(context).size.width;
+
     final String assetName1 = "assets/icons/sign_in.svg";
     final Widget svg = SvgPicture.asset(
         assetName1,
@@ -241,9 +245,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
               backgroundColor: Colors.transparent,
               elevation: 0.0,
             ),
-            drawer: Drawer(),
+            drawer: Drawer(
+              child: Padding(
+                padding: const EdgeInsets.only(top:50.0,left:10),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
+                  },
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text("Notification",style: TextStyle(fontSize: 18),),
+                          Spacer(),
+                          Icon(Icons.arrow_forward),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             body: SlidingUpPanel(
-              minHeight: 480,
+              minHeight: deviceHeight>=600?480:250,
         maxHeight: 710,
         isDraggable: true,
         //backdropEnabled: true,

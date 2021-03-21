@@ -7,6 +7,28 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  var markAsRead= Align(
+    alignment: Alignment.topRight,
+      child: Material(
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        color: HexColor('#141D53'),
+        //color: Colors.black,
+        child: SizedBox(
+          height: 30,
+          width: 110,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Mark all as read",
+                style: TextStyle(color: HexColor('#FFFFFF'),fontWeight: FontWeight.bold,fontSize: 12),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   @override
   Widget build(BuildContext context) {
     var notificationListTile=ListTile(
@@ -14,20 +36,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
       subtitle:Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          RichText(text: TextSpan(
-            children: [
-              TextSpan(
-                text: "Rahim,You have an appointment today with Dr.Jahid Hasan at ",
-                  style: TextStyle(fontSize: 10,color: Colors.black,fontWeight: FontWeight.w500)
-              ),
-              TextSpan(
-                text: '8:30 pm.',
-                  style: TextStyle(fontSize: 10,color: HexColor('#8592E5'),fontWeight: FontWeight.w500)
-              ),
-            ],
-          )),
-          SizedBox(height: 8,),
-          Text("5 hours ago",style: TextStyle(fontSize: 10,color: Colors.grey.withOpacity(0.5)),),
+          Padding(
+            padding: const EdgeInsets.only(top:5.0),
+            child: RichText(text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "Rahim,You have an appointment today with Dr.Jahid Hasan at ",
+                    style: TextStyle(fontSize: 10,color: Colors.black)
+                ),
+                TextSpan(
+                  text: '8:30 pm.',
+                    style: TextStyle(fontSize: 10,color: HexColor('#8592E5'),fontWeight: FontWeight.w500)
+                ),
+              ],
+            )),
+          ),
+          //SizedBox(height: 8,),
+          Padding(
+            padding: const EdgeInsets.only(top:8.0),
+            child: Text("5 hours ago",style: TextStyle(fontSize: 10,color: HexColor('#D2D2D2')),),
+          ),
         ],
       ) ,
     );
@@ -37,8 +65,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Rahim,You have an appointment today with Dr.Jahid Hasan at 8:30 pm",style: TextStyle(fontSize: 10,color: Colors.grey.withOpacity(0.5)),),
-          SizedBox(height: 8,),
-          Text("5 hours ago",style: TextStyle(fontSize: 10,color: Colors.grey.withOpacity(0.5)),),
+          SizedBox(height: 5,),
+          Padding(
+            padding: const EdgeInsets.only(top:8.0),
+            child: Text("5 hours ago",style: TextStyle(fontSize: 10,color: Colors.grey.withOpacity(0.5)),),
+          ),
         ],
       ) ,
     );
@@ -51,94 +82,79 @@ class _NotificationScreenState extends State<NotificationScreen> {
          },
          child: Icon(
            Icons.arrow_back_outlined,
-               color: Colors.black,
+               color: Colors.white,
          ),
        ),
-       title: Padding(
-         padding: const EdgeInsets.only(left:50.0),
-         child: Center(child: Text("Notifications",style: TextStyle(color:Colors.black,fontSize: 20),)),
-       ),
-       backgroundColor: Colors.transparent,
-       elevation: 0.0,
-       actions: [
-         Padding(
-           padding: const EdgeInsets.only(top:12.0,bottom: 12,right: 8),
-           child: Material(
-             elevation: 0,
-             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-             // color: HexColor('#8592E5'),
-             color: Colors.black,
-             child: SizedBox(
-               height: 50,
-               width: 120,
-               child: Center(
-                 child: Padding(
-                   padding: const EdgeInsets.all(8.0),
-                   child: Text(
-                     "Mark all as read",
-                     style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),
-                   ),
-                 ),
-               ),
-             ),
-           ),
-         ),
-       ],
+       title:  Text("Notifications",style: TextStyle(color:Colors.white,fontSize: 15),),
+
+       backgroundColor: HexColor('#354291'),
+       //elevation: 0.0,
      ),
       body:SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
+              markAsRead,
               notificationListTile,
-              Divider(
-               // height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTile,
-              Divider(
-                //height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
-              Divider(
-               // height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
-              Divider(
-              //  height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
-              Divider(
-                //height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
-              Divider(
-                //height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
-              Divider(
-                //height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
-              Divider(
-                //height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
-              Divider(
-                //height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
-              Divider(
-                //height: 0.2,
-                thickness: 1.5,
+              Container(
+                width: double.infinity,
+                height: 1.5,
+                color: Colors.grey.withOpacity(0.2),
               ),
               notificationListTiledefault,
             ],

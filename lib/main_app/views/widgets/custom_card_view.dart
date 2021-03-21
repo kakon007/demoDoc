@@ -22,9 +22,12 @@ class CustomCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                 // width: 80,
-
-                  child: Image.asset("assets/icons/sz.png")),
+                height: 95,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Image.asset("assets/images/dum2.png")),
             ),
             Flexible(
               child: Padding(

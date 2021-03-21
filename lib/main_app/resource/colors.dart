@@ -28,7 +28,8 @@ class AppTheme {
   static Color twitterColor = Color(0xff55ABEE);
 
 //  static Color colorPrimary = Color(0xff0A5394);
-  static Color colorPrimary = HexColor("#354291");
+  static Color colorPrimary = HexColor("#141D53");
+  static Color appbarPrimary = HexColor("#354291");
   static Color colorPrimaryDark = Color(0xff1085eb);
   static Color colorAccent = Color(0xfff7cc1e);
   static Color lightBG = Colors.grey[100];

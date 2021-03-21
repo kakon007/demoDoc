@@ -46,7 +46,13 @@ class StringResources {
   static String unableToReachServerMessage = "Unable To Reach Server";
   static String forgotPassword = "Forgot Password ?";
   static String loginToYourExistingAccount = "Sign in to your existing account";
-// sign up screen
+  //Hospital List
+  static String hospitalListAppbar= "Hospitals & Diagnostics";
+  static String searchBoxHint ="Type Hospitals / Diagnosis/ Doctor Chamber";
+  static String getAppointmentButton = "GET APPOINTMENT";
+
+
+  // sign up screen
   static String name= "Name";
   static String email= "Email Address";
   static String mobileNumber=  "Mobile Number";

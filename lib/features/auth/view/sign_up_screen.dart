@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
-import 'package:myhealthbd_app/features/auth/view/widgets/sign_up_button.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
-import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_date_picker.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_dropdown_button_form_field.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_textformfield.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -155,11 +147,11 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Text(StringResources.dateOfBirth,
-                            style: GoogleFonts.poppins(fontSize: 12)),
+                            style: GoogleFonts.roboto(fontSize: 12)),
                         Text(
                           " *",
                           style:
-                              GoogleFonts.poppins(color: HexColor("#FF5B71")),
+                              GoogleFonts.roboto(color: HexColor("#FF5B71")),
                         )
                       ],
                     ),
@@ -215,11 +207,11 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Text(StringResources.gender,
-                            style: GoogleFonts.poppins(fontSize: 12)),
+                            style: GoogleFonts.roboto(fontSize: 12)),
                         Text(
                           " *",
                           style:
-                              GoogleFonts.poppins(color: HexColor("#FF5B71")),
+                              GoogleFonts.roboto(color: HexColor("#FF5B71")),
                         )
                       ],
                     ),
@@ -243,7 +235,7 @@ class _SignUpState extends State<SignUp> {
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton(
                               iconSize: 0.0,
-                              hint: Text(StringResources.gender, style:  GoogleFonts.poppins(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                              hint: Text(StringResources.gender, style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
                               value: _selectedGender,
                               onChanged: (newValue) {
                                 setState(() {
@@ -252,7 +244,7 @@ class _SignUpState extends State<SignUp> {
                               },
                               items: StringResources.genderList.map((gender) {
                                 return DropdownMenuItem(
-                                  child: new Text(gender, style: GoogleFonts.poppins(fontSize: 14),),
+                                  child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
                                   value: gender,
                                 );
                               }).toList(),
@@ -286,7 +278,7 @@ class _SignUpState extends State<SignUp> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               StringResources.signUpButton,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
         ),
@@ -300,7 +292,7 @@ class _SignUpState extends State<SignUp> {
           children: [
             Text(StringResources.alreadyHaveAnAccount,
                 style: TextStyle(
-                    color: HexColor("#8592E5"), fontWeight: FontWeight.w300)),
+                    color: AppTheme.colorPrimary, fontWeight: FontWeight.w300)),
             GestureDetector(
               onTap: (){
                 Navigator.pop(context);
@@ -320,13 +312,13 @@ class _SignUpState extends State<SignUp> {
       //crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(height: 8,),
-        Text(StringResources.agreeToTerms, style: GoogleFonts.poppins(color: HexColor("#8592E5"), fontSize: 14),),
+        Text(StringResources.agreeToTerms, style: GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 14),),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          Text(StringResources.terms, style: GoogleFonts.poppins(color: AppTheme.colorPrimary, fontWeight: FontWeight.bold, fontSize: 13),),
-          Text(" and  ",  style: GoogleFonts.poppins(color: HexColor("#8592E5"), fontSize: 13),),
-          Text(StringResources.policy,style: GoogleFonts.poppins(color: AppTheme.colorPrimary,fontWeight: FontWeight.bold,fontSize: 13),),
+          Text(StringResources.terms, style: GoogleFonts.roboto(color: AppTheme.colorPrimary, fontWeight: FontWeight.bold, fontSize: 13),),
+          Text(" and  ",  style: GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 13),),
+          Text(StringResources.policy,style: GoogleFonts.roboto(color: AppTheme.colorPrimary,fontWeight: FontWeight.bold,fontSize: 13),),
         ],)
       ],
     );
@@ -356,7 +348,8 @@ class _SignUpState extends State<SignUp> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25)),
+                            topRight: Radius.circular(25)
+                        ),
                         color: HexColor("#FFFFFF"),
                         boxShadow: [
                           BoxShadow(
@@ -378,7 +371,7 @@ class _SignUpState extends State<SignUp> {
                               style: TextStyle(
                                   color: HexColor("#0D1231"),
                                   fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.w500),
                             )),
                             spaceBetween,
                             name,

@@ -76,12 +76,12 @@ class SignUpField extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text("  ${labelText ?? ""}",
-                        style: GoogleFonts.poppins(fontSize: 12)),
+                        style: GoogleFonts.roboto(fontSize: 12)),
                   ),
                   if (isRequired)
                     Text(
                       " *",
-                      style:  GoogleFonts.poppins(color: HexColor("#FF5B71")),
+                      style:  GoogleFonts.roboto(color: HexColor("#FF5B71")),
                     )
                 ],
               ),

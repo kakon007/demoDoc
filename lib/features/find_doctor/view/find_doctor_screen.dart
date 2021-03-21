@@ -191,7 +191,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                     title: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top:25.0),
+                          padding: const EdgeInsets.only(top:30.0),
                           child: Text("Collapsing Toolbar",
                               style: TextStyle(
                                 color: Colors.white,
@@ -286,6 +286,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
         .width;
     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
       pinned: true,
       title: Container(
@@ -336,74 +337,68 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
   }
 }
 
-class MySliverAppBar extends SliverPersistentHeaderDelegate {
-  final double expandedHeight;
-
-  MySliverAppBar({@required this.expandedHeight});
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Stack(
-      fit: StackFit.expand,
-      overflow: Overflow.visible,
-      children: [
-        AnimatedContainer(
-          duration: Duration(milliseconds: 100),
-          height: shrinkOffset * 2,
-          constraints: BoxConstraints(maxHeight: minExtent),
-          color: Colors.redAccent,
-        ),
-        Container(
-          height: 420.0,
-          width: MediaQuery.of(context).size.width,
-          child: FadeInImage(
-            fit: BoxFit.cover,
-            image:AssetImage("assets/images/dashboard_back.png"),
-            placeholder: AssetImage(''),
-          ),
-        ),
-        Center(
-          child: Opacity(
-            opacity: shrinkOffset / expandedHeight,
-            child: Padding(
-              padding: const EdgeInsets.only(top:15.0),
-              child: Text(
-                "Aalock Health Care Ltd",
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 23,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: expandedHeight / 4 - shrinkOffset,
-          left: MediaQuery.of(context).size.width / 12,
-          child: Opacity(
-            opacity: (1 - shrinkOffset / expandedHeight),
-            child: Card(
-              elevation: 10,
-              child: SizedBox(
-                height: 80,
-                width: MediaQuery.of(context).size.width / 5,
-                child:Image.asset("assets/images/dummyimg.png")
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  @override
-  double get maxExtent => expandedHeight;
-
-  @override
-  double get minExtent => kToolbarHeight;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
-}
+// class MySliverAppBar extends SliverPersistentHeaderDelegate {
+//   final double expandedHeight;
+//
+//   MySliverAppBar({@required this.expandedHeight});
+//
+//   @override
+//   Widget build(
+//       BuildContext context, double shrinkOffset, bool overlapsContent) {
+//     return Stack(
+//       fit: StackFit.expand,
+//       overflow: Overflow.visible,
+//       children: [
+//         Container(
+//           height: 420.0,
+//           width: MediaQuery.of(context).size.width,
+//           child: FadeInImage(
+//             fit: BoxFit.cover,
+//             image:AssetImage("assets/images/dashboard_back.png"),
+//             placeholder: AssetImage(''),
+//           ),
+//         ),
+//         Center(
+//           child: Opacity(
+//             opacity: shrinkOffset / expandedHeight,
+//             child: Padding(
+//               padding: const EdgeInsets.only(top:15.0),
+//               child: Text(
+//                 "Aalock Health Care Ltd",
+//                 style: GoogleFonts.poppins(
+//                   color: Colors.white,
+//                   fontWeight: FontWeight.w700,
+//                   fontSize: 23,
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//         Positioned(
+//           top: expandedHeight / 4 - shrinkOffset,
+//           left: MediaQuery.of(context).size.width / 12,
+//           child: Opacity(
+//             opacity: (1 - shrinkOffset / expandedHeight),
+//             child: Card(
+//               elevation: 10,
+//               child: SizedBox(
+//                 height: 80,
+//                 width: MediaQuery.of(context).size.width / 5,
+//                 child:Image.asset("assets/images/dummyimg.png")
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+//
+//   @override
+//   double get maxExtent => expandedHeight;
+//
+//   @override
+//   double get minExtent => kToolbarHeight;
+//
+//   @override
+//   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
+// }

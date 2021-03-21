@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
+import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     var pages=<Widget>[
       DashboardScreen(),
-      AppointmentScreen(),
+      //MainCollapsingToolbar(),
       HospitalScreen(),
       MyHealthScreen(),
     ];

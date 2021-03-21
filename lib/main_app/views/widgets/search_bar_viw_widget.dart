@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class SearchBarViewWidget extends StatelessWidget {
   final Function onTap;
@@ -15,6 +16,7 @@ class SearchBarViewWidget extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: Colors.white,
+          border: Border.all(color: HexColor('#E1E1E1')),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
@@ -32,7 +34,7 @@ class SearchBarViewWidget extends StatelessWidget {
               width: 8,
             ),
             Text(
-              "  Type hospital / Diagnosis / Doctor Camber",
+              "  Type hospital / Diagnosis / Doctor Chamber",
               style: TextStyle(
                 color: Colors.grey[400],
                 fontSize: deviceWidth>=400?15:12,

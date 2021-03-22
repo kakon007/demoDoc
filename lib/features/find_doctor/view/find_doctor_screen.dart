@@ -391,8 +391,9 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
         .width;
     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     return SliverAppBar(
+      forceElevated: true,
       shadowColor: Colors.blue.withOpacity(0.3),
-      elevation: 10,
+      elevation: 5,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
       pinned: true,

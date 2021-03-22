@@ -232,16 +232,20 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
                    // centerTitle: true,
+                  //titlePadding: EdgeInsetsGeometry.lerp(, a, 10),
+                    titlePadding: EdgeInsetsDirectional.only(
+                      start: 50.0,
+                      bottom: 10.0,
+                      top:40
+                    ),
                     title: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top:35.0),
-                          child: Text("Aalok Health Care Ltd",
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Text("Aalok Health Care Ltd",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
                               )),
-                        ),
+
                         // Text("Collapsing Toolbar",
                         //     style: TextStyle(
                         //       color: Colors.white,

@@ -56,30 +56,14 @@ class _RootState extends State<Root> {
               SizedBox(),
               SizedBox(),
               Container(
-                  child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      Center(
-                      child: Container(
-                        height: 420,
-                        child: Positioned(
-                          top: 30,
-                          left: 130,
-                          height: 180,
-                          width: 120,
-                          child: Image.asset(kMyHealthLogo,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                  child: Center(
+                  child: Container(
+                    height: 420,
+                    child: Image.asset(kMyHealthLogo,
+                      fit: BoxFit.cover,
                     ),
-
-
-                    ],
                   ),
-                ],
-              )),
+                    )),
               //  appLogoText,
               SizedBox(),
 

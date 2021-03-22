@@ -18,9 +18,11 @@ class CustomContainer extends StatelessWidget {
       height: height >= 600 ? 15.0 : 10.0,
     );
     return Container(
-      height: cardHeight*1.15,
-      margin: EdgeInsets.all(8),
+
+      height: cardHeight*1.2,
+      margin: EdgeInsets.only(top: 8,bottom: 5,right: 8,left: 14),
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border.all(
           color: HexColor("#E9ECFE"),
           width: 1,
@@ -33,17 +35,18 @@ class CustomContainer extends StatelessWidget {
           Row(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: cardHeight *0.1,
-              ),
+              // SizedBox(
+              //   width: cardHeight *0.1,
+              // ),
               Column(
                 children: [
-                  Container(
-                      width: cardWidth*0.9,
-                      height: cardHeight,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
                       child: Image.asset(
                           images,
                           fit: BoxFit.cover,
+                        width: cardWidth*0.9,
+                        height: 138,
                         ),
 
                   ),
@@ -53,7 +56,7 @@ class CustomContainer extends StatelessWidget {
                 width: cardHeight *0.1,
               ),
               Container(
-                width: cardWidth * 1.58,
+                width: cardWidth * 1.6,
                 height: cardHeight*1.13,
                 decoration: BoxDecoration(
                   color: HexColor("#FFFFFF"),
@@ -67,7 +70,7 @@ class CustomContainer extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment:CrossAxisAlignment.start,
                     children: [
-                      Text(titleText, style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w700),),
+                      Text(titleText, style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w700),),
                       Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.bold ),),
                       Text(undersubtitle, style: GoogleFonts.poppins(fontSize: 8, color: HexColor('#757577')),),
 

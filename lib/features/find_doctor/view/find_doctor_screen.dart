@@ -235,7 +235,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                   //titlePadding: EdgeInsetsGeometry.lerp(, a, 10),
                     titlePadding: EdgeInsetsDirectional.only(
                       start: 50.0,
-                      bottom: 10.0,
+                      bottom: 5.0,
                       top:40
                     ),
                     title: Column(
@@ -324,11 +324,11 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                                   children: [
                                     phoneimg,
                                     SizedBox(width: 5,),
-                                    Text('01962823007',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11,fontWeight: FontWeight.w600)),
+                                    Text('01962823007',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11)),
                                     SizedBox(width: 5,),
                                     mailimg,
                                     SizedBox(width: 5,),
-                                    Text('info@aalok.com',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontWeight: FontWeight.w600,fontSize: 11,)),
+                                    Text('info@aalok.com',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11,)),
                                   ],
                                 ),
                                 SizedBox(height: 5,),
@@ -339,7 +339,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                                       child: mapimg,
                                     ),
                                     SizedBox(width: 5,),
-                                    Text('House-1 &3,Road-2,Block-B,\nMirpur-10,Dhaka-12216',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontWeight: FontWeight.w600,fontSize: 11,)),
+                                    Text('House-1 &3,Road-2,Block-B,\nMirpur-10,Dhaka-12216',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11,)),
                                   ],
                                 )
 
@@ -368,11 +368,11 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        margin: EdgeInsets.only(top: 8,bottom: 3,left: 10),
+                        margin: EdgeInsets.only(top: 8,bottom: 3,left: 25),
                         child: Text('Doctors',style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600))),
                     CustomContainer('Dr. Jahid Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
-                    CustomContainer('Dr. Sharifun Nahar',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc1.png"),
-                    CustomContainer('Dr. Sohail Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
+                    CustomContainer('Dr. Shefa Rahman',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc1.png"),
+                    CustomContainer('Professor Dr. A K M Fazlul Haque',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
                     CustomContainer('Dr. Akram Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
                     CustomContainer('Dr. Akram Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
                   ],

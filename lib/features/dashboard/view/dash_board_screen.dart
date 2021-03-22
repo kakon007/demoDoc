@@ -254,7 +254,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 padding: const EdgeInsets.only(top:50.0,left:10),
                 child: GestureDetector(
                   onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
+                    //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
                   },
                   child: Column(
                     children: [

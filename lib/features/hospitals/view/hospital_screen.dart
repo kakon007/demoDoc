@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
@@ -80,7 +81,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
               size: 20,
             ),
             onPressed: () {
-              // do something
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
             },
           )
         ],

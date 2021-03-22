@@ -144,70 +144,70 @@ class _MyHealthScreenState extends State<MyHealthScreen> {
             Container(
               child: RaisedButton(
                 onPressed: () {
-                  showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:  BorderRadius.only( topLeft: Radius.circular(25),
-                                topRight: Radius.circular(25))
-                        ),
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 25, right: 25),
-                          child: StatefulBuilder(
-                              builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-                                return FractionallySizedBox(
-                                  heightFactor:0.8,
-                                  child: Column(children: [
-                                    horizontalSpace,
-                                    horizontalSpace,
-                                    modalSheetTitle,
-                                    Container(
-                                      height: 250,
-                                      decoration:  BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(25),
-                                            topRight: Radius.circular(25)
-                                        ),
-                                        border: Border.all(
-                                          color: HexColor("#D6DCFF"),//                   <--- border color
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          searchDepartment,
-                                          departmentList
-                                        ],
-                                      ),
-                                    ),
-                                    horizontalSpace,
-                                    horizontalSpace,
-                                    horizontalSpace,
-                                    Container(
-                                      height: 250,
-                                      decoration:  BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(25),
-                                            topRight: Radius.circular(25)
-                                        ),
-                                        border: Border.all(
-                                          color: HexColor("#D6DCFF"),//                   <--- border color
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          searchSpeciality,
-                                          specialityList
-                                        ],
-                                      ),
-                                    ),
-                                  ],),
-                                );
-                              }),
-                        );
-                      });
+                  // showModalBottomSheet(
+                  //       shape: RoundedRectangleBorder(
+                  //           borderRadius:  BorderRadius.only( topLeft: Radius.circular(25),
+                  //               topRight: Radius.circular(25))
+                  //       ),
+                  //     context: context,
+                  //     isScrollControlled: true,
+                  //     builder: (context) {
+                  //       return Padding(
+                  //         padding: const EdgeInsets.only(left: 25, right: 25),
+                  //         child: StatefulBuilder(
+                  //             builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                  //               return FractionallySizedBox(
+                  //                 heightFactor:0.8,
+                  //                 child: Column(children: [
+                  //                   horizontalSpace,
+                  //                   horizontalSpace,
+                  //                   modalSheetTitle,
+                  //                   Container(
+                  //                     height: 250,
+                  //                     decoration:  BoxDecoration(
+                  //                       borderRadius: BorderRadius.only(
+                  //                           topLeft: Radius.circular(25),
+                  //                           topRight: Radius.circular(25)
+                  //                       ),
+                  //                       border: Border.all(
+                  //                         color: HexColor("#D6DCFF"),//                   <--- border color
+                  //                         width: 1.0,
+                  //                       ),
+                  //                     ),
+                  //                     child: Column(
+                  //                       children: [
+                  //                         searchDepartment,
+                  //                         departmentList
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   horizontalSpace,
+                  //                   horizontalSpace,
+                  //                   horizontalSpace,
+                  //                   Container(
+                  //                     height: 250,
+                  //                     decoration:  BoxDecoration(
+                  //                       borderRadius: BorderRadius.only(
+                  //                           topLeft: Radius.circular(25),
+                  //                           topRight: Radius.circular(25)
+                  //                       ),
+                  //                       border: Border.all(
+                  //                         color: HexColor("#D6DCFF"),//                   <--- border color
+                  //                         width: 1.0,
+                  //                       ),
+                  //                     ),
+                  //                     child: Column(
+                  //                       children: [
+                  //                         searchSpeciality,
+                  //                         specialityList
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                 ],),
+                  //               );
+                  //             }),
+                  //       );
+                  //     });
                 },
                 child: Text("Bottom Modal Sheet"),
               ),

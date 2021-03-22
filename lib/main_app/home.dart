@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     var pages=<Widget>[
       DashboardScreen(),
-      MainCollapsingToolbar(),
+      AppointmentScreen(),
       HospitalScreen(),
       MyHealthScreen(),
     ];

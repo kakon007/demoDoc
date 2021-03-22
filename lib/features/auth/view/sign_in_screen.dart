@@ -180,7 +180,6 @@ class _SignInState extends State<SignIn> {
                         child: Text(
                       StringResources.welcomeBack,
                       style:  GoogleFonts.roboto(
-                        fontWeight: FontWeight.w500,
                         color: HexColor("#0D1231"),
                         fontSize: 20.0,
                         fontWeight: FontWeight.w600
@@ -195,7 +194,7 @@ class _SignInState extends State<SignIn> {
                         onTap: (){
 
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => SignUp()));
+                              context, MaterialPageRoute(builder: (context) => AfterSignIn()));
                         },
                         child: signInButton),
                     spaceBetween,

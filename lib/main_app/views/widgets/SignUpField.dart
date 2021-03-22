@@ -58,7 +58,7 @@ class SignUpField extends StatelessWidget {
       this.contentPadding =
           const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       this.maxLines = 1,
-      this.textFieldKey, int borderRadius});
+      this.textFieldKey, });
 
   @override
   Widget build(BuildContext context) {

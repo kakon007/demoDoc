@@ -142,7 +142,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                   ],
                                 ),
                                 SizedBox(
-                                  width: cardHeight *0.1,
+                                  width: cardHeight *0.08,
                                 ),
                                 Container(
                                   width: cardWidth * 1.58,
@@ -154,8 +154,8 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                         topRight: Radius.circular(12)),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 10, top: 12),
+                                    padding: EdgeInsets.only(
+                                        left: 15.0, right: cardWidth/8, top: 12),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

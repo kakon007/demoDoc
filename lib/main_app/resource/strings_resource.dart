@@ -46,11 +46,27 @@ class StringResources {
   static String unableToReachServerMessage = "Unable To Reach Server";
   static String forgotPassword = "Forgot Password ?";
   static String loginToYourExistingAccount = "Sign in to your existing account";
-// sign up screen
+  //Hospital List
+  static String hospitalListAppbar= "Hospitals & Diagnostics";
+  static String searchBoxHint ="Type Hospitals / Diagnosis/ Doctor Chamber";
+  static String getAppointmentButton = "GET APPOINTMENT";
+
+
+  // sign up screen
   static String name= "Name";
   static String email= "Email Address";
+  static String mobileNumber=  "Mobile Number";
+  static String password= "Password";
+  static String confirmPassword= "Confirm password";
+  static String address= "Type your address";
+  static String gender ="Gender";
   static String signUpButton= "SIGN UP";
+  static String dateOfBirth= "Birth Date";
   static String createAccount= "Create an Account";
+ static String alreadyHaveAnAccount= "Already have an account? ";
+ static String agreeToTerms= "By creating an account, you agree to our";
+ static String terms= "Terms of Service";
+ static String policy = "Privacy Policy";
   static List<String> genderList = [
  "Male", "Female", "Other"
   ];
@@ -660,7 +676,6 @@ class StringResources {
   static const String seeLessText = "See Less";
   static const String salaryRangeText = 'Salary Range';
   static const String unspecifiedSalaryText = 'Unspecified Salary';
-  static const String gender = 'Gender';
   static const String addSkillText = 'Add Skill';
   static const String addNewText = 'Add New';
   static const String tapToSelectText = 'Tap to select';

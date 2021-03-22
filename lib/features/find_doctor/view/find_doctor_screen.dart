@@ -163,6 +163,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
@@ -175,6 +176,46 @@ class MainCollapsingToolbar extends StatefulWidget {
 class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
   @override
   Widget build(BuildContext context) {
+    final String assetName1 = "assets/icons/phone.svg";
+    final String assetName2 = "assets/icons/mail.svg";
+    final String assetName3 = "assets/icons/marker.svg";
+    final String assetName4 = "assets/icons/fliter.svg";
+    final Widget phoneimg = SvgPicture.asset(
+      assetName1,
+      width: 10,
+      height: 18,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+    final Widget mailimg = SvgPicture.asset(
+      assetName2,
+      width: 10,
+      height: 18,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+    final Widget mapimg = SvgPicture.asset(
+      assetName3,
+      width: 10,
+      height: 18,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+    final Widget filtericon = SvgPicture.asset(
+      assetName4,
+      width: 10,
+      height: 18,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
     var deviceWidth=MediaQuery.of(context).size.width;
     var contrainerWidth=deviceWidth>=400?double.infinity:400.00;
     return Scaffold(
@@ -182,8 +223,8 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                backgroundColor: Colors.black,
-                expandedHeight: 200.0,
+                backgroundColor: HexColor('#354291'),
+                expandedHeight: 150.0,
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
@@ -192,7 +233,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top:30.0),
-                          child: Text("Collapsing Toolbar",
+                          child: Text("Aalok Health Care Ltd",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16.0,
@@ -216,41 +257,96 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                         //     placeholder: AssetImage(''),
                         //   ),
                         // ),
-                        Container(
-                          decoration: new BoxDecoration(
-                            image: new DecorationImage(
-                              image: new ExactAssetImage("assets/images/dashboard_back.png"),
-                              fit: BoxFit.cover,
+                        Stack(children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage(
+                                  'assets/images/backhosimg.png',
+                                ),
+                              ),
                             ),
+                            height: 450.0,
                           ),
-                          child: new BackdropFilter(
-                            filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                            child: new Container(
-                              decoration: new BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                          Container(
+                            height: 350.0,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                gradient: LinearGradient(
+                                    begin: FractionalOffset.topCenter,
+                                    end: FractionalOffset.bottomCenter,
+                                    colors: [
+                                     HexColor('#D6DCFF').withOpacity(0.9),
+                                     HexColor('#FFFFFF').withOpacity(0.8),
+                                    ],
+                                    stops: [
+                                      0.0,
+                                      1.0
+                                    ])),
+                          )
+                        ]),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top:70.0,left: 35),
+                              child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: HexColor('#D6DCFF'), width: 1),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: SizedBox(
+                                    height: 85,
+                                    width: MediaQuery.of(context).size.width / 4.5,
+                                    child:Image.asset("assets/images/dummyimg.png")
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Card(
-                          elevation: 10,
-                          child: SizedBox(
-                              height: 80,
-                              width: MediaQuery.of(context).size.width / 5,
-                              child:Image.asset("assets/images/dummyimg.png")
-                          ),
+                            SizedBox(width: 10,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top:75.0),
+                                  child: Text('Aalok Health Care Ltd',style: GoogleFonts.poppins(fontSize: 18,fontWeight: FontWeight.w600,color:HexColor('#141D53')),),
+                                ),
+                                SizedBox(height: 5,),
+                                Row(
+                                  children: [
+                                    phoneimg,
+                                    SizedBox(width: 5,),
+                                    Text('01962823007',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11,fontWeight: FontWeight.w600)),
+                                    SizedBox(width: 5,),
+                                    mailimg,
+                                    SizedBox(width: 5,),
+                                    Text('info@aalok.com',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontWeight: FontWeight.w600,fontSize: 11,)),
+                                  ],
+                                ),
+                                SizedBox(height: 5,),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom:10.0),
+                                      child: mapimg,
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text('House-1 &3,Road-2,Block-B,\nMirpur-10,Dhaka-12216',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontWeight: FontWeight.w600,fontSize: 11,)),
+                                  ],
+                                )
+
+                              ],
+                            )
+                          ],
                         ),
                      ]
                     )
                 ),
-                // SliverPersistentHeader(
-                //   delegate: MySliverAppBar(expandedHeight: 200),
-                //   pinned: true,
-                // ),
               ),
-            // SliverPersistentHeader(
-            //   delegate: MySliverAppBar(expandedHeight: 200),
-            //   pinned: true,
-            // ),
-            createSilverAppBar2(),
+
+                createSilverAppBar2(),
+
             // SliverList(
             //   delegate: SliverChildBuilderDelegate(
             //         (_, index) =>
@@ -286,6 +382,8 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
         .width;
     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     return SliverAppBar(
+      //shadowColor: Colors.black,
+      elevation: 10,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
       pinned: true,
@@ -296,14 +394,14 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
           borderRadius: BorderRadius.circular(25),
           color: Colors.white,
           border: Border.all(color: HexColor('#E1E1E1')),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 2), // changes position of shadow
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.grey.withOpacity(0.2),
+          //     spreadRadius: 2,
+          //     blurRadius: 5,
+          //     offset: Offset(0, 2), // changes position of shadow
+          //   ),
+          // ],
         ),
         child: InkWell(
           onTap: () {},

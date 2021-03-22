@@ -167,6 +167,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
 
 class MainCollapsingToolbar extends StatefulWidget {
   @override
@@ -174,12 +175,22 @@ class MainCollapsingToolbar extends StatefulWidget {
 }
 
 class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
+  //final String assetName4 = "assets/icons/fliter.svg";
+  final Widget filtericon = SvgPicture.asset(
+    "assets/icons/fliter.svg",
+    width: 10,
+    height: 18,
+    fit: BoxFit.fitWidth,
+    allowDrawingOutsideViewBox: true,
+    matchTextDirection: true,
+    //semanticsLabel: 'Acme Logo'
+  );
   @override
   Widget build(BuildContext context) {
     final String assetName1 = "assets/icons/phone.svg";
     final String assetName2 = "assets/icons/mail.svg";
     final String assetName3 = "assets/icons/marker.svg";
-    final String assetName4 = "assets/icons/fliter.svg";
+
     final Widget phoneimg = SvgPicture.asset(
       assetName1,
       width: 10,
@@ -207,15 +218,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
-    final Widget filtericon = SvgPicture.asset(
-      assetName4,
-      width: 10,
-      height: 18,
-      fit: BoxFit.fitWidth,
-      allowDrawingOutsideViewBox: true,
-      matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
-    );
+
     var deviceWidth=MediaQuery.of(context).size.width;
     var contrainerWidth=deviceWidth>=400?double.infinity:400.00;
     return Scaffold(
@@ -232,11 +235,11 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                     title: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top:30.0),
+                          padding: const EdgeInsets.only(top:35.0),
                           child: Text("Aalok Health Care Ltd",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                               )),
                         ),
                         // Text("Collapsing Toolbar",
@@ -344,9 +347,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                     )
                 ),
               ),
-
                 createSilverAppBar2(),
-
             // SliverList(
             //   delegate: SliverChildBuilderDelegate(
             //         (_, index) =>
@@ -360,12 +361,16 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
           body:  SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child:Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                    SizedBox(width:15),
-                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                    SizedBox(width:15),
-                    CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                    Container(
+                        margin: EdgeInsets.only(top: 8,bottom: 3,left: 10),
+                        child: Text('Doctors',style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600))),
+                    CustomContainer('Dr. Jahid Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
+                    CustomContainer('Dr. Sharifun Nahar',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc1.png"),
+                    CustomContainer('Dr. Sohail Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
+                    CustomContainer('Dr. Akram Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
+                    CustomContainer('Dr. Akram Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
                   ],
                 ),
 
@@ -382,55 +387,64 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
         .width;
     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     return SliverAppBar(
-      //shadowColor: Colors.black,
+      shadowColor: Colors.blue.withOpacity(0.3),
       elevation: 10,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
       pinned: true,
-      title: Container(
-        width: contrainerWidth,
-        height: 50,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Colors.white,
-          border: Border.all(color: HexColor('#E1E1E1')),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.grey.withOpacity(0.2),
-          //     spreadRadius: 2,
-          //     blurRadius: 5,
-          //     offset: Offset(0, 2), // changes position of shadow
-          //   ),
-          // ],
-        ),
-        child: InkWell(
-          onTap: () {},
-          child: Row(
-            children: <Widget>[
-              SizedBox(
-                width: 8,
-              ),
-              Text(
-                "  Find your Doctor",
-                style: GoogleFonts.poppins(
-                  color: Colors.grey[400],
-                  fontSize: deviceWidth >= 400 ? 20 : 13,
+      title: Padding(
+        padding: const EdgeInsets.only(bottom:5.0),
+        child: Container(
+          width: contrainerWidth,
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: Colors.white,
+            border: Border.all(color: HexColor('#E1E1E1')),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.grey.withOpacity(0.2),
+            //     spreadRadius: 2,
+            //     blurRadius: 5,
+            //     offset: Offset(0, 2), // changes position of shadow
+            //   ),
+            // ],
+          ),
+          child: InkWell(
+            onTap: () {},
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 8,
                 ),
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                  size: 28,
+                Text(
+                  "  Find your Doctor",
+                  style: GoogleFonts.poppins(
+                    color: Colors.grey.withOpacity(0.5),
+                    fontSize: deviceWidth >= 400 ? 20 : 13,
+                  ),
                 ),
-              ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                    size: 28,
+                  ),
+                ),
 
-            ],
+              ],
+            ),
           ),
         ),
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right:15.0),
+          child: filtericon,
+        ),
+      ],
     );
   }
 }

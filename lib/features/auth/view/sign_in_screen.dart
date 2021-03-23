@@ -27,12 +27,12 @@ class _SignInState extends State<SignIn> {
     var spaceBetween = SizedBox(
       height: height >= 600 ? 15.0 : 5.0,
     );
-    var userName = SignUpField(
+    var userName = SignUpFormField(
       margin: EdgeInsets.all(8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
-    var password = SignUpField(
+    var password = SignUpFormField(
       margin: EdgeInsets.all(8),
         contentPadding: EdgeInsets.all(15),
         hintText: StringResources.passwordHint,

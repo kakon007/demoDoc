@@ -55,37 +55,37 @@ class _SignUpState extends State<SignUp> {
       height: height >= 600 ? 10.0 : 5.0,
     );
     print(pickedDate);
-    var name = SignUpField(
+    var name = SignUpFormField(
       margin: EdgeInsets.all(2),
       labelText: "Name",
       isRequired: true,
       hintText: StringResources.name,
     );
-    var email = SignUpField(
+    var email = SignUpFormField(
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Email",
       hintText: StringResources.email,
     );
-    var mobile = SignUpField(
+    var mobile = SignUpFormField(
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Mobile",
       hintText: StringResources.mobileNumber,
     );
-    var password = SignUpField(
+    var password = SignUpFormField(
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Password",
       hintText: StringResources.password,
     );
-    var confirmPassword = SignUpField(
+    var confirmPassword = SignUpFormField(
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Confirm Password",
       hintText: StringResources.confirmPassword,
     );
-    var address = SignUpField(
+    var address = SignUpFormField(
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Address",

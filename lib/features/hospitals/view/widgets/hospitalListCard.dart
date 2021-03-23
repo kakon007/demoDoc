@@ -14,7 +14,6 @@ class  HospitalListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
     return Container(
             height: cardHeight * 1.2,
@@ -113,7 +112,9 @@ class  HospitalListCard extends StatelessWidget {
                               width: height <= 600
                                   ? cardWidth * 1.2
                                   : cardWidth * 1.3,
-                              child: RaisedButton(
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
                                 color: AppTheme.appbarPrimary,
                                 onPressed: () {},
                                 textColor: Colors.white,

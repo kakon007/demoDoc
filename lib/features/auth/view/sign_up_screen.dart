@@ -344,7 +344,7 @@ class _SignUpState extends State<SignUp> {
             child: Column(
               children: [
                 Expanded(
-                  child: new Container(
+                  child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(25),

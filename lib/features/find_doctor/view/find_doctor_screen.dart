@@ -166,6 +166,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
 
@@ -235,16 +236,32 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                   //titlePadding: EdgeInsetsGeometry.lerp(, a, 10),
                     titlePadding: EdgeInsetsDirectional.only(
                       start: 50.0,
-                      bottom: 5.0,
-                      top:40
+                      bottom: 4.0,
+                      top:31
                     ),
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text("Aalok Health Care Ltd",
-                              style: TextStyle(
+                      children: [
+                        Row(
+                          children: [
+                            Text("Aalok Health Care Ltd",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                  )),
+                            Spacer(),
+                            IconButton(
+                              icon: Icon(
+                                Icons.notifications,
                                 color: Colors.white,
-                                fontSize: 18.0,
-                              )),
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
+                              },
+                            )
+                          ],
+                        ),
 
                         // Text("Collapsing Toolbar",
                         //     style: TextStyle(
@@ -391,62 +408,74 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
         .width;
     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     return SliverAppBar(
+      shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(35), bottomRight: Radius.circular(35))),
+      floating: false,
       forceElevated: true,
       shadowColor: Colors.blue.withOpacity(0.3),
       elevation: 5,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
       pinned: true,
-      title: Padding(
-        padding: const EdgeInsets.only(bottom:5.0),
-        child: Container(
-          width: contrainerWidth,
-          height: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: Colors.white,
-            border: Border.all(color: HexColor('#E1E1E1')),
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.grey.withOpacity(0.2),
-            //     spreadRadius: 2,
-            //     blurRadius: 5,
-            //     offset: Offset(0, 2), // changes position of shadow
-            //   ),
-            // ],
-          ),
-          child: InkWell(
-            onTap: () {},
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "  Find your Doctor",
-                  style: GoogleFonts.poppins(
-                    color: Colors.grey.withOpacity(0.5),
-                    fontSize: deviceWidth >= 400 ? 20 : 13,
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: EdgeInsetsDirectional.only(
+            start: 18.0,
+            bottom: 10.0,
+            top:15,
+            end: 45
+        ),
+        title:Padding(
+          padding: const EdgeInsets.only(bottom:7.0,right: 10),
+          child: Container(
+            width: contrainerWidth,
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: Colors.white,
+              border: Border.all(color: HexColor('#E1E1E1')),
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.grey.withOpacity(0.2),
+              //     spreadRadius: 2,
+              //     blurRadius: 5,
+              //     offset: Offset(0, 2), // changes position of shadow
+              //   ),
+              // ],
+            ),
+            child: InkWell(
+              onTap: () {},
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 8,
                   ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                    size: 28,
+                  Text(
+                    "  Find your doctor",
+                    style: GoogleFonts.poppins(
+                      color: Colors.grey.withOpacity(0.5),
+                      fontSize: deviceWidth >= 400 ? 20 : 13,
+                    ),
                   ),
-                ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                      size: 28,
+                    ),
+                  ),
 
-              ],
+                ],
+              ),
             ),
           ),
-        ),
+        ) ,
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right:15.0),
+          padding: const EdgeInsets.only(right:18.0,bottom: 25),
           child: filtericon,
         ),
       ],

@@ -20,7 +20,7 @@ class CustomContainer extends StatelessWidget {
     return Container(
 
       height: cardHeight*1.2,
-      margin: EdgeInsets.only(top: 8,bottom: 5,right: 8,left: 14),
+      margin: EdgeInsets.only(top: 8,bottom: 5,right: 14,left: 14),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -46,7 +46,7 @@ class CustomContainer extends StatelessWidget {
                           images,
                           fit: BoxFit.cover,
                         width: cardWidth*0.9,
-                        height: 138,
+                        height: 146,
                         ),
 
                   ),
@@ -72,7 +72,7 @@ class CustomContainer extends StatelessWidget {
                     children: [
                       Text(titleText, style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w700),),
                       Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.bold ),),
-                      Text(undersubtitle, style: GoogleFonts.poppins(fontSize: 8, color: HexColor('#757577')),),
+                      Text(undersubtitle, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),),
 
                       SizedBox(
                         height: cardHeight/15,
@@ -86,6 +86,8 @@ class CustomContainer extends StatelessWidget {
                             width: cardWidth*0.7,
                             height: 28,
                             child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                               color:  HexColor("#354291"),
                               elevation: 0,
                               //color: AppTheme.appbarPrimary,

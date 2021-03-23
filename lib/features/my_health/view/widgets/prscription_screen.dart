@@ -15,42 +15,70 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     var searchField=
-    Padding(padding: EdgeInsets.all(50),child: Container(
-      height: 10,
-        child: Theme(
-          data: theme.copyWith(primaryColor: Colors.red),
-          child: new TextField(
-            decoration: new InputDecoration(
-              labelText: "Hello",
-              labelStyle: theme.textTheme.caption.copyWith(color: theme.primaryColor),
-            ),
+    Container(
+      //height: 40,
+      width: 200,
+      height: 60,
+      child:Padding(
+        padding: const EdgeInsets.only(bottom:20.0,right: 12),
+        child: Stack(
+          children:[
+            Align(alignment: Alignment.topRight,child: IconButton(icon: Icon(Icons.search_outlined,size: 25,), onPressed: null)),
+            TextFormField(
+              cursorColor: HexColor('#C5CAE8'),
+              decoration: InputDecoration(
+                hintText: 'Search prescription',
+                hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
+                //labelText: "Resevior Name",
+                fillColor: Colors.white,
+                focusedBorder:UnderlineInputBorder(
+                  borderSide:  BorderSide(color: HexColor('#354291').withOpacity(0.5), width: 1.5),
+                  //borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+            onChanged: (text) {
+              //value = text;
+            },
           ),
-        )),);
+         ]
+        ),
+      )
+    );
     return Scaffold(
       body:
 
-      Stack(
-        children: [
-          SingleChildScrollView(
-            physics: ScrollPhysics(),
-            child: Column(
-              children: [
-                PrescriptionContrainer(),
-                PrescriptionContrainer(),
-                PrescriptionContrainer(),
-                PrescriptionContrainer(),
-                PrescriptionContrainer(),
-                PrescriptionContrainer(),
-                PrescriptionContrainer(),
-                PrescriptionContrainer(),
-                PrescriptionContrainer(),
-              ],
-            )),Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                color:Colors.white,child: searchField),
-            )]
-      ),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                    child: Text("33 Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10,fontWeight: FontWeight.w600),),
+                  ),
+                  Spacer(),
+                  searchField,
+                ],
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: ScrollPhysics(),
+                  child: Column(
+                    children: [
+                      PrescriptionContrainer(),
+                      PrescriptionContrainer(),
+                      PrescriptionContrainer(),
+                      PrescriptionContrainer(),
+                      PrescriptionContrainer(),
+                      PrescriptionContrainer(),
+                      PrescriptionContrainer(),
+                      PrescriptionContrainer(),
+                      PrescriptionContrainer(),
+                    ],
+                  )),
+              ),
+            ],
+          )
+
     );
   }
 }

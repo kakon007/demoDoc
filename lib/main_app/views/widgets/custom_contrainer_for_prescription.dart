@@ -26,8 +26,10 @@ class _PrescriptionContrainerState extends State<PrescriptionContrainer> {
           break;
       }
     }
-    var popup= Container(
-      margin: EdgeInsets.only(bottom: 60,right: 5),
+    var popup= Padding(
+      padding: EdgeInsets.only(bottom: 60,right: 1),
+      child: Container(
+      //margin: EdgeInsets.only(bottom: 60,),
       width: 25,
       height: 25,
       child: PopupMenuButton<String>(
@@ -43,7 +45,7 @@ class _PrescriptionContrainerState extends State<PrescriptionContrainer> {
           }).toList();
         },
       ),
-    );
+    ),);
     final String assetName1 = "assets/images/rx.svg";
 
     final Widget rx = SvgPicture.asset(
@@ -63,11 +65,10 @@ class _PrescriptionContrainerState extends State<PrescriptionContrainer> {
     );
     return Stack(
       children:[
-
         Container(
 
         height: cardHeight*0.8,
-        margin: EdgeInsets.only(top: 8,bottom: 5,right: 14,left: 14),
+        margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
         decoration: BoxDecoration(
           gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
             1.0,
@@ -82,24 +83,28 @@ class _PrescriptionContrainerState extends State<PrescriptionContrainer> {
           //   color: HexColor("#E9ECFE"),
           //   width: 1,
           // ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left:15.0),
+              padding: const EdgeInsets.only(left:10.0),
               child: CircleAvatar(
-                radius: 33,
-                  backgroundColor: Colors.white,
+                radius: 31,
+                backgroundColor: HexColor('#354291').withOpacity(0.2),
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/proimg.png'),
                   radius: 30,
+                    backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/proimg.png'),
+                    radius: 28,
+                  ),
                 ),
               ),
             ),
-            SizedBox(width: 5,),
+            //SizedBox(width: 5,),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -112,9 +117,9 @@ class _PrescriptionContrainerState extends State<PrescriptionContrainer> {
                 ],
               ),
             ),
-            SizedBox(width:10),
-            rx,
-            popup
+            Container(width:45,child: rx),
+            popup,
+
           ],
         ),
       ),

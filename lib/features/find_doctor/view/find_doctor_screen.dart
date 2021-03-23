@@ -227,6 +227,10 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
+                leading: Padding(
+                  padding: const EdgeInsets.only(top:19.0,left: 10),
+                  child: Icon(Icons.arrow_back_outlined,color:  HexColor('#354291'),),
+                ),
                 backgroundColor: HexColor('#354291'),
                 expandedHeight: 150.0,
                 floating: false,
@@ -235,7 +239,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                    // centerTitle: true,
                   //titlePadding: EdgeInsetsGeometry.lerp(, a, 10),
                     titlePadding: EdgeInsetsDirectional.only(
-                      start: 50.0,
+                      start: 15.0,
                       bottom: 4.0,
                       top:31
                     ),
@@ -244,6 +248,8 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                       children: [
                         Row(
                           children: [
+                            Icon(Icons.arrow_back_outlined,color:  Colors.white),
+                            SizedBox(width: 3,),
                             Text("Aalok Health Care Ltd",
                                   style: TextStyle(
                                     color: Colors.white,

@@ -56,7 +56,7 @@ class _MyHealthScreenState extends State<MyHealthScreen> {
         padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
         child: Icon(Icons.search),
       ),
-      hintText: "Search Department",
+      hintText: StringResources.searchDepartment,
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
         borderRadius: BorderRadius.circular(25),
@@ -76,7 +76,7 @@ class _MyHealthScreenState extends State<MyHealthScreen> {
         padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
         child: Icon(Icons.search),
       ),
-      hintText: "Search Speciality",
+      hintText: StringResources.searchSpeciality,
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
         borderRadius: BorderRadius.circular(25),
@@ -101,7 +101,7 @@ class _MyHealthScreenState extends State<MyHealthScreen> {
             children: [
               verticalSpace,
               Text(
-                "Filters",
+                StringResources.filters,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
               ),
               Icon(Icons.clear),
@@ -110,6 +110,64 @@ class _MyHealthScreenState extends State<MyHealthScreen> {
           horizontalSpace,
           horizontalSpace
         ],
+      ),
+    );
+    var departmentList=  AbsorbPointer(
+      absorbing:
+      _items4.isEmpty && _items3.isEmpty
+          ? true
+          : false,
+      child: SizedBox(
+        width: width * .9,
+        height: width * .25,
+        child: RaisedButton(
+          onPressed: () {},
+          textColor: _items4.isEmpty &&
+              _items3.isEmpty
+              ? HexColor("#969EC8")
+              : AppTheme.appbarPrimary,
+          color: HexColor("#FFFFFF"),
+          shape: RoundedRectangleBorder(
+              borderRadius:
+              BorderRadius.circular(11),
+              side: BorderSide(
+                  color: _items4.isEmpty &&
+                      _items3.isEmpty
+                      ? HexColor("#969EC8")
+                      : AppTheme
+                      .appbarPrimary,
+                  width: 1)),
+          child: Text(
+            StringResources.clearFilterText,
+            style: GoogleFonts.poppins(),
+          ),
+        ),
+      ),
+    );
+    var specialityList =   AbsorbPointer(
+      absorbing:
+      _items4.isEmpty && _items3.isEmpty
+          ? true
+          : false,
+      child: SizedBox(
+        width: width * .9,
+        height: width * .25,
+        child: RaisedButton(
+          textColor: Colors.white,
+          onPressed: () {},
+          color: _items4.isEmpty &&
+              _items3.isEmpty
+              ? HexColor("#969EC8")
+              : AppTheme.appbarPrimary,
+          shape: RoundedRectangleBorder(
+            borderRadius:
+            BorderRadius.circular(11),
+          ),
+          child: Text(
+            StringResources.applyFilterText,
+            style: GoogleFonts.poppins(),
+          ),
+        ),
       ),
     );
     return Scaffold(
@@ -304,64 +362,8 @@ class _MyHealthScreenState extends State<MyHealthScreen> {
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: [
-                                            AbsorbPointer(
-                                              absorbing:
-                                              _items4.isEmpty && _items3.isEmpty
-                                                  ? true
-                                                  : false,
-                                              child: SizedBox(
-                                                width: width * .9,
-                                                height: width * .25,
-                                                child: RaisedButton(
-                                                  onPressed: () {},
-                                                  textColor: _items4.isEmpty &&
-                                                      _items3.isEmpty
-                                                      ? HexColor("#969EC8")
-                                                      : AppTheme.appbarPrimary,
-                                                  color: HexColor("#FFFFFF"),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(11),
-                                                      side: BorderSide(
-                                                          color: _items4.isEmpty &&
-                                                              _items3.isEmpty
-                                                              ? HexColor("#969EC8")
-                                                              : AppTheme
-                                                              .appbarPrimary,
-                                                          width: 1)),
-                                                  child: Text(
-                                                    "Clear Filter",
-                                                    style: GoogleFonts.poppins(),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            AbsorbPointer(
-                                              absorbing:
-                                              _items4.isEmpty && _items3.isEmpty
-                                                  ? true
-                                                  : false,
-                                              child: SizedBox(
-                                                width: width * .9,
-                                                height: width * .25,
-                                                child: RaisedButton(
-                                                  textColor: Colors.white,
-                                                  onPressed: () {},
-                                                  color: _items4.isEmpty &&
-                                                      _items3.isEmpty
-                                                      ? HexColor("#969EC8")
-                                                      : AppTheme.appbarPrimary,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(11),
-                                                  ),
-                                                  child: Text(
-                                                    "Apply Filter",
-                                                    style: GoogleFonts.poppins(),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
+                                            departmentList,
+                                            specialityList
                                           ],
                                         ),
                                       ],

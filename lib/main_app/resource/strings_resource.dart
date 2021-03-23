@@ -51,7 +51,12 @@ class StringResources {
   static String searchBoxHint ="Type Hospitals / Diagnosis/ Doctor Chamber";
   static String getAppointmentButton = "GET APPOINTMENT";
 
-
+  //Doctors list
+  static String applyFilterText= "Apply Filter";
+  static String clearFilterText= "Clear Filter";
+  static String filters= "Filters";
+  static String searchDepartment="Search Department";
+  static String searchSpeciality= "Search Speciality";
   // sign up screen
   static String name= "Name";
   static String email= "Email Address";
@@ -598,7 +603,6 @@ class StringResources {
   static const String applyText = "Apply";
   static const String applyTextCaps = "APPLY";
   static const String applyNowText = "Apply Now";
-  static const String applyFilterText = "Apply Filter";
   static const String appliedText = "Applied";
   static const String limitReached = "Limit Reached!";
   static const String aplicationSuccessful = "Job applied successfully. ";

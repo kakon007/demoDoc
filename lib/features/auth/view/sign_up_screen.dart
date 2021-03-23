@@ -269,16 +269,16 @@ class _SignUpState extends State<SignUp> {
     var signUpButton = Material(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      color: AppTheme.colorPrimary,
+      color: AppTheme.signInSignUpColor,
       child: SizedBox(
-        height: height >= 600 ? 50 : 30,
+        height: height >= 600 ? 50 : 40,
         width: MediaQuery.of(context).size.width / .2,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               StringResources.signUpButton,
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: TextStyle(fontSize: height>=600? 18 :15, color: Colors.white),
             ),
           ),
         ),
@@ -292,7 +292,7 @@ class _SignUpState extends State<SignUp> {
           children: [
             Text(StringResources.alreadyHaveAnAccount,
                 style: TextStyle(
-                    color: AppTheme.colorPrimary, fontWeight: FontWeight.w300)),
+                    color: AppTheme.signInSignUpColor, fontWeight: FontWeight.w300)),
             GestureDetector(
               onTap: (){
                 Navigator.pop(context);
@@ -300,7 +300,7 @@ class _SignUpState extends State<SignUp> {
               child: Text(
                 StringResources.signInText,
                 style: TextStyle(
-                    color: AppTheme.colorPrimary, fontWeight: FontWeight.bold),
+                    color: AppTheme.signInSignUpColor, fontWeight: FontWeight.bold),
               ),
             )
           ],
@@ -316,9 +316,9 @@ class _SignUpState extends State<SignUp> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          Text(StringResources.terms, style: GoogleFonts.roboto(color: AppTheme.colorPrimary, fontWeight: FontWeight.bold, fontSize: 13),),
+          Text(StringResources.terms, style: GoogleFonts.roboto(color: AppTheme.signInSignUpColor, fontWeight: FontWeight.bold, fontSize: 13),),
           Text(" and  ",  style: GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 13),),
-          Text(StringResources.policy,style: GoogleFonts.roboto(color: AppTheme.colorPrimary,fontWeight: FontWeight.bold,fontSize: 13),),
+          Text(StringResources.policy,style: GoogleFonts.roboto(color: AppTheme.signInSignUpColor,fontWeight: FontWeight.bold,fontSize: 13),),
         ],)
       ],
     );
@@ -340,7 +340,7 @@ class _SignUpState extends State<SignUp> {
           body: Padding(
             padding: height >= 600
                 ? EdgeInsets.only(top: 50.0)
-                : EdgeInsets.only(top: 160),
+                : EdgeInsets.only(top: 25),
             child: Column(
               children: [
                 Expanded(
@@ -407,7 +407,7 @@ class _SignUpState extends State<SignUp> {
                          offset: Offset(0, 3), // changes position of shadow
                        ),
                      ]),
-                 height: 200,
+                 height: height>=600? 200:150,
                  child: Padding(
                    padding: const EdgeInsets.only(right:15.0, left: 15),
                    child: Column(children: [
@@ -426,46 +426,6 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
 
-          // SlidingUpPanel(
-          //   borderRadius: radius,
-          //   maxHeight: 650,
-          //   minHeight: 500,
-          //   isDraggable: true,
-          //   panel: Padding(
-          //     padding: const EdgeInsets.only(left: 12.0, right: 12),
-          //     child: Column(
-          //       children: [
-          //         spaceBetween,
-          //         Center(
-          //             child: Text(
-          //           StringResources.createAccount,
-          //           style: TextStyle(
-          //               color: HexColor("#0D1231"),
-          //               fontSize: 20.0,
-          //               fontWeight: FontWeight.bold),
-          //         )),
-          //         spaceBetween,
-          //         name,
-          //         email,
-          //         mobile,
-          //         password,
-          //         confirmPassword,
-          //         address,
-          //         Row(
-          //           children: [
-          //             date,
-          //             date2,
-          //           ],
-          //         ),
-          //         spaceBetween,
-          //         signUpButton,
-          //         spaceBetween,
-          //         spaceBetween,
-          //         signUp
-          //       ],
-          //     ),
-          //   ),
-          // ),
         )
       ]),
     );
@@ -474,30 +434,11 @@ class _SignUpState extends State<SignUp> {
   Widget _backgroundImage() {
     return Stack(
       children: [
-        // Container(
-        //   height: 350.0,
-        //   width: MediaQuery.of(context).size.width,
-        //   child: FadeInImage(
-        //     fit: BoxFit.cover,
-        //     image: AssetImage("assets/images/background_signin_1.png"),
-        //     placeholder: AssetImage(''),
-        //   ),
-        // ),
-        // Positioned(
-        //   top: MediaQuery.of(context).size.height * .09,
-        //   left: MediaQuery.of(context).size.width * .04,
-        //   child: GestureDetector(
-        //       behavior: HitTestBehavior.translucent,
-        //       onTap: (){
-        //         Navigator.pop(context);
-        //       },
-        //       child: Container(child: Icon(Icons.arrow_back)))
-        // ),
         Positioned(
           top: MediaQuery.of(context).size.height * .09,
           left: MediaQuery.of(context).size.width * .27,
           child: Container(
-            height: 200,
+            height:  MediaQuery.of(context).size.height >=600? 200 :60,
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
               fit: BoxFit.fitHeight,

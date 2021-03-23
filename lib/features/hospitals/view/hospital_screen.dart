@@ -49,7 +49,9 @@ class _HospitalScreenState extends State<HospitalScreen> {
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
+    print(height);
     var spaceBetween = SizedBox(
       height: height >= 600 ? 15.0 : 10.0,
     );
@@ -109,7 +111,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                     itemCount: hospitals.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: cardHeight*1.15,
+                        height: cardHeight*1.2,
                         margin: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -125,7 +127,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                               //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: cardHeight *0.1,
+                                  width: height<=600? cardHeight *0.09: cardHeight *0.1,
                                 ),
                                 Column(
                                   children: [
@@ -142,7 +144,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                   ],
                                 ),
                                 SizedBox(
-                                  width: cardHeight *0.1,
+                                  width: height<=600 ? cardHeight *0.06: cardHeight *0.08,
                                 ),
                                 Container(
                                   width: cardWidth * 1.58,
@@ -154,25 +156,26 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                         topRight: Radius.circular(12)),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 10, top: 12),
+                                    padding:  EdgeInsets.only(
+                                        left: 15.0, right: 10, top: height<=600 ? 6: 12),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(hospitals[index].hospitalName, style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.bold),),
-                                        Text(hospitals[index].location, style: GoogleFonts.poppins(color: Colors.grey, fontSize: 12, ),),
+                                        Text(hospitals[index].hospitalName, style: GoogleFonts.poppins(fontSize: height<=600 ?12: 15, fontWeight: FontWeight.bold),),
+                                        Text(hospitals[index].location, style: GoogleFonts.poppins(color: Colors.grey, fontSize:height<=600?9: 12, ),),
 
                                         Row(children: [
-                                          Icon(Icons.circle, color: HexColor("#1EE573"),size: 15,),
+                                          Icon(Icons.circle, color: HexColor("#1EE573"),size: height<=600 ? 10:15,),
                                           SizedBox(width: 5,),
-                                          Text(hospitals[index].doctorOnline, style: GoogleFonts.poppins(fontSize: 12, ),),
+                                          Text(hospitals[index].doctorOnline, style: GoogleFonts.poppins(fontSize: height<=600 ? 9:12, ),),
                                         ],),
                                         SizedBox(
-                                          height: cardHeight/9,
+                                          height: height<=600 ?cardHeight/15:cardHeight/9,
                                         ),
                                         Container(
-                                          width: cardWidth*1.3,
+                                          width: height<=600? cardWidth*1.2 :cardWidth*1.3,
+
                                           child: RaisedButton(
                                             color: AppTheme.appbarPrimary,
                                             onPressed: () {
@@ -180,7 +183,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                             textColor: Colors.white,
                                             child: Text(
                                               StringResources.getAppointmentButton,
-                                              style: GoogleFonts.poppins(fontSize: 10,color: Colors.white, fontWeight: FontWeight.w600),
+                                              style: GoogleFonts.poppins(fontSize:height<=600?8: 10,color: Colors.white, fontWeight: FontWeight.w600),
                                             ),
                                           ),
                                         )

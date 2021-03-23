@@ -14,12 +14,14 @@ class MyHealthScreen extends StatefulWidget {
 class _MyHealthScreenState extends State<MyHealthScreen> {
   final List<SimpleModel> _items = <SimpleModel>[
     SimpleModel('Chest Medicine', false),
-    SimpleModel('cardiology', false),
+    SimpleModel('Cardiology', false),
     SimpleModel('Child Neurology', false),
     SimpleModel('Chest Medicine', false),
     SimpleModel('Dermatology', false),
     SimpleModel('Diabetics', false),
   ];
+  List _items3 = [];
+  List _items4 = [];
   final List<SimpleModel> _items2 = <SimpleModel>[
     SimpleModel('Child Specialist', false),
     SimpleModel('Chest Surgeon', false),
@@ -28,185 +30,348 @@ class _MyHealthScreenState extends State<MyHealthScreen> {
     SimpleModel('ENT', false),
     SimpleModel('Gastroenterologist', false),
   ];
+  ScrollController _scrollController;
+  ScrollController _scrollController2;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController2 = ScrollController();
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width= MediaQuery.of(context).size.width * 0.44;
-    var verticalSpace=SizedBox(
-      width: width >= 400 ? 10.0 : 5.0,
+    var width = MediaQuery.of(context).size.width * 0.44;
+    var verticalSpace = SizedBox(
+      width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
     );
     var horizontalSpace = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
     );
-    var searchDepartment=  TextFormField(
+    var searchDepartment = TextFormField(
         decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 15),
-            child: Icon(Icons.search),
-          ),
-          hintText: "Search Department",
-          focusedBorder: OutlineInputBorder(
-            borderSide:
-            BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide:
-            BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius:  BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)
-          ),
-
-      ));
-    var searchSpeciality=  TextFormField(
+      prefixIcon: Padding(
+        padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+        child: Icon(Icons.search),
+      ),
+      hintText: "Search Department",
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      border: new OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: new BorderSide(color: Colors.teal)),
+      contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+    ));
+    var searchSpeciality = TextFormField(
         decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 15),
-            child: Icon(Icons.search),
+      prefixIcon: Padding(
+        padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+        child: Icon(Icons.search),
+      ),
+      hintText: "Search Speciality",
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      border: new OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: new BorderSide(color: Colors.teal)),
+      contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+    ));
+    var modalSheetTitle = Padding(
+      padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
+      child: Column(
+        children: [
+          horizontalSpace,
+          horizontalSpace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              verticalSpace,
+              Text(
+                "Filters",
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              Icon(Icons.clear),
+            ],
           ),
-          hintText: "Search Speciality",
-          focusedBorder: OutlineInputBorder(
-            borderSide:
-            BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide:
-            BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius:  BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)
-          ),
-
-        ));
-    var departmentList=       Expanded(
-      child: ListView(
-        children: _items
-            .map(
-              (SimpleModel item) => Container(
-            height: 35,
-            child: CheckboxListTile(
-              activeColor: AppTheme.colorPrimary,
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text(item.title),
-              value: item.isChecked,
-              onChanged: (bool val) {
-                setState(() => item.isChecked = val);
-              },
-            ),
-          ),
-        )
-            .toList(),
+          horizontalSpace,
+          horizontalSpace
+        ],
       ),
     );
-    var specialityList=       Expanded(
-      child: ListView(
-        children: _items2
-            .map(
-              (SimpleModel item) => Container(
-            height: 35,
-            child: CheckboxListTile(
-              activeColor: AppTheme.colorPrimary,
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text(item.title),
-              value: item.isChecked,
-              onChanged: (bool val) {
-                setState(() => item.isChecked = val);
-              },
-            ),
-          ),
-        )
-            .toList(),
-      ),
-    );
-
-    var modalSheetTitle=Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        verticalSpace,
-        Text("Filters", style: GoogleFonts.poppins(fontWeight: FontWeight.w600),),
-        Icon(Icons.clear),
-      ],);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.colorPrimary,
+        backgroundColor: AppTheme.signInSignUpColor,
         title: Text("MyHealthBD"),
       ),
       body: Center(
-        child:
-        Column(
+        child: Column(
           children: [
             Container(
               child: RaisedButton(
                 onPressed: () {
                   showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:  BorderRadius.only( topLeft: Radius.circular(25),
-                                topRight: Radius.circular(25))
-                        ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(25),
+                              topRight: Radius.circular(25))),
                       context: context,
                       isScrollControlled: true,
                       builder: (context) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 25, right: 25),
-                          child: StatefulBuilder(
-                              builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-                                return FractionallySizedBox(
-                                  heightFactor:0.8,
-                                  child: Column(children: [
-                                    horizontalSpace,
-                                    horizontalSpace,
-                                    modalSheetTitle,
-                                    Container(
-                                      height: 250,
-                                      decoration:  BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(25),
-                                            topRight: Radius.circular(25)
+                        return StatefulBuilder(
+                            builder: (BuildContext context, StateSetter setState) {
+                          return FractionallySizedBox(
+                            heightFactor: 0.85,
+                            child: Column(
+                              children: [
+                                modalSheetTitle,
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: width / 6.912,
+                                        right: width / 6.912),
+                                    child: Column(
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              height: height/3.55,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(25),
+                                                    topRight:
+                                                    Radius.circular(25)),
+                                                border: Border.all(
+                                                  color: HexColor("#D6DCFF"),
+                                                  //                   <--- border color
+                                                  width: 1,
+                                                ),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  searchDepartment,
+                                                  Expanded(
+                                                    child: Scrollbar(
+                                                      isAlwaysShown: true,
+                                                      controller:
+                                                      _scrollController,
+                                                      child: ListView(
+                                                        controller:
+                                                        _scrollController,
+                                                        children:
+                                                        _items
+                                                            .map(
+                                                              (SimpleModel
+                                                          item) =>
+                                                              Container(
+                                                                height: 35,
+                                                                child:
+                                                                CheckboxListTile(
+                                                                  activeColor:
+                                                                  AppTheme
+                                                                      .signInSignUpColor,
+                                                                  controlAffinity:
+                                                                  ListTileControlAffinity
+                                                                      .leading,
+                                                                  title: Text(
+                                                                    item.title,
+                                                                    style: GoogleFonts.poppins(
+                                                                        fontWeight: item.isChecked ==
+                                                                            true
+                                                                            ? FontWeight
+                                                                            .w600
+                                                                            : FontWeight
+                                                                            .normal),
+                                                                  ),
+                                                                  value: item
+                                                                      .isChecked,
+                                                                  onChanged:
+                                                                      (bool val) {
+                                                                    setState(() {
+                                                                      val == true
+                                                                          ? _items4.add(item
+                                                                          .title)
+                                                                          : _items4
+                                                                          .remove(item.title);
+                                                                      item.isChecked =
+                                                                          val;
+                                                                    });
+                                                                  },
+                                                                ),
+                                                              ),
+                                                        ).toList(),
+
+
+                                                      ),
+
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        border: Border.all(
-                                          color: HexColor("#D6DCFF"),//                   <--- border color
-                                          width: 1.0,
+                                        horizontalSpace,
+                                        horizontalSpace,
+                                        horizontalSpace,
+                                        Container(
+                                          height: height/3.55,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(25),
+                                                topRight:
+                                                    Radius.circular(25)),
+                                            border: Border.all(
+                                              color: HexColor("#D6DCFF"),
+                                              //                   <--- border color
+                                              width: 1.0,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              searchSpeciality,
+                                              Expanded(
+                                                child: Scrollbar(
+                                                  isAlwaysShown: true,
+                                                  controller:
+                                                      _scrollController2,
+                                                  child: ListView(
+                                                    controller:
+                                                        _scrollController2,
+                                                    children: _items2
+                                                        .map(
+                                                          (SimpleModel
+                                                                  item) =>
+                                                              Container(
+                                                            height: 35,
+                                                            child:
+                                                                CheckboxListTile(
+                                                              activeColor:
+                                                                  AppTheme
+                                                                      .signInSignUpColor,
+                                                              controlAffinity:
+                                                                  ListTileControlAffinity
+                                                                      .leading,
+                                                              title: Text(
+                                                                item.title,
+                                                                style: GoogleFonts.poppins(
+                                                                    fontWeight: item.isChecked ==
+                                                                            true
+                                                                        ? FontWeight
+                                                                            .w600
+                                                                        : FontWeight
+                                                                            .normal),
+                                                              ),
+                                                              value: item
+                                                                  .isChecked,
+                                                              onChanged:
+                                                                  (bool val) {
+                                                                setState(() {
+                                                                  val == true
+                                                                      ? _items3.add(item
+                                                                          .title)
+                                                                      : _items3
+                                                                          .remove(item.title);
+                                                                  item.isChecked =
+                                                                      val;
+                                                                });
+                                                              },
+                                                            ),
+                                                          ),
+                                                        )
+                                                        .toList(),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          searchDepartment,
-                                          departmentList
-                                        ],
-                                      ),
+                                        SizedBox(height:height>=600 ? 40: 25,),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            AbsorbPointer(
+                                              absorbing:
+                                              _items4.isEmpty && _items3.isEmpty
+                                                  ? true
+                                                  : false,
+                                              child: SizedBox(
+                                                width: width * .9,
+                                                height: width * .25,
+                                                child: RaisedButton(
+                                                  onPressed: () {},
+                                                  textColor: _items4.isEmpty &&
+                                                      _items3.isEmpty
+                                                      ? HexColor("#969EC8")
+                                                      : AppTheme.appbarPrimary,
+                                                  color: HexColor("#FFFFFF"),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(11),
+                                                      side: BorderSide(
+                                                          color: _items4.isEmpty &&
+                                                              _items3.isEmpty
+                                                              ? HexColor("#969EC8")
+                                                              : AppTheme
+                                                              .appbarPrimary,
+                                                          width: 1)),
+                                                  child: Text(
+                                                    "Clear Filter",
+                                                    style: GoogleFonts.poppins(),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            AbsorbPointer(
+                                              absorbing:
+                                              _items4.isEmpty && _items3.isEmpty
+                                                  ? true
+                                                  : false,
+                                              child: SizedBox(
+                                                width: width * .9,
+                                                height: width * .25,
+                                                child: RaisedButton(
+                                                  textColor: Colors.white,
+                                                  onPressed: () {},
+                                                  color: _items4.isEmpty &&
+                                                      _items3.isEmpty
+                                                      ? HexColor("#969EC8")
+                                                      : AppTheme.appbarPrimary,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(11),
+                                                  ),
+                                                  child: Text(
+                                                    "Apply Filter",
+                                                    style: GoogleFonts.poppins(),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    horizontalSpace,
-                                    horizontalSpace,
-                                    horizontalSpace,
-                                    Container(
-                                      height: 250,
-                                      decoration:  BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(25),
-                                            topRight: Radius.circular(25)
-                                        ),
-                                        border: Border.all(
-                                          color: HexColor("#D6DCFF"),//                   <--- border color
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          searchSpeciality,
-                                          specialityList
-                                        ],
-                                      ),
-                                    ),
-                                  ],),
-                                );
-                              }),
-                        );
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        });
                       });
                 },
                 child: Text("Bottom Modal Sheet"),
@@ -214,12 +379,11 @@ class _MyHealthScreenState extends State<MyHealthScreen> {
             ),
           ],
         ),
-
-
       ),
     );
   }
 }
+
 class SimpleModel {
   String title;
   bool isChecked;

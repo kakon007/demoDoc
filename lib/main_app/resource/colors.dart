@@ -28,7 +28,7 @@ class AppTheme {
   static Color twitterColor = Color(0xff55ABEE);
 
 //  static Color colorPrimary = Color(0xff0A5394);
-  static Color colorPrimary = HexColor("#141D53");
+  static Color signInSignUpColor = HexColor("#141D53");
   static Color appbarPrimary = HexColor("#354291");
   static Color colorPrimaryDark = Color(0xff1085eb);
   static Color colorAccent = Color(0xfff7cc1e);
@@ -49,7 +49,7 @@ class AppTheme {
 
   static var defaultLinearGradient = LinearGradient(
 //      colors: [Color(0xFFFB415B), Color(0xFFEE5623)],
-      colors: [colorPrimary, colorAccent],
+      colors: [signInSignUpColor, colorAccent],
       begin: Alignment.centerRight,
       end: Alignment.centerLeft);
 
@@ -70,7 +70,7 @@ class AppTheme {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     brightness: Brightness.light,
     backgroundColor: lightScaffoldColor,
-    primaryColor: colorPrimary,
+    primaryColor: colorPrimaryDark,
     accentColor: colorAccent,
     scaffoldBackgroundColor: lightBG,
     buttonColor: colorAccent,

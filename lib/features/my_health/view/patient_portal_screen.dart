@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:multi_select_item/multi_select_item.dart';
@@ -77,12 +78,47 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         hosName: 'Apollo Hospital Bangladesh'),
 
   ];
+
+  List<ReportList> reportList = [
+    ReportList(
+        reportName: 'X-ray report',
+        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+        hosName: 'Apollo Hospital Bangladesh'),
+    ReportList(
+        reportName: 'X-ray report',
+        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+        hosName: 'Apollo Hospital Bangladesh'),
+    ReportList(
+        reportName: 'X-ray report',
+        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+        hosName: 'Apollo Hospital Bangladesh'),
+    ReportList(
+        reportName: 'X-ray report',
+        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+        hosName: 'Apollo Hospital Bangladesh'),
+    ReportList(
+        reportName: 'X-ray report',
+        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+        hosName: 'Apollo Hospital Bangladesh'),
+    ReportList(
+        reportName: 'X-ray report',
+        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+        hosName: 'Apollo Hospital Bangladesh'),
+    ReportList(
+        reportName: 'X-ray report',
+        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+        hosName: 'Apollo Hospital Bangladesh'),
+    ReportList(
+        reportName: 'X-ray report',
+        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+        hosName: 'Apollo Hospital Bangladesh'),
+  ];
   MultiSelectController controller = new MultiSelectController();
   void initState() {
     super.initState();
-
     controller.disableEditingWhenNoneSelected = true;
     controller.set(pescriptionList.length);
+    controller.set(reportList.length);
   }
 
   void delete() {
@@ -91,10 +127,12 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         a.compareTo(b)); //reoder from biggest number, so it wont error
     list.forEach((element) {
       pescriptionList.removeAt(element);
+      reportList.removeAt(element);
     });
 
     setState(() {
       controller.set(pescriptionList.length);
+      controller.set(reportList.length);
     });
   }
 
@@ -105,6 +143,39 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final String assetName4 = "assets/images/dx.svg";
+    final String assetName2="assets/icons/right.svg";
+    final String assetName7="assets/icons/greyright.svg";
+
+    final Widget dx = SvgPicture.asset(
+      assetName4,
+      width: 50,
+      height: 60,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+    final Widget righticon = SvgPicture.asset(
+      assetName2,
+      width: 40,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
+    final Widget greyright = SvgPicture.asset(
+      assetName7,
+      width: 40,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
     void handleClick(String value) {
       switch (value) {
         case 'Share':
@@ -376,14 +447,17 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                       padding: const EdgeInsets.only(right:18.0),
                                       child: Stack(children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(top:12.0),
+                                          padding: const EdgeInsets.only(top:10.0),
                                           child: Container(width:45,child: rx),
                                         ),
                                          (controller.isSelected(index))?
                                         Padding(
-                                          padding: const EdgeInsets.only(left:30.0),
+                                          padding: const EdgeInsets.only(left:30.0,top: 5),
                                           child: righticon,
-                                        ):Padding(
+                                        ): (controller.isSelecting)?Padding(
+                                           padding: const EdgeInsets.only(left:30.0,top: 5),
+                                           child: greyright,
+                                         ):Padding(
                                            padding: EdgeInsets.only(left: 38),
                                            child: popup,
                                          ),
@@ -405,7 +479,143 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
     ),
                     ),
-                    ReportScreen(),
+
+
+
+                    //REPORT Screen
+
+                    Scaffold(
+                        body:
+
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                  child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                ),
+                                Spacer(),
+                                searchField,
+                              ],
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                  physics: ScrollPhysics(),
+                                  child: Column(
+                                    children: [
+                                  ListView.builder( physics: NeverScrollableScrollPhysics(),
+                                      itemCount:reportList.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: (BuildContext context, int index) {
+                                    return MultiSelectItem(
+                                      isSelecting: controller.isSelecting,
+                                        onSelected: () {
+                                      setState(() {
+                                        controller.toggle(index);
+                                      });
+                                    },
+                                      child: Stack(
+                                          children:[
+                                            Container(
+
+                                              height: cardHeight*0.8,
+                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                  1.0,
+                                                  1.0
+                                                ], colors: [
+                                                  HexColor('#C5CAE8'),
+                                                  HexColor('#E9ECFE'),
+
+                                                ]),
+                                                //color: Colors.white,
+                                                // border: Border.all(
+                                                //   color: HexColor("#E9ECFE"),
+                                                //   width: 1,
+                                                // ),
+                                                borderRadius: BorderRadius.circular(15),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(width: 10,),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        SizedBox(height: 5,),
+                                                        Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                        Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                        SizedBox(height: 8,),
+                                                        Row(
+                                                          children: [
+                                                            CircleAvatar(
+                                                              radius: 18,
+                                                              backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                              child: CircleAvatar(
+                                                                backgroundColor: Colors.white,
+                                                                backgroundImage: AssetImage('assets/images/ap.png'),
+                                                                radius: 17,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 15,),
+                                                            Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  // Padding(
+                                                  //   padding: const EdgeInsets.only(right:18.0),
+                                                  //   child: Stack(children: [
+                                                  //     Container(width:45,child: dx),
+                                                  //     Padding(
+                                                  //       padding: const EdgeInsets.only(left:30.0),
+                                                  //       child: righticon,
+                                                  //     ),
+                                                  //   ]),
+                                                  // ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right:18.0),
+                                                    child: Stack(children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top:10.0),
+                                                        child: Container(width:45,child: dx),
+                                                      ),
+                                                      (controller.isSelected(index))?
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:30.0,top: 10),
+                                                        child: righticon,
+                                                      ): (controller.isSelecting)?Padding(
+                                                        padding: const EdgeInsets.only(left:30.0,top: 10),
+                                                        child: greyright,
+                                                      ):Padding(
+                                                        padding: EdgeInsets.only(left: 38),
+                                                        child: popup,
+                                                      ),
+                                                    ]),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ]
+                                      ),
+                                    );
+    })
+
+
+
+
+                                    ],
+                                  )),
+                            ),
+                          ],
+                        )
+
+                    ),
                     Icon(Icons.directions_bike),
                   ],
                 ),

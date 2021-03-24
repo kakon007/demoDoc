@@ -91,47 +91,6 @@ class _SignUpState extends State<SignUp> {
       labelText: "Address",
       hintText: StringResources.address,
     );
-    // var gender = CustomDropdownButtonFormField<String>(
-    //   height: 40,
-    //   width: 160,
-    //   isRequired: true,
-    //   labelText: StringResources.gender,
-    //   hint: Text(StringResources.tapToSelectText),
-    //   value: selectedDuration,
-    //   onChanged: (value) {
-    //     selectedDuration = value;
-    //     setState(() {});
-    //   },
-    //   items: StringResources.genderList
-    //       .map((e) => DropdownMenuItem<String>(
-    //             child: Text(e),
-    //             value: e,
-    //             key: Key(e),
-    //           ))
-    //       .toList(),
-    // );
-    // var date = Padding(
-    //   padding: EdgeInsets.only(left: 10),
-    //   child: CommonDatePickerFormField(
-    //     height: 68,
-    //     width: 200,
-    //     suffixIcon: Tab(
-    //       child: Container(
-    //         child: Image(
-    //           image: AssetImage(
-    //             'assets/images/calender_icon.png',
-    //           ),
-    //           // fit: BoxFit.cover,
-    //         ),
-    //         height: 25,
-    //         width: 15,
-    //       ),
-    //     ),
-    //     hintText: "Date of birth",
-    //     isRequired: true,
-    //     label: "Birth Date",
-    //   ),
-    // );
     String _formatDate = DateFormat("dd/MM/yyyy").format(pickedDate);
     var date = Row(
       //mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -82,7 +82,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
         backgroundColor: AppTheme.appbarPrimary,
         title: Text(
           StringResources.hospitalListAppbar,
-          style: GoogleFonts.roboto(fontSize: 15),
+          style: GoogleFonts.poppins(fontSize: 15),
         ),
         actions: <Widget>[
           IconButton(

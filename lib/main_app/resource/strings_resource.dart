@@ -76,7 +76,15 @@ class StringResources {
  "Male", "Female", "Other"
   ];
 
-
+   //Book an appointment
+  static List<String> patientType = [
+   "New Patient", "Registered Patient"
+  ];
+  static List<String> consultationType = [
+   "New Patient","1st Follow Up", "Report Check"
+  ];
+  static String patientTypeText = "Patient type";
+  static String consultationTypeText = "Select Consultation Type";
   //Verify Email Screen
   static String verifyEmailAppbarTitle = "Verify Email";
   static String verifyEmailMessage = "A verification link has been sent to your email address. Please open it to confirm your email account.";

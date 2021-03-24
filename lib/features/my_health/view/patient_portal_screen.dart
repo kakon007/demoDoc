@@ -114,17 +114,21 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         hosName: 'Apollo Hospital Bangladesh'),
   ];
   MultiSelectController controller = new MultiSelectController();
+  MultiSelectController controlle2 = new MultiSelectController();
   void initState() {
     super.initState();
     controller.disableEditingWhenNoneSelected = true;
     controller.set(pescriptionList.length);
-    controller.set(reportList.length);
+    controlle2.set(reportList.length);
   }
 
   void delete() {
     var list = controller.selectedIndexes;
+    var list2 = controlle2.selectedIndexes;
     list.sort((b, a) =>
         a.compareTo(b)); //reoder from biggest number, so it wont error
+    list2.sort((b, a) =>
+        a.compareTo(b));
     list.forEach((element) {
       pescriptionList.removeAt(element);
       reportList.removeAt(element);
@@ -132,7 +136,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
     setState(() {
       controller.set(pescriptionList.length);
-      controller.set(reportList.length);
+      controlle2.set(reportList.length);
     });
   }
 
@@ -258,7 +262,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         appBar: AppBar(
           backgroundColor: HexColor('#354291'),
           title: Text('Patient Portal',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
-          actions: (controller.isSelecting)
+          actions: (controller.isSelecting || controlle2.isSelecting)
               ? <Widget>[
             Row(
                 children: [
@@ -509,10 +513,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                       shrinkWrap: true,
                                       itemBuilder: (BuildContext context, int index) {
                                     return MultiSelectItem(
-                                      isSelecting: controller.isSelecting,
+                                      isSelecting: controlle2.isSelecting,
                                         onSelected: () {
                                       setState(() {
-                                        controller.toggle(index);
+                                        controlle2.toggle(index);
                                       });
                                     },
                                       child: Stack(
@@ -585,11 +589,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                         padding: const EdgeInsets.only(top:10.0),
                                                         child: Container(width:45,child: dx),
                                                       ),
-                                                      (controller.isSelected(index))?
+                                                      (controlle2.isSelected(index))?
                                                       Padding(
                                                         padding: const EdgeInsets.only(left:30.0,top: 10),
                                                         child: righticon,
-                                                      ): (controller.isSelecting)?Padding(
+                                                      ): (controlle2.isSelecting)?Padding(
                                                         padding: const EdgeInsets.only(left:30.0,top: 10),
                                                         child: greyright,
                                                       ):Padding(

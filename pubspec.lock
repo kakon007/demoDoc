@@ -226,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0+1"
+  multi_select_item:
+    dependency: "direct dev"
+    description:
+      name: multi_select_item
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   notus:
     dependency: transitive
     description:

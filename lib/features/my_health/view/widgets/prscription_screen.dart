@@ -13,7 +13,6 @@ class PrescriptionScreen extends StatefulWidget {
 class _PrescriptionScreenState extends State<PrescriptionScreen> {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     var searchField=
     Container(
       //height: 40,
@@ -27,7 +26,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
             TextFormField(
               cursorColor: HexColor('#C5CAE8'),
               decoration: InputDecoration(
-                hintText: 'Search prescription',
+                hintText: 'Search prescriptions',
                 hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
                 //labelText: "Resevior Name",
                 fillColor: Colors.white,
@@ -53,7 +52,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                    child: Text("33 Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10,fontWeight: FontWeight.w600),),
+                    child: Text("33 Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
                   ),
                   Spacer(),
                   searchField,

@@ -110,10 +110,10 @@ class _PrescriptionContrainerState extends State<PrescriptionContrainer> {
                 children: [
                   SizedBox(height: 8,),
                   Text('Consultation No:C921334527',style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                  Text('Monaday 25-01-2021 05:41 PM    23 Das ago',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                  Text('Monday 25-01-2021 05:41 PM    23 Day ago',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
                   SizedBox(height: 5,),
                   Text('Dr. Zia Uddin Arman',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600)),
-                  Text('Apollo Hospital Bangladesh',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))
+                  Text('Apollo Hospital Bangladesh',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
                 ],
               ),
             ),

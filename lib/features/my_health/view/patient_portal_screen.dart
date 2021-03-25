@@ -456,13 +456,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                         ),
                                          (controller.isSelected(index))?
                                         Padding(
-                                          padding: const EdgeInsets.only(left:30.0,top: 5),
+                                          padding: const EdgeInsets.only(left:38.0,top: 5),
                                           child: righticon,
                                         ): (controller.isSelecting)?Padding(
-                                           padding: const EdgeInsets.only(left:30.0,top: 5),
+                                           padding: const EdgeInsets.only(left:38.0,top: 5),
                                            child: greyright,
                                          ):Padding(
-                                           padding: EdgeInsets.only(left: 38),
+                                           padding: EdgeInsets.only(left: 38,top: 5),
                                            child: popup,
                                          ),
                                       ]),
@@ -586,15 +586,15 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                     padding: const EdgeInsets.only(right:18.0),
                                                     child: Stack(children: [
                                                       Padding(
-                                                        padding: const EdgeInsets.only(top:10.0),
+                                                        padding: const EdgeInsets.only(top:10.0,right: 5),
                                                         child: Container(width:45,child: dx),
                                                       ),
                                                       (controlle2.isSelected(index))?
                                                       Padding(
-                                                        padding: const EdgeInsets.only(left:30.0,top: 10),
+                                                        padding: const EdgeInsets.only(left:38.0,top: 10),
                                                         child: righticon,
                                                       ): (controlle2.isSelecting)?Padding(
-                                                        padding: const EdgeInsets.only(left:30.0,top: 10),
+                                                        padding: const EdgeInsets.only(left:38.0,top: 10),
                                                         child: greyright,
                                                       ):Padding(
                                                         padding: EdgeInsets.only(left: 38),

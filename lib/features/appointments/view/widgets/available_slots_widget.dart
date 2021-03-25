@@ -66,6 +66,7 @@ class _AvailableSlotsState extends State<AvailableSlots> {
       time: "06.30 am",
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -110,7 +111,7 @@ class _AvailableSlotsState extends State<AvailableSlots> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: AppTheme
-                                    .signInSignUpColor),
+                                    .appbarPrimary),
                           )),
                     ),
                     Padding(

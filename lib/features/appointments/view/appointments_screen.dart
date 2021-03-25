@@ -41,7 +41,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       height: 65.0,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          color: HexColor("#F1F9FF"), borderRadius: BorderRadius.circular(23)),
+          color: HexColor("#E9ECFE"), borderRadius: BorderRadius.circular(13)),
       child: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10),
         child: Row(
@@ -51,7 +51,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               child: Container(
                 decoration: BoxDecoration(
                     color: HexColor(forMeBackColor),
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(10)),
                 height: MediaQuery.of(context).size.height * 0.06,
                 width: MediaQuery.of(context).size.width * .4,
                 child: Center(
@@ -81,7 +81,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               child: Container(
                   decoration: BoxDecoration(
                       color: HexColor(addPatientBackColor),
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(10)),
                   height: MediaQuery.of(context).size.height * 0.06,
                   width: MediaQuery.of(context).size.width * .4,
                   child: Center(
@@ -111,74 +111,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         ),
       ),
     );
-    var confirmBooking = Column(
-      children: [
-        spaceBetween,
-        DashedContainer(
-          dashColor:HexColor("#354391"),
-          borderRadius: 10.0,
-          dashedLength: 10.0,
-          blankLength: 2.0,
-          child: Container(
-            height: 90.0,
-            width: MediaQuery.of(context).size.width * .5,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "500",
-                      style: GoogleFonts.poppins(
-                          color: AppTheme.appbarPrimary,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text("BDT",
-                            style: GoogleFonts.poppins(
-                                color: AppTheme.appbarPrimary,
-                                fontWeight: FontWeight.w500))
-                      ],
-                    )
-                  ],
-                ),
-                Text("Consultation Fee",
-                    style: GoogleFonts.poppins(
-                        color: AppTheme.appbarPrimary,
-                        fontWeight: FontWeight.w500))
-              ],
-            ),
-          ),
-        ),
-        spaceBetween,
-        GestureDetector(
-          child: Container(
-            child: Material(
-              child: Container(
-                child: Center(
-                    child: Text(
-                  "Confirm Booking",
-                  style: GoogleFonts.poppins(color: Colors.white),
-                )),
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .89,
-                decoration: BoxDecoration(
-                    color: AppTheme.appbarPrimary,
-                    border: Border.all(color: HexColor("#354391")),
-                    borderRadius: BorderRadius.circular(10)),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+
     var doctorCard = Positioned(
       top: 10,
       left: 0,
@@ -188,14 +121,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         child: Container(
           height: 100,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
               boxShadow: [
                 BoxShadow(
                   color: HexColor("#0D1231").withOpacity(0.08),
                   spreadRadius: 10,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+                  blurRadius: 15,
+                  offset: Offset(0, 1), // changes position of shadow
                 ),
               ]),
           child: Column(
@@ -207,8 +140,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     width: 120,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20)),
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)),
                       child: Image.asset(
                         "assets/images/doctor.png",
                         fit: BoxFit.fill,
@@ -319,7 +252,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             children: [
                               selectType,
                               forMe == true ? BookAppointForMe() : AddPatient(),
-                              confirmBooking
+                             // confirmBooking
                             ],
                           ),
                   ),

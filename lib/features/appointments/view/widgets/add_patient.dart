@@ -1,3 +1,4 @@
+import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -41,11 +42,15 @@ class _AddPatientState extends State<AddPatient> {
   }
   String _selectedGender;
   String color = "#EAEBED";
+  var selectedPatientType= "";
+  var selectedConsultationType= "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     pickBirthDate = DateTime.now();
+    selectedPatientType= "";
+    selectedConsultationType= "";
   }
   String _selectedType;
   String _selectedConsultation;
@@ -252,6 +257,7 @@ class _AddPatientState extends State<AddPatient> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     _selectedType = newValue;
+                                    selectedPatientType=newValue;
                                   });
                                 },
                                 items: StringResources.patientType.map((gender) {
@@ -308,6 +314,7 @@ class _AddPatientState extends State<AddPatient> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     _selectedConsultation = newValue;
+                                    selectedConsultationType= newValue;
                                   });
                                 },
                                 items: StringResources.consultationType.map((gender) {
@@ -332,6 +339,31 @@ class _AddPatientState extends State<AddPatient> {
             ],
           ),
         ),
+      ],
+    );
+    var confirmBooking = Column(
+      children: [
+        spaceBetween,
+        GestureDetector(
+          child: Container(
+            child: Material(
+              child: Container(
+                child: Center(
+                    child: Text(
+                      "Confirm Booking",
+                      style: GoogleFonts.poppins(color: Colors.white),
+                    )),
+                height: 45.0,
+                width: MediaQuery.of(context).size.width * .89,
+                decoration: BoxDecoration(
+                    color: AppTheme.appbarPrimary,
+                    border: Border.all(color: HexColor("#354391")),
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+          ),
+        ),
+        spaceBetween,
       ],
     );
     return Expanded(
@@ -364,7 +396,53 @@ class _AddPatientState extends State<AddPatient> {
                           children: [
                             gender, dateOfBirth,
 
-                          ],)
+                          ],),
+                        spaceBetween,
+                        spaceBetween,
+                        DashedContainer(
+                          dashColor:HexColor("#E9ECFE"),
+                          borderRadius: 10.0,
+                          dashedLength: 10.0,
+                          blankLength: 2.0,
+                          child: Container(
+                            height: 90.0,
+                            width: MediaQuery.of(context).size.width * .5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      selectedPatientType!= "" && selectedConsultationType!= ""  ? "500" : "",
+                                      style: GoogleFonts.poppins(
+                                          color: AppTheme.appbarPrimary,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(selectedPatientType!= "" && selectedConsultationType!= ""  ? "BDT" : "",
+                                            style: GoogleFonts.poppins(
+                                                color: AppTheme.appbarPrimary,
+                                                fontWeight: FontWeight.w500))
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Text(selectedPatientType!= "" && selectedConsultationType!= ""  ? "Consultation Fee" :"",
+                                    style: GoogleFonts.poppins(
+                                        color: AppTheme.appbarPrimary,
+                                        fontWeight: FontWeight.w500))
+                              ],
+                            ),
+                          ),
+                        ),
+                        spaceBetween,
                       ],
                     ),
                   ),
@@ -372,6 +450,7 @@ class _AddPatientState extends State<AddPatient> {
               ),
             ),
           ),
+          confirmBooking
         ],
       ),
     );

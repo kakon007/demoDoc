@@ -248,7 +248,9 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.arrow_back_outlined,color:  Colors.white),
+                            GestureDetector(onTap: (){
+                              Navigator.pop(context);
+                            },child: Icon(Icons.arrow_back_outlined,color:  Colors.white)),
                             SizedBox(width: 3,),
                             Text("Aalok Health Care Ltd",
                                   style: TextStyle(

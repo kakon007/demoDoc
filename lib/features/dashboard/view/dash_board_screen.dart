@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
+import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
@@ -149,7 +150,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Text(StringResources.hospitalDiagnosticsText,style: TextStyle(fontSize: 17
                                     ,fontWeight: FontWeight.bold),),
                                 Spacer(),
-                                Text(StringResources.viewAllText,style: TextStyle(color:HexColor("#8592E5") ),),
+                                GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
+                                    },
+                                    child: Text(StringResources.viewAllText,style: TextStyle(color:HexColor("#8592E5") ),)),
                               ],
                             ),
                             SizedBox(height: 10,),

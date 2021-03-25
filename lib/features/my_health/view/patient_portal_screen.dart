@@ -7,6 +7,8 @@ import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart'
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:multi_select_item/multi_select_item.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:unicorndial/unicorndial.dart';
 
 class PrescriptionListScreen extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class PrescriptionListScreen extends StatefulWidget {
 }
 
 class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //final String assetName2="assets/icons/right.svg";
   final Widget righticon = SvgPicture.asset(
@@ -114,17 +117,17 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         hosName: 'Apollo Hospital Bangladesh'),
   ];
   MultiSelectController controller = new MultiSelectController();
-  MultiSelectController controlle2 = new MultiSelectController();
+  MultiSelectController controller2 = new MultiSelectController();
   void initState() {
     super.initState();
     controller.disableEditingWhenNoneSelected = true;
     controller.set(pescriptionList.length);
-    controlle2.set(reportList.length);
+    controller2.set(reportList.length);
   }
 
   void delete() {
     var list = controller.selectedIndexes;
-    var list2 = controlle2.selectedIndexes;
+    var list2 = controller2.selectedIndexes;
     list.sort((b, a) =>
         a.compareTo(b)); //reoder from biggest number, so it wont error
     list2.sort((b, a) =>
@@ -136,7 +139,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
     setState(() {
       controller.set(pescriptionList.length);
-      controlle2.set(reportList.length);
+      controller2.set(reportList.length);
     });
   }
 
@@ -147,9 +150,38 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    var childButtons = List<UnicornButton>();
+
+    childButtons.add(UnicornButton(
+        hasLabel: true,
+        labelText: "Choo choo",
+        currentButton: FloatingActionButton(
+          heroTag: "train",
+          backgroundColor: Colors.redAccent,
+          mini: true,
+          child: Icon(Icons.train),
+          onPressed: () {},
+        )));
+
+    childButtons.add(UnicornButton(
+        currentButton: FloatingActionButton(
+            heroTag: "airplane",
+            backgroundColor: Colors.greenAccent,
+            mini: true,
+            child: Icon(Icons.airplanemode_active))));
+
+    childButtons.add(UnicornButton(
+        currentButton: FloatingActionButton(
+            heroTag: "directions",
+            backgroundColor: Colors.blueAccent,
+            mini: true,
+            child: Icon(Icons.directions_car))));
+
+
     final String assetName4 = "assets/images/dx.svg";
     final String assetName2="assets/icons/right.svg";
     final String assetName7="assets/icons/greyright.svg";
+    final String assetName5="assets/icons/pp.svg";
 
     final Widget dx = SvgPicture.asset(
       assetName4,
@@ -174,6 +206,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       assetName7,
       width: 40,
       height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
+    final Widget pp = SvgPicture.asset(
+      assetName5,
+      width: 80,
+      height:100,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -262,7 +304,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         appBar: AppBar(
           backgroundColor: HexColor('#354291'),
           title: Text('Patient Portal',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
-          actions: (controller.isSelecting || controlle2.isSelecting)
+          actions: (controller.isSelecting || controller2.isSelecting)
               ? <Widget>[
             Row(
                 children: [
@@ -488,139 +530,170 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
                     //REPORT Screen
 
-                    Scaffold(
-                        body:
+                    WillPopScope(
+                      onWillPop: () async {
+                        //block app from quitting when selecting
+                        var before = !controller2.isSelecting;
+                        setState(() {
+                          controller2.deselectAll();
+                        });
+                        return before;
+                      },
+                      child: Scaffold(
+                          body:
 
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                                  child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                                ),
-                                Spacer(),
-                                searchField,
-                              ],
-                            ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                  physics: ScrollPhysics(),
-                                  child: Column(
-                                    children: [
-                                  ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                      itemCount:reportList.length,
-                                      shrinkWrap: true,
-                                      itemBuilder: (BuildContext context, int index) {
-                                    return MultiSelectItem(
-                                      isSelecting: controlle2.isSelecting,
-                                        onSelected: () {
-                                      setState(() {
-                                        controlle2.toggle(index);
-                                      });
-                                    },
-                                      child: Stack(
-                                          children:[
-                                            Container(
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                    child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                  ),
+                                  Spacer(),
+                                  searchField,
+                                ],
+                              ),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                    physics: ScrollPhysics(),
+                                    child: Column(
+                                      children: [
+                                    ListView.builder( physics: NeverScrollableScrollPhysics(),
+                                        itemCount:reportList.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (BuildContext context, int index) {
+                                      return MultiSelectItem(
+                                        isSelecting: controller2.isSelecting,
+                                          onSelected: () {
+                                        setState(() {
+                                          controller2.toggle(index);
+                                        });
+                                      },
+                                        child: Stack(
+                                            children:[
+                                              Container(
 
-                                              height: cardHeight*0.8,
-                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                  1.0,
-                                                  1.0
-                                                ], colors: [
-                                                  HexColor('#C5CAE8'),
-                                                  HexColor('#E9ECFE'),
+                                                height: cardHeight*0.8,
+                                                margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                    1.0,
+                                                    1.0
+                                                  ], colors: [
+                                                    HexColor('#C5CAE8'),
+                                                    HexColor('#E9ECFE'),
 
-                                                ]),
-                                                //color: Colors.white,
-                                                // border: Border.all(
-                                                //   color: HexColor("#E9ECFE"),
-                                                //   width: 1,
-                                                // ),
-                                                borderRadius: BorderRadius.circular(15),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(width: 10,),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(height: 5,),
-                                                        Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                        Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                        SizedBox(height: 8,),
-                                                        Row(
-                                                          children: [
-                                                            CircleAvatar(
-                                                              radius: 18,
-                                                              backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                              child: CircleAvatar(
-                                                                backgroundColor: Colors.white,
-                                                                backgroundImage: AssetImage('assets/images/ap.png'),
-                                                                radius: 17,
-                                                              ),
-                                                            ),
-                                                            SizedBox(width: 15,),
-                                                            Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Spacer(),
-                                                  // Padding(
-                                                  //   padding: const EdgeInsets.only(right:18.0),
-                                                  //   child: Stack(children: [
-                                                  //     Container(width:45,child: dx),
-                                                  //     Padding(
-                                                  //       padding: const EdgeInsets.only(left:30.0),
-                                                  //       child: righticon,
-                                                  //     ),
-                                                  //   ]),
+                                                  ]),
+                                                  //color: Colors.white,
+                                                  // border: Border.all(
+                                                  //   color: HexColor("#E9ECFE"),
+                                                  //   width: 1,
                                                   // ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right:18.0),
-                                                    child: Stack(children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top:10.0,right: 5),
-                                                        child: Container(width:45,child: dx),
+                                                  borderRadius: BorderRadius.circular(15),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(width: 10,),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          SizedBox(height: 5,),
+                                                          Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                          Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                          SizedBox(height: 8,),
+                                                          Row(
+                                                            children: [
+                                                              CircleAvatar(
+                                                                radius: 18,
+                                                                backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                                child: CircleAvatar(
+                                                                  backgroundColor: Colors.white,
+                                                                  backgroundImage: AssetImage('assets/images/ap.png'),
+                                                                  radius: 17,
+                                                                ),
+                                                              ),
+                                                              SizedBox(width: 15,),
+                                                              Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
+                                                            ],
+                                                          )
+                                                        ],
                                                       ),
-                                                      (controlle2.isSelected(index))?
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                        child: righticon,
-                                                      ): (controlle2.isSelecting)?Padding(
-                                                        padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                        child: greyright,
-                                                      ):Padding(
-                                                        padding: EdgeInsets.only(left: 38),
-                                                        child: popup,
-                                                      ),
-                                                    ]),
-                                                  ),
-                                                ],
+                                                    ),
+                                                    Spacer(),
+                                                    // Padding(
+                                                    //   padding: const EdgeInsets.only(right:18.0),
+                                                    //   child: Stack(children: [
+                                                    //     Container(width:45,child: dx),
+                                                    //     Padding(
+                                                    //       padding: const EdgeInsets.only(left:30.0),
+                                                    //       child: righticon,
+                                                    //     ),
+                                                    //   ]),
+                                                    // ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right:18.0),
+                                                      child: Stack(children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top:10.0,right: 5),
+                                                          child: Container(width:45,child: dx),
+                                                        ),
+                                                        (controller2.isSelected(index))?
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                          child: righticon,
+                                                        ): (controller2.isSelecting)?Padding(
+                                                          padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                          child: greyright,
+                                                        ):Padding(
+                                                          padding: EdgeInsets.only(left: 38),
+                                                          child: popup,
+                                                        ),
+                                                      ]),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ]
-                                      ),
-                                    );
-    })
+                                            ]
+                                        ),
+                                      );
+                                      })
+                                      ],
+                                    )),
+                              ),
+                            ],
+                          )
 
-
-
-
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        )
-
+                      ),
                     ),
-                    Icon(Icons.directions_bike),
+                   Scaffold(
+                     floatingActionButton: Padding(
+                       padding: const EdgeInsets.only(bottom:10.0,right: 10),
+                       child: UnicornDialer(
+                           backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
+                           parentButtonBackground: HexColor('#8592E5'),
+                           orientation: UnicornOrientation.VERTICAL,
+                           parentButton: Icon(Icons.add),
+                           childButtons: childButtons),
+                     ),
+                     body: Align(
+                       alignment: Alignment.center,
+                       child: Padding(
+                         padding: const EdgeInsets.only(top:200.0),
+                         child: Container(
+                           child: Column(
+                             children: [
+                               pp,
+                               Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                               Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
+                             ],
+                           ),
+                         ),
+                       ),
+                     ),
+                   ),
                   ],
                 ),
               ),

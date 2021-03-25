@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -166,7 +167,9 @@ class _HospitalScreenState extends State<HospitalScreen> {
                 StringResources.filters,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
               ),
-              Icon(Icons.clear),
+              GestureDetector(onTap: (){
+                Navigator.pop(context);
+              },child: Icon(Icons.clear)),
             ],
           ),
           horizontalSpace,

@@ -322,7 +322,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     Text(StringResources.hospitalDiagnosticsText,style:  GoogleFonts.poppins(fontSize: 16
                                         ,fontWeight: FontWeight.w600),),
                                     Spacer(),
-                                    Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11,fontWeight: FontWeight.w600),),
+                                    GestureDetector(onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
+                                    },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11,fontWeight: FontWeight.w600),)),
                                   ],
                                 ),
                               ),

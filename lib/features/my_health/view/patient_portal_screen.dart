@@ -152,30 +152,30 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   Widget build(BuildContext context) {
     var childButtons = List<UnicornButton>();
 
-    childButtons.add(UnicornButton(
-        hasLabel: true,
-        labelText: "Choo choo",
-        currentButton: FloatingActionButton(
-          heroTag: "train",
-          backgroundColor: Colors.redAccent,
-          mini: true,
-          child: Icon(Icons.train),
-          onPressed: () {},
-        )));
-
-    childButtons.add(UnicornButton(
-        currentButton: FloatingActionButton(
-            heroTag: "airplane",
-            backgroundColor: Colors.greenAccent,
-            mini: true,
-            child: Icon(Icons.airplanemode_active))));
-
-    childButtons.add(UnicornButton(
-        currentButton: FloatingActionButton(
-            heroTag: "directions",
-            backgroundColor: Colors.blueAccent,
-            mini: true,
-            child: Icon(Icons.directions_car))));
+    // childButtons.add(UnicornButton(
+    //     hasLabel: true,
+    //     labelText: "Choo choo",
+    //     currentButton: FloatingActionButton(
+    //       heroTag: "train",
+    //       backgroundColor: Colors.redAccent,
+    //       mini: true,
+    //       child: Icon(Icons.train),
+    //       onPressed: () {},
+    //     )));
+    //
+    // childButtons.add(UnicornButton(
+    //     currentButton: FloatingActionButton(
+    //         heroTag: "airplane",
+    //         backgroundColor: Colors.greenAccent,
+    //         mini: true,
+    //         child: Icon(Icons.airplanemode_active))));
+    //
+    // childButtons.add(UnicornButton(
+    //     currentButton: FloatingActionButton(
+    //         heroTag: "directions",
+    //         backgroundColor: Colors.blueAccent,
+    //         mini: true,
+    //         child: Icon(Icons.directions_car))));
 
 
     final String assetName4 = "assets/images/dx.svg";

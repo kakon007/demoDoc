@@ -25,14 +25,14 @@ class _SignInState extends State<SignIn> {
     var height = MediaQuery.of(context).size.height;
     print(height);
     var spaceBetween = SizedBox(
-      height: height >= 600 ? 15.0 : 10.0,
+      height: height >= 600 ? 15.0 : 5.0,
     );
-    var userName = SignUpField(
+    var userName = SignUpFormField(
       margin: EdgeInsets.all(8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
-    var password = SignUpField(
+    var password = SignUpFormField(
       margin: EdgeInsets.all(8),
         contentPadding: EdgeInsets.all(15),
         hintText: StringResources.passwordHint,
@@ -75,9 +75,9 @@ class _SignInState extends State<SignIn> {
       child: Material(
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: AppTheme.colorPrimary,
+        color: AppTheme.signInSignUpColor,
         child: SizedBox(
-          height: height >= 600 ? 50 : 40,
+          height: height >= 600 ? 50 : 35,
           width: MediaQuery.of(context).size.width / .2,
           child: Center(
             child: Padding(
@@ -103,8 +103,8 @@ class _SignInState extends State<SignIn> {
           width: 8,
         ),
         Container(
-          height: 35,
-          width: 35,
+          height: height >=600 ? 35 : 30,
+          width: height >=600 ? 35 : 30,
           child: Image.asset(facebookIcon),
         ),
         SizedBox(
@@ -139,7 +139,7 @@ class _SignInState extends State<SignIn> {
             Text(
               StringResources.signUpText,
               style:  GoogleFonts.roboto(
-                  color: AppTheme.colorPrimary, fontWeight: FontWeight.bold),
+                  color: AppTheme.signInSignUpColor, fontWeight: FontWeight.bold),
             )
           ],
         ));
@@ -154,7 +154,7 @@ class _SignInState extends State<SignIn> {
           body: Padding(
             padding: height >= 600
                 ? EdgeInsets.only(top: 360.0)
-                : EdgeInsets.only(top: 160),
+                : EdgeInsets.only(top: 210),
             child: new Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -215,7 +215,7 @@ class _SignInState extends State<SignIn> {
     return Stack(
       children: [
         Container(
-          height: 350.0,
+          height: MediaQuery.of(context).size.height>=600? 350.0:205,
           width: MediaQuery.of(context).size.width,
           child: FadeInImage(
             fit: BoxFit.cover,
@@ -225,7 +225,7 @@ class _SignInState extends State<SignIn> {
         ),
         Positioned(
           child: Container(
-            alignment: Alignment(0, -0.75),
+            alignment: Alignment(0, -.85),
             child: FadeInImage(
               fit: BoxFit.cover,
               image: AssetImage("assets/images/myhealth.png"),

@@ -29,18 +29,7 @@ class _RootState extends State<Root> {
     );
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    var appLogoText = Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          width: width,
-          child: Image.asset(
-            "assets/images/background_signin_1.png",
-            fit: BoxFit.cover,
-          ),
-        ),
-      ],
-    );
+
     return Scaffold(
       backgroundColor: HexColor('#F1F9FF'),
       body: Center(

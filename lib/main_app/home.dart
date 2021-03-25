@@ -137,7 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
 
     return MaterialApp(
+
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: HexColor('#354291'),
+        unselectedWidgetColor: HexColor('#8592E5'),
+      ),
       home: WillPopScope(child: Scaffold(
          bottomNavigationBar: bottomNavBar,
         body: pages[currentIndex],

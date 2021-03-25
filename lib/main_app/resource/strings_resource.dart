@@ -51,7 +51,12 @@ class StringResources {
   static String searchBoxHint ="Type Hospitals / Diagnosis/ Doctor Chamber";
   static String getAppointmentButton = "GET APPOINTMENT";
 
-
+  //Doctors list
+  static String applyFilterText= "Apply Filter";
+  static String clearFilterText= "Clear Filter";
+  static String filters= "Filters";
+  static String searchDepartment="Search Department";
+  static String searchSpeciality= "Search Speciality";
   // sign up screen
   static String name= "Name";
   static String email= "Email Address";
@@ -71,7 +76,15 @@ class StringResources {
  "Male", "Female", "Other"
   ];
 
-
+   //Book an appointment
+  static List<String> patientType = [
+   "New Patient", "Registered Patient"
+  ];
+  static List<String> consultationType = [
+   "New Patient","1st Follow Up", "Report Check"
+  ];
+  static String patientTypeText = "Patient type";
+  static String consultationTypeText = "Select Consultation Type";
   //Verify Email Screen
   static String verifyEmailAppbarTitle = "Verify Email";
   static String verifyEmailMessage = "A verification link has been sent to your email address. Please open it to confirm your email account.";
@@ -598,7 +611,6 @@ class StringResources {
   static const String applyText = "Apply";
   static const String applyTextCaps = "APPLY";
   static const String applyNowText = "Apply Now";
-  static const String applyFilterText = "Apply Filter";
   static const String appliedText = "Applied";
   static const String limitReached = "Limit Reached!";
   static const String aplicationSuccessful = "Job applied successfully. ";

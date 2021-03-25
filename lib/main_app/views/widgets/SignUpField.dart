@@ -3,7 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignUpField extends StatelessWidget {
+class SignUpFormField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final TextEditingController controller;
   final String labelText;
@@ -31,7 +31,7 @@ class SignUpField extends StatelessWidget {
   final Widget suffixIcon;
   final double borderRadius;
 
-  const SignUpField(
+  const SignUpFormField(
       {this.readOnly = false,
       this.enabled = true,
       this.maxLength,

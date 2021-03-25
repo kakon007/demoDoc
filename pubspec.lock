@@ -71,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  dashed_container:
+    dependency: "direct main"
+    description:
+      name: dashed_container
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   dropdown_search:
     dependency: "direct main"
     description:
@@ -132,6 +139,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  flutter_staggered_grid_view:
+    dependency: "direct main"
+    description:
+      name: flutter_staggered_grid_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.4"
   flutter_svg:
     dependency: "direct main"
     description:

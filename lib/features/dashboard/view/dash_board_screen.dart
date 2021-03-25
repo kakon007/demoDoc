@@ -261,25 +261,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onPressed: () => _scaffoldKey.currentState.openDrawer()),
             ),
             drawer: Drawer(
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainCollapsingToolbar()));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(top:50.0,left:10),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text("Find Your Doctor",style: TextStyle(fontSize: 18),),
-                          Spacer(),
-                          Icon(Icons.arrow_forward),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // child: GestureDetector(
+              //   onTap: (){
+              //     //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainCollapsingToolbar()));
+              //   },
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(top:50.0,left:10),
+              //     child: Column(
+              //       children: [
+              //         Row(
+              //           children: [
+              //             Text("Find Your Doctor",style: TextStyle(fontSize: 18),),
+              //             Spacer(),
+              //             Icon(Icons.arrow_forward),
+              //           ],
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ),
             body: SlidingUpPanel(
               minHeight: deviceHeight>=600?480:250,

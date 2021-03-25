@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class CustomCard extends StatelessWidget {
@@ -51,17 +52,22 @@ class CustomCard extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10,),
-                    Material(
-                      elevation: 0  ,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      color: HexColor("#354291"),
-                      child: SizedBox(
-                        width: 130,
-                        height: 30,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MainCollapsingToolbar()));
+                      },
+                      child: Material(
+                        elevation: 0  ,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        color: HexColor("#354291"),
+                        child: SizedBox(
+                          width: 130,
+                          height: 30,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                            ),
                           ),
                         ),
                       ),

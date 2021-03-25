@@ -229,7 +229,9 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
               SliverAppBar(
                 leading: Padding(
                   padding: const EdgeInsets.only(top:19.0,left: 10),
-                  child: Icon(Icons.arrow_back_outlined,color:  HexColor('#354291'),),
+                  child: GestureDetector(onTap: (){
+            Navigator.pop(context);
+            },child: Icon(Icons.arrow_back_outlined,color:  HexColor('#354291'),)),
                 ),
                 backgroundColor: HexColor('#354291'),
                 expandedHeight: 150.0,

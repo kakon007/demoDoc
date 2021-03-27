@@ -431,87 +431,103 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                         },
                         child: Stack(
                             children:[
-                              Container(
+                              InkWell(
+                                onLongPress: (){
+                                  setState(() {
+                                    controller.toggle(index);
+                                  });
+                                  print("tapped");},
+                                onTap: (){
 
-                                height: cardHeight*0.8,
-                                margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                    1.0,
-                                    1.0
-                                  ], colors: [
-                                    HexColor('#C5CAE8'),
-                                    HexColor('#E9ECFE'),
+                                  if(controller.isSelecting){
+                                    setState(() {
+                                      controller.toggle(index);
+                                    });
+                                  }
+                                  print("tappeddd");
+                                },
+                                child: Container(
 
-                                  ]),
-                                  //color: Colors.white,
-                                  // border: Border.all(
-                                  //   color: HexColor("#E9ECFE"),
-                                  //   width: 1,
-                                  // ),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left:10.0),
-                                      child: CircleAvatar(
-                                        radius: 31,
-                                        backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                  height: cardHeight*0.8,
+                                  margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                      1.0,
+                                      1.0
+                                    ], colors: [
+                                      HexColor('#C5CAE8'),
+                                      HexColor('#E9ECFE'),
+
+                                    ]),
+                                    //color: Colors.white,
+                                    // border: Border.all(
+                                    //   color: HexColor("#E9ECFE"),
+                                    //   width: 1,
+                                    // ),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:10.0),
                                         child: CircleAvatar(
-                                          radius: 30,
-                                          backgroundColor: Colors.white,
+                                          radius: 31,
+                                          backgroundColor: HexColor('#354291').withOpacity(0.2),
                                           child: CircleAvatar(
-                                            backgroundImage: AssetImage('assets/images/proimg.png'),
-                                            radius: 28,
+                                            radius: 30,
+                                            backgroundColor: Colors.white,
+                                            child: CircleAvatar(
+                                              backgroundImage: AssetImage('assets/images/proimg.png'),
+                                              radius: 28,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    //SizedBox(width: 5,),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(height: 8,),
-                                          Text(pescriptionList[index].consultNo,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                          Text(pescriptionList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                          SizedBox(height: 5,),
-                                          Text(pescriptionList[index].docName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600)),
-                                          Text(pescriptionList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
-                                        ],
-                                      ),
-                                    ),
-                                    // Container(width:45,child: rx),
-                                    // (controller.isSelecting)?
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                    //   child: righticon,
-                                    // ):
-                                    Padding(
-                                      padding: const EdgeInsets.only(right:18.0),
-                                      child: Stack(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top:10.0),
-                                          child: Container(width:45,child: rx),
+                                      //SizedBox(width: 5,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(height: 8,),
+                                            Text(pescriptionList[index].consultNo,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                            Text(pescriptionList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                            SizedBox(height: 5,),
+                                            Text(pescriptionList[index].docName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600)),
+                                            Text(pescriptionList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
+                                          ],
                                         ),
-                                         (controller.isSelected(index))?
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:38.0,top: 5),
-                                          child: righticon,
-                                        ): (controller.isSelecting)?Padding(
-                                           padding: const EdgeInsets.only(left:38.0,top: 5),
-                                           child: greyright,
-                                         ):Padding(
-                                           padding: EdgeInsets.only(left: 38,top: 5),
-                                           child: popup,
-                                         ),
-                                      ]),
-                                    ),
+                                      ),
+                                      // Container(width:45,child: rx),
+                                      // (controller.isSelecting)?
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                      //   child: righticon,
+                                      // ):
+                                      Padding(
+                                        padding: const EdgeInsets.only(right:18.0),
+                                        child: Stack(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:10.0),
+                                            child: Container(width:45,child: rx),
+                                          ),
+                                           (controller.isSelected(index))?
+                                          Padding(
+                                            padding: const EdgeInsets.only(left:38.0,top: 5),
+                                            child: righticon,
+                                          ): (controller.isSelecting)?Padding(
+                                             padding: const EdgeInsets.only(left:38.0,top: 5),
+                                             child: greyright,
+                                           ):Padding(
+                                             padding: EdgeInsets.only(left: 38,top: 5),
+                                             child: popup,
+                                           ),
+                                        ]),
+                                      ),
 
 
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ]
@@ -572,88 +588,103 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                       },
                                         child: Stack(
                                             children:[
-                                              Container(
+                                              InkWell(
+                                                onLongPress: (){
+                                                  setState(() {
+                                                    controller2.toggle(index);
+                                                  });
+                                                  print("tapped");},
+                                                onTap: (){
 
-                                                height: cardHeight*0.8,
-                                                margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                decoration: BoxDecoration(
-                                                  gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                    1.0,
-                                                    1.0
-                                                  ], colors: [
-                                                    HexColor('#C5CAE8'),
-                                                    HexColor('#E9ECFE'),
+                                                  if(controller2.isSelecting){
+                                                    setState(() {
+                                                      controller2.toggle(index);
+                                                    });
+                                                  }
+                                                  print("tappeddd");
+                                                },
+                                                child: Container(
+                                                  height: cardHeight*0.8,
+                                                  margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                  decoration: BoxDecoration(
+                                                    gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                      1.0,
+                                                      1.0
+                                                    ], colors: [
+                                                      HexColor('#C5CAE8'),
+                                                      HexColor('#E9ECFE'),
 
-                                                  ]),
-                                                  //color: Colors.white,
-                                                  // border: Border.all(
-                                                  //   color: HexColor("#E9ECFE"),
-                                                  //   width: 1,
-                                                  // ),
-                                                  borderRadius: BorderRadius.circular(15),
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    SizedBox(width: 10,),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          SizedBox(height: 5,),
-                                                          Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                          Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                          SizedBox(height: 8,),
-                                                          Row(
-                                                            children: [
-                                                              CircleAvatar(
-                                                                radius: 18,
-                                                                backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                                child: CircleAvatar(
-                                                                  backgroundColor: Colors.white,
-                                                                  backgroundImage: AssetImage('assets/images/ap.png'),
-                                                                  radius: 17,
-                                                                ),
-                                                              ),
-                                                              SizedBox(width: 15,),
-                                                              Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Spacer(),
-                                                    // Padding(
-                                                    //   padding: const EdgeInsets.only(right:18.0),
-                                                    //   child: Stack(children: [
-                                                    //     Container(width:45,child: dx),
-                                                    //     Padding(
-                                                    //       padding: const EdgeInsets.only(left:30.0),
-                                                    //       child: righticon,
-                                                    //     ),
-                                                    //   ]),
+                                                    ]),
+                                                    //color: Colors.white,
+                                                    // border: Border.all(
+                                                    //   color: HexColor("#E9ECFE"),
+                                                    //   width: 1,
                                                     // ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right:18.0),
-                                                      child: Stack(children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top:10.0,right: 5),
-                                                          child: Container(width:45,child: dx),
+                                                    borderRadius: BorderRadius.circular(15),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(width: 10,),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            SizedBox(height: 5,),
+                                                            Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                            Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                            SizedBox(height: 8,),
+                                                            Row(
+                                                              children: [
+                                                                CircleAvatar(
+                                                                  radius: 18,
+                                                                  backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                                  child: CircleAvatar(
+                                                                    backgroundColor: Colors.white,
+                                                                    backgroundImage: AssetImage('assets/images/ap.png'),
+                                                                    radius: 17,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(width: 15,),
+                                                                Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
+                                                              ],
+                                                            )
+                                                          ],
                                                         ),
-                                                        (controller2.isSelected(index))?
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                          child: righticon,
-                                                        ): (controller2.isSelecting)?Padding(
-                                                          padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                          child: greyright,
-                                                        ):Padding(
-                                                          padding: EdgeInsets.only(left: 38),
-                                                          child: popup,
-                                                        ),
-                                                      ]),
-                                                    ),
-                                                  ],
+                                                      ),
+                                                      Spacer(),
+                                                      // Padding(
+                                                      //   padding: const EdgeInsets.only(right:18.0),
+                                                      //   child: Stack(children: [
+                                                      //     Container(width:45,child: dx),
+                                                      //     Padding(
+                                                      //       padding: const EdgeInsets.only(left:30.0),
+                                                      //       child: righticon,
+                                                      //     ),
+                                                      //   ]),
+                                                      // ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right:18.0),
+                                                        child: Stack(children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top:10.0,right: 5),
+                                                            child: Container(width:45,child: dx),
+                                                          ),
+                                                          (controller2.isSelected(index))?
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                            child: righticon,
+                                                          ): (controller2.isSelecting)?Padding(
+                                                            padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                            child: greyright,
+                                                          ):Padding(
+                                                            padding: EdgeInsets.only(left: 38),
+                                                            child: popup,
+                                                          ),
+                                                        ]),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ]

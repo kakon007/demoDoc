@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -65,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //semanticsLabel: 'Acme Logo'
     );
     var pages=<Widget>[
-      DashboardScreen(),
+      Stack(children: [DrawerScreen(),DashboardScreen()]),
       AppointmentScreen(),
       HospitalScreen(),
       PrescriptionListScreen(),

@@ -36,59 +36,53 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
     var height = MediaQuery.of(context).size.height;
     String _formatDate = DateFormat("dd/MM/yyyy").format(pickedAppointDate);
     var appointmentDate = Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        GestureDetector(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  height: 20.0,
-                  // width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    children: [
-                      Text("Select Date",
-                          style: GoogleFonts.poppins(
-                              fontSize: 14, fontWeight: FontWeight.w600)),
-                    ],
-                  )),
-              spaceBetween,
-              Container(
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .85,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: HexColor("#D6DCFF")),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "$_formatDate",
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                height: 20.0,
+                // width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: [
+                    Text("Select Date",
                         style: GoogleFonts.poppins(
-                            color: AppTheme.signInSignUpColor, fontSize: 13.0),
-                      ),
-                      Container(
-                          height: 18,
-                          child: Icon(
-                            Icons.calendar_today_outlined,
-                            color: AppTheme.appbarPrimary,
-                          )),
-                    ],
-                  ),
+                            fontSize: 14, fontWeight: FontWeight.w600)),
+                  ],
+                )),
+            spaceBetween,
+            Container(
+              height: 45.0,
+              width: MediaQuery.of(context).size.width * .85,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: HexColor("#D6DCFF")),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "$_formatDate",
+                      style: GoogleFonts.poppins(
+                          color: AppTheme.signInSignUpColor, fontSize: 13.0),
+                    ),
+                    Container(
+                        height: 18,
+                        child: Icon(
+                          Icons.calendar_today_outlined,
+                          color: AppTheme.appbarPrimary,
+                        )),
+                  ],
                 ),
               ),
-            ],
-          ),
-          onTap: () {
-            selectAppointDate(context);
-          },
+            ),
+          ],
         ),
       ],
     );
-    var proceedButton=         Container(
+    var proceedButton=  Container(
       width: MediaQuery.of(context).size.width,
       height: 45,
       child: FlatButton(

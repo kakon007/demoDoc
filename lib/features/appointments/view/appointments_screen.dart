@@ -57,7 +57,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 child: Center(
                     child: Text(
                   "For Me",
-                  style: GoogleFonts.poppins(color: HexColor(forMeTextColor)),
+                  style: GoogleFonts.poppins(color: HexColor(forMeTextColor,), fontWeight: FontWeight.w600),
                 )),
               ),
               onTap: () {
@@ -88,7 +88,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       child: Text(
                     "Add patient",
                     style: GoogleFonts.poppins(
-                        color: HexColor(addPatientTextColor)),
+                        color: HexColor(addPatientTextColor),fontWeight: FontWeight.w600),
                   ))),
               onTap: () {
                 setState(() {
@@ -186,7 +186,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     );
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        //key: _scaffoldKey,
+        key: _scaffoldKey,
         appBar: new AppBar(
             title: new Text(
               "Book your appointment",

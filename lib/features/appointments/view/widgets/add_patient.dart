@@ -351,7 +351,7 @@ class _AddPatientState extends State<AddPatient> {
                 child: Center(
                     child: Text(
                       "Confirm Booking",
-                      style: GoogleFonts.poppins(color: Colors.white),
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: Colors.white),
                     )),
                 height: 45.0,
                 width: MediaQuery.of(context).size.width * .89,
@@ -371,82 +371,76 @@ class _AddPatientState extends State<AddPatient> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  spaceBetween,
-                  Padding(
-                    padding:
-                    const EdgeInsets.only(right: 15.0, left: 15),
-                    child: Column(
+              child: Padding(
+                padding:
+                EdgeInsets.only(right: 15.0, left: 15),
+                child: Column(
+                  children: [
+                    spaceBetween,
+                    patientType,
+                    spaceBetween,
+                    consultationType,
+                    spaceBetween,
+                    name,
+                    email,
+                    mobile,
+                    password,
+                    confirmPassword,
+                    address,
+                    spaceBetween,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        spaceBetween,
-                        patientType,
-                        spaceBetween,
-                        consultationType,
-                        spaceBetween,
-                        name,
-                        email,
-                        mobile,
-                        password,
-                        confirmPassword,
-                        address,
-                        spaceBetween,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      gender, dateOfBirth,
+                      ],),
+                    spaceBetween,
+                    spaceBetween,
+                    DashedContainer(
+                      dashColor:HexColor("#E9ECFE"),
+                      borderRadius: 10.0,
+                      dashedLength: 10.0,
+                      blankLength: 2.0,
+                      child: Container(
+                        height: 90.0,
+                        width: MediaQuery.of(context).size.width * .5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            gender, dateOfBirth,
-
-                          ],),
-                        spaceBetween,
-                        spaceBetween,
-                        DashedContainer(
-                          dashColor:HexColor("#E9ECFE"),
-                          borderRadius: 10.0,
-                          dashedLength: 10.0,
-                          blankLength: 2.0,
-                          child: Container(
-                            height: 90.0,
-                            width: MediaQuery.of(context).size.width * .5,
-                            child: Column(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      selectedPatientType!= "" && selectedConsultationType!= ""  ? "500" : "",
-                                      style: GoogleFonts.poppins(
-                                          color: AppTheme.appbarPrimary,
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(selectedPatientType!= "" && selectedConsultationType!= ""  ? "BDT" : "",
-                                            style: GoogleFonts.poppins(
-                                                color: AppTheme.appbarPrimary,
-                                                fontWeight: FontWeight.w500))
-                                      ],
-                                    )
-                                  ],
+                                Text(
+                                  selectedPatientType!= "" && selectedConsultationType!= ""  ? "500" : "",
+                                  style: GoogleFonts.poppins(
+                                      color: AppTheme.appbarPrimary,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w600),
                                 ),
-                                Text(selectedPatientType!= "" && selectedConsultationType!= ""  ? "Consultation Fee" :"",
-                                    style: GoogleFonts.poppins(
-                                        color: AppTheme.appbarPrimary,
-                                        fontWeight: FontWeight.w500))
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(selectedPatientType!= "" && selectedConsultationType!= ""  ? "BDT" : "",
+                                        style: GoogleFonts.poppins(
+                                            color: AppTheme.appbarPrimary,
+                                            fontWeight: FontWeight.w500))
+                                  ],
+                                )
                               ],
                             ),
-                          ),
+                            Text(selectedPatientType!= "" && selectedConsultationType!= ""  ? "Consultation Fee" :"",
+                                style: GoogleFonts.poppins(
+                                    color: AppTheme.appbarPrimary,
+                                    fontWeight: FontWeight.w500))
+                          ],
                         ),
-                        spaceBetween,
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                    spaceBetween,
+                  ],
+                ),
               ),
             ),
           ),

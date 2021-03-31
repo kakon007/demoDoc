@@ -170,12 +170,19 @@ import 'package:myhealthbd_app/features/notification/view/notification_screen.da
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
 
-class MainCollapsingToolbar extends StatefulWidget {
+class FindYourDoctorScreen extends StatefulWidget {
+  String title;
+  String phoneText;
+  String emailText;
+  String addressText;
+
+  FindYourDoctorScreen(this.title,this.phoneText,this.emailText,this.addressText);
+
   @override
-  _MainCollapsingToolbarState createState() => _MainCollapsingToolbarState();
+  _FindYourDoctorScreenState createState() => _FindYourDoctorScreenState();
 }
 
-class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
+class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   //final String assetName4 = "assets/icons/fliter.svg";
   final Widget filtericon = SvgPicture.asset(
     "assets/icons/fliter.svg",
@@ -228,7 +235,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
             return <Widget>[
               SliverAppBar(
                 leading: Padding(
-                  padding: const EdgeInsets.only(top:19.0,left: 10),
+                  padding: const EdgeInsets.only(top:19.0,left: 5),
                   child: GestureDetector(onTap: (){
             Navigator.pop(context);
             },child: Icon(Icons.arrow_back_outlined,color:  HexColor('#354291'),)),
@@ -254,11 +261,16 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                               Navigator.pop(context);
                             },child: Icon(Icons.arrow_back_outlined,color:  Colors.white)),
                             SizedBox(width: 3,),
-                            Text("Aalok Health Care Ltd",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                  )),
+                            Container(
+                              width: 175,
+                              child: Text(widget.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                    )),
+                            ),
                             Spacer(),
                             IconButton(
                               icon: Icon(
@@ -324,7 +336,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                         Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top:70.0,left: 35),
+                              padding: const EdgeInsets.only(top:70.0,left: 25),
                               child: Card(
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
@@ -338,35 +350,35 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10,),
+                            SizedBox(width: 5,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(top:75.0),
-                                  child: Text('Aalok Health Care Ltd',style: GoogleFonts.poppins(fontSize: 18,fontWeight: FontWeight.w600,color:HexColor('#141D53')),),
+                                  child: Container(width: 260, child: Text(widget.title,maxLines:1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 18,fontWeight: FontWeight.w600,color:HexColor('#141D53')),)),
                                 ),
                                 SizedBox(height: 5,),
                                 Row(
                                   children: [
                                     phoneimg,
                                     SizedBox(width: 5,),
-                                    Text('01962823007',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11)),
+                                    Text(widget.phoneText,style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11)),
                                     SizedBox(width: 5,),
                                     mailimg,
                                     SizedBox(width: 5,),
-                                    Text('info@aalok.com',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11,)),
+                                    Container(width:105,child: Text(widget.emailText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11,))),
                                   ],
                                 ),
                                 SizedBox(height: 5,),
                                 Row(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom:10.0),
+                                      padding: const EdgeInsets.only(bottom:10.0,top: 10),
                                       child: mapimg,
                                     ),
                                     SizedBox(width: 5,),
-                                    Text('House-1 &3,Road-2,Block-B,\nMirpur-10,Dhaka-12216',style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11,)),
+                                    Container(width: 200,child: Text(widget.addressText,maxLines:2,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color:HexColor('#141D53'),fontSize: 11,))),
                                   ],
                                 )
 

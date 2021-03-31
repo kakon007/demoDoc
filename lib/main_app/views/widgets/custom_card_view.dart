@@ -6,15 +6,18 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.
 
 class CustomCard extends StatelessWidget {
   String titleText;
-  String subTitleText;
+  String addressText;
   String countText;
-  CustomCard(@required this.titleText,@required this.subTitleText,@required this.countText,);
+  String phoneText;
+  String emailText;
+  String logo;
+  CustomCard(@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo);
   @override
   Widget build(BuildContext context) {
     return Container(
       //height: 40,
       width: 300,
-      height: 145,
+      height: 135,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -36,9 +39,9 @@ class CustomCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(titleText,style: GoogleFonts.poppins(fontSize: 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
+                    Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
                     SizedBox(height: 3,),
-                    Text(subTitleText,style: GoogleFonts.poppins(fontSize: 8),textAlign:TextAlign.start),
+                    Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 8),textAlign:TextAlign.start),
                     SizedBox(height: 3,),
                     Row(
                       children: [
@@ -54,7 +57,7 @@ class CustomCard extends StatelessWidget {
                     SizedBox(height: 10,),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MainCollapsingToolbar()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(titleText,phoneText,emailText,addressText)));
                       },
                       child: Material(
                         elevation: 0  ,

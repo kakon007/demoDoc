@@ -12,7 +12,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 60, bottom: 70),
+      padding: EdgeInsets.only(top: 60,bottom: 20),
       color: HexColor('#141D53'),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -20,38 +20,50 @@ class _DrawerScreenState extends State<DrawerScreen> {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: CircleAvatar(),
+                padding: const EdgeInsets.only(left: 20.0),
+                child: CircleAvatar(
+                  radius: 33,
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/proimg.png'),
+                    radius: 30,
+                  ),
+                ),
               ),
               SizedBox(
                 width: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Column(
-                  children: [
-                    Text(
-                      "Jahid Hasan Kakon",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Jahid Hasan Kakon",
+                    style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
+                  ),
+                  Text("Mirpur,Dhaka", style: GoogleFonts.poppins(color: HexColor('#B8C2F8'),fontSize: 12)),
+                  SizedBox(height: 5,),
+                  Container(
+                    width: 120,
+                    height: 25,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: HexColor('#8592E5')),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    Text("Active", style: TextStyle(color: Colors.black))
-                  ],
-                ),
+                    child: Center(child: Text("Update My Profile",style:  GoogleFonts.poppins(color: HexColor('#B8C2F8'),fontSize: 8),)),
+                  )
+                ],
               )
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 350),
+            padding: const EdgeInsets.only(left: 20.0,),
             child: Column(
               children: [
                 Row(
                   children: [
-                    SizedBox(
-                      width: 10,
-                    ),
                     Text(
                       "Dashboard",
                       style: GoogleFonts.poppins(
@@ -62,7 +74,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Row(
                   children: [
@@ -70,9 +82,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     //   Icons.pending,
                     //   color: Colors.black,
                     // ),
-                    SizedBox(
-                      width: 10,
-                    ),
+
                     Text(
                       "Find Your Doctor",
                       style: TextStyle(
@@ -81,28 +91,156 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           color: Colors.white),
                     ),
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Appointments",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Prescriptions",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Reports",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Documents",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Messages",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Notifications",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Settings",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Family Members",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Switch Account",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Sign Out",
+                      style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          //fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+
+
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.logout,
-                  color: Colors.black,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  "Logout",
-                  style: TextStyle(fontSize: 15, color: Colors.black),
-                ),
-              ],
-            ),
-          )
+
         ],
       ),
     );

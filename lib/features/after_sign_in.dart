@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
@@ -10,6 +13,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:http/http.dart' as http;
 
 class AfterSignIn extends StatefulWidget {
   @override
@@ -17,10 +21,34 @@ class AfterSignIn extends StatefulWidget {
 }
 
 class _AfterSignInState extends State<AfterSignIn> {
+  List<Item> dataList = new List<Item>();
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
+
+
+  Future<HospitalListModel> fetchHospitalList() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+    var client = http.Client();
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      //data = jsonMap["items"];
+      HospitalListModel data = hospitalListModelFromJson(response.body) ;
+      setState(() {
+        data.items.forEach((elemant) {
+          dataList.add(elemant);
+        });
+      });
+      //print('Data:: ' + data.items[5].companyName);
+      return data;
+      //print(data[0]['companySlogan']);
+    }else {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +326,7 @@ class _AfterSignInState extends State<AfterSignIn> {
                     ),
                     SizedBox(height: 5,),
                     CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
-                    SizedBox(height: 5,),
+                    SizedBox(height: 3,),
                    // SizedBox(height: 30,),
                     Padding(
                       padding: const EdgeInsets.only(left:18.0,right: 18),
@@ -311,23 +339,35 @@ class _AfterSignInState extends State<AfterSignIn> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 5,),
-                    SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left:18.0,),
-                          child: Row(
-                            children: [
-                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              // SizedBox(width:15),
-                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              // SizedBox(width:15),
-                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                            ],
-                          ),
-                        )
-                    ),
-                    SizedBox(height: 5,),
+                    SizedBox(height: 3,),
+                    FutureBuilder<HospitalListModel>(
+                      //  scrollDirection: Axis.horizontal,
+                      //  physics: ClampingScrollPhysics(),
+                      //  shrinkWrap: true,
+                      // itemCount: dataList.length,
+                        future:fetchHospitalList(),
+                        builder: (BuildContext context, snapshot){
+                          if(snapshot.hasData){
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:18.0,),
+                                child:
+                                Row(
+                                  children: [
+                                    ...List.generate(
+                                      snapshot.data.items.length,
+                                          (i) => CustomCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }else{
+                            return CircularProgressIndicator();
+                          }
+                        }),
+                    SizedBox(height: 3,),
                     Padding(
                       padding: const EdgeInsets.only(left:18.0,right: 18),
                       child: Row(
@@ -339,7 +379,7 @@ class _AfterSignInState extends State<AfterSignIn> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(height: 3,),
                     SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Padding(
@@ -355,7 +395,7 @@ class _AfterSignInState extends State<AfterSignIn> {
                           ),
                         )
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(height: 3,),
                     Padding(
                       padding: const EdgeInsets.only(left:18.0,right: 18),
                       child: Row(
@@ -367,18 +407,18 @@ class _AfterSignInState extends State<AfterSignIn> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(height: 3,),
                     SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Padding(
                           padding: const EdgeInsets.only(left:18.0),
                           child: Row(
                             children: [
-                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              // SizedBox(width:15),
-                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              // SizedBox(width:15),
-                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                              SizedBox(width:15),
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                              SizedBox(width:15),
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
                             ],
                           ),
                         )

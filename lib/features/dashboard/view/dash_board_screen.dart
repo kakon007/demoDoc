@@ -67,7 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    //fetchHospitalList();
+    fetchHospitalList();
     super.initState();
   }
  @override

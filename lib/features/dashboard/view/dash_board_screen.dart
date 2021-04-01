@@ -382,7 +382,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 leading: Container(
                     child: isDrawerOpen
                         ? IconButton(
-                        icon: Icon(Icons.menu),
+                        icon: Icon(Icons.notes),
                         onPressed: () {
                           setState(() {
                             xOffset = 0;
@@ -392,7 +392,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           });
                         })
                         : IconButton(
-                        icon: Icon(Icons.menu),
+                        icon: Icon(Icons.notes),
                         onPressed: () {
                           setState(() {
                             xOffset = 250;

@@ -57,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           dataList.add(elemant);
         });
       });
-      print('Data:: ' + data.items[5].companyName);
+      //print('Data:: ' + data.items[5].companyName);
       return data;
       //print(data[0]['companySlogan']);
     }else {

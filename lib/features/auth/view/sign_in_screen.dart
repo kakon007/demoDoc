@@ -5,11 +5,12 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/after_sign_in.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
+import 'package:myhealthbd_app/main_app/jsonkeys.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
+import 'package:http/http.dart' as http;
 
 class SignIn extends StatefulWidget {
   @override
@@ -18,7 +19,9 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   bool value = false;
-
+  final _name2 = TextEditingController();
+  final _name = TextEditingController();
+  final _formKey = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -28,11 +31,13 @@ class _SignInState extends State<SignIn> {
       height: height >= 600 ? 15.0 : 5.0,
     );
     var userName = SignUpFormField(
+      controller: _name2,
       margin: EdgeInsets.all(8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
     var password = SignUpFormField(
+      controller: _name,
       margin: EdgeInsets.all(8),
         contentPadding: EdgeInsets.all(15),
         hintText: StringResources.passwordHint,
@@ -151,57 +156,64 @@ class _SignInState extends State<SignIn> {
         Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
-          body: Padding(
-            padding: height >= 600
-                ? EdgeInsets.only(top: 360.0)
-                : EdgeInsets.only(top: 210),
-            child: new Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25)),
-                  color: HexColor("#FFFFFF"),
-                  boxShadow: [
-                    BoxShadow(
+          body: Form(
+            key: _formKey,
+            child: Padding(
+              padding: height >= 600
+                  ? EdgeInsets.only(top: 360.0)
+                  : EdgeInsets.only(top: 210),
+              child: new Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25)),
+                    color: HexColor("#FFFFFF"),
+                    boxShadow: [
+                      BoxShadow(
 
-                      color: HexColor("#0D1231").withOpacity(0.08),
-                      spreadRadius:10,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ]),
-              child: Padding(
-                padding: const EdgeInsets.only(right:25, left: 15),
-                child: Column(
-                  children: [
-                    spaceBetween,
-                    SizedBox(height: 5,),
-                    Center(
-                        child: Text(
-                      StringResources.welcomeBack,
-                      style:  GoogleFonts.roboto(
-                        color: HexColor("#0D1231"),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600
+                        color: HexColor("#0D1231").withOpacity(0.08),
+                        spreadRadius:10,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
                       ),
-                    )),
-                   // spaceBetween,
-                    userName,
-                    password,
-                    rememberMe,
-                    spaceBetween,
-                    GestureDetector(
-                        onTap: (){
+                    ]),
+                child: Padding(
+                  padding: const EdgeInsets.only(right:25, left: 15),
+                  child: Column(
+                    children: [
+                      spaceBetween,
+                      SizedBox(height: 5,),
+                      Center(
+                          child: Text(
+                        StringResources.welcomeBack,
+                        style:  GoogleFonts.roboto(
+                          color: HexColor("#0D1231"),
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600
+                        ),
+                      )),
+                     // spaceBetween,
+                      userName,
+                      password,
+                      rememberMe,
+                      spaceBetween,
+                      GestureDetector(
+                          onTap: (){
+                            print(_name.text);
+                            print(_name2.text);
+                            var url = "https://qa.myhealthbd.com:9096/auth-api/oauth/token";
+                            http.post(url, headers: {'authorization' :'Bearer' + "62a6ce8b-6d4c-4d2c-94bd-e274b9795326"},body: {"username": _name2.text, "password": _name.text}).then((value) => print(value.body),);
 
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => AfterSignIn()));
-                        },
-                        child: signInButton),
-                    spaceBetween,
-                    socialSignIn,
-                    spaceBetween,
-                    signUp
-                  ],
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => AfterSignIn()));
+                          },
+                          child: signInButton),
+                      spaceBetween,
+                      socialSignIn,
+                      spaceBetween,
+                      signUp
+                    ],
+                  ),
                 ),
               ),
             ),

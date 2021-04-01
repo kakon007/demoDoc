@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 
 class HospitalScreen extends StatefulWidget {
   @override
@@ -83,40 +84,6 @@ class _HospitalScreenState extends State<HospitalScreen> {
     _scrollController = ScrollController();
     _scrollController2 = ScrollController();
   }
-
-  // Future<List<HospitalListModel>> fetchjob() async {
-  //   String url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-  //   final response = await http.get(url);
-  //   if (response.statusCode == 200) {
-  //     //MapDataModel data = MapDataModel.fromJson(json.decode(response.body));
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     // List<HospitalListModel> data = hospitalListModelFromJson(response.body) as List<HospitalListModel>;
-  //     List<dynamic> data = jsonMap["items"];
-  //     data.forEach((elemant) {
-  //       setState(() {
-  //         dataList.add(elemant);
-  //       });
-  //     });
-  //     print('Data:: ' + data[0]['id']);
-  //     return data;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-  // Future<HospitalListModel> fetchHospitalList() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-  //   var client = http.Client();
-  //   var response = await client.get(url);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     data = jsonMap["items"];
-  //         print(data[0]['companySlogan']);
-  //   }
-  // }
-
   Future<HospitalListModel> fetchHospitalList() async {
     var url =
         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
@@ -124,7 +91,6 @@ class _HospitalScreenState extends State<HospitalScreen> {
     var response = await client.get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonMap = json.decode(response.body);
-      //data = jsonMap["items"];
       HospitalListModel data = hospitalListModelFromJson(response.body) ;
       setState(() {
         data.items.forEach((elemant) {
@@ -133,7 +99,6 @@ class _HospitalScreenState extends State<HospitalScreen> {
       });
       print('Data:: ' + data.items[5].companyName);
       return data;
-      //print(data[0]['companySlogan']);
     }else {
       return null;
     }
@@ -151,24 +116,27 @@ class _HospitalScreenState extends State<HospitalScreen> {
         ),
       ),
     );
-    var hospital= SingleChildScrollView(
-      physics: ScrollPhysics(),
-      child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: dataList.length,
-          itemBuilder: (BuildContext context, int index){
-        return HospitalListCard(
-          image: hospitals[index].hospitalLogo,
-          buttonName: StringResources.getAppointmentButton,
-          hospitalLocation: hospitals[index].location,
-          hospitalTitle: dataList[index].companyName,
-          onlineDoctors: hospitals[index].doctorOnline,
-        );
-      }),
-    );
-    var height = MediaQuery.of(context).size.height;
+    var hospital= FutureBuilder<HospitalListModel>(
+        future:fetchHospitalList(),
+        builder: (BuildContext context, snapshot){
+          if(snapshot.hasData){
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  ...List.generate(
+                    snapshot.data.items.length,
+                        (i) => HospitalListCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo,),
+                  ),
+                ],
+              ),
+            );
+          }else{
+            return Center(child: CircularProgressIndicator());
+          }
+        });
     var width = MediaQuery.of(context).size.width * 0.44;
+    var height = MediaQuery.of(context).size.height;
     var verticalSpace = SizedBox(
       width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
     );

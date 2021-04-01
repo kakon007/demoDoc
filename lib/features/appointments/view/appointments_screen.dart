@@ -230,9 +230,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         drawer: Drawer(),
         body: Stack(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 90.0),
-              child: Positioned(
+            Positioned(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 90.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -267,7 +267,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             ),
             doctorCard,
           ],
-        ));
+        )
+    );
 
     // return Scaffold(
     //   body: Padding(

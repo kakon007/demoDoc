@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -9,6 +11,7 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
+import 'package:http/http.dart' as http;
 
 class HospitalScreen extends StatefulWidget {
   @override
@@ -16,6 +19,9 @@ class HospitalScreen extends StatefulWidget {
 }
 
 class _HospitalScreenState extends State<HospitalScreen> {
+  List<Item> dataList = List<Item>();
+ // List<HospitalListModel> chartData = [];
+ //  List<dynamic> data=[];
   List<HospitalList> hospitals = [
     HospitalList(
         hospitalName: "Proyas Health Care",
@@ -71,11 +77,67 @@ class _HospitalScreenState extends State<HospitalScreen> {
 
   @override
   void initState() {
+    fetchHospitalList();
+    //getNews();
     super.initState();
     _scrollController = ScrollController();
     _scrollController2 = ScrollController();
   }
 
+  // Future<List<HospitalListModel>> fetchjob() async {
+  //   String url =
+  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+  //   final response = await http.get(url);
+  //   if (response.statusCode == 200) {
+  //     //MapDataModel data = MapDataModel.fromJson(json.decode(response.body));
+  //     Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     // List<HospitalListModel> data = hospitalListModelFromJson(response.body) as List<HospitalListModel>;
+  //     List<dynamic> data = jsonMap["items"];
+  //     data.forEach((elemant) {
+  //       setState(() {
+  //         dataList.add(elemant);
+  //       });
+  //     });
+  //     print('Data:: ' + data[0]['id']);
+  //     return data;
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  // Future<HospitalListModel> fetchHospitalList() async {
+  //   var url =
+  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+  //   var client = http.Client();
+  //   var response = await client.get(url);
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     data = jsonMap["items"];
+  //         print(data[0]['companySlogan']);
+  //   }
+  // }
+
+  Future<HospitalListModel> fetchHospitalList() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+    var client = http.Client();
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      //data = jsonMap["items"];
+      HospitalListModel data = hospitalListModelFromJson(response.body) ;
+      setState(() {
+        data.items.forEach((elemant) {
+          dataList.add(elemant);
+        });
+      });
+      print('Data:: ' + data.items[5].companyName);
+      return data;
+      //print(data[0]['companySlogan']);
+    }else {
+      return null;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var searchField = SignUpFormField(
@@ -94,13 +156,13 @@ class _HospitalScreenState extends State<HospitalScreen> {
       child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: hospitals.length,
+          itemCount: dataList.length,
           itemBuilder: (BuildContext context, int index){
         return HospitalListCard(
           image: hospitals[index].hospitalLogo,
           buttonName: StringResources.getAppointmentButton,
           hospitalLocation: hospitals[index].location,
-          hospitalTitle: hospitals[index].hospitalName,
+          hospitalTitle: dataList[index].companyName,
           onlineDoctors: hospitals[index].doctorOnline,
         );
       }),
@@ -460,4 +522,14 @@ class _HospitalScreenState extends State<HospitalScreen> {
       ),
     );
   }
+}
+
+class HospitalList {
+  String hospitalName;
+  String location;
+  String doctorOnline;
+  String hospitalLogo;
+
+  HospitalList(
+      {this.hospitalLogo, this.hospitalName, this.location, this.doctorOnline});
 }

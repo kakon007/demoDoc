@@ -318,11 +318,11 @@ class _AfterSignInState extends State<AfterSignIn> {
                           padding: const EdgeInsets.only(left:18.0,),
                           child: Row(
                             children: [
-                              CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              SizedBox(width:15),
-                              CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              SizedBox(width:15),
-                              CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                              // SizedBox(width:15),
+                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                              // SizedBox(width:15),
+                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
                             ],
                           ),
                         )
@@ -374,11 +374,11 @@ class _AfterSignInState extends State<AfterSignIn> {
                           padding: const EdgeInsets.only(left:18.0),
                           child: Row(
                             children: [
-                              CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              SizedBox(width:15),
-                              CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
-                              SizedBox(width:15),
-                              CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                              // SizedBox(width:15),
+                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
+                              // SizedBox(width:15),
+                              // CustomCard("Proyas Health Care","Mirpur,Dahaka,Bangladesh","60 Doctors"),
                             ],
                           ),
                         )

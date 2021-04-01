@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:multi_select_item/multi_select_item.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -357,7 +358,17 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                 icon: new Icon(Icons.notes),
                 onPressed: () => _scaffoldKey.currentState.openDrawer()),
         ),
-        drawer: Drawer(),
+        drawer: Drawer(
+          child: ListView(children: [
+            RaisedButton(onPressed:(){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> SwitchAccount()));
+            },
+              child: Text("Switch Account", style: GoogleFonts.poppins(
+              ),),
+
+            )
+          ],),
+        ),
         body: DefaultTabController(
           length: 3,
           child: Column(

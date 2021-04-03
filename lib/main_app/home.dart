@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/after_sign_in.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
+import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/repositories/hospital_list_repository.dart';
@@ -14,6 +16,8 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
 
 
 class HomeScreen extends StatefulWidget {
+  String accessToken;
+  HomeScreen({this.accessToken});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -88,6 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     var pages=<Widget>[
       Stack(children: finalStack()),
+    var pages = <Widget>[
+      Stack(children: [
+        DrawerScreen(),
+        widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
       AppointmentScreen(),
       HospitalScreen(),
       PrescriptionListScreen(),
@@ -159,7 +167,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
 
     return MaterialApp(
-
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: HexColor('#354291'),

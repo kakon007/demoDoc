@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
@@ -281,6 +282,7 @@ class _AfterSignInState extends State<AfterSignIn> {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
                   },
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -289,6 +291,8 @@ class _AfterSignInState extends State<AfterSignIn> {
                           Icon(Icons.arrow_forward),
                         ],
                       ),
+                      SizedBox(height: 10,),
+                      Text(signInData.name),
                     ],
                   ),
                 ),

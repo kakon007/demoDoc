@@ -453,48 +453,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
         isDraggable: true,
         //backdropEnabled: true,
                 borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
-                panel:Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Column(
-                              children: [
-                                Padding(
-                            padding: const EdgeInsets.only(top:18,left:20.0,right: 20),
-                                  child: Row(
-                                    children: [
-                                      Text(StringResources.esayDoctorAppointmentText,style:  GoogleFonts.poppins(fontSize: 17
-                                          ,fontWeight: FontWeight.w600),),
-                                      Spacer(),
-                                      Container(
-                                          width: 100,
+                panel:Column(
+                  children: [
+                    Padding(
+                padding: const EdgeInsets.only(top:18,left:20.0,right: 20),
+                      child: Row(
+                        children: [
+                          Text(StringResources.esayDoctorAppointmentText,style:  GoogleFonts.poppins(fontSize: 17
+                              ,fontWeight: FontWeight.w600),),
+                          Spacer(),
+                          Container(
+                              width: 100,
 
-                                          child: Image.asset("assets/images/my_health_logo.png")),
+                              child: Image.asset("assets/images/my_health_logo.png")),
 
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:15.0,right: 15),
-                                  child: SearchBarViewWidget(),
-                                ),
-                                //SizedBox(height: 10,),
-                                // CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
-                                // SizedBox(height: 10,),
-                                SizedBox(height: 30,),
-                                Padding(
-                                    padding: const EdgeInsets.only(left:18.0,right: 18),
-                                  child: Row(
-                                    children: [
-                                      Text(StringResources.hospitalDiagnosticsText,style:  GoogleFonts.poppins(fontSize: 16
-                                          ,fontWeight: FontWeight.w600),),
-                                      Spacer(),
-                                      GestureDetector(onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
-                                      },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11,fontWeight: FontWeight.w600),)),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Padding(
+                      padding: const EdgeInsets.only(left:15.0,right: 15),
+                      child: SearchBarViewWidget(),
+                    ),
+                    //SizedBox(height: 10,),
+                    // CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
+                    // SizedBox(height: 10,),
+                    SizedBox(height: 30,),
+                    Padding(
+                        padding: const EdgeInsets.only(left:18.0,right: 18),
+                      child: Row(
+                        children: [
+                          Text(StringResources.hospitalDiagnosticsText,style:  GoogleFonts.poppins(fontSize: 16
+                              ,fontWeight: FontWeight.w600),),
+                          Spacer(),
+                          GestureDetector(onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
+                          },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11,fontWeight: FontWeight.w600),)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10,),
                 FutureBuilder<HospitalListModel>(
                    //  scrollDirection: Axis.horizontal,
                    //  physics: ClampingScrollPhysics(),
@@ -506,81 +504,80 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         return SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Padding(
-                            padding: const EdgeInsets.only(left:18.0,),
-                            child:
-                            Row(
-                              children: [
-                                ...List.generate(
-                                  snapshot.data.items.length,
-                                      (i) => CustomCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo),
-                                ),
-                              ],
-                            ),
+                padding: const EdgeInsets.only(left:18.0,),
+                child:
+                Row(
+                  children: [
+                    ...List.generate(
+                      snapshot.data.items.length,
+                          (i) => CustomCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo),
+                    ),
+                  ],
+                ),
                           ),
                         );
                       }else{
                         return CircularProgressIndicator();
                       }
                     }),
-                                SizedBox(height: 20,),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:18.0,right: 18),
-                                  child: Row(
-                                    children: [
-                                      Text("News & Update",style:  GoogleFonts.poppins(fontSize: 16
-                                          ,fontWeight: FontWeight.w600),),
-                                      Spacer(),
-                                      Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left:18.0),
-                                      child: Row(
-                                        children: [
-                                          CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                          SizedBox(width:15),
-                                          CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                          SizedBox(width:15),
-                                          CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                        ],
-                                      ),
-                                    )
-                                ),
-                                SizedBox(height: 20,),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:18.0,right: 18),
-                                  child: Row(
-                                    children: [
-                                      Text("My Health Video",style: GoogleFonts.poppins(fontSize: 16
-                                          ,fontWeight: FontWeight.w600),),
-                                      Spacer(),
-                                      Text(StringResources.viewAllText,style: GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11 ,fontWeight: FontWeight.w600),),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(left:18.0),
-                                      child: Row(
-                                        children: [
-                                          CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                          SizedBox(width:15),
-                                          CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                          SizedBox(width:15),
-                                          CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                        ],
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
+                    SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.only(left:18.0,right: 18),
+                      child: Row(
+                        children: [
+                          Text("News & Update",style:  GoogleFonts.poppins(fontSize: 16
+                              ,fontWeight: FontWeight.w600),),
+                          Spacer(),
+                          Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left:18.0),
+                          child: Row(
+                            children: [
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                              SizedBox(width:15),
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                              SizedBox(width:15),
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                            ],
                           ),
+                        )
+                    ),
+                    SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.only(left:18.0,right: 18),
+                      child: Row(
+                        children: [
+                          Text("My Health Video",style: GoogleFonts.poppins(fontSize: 16
+                              ,fontWeight: FontWeight.w600),),
+                          Spacer(),
+                          Text(StringResources.viewAllText,style: GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11 ,fontWeight: FontWeight.w600),),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                            padding: const EdgeInsets.only(left:18.0),
+                          child: Row(
+                            children: [
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                              SizedBox(width:15),
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                              SizedBox(width:15),
+                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                            ],
+                          ),
+                        )
+                    ),
+                  ],
+                ),
               ),
             ),
           ]

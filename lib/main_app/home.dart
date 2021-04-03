@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/features/hospitals/repositories/hospital_list_rep
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
 
@@ -25,6 +26,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
     });
   }
+
+  List<Widget> screens=[
+       DashboardScreen(),
+       NotificationScreen(),
+  ];
+
+  List<Widget> finalStack(){
+    List<Widget> stackToReturn=[];
+    stackToReturn.add(DrawerScreen());
+    stackToReturn.add(DashboardScreen());
+     // screens.asMap().entries.map((e) => DashboardScreen());
+    return stackToReturn;
+  }
+
+  // Widget buildStackedScreen(){
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //semanticsLabel: 'Acme Logo'
     );
     var pages=<Widget>[
-      Stack(children: [DrawerScreen(),DashboardScreen()]),
+      Stack(children: finalStack()),
       AppointmentScreen(),
       HospitalScreen(),
       PrescriptionListScreen(),

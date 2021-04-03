@@ -26,6 +26,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Sign Out",
   ];
 
+
   Widget buildMenuRow(int index){
     return InkWell(
       onTap: (){
@@ -40,19 +41,20 @@ class _DrawerScreenState extends State<DrawerScreen> {
         Row(
         children: [
           selectedMenuIndex==index?
-              Container(width: 155,height:40,decoration: BoxDecoration(
+              Container(width: 115,height:40,decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: HexColor("#FFFFFF"),),child:Center(
-                child: Text(
-                  menuItem[index],
-                  style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      //fontWeight: FontWeight.bold,
-                      color: HexColor('#354291')),
-                ),
-              ),):
+            color: HexColor("#FFFFFF"),),child:Padding(
+              padding: const EdgeInsets.only(top:8.0,left: 6),
+              child: Text(
+                menuItem[index],
+                style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    //fontWeight: FontWeight.bold,
+                    color: HexColor('#354291')),
+              ),
+            ),):
         Text(
-        menuItem[index],
+          menuItem[index],
           style: GoogleFonts.poppins(
               fontSize: 18,
               //fontWeight: FontWeight.bold,

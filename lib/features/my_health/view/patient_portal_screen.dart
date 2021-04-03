@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dart';
@@ -117,13 +118,30 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
         hosName: 'Apollo Hospital Bangladesh'),
   ];
+
+  List<DocumentList> docList=[
+    DocumentList(
+      fileName: "X-ray report.jpg",
+      day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+    ),
+    DocumentList(
+      fileName: "X-ray report.jpg",
+      day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+    ),
+    DocumentList(
+      fileName: "X-ray report.jpg",
+      day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
+    )
+  ];
   MultiSelectController controller = new MultiSelectController();
   MultiSelectController controller2 = new MultiSelectController();
+  MultiSelectController controller3 = new MultiSelectController();
   void initState() {
     super.initState();
     controller.disableEditingWhenNoneSelected = true;
     controller.set(pescriptionList.length);
     controller2.set(reportList.length);
+    controller3.set(docList.length);
   }
 
   void delete() {
@@ -136,11 +154,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     list.forEach((element) {
       pescriptionList.removeAt(element);
       reportList.removeAt(element);
+      docList.removeAt(element);
     });
 
     setState(() {
       controller.set(pescriptionList.length);
       controller2.set(reportList.length);
+      controller3.set(docList.length);
     });
   }
 
@@ -183,6 +203,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     final String assetName2="assets/icons/right.svg";
     final String assetName7="assets/icons/greyright.svg";
     final String assetName5="assets/icons/pp.svg";
+    final String assetName6="assets/icons/jp.svg";
 
     final Widget dx = SvgPicture.asset(
       assetName4,
@@ -223,6 +244,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       //semanticsLabel: 'Acme Logo'
     );
 
+    final Widget jp = SvgPicture.asset(
+      assetName6,
+      width: 80,
+      height:100,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
     void handleClick(String value) {
       switch (value) {
         case 'Share':
@@ -231,6 +262,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           break;
         case 'Delete':
           break;
+        case 'Rename':
+          break;
       }
     }
     var popup= Padding(
@@ -238,11 +271,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       child: Container(
         //margin: EdgeInsets.only(bottom: 60,),
         width: 25,
-        height: 25,
+        height: 30,
         child: PopupMenuButton<String>(
           onSelected: handleClick,
           itemBuilder: (BuildContext context) {
-            return {'Share', 'Download','Delete'}.map((String choice) {
+            return {'Share', 'Download','Delete','Rename'}.map((String choice) {
               return PopupMenuItem<String>(
                 height: 30,
                 value: choice,
@@ -720,20 +753,144 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                            parentButton: Icon(Icons.add),
                            childButtons: childButtons),
                      ),
-                     body: Align(
-                       alignment: Alignment.center,
-                       child: Padding(
-                         padding: const EdgeInsets.only(top:200.0),
-                         child: Container(
-                           child: Column(
-                             children: [
-                               pp,
-                               Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                               Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
-                             ],
-                           ),
+                     // body: Align(
+                     //   alignment: Alignment.center,
+                     //   child: Padding(
+                     //     padding: const EdgeInsets.only(top:200.0),
+                     //     child: Container(
+                     //       child: Column(
+                     //         children: [
+                     //           pp,
+                     //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                     //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
+                     //         ],
+                     //       ),
+                     //     ),
+                     //   ),
+                     // ),
+
+                     body:   Column(
+                       children: [
+                         Row(
+                           children: [
+                             Padding(
+                               padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                               child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                             ),
+                             Spacer(),
+                             searchField,
+                           ],
                          ),
-                       ),
+                         Expanded(
+                           child: SingleChildScrollView(
+                               physics: ScrollPhysics(),
+                               child: Column(
+                                 children: [
+                                   ListView.builder( physics: NeverScrollableScrollPhysics(),
+                                       itemCount:docList.length,
+                                       shrinkWrap: true,
+                                       itemBuilder: (BuildContext context, int index) {
+                                         return MultiSelectItem(
+                                           isSelecting: controller3.isSelecting,
+                                           onSelected: () {
+                                             setState(() {
+                                               controller3.toggle(index);
+                                             });
+                                           },
+                                           child: Stack(
+                                               children:[
+                                                 InkWell(
+                                                   onLongPress: (){
+                                                     setState(() {
+                                                       controller3.toggle(index);
+                                                     });
+                                                     print("tapped");},
+                                                   onTap: (){
+
+                                                     if(controller3.isSelecting){
+                                                       setState(() {
+                                                         controller3.toggle(index);
+                                                       });
+                                                     }
+                                                     print("tappeddd");
+                                                   },
+                                                   child: Container(
+                                                     height: cardHeight*0.6,
+                                                     margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                     decoration: BoxDecoration(
+                                                       gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                         1.0,
+                                                       ], colors: [
+                                                         //HexColor('#C5CAE8'),
+                                                         HexColor('#E9ECFE'),
+
+                                                       ]),
+                                                       //color: Colors.white,
+                                                       // border: Border.all(
+                                                       //   color: HexColor("#E9ECFE"),
+                                                       //   width: 1,
+                                                       // ),
+                                                       borderRadius: BorderRadius.circular(15),
+                                                     ),
+                                                     child: Row(
+                                                       children: [
+                                                         SizedBox(width: 10,),
+                                                         Padding(
+                                                           padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                           child: Column(
+                                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                                             children: [
+                                                               SizedBox(height: 10,),
+                                                               Text(docList[index].fileName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                               SizedBox(height: 5,),
+                                                               Text(docList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                               SizedBox(height: 5,),
+                                                             ],
+                                                           ),
+                                                         ),
+                                                         Spacer(),
+                                                         // Padding(
+                                                         //   padding: const EdgeInsets.only(right:18.0),
+                                                         //   child: Stack(children: [
+                                                         //     Container(width:45,child: dx),
+                                                         //     Padding(
+                                                         //       padding: const EdgeInsets.only(left:30.0),
+                                                         //       child: righticon,
+                                                         //     ),
+                                                         //   ]),
+                                                         // ),
+                                                         Padding(
+                                                           padding: const EdgeInsets.only(right:18.0),
+                                                           child: Stack(children: [
+                                                             Padding(
+                                                               padding: const EdgeInsets.only(top:3.0,right: 5),
+                                                               child: Container(width:45,child: jp),
+                                                             ),
+                                                             (controller2.isSelected(index))?
+                                                             Padding(
+                                                               padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                               child: righticon,
+                                                             ): (controller2.isSelecting)?Padding(
+                                                               padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                               child: greyright,
+                                                             ):Padding(
+                                                               padding: EdgeInsets.only(left: 38),
+                                                               child: popup,
+                                                             ),
+                                                           ]),
+                                                         ),
+                                                       ],
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ]
+                                           ),
+                                         );
+                                       })
+                                 ],
+                               )),
+                         ),
+                       ],
                      ),
                    ),
                   ],

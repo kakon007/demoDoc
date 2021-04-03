@@ -23,8 +23,8 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   bool value = false;
-  final _name2 = TextEditingController();
-  final _name = TextEditingController();
+  final _username = TextEditingController();
+  final _password = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
 
   @override
@@ -36,13 +36,14 @@ class _SignInState extends State<SignIn> {
       height: height >= 600 ? 15.0 : 5.0,
     );
     var userName = SignUpFormField(
-      controller: _name2,
+      controller: _username,
       margin: EdgeInsets.all(8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
     var password = SignUpFormField(
-      controller: _name,
+      obSecure: true,
+      controller: _password,
       margin: EdgeInsets.all(8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.passwordHint,
@@ -210,7 +211,7 @@ class _SignInState extends State<SignIn> {
                             String basicAuth =
                                 'Basic ' + base64Encode(utf8.encode('$username:$password'));
                             String url =
-                                "https://qa.myhealthbd.com:9096/auth-api/oauth/token?username=${_name2.text}&password=${_name.text}&grant_type=password";
+                                "https://qa.myhealthbd.com:9096/auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
                             var response = await http.post(url,  headers: <String, String>{'authorization': basicAuth});
                             if (response.statusCode == 200) {
                               signInData = signInModelFromJson(response.body) ;

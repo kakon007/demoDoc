@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
+import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/doctor_filters.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -21,50 +23,10 @@ class HospitalScreen extends StatefulWidget {
 
 class _HospitalScreenState extends State<HospitalScreen> {
   List<Item> dataList = List<Item>();
- // List<HospitalListModel> chartData = [];
- //  List<dynamic> data=[];
-  List<HospitalList> hospitals = [
-    HospitalList(
-        hospitalName: "Proyas Health Care",
-        location: "Mirpur, Dhaka, Bangladesh",
-        doctorOnline: "60 Doctors online",
-        hospitalLogo: "assets/images/proyas.png"),
-    HospitalList(
-        hospitalName: "Aalok HealthCare Ltd",
-        location: "Mirpur, Dhaka, Bangladesh",
-        doctorOnline: "70 Doctors online",
-        hospitalLogo: "assets/images/alok.png"),
-    HospitalList(
-        hospitalName: "Proyas Health Care",
-        location: "Mirpur, Dhaka, Bangladesh",
-        doctorOnline: "80 Doctors online",
-        hospitalLogo: "assets/images/proyas.png"),
-    HospitalList(
-        hospitalName: "Aalok HealthCare Ltd",
-        location: "Mirpur, Dhaka, Bangladesh",
-        doctorOnline: "90 Doctors online",
-        hospitalLogo: "assets/images/alok.png"),
-    HospitalList(
-        hospitalName: "Proyas Health Care",
-        location: "Mirpur, Dhaka, Bangladesh",
-        doctorOnline: "60 Doctors online",
-        hospitalLogo: "assets/images/proyas.png"),
-    HospitalList(
-        hospitalName: "Proyas Health Care",
-        location: "Mirpur, Dhaka, Bangladesh",
-        doctorOnline: "60 Doctors online",
-        hospitalLogo: "assets/images/proyas.png"),
-  ];
-  final List<SimpleModel> _items = <SimpleModel>[
-    SimpleModel('Chest Medicine', false),
-    SimpleModel('Cardiology', false),
-    SimpleModel('Child Neurology', false),
-    SimpleModel('Chest Medicine', false),
-    SimpleModel('Dermatology', false),
-    SimpleModel('Diabetics', false),
-  ];
+  final List<DeptItem> departmentList = List<DeptItem>();
   List _items3 = [];
   List _items4 = [];
+  DeptListModel data;
   final List<SimpleModel> _items2 = <SimpleModel>[
     SimpleModel('Child Specialist', false),
     SimpleModel('Chest Surgeon', false),
@@ -79,6 +41,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
   @override
   void initState() {
     fetchHospitalList();
+    fetchDepartmentList();
     //getNews();
     super.initState();
     _scrollController = ScrollController();
@@ -97,7 +60,25 @@ class _HospitalScreenState extends State<HospitalScreen> {
           dataList.add(elemant);
         });
       });
-      print('Data:: ' + data.items[5].companyName);
+      return data;
+    }else {
+      return null;
+    }
+  }
+  Future<DeptListModel> fetchDepartmentList() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/auth-api/api/employee/dept/list";
+    var client = http.Client();
+    var response = await client.get(url,headers: {'Authorization': 'Bearer ${signInData.accessToken}',});
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      data = deptListModelFromJson(response.body) ;
+      setState(() {
+        data.deptItem.forEach((elemant) {
+          departmentList.add(elemant);
+        });
+      });
+      print('Data:: ' + data.deptItem[12].isChecked.toString());
       return data;
     }else {
       return null;
@@ -234,6 +215,8 @@ class _HospitalScreenState extends State<HospitalScreen> {
                   builder: (context) {
                     return StatefulBuilder(
                         builder: (BuildContext context, StateSetter setState) {
+                          var index=0;
+                          bool isTrue= false;
                           return FractionallySizedBox(
                             heightFactor: 0.85,
                             child: Column(
@@ -273,10 +256,9 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                         controller:
                                                         _scrollController,
                                                         children:
-                                                        _items
+                                                        departmentList
                                                             .map(
-                                                              (SimpleModel
-                                                          item) =>
+                                                              (DeptItem item) =>
                                                               Container(
                                                                 height: 35,
                                                                 child:
@@ -288,7 +270,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                                   ListTileControlAffinity
                                                                       .leading,
                                                                   title: Text(
-                                                                    item.title,
+                                                                    item.buName,
                                                                     style: GoogleFonts.poppins(
                                                                         fontWeight: item.isChecked ==
                                                                             true
@@ -297,17 +279,15 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                                             : FontWeight
                                                                             .normal),
                                                                   ),
-                                                                  value: item
-                                                                      .isChecked,
+                                                                  value: item.isChecked ,
                                                                   onChanged:
                                                                       (bool val) {
                                                                     setState(() {
                                                                       val == true
-                                                                          ? _items4.add(item
-                                                                          .title)
+                                                                          ? _items4.add(item.buName)
                                                                           : _items4
-                                                                          .remove(item.title);
-                                                                      item.isChecked =
+                                                                          .remove(item.buName);
+                                                                      item.isChecked  =
                                                                           val;
                                                                     });
                                                                   },
@@ -414,7 +394,10 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                 width: width * .9,
                                                 height: width * .25,
                                                 child: FlatButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    _items4.clear();
+                                                    _items3.clear();
+                                                  },
                                                   textColor: _items4.isEmpty &&
                                                       _items3.isEmpty
                                                       ? HexColor("#969EC8")

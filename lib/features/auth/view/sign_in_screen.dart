@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/after_sign_in.dart';
@@ -13,6 +14,7 @@ import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:http/http.dart' as http;
 SignInModel signInData;
@@ -211,7 +213,7 @@ class _SignInState extends State<SignIn> {
                             String basicAuth =
                                 'Basic ' + base64Encode(utf8.encode('$username:$password'));
                             String url =
-                                "https://qa.myhealthbd.com:9096/auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
+                                "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
                             var response = await http.post(url,  headers: <String, String>{'authorization': basicAuth});
                             if (response.statusCode == 200) {
                               signInData = signInModelFromJson(response.body) ;
@@ -227,8 +229,7 @@ class _SignInState extends State<SignIn> {
 
                               });
                             } else {
-                              print(
-                                  "Error message like email or password wrong!!!!"); // Toast
+                              // Toast
                             }
                           },
                           child: signInButton),
@@ -272,4 +273,5 @@ class _SignInState extends State<SignIn> {
       ],
     );
   }
+
 }

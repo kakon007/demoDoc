@@ -41,10 +41,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
         Row(
         children: [
           selectedMenuIndex==index?
-              Container(width: 115,height:40,decoration: BoxDecoration(
+              Container(height:40,decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             color: HexColor("#FFFFFF"),),child:Padding(
-              padding: const EdgeInsets.only(top:8.0,left: 6),
+              padding: const EdgeInsets.only(top:8.0),
               child: Text(
                 menuItem[index],
                 style: GoogleFonts.poppins(

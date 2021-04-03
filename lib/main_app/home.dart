@@ -90,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
-    var pages=<Widget>[
-      Stack(children: finalStack()),
+    // var pages=<Widget>[
+    //   Stack(children: finalStack()),
     var pages = <Widget>[
       Stack(children: [
         DrawerScreen(),

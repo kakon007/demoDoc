@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/doctor_filters.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -15,7 +16,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class HospitalScreen extends StatefulWidget {
   @override
   _HospitalScreenState createState() => _HospitalScreenState();
@@ -24,9 +25,12 @@ class HospitalScreen extends StatefulWidget {
 class _HospitalScreenState extends State<HospitalScreen> {
   List<Item> dataList = List<Item>();
   final List<DeptItem> departmentList = List<DeptItem>();
+  final List<SpecializationItem> specializationList = List<SpecializationItem>();
   List _items3 = [];
   List _items4 = [];
   DeptListModel data;
+  SepcializationListModel spItem;
+  var accessToken;
   final List<SimpleModel> _items2 = <SimpleModel>[
     SimpleModel('Child Specialist', false),
     SimpleModel('Chest Surgeon', false),
@@ -42,6 +46,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
   void initState() {
     fetchHospitalList();
     fetchDepartmentList();
+    fetchSpecializationList();
     //getNews();
     super.initState();
     _scrollController = ScrollController();
@@ -54,10 +59,11 @@ class _HospitalScreenState extends State<HospitalScreen> {
     var response = await client.get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonMap = json.decode(response.body);
+     // print(response.body);
       HospitalListModel data = hospitalListModelFromJson(response.body) ;
       setState(() {
-        data.items.forEach((elemant) {
-          dataList.add(elemant);
+        data.items.forEach((element) {
+          dataList.add(element);
         });
       });
       return data;
@@ -66,16 +72,21 @@ class _HospitalScreenState extends State<HospitalScreen> {
     }
   }
   Future<DeptListModel> fetchDepartmentList() async {
+    SharedPreferences prefs= await SharedPreferences.getInstance();
+    accessToken = prefs.getString('accessToken');
+    print(accessToken);
     var url =
         "https://qa.myhealthbd.com:9096/auth-api/api/employee/dept/list";
     var client = http.Client();
-    var response = await client.get(url,headers: {'Authorization': 'Bearer ${signInData.accessToken}',});
+    var response = await client.get(url,headers: {'Authorization': 'Bearer $accessToken',});
+
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonMap = json.decode(response.body);
+      print(response.body);
       data = deptListModelFromJson(response.body) ;
       setState(() {
-        data.deptItem.forEach((elemant) {
-          departmentList.add(elemant);
+        data.deptItem.forEach((element) {
+          departmentList.add(element);
         });
       });
       print('Data:: ' + data.deptItem[12].isChecked.toString());
@@ -84,6 +95,29 @@ class _HospitalScreenState extends State<HospitalScreen> {
       return null;
     }
   }
+  Future<SepcializationListModel>  fetchSpecializationList() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/specializationList";
+    final http.Response response = await http.post(url,body: jsonEncode(<String, int>{
+      'id': 4,
+      "ogNo": 2
+    }),);
+    print(response.body);
+    if (response.statusCode == 200) {
+      print(response.body);
+      spItem = sepcializationListModelFromJson(response.body) ;
+      setState(() {
+        spItem.specializationItem.forEach((element) {
+          specializationList.add(element);
+        });
+      });
+      print('Data:: ' + spItem.specializationItem[12].dtlDescription);
+      return spItem;
+    }else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var searchField = SignUpFormField(
@@ -197,6 +231,18 @@ class _HospitalScreenState extends State<HospitalScreen> {
           style: GoogleFonts.poppins(fontSize: 15),
         ),
         actions: <Widget>[
+          accessToken!=null ? Container(
+            //margin: EdgeInsets.all(100.0),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white,
+              ),
+            ),
+            child: CircleAvatar(
+              backgroundImage:AssetImage("assets/images/alok.png"),radius: 15.0,),
+          ) :SizedBox(),
+          SizedBox(width: 10,),
           IconButton(
             icon: Icon(
               Icons.notifications,
@@ -332,9 +378,9 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                   child: ListView(
                                                     controller:
                                                     _scrollController2,
-                                                    children: _items2
+                                                    children: specializationList
                                                         .map(
-                                                          (SimpleModel
+                                                          (SpecializationItem
                                                       item) =>
                                                           Container(
                                                             height: 35,
@@ -347,7 +393,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                               ListTileControlAffinity
                                                                   .leading,
                                                               title: Text(
-                                                                item.title,
+                                                                item.dtlName,
                                                                 style: GoogleFonts.poppins(
                                                                     fontWeight: item.isChecked ==
                                                                         true
@@ -362,10 +408,9 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                                   (bool val) {
                                                                 setState(() {
                                                                   val == true
-                                                                      ? _items3.add(item
-                                                                      .title)
+                                                                      ? _items3.add(item.dtlName)
                                                                       : _items3
-                                                                      .remove(item.title);
+                                                                      .remove(item.dtlName);
                                                                   item.isChecked =
                                                                       val;
                                                                 });
@@ -466,6 +511,9 @@ class _HospitalScreenState extends State<HospitalScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            // FlatButton(onPressed: (){
+            //  fetchSpecializationList();
+            // }),
             searchField,
             Expanded(child: hospital),
           ],

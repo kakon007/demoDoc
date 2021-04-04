@@ -17,6 +17,7 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 SignInModel signInData;
 class SignIn extends StatefulWidget {
   @override
@@ -224,6 +225,10 @@ class _SignInState extends State<SignIn> {
                                           HomeScreen(accessToken: signInData.accessToken,),
                                     ),
                                     (Route<dynamic> route) => false);
+
+                                SharedPreferences prefs= await SharedPreferences.getInstance();
+                                prefs.setString("accessToken", signInData.accessToken);
+                                prefs.setString("userName", signInData.name);
                               }
                               setState(() {
 

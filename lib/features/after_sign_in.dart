@@ -5,14 +5,18 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class AfterSignIn extends StatefulWidget {
+  String userName;
+  AfterSignIn({this.userName});
   @override
   _AfterSignInState createState() => _AfterSignInState();
 }
@@ -264,7 +268,18 @@ class _AfterSignInState extends State<AfterSignIn> {
                         ],
                       ),
                       SizedBox(height: 10,),
-                      Text(signInData.name),
+                    GestureDetector(
+                        onTap: () async {
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.remove("accessToken");
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    HomeScreen(),
+                              ),
+                                  (Route<dynamic> route) => false);
+                        },
+                        child: Text("Sign Out")),
                     ],
                   ),
                 ),

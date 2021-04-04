@@ -12,15 +12,18 @@ import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   String accessToken;
-  HomeScreen({this.accessToken});
+  String userName;
+  HomeScreen({this.accessToken, this.userName});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   int currentIndex = 0;
 
   _moveTo(int index) {
@@ -70,9 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
       //semanticsLabel: 'Acme Logo'
     );
     var pages = <Widget>[
-      Stack(children: [
+      Stack(
+          children: [
         DrawerScreen(),
-        widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
+        widget.accessToken == null ? DashboardScreen() : AfterSignIn(userName:  widget.accessToken)]),
       AppointmentScreen(),
       HospitalScreen(),
       PrescriptionListScreen(),

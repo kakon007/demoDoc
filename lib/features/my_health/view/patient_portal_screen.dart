@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
+import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
@@ -11,6 +16,7 @@ import 'package:myhealthbd_app/features/notification/view/notification_screen.da
 import 'package:multi_select_item/multi_select_item.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:unicorndial/unicorndial.dart';
+import 'package:http/http.dart' as http;
 
 class PrescriptionListScreen extends StatefulWidget {
   @override
@@ -19,6 +25,16 @@ class PrescriptionListScreen extends StatefulWidget {
 
 class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
+  String convertDateTimeDisplay(String date) {
+    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+    final DateFormat serverFormater = DateFormat('dd-MM-yyyy');
+    final DateTime displayDate = displayFormater.parse(date);
+    final String formatted = serverFormater.format(displayDate);
+    return formatted;
+  }
+
+
+  List<Datum> dataList2=List<Datum>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //final String assetName2="assets/icons/right.svg";
   final Widget righticon = SvgPicture.asset(
@@ -30,59 +46,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     matchTextDirection: true,
     //semanticsLabel: 'Acme Logo'
   );
-  List<PrescriptionList> pescriptionList = [
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-    PrescriptionList(
-        consultNo:  'Consultation No:C921334527',
-        day: 'Monday 25-01-2021 05:41 PM    23 Day ago',
-        docName: 'Dr. Zia Uddin Arman',
-        hosName: 'Apollo Hospital Bangladesh'),
-
-  ];
 
   List<ReportList> reportList = [
     ReportList(
@@ -136,10 +99,19 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   MultiSelectController controller = new MultiSelectController();
   MultiSelectController controller2 = new MultiSelectController();
   MultiSelectController controller3 = new MultiSelectController();
+
+   Future<PrescriptionListModel> fetchedData;
+
+  @override
   void initState() {
+
     super.initState();
+    if(fetchedData==null){
+      fetchPrescriptionList();
+    }
+    print("jaaaaahhhhhhiiiiddddddd");
     controller.disableEditingWhenNoneSelected = true;
-    controller.set(pescriptionList.length);
+    controller.set(dataList2.length);
     controller2.set(reportList.length);
     controller3.set(docList.length);
   }
@@ -152,13 +124,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     list2.sort((b, a) =>
         a.compareTo(b));
     list.forEach((element) {
-      pescriptionList.removeAt(element);
+      dataList2.removeAt(element);
       reportList.removeAt(element);
       docList.removeAt(element);
     });
 
     setState(() {
-      controller.set(pescriptionList.length);
+      controller.set(dataList2.length);
       controller2.set(reportList.length);
       controller3.set(docList.length);
     });
@@ -169,41 +141,50 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       controller.toggleAll();
     });
   }
+
+
+  Future<PrescriptionListModel> fetchPrescriptionList() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/patient-prescription-list?draw=1&columns%5B0%5D%5Bdata%5D=consultationId&columns%5B0%5D%5Bname%5D=consultationId&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=prescriptionDateTime&columns%5B1%5D%5Bname%5D=prescriptionDateTime&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=doctorName&columns%5B2%5D%5Bname%5D=doctorName&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=companyName&columns%5B3%5D%5Bname%5D=companyName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1617439318994";
+  print('Token: '+ signInData.accessToken);
+    var response = await http.get(url,headers: {
+    'Authorization': 'Bearer ${signInData.accessToken}'
+    });
+    if (response.statusCode == 200) {
+      print('Response: '+ response.body.toString());
+     // Map<String, dynamic> jsonMap = json.decode(response.body);
+      PrescriptionListModel data1 = prescriptionListModelFromJson(response.body) ;
+
+         setState(() {
+          data1.obj.data.forEach((elemant) {
+            dataList2.add(elemant);
+          });
+        });
+
+      // setState(() {
+      //   dataList2=data1.obj.data.first.phoneMobile;
+      // });
+
+     // print('Data:: ' + data.items[5].companyName);
+     // print('DataList2:: ' + dataList2.first.consultationId);
+      print('Data:::: '+ data1.toJson().toString());
+      print('Data1234312:::: '+ dataList2.toString());
+      return data1;
+    }else {
+      return null;
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var childButtons = List<UnicornButton>();
-
-    // childButtons.add(UnicornButton(
-    //     hasLabel: true,
-    //     labelText: "Choo choo",
-    //     currentButton: FloatingActionButton(
-    //       heroTag: "train",
-    //       backgroundColor: Colors.redAccent,
-    //       mini: true,
-    //       child: Icon(Icons.train),
-    //       onPressed: () {},
-    //     )));
-    //
-    // childButtons.add(UnicornButton(
-    //     currentButton: FloatingActionButton(
-    //         heroTag: "airplane",
-    //         backgroundColor: Colors.greenAccent,
-    //         mini: true,
-    //         child: Icon(Icons.airplanemode_active))));
-    //
-    // childButtons.add(UnicornButton(
-    //     currentButton: FloatingActionButton(
-    //         heroTag: "directions",
-    //         backgroundColor: Colors.blueAccent,
-    //         mini: true,
-    //         child: Icon(Icons.directions_car))));
-
-
     final String assetName4 = "assets/images/dx.svg";
     final String assetName2="assets/icons/right.svg";
     final String assetName7="assets/icons/greyright.svg";
     final String assetName5="assets/icons/pp.svg";
     final String assetName6="assets/icons/jp.svg";
+    final String assetName8="assets/icons/upload.svg";
 
     final Widget dx = SvgPicture.asset(
       assetName4,
@@ -254,13 +235,49 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       //semanticsLabel: 'Acme Logo'
     );
 
+    final Widget uploadIcon = SvgPicture.asset(
+      assetName8,
+      width: 20,
+      height:15,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
+
+
+    childButtons.add(UnicornButton(
+        hasLabel: true,
+        labelText: "Capture Documents",
+        labelColor: HexColor("#354291") ,
+        labelBackgroundColor: HexColor("#E9ECFE"),
+        labelFontSize: 10,
+        currentButton: FloatingActionButton(
+          heroTag: "train",
+          backgroundColor: HexColor("#354291"),
+          mini: true,
+          child: Icon(Icons.camera_alt_outlined),
+          onPressed: () {},
+        )));
+
+    childButtons.add(UnicornButton(
+        hasLabel: true,
+        labelText: "   Upload Documents \n (JPG,PNG,PDF only)",
+        labelColor: HexColor("#354291") ,
+        labelBackgroundColor: HexColor("#E9ECFE"),
+        labelFontSize: 10,
+        currentButton: FloatingActionButton(
+            heroTag: "airplane",
+            backgroundColor: HexColor("#354291"),
+            mini: true,
+            child: uploadIcon)));
+
     void handleClick(String value) {
       switch (value) {
         case 'Share':
           break;
         case 'Download':
-          break;
-        case 'Delete':
           break;
         case 'Rename':
           break;
@@ -275,7 +292,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         child: PopupMenuButton<String>(
           onSelected: handleClick,
           itemBuilder: (BuildContext context) {
-            return {'Share', 'Download','Delete','Rename'}.map((String choice) {
+            return {'Share', 'Download','Rename'}.map((String choice) {
               return PopupMenuItem<String>(
                 height: 30,
                 value: choice,
@@ -421,12 +438,12 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                       ),
                        Container(
                         height: 40,
-                        child: Center(child: Text('Reports',style: GoogleFonts.poppins(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
+                        child: Center(child: Text('Reports',style: GoogleFonts.roboto(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
                       ),
                        Container(
                         height: 40,
                         //width: 30.0,
-                        child:Center(child: Text('Documents',style: GoogleFonts.poppins(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
+                        child:Center(child: Text('Documents',style: GoogleFonts.roboto(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
                       ),
                     ],
                   ),
@@ -462,122 +479,134 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           Expanded(
             child: SingleChildScrollView(
               physics: ScrollPhysics(),
-              child: ListView.builder( physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount:pescriptionList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                      return MultiSelectItem(
-                        isSelecting: controller.isSelecting,
-                        onSelected: () {
-                          setState(() {
-                            controller.toggle(index);
-                          });
-                        },
-                        child: Stack(
-                            children:[
-                              InkWell(
-                                onLongPress: (){
-                                  setState(() {
-                                    controller.toggle(index);
-                                  });
-                                  print("tapped");},
-                                onTap: (){
+              child: FutureBuilder<PrescriptionListModel>(
+                future: fetchPrescriptionList(),
+                builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                    return ListView.builder( physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount:dataList2.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return MultiSelectItem(
+                            isSelecting: controller.isSelecting,
+                            onSelected: () {
+                              setState(() {
+                                controller.toggle(index);
+                              });
+                            },
+                            child: Stack(
+                                children:[
+                                  InkWell(
+                                    onLongPress: (){
+                                      setState(() {
+                                        controller.toggle(index);
+                                      });
+                                      print("tapped");},
+                                    onTap: (){
 
-                                  if(controller.isSelecting){
-                                    setState(() {
-                                      controller.toggle(index);
-                                    });
-                                  }
-                                  print("tappeddd");
-                                },
-                                child: Container(
+                                      if(controller.isSelecting){
+                                        setState(() {
+                                          controller.toggle(index);
+                                        });
+                                      }
+                                      print("tappeddd");
+                                    },
+                                    child: Container(
 
-                                  height: cardHeight*0.8,
-                                  margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                      1.0,
-                                      1.0
-                                    ], colors: [
-                                      HexColor('#C5CAE8'),
-                                      HexColor('#E9ECFE'),
+                                      height: cardHeight*0.8,
+                                      margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                          1.0,
+                                          1.0
+                                        ], colors: [
+                                          HexColor('#C5CAE8'),
+                                          HexColor('#E9ECFE'),
 
-                                    ]),
-                                    //color: Colors.white,
-                                    // border: Border.all(
-                                    //   color: HexColor("#E9ECFE"),
-                                    //   width: 1,
-                                    // ),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left:10.0),
-                                        child: CircleAvatar(
-                                          radius: 31,
-                                          backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                          child: CircleAvatar(
-                                            radius: 30,
-                                            backgroundColor: Colors.white,
+                                        ]),
+                                        //color: Colors.white,
+                                        // border: Border.all(
+                                        //   color: HexColor("#E9ECFE"),
+                                        //   width: 1,
+                                        // ),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left:10.0),
                                             child: CircleAvatar(
-                                              backgroundImage: AssetImage('assets/images/proimg.png'),
-                                              radius: 28,
+                                              radius: 31,
+                                              backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                              child: CircleAvatar(
+                                                radius: 30,
+                                                backgroundColor: Colors.white,
+                                                child: CircleAvatar(
+                                                  backgroundImage: AssetImage('assets/images/proimg.png'),
+                                                  radius: 28,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      //SizedBox(width: 5,),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(height: 8,),
-                                            Text(pescriptionList[index].consultNo,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                            Text(pescriptionList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                            SizedBox(height: 5,),
-                                            Text(pescriptionList[index].docName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600)),
-                                            Text(pescriptionList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
-                                          ],
-                                        ),
-                                      ),
-                                      // Container(width:45,child: rx),
-                                      // (controller.isSelecting)?
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                      //   child: righticon,
-                                      // ):
-                                      Padding(
-                                        padding: const EdgeInsets.only(right:18.0),
-                                        child: Stack(children: [
+                                          //SizedBox(width: 5,),
                                           Padding(
-                                            padding: const EdgeInsets.only(top:10.0),
-                                            child: Container(width:45,child: rx),
+                                            padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(height: 8,),
+                                                Text(dataList2[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                Text(DateUtil().formattedDate(DateTime.parse(dataList2[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                SizedBox(height: 5,),
+                                                Container(width:200,child: Text(dataList2[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
+                                                Text(dataList2[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
+                                              ],
+                                            ),
+
                                           ),
-                                           (controller.isSelected(index))?
+                                          // Container(width:45,child: rx),
+                                          // (controller.isSelecting)?
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                          //   child: righticon,
+                                          // ):
                                           Padding(
-                                            padding: const EdgeInsets.only(left:38.0,top: 5),
-                                            child: righticon,
-                                          ): (controller.isSelecting)?Padding(
-                                             padding: const EdgeInsets.only(left:38.0,top: 5),
-                                             child: greyright,
-                                           ):Padding(
-                                             padding: EdgeInsets.only(left: 38,top: 5),
-                                             child: popup,
-                                           ),
-                                        ]),
+                                            padding: const EdgeInsets.only(right:18.0,),
+                                            child: Stack(children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(top:10.0),
+                                                child: Container(width:45,child: rx),
+                                              ),
+                                              (controller.isSelected(index))?
+                                              Padding(
+                                                padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                child: righticon,
+                                              ): (controller.isSelecting)?Padding(
+                                                padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                child: greyright,
+                                              ):Padding(
+                                                padding: EdgeInsets.only(left: 38,top: 5),
+                                                child: popup,
+                                              ),
+                                            ]),
+                                          ),
+
+
+                                        ],
                                       ),
-
-
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ]
-                        ),
-                      );
-                  }),
+                                ]
+                            ),
+                          );
+                        });
+
+                  }else{
+                    return Center( child: CircularProgressIndicator());
+                  }
+
+                }
+              ),
             ),
           ),
           ],
@@ -901,5 +930,14 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         ),
       );
 
+  }
+}
+
+
+class DateUtil {
+  static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

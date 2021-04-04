@@ -31,22 +31,23 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  List<Widget> screens=[
-       DashboardScreen(),
-       NotificationScreen(),
-  ];
+  // List<Widget> screens=[
+  //      DashboardScreen(),
+  //      NotificationScreen(),
+  // ];
 
-  List<Widget> finalStack(){
-    List<Widget> stackToReturn=[];
-    stackToReturn.add(DrawerScreen());
-    stackToReturn.add(DashboardScreen());
-     // screens.asMap().entries.map((e) => DashboardScreen());
-    return stackToReturn;
-  }
+  // List<Widget> finalStack(){
+  //   List<Widget> stackToReturn=[];
+  //   stackToReturn.add(DrawerScreen());
+  //   stackToReturn.add(DashboardScreen());
+  //    // screens.asMap().entries.map((e) => DashboardScreen());
+  //   return stackToReturn;
+  // }
 
   // Widget buildStackedScreen(){
   //
   // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //   Stack(children: finalStack()),
     var pages = <Widget>[
       Stack(children: [
-        DrawerScreen(),
+        widget.accessToken==null?Container():DrawerScreen(),
         widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
       AppointmentScreen(),
       HospitalScreen(),

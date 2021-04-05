@@ -185,6 +185,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     final String assetName5="assets/icons/pp.svg";
     final String assetName6="assets/icons/jp.svg";
     final String assetName8="assets/icons/upload.svg";
+    final String assetName9="assets/icons/cm.svg";
 
     final Widget dx = SvgPicture.asset(
       assetName4,
@@ -244,6 +245,15 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
+    final Widget cm = SvgPicture.asset(
+      assetName9,
+      width: 20,
+      height:15,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
 
 
 
@@ -257,13 +267,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           heroTag: "train",
           backgroundColor: HexColor("#354291"),
           mini: true,
-          child: Icon(Icons.camera_alt_outlined),
+          child: cm,
           onPressed: () {},
         )));
 
     childButtons.add(UnicornButton(
         hasLabel: true,
-        labelText: "   Upload Documents \n (JPG,PNG,PDF only)",
+        labelText: " Upload Documents\n(JPG,PNG,PDF only)",
         labelColor: HexColor("#354291") ,
         labelBackgroundColor: HexColor("#E9ECFE"),
         labelFontSize: 10,

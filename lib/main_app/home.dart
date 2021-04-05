@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
 
@@ -95,7 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
     //   Stack(children: finalStack()),
     var pages = <Widget>[
       Stack(children: [
-        widget.accessToken==null?Container():DrawerScreen(),
+        widget.accessToken==null?Container(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: RaisedButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile()));
+              },
+            ),
+          ),
+        ):DrawerScreen(),
         widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
       AppointmentScreen(),
       HospitalScreen(),

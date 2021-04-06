@@ -3,6 +3,9 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
+import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
 
 class UserProfile extends StatefulWidget {
   @override
@@ -10,6 +13,10 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+  BorderRadiusGeometry radius = BorderRadius.only(
+    topLeft: Radius.circular(25.0),
+    topRight: Radius.circular(25.0),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,14 +200,19 @@ class _UserProfileState extends State<UserProfile> {
                          children: [
                            Text("Personal Info",style:GoogleFonts.roboto(color:HexColor('#354291'),fontSize: 16,fontWeight: FontWeight.bold),),
                            Spacer(),
-                           Container(
-                             width: 55,
-                             height: 20,
-                             decoration: BoxDecoration(
-                               border: Border.all(color: HexColor('#354291')),
-                               borderRadius: BorderRadius.circular(5),
+                           InkWell(
+                             onTap:(){
+                               _showAlertDialogForEditProfile(context);
+                             } ,
+                             child: Container(
+                               width: 55,
+                               height: 20,
+                               decoration: BoxDecoration(
+                                 border: Border.all(color: HexColor('#354291')),
+                                 borderRadius: BorderRadius.circular(5),
+                               ),
+                               child: Center(child: Text("Edit info",style:  GoogleFonts.roboto(color: HexColor('#354291'),fontSize: 8),)),
                              ),
-                             child: Center(child: Text("Edit info",style:  GoogleFonts.roboto(color: HexColor('#354291'),fontSize: 8),)),
                            )
                          ],
                        ),
@@ -270,19 +282,24 @@ class _UserProfileState extends State<UserProfile> {
                        ),
                      ),
                      SizedBox(height:15 ,),
-                     Material(
-                       elevation: 2  ,
-                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                       color: HexColor("#354291"),
-                       child: SizedBox(
-                         width: 350,
-                         height: 40,
-                         child: Center(
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.center,
-                             children: [
-                               Text("CLICK HERE TO CHANGE",style: GoogleFonts.roboto(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
-                             ],
+                     InkWell(
+                       onTap: (){
+                         _showAlertDialogForPassword(context);
+                       },
+                       child: Material(
+                         elevation: 2  ,
+                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                         color: HexColor("#354291"),
+                         child: SizedBox(
+                           width: 350,
+                           height: 40,
+                           child: Center(
+                             child: Row(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 Text("CLICK HERE TO CHANGE",style: GoogleFonts.roboto(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
+                               ],
+                             ),
                            ),
                          ),
                        ),
@@ -332,5 +349,22 @@ class _UserProfileState extends State<UserProfile> {
         ),
       ),
     );
+
   }
+  void _showAlertDialogForPassword(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ChangePasswordAlert();
+        });
+  }
+
+  void _showAlertDialogForEditProfile(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return EditProfileAlert();
+        });
+  }
+
 }

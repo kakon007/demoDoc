@@ -19,7 +19,7 @@ void main() async{
   runApp(
     MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Root(accessToken: accessToken, userName: userName)),
+        home: Root(accessToken: accessToken)),
   );
 }
 

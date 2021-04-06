@@ -160,15 +160,21 @@
 
 
 //
+import 'dart:convert';
 import 'dart:ui';
-
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
+import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
+import 'package:http/http.dart' as http;
 
 class FindYourDoctorScreen extends StatefulWidget {
   String title;
@@ -183,7 +189,9 @@ class FindYourDoctorScreen extends StatefulWidget {
 }
 
 class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
-  //final String assetName4 = "assets/icons/fliter.svg";
+  AsyncMemoizer<DoctorsGridModel> _memoizer;
+  final List<Datum> doctorsList = List<Datum>();
+  List<Item> dataList = List<Item>();
   final Widget filtericon = SvgPicture.asset(
     "assets/icons/fliter.svg",
     width: 10,
@@ -193,6 +201,60 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     matchTextDirection: true,
     //semanticsLabel: 'Acme Logo'
   );
+  Future<HospitalListModel> fetchHospitalList() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+    var client = http.Client();
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      // print(response.body);
+      HospitalListModel data = hospitalListModelFromJson(response.body) ;
+      setState(() {
+        data.items.forEach((element) {
+          dataList.add(element);
+        });
+      });
+      return data;
+    }else {
+      return null;
+    }
+  }
+  Future<DoctorsGridModel> getDoctorList() async {
+    return this._memoizer.runOnce(() async{
+      var url =
+          "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/gridList?draw=1&columns%5B0%5D%5Bdata%5D=photo&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=doctorName&columns%5B1%5D%5Bname%5D=doctorName&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=specializationName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=docDegree&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=consultationFee&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=9&search%5Bvalue%5D=&search%5Bregex%5D=false&ogNo=2&companyNo=2&_=1617590097400";
+      var client = http.Client();
+      var response = await client.get(url);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        DoctorsGridModel data = doctorsGridModelFromJson(response.body);
+        setState(() {
+          data.obj.data.forEach((element) {
+            doctorsList.add(element);
+          });
+          print(doctorsList.length);
+          // data.data.forEach((element) {
+          //   patientTypeList.add(element);
+          // });
+        });
+        //print('Data:: ' + data.patientItem[0].patientTypeName);
+        return data;
+      } else {
+        return null;
+      }
+    });
+
+  }
+   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _memoizer = AsyncMemoizer();
+    getDoctorList();
+    fetchHospitalList();
+  }
   @override
   Widget build(BuildContext context) {
     final String assetName1 = "assets/icons/phone.svg";
@@ -409,12 +471,26 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                     Container(
                         margin: EdgeInsets.only(top: 8,bottom: 3,left: 25),
                         child: Text('Doctors',style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w600))),
-                    CustomContainer('Dr. Jahid Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
-                    CustomContainer('Dr. Shefa Rahman',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc1.png"),
-                    CustomContainer('Professor Dr. A K M Fazlul Haque',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
-                    CustomContainer('Dr. Akram Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
-                    CustomContainer('Dr. Akram Hasan',"Skin Specialist",'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',"assets/images/doc.png"),
-                  ],
+                    FutureBuilder<DoctorsGridModel>(
+                        future:getDoctorList(),
+                        builder: (BuildContext context, snapshot){
+                          if(snapshot.hasData){
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Column(
+                                children: [
+                                  ...List.generate(
+                                    snapshot.data.obj.data.length,
+                                        (i) => CustomContainer(snapshot.data.obj.data[i].doctorName,snapshot.data.obj.data[i].specializationName, 'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital', "assets/images/doc.png", snapshot.data.obj.data[i].consultationFee.toString()),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }else{
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        })
+                      ],
                 ),
 
           ),

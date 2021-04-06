@@ -8,7 +8,8 @@ class CustomContainer extends StatelessWidget {
   String subTitleText;
   String undersubtitle;
   String images;
-  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images);
+  String consultationFee;
+  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee);
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
@@ -19,8 +20,8 @@ class CustomContainer extends StatelessWidget {
     );
     return Container(
 
-      height: cardHeight*1.2,
-      margin: EdgeInsets.only(top: 8,bottom: 5,right: 14,left: 14),
+      height: cardHeight*1.24,
+      margin: EdgeInsets.only(top: 8,bottom: 6,right: 14,left: 14),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -80,7 +81,7 @@ class CustomContainer extends StatelessWidget {
 
                       Row(
                         children: [
-                          Text('Fee: 700tk' ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
+                          Text(consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
                           SizedBox(width: 40,),
                           Container(
                             width: cardWidth*0.7,

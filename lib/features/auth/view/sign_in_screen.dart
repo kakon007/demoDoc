@@ -228,7 +228,9 @@ class _SignInState extends State<SignIn> {
 
                                 SharedPreferences prefs= await SharedPreferences.getInstance();
                                 prefs.setString("accessToken", signInData.accessToken);
-                                prefs.setString("userName", signInData.name);
+                                prefs.setString("username", _username.text);
+                                prefs.setString("password", _password.text
+                                );
                               }
                               setState(() {
 

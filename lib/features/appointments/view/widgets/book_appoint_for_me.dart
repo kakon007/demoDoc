@@ -70,7 +70,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
           patientTypeList.add(element);
         });
       });
-      print('Data:: ' + data.patientItem[0].patientTypeName);
+      //print('Data:: ' + data.patientItem[0].patientTypeName);
       return data;
     }else {
       return null;
@@ -227,7 +227,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                     value: _selectedConsultation,
                                                     onChanged: (newValue) {
                                                       setState(() {
-                                                        print(newValue);
+                                                        //print(newValue);
                                                         _selectedConsultation = newValue;
                                                         selectedConsultationType= newValue;
 

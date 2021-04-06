@@ -400,7 +400,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             scaleFactor = 0.8;
                             isDrawerOpen = true;
                           });
-                          print("Jahid");
+                          //print("Jahid");
                         }),
                 ),
               ),

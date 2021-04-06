@@ -8,8 +8,7 @@ import 'main_app/util/app_version.dart';
 
 class Root extends StatefulWidget {
   String accessToken;
-  String userName;
-  Root({this.accessToken, this.userName});
+  Root({this.accessToken});
   @override
   _RootState createState() => _RootState();
 }
@@ -17,12 +16,12 @@ class Root extends StatefulWidget {
 class _RootState extends State<Root> {
   @override
   void initState() {
-    widget.accessToken="";
+   // widget.accessToken="";
     super.initState();
     Timer(
         Duration(seconds: 3),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreen(accessToken: widget.accessToken, userName: widget.userName))));
+            builder: (BuildContext context) => HomeScreen(accessToken: widget.accessToken))));
   }
 
   @override

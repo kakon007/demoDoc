@@ -30,8 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
     currentIndex = index;
     setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
+    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    print(widget.accessToken);
     final String dashboardiconiamg = "assets/icons/dashboard_icon.svg";
     final Widget dashboardicon = SvgPicture.asset(
       dashboardiconiamg,

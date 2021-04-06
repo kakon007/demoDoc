@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 
-import '../availableslots_model.dart';
+import '../../models/availableslots_model.dart';
 class AvailableSlots extends StatefulWidget {
   @override
   _AvailableSlotsState createState() => _AvailableSlotsState();

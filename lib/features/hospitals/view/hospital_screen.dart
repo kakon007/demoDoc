@@ -74,12 +74,12 @@ class _HospitalScreenState extends State<HospitalScreen> {
   Future<DeptListModel> fetchDepartmentList() async {
     SharedPreferences prefs= await SharedPreferences.getInstance();
     accessToken = prefs.getString('accessToken');
-    print(accessToken);
+    var username=  prefs.getString("username");
+    print(username);
     var url =
         "https://qa.myhealthbd.com:9096/auth-api/api/employee/dept/list";
     var client = http.Client();
     var response = await client.get(url,headers: {'Authorization': 'Bearer $accessToken',});
-
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonMap = json.decode(response.body);
       print(response.body);
@@ -89,7 +89,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
           departmentList.add(element);
         });
       });
-      print('Data:: ' + data.deptItem[12].isChecked.toString());
+      //print('Data:: ' + data.deptItem[12].isChecked.toString());
       return data;
     }else {
       return null;
@@ -102,7 +102,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
       'id': 4,
       "ogNo": 2
     }),);
-    print(response.body);
+    //print(response.body);
     if (response.statusCode == 200) {
       print(response.body);
       spItem = sepcializationListModelFromJson(response.body) ;
@@ -111,7 +111,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
           specializationList.add(element);
         });
       });
-      print('Data:: ' + spItem.specializationItem[12].dtlDescription);
+      //print('Data:: ' + spItem.specializationItem[12].dtlDescription);
       return spItem;
     }else {
       return null;
@@ -120,6 +120,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //print(accessToken);
     var searchField = SignUpFormField(
       borderRadius: 30,
       hintText: StringResources.searchBoxHint,

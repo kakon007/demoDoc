@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
 
 import '../../../constant.dart';
+import 'switch_account_alert_dialog.dart';
 
 class SwitchAccount extends StatefulWidget {
   @override
@@ -148,8 +149,13 @@ class _SwitchAccountState extends State<SwitchAccount> {
                     SizedBox(
                       width: 10,
                     ),
-                    Text("Add New Account",
-                        style: GoogleFonts.poppins(color: HexColor("#354291"))),
+                    GestureDetector(
+                      onTap: (){
+                        _showAlert(context);
+                      },
+                      child: Text("Add New Account",
+                          style: GoogleFonts.poppins(color: HexColor("#354291"))),
+                    ),
                   ],
                 ),
               ),
@@ -454,6 +460,14 @@ class _SwitchAccountState extends State<SwitchAccount> {
         ),
       ),
     );
+  }
+
+  void _showAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return SwitchAccountAlert();
+        });
   }
 }
 

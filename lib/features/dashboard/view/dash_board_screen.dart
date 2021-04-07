@@ -43,31 +43,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // double xOffset2 = 0.0;
   // double yOffset2 = 0.0;
   // double scaleFactor2 = 1;
-  Future<HospitalListModel> fetchHospitalList() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-    var client = http.Client();
-    var response = await client.get(url);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonMap = json.decode(response.body);
-      //data = jsonMap["items"];
-      HospitalListModel data = hospitalListModelFromJson(response.body) ;
-      setState(() {
-        data.items.forEach((elemant) {
-          dataList.add(elemant);
-        });
-      });
-      //print('Data:: ' + data.items[5].companyName);
-      return data;
-      //print(data[0]['companySlogan']);
-    }else {
-      return null;
-    }
-  }
+
   @override
   void initState() {
     // TODO: implement initState
-    //fetchHospitalList();
+    fetchHospitalList();
     super.initState();
   }
  @override
@@ -75,6 +55,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // TODO: implement dispose
    fetchHospitalList();
     super.dispose();
+  }
+  Future<HospitalListModel> fetchHospitalList() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+    var client = http.Client();
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      HospitalListModel data = hospitalListModelFromJson(response.body) ;
+      setState(() {
+        data.items.forEach((elemant) {
+          dataList.add(elemant);
+        });
+      });
+      print('Data:: ' + data.items[5].companyName);
+      return data;
+      //print(data[0]['companySlogan']);
+    }else {
+      return null;
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -512,7 +512,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               children: [
                                 ...List.generate(
                                   snapshot.data.items.length,
-                                      (i) => CustomCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo),
+                                      (i) => CustomCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo,snapshot.data.items[i].companyId,snapshot.data.items[i].ogNo.toString()),
                                 ),
                               ],
                             ),

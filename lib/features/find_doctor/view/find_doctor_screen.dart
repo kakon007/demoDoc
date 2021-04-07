@@ -181,8 +181,9 @@ class FindYourDoctorScreen extends StatefulWidget {
   String phoneText;
   String emailText;
   String addressText;
-
-  FindYourDoctorScreen(this.title,this.phoneText,this.emailText,this.addressText);
+String companyNo;
+String orgNo;
+  FindYourDoctorScreen(this.title,this.phoneText,this.emailText,this.addressText, this.orgNo, this.companyNo);
 
   @override
   _FindYourDoctorScreenState createState() => _FindYourDoctorScreenState();
@@ -223,7 +224,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   Future<DoctorsGridModel> getDoctorList() async {
     return this._memoizer.runOnce(() async{
       var url =
-          "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/gridList?draw=1&columns%5B0%5D%5Bdata%5D=photo&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=doctorName&columns%5B1%5D%5Bname%5D=doctorName&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=specializationName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=docDegree&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=consultationFee&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=9&search%5Bvalue%5D=&search%5Bregex%5D=false&ogNo=2&companyNo=2&_=1617590097400";
+          "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/gridList?draw=1&columns%5B0%5D%5Bdata%5D=photo&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=doctorName&columns%5B1%5D%5Bname%5D=doctorName&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=specializationName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=docDegree&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=consultationFee&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=9&search%5Bvalue%5D=&search%5Bregex%5D=false&ogNo=${widget.orgNo}&companyNo=${widget.companyNo}&_=1617590097400";
       var client = http.Client();
       var response = await client.get(url);
       print(response.body);
@@ -481,7 +482,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                 children: [
                                   ...List.generate(
                                     snapshot.data.obj.data.length,
-                                        (i) => CustomContainer(snapshot.data.obj.data[i].doctorName,snapshot.data.obj.data[i].specializationName, 'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital', "assets/images/doc.png", snapshot.data.obj.data[i].consultationFee.toString()),
+                                        (i) => CustomContainer(snapshot.data.obj.data[i].doctorName,snapshot.data.obj.data[i].specializationName, 'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital', "assets/images/doc.png", snapshot.data.obj.data[i].consultationFee.toString(), snapshot.data.obj.data[i].buName, snapshot.data.obj.data[i].doctorNo.toString(),snapshot.data.obj.data[i].companyNo.toString(), snapshot.data.obj.data[i].ogNo.toString() ),
                                   ),
                                 ],
                               ),

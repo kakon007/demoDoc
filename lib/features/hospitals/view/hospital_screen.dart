@@ -89,7 +89,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
           departmentList.add(element);
         });
       });
-      //print('Data:: ' + data.deptItem[12].isChecked.toString());
+     // print('Data:: ' + data.deptItem[12].isChecked.toString());
       return data;
     }else {
       return null;
@@ -106,12 +106,13 @@ class _HospitalScreenState extends State<HospitalScreen> {
     if (response.statusCode == 200) {
       print(response.body);
       spItem = sepcializationListModelFromJson(response.body) ;
+     // print(spItem);
       setState(() {
         spItem.specializationItem.forEach((element) {
           specializationList.add(element);
         });
       });
-      //print('Data:: ' + spItem.specializationItem[12].dtlDescription);
+    // print('Data:: ' + spItem.specializationItem[2].dtlDescription);
       return spItem;
     }else {
       return null;
@@ -121,6 +122,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
   @override
   Widget build(BuildContext context) {
     //print(accessToken);
+   // print(specializationList[1].dtlName);
     var searchField = SignUpFormField(
       borderRadius: 30,
       hintText: StringResources.searchBoxHint,
@@ -142,7 +144,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                 children: [
                   ...List.generate(
                     snapshot.data.items.length,
-                        (i) => HospitalListCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo,),
+                        (i) => HospitalListCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo,snapshot.data.items[i].ogNo.toString(), snapshot.data.items[i].companyId),
                   ),
                 ],
               ),

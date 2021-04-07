@@ -8,11 +8,22 @@ import 'package:myhealthbd_app/features/user_profile/widgets/change_password_pro
 import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
 
 class UserProfile extends StatefulWidget {
+  String fName;
+  String phoneNumber;
+  String address;
+  String dob;
+  UserProfile({this.fName,this.phoneNumber,this.address,this.dob});
   @override
-  _UserProfileState createState() => _UserProfileState();
+  _UserProfileState createState() => _UserProfileState(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob);
 }
 
 class _UserProfileState extends State<UserProfile> {
+  String fName;
+  String phoneNumber;
+  String address;
+  String dob;
+  _UserProfileState({this.fName,this.phoneNumber,this.address,this.dob});
+
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
@@ -224,7 +235,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Full name            : Jhon Doe",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Full name            : $fName",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -242,7 +253,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Mobile number   : 01962823087",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Mobile number   : $phoneNumber",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -251,7 +262,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Address               : House 76, Road 4, \n                                Block B, Niketon, \n                                Gulshan1,Dhaka",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Address               : $address",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -260,7 +271,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Date of birth        : 25/02/1996",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Date of birth        : $dob",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(

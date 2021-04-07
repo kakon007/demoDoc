@@ -120,7 +120,7 @@ class SignUpFormField extends StatelessWidget {
                 hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
                 focusedBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
+                      BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                   borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),

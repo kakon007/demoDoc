@@ -17,7 +17,10 @@ class DrawerScreen extends StatefulWidget {
 
 class _DrawerScreenState extends State<DrawerScreen> {
   int selectedMenuIndex=0;
-  String dataList2 ;
+  String fName ;
+  String phoneNumber;
+  String address;
+  String dob;
 
   List<String> menuItem=[
     "Dashboard",
@@ -98,10 +101,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
       FindHospitalNumberModel data2 = findHospitalNumberModelFromJson(response.body) ;
       //Obj odj=Obj.fromJson();
       setState(() {
-        dataList2=data2.obj.fname;
+        fName=data2.obj.fname;
+        phoneNumber=data2.obj.phoneMobile;
+        address=data2.obj.address;
+        dob=data2.obj.dob;
       });
       print('Data:: ' + data2.obj.fname);
-      print('DataList:: ' + dataList2.toString());
+      print('DataList:: ' + fName.toString());
       return data2;
       //print(data[0]['companySlogan']);
     }else {
@@ -125,7 +131,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
         children: [
           InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob,)));
               print("Presssss");
             },
             child: Row(
@@ -150,7 +156,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     Row(
                       children: [
                         Text(
-                          dataList2,
+                          fName,
                           style: GoogleFonts.roboto(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

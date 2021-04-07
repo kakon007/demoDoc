@@ -64,6 +64,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return null;
     }
   }
+
+  Future<HospitalListModel> fetchHospitalLogo() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyLogoList";
+    var client = http.Client();
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      //data = jsonMap["items"];
+      HospitalListModel data = hospitalListModelFromJson(response.body) ;
+      setState(() {
+        data.items.forEach((elemant) {
+          dataList.add(elemant);
+        });
+      });
+      //print('Data:: ' + data.items[5].companyName);
+      return data;
+      //print(data[0]['companySlogan']);
+    }else {
+      return null;
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState

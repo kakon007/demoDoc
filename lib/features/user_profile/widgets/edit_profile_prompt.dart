@@ -11,6 +11,11 @@ class EditProfileAlert extends StatefulWidget {
 }
 
 class _EditProfileAlertState extends State<EditProfileAlert> {
+  final _username = TextEditingController();
+  final _email = TextEditingController();
+  final _mobile = TextEditingController();
+  final _address = TextEditingController();
+  final _formKey = new GlobalKey<FormState>();
   DateTime pickBirthDate;
   Future<Null> selectBirthDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
@@ -43,146 +48,37 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width * 0.44;
-    var name = Directionality(
-        textDirection: TextDirection.ltr,
-        child: Theme(
-          data: new ThemeData(
-            primaryColor: Colors.grey,
-            //primaryColorDark: Colors.grey,
-          ),
-          child: Container(
-            margin:  EdgeInsets.only(top: 8,bottom: 8,),
-            height: 50,
-            child: TextField(
-              decoration: new InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                  BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                  border: new OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                      //borderSide: new BorderSide(color: Colors.teal.withOpacity(0.3))
-                  ),
-                  labelText: 'Name *',
-                  enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  labelStyle: TextStyle(
-                      color: Colors.grey.withOpacity(0.3)
-                  )
-                 ),
-            ),
-          ),
-        )
+    var name = SignUpFormField(
+      labelText: "Name",
+      isRequired: true,
+      controller: _username,
+      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      contentPadding: EdgeInsets.all(15),
+      hintText:'Name',
     );
-    var email = Directionality(
-        textDirection: TextDirection.ltr,
-        child: Theme(
-          data: new ThemeData(
-            primaryColor: Colors.grey,
-            //primaryColorDark: Colors.grey,
-          ),
-          child: Container(
-            margin:  EdgeInsets.only(top: 8,bottom: 8,),
-            height: 50,
-            child: TextField(
-              decoration: new InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                border: new OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  //borderSide: new BorderSide(color: Colors.teal.withOpacity(0.3))
-                ),
-                labelText: 'Email *',
-                  enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  labelStyle: TextStyle(
-                      color: Colors.grey.withOpacity(0.3)
-                  )
-              ),
-            ),
-          ),
-        )
+    var email = SignUpFormField(
+      labelText: "Email",
+      isRequired: true,
+      controller: _email,
+      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      contentPadding: EdgeInsets.all(15),
+      hintText:'Email',
     );
-    var mobile = Directionality(
-        textDirection: TextDirection.ltr,
-        child: Theme(
-          data: new ThemeData(
-            primaryColor: Colors.grey,
-            //primaryColorDark: Colors.grey,
-          ),
-          child: Container(
-            margin:  EdgeInsets.only(top: 8,bottom: 8,),
-            height: 50,
-            child: TextField(
-              decoration: new InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                border: new OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  //borderSide: new BorderSide(color: Colors.teal.withOpacity(0.3))
-                ),
-                labelText: 'Mobile *',
-                  enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  labelStyle: TextStyle(
-                      color: Colors.grey.withOpacity(0.3)
-                  )
-              ),
-            ),
-          ),
-        )
+    var mobile = SignUpFormField(
+      labelText: "Mobile",
+      isRequired: true,
+      controller: _mobile,
+      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      contentPadding: EdgeInsets.all(15),
+      hintText:'Mobile',
     );
-    var address = Directionality(
-        textDirection: TextDirection.ltr,
-        child: Theme(
-          data: new ThemeData(
-            primaryColor: Colors.grey.withOpacity(0.1),
-            //primaryColorDark: Colors.grey,
-          ),
-          child: Container(
-            margin:  EdgeInsets.only(top: 8,bottom: 8,),
-            height: 50,
-            child: TextField(
-              decoration: new InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                    borderRadius: BorderRadius.circular(10)
-                ),
-
-                border: new OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  //borderSide: new BorderSide(color: Colors.teal.withOpacity(0.3))
-                ),
-                labelText: 'Address *',
-                  enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  labelStyle: TextStyle(
-                      color: Colors.grey.withOpacity(0.3)
-                  )
-              ),
-            ),
-          ),
-        )
+    var address = SignUpFormField(
+      labelText: "Address",
+      isRequired: true,
+      controller: _address,
+      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      contentPadding: EdgeInsets.all(15),
+      hintText:'Address',
     );
 
     var gender = Row(
@@ -190,90 +86,66 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
         GestureDetector(
           child: Column(
             children: [
-              // Container(
-              //     height: 20.0,
-              //     width: MediaQuery.of(context).size.width*.4,
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(left: 15.0),
-              //       child: Row(
-              //         children: [
-              //           Text(StringResources.gender,
-              //               style: GoogleFonts.roboto(fontSize: 12)),
-              //           Text(
-              //             " *",
-              //             style:
-              //             GoogleFonts.roboto(color: HexColor("#FF5B71")),
-              //           )
-              //         ],
-              //       ),
-              //     )),
               Container(
-                height: 57.0,
-                width: MediaQuery.of(context).size.width*.40,
-                // decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     border: Border.all(color: HexColor(color)),
-                //     borderRadius: BorderRadius.circular(10)),
-                child:
-                InputDecorator(
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                        borderRadius: BorderRadius.circular(10)
+                  height: 20.0,
+                  width: MediaQuery.of(context).size.width*.4,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+                        Text(StringResources.gender,
+                            style: GoogleFonts.roboto(fontSize: 12)),
+                        Text(
+                          " *",
+                          style:
+                          GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                        )
+                      ],
                     ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    labelText: 'Gender *',
-                      labelStyle: TextStyle(
-                          color: Colors.grey.withOpacity(0.3)
-                      ),
-                    border: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: Colors.orange, width: 1.0),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Container(
-                              width: 115,
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                  iconSize: 0.0,
-                                  hint: Text(StringResources.gender, style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
-                                  value: _selectedGender,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      _selectedGender = newValue;
-                                    });
-                                  },
-                                  items: StringResources.genderList.map((gender) {
-                                    return DropdownMenuItem(
-                                      child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
-                                      value: gender,
-                                    );
-                                  }).toList(),
-                                ),
+                  )),
+              Container(
+                height: 45.0,
+                width: MediaQuery.of(context).size.width*.42,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(color: HexColor(color)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            width: 145,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                iconSize: 0.0,
+                                hint: Text(StringResources.gender, style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                                value: _selectedGender,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedGender = newValue;
+                                  });
+                                },
+                                items: StringResources.genderList.map((gender) {
+                                  return DropdownMenuItem(
+                                    child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                                    value: gender,
+                                  );
+                                }).toList(),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 80.0,bottom: 100),
-                            child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 120.0, top: 5),
+                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
             ],
@@ -282,60 +154,64 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       ],
     );
     //String formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
-    var dateOfBirth = GestureDetector(
-      child: Container(
-        margin:  EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 5),
-        height: 57.0,
-        width: MediaQuery.of(context).size.width*.42,
-        child:
-        InputDecorator(
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                borderRadius: BorderRadius.circular(10)
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: Colors.grey.withOpacity(0.2), width: 1.0),
-                borderRadius: BorderRadius.circular(10)
-            ),
-            labelText: 'Brith Date *',
-            labelStyle: TextStyle(
-                color: Colors.grey.withOpacity(0.3)
-            ),
-            border: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: Colors.orange, width: 1.0),
-                borderRadius: BorderRadius.circular(10)
-            ),
-          ),
-          child:   Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    var dateOfBirth = Row(
+      children: [
+        GestureDetector(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  pickBirthDate == DateTime.now()
-                      ? "Date of birth"
-                      : "22/02/2021",
-                  style: TextStyle(fontSize: 13.0),
+              Container(
+                  height: 20.0,
+                  width: MediaQuery.of(context).size.width*.2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+                        Text(StringResources.dateOfBirth,
+                            style: GoogleFonts.roboto(fontSize: 12)),
+                        Text(
+                          " *",
+                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                        )
+                      ],
+                    ),
+                  )),
+              Container(
+                height: 45.0,
+                width: MediaQuery.of(context).size.width*.38,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(color: HexColor(color)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Text(
+                        pickBirthDate == DateTime.now()
+                            ? "Date of birth"
+                            : "22/02/2021",
+                        style: TextStyle(fontSize: 13.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Container(
+                          height: 18,
+                          child:
+                          Image.asset("assets/images/calender_icon.png")),
+                    ),
+                  ],
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Container(
-                    height: 18,
-                    child:
-                    Image.asset("assets/images/calender_icon.png")),
               ),
             ],
           ),
+          onTap: () {
+            selectBirthDate(context);
+          },
         ),
-      ),
-      onTap: () {
-        selectBirthDate(context);
-      },
+      ],
     );
     // var newPassword = SignUpFormField(
     //   labelText: "New Password",
@@ -360,7 +236,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: Center(
             child: Container(
               padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3),
+              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.3),
               child: Material(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -380,7 +256,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                 decoration: new BoxDecoration(
                                 ),
                                 child: new Text(
-                                  'Change Password',
+                                  'Edit Personal Info',
                                   style: GoogleFonts.poppins(
                                       color: AppTheme.appbarPrimary,
                                       fontSize: 15.0,
@@ -408,13 +284,13 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
 
                                 ],),
                               Padding(
-                                padding: const EdgeInsets.only(left: 22.0, right: 22, top: 22),
+                                padding: const EdgeInsets.only(left: 2.0, top: 22),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
-                                      width: width * .8,
+                                      width: width * .9,
                                       height: width * .25,
                                       child: FlatButton(
                                         onPressed: () {
@@ -436,7 +312,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: width * .8,
+                                      width: width * .9,
                                       height: width * .25,
                                       child: FlatButton(
                                         textColor: Colors.white,
@@ -447,7 +323,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                           BorderRadius.circular(8),
                                         ),
                                         child: Text(
-                                          "Save",
+                                          "Submit",
                                           style: GoogleFonts.poppins(),
                                         ),
                                       ),

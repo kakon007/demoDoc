@@ -3,13 +3,31 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
+import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
 
 class UserProfile extends StatefulWidget {
+  String fName;
+  String phoneNumber;
+  String address;
+  String dob;
+  UserProfile({this.fName,this.phoneNumber,this.address,this.dob});
   @override
-  _UserProfileState createState() => _UserProfileState();
+  _UserProfileState createState() => _UserProfileState(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob);
 }
 
 class _UserProfileState extends State<UserProfile> {
+  String fName;
+  String phoneNumber;
+  String address;
+  String dob;
+  _UserProfileState({this.fName,this.phoneNumber,this.address,this.dob});
+
+  BorderRadiusGeometry radius = BorderRadius.only(
+    topLeft: Radius.circular(25.0),
+    topRight: Radius.circular(25.0),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,14 +211,19 @@ class _UserProfileState extends State<UserProfile> {
                          children: [
                            Text("Personal Info",style:GoogleFonts.roboto(color:HexColor('#354291'),fontSize: 16,fontWeight: FontWeight.bold),),
                            Spacer(),
-                           Container(
-                             width: 55,
-                             height: 20,
-                             decoration: BoxDecoration(
-                               border: Border.all(color: HexColor('#354291')),
-                               borderRadius: BorderRadius.circular(5),
+                           InkWell(
+                             onTap:(){
+                               _showAlertDialogForEditProfile(context);
+                             } ,
+                             child: Container(
+                               width: 55,
+                               height: 20,
+                               decoration: BoxDecoration(
+                                 border: Border.all(color: HexColor('#354291')),
+                                 borderRadius: BorderRadius.circular(5),
+                               ),
+                               child: Center(child: Text("Edit info",style:  GoogleFonts.roboto(color: HexColor('#354291'),fontSize: 8),)),
                              ),
-                             child: Center(child: Text("Edit info",style:  GoogleFonts.roboto(color: HexColor('#354291'),fontSize: 8),)),
                            )
                          ],
                        ),
@@ -212,7 +235,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Full name            : Jhon Doe",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Full name            : $fName",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -230,7 +253,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Mobile number   : 01962823087",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Mobile number   : $phoneNumber",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -239,7 +262,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Address               : House 76, Road 4, \n                                Block B, Niketon, \n                                Gulshan1,Dhaka",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Address               : $address",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -248,7 +271,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Date of birth        : 25/02/1996",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Date of birth        : $dob",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -270,19 +293,24 @@ class _UserProfileState extends State<UserProfile> {
                        ),
                      ),
                      SizedBox(height:15 ,),
-                     Material(
-                       elevation: 2  ,
-                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                       color: HexColor("#354291"),
-                       child: SizedBox(
-                         width: 350,
-                         height: 40,
-                         child: Center(
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.center,
-                             children: [
-                               Text("CLICK HERE TO CHANGE",style: GoogleFonts.roboto(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
-                             ],
+                     InkWell(
+                       onTap: (){
+                         _showAlertDialogForPassword(context);
+                       },
+                       child: Material(
+                         elevation: 2  ,
+                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                         color: HexColor("#354291"),
+                         child: SizedBox(
+                           width: 350,
+                           height: 40,
+                           child: Center(
+                             child: Row(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 Text("CLICK HERE TO CHANGE",style: GoogleFonts.roboto(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
+                               ],
+                             ),
                            ),
                          ),
                        ),
@@ -332,5 +360,22 @@ class _UserProfileState extends State<UserProfile> {
         ),
       ),
     );
+
   }
+  void _showAlertDialogForPassword(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ChangePasswordAlert();
+        });
+  }
+
+  void _showAlertDialogForEditProfile(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return EditProfileAlert();
+        });
+  }
+
 }

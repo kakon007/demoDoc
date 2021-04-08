@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 //import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/custom_dialog_box.dart';
+import 'package:myhealthbd_app/features/dashboard/model/news_update_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
-import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'as hos;
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
@@ -27,7 +29,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   ScrollController _controller;
-  List<Item> dataList = new List<Item>();
+  List<hos.Item> dataList = new List<hos.Item>();
+  List<Item> dataList2=new List<Item>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = new GlobalKey<ScaffoldState>();
   BorderRadiusGeometry radius = BorderRadius.only(
@@ -43,7 +46,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // double xOffset2 = 0.0;
   // double yOffset2 = 0.0;
   // double scaleFactor2 = 1;
-  Future<HospitalListModel> fetchHospitalList() async {
+  Future<hos.HospitalListModel> fetchHospitalList() async {
     var url =
         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
     var client = http.Client();
@@ -51,9 +54,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonMap = json.decode(response.body);
       //data = jsonMap["items"];
-      HospitalListModel data = hospitalListModelFromJson(response.body) ;
+      hos.HospitalListModel data = hos.hospitalListModelFromJson(response.body) ;
       setState(() {
-        data.items.forEach((elemant) {
+       data.items.forEach((elemant) {
           dataList.add(elemant);
         });
       });
@@ -64,10 +67,51 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return null;
     }
   }
+
+  // Future<HospitalListModel> fetchHospitalLogo() async {
+  //   var url =
+  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyLogoList";
+  //   var client = http.Client();
+  //   var response = await client.get(url);
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     //data = jsonMap["items"];
+  //     HospitalListModel data = hospitalListModelFromJson(response.body) ;
+  //     setState(() {
+  //       data.items.forEach((elemant) {
+  //         dataList.add(elemant);
+  //       });
+  //     });
+  //     //print('Data:: ' + data.items[5].companyName);
+  //     return data;
+  //     //print(data[0]['companySlogan']);
+  //   }else {
+  //     return null;
+  //   }
+  // }
+
+
+  Future<NewsUpdatedModel> fetchNewspdate() async{
+    var url='https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
+    var res=await http.get(url);
+    if(res.statusCode==200){
+         NewsUpdatedModel data2=newsUpdatedModelFromJson(res.body);
+         setState(() {
+           data2.items.forEach((element) {
+             dataList2.add(element);
+           });
+         });
+         print("bodddytew::::"+data2.items.first.title.toString());
+         return data2;
+    }else{
+      return null;
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
     fetchHospitalList();
+    fetchNewspdate();
     super.initState();
   }
  @override
@@ -392,7 +436,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           });
                         })
                         : IconButton(
-                        icon: Icon(Icons.notes),
+                        icon: Icon(Icons.arrow_back),
                         onPressed: () {
                           setState(() {
                             xOffset = 250;
@@ -493,7 +537,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                     SizedBox(height: 10,),
-                FutureBuilder<HospitalListModel>(
+                FutureBuilder<hos.HospitalListModel>(
                    //  scrollDirection: Axis.horizontal,
                    //  physics: ClampingScrollPhysics(),
                    //  shrinkWrap: true,
@@ -533,21 +577,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                     SizedBox(height: 10,),
-                    SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left:18.0),
-                          child: Row(
-                            children: [
-                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                              SizedBox(width:15),
-                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                              SizedBox(width:15),
-                              CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                            ],
-                          ),
-                        )
-                    ),
+                    // SingleChildScrollView(
+                    //     scrollDirection: Axis.horizontal,
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.only(left:18.0),
+                    //       child: Row(
+                    //         children: [
+                    //           CustomCardNews("১৫ জানুয়ারি, ২০২১",,"60 Doctors"),
+                    //           SizedBox(width:15),
+                    //           CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                    //           SizedBox(width:15),
+                    //           CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                    //         ],
+                    //       ),
+                    //     )
+                    // ),
+
+                    FutureBuilder<NewsUpdatedModel>(
+                      //  scrollDirection: Axis.horizontal,
+                      //  physics: ClampingScrollPhysics(),
+                      //  shrinkWrap: true,
+                      // itemCount: dataList.length,
+                        future:fetchNewspdate(),
+                        builder: (BuildContext context, snapshot){
+                          if(snapshot.hasData){
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:18.0,),
+                                child:
+                                Row(
+                                  children: [
+                                    ...List.generate(
+                                      snapshot.data.items.length,
+                                          (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(dataList2[i].publishDate).toLocal()),dataList2[i].title,dataList2[i].newsLink),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }else{
+                            return CircularProgressIndicator();
+                          }
+                        }),
                     SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.only(left:18.0,right: 18),
@@ -613,4 +685,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+}
+
+class DateUtil {
+  static const DATE_FORMAT = 'yyyy-MM-dd';
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
+  }
 }

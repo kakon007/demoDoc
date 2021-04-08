@@ -426,7 +426,7 @@ class _AfterSignInState extends State<AfterSignIn> {
                         leading: Container(
                           child: isDrawerOpen
                               ? IconButton(
-                              icon: Icon(Icons.notes),
+                              icon: Icon(Icons.arrow_back),
                               onPressed: () {
                                 setState(() {
                                   xOffset = 0;
@@ -436,7 +436,7 @@ class _AfterSignInState extends State<AfterSignIn> {
                                 });
                               })
                               : IconButton(
-                              icon: Icon(Icons.arrow_back),
+                              icon: Icon(Icons.notes),
                               onPressed: () {
                                 setState(() {
                                   xOffset = 250;

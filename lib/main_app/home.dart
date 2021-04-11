@@ -4,7 +4,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/after_sign_in.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
+import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
@@ -15,6 +17,7 @@ import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.da
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer_2.dart';
+import 'package:provider/provider.dart';
 
 
 class HomeScreen extends StatefulWidget {

@@ -56,6 +56,10 @@ dependencies:
   equatable: ^1.2.5
   get_it: ^4.0.4
   jwt_decode: ^0.2.0
+  dartz: ^0.9.2
+  get:
+  provider:
+  after_layout:
 
 dev_dependencies:
   multi_select_item: ^1.0.3

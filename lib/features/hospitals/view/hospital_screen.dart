@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
+import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/doctor_filters.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -13,13 +15,15 @@ import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
+import 'package:provider/provider.dart';
+import 'package:after_layout/after_layout.dart';
 
 class HospitalScreen extends StatefulWidget {
   @override
   _HospitalScreenState createState() => _HospitalScreenState();
 }
 
-class _HospitalScreenState extends State<HospitalScreen> {
+class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
   List<Item> dataList = List<Item>();
  // List<HospitalListModel> chartData = [];
  //  List<dynamic> data=[];
@@ -76,35 +80,47 @@ class _HospitalScreenState extends State<HospitalScreen> {
   ScrollController _scrollController;
   ScrollController _scrollController2;
 
+  // @override
+  // void initState() {
+  //   //fetchHospitalList();
+  //   //getNews();
+  //   // var vm = Provider.of<HospitalListViewModel>(context, listen: false);
+  //   // vm.getData(isFromOnPageLoad: true);
+  //   HospitalListRepositry().fetchHospitalList();
+  //   super.initState();
+  //   _scrollController = ScrollController();
+  //   _scrollController2 = ScrollController();
+  // }
+
   @override
-  void initState() {
-    fetchHospitalList();
-    //getNews();
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController2 = ScrollController();
+  void afterFirstLayout(BuildContext context) {
+    var vm = Provider.of<HospitalListViewModel>(context, listen: false);
+    vm.getData();
   }
-  Future<HospitalListModel> fetchHospitalList() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-    var client = http.Client();
-    var response = await client.get(url);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonMap = json.decode(response.body);
-      HospitalListModel data = hospitalListModelFromJson(response.body) ;
-      setState(() {
-        data.items.forEach((elemant) {
-          dataList.add(elemant);
-        });
-      });
-      print('Data:: ' + data.items[5].companyName);
-      return data;
-    }else {
-      return null;
-    }
-  }
+  // Future<HospitalListModel> fetchHospitalList() async {
+  //   var url =
+  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+  //   var client = http.Client();
+  //   var response = await client.get(url);
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     HospitalListModel data = hospitalListModelFromJson(response.body) ;
+  //     setState(() {
+  //       data.items.forEach((elemant) {
+  //         dataList.add(elemant);
+  //       });
+  //     });
+  //     print('Data:: ' + data.items[5].companyName);
+  //     return data;
+  //   }else {
+  //     return null;
+  //   }
+  // }
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<HospitalListViewModel>(context);
+    List<Item> list = vm.hospiitalList;
+    var length=list.length;
     var searchField = SignUpFormField(
       borderRadius: 30,
       hintText: StringResources.searchBoxHint,
@@ -116,25 +132,25 @@ class _HospitalScreenState extends State<HospitalScreen> {
         ),
       ),
     );
-    var hospital= FutureBuilder<HospitalListModel>(
-        future:fetchHospitalList(),
-        builder: (BuildContext context, snapshot){
-          if(snapshot.hasData){
-            return SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  ...List.generate(
-                    snapshot.data.items.length,
-                        (i) => HospitalListCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo,),
-                  ),
-                ],
-              ),
-            );
-          }else{
-            return Center(child: CircularProgressIndicator());
-          }
-        });
+    // var hospital= FutureBuilder<HospitalListModel>(
+    //     future:fetchHospitalList(),
+    //     builder: (BuildContext context, snapshot){
+    //       if(snapshot.hasData){
+    //         return SingleChildScrollView(
+    //           scrollDirection: Axis.vertical,
+    //           child: Column(
+    //             children: [
+    //               ...List.generate(
+    //                 snapshot.data.items.length,
+    //                     (i) => HospitalListCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo,),
+    //               ),
+    //             ],
+    //           ),
+    //         );
+    //       }else{
+    //         return Center(child: CircularProgressIndicator());
+    //       }
+    //     });
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
     var verticalSpace = SizedBox(
@@ -207,288 +223,298 @@ class _HospitalScreenState extends State<HospitalScreen> {
         ],
       ),
     );
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: AppTheme.appbarPrimary,
-        title: Text(
-          StringResources.hospitalListAppbar,
-          style: GoogleFonts.poppins(fontSize: 15),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.white,
-              size: 20,
+
+
+          return Scaffold(
+            backgroundColor: Colors.white,
+// appBar: AppBar(
+//   backgroundColor: AppTheme.appbarPrimary,
+//   title: Text(
+//     StringResources.hospitalListAppbar,
+//     style: GoogleFonts.poppins(fontSize: 15),
+//   ),
+//   actions: <Widget>[
+//     IconButton(
+//       icon: Icon(
+//         Icons.notifications,
+//         color: Colors.white,
+//         size: 20,
+//       ),
+//       onPressed: () {
+//
+//         showModalBottomSheet(
+//             shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.only(
+//                     topLeft: Radius.circular(25),
+//                     topRight: Radius.circular(25))),
+//             context: context,
+//             isScrollControlled: true,
+//             builder: (context) {
+//               return StatefulBuilder(
+//                   builder: (BuildContext context, StateSetter setState) {
+//                     return FractionallySizedBox(
+//                       heightFactor: 0.85,
+//                       child: Column(
+//                         children: [
+//                           modalSheetTitle,
+//                           Expanded(
+//                             child: Padding(
+//                               padding: EdgeInsets.only(
+//                                   left: width / 6.912,
+//                                   right: width / 6.912),
+//                               child: Column(
+//                                 children: [
+//                                   Stack(
+//                                     children: [
+//                                       Container(
+//                                         height: height/3.55,
+//                                         decoration: BoxDecoration(
+//                                           borderRadius: BorderRadius.only(
+//                                               topLeft: Radius.circular(25),
+//                                               topRight:
+//                                               Radius.circular(25)),
+//                                           border: Border.all(
+//                                             color: HexColor("#D6DCFF"),
+//                                             //                   <--- border color
+//                                             width: 1,
+//                                           ),
+//                                         ),
+//                                         child: Column(
+//                                           children: [
+//                                             searchDepartment,
+//                                             Expanded(
+//                                               child: Scrollbar(
+//                                                 isAlwaysShown: true,
+//                                                 controller:
+//                                                 _scrollController,
+//                                                 child: ListView(
+//                                                   controller:
+//                                                   _scrollController,
+//                                                   children:
+//                                                   _items
+//                                                       .map(
+//                                                         (SimpleModel
+//                                                     item) =>
+//                                                         Container(
+//                                                           height: 35,
+//                                                           child:
+//                                                           CheckboxListTile(
+//                                                             activeColor:
+//                                                             AppTheme
+//                                                                 .signInSignUpColor,
+//                                                             controlAffinity:
+//                                                             ListTileControlAffinity
+//                                                                 .leading,
+//                                                             title: Text(
+//                                                               item.title,
+//                                                               style: GoogleFonts.poppins(
+//                                                                   fontWeight: item.isChecked ==
+//                                                                       true
+//                                                                       ? FontWeight
+//                                                                       .w600
+//                                                                       : FontWeight
+//                                                                       .normal),
+//                                                             ),
+//                                                             value: item
+//                                                                 .isChecked,
+//                                                             onChanged:
+//                                                                 (bool val) {
+//                                                               setState(() {
+//                                                                 val == true
+//                                                                     ? _items4.add(item
+//                                                                     .title)
+//                                                                     : _items4
+//                                                                     .remove(item.title);
+//                                                                 item.isChecked =
+//                                                                     val;
+//                                                               });
+//                                                             },
+//                                                           ),
+//                                                         ),
+//                                                   ).toList(),
+//
+//
+//                                                 ),
+//
+//                                               ),
+//                                             ),
+//                                           ],
+//                                         ),
+//                                       ),
+//                                     ],
+//                                   ),
+//                                   horizontalSpace,
+//                                   horizontalSpace,
+//                                   horizontalSpace,
+//                                   Container(
+//                                     height: height/3.55,
+//                                     decoration: BoxDecoration(
+//                                       borderRadius: BorderRadius.only(
+//                                           topLeft: Radius.circular(25),
+//                                           topRight:
+//                                           Radius.circular(25)),
+//                                       border: Border.all(
+//                                         color: HexColor("#D6DCFF"),
+//                                         //                   <--- border color
+//                                         width: 1.0,
+//                                       ),
+//                                     ),
+//                                     child: Column(
+//                                       children: [
+//                                         searchSpeciality,
+//                                         Expanded(
+//                                           child: Scrollbar(
+//                                             isAlwaysShown: true,
+//                                             controller:
+//                                             _scrollController2,
+//                                             child: ListView(
+//                                               controller:
+//                                               _scrollController2,
+//                                               children: _items2
+//                                                   .map(
+//                                                     (SimpleModel
+//                                                 item) =>
+//                                                     Container(
+//                                                       height: 35,
+//                                                       child:
+//                                                       CheckboxListTile(
+//                                                         activeColor:
+//                                                         AppTheme
+//                                                             .signInSignUpColor,
+//                                                         controlAffinity:
+//                                                         ListTileControlAffinity
+//                                                             .leading,
+//                                                         title: Text(
+//                                                           item.title,
+//                                                           style: GoogleFonts.poppins(
+//                                                               fontWeight: item.isChecked ==
+//                                                                   true
+//                                                                   ? FontWeight
+//                                                                   .w600
+//                                                                   : FontWeight
+//                                                                   .normal),
+//                                                         ),
+//                                                         value: item
+//                                                             .isChecked,
+//                                                         onChanged:
+//                                                             (bool val) {
+//                                                           setState(() {
+//                                                             val == true
+//                                                                 ? _items3.add(item
+//                                                                 .title)
+//                                                                 : _items3
+//                                                                 .remove(item.title);
+//                                                             item.isChecked =
+//                                                                 val;
+//                                                           });
+//                                                         },
+//                                                       ),
+//                                                     ),
+//                                               )
+//                                                   .toList(),
+//                                             ),
+//                                           ),
+//                                         )
+//                                       ],
+//                                     ),
+//                                   ),
+//                                   SizedBox(height:height>=600 ? 40: 25,),
+//                                   Row(
+//                                     mainAxisAlignment:
+//                                     MainAxisAlignment.spaceBetween,
+//                                     children: [
+//                                       AbsorbPointer(
+//                                         absorbing:
+//                                         _items4.isEmpty && _items3.isEmpty
+//                                             ? true
+//                                             : false,
+//                                         child: SizedBox(
+//                                           width: width * .9,
+//                                           height: width * .25,
+//                                           child: FlatButton(
+//                                             onPressed: () {},
+//                                             textColor: _items4.isEmpty &&
+//                                                 _items3.isEmpty
+//                                                 ? HexColor("#969EC8")
+//                                                 : AppTheme.appbarPrimary,
+//                                             color: HexColor("#FFFFFF"),
+//                                             shape: RoundedRectangleBorder(
+//                                                 borderRadius:
+//                                                 BorderRadius.circular(8),
+//                                                 side: BorderSide(
+//                                                     color: _items4.isEmpty &&
+//                                                         _items3.isEmpty
+//                                                         ? HexColor("#969EC8")
+//                                                         : AppTheme
+//                                                         .appbarPrimary,
+//                                                     width: 1)),
+//                                             child: Text(
+//                                               StringResources.clearFilterText,
+//                                               style: GoogleFonts.poppins(),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ),
+//                                       AbsorbPointer(
+//                                         absorbing:
+//                                         _items4.isEmpty && _items3.isEmpty
+//                                             ? true
+//                                             : false,
+//                                         child: SizedBox(
+//                                           width: width * .9,
+//                                           height: width * .25,
+//                                           child: FlatButton(
+//                                             textColor: Colors.white,
+//                                             onPressed: () {},
+//                                             color: _items4.isEmpty &&
+//                                                 _items3.isEmpty
+//                                                 ? HexColor("#969EC8")
+//                                                 : AppTheme.appbarPrimary,
+//                                             shape: RoundedRectangleBorder(
+//                                               borderRadius:
+//                                               BorderRadius.circular(8),
+//                                             ),
+//                                             child: Text(
+//                                               StringResources.applyFilterText,
+//                                               style: GoogleFonts.poppins(),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       )
+//                                     ],
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     );
+//                   });
+//             });
+//       },
+//     )
+//   ],
+// ),
+            body: Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  searchField,
+                  Expanded(child:ListView.builder(
+                        key: Key("dashboardHorizontalCareerAdviceListKey"),
+                        padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                        scrollDirection: Axis.vertical,
+                        itemCount: length,
+                        itemBuilder: (context, index) {
+                          var advice = list[index];
+                          return HospitalListCard(advice.companyName,advice.companyAddress==null?"Mirpur,Dahaka,Bangladesh":advice.companyAddress,"60 Doctors",advice.companyPhone==null?"+880 1962823007":advice.companyPhone,advice.companyEmail==null?"info@mysoftitd.com":advice.companyEmail,advice.companyLogo,);
+                        })),
+                ],
+              ),
             ),
-            onPressed: () {
-
-              showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25))),
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          return FractionallySizedBox(
-                            heightFactor: 0.85,
-                            child: Column(
-                              children: [
-                                modalSheetTitle,
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: width / 6.912,
-                                        right: width / 6.912),
-                                    child: Column(
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            Container(
-                                              height: height/3.55,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(25),
-                                                    topRight:
-                                                    Radius.circular(25)),
-                                                border: Border.all(
-                                                  color: HexColor("#D6DCFF"),
-                                                  //                   <--- border color
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  searchDepartment,
-                                                  Expanded(
-                                                    child: Scrollbar(
-                                                      isAlwaysShown: true,
-                                                      controller:
-                                                      _scrollController,
-                                                      child: ListView(
-                                                        controller:
-                                                        _scrollController,
-                                                        children:
-                                                        _items
-                                                            .map(
-                                                              (SimpleModel
-                                                          item) =>
-                                                              Container(
-                                                                height: 35,
-                                                                child:
-                                                                CheckboxListTile(
-                                                                  activeColor:
-                                                                  AppTheme
-                                                                      .signInSignUpColor,
-                                                                  controlAffinity:
-                                                                  ListTileControlAffinity
-                                                                      .leading,
-                                                                  title: Text(
-                                                                    item.title,
-                                                                    style: GoogleFonts.poppins(
-                                                                        fontWeight: item.isChecked ==
-                                                                            true
-                                                                            ? FontWeight
-                                                                            .w600
-                                                                            : FontWeight
-                                                                            .normal),
-                                                                  ),
-                                                                  value: item
-                                                                      .isChecked,
-                                                                  onChanged:
-                                                                      (bool val) {
-                                                                    setState(() {
-                                                                      val == true
-                                                                          ? _items4.add(item
-                                                                          .title)
-                                                                          : _items4
-                                                                          .remove(item.title);
-                                                                      item.isChecked =
-                                                                          val;
-                                                                    });
-                                                                  },
-                                                                ),
-                                                              ),
-                                                        ).toList(),
-
-
-                                                      ),
-
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        horizontalSpace,
-                                        horizontalSpace,
-                                        horizontalSpace,
-                                        Container(
-                                          height: height/3.55,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(25),
-                                                topRight:
-                                                Radius.circular(25)),
-                                            border: Border.all(
-                                              color: HexColor("#D6DCFF"),
-                                              //                   <--- border color
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              searchSpeciality,
-                                              Expanded(
-                                                child: Scrollbar(
-                                                  isAlwaysShown: true,
-                                                  controller:
-                                                  _scrollController2,
-                                                  child: ListView(
-                                                    controller:
-                                                    _scrollController2,
-                                                    children: _items2
-                                                        .map(
-                                                          (SimpleModel
-                                                      item) =>
-                                                          Container(
-                                                            height: 35,
-                                                            child:
-                                                            CheckboxListTile(
-                                                              activeColor:
-                                                              AppTheme
-                                                                  .signInSignUpColor,
-                                                              controlAffinity:
-                                                              ListTileControlAffinity
-                                                                  .leading,
-                                                              title: Text(
-                                                                item.title,
-                                                                style: GoogleFonts.poppins(
-                                                                    fontWeight: item.isChecked ==
-                                                                        true
-                                                                        ? FontWeight
-                                                                        .w600
-                                                                        : FontWeight
-                                                                        .normal),
-                                                              ),
-                                                              value: item
-                                                                  .isChecked,
-                                                              onChanged:
-                                                                  (bool val) {
-                                                                setState(() {
-                                                                  val == true
-                                                                      ? _items3.add(item
-                                                                      .title)
-                                                                      : _items3
-                                                                      .remove(item.title);
-                                                                  item.isChecked =
-                                                                      val;
-                                                                });
-                                                              },
-                                                            ),
-                                                          ),
-                                                    )
-                                                        .toList(),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height:height>=600 ? 40: 25,),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            AbsorbPointer(
-                                              absorbing:
-                                              _items4.isEmpty && _items3.isEmpty
-                                                  ? true
-                                                  : false,
-                                              child: SizedBox(
-                                                width: width * .9,
-                                                height: width * .25,
-                                                child: FlatButton(
-                                                  onPressed: () {},
-                                                  textColor: _items4.isEmpty &&
-                                                      _items3.isEmpty
-                                                      ? HexColor("#969EC8")
-                                                      : AppTheme.appbarPrimary,
-                                                  color: HexColor("#FFFFFF"),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(8),
-                                                      side: BorderSide(
-                                                          color: _items4.isEmpty &&
-                                                              _items3.isEmpty
-                                                              ? HexColor("#969EC8")
-                                                              : AppTheme
-                                                              .appbarPrimary,
-                                                          width: 1)),
-                                                  child: Text(
-                                                    StringResources.clearFilterText,
-                                                    style: GoogleFonts.poppins(),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            AbsorbPointer(
-                                              absorbing:
-                                              _items4.isEmpty && _items3.isEmpty
-                                                  ? true
-                                                  : false,
-                                              child: SizedBox(
-                                                width: width * .9,
-                                                height: width * .25,
-                                                child: FlatButton(
-                                                  textColor: Colors.white,
-                                                  onPressed: () {},
-                                                  color: _items4.isEmpty &&
-                                                      _items3.isEmpty
-                                                      ? HexColor("#969EC8")
-                                                      : AppTheme.appbarPrimary,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(8),
-                                                  ),
-                                                  child: Text(
-                                                    StringResources.applyFilterText,
-                                                    style: GoogleFonts.poppins(),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                  });
-            },
-          )
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            searchField,
-            Expanded(child: hospital),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
 

@@ -71,25 +71,48 @@ class _HospitalScreenState extends State<HospitalScreen> {
       return null;
     }
   }
-  Future<DeptListModel> fetchDepartmentList() async {
-    SharedPreferences prefs= await SharedPreferences.getInstance();
-    accessToken = prefs.getString('accessToken');
-    var username=  prefs.getString("username");
-    print(username);
+  // Future<DeptListModel> fetchDepartmentList() async {
+  //   // SharedPreferences prefs= await SharedPreferences.getInstance();
+  //   // accessToken = prefs.getString('accessToken');
+  //   // var username=  prefs.getString("username");
+  //   // print(username);
+  //   var url =
+  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/departmentList?companyNo=2&flagList=2,3";
+  //   var client = http.Client();
+  //   var response = await client.get(url);
+  //   print("anbcsdcdsfdfdf");
+  //   print(response.body);
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     print(response.body);
+  //     data = deptListModelFromJson(response.body) ;
+  //     setState(() {
+  //       data.deptItem.forEach((element) {
+  //         departmentList.add(element);
+  //       });
+  //     });
+  //    print('Data:: ' + data.deptItem[12].isChecked.toString());
+  //     return data;
+  //   }else {
+  //     return null;
+  //   }
+  // }
+  Future<DeptListModel>  fetchDepartmentList() async {
     var url =
-        "https://qa.myhealthbd.com:9096/auth-api/api/employee/dept/list";
-    var client = http.Client();
-    var response = await client.get(url,headers: {'Authorization': 'Bearer $accessToken',});
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/departmentList?companyNo=2&flagList=2,3";
+    final http.Response response = await http.get(url);
+    print("aasdsadsadsadsadadsadsdfhghg");
+    print(response.body);
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonMap = json.decode(response.body);
       print(response.body);
       data = deptListModelFromJson(response.body) ;
+      // print(spItem);
       setState(() {
         data.deptItem.forEach((element) {
           departmentList.add(element);
         });
       });
-     // print('Data:: ' + data.deptItem[12].isChecked.toString());
+      print('Data:: ' + data.deptItem[2].buName);
       return data;
     }else {
       return null;
@@ -278,81 +301,76 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                         right: width / 6.912),
                                     child: Column(
                                       children: [
-                                        Stack(
-                                          children: [
-                                            Container(
-                                              height: height/3.55,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(25),
-                                                    topRight:
-                                                    Radius.circular(25)),
-                                                border: Border.all(
-                                                  color: HexColor("#D6DCFF"),
-                                                  //                   <--- border color
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  searchDepartment,
-                                                  Expanded(
-                                                    child: Scrollbar(
-                                                      isAlwaysShown: true,
-                                                      controller:
-                                                      _scrollController,
-                                                      child: ListView(
-                                                        controller:
-                                                        _scrollController,
-                                                        children:
-                                                        departmentList
-                                                            .map(
-                                                              (DeptItem item) =>
-                                                              Container(
-                                                                height: 35,
-                                                                child:
-                                                                CheckboxListTile(
-                                                                  activeColor:
-                                                                  AppTheme
-                                                                      .signInSignUpColor,
-                                                                  controlAffinity:
-                                                                  ListTileControlAffinity
-                                                                      .leading,
-                                                                  title: Text(
-                                                                    item.buName,
-                                                                    style: GoogleFonts.poppins(
-                                                                        fontWeight: item.isChecked ==
-                                                                            true
-                                                                            ? FontWeight
-                                                                            .w600
-                                                                            : FontWeight
-                                                                            .normal),
-                                                                  ),
-                                                                  value: item.isChecked ,
-                                                                  onChanged:
-                                                                      (bool val) {
-                                                                    setState(() {
-                                                                      val == true
-                                                                          ? _items4.add(item.buName)
-                                                                          : _items4
-                                                                          .remove(item.buName);
-                                                                      item.isChecked  =
-                                                                          val;
-                                                                    });
-                                                                  },
-                                                                ),
-                                                              ),
-                                                        ).toList(),
-
-
-                                                      ),
-
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                        Container(
+                                          height: height/3.55,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(25),
+                                                topRight:
+                                                Radius.circular(25)),
+                                            border: Border.all(
+                                              color: HexColor("#D6DCFF"),
+                                              //                   <--- border color
+                                              width: 1.0,
                                             ),
-                                          ],
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              searchDepartment,
+                                              Expanded(
+                                                child: Scrollbar(
+                                                  isAlwaysShown: true,
+                                                  controller:
+                                                  _scrollController,
+                                                  child: ListView(
+                                                    controller:
+                                                    _scrollController,
+                                                    children: departmentList
+                                                        .map(
+                                                          (DeptItem
+                                                      item) =>
+                                                          Container(
+                                                            height: 35,
+                                                            child:
+                                                            CheckboxListTile(
+                                                              activeColor:
+                                                              AppTheme
+                                                                  .signInSignUpColor,
+                                                              controlAffinity:
+                                                              ListTileControlAffinity
+                                                                  .leading,
+                                                              title: Text(
+                                                                item.buName,
+                                                                style: GoogleFonts.poppins(
+                                                                    fontWeight: item.isChecked ==
+                                                                        true
+                                                                        ? FontWeight
+                                                                        .w600
+                                                                        : FontWeight
+                                                                        .normal),
+                                                              ),
+                                                              value: item
+                                                                  .isChecked,
+                                                              onChanged:
+                                                                  (bool val) {
+                                                                setState(() {
+                                                                  val == true
+                                                                      ? _items3.add(item.buName)
+                                                                      : _items3
+                                                                      .remove(item.buName);
+                                                                  item.isChecked =
+                                                                      val;
+                                                                });
+                                                              },
+                                                            ),
+                                                          ),
+                                                    )
+                                                        .toList(),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                         horizontalSpace,
                                         horizontalSpace,

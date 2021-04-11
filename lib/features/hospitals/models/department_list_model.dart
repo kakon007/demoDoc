@@ -1,3 +1,4 @@
+/*
 // To parse this JSON data, do
 //
 //     final deptListModel = deptListModelFromJson(jsonString);
@@ -141,5 +142,89 @@ class DeptItem {
     "flag": flag,
     "buNoList": buNoList,
     "buNameList": buNameList,
+  };
+}
+*/
+// To parse this JSON data, do
+//
+//     final deptListModel = deptListModelFromJson(jsonString);
+// To parse this JSON data, do
+//
+//     final deptListModel = deptListModelFromJson(jsonString);
+
+import 'dart:convert';
+
+DeptListModel deptListModelFromJson(String str) => DeptListModel.fromJson(json.decode(str));
+
+String deptListModelToJson(DeptListModel data) => json.encode(data.toJson());
+
+class DeptListModel {
+  DeptListModel({
+    this.success,
+    this.info,
+    this.warning,
+    this.message,
+    this.valid,
+    this.id,
+    this.model,
+    this.deptItem,
+    this.obj,
+  });
+
+  bool success;
+  bool info;
+  bool warning;
+  String message;
+  bool valid;
+  dynamic id;
+  dynamic model;
+  List<DeptItem> deptItem;
+  dynamic obj;
+
+  factory DeptListModel.fromJson(Map<String, dynamic> json) => DeptListModel(
+    success: json["success"],
+    info: json["info"],
+    warning: json["warning"],
+    message: json["message"],
+    valid: json["valid"],
+    id: json["id"],
+    model: json["model"],
+    deptItem: List<DeptItem>.from(json["items"].map((x) => DeptItem.fromJson(x))),
+    obj: json["obj"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "success": success,
+    "info": info,
+    "warning": warning,
+    "message": message,
+    "valid": valid,
+    "id": id,
+    "model": model,
+    "items": List<dynamic>.from(deptItem.map((x) => x.toJson())),
+    "obj": obj,
+  };
+}
+
+class DeptItem {
+  DeptItem({
+    this.id,
+    this.buName,
+    this.isChecked,
+  });
+
+  int id;
+  String buName;
+  bool isChecked= false;
+  factory DeptItem.fromJson(Map<String, dynamic> json) => DeptItem(
+    isChecked: false,
+    id: json["id"],
+    buName: json["buName"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "isChecked" : false,
+    "id": id,
+    "buName": buName,
   };
 }

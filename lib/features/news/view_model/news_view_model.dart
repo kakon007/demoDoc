@@ -37,6 +37,7 @@ class NewsViewModel extends ChangeNotifier{
       _newsList.addAll(r.dataList);
       notifyListeners();
     });
+    print("hhhhhh:::::::"+_newsList.first.title);
   }
 
   AppError get appError => _appError;

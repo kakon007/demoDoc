@@ -50,7 +50,7 @@ class NewsRepository{
         //   dataList.add(elemant);
         // });
         //
-        print('Dataaaaaaa:: ' + data.items[5].title);
+        print('Dataaaaaaa::::::: ' + data.items[1].title);
         // return data;
 
         return Right(

@@ -12,7 +12,9 @@ import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'as hos;
 import 'package:myhealthbd_app/features/news/model/news_model.dart';
+import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';
+import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
@@ -116,8 +118,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // TODO: implement initState
     // fetchHospitalList();
     // fetchNewspdate();
+    NewsRepository().fetchNewspdate();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
+    var vm2 = Provider.of<NewsViewModel>(context, listen: false);
+    vm2.getData();
     super.initState();
   }
   @override
@@ -130,7 +135,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
     List<hos.Item> list = vm.hospiitalList;
-    var lengthh = list.length;
+    var lengthofHospitalList = list.length;
+    var vm2 = Provider.of<NewsViewModel>(context);
+    List<Item> list2 = vm2.newsList;
+    var lengthofNewsList = list2.length;
     var deviceHeight=MediaQuery.of(context).size.height;
     var deviceWidth=MediaQuery.of(context).size.width;
 
@@ -574,21 +582,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             //       }
                             //     }
                             //     ),
-    SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Padding(
-    padding: const EdgeInsets.only(left:18.0,),
-    child:
-    Row(
-    children: [
-    ...List.generate(
-    lengthh,
-    (i) => CustomCard(list[i].companyName,list[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[i].companyAddress,"60 Doctors",list[i].companyPhone==null?"+880 1962823007":list[i].companyPhone,list[i].companyEmail==null?"info@mysoftitd.com":list[i].companyEmail,list[i].companyLogo),
-    ),
-    ],
-    ),
-    ),
-    ),
+                        SingleChildScrollView(
+                                   scrollDirection: Axis.horizontal,
+                                   child: Padding(
+                                    padding: const EdgeInsets.only(left:18.0,),
+                                   child:
+                                          Row(
+                                            children: [
+                                              ...List.generate(
+                                                lengthofHospitalList,
+                                                    (i) => CustomCard(list[i].companyName,list[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[i].companyAddress,"60 Doctors",list[i].companyPhone==null?"+880 1962823007":list[i].companyPhone,list[i].companyEmail==null?"info@mysoftitd.com":list[i].companyEmail,list[i].companyLogo),
+                                              ),
+                                            ],
+                                          ),
+                                   ),
+                        ),
                             SizedBox(height: 20,),
                             Padding(
                               padding: const EdgeInsets.only(left:18.0,right: 18),
@@ -604,22 +612,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ),
                             SizedBox(height: 10,),
-                            // SingleChildScrollView(
-                            //     scrollDirection: Axis.horizontal,
-                            //     child: Padding(
-                            //       padding: const EdgeInsets.only(left:18.0),
-                            //       child: Row(
-                            //         children: [
-                            //           CustomCardNews("১৫ জানুয়ারি, ২০২১",,"60 Doctors"),
-                            //           SizedBox(width:15),
-                            //           CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                            //           SizedBox(width:15),
-                            //           CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                            //         ],
-                            //       ),
-                            //     )
-                            // ),
-
                             // FutureBuilder<NewsUpdatedModel>(
                             //   //  scrollDirection: Axis.horizontal,
                             //   //  physics: ClampingScrollPhysics(),
@@ -647,6 +639,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             //         return CircularProgressIndicator();
                             //       }
                             //     }),
+
+
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:18.0,),
+                                child:
+                                Row(
+                                  children: [
+                                    ...List.generate(
+                                      lengthofNewsList,
+                                          (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(list2[i].publishDate).toLocal()),list2[i].title,list2[i].newsLink),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 20,),
                             Padding(
                               padding: const EdgeInsets.only(left:18.0,right: 18),

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -24,10 +23,11 @@ class HospitalScreen extends StatefulWidget {
   _HospitalScreenState createState() => _HospitalScreenState();
 }
 
-class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
+class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
   List<Item> dataList = List<Item>();
- // List<HospitalListModel> chartData = [];
- //  List<dynamic> data=[];
+
+  // List<HospitalListModel> chartData = [];
+  //  List<dynamic> data=[];
   List<HospitalList> hospitals = [
     HospitalList(
         hospitalName: "Proyas Health Care",
@@ -96,33 +96,37 @@ class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
   @override
   void afterFirstLayout(BuildContext context) {
     HospitalListRepositry().fetchHospitalList();
+    _scrollController = ScrollController();
+    _scrollController2 = ScrollController();
+    HospitalListRepositry().fetchHospitalList();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
   }
-  // Future<HospitalListModel> fetchHospitalList() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-  //   var client = http.Client();
-  //   var response = await client.get(url);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     HospitalListModel data = hospitalListModelFromJson(response.body) ;
-  //     setState(() {
-  //       data.items.forEach((elemant) {
-  //         dataList.add(elemant);
-  //       });
-  //     });
-  //     print('Data:: ' + data.items[5].companyName);
-  //     return data;
-  //   }else {
-  //     return null;
-  //   }
-  // }
+
+  Future<HospitalListModel> fetchHospitalList() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+    var client = http.Client();
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonMap = json.decode(response.body);
+      HospitalListModel data = hospitalListModelFromJson(response.body) ;
+      setState(() {
+        data.items.forEach((elemant) {
+          dataList.add(elemant);
+        });
+      });
+      print('Data:: ' + data.items[5].companyName);
+      return data;
+    }else {
+      return null;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
     List<Item> list = vm.hospiitalList;
-    var lengthh=list.length;
+    var lengthh = list.length;
     var searchField = SignUpFormField(
       borderRadius: 30,
       hintText: StringResources.searchBoxHint,
@@ -163,44 +167,44 @@ class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
     );
     var searchDepartment = TextFormField(
         decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-            child: Icon(Icons.search),
-          ),
-          hintText: StringResources.searchDepartment,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-        ));
+      prefixIcon: Padding(
+        padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+        child: Icon(Icons.search),
+      ),
+      hintText: StringResources.searchDepartment,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      border: new OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: new BorderSide(color: Colors.teal)),
+      contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+    ));
     var searchSpeciality = TextFormField(
         decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-            child: Icon(Icons.search),
-          ),
-          hintText: StringResources.searchSpeciality,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-        ));
+      prefixIcon: Padding(
+        padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+        child: Icon(Icons.search),
+      ),
+      hintText: StringResources.searchSpeciality,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      border: new OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: new BorderSide(color: Colors.teal)),
+      contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+    ));
     var modalSheetTitle = Padding(
       padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
       child: Column(
@@ -215,9 +219,11 @@ class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
                 StringResources.filters,
                 style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
               ),
-              GestureDetector(onTap: (){
-                Navigator.pop(context);
-              },child: Icon(Icons.clear)),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.clear)),
             ],
           ),
           horizontalSpace,
@@ -226,323 +232,326 @@ class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
       ),
     );
 
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: AppTheme.appbarPrimary,
+        title: Text(
+          StringResources.hospitalListAppbar,
+          style: GoogleFonts.poppins(fontSize: 15),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+              size: 20,
+            ),
+            onPressed: () {
+              showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25))),
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                      return FractionallySizedBox(
+                        heightFactor: 0.85,
+                        child: Column(
+                          children: [
+                            modalSheetTitle,
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: width / 6.912, right: width / 6.912),
+                                child: Column(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          height: height / 3.55,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(25),
+                                                topRight: Radius.circular(25)),
+                                            border: Border.all(
+                                              color: HexColor("#D6DCFF"),
+                                              //                   <--- border color
+                                              width: 1,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              searchDepartment,
+                                              Expanded(
+                                                child: Scrollbar(
+                                                  isAlwaysShown: true,
+                                                  controller: _scrollController,
+                                                  child: ListView(
+                                                    controller:
+                                                        _scrollController,
+                                                    children: _items
+                                                        .map(
+                                                          (SimpleModel item) =>
+                                                              Container(
+                                                            height: 35,
+                                                            child:
+                                                                CheckboxListTile(
+                                                              activeColor: AppTheme
+                                                                  .signInSignUpColor,
+                                                              controlAffinity:
+                                                                  ListTileControlAffinity
+                                                                      .leading,
+                                                              title: Text(
+                                                                item.title,
+                                                                style: GoogleFonts.poppins(
+                                                                    fontWeight: item.isChecked ==
+                                                                            true
+                                                                        ? FontWeight
+                                                                            .w600
+                                                                        : FontWeight
+                                                                            .normal),
+                                                              ),
+                                                              value: item
+                                                                  .isChecked,
+                                                              onChanged:
+                                                                  (bool val) {
+                                                                setState(() {
+                                                                  val == true
+                                                                      ? _items4
+                                                                          .add(item
+                                                                              .title)
+                                                                      : _items4
+                                                                          .remove(
+                                                                              item.title);
+                                                                  item.isChecked =
+                                                                      val;
+                                                                });
+                                                              },
+                                                            ),
+                                                          ),
+                                                        )
+                                                        .toList(),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    horizontalSpace,
+                                    horizontalSpace,
+                                    horizontalSpace,
+                                    Container(
+                                      height: height / 3.55,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(25),
+                                            topRight: Radius.circular(25)),
+                                        border: Border.all(
+                                          color: HexColor("#D6DCFF"),
+                                          //                   <--- border color
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          searchSpeciality,
+                                          Expanded(
+                                            child: Scrollbar(
+                                              isAlwaysShown: true,
+                                              controller: _scrollController2,
+                                              child: ListView(
+                                                controller: _scrollController2,
+                                                children: _items2
+                                                    .map(
+                                                      (SimpleModel item) =>
+                                                          Container(
+                                                        height: 35,
+                                                        child: CheckboxListTile(
+                                                          activeColor: AppTheme
+                                                              .signInSignUpColor,
+                                                          controlAffinity:
+                                                              ListTileControlAffinity
+                                                                  .leading,
+                                                          title: Text(
+                                                            item.title,
+                                                            style: GoogleFonts.poppins(
+                                                                fontWeight: item
+                                                                            .isChecked ==
+                                                                        true
+                                                                    ? FontWeight
+                                                                        .w600
+                                                                    : FontWeight
+                                                                        .normal),
+                                                          ),
+                                                          value: item.isChecked,
+                                                          onChanged:
+                                                              (bool val) {
+                                                            setState(() {
+                                                              val == true
+                                                                  ? _items3.add(
+                                                                      item
+                                                                          .title)
+                                                                  : _items3
+                                                                      .remove(item
+                                                                          .title);
+                                                              item.isChecked =
+                                                                  val;
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: height >= 600 ? 40 : 25,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AbsorbPointer(
+                                          absorbing:
+                                              _items4.isEmpty && _items3.isEmpty
+                                                  ? true
+                                                  : false,
+                                          child: SizedBox(
+                                            width: width * .9,
+                                            height: width * .25,
+                                            child: FlatButton(
+                                              onPressed: () {},
+                                              textColor: _items4.isEmpty &&
+                                                      _items3.isEmpty
+                                                  ? HexColor("#969EC8")
+                                                  : AppTheme.appbarPrimary,
+                                              color: HexColor("#FFFFFF"),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  side: BorderSide(
+                                                      color: _items4.isEmpty &&
+                                                              _items3.isEmpty
+                                                          ? HexColor("#969EC8")
+                                                          : AppTheme
+                                                              .appbarPrimary,
+                                                      width: 1)),
+                                              child: Text(
+                                                StringResources.clearFilterText,
+                                                style: GoogleFonts.poppins(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        AbsorbPointer(
+                                          absorbing:
+                                              _items4.isEmpty && _items3.isEmpty
+                                                  ? true
+                                                  : false,
+                                          child: SizedBox(
+                                            width: width * .9,
+                                            height: width * .25,
+                                            child: FlatButton(
+                                              textColor: Colors.white,
+                                              onPressed: () {},
+                                              color: _items4.isEmpty &&
+                                                      _items3.isEmpty
+                                                  ? HexColor("#969EC8")
+                                                  : AppTheme.appbarPrimary,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Text(
+                                                StringResources.applyFilterText,
+                                                style: GoogleFonts.poppins(),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+                  });
+            },
+          )
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8),
+        // child: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: <Widget>[
+        //     searchField,
+        //     Expanded(child:ListView.builder(
+        //           key: Key("dashboardHorizontalCareerAdviceListKey"),
+        //           padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        //           scrollDirection: Axis.vertical,
+        //           itemCount: length,
+        //           itemBuilder: (context, index) {
+        //             var advice = list[index];
+        //             return HospitalListCard(advice.companyName,advice.companyAddress==null?"Mirpur,Dahaka,Bangladesh":advice.companyAddress,"60 Doctors",advice.companyPhone==null?"+880 1962823007":advice.companyPhone,advice.companyEmail==null?"info@mysoftitd.com":advice.companyEmail,advice.companyLogo,);
+        //           })),
+        //   ],
+        // ),
 
-          return Scaffold(
-            backgroundColor: Colors.white,
-// appBar: AppBar(
-//   backgroundColor: AppTheme.appbarPrimary,
-//   title: Text(
-//     StringResources.hospitalListAppbar,
-//     style: GoogleFonts.poppins(fontSize: 15),
-//   ),
-//   actions: <Widget>[
-//     IconButton(
-//       icon: Icon(
-//         Icons.notifications,
-//         color: Colors.white,
-//         size: 20,
-//       ),
-//       onPressed: () {
-//
-//         showModalBottomSheet(
-//             shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.only(
-//                     topLeft: Radius.circular(25),
-//                     topRight: Radius.circular(25))),
-//             context: context,
-//             isScrollControlled: true,
-//             builder: (context) {
-//               return StatefulBuilder(
-//                   builder: (BuildContext context, StateSetter setState) {
-//                     return FractionallySizedBox(
-//                       heightFactor: 0.85,
-//                       child: Column(
-//                         children: [
-//                           modalSheetTitle,
-//                           Expanded(
-//                             child: Padding(
-//                               padding: EdgeInsets.only(
-//                                   left: width / 6.912,
-//                                   right: width / 6.912),
-//                               child: Column(
-//                                 children: [
-//                                   Stack(
-//                                     children: [
-//                                       Container(
-//                                         height: height/3.55,
-//                                         decoration: BoxDecoration(
-//                                           borderRadius: BorderRadius.only(
-//                                               topLeft: Radius.circular(25),
-//                                               topRight:
-//                                               Radius.circular(25)),
-//                                           border: Border.all(
-//                                             color: HexColor("#D6DCFF"),
-//                                             //                   <--- border color
-//                                             width: 1,
-//                                           ),
-//                                         ),
-//                                         child: Column(
-//                                           children: [
-//                                             searchDepartment,
-//                                             Expanded(
-//                                               child: Scrollbar(
-//                                                 isAlwaysShown: true,
-//                                                 controller:
-//                                                 _scrollController,
-//                                                 child: ListView(
-//                                                   controller:
-//                                                   _scrollController,
-//                                                   children:
-//                                                   _items
-//                                                       .map(
-//                                                         (SimpleModel
-//                                                     item) =>
-//                                                         Container(
-//                                                           height: 35,
-//                                                           child:
-//                                                           CheckboxListTile(
-//                                                             activeColor:
-//                                                             AppTheme
-//                                                                 .signInSignUpColor,
-//                                                             controlAffinity:
-//                                                             ListTileControlAffinity
-//                                                                 .leading,
-//                                                             title: Text(
-//                                                               item.title,
-//                                                               style: GoogleFonts.poppins(
-//                                                                   fontWeight: item.isChecked ==
-//                                                                       true
-//                                                                       ? FontWeight
-//                                                                       .w600
-//                                                                       : FontWeight
-//                                                                       .normal),
-//                                                             ),
-//                                                             value: item
-//                                                                 .isChecked,
-//                                                             onChanged:
-//                                                                 (bool val) {
-//                                                               setState(() {
-//                                                                 val == true
-//                                                                     ? _items4.add(item
-//                                                                     .title)
-//                                                                     : _items4
-//                                                                     .remove(item.title);
-//                                                                 item.isChecked =
-//                                                                     val;
-//                                                               });
-//                                                             },
-//                                                           ),
-//                                                         ),
-//                                                   ).toList(),
-//
-//
-//                                                 ),
-//
-//                                               ),
-//                                             ),
-//                                           ],
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   horizontalSpace,
-//                                   horizontalSpace,
-//                                   horizontalSpace,
-//                                   Container(
-//                                     height: height/3.55,
-//                                     decoration: BoxDecoration(
-//                                       borderRadius: BorderRadius.only(
-//                                           topLeft: Radius.circular(25),
-//                                           topRight:
-//                                           Radius.circular(25)),
-//                                       border: Border.all(
-//                                         color: HexColor("#D6DCFF"),
-//                                         //                   <--- border color
-//                                         width: 1.0,
-//                                       ),
-//                                     ),
-//                                     child: Column(
-//                                       children: [
-//                                         searchSpeciality,
-//                                         Expanded(
-//                                           child: Scrollbar(
-//                                             isAlwaysShown: true,
-//                                             controller:
-//                                             _scrollController2,
-//                                             child: ListView(
-//                                               controller:
-//                                               _scrollController2,
-//                                               children: _items2
-//                                                   .map(
-//                                                     (SimpleModel
-//                                                 item) =>
-//                                                     Container(
-//                                                       height: 35,
-//                                                       child:
-//                                                       CheckboxListTile(
-//                                                         activeColor:
-//                                                         AppTheme
-//                                                             .signInSignUpColor,
-//                                                         controlAffinity:
-//                                                         ListTileControlAffinity
-//                                                             .leading,
-//                                                         title: Text(
-//                                                           item.title,
-//                                                           style: GoogleFonts.poppins(
-//                                                               fontWeight: item.isChecked ==
-//                                                                   true
-//                                                                   ? FontWeight
-//                                                                   .w600
-//                                                                   : FontWeight
-//                                                                   .normal),
-//                                                         ),
-//                                                         value: item
-//                                                             .isChecked,
-//                                                         onChanged:
-//                                                             (bool val) {
-//                                                           setState(() {
-//                                                             val == true
-//                                                                 ? _items3.add(item
-//                                                                 .title)
-//                                                                 : _items3
-//                                                                 .remove(item.title);
-//                                                             item.isChecked =
-//                                                                 val;
-//                                                           });
-//                                                         },
-//                                                       ),
-//                                                     ),
-//                                               )
-//                                                   .toList(),
-//                                             ),
-//                                           ),
-//                                         )
-//                                       ],
-//                                     ),
-//                                   ),
-//                                   SizedBox(height:height>=600 ? 40: 25,),
-//                                   Row(
-//                                     mainAxisAlignment:
-//                                     MainAxisAlignment.spaceBetween,
-//                                     children: [
-//                                       AbsorbPointer(
-//                                         absorbing:
-//                                         _items4.isEmpty && _items3.isEmpty
-//                                             ? true
-//                                             : false,
-//                                         child: SizedBox(
-//                                           width: width * .9,
-//                                           height: width * .25,
-//                                           child: FlatButton(
-//                                             onPressed: () {},
-//                                             textColor: _items4.isEmpty &&
-//                                                 _items3.isEmpty
-//                                                 ? HexColor("#969EC8")
-//                                                 : AppTheme.appbarPrimary,
-//                                             color: HexColor("#FFFFFF"),
-//                                             shape: RoundedRectangleBorder(
-//                                                 borderRadius:
-//                                                 BorderRadius.circular(8),
-//                                                 side: BorderSide(
-//                                                     color: _items4.isEmpty &&
-//                                                         _items3.isEmpty
-//                                                         ? HexColor("#969EC8")
-//                                                         : AppTheme
-//                                                         .appbarPrimary,
-//                                                     width: 1)),
-//                                             child: Text(
-//                                               StringResources.clearFilterText,
-//                                               style: GoogleFonts.poppins(),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                       AbsorbPointer(
-//                                         absorbing:
-//                                         _items4.isEmpty && _items3.isEmpty
-//                                             ? true
-//                                             : false,
-//                                         child: SizedBox(
-//                                           width: width * .9,
-//                                           height: width * .25,
-//                                           child: FlatButton(
-//                                             textColor: Colors.white,
-//                                             onPressed: () {},
-//                                             color: _items4.isEmpty &&
-//                                                 _items3.isEmpty
-//                                                 ? HexColor("#969EC8")
-//                                                 : AppTheme.appbarPrimary,
-//                                             shape: RoundedRectangleBorder(
-//                                               borderRadius:
-//                                               BorderRadius.circular(8),
-//                                             ),
-//                                             child: Text(
-//                                               StringResources.applyFilterText,
-//                                               style: GoogleFonts.poppins(),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       )
-//                                     ],
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     );
-//                   });
-//             });
-//       },
-//     )
-//   ],
-// ),
-            body: Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8),
-              // child: Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: <Widget>[
-              //     searchField,
-              //     Expanded(child:ListView.builder(
-              //           key: Key("dashboardHorizontalCareerAdviceListKey"),
-              //           padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-              //           scrollDirection: Axis.vertical,
-              //           itemCount: length,
-              //           itemBuilder: (context, index) {
-              //             var advice = list[index];
-              //             return HospitalListCard(advice.companyName,advice.companyAddress==null?"Mirpur,Dahaka,Bangladesh":advice.companyAddress,"60 Doctors",advice.companyPhone==null?"+880 1962823007":advice.companyPhone,advice.companyEmail==null?"info@mysoftitd.com":advice.companyEmail,advice.companyLogo,);
-              //           })),
-              //   ],
-              // ),
-
-              child: RefreshIndicator(
-                onRefresh: vm.refresh,
-                child: vm.shouldShowPageLoader
-                    ? Center(
+        child: RefreshIndicator(
+          onRefresh: vm.refresh,
+          child: vm.shouldShowPageLoader
+              ? Center(
                   child: Loader(),
                 )
-                    : ListView.separated(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(horizontal: 4,vertical: 12),
-                    controller: _scrollController,
-                    itemCount: lengthh,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: 8,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      // if (index == lengthh) {
-                      //   return vm.isFetchingMoreData
-                      //       ? Padding(padding: EdgeInsets.all(15), child: Loader())
-                      //       : SizedBox();
-                      // }
-                      //List<Item> advice = list[index];
-                      print("LIIIISSSYYSY:::"+list[index].companyName);
-                      return HospitalListCard(list[index].companyName,list[index].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[index].companyAddress,"60 Doctors",list[index].companyPhone==null?"+880 1962823007":list[index].companyPhone,list[index].companyEmail==null?"info@mysoftitd.com":list[index].companyEmail,list[index].companyLogo,);
-                    }),
-              ),
-            ),
-          );
+              : ListView.separated(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+                  controller: _scrollController,
+                  itemCount: lengthh,
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: 8,
+                      ),
+                  itemBuilder: (BuildContext context, int index) {
+                    // if (index == lengthh) {
+                    //   return vm.isFetchingMoreData
+                    //       ? Padding(padding: EdgeInsets.all(15), child: Loader())
+                    //       : SizedBox();
+                    // }
+                    //List<Item> advice = list[index];
+                    print("LIIIISSSYYSY:::" + list[index].companyName);
+                    return HospitalListCard(
+                      list[index].companyName,
+                      list[index].companyAddress == null
+                          ? "Mirpur,Dahaka,Bangladesh"
+                          : list[index].companyAddress,
+                      "60 Doctors",
+                      list[index].companyPhone == null
+                          ? "+880 1962823007"
+                          : list[index].companyPhone,
+                      list[index].companyEmail == null
+                          ? "info@mysoftitd.com"
+                          : list[index].companyEmail,
+                      list[index].companyLogo,
+                    );
+                  }),
+        ),
+      ),
+    );
   }
 }
 

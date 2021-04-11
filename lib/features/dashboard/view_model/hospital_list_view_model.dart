@@ -50,7 +50,7 @@ class HospitalListViewModel extends ChangeNotifier{
   bool _isFetchingData = false;
 
   Future<void> refresh(){
-  //  _page = 0;
+  _hospitalList.clear();
     return getData();
   }
 

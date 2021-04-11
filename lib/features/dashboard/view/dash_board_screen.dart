@@ -7,9 +7,12 @@ import 'package:intl/intl.dart';
 //import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/custom_dialog_box.dart';
-import 'package:myhealthbd_app/features/dashboard/model/news_update_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
+
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'as hos;
+import 'package:myhealthbd_app/features/news/model/news_model.dart';
+import 'package:myhealthbd_app/features/news/view/news_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
@@ -19,6 +22,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,8 +33,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   ScrollController _controller;
-  List<hos.Item> dataList = new List<hos.Item>();
-  List<Item> dataList2=new List<Item>();
+  // List<hos.Item> dataList = new List<hos.Item>();
+  // List<Item> dataList2=new List<Item>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = new GlobalKey<ScaffoldState>();
   BorderRadiusGeometry radius = BorderRadius.only(
@@ -46,27 +50,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // double xOffset2 = 0.0;
   // double yOffset2 = 0.0;
   // double scaleFactor2 = 1;
-  Future<hos.HospitalListModel> fetchHospitalList() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-    var client = http.Client();
-    var response = await client.get(url);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonMap = json.decode(response.body);
-      //data = jsonMap["items"];
-      hos.HospitalListModel data = hos.hospitalListModelFromJson(response.body) ;
-      setState(() {
-        data.items.forEach((elemant) {
-          dataList.add(elemant);
-        });
-      });
-      //print('Data:: ' + data.items[5].companyName);
-      return data;
-      //print(data[0]['companySlogan']);
-    }else {
-      return null;
-    }
-  }
+  // Future<hos.HospitalListModel> fetchHospitalList() async {
+  //   var url =
+  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+  //   var client = http.Client();
+  //   var response = await client.get(url);
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     //data = jsonMap["items"];
+  //     hos.HospitalListModel data = hos.hospitalListModelFromJson(response.body) ;
+  //     setState(() {
+  //       data.items.forEach((elemant) {
+  //         dataList.add(elemant);
+  //       });
+  //     });
+  //     //print('Data:: ' + data.items[5].companyName);
+  //     return data;
+  //     //print(data[0]['companySlogan']);
+  //   }else {
+  //     return null;
+  //   }
+  // }
 
   // Future<HospitalListModel> fetchHospitalLogo() async {
   //   var url =
@@ -91,37 +95,42 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // }
 
 
-  Future<NewsUpdatedModel> fetchNewspdate() async{
-    var url='https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
-    var res=await http.get(url);
-    if(res.statusCode==200){
-      NewsUpdatedModel data2=newsUpdatedModelFromJson(res.body);
-      setState(() {
-        data2.items.forEach((element) {
-          dataList2.add(element);
-        });
-      });
-      print("bodddytew::::"+data2.items.first.title.toString());
-      return data2;
-    }else{
-      return null;
-    }
-  }
+  // Future<NewsUpdatedModel> fetchNewspdate() async{
+  //   var url='https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
+  //   var res=await http.get(url);
+  //   if(res.statusCode==200){
+  //     NewsUpdatedModel data2=newsUpdatedModelFromJson(res.body);
+  //     setState(() {
+  //       data2.items.forEach((element) {
+  //         dataList2.add(element);
+  //       });
+  //     });
+  //     print("bodddytew::::"+data2.items.first.title.toString());
+  //     return data2;
+  //   }else{
+  //     return null;
+  //   }
+  // }
   @override
   void initState() {
     // TODO: implement initState
-    fetchHospitalList();
-    fetchNewspdate();
+    // fetchHospitalList();
+    // fetchNewspdate();
+    var vm = Provider.of<HospitalListViewModel>(context, listen: false);
+    vm.getData();
     super.initState();
   }
   @override
   void dispose() {
     // TODO: implement dispose
-    fetchHospitalList();
+    //fetchHospitalList();
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<HospitalListViewModel>(context);
+    List<hos.Item> list = vm.hospiitalList;
+    var lengthh = list.length;
     var deviceHeight=MediaQuery.of(context).size.height;
     var deviceWidth=MediaQuery.of(context).size.width;
 
@@ -537,33 +546,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ),
                             SizedBox(height: 10,),
-                            FutureBuilder<hos.HospitalListModel>(
-                              //  scrollDirection: Axis.horizontal,
-                              //  physics: ClampingScrollPhysics(),
-                              //  shrinkWrap: true,
-                              // itemCount: dataList.length,
-                                future:fetchHospitalList(),
-                                builder: (BuildContext context, snapshot){
-                                  if(snapshot.hasData){
-                                    return SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left:18.0,),
-                                        child:
-                                        Row(
-                                          children: [
-                                            ...List.generate(
-                                              snapshot.data.items.length,
-                                                  (i) => CustomCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }else{
-                                    return CircularProgressIndicator();
-                                  }
-                                }),
+                            // FutureBuilder<hos.HospitalListModel>(
+                            //   //  scrollDirection: Axis.horizontal,
+                            //   //  physics: ClampingScrollPhysics(),
+                            //   //  shrinkWrap: true,
+                            //   // itemCount: dataList.length,
+                            //     future:fetchHospitalList(),
+                            //     builder: (BuildContext context, snapshot){
+                            //       if(snapshot.hasData){
+                            //         return SingleChildScrollView(
+                            //           scrollDirection: Axis.horizontal,
+                            //           child: Padding(
+                            //             padding: const EdgeInsets.only(left:18.0,),
+                            //             child:
+                            //             Row(
+                            //               children: [
+                            //                 ...List.generate(
+                            //                   snapshot.data.items.length,
+                            //                       (i) => CustomCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo),
+                            //                 ),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         );
+                            //       }else{
+                            //         return CircularProgressIndicator();
+                            //       }
+                            //     }
+                            //     ),
+    SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Padding(
+    padding: const EdgeInsets.only(left:18.0,),
+    child:
+    Row(
+    children: [
+    ...List.generate(
+    lengthh,
+    (i) => CustomCard(list[i].companyName,list[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[i].companyAddress,"60 Doctors",list[i].companyPhone==null?"+880 1962823007":list[i].companyPhone,list[i].companyEmail==null?"info@mysoftitd.com":list[i].companyEmail,list[i].companyLogo),
+    ),
+    ],
+    ),
+    ),
+    ),
                             SizedBox(height: 20,),
                             Padding(
                               padding: const EdgeInsets.only(left:18.0,right: 18),
@@ -572,7 +597,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   Text("News & Update",style:  GoogleFonts.poppins(fontSize: 16
                                       ,fontWeight: FontWeight.w600),),
                                   Spacer(),
-                                  Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),),
+                                  GestureDetector(onTap:(){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
+                                  },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),)),
                                 ],
                               ),
                             ),
@@ -593,33 +620,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             //     )
                             // ),
 
-                            FutureBuilder<NewsUpdatedModel>(
-                              //  scrollDirection: Axis.horizontal,
-                              //  physics: ClampingScrollPhysics(),
-                              //  shrinkWrap: true,
-                              // itemCount: dataList.length,
-                                future:fetchNewspdate(),
-                                builder: (BuildContext context, snapshot){
-                                  if(snapshot.hasData){
-                                    return SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left:18.0,),
-                                        child:
-                                        Row(
-                                          children: [
-                                            ...List.generate(
-                                              snapshot.data.items.length,
-                                                  (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(dataList2[i].publishDate).toLocal()),dataList2[i].title,dataList2[i].newsLink),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }else{
-                                    return CircularProgressIndicator();
-                                  }
-                                }),
+                            // FutureBuilder<NewsUpdatedModel>(
+                            //   //  scrollDirection: Axis.horizontal,
+                            //   //  physics: ClampingScrollPhysics(),
+                            //   //  shrinkWrap: true,
+                            //   // itemCount: dataList.length,
+                            //     future:fetchNewspdate(),
+                            //     builder: (BuildContext context, snapshot){
+                            //       if(snapshot.hasData){
+                            //         return SingleChildScrollView(
+                            //           scrollDirection: Axis.horizontal,
+                            //           child: Padding(
+                            //             padding: const EdgeInsets.only(left:18.0,),
+                            //             child:
+                            //             Row(
+                            //               children: [
+                            //                 ...List.generate(
+                            //                   snapshot.data.items.length,
+                            //                       (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(dataList2[i].publishDate).toLocal()),dataList2[i].title,dataList2[i].newsLink),
+                            //                 ),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         );
+                            //       }else{
+                            //         return CircularProgressIndicator();
+                            //       }
+                            //     }),
                             SizedBox(height: 20,),
                             Padding(
                               padding: const EdgeInsets.only(left:18.0,right: 18),

@@ -49,6 +49,11 @@ class HospitalListViewModel extends ChangeNotifier{
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
 
+  Future<void> refresh(){
+  //  _page = 0;
+    return getData();
+  }
+
   Future<void> getData() async {
 
     // if (isFromOnPageLoad) {

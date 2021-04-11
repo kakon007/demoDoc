@@ -15,6 +15,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 
@@ -94,6 +95,7 @@ class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
 
   @override
   void afterFirstLayout(BuildContext context) {
+    HospitalListRepositry().fetchHospitalList();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
   }
@@ -120,7 +122,7 @@ class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
     List<Item> list = vm.hospiitalList;
-    var length=list.length;
+    var lengthh=list.length;
     var searchField = SignUpFormField(
       borderRadius: 30,
       hintText: StringResources.searchBoxHint,
@@ -498,20 +500,46 @@ class _HospitalScreenState extends State<HospitalScreen>with AfterLayoutMixin {
 // ),
             body: Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  searchField,
-                  Expanded(child:ListView.builder(
-                        key: Key("dashboardHorizontalCareerAdviceListKey"),
-                        padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                        scrollDirection: Axis.vertical,
-                        itemCount: length,
-                        itemBuilder: (context, index) {
-                          var advice = list[index];
-                          return HospitalListCard(advice.companyName,advice.companyAddress==null?"Mirpur,Dahaka,Bangladesh":advice.companyAddress,"60 Doctors",advice.companyPhone==null?"+880 1962823007":advice.companyPhone,advice.companyEmail==null?"info@mysoftitd.com":advice.companyEmail,advice.companyLogo,);
-                        })),
-                ],
+              // child: Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: <Widget>[
+              //     searchField,
+              //     Expanded(child:ListView.builder(
+              //           key: Key("dashboardHorizontalCareerAdviceListKey"),
+              //           padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+              //           scrollDirection: Axis.vertical,
+              //           itemCount: length,
+              //           itemBuilder: (context, index) {
+              //             var advice = list[index];
+              //             return HospitalListCard(advice.companyName,advice.companyAddress==null?"Mirpur,Dahaka,Bangladesh":advice.companyAddress,"60 Doctors",advice.companyPhone==null?"+880 1962823007":advice.companyPhone,advice.companyEmail==null?"info@mysoftitd.com":advice.companyEmail,advice.companyLogo,);
+              //           })),
+              //   ],
+              // ),
+
+              child: RefreshIndicator(
+                onRefresh: vm.refresh,
+                child: vm.shouldShowPageLoader
+                    ? Center(
+                  child: Loader(),
+                )
+                    : ListView.separated(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(horizontal: 4,vertical: 12),
+                    controller: _scrollController,
+                    itemCount: lengthh,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 8,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      // if (index == lengthh) {
+                      //   return vm.isFetchingMoreData
+                      //       ? Padding(padding: EdgeInsets.all(15), child: Loader())
+                      //       : SizedBox();
+                      // }
+                      //List<Item> advice = list[index];
+                      print("LIIIISSSYYSY:::"+list[index].companyName);
+                      return HospitalListCard(list[index].companyName,list[index].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[index].companyAddress,"60 Doctors",list[index].companyPhone==null?"+880 1962823007":list[index].companyPhone,list[index].companyEmail==null?"info@mysoftitd.com":list[index].companyEmail,list[index].companyLogo,);
+                    }),
               ),
             ),
           );

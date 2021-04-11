@@ -13,7 +13,7 @@ class HospitalListRepositry{
   Future<Either<AppError,HospiitalListM>> fetchHospitalList() async {
     var url =
         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-    List<Item> dataList = new List<Item>();
+   // List<Item> dataList = new List<Item>();
 
     try{
       var client = http.Client();
@@ -21,21 +21,27 @@ class HospitalListRepositry{
       if (response.statusCode == 200) {
        // Map<String, dynamic> jsonMap = json.decode(response.body);
         //data = jsonMap["items"];
-        HospitalListModel data =hospitalListModelFromJson(response.body) ;
-        var mapData = json.decode(utf8.decode(response.bodyBytes));
-        var hospitalList = fromJson(mapData);
+        // HospitalListModel data =hospitalListModelFromJson(response.body) ;
+        // var mapData = json.decode(utf8.decode(response.bodyBytes));
+        // var hospitalList = fromJson(mapData);
+
+        HospitalListModel data = hospitalListModelFromJson(response.body) ;
+        // data.items.forEach((elemant) {
+        //   dataList.add(elemant);
+        // });
 
         // data.items.forEach((elemant) {
         //   dataList.add(elemant);
         // });
         //
-        // //print('Data:: ' + data.items[5].companyName);
+        print('Dataaaaaaa:: ' + data.items[5].companyAddress);
         // return data;
 
         return Right(
             HospiitalListM(
-           dataList: hospitalList.first.items,
+           dataList: data.items,
             )
+
         );
         //print(data[0]['companySlogan']);
       }else {
@@ -53,15 +59,15 @@ class HospitalListRepositry{
     }
 
   }
-  List<HospitalListModel> fromJson(json) {
-    List<HospitalListModel> hospitalList = new List<HospitalListModel>();
-    if (json != null) {
-      json.forEach((v) {
-        hospitalList.add(new HospitalListModel.fromJson(v));
-      });
-    }
-    return hospitalList;
-  }
+  // List<HospitalListModel> fromJson(json) {
+  //   List<HospitalListModel> hospitalList = new List<HospitalListModel>();
+  //   if (json != null) {
+  //     json.forEach((v) {
+  //       hospitalList.add(new HospitalListModel.fromJson(v));
+  //     });
+  //   }
+  //   return hospitalList;
+  // }
 }
 
 class HospiitalListM{

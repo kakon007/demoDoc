@@ -9,6 +9,8 @@ import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/repositories/filter_repository.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/doctor_filters.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -16,6 +18,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class HospitalScreen extends StatefulWidget {
   @override
@@ -31,23 +34,16 @@ class _HospitalScreenState extends State<HospitalScreen> {
   DeptListModel data;
   SepcializationListModel spItem;
   var accessToken;
-  final List<SimpleModel> _items2 = <SimpleModel>[
-    SimpleModel('Child Specialist', false),
-    SimpleModel('Chest Surgeon', false),
-    SimpleModel('Diabetologist', false),
-    SimpleModel('Endocrinologist', false),
-    SimpleModel('ENT', false),
-    SimpleModel('Gastroenterologist', false),
-  ];
   ScrollController _scrollController;
   ScrollController _scrollController2;
-
   @override
   void initState() {
+    var vm = Provider.of<FilterViewModel>(context, listen: false);
+    vm.getDepartment();
+    vm.getSpecialist();
+    FilterRepository().fetchDepartment();
+    FilterRepository().fetchSpeciality();
     fetchHospitalList();
-    fetchDepartmentList();
-    fetchSpecializationList();
-    //getNews();
     super.initState();
     _scrollController = ScrollController();
     _scrollController2 = ScrollController();
@@ -58,8 +54,6 @@ class _HospitalScreenState extends State<HospitalScreen> {
     var client = http.Client();
     var response = await client.get(url);
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonMap = json.decode(response.body);
-     // print(response.body);
       HospitalListModel data = hospitalListModelFromJson(response.body) ;
       setState(() {
         data.items.forEach((element) {
@@ -71,81 +65,11 @@ class _HospitalScreenState extends State<HospitalScreen> {
       return null;
     }
   }
-  // Future<DeptListModel> fetchDepartmentList() async {
-  //   // SharedPreferences prefs= await SharedPreferences.getInstance();
-  //   // accessToken = prefs.getString('accessToken');
-  //   // var username=  prefs.getString("username");
-  //   // print(username);
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/departmentList?companyNo=2&flagList=2,3";
-  //   var client = http.Client();
-  //   var response = await client.get(url);
-  //   print("anbcsdcdsfdfdf");
-  //   print(response.body);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     print(response.body);
-  //     data = deptListModelFromJson(response.body) ;
-  //     setState(() {
-  //       data.deptItem.forEach((element) {
-  //         departmentList.add(element);
-  //       });
-  //     });
-  //    print('Data:: ' + data.deptItem[12].isChecked.toString());
-  //     return data;
-  //   }else {
-  //     return null;
-  //   }
-  // }
-  Future<DeptListModel>  fetchDepartmentList() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/departmentList?companyNo=2&flagList=2,3";
-    final http.Response response = await http.get(url);
-    print("aasdsadsadsadsadadsadsdfhghg");
-    print(response.body);
-    if (response.statusCode == 200) {
-      print(response.body);
-      data = deptListModelFromJson(response.body) ;
-      // print(spItem);
-      setState(() {
-        data.deptItem.forEach((element) {
-          departmentList.add(element);
-        });
-      });
-      print('Data:: ' + data.deptItem[2].buName);
-      return data;
-    }else {
-      return null;
-    }
-  }
-  Future<SepcializationListModel>  fetchSpecializationList() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/specializationList";
-    final http.Response response = await http.post(url,body: jsonEncode(<String, int>{
-      'id': 4,
-      "ogNo": 2
-    }),);
-    //print(response.body);
-    if (response.statusCode == 200) {
-      print(response.body);
-      spItem = sepcializationListModelFromJson(response.body) ;
-     // print(spItem);
-      setState(() {
-        spItem.specializationItem.forEach((element) {
-          specializationList.add(element);
-        });
-      });
-    // print('Data:: ' + spItem.specializationItem[2].dtlDescription);
-      return spItem;
-    }else {
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    //print(accessToken);
-   // print(specializationList[1].dtlName);
+    var vm = Provider.of<FilterViewModel>(context);
+    List<DeptItem> deptList = vm.departmentList;
+    List<SpecializationItem> specialistList = vm.specialList;
     var searchField = SignUpFormField(
       borderRadius: 30,
       hintText: StringResources.searchBoxHint,
@@ -325,7 +249,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                   child: ListView(
                                                     controller:
                                                     _scrollController,
-                                                    children: departmentList
+                                                    children: deptList
                                                         .map(
                                                           (DeptItem
                                                       item) =>
@@ -399,7 +323,7 @@ class _HospitalScreenState extends State<HospitalScreen> {
                                                   child: ListView(
                                                     controller:
                                                     _scrollController2,
-                                                    children: specializationList
+                                                    children: specialistList
                                                         .map(
                                                           (SpecializationItem
                                                       item) =>
@@ -542,14 +466,4 @@ class _HospitalScreenState extends State<HospitalScreen> {
       ),
     );
   }
-}
-
-class HospitalList {
-  String hospitalName;
-  String location;
-  String doctorOnline;
-  String hospitalLogo;
-
-  HospitalList(
-      {this.hospitalLogo, this.hospitalName, this.location, this.doctorOnline});
 }

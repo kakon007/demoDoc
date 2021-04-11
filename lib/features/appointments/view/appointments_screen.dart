@@ -22,7 +22,7 @@ import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class AppointmentScreen extends StatefulWidget {
-    String specialist;
+  String specialist;
   String name;
   String designation;
   String fee;
@@ -33,25 +33,11 @@ class AppointmentScreen extends StatefulWidget {
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
 }
-
 class _AppointmentScreenState extends State<AppointmentScreen> {
   List<Item> dataList = List<Item>();
   final List<DeptItem> departmentList = List<DeptItem>();
   final List<SpecializationItem> specializationList = List<SpecializationItem>();
   DeptListModel data;
-  SepcializationListModel spItem;
-  var accessToken;
-  final List<SimpleModel> _items2 = <SimpleModel>[
-    SimpleModel('Child Specialist', false),
-    SimpleModel('Chest Surgeon', false),
-    SimpleModel('Diabetologist', false),
-    SimpleModel('Endocrinologist', false),
-    SimpleModel('ENT', false),
-    SimpleModel('Gastroenterologist', false),
-  ];
-  ScrollController _scrollController;
-  ScrollController _scrollController2;
-
   @override
   void initState() {
         forMeBackColor = "#141D53";
@@ -60,34 +46,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     addPatient = false;
     addPatientBackColor = "#00FFFFFF";
     addPatientTextColor = "#8389A9";
-   // fetchSpecializationList();
-    //getNews();
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController2 = ScrollController();
-  }
-  Future<SepcializationListModel>  fetchSpecializationList() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/specializationList";
-    final http.Response response = await http.post(url,body: jsonEncode(<String, int>{
-      'id': 4,
-      "ogNo": 2
-    }),);
-    //print(response.body);
-    if (response.statusCode == 200) {
-      print(response.body);
-      spItem = sepcializationListModelFromJson(response.body) ;
-     // print(spItem);
-      setState(() {
-        spItem.specializationItem.forEach((element) {
-          specializationList.add(element);
-        });
-      });
-      // print('Data:: ' + spItem.specializationItem[2].dtlDescription);
-      return spItem;
-    }else {
-      return null;
-    }
   }
     BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),

@@ -26,6 +26,7 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
+
     var myHealthLogo = Image.asset(
       kMyHealthLogo,
       fit: BoxFit.cover,

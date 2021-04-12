@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,10 +9,14 @@ import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dar
 import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/share_document_widget.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account_alert_dialog.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:multi_select_item/multi_select_item.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
 
@@ -121,8 +123,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     var list2 = controller2.selectedIndexes;
     list.sort((b, a) =>
         a.compareTo(b)); //reoder from biggest number, so it wont error
-    list2.sort((b, a) =>
-        a.compareTo(b));
+    list2.sort((b, a) => a.compareTo(b));
     list.forEach((element) {
       dataList2.removeAt(element);
       reportList.removeAt(element);
@@ -179,6 +180,34 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   @override
   Widget build(BuildContext context) {
     var childButtons = List<UnicornButton>();
+    var width = MediaQuery.of(context).size.width * 0.44;
+    var height = MediaQuery.of(context).size.height;
+
+    // childButtons.add(UnicornButton(
+    //     hasLabel: true,
+    //     labelText: "Choo choo",
+    //     currentButton: FloatingActionButton(
+    //       heroTag: "train",
+    //       backgroundColor: Colors.redAccent,
+    //       mini: true,
+    //       child: Icon(Icons.train),
+    //       onPressed: () {},
+    //     )));
+    //
+    // childButtons.add(UnicornButton(
+    //     currentButton: FloatingActionButton(
+    //         heroTag: "airplane",
+    //         backgroundColor: Colors.greenAccent,
+    //         mini: true,
+    //         child: Icon(Icons.airplanemode_active))));
+    //
+    // childButtons.add(UnicornButton(
+    //     currentButton: FloatingActionButton(
+    //         heroTag: "directions",
+    //         backgroundColor: Colors.blueAccent,
+    //         mini: true,
+    //         child: Icon(Icons.directions_car))));
+
     final String assetName4 = "assets/images/dx.svg";
     final String assetName2="assets/icons/right.svg";
     final String assetName7="assets/icons/greyright.svg";
@@ -219,7 +248,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     final Widget pp = SvgPicture.asset(
       assetName5,
       width: 80,
-      height:100,
+      height: 100,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -286,6 +315,27 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     void handleClick(String value) {
       switch (value) {
         case 'Share':
+          {
+            showModalBottomSheet(
+                backgroundColor: HexColor("#E9ECFE"),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25))),
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                    var index = 0;
+                    bool isTrue = false;
+                    return FractionallySizedBox(
+                      heightFactor: 0.65,
+                      child:ShareDocument()
+                    );
+                  });
+                });
+          }
           break;
         case 'Download':
           break;
@@ -325,7 +375,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       //semanticsLabel: 'Acme Logo'
     );
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
-    var height = MediaQuery.of(context).size.height;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 15.0 : 10.0,

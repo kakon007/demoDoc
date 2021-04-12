@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
+import 'package:myhealthbd_app/features/appointments/view/widgets/NewFile.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class CustomContainer extends StatelessWidget {
@@ -8,7 +10,12 @@ class CustomContainer extends StatelessWidget {
   String subTitleText;
   String undersubtitle;
   String images;
-  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images);
+  String consultationFee;
+  String designation;
+  String doctorNo;
+  String companyNo;
+  String orgNo;
+  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo);
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
@@ -19,8 +26,8 @@ class CustomContainer extends StatelessWidget {
     );
     return Container(
 
-      height: cardHeight*1.2,
-      margin: EdgeInsets.only(top: 8,bottom: 5,right: 14,left: 14),
+      height: cardHeight*1.24,
+      margin: EdgeInsets.only(top: 8,bottom: 6,right: 14,left: 14),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -80,7 +87,7 @@ class CustomContainer extends StatelessWidget {
 
                       Row(
                         children: [
-                          Text('Fee: 700tk' ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
+                          Text(consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
                           SizedBox(width: 40,),
                           Container(
                             width: cardWidth*0.7,
@@ -94,9 +101,17 @@ class CustomContainer extends StatelessWidget {
                               onPressed: () {
                               },
                               textColor: Colors.white,
-                              child: Text(
-                                "Book Now",
-                                style: GoogleFonts.poppins(fontSize: 10,color: Colors.white, fontWeight: FontWeight.w600),
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context,MaterialPageRoute(builder: (context){
+                                    return AppointmentScreen(name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo,);
+                              //    return NewFile();
+                                  }));
+                                },
+                                child: Text(
+                                  "Book Now",
+                                  style: GoogleFonts.poppins(fontSize: 10,color: Colors.white, fontWeight: FontWeight.w600),
+                                ),
                               ),
                             ),
                           )

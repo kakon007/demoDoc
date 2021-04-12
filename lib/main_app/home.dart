@@ -19,10 +19,12 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer_2.dart';
 import 'package:provider/provider.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   String accessToken;
-  HomeScreen({this.accessToken});
+  String userName;
+  HomeScreen({this.accessToken, this.userName});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -56,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    print(widget.accessToken);
     final String dashboardiconiamg = "assets/icons/dashboard_icon.svg";
     final Widget dashboardicon = SvgPicture.asset(
       dashboardiconiamg,
@@ -99,9 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
     // var pages=<Widget>[
     //   Stack(children: finalStack()),
     var pages = <Widget>[
-      Stack(children: [
-        widget.accessToken==null?DrawerScreen2():DrawerScreen(),
-        widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
+      Stack(
+          children: [
+        DrawerScreen(),
+        widget.accessToken == null ? DashboardScreen() : AfterSignIn(userName:  widget.accessToken)]),
       AppointmentScreen(),
       HospitalScreen(),
       PrescriptionListScreen(),

@@ -51,7 +51,7 @@ class SignUpFormField extends StatelessWidget {
     this.hintText,
     this.minLines,
     this.prefixIcon,
-    this.obSecure= false,
+    this.obSecure = false,
     this.suffixIcon,
     this.borderRadius = 10,
     this.onTap,
@@ -108,8 +108,12 @@ class SignUpFormField extends StatelessWidget {
               maxLines: maxLines,
               autovalidate: autovalidate,
               keyboardType: keyboardType,
-              validator: validator ??
-                  (isRequired ? Validator().nullFieldValidate : null),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
               controller: controller,
               textInputAction: textInputAction,
               decoration: new InputDecoration(

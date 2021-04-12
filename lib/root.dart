@@ -7,6 +7,8 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'main_app/util/app_version.dart';
 
 class Root extends StatefulWidget {
+  String accessToken;
+  Root({this.accessToken});
   @override
   _RootState createState() => _RootState();
 }
@@ -14,15 +16,17 @@ class Root extends StatefulWidget {
 class _RootState extends State<Root> {
   @override
   void initState() {
+   // widget.accessToken="";
     super.initState();
     Timer(
         Duration(seconds: 3),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreen())));
+            builder: (BuildContext context) => HomeScreen(accessToken: widget.accessToken))));
   }
 
   @override
   Widget build(BuildContext context) {
+
     var myHealthLogo = Image.asset(
       kMyHealthLogo,
       fit: BoxFit.cover,

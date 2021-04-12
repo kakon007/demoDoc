@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:http/http.dart' as http;
 class BookAppointForMe extends StatefulWidget {
   @override
   _BookAppointForMeState createState() => _BookAppointForMeState();
@@ -11,6 +16,8 @@ class BookAppointForMe extends StatefulWidget {
 
 class _BookAppointForMeState extends State<BookAppointForMe> {
   DateTime pickBirthDate;
+  final List<PatientItem> patientTypeList = List<PatientItem>();
+  final List<ConsultType> consultTypeList = List<ConsultType>();
   Future<Null> selectBirthDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -43,12 +50,51 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchPatientType();
+    fetchConsultType();
     pickBirthDate = DateTime.now();
     selectedPatientType= "";
     selectedConsultationType= "";
   }
   String _selectedType;
   String _selectedConsultation;
+  Future<PatientTypeModel> fetchPatientType() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findPatTypeList?doctorNo=2000011";
+    var client = http.Client();
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      PatientTypeModel data = patientTypeModelFromJson(response.body) ;
+      setState(() {
+        data.patientItem.forEach((element) {
+          patientTypeList.add(element);
+        });
+      });
+      //print('Data:: ' + data.patientItem[0].patientTypeName);
+      return data;
+    }else {
+      return null;
+    }
+  }
+  Future<ConsultTypeModel> fetchConsultType() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findConTypeList?doctorNo=2000011&patTypeNo=$_selectedType&companyNo=2&ogNo=2";
+    var client = http.Client();
+    var response = await client.get(url);
+
+    if (response.statusCode == 200) {
+      ConsultTypeModel data = consultTypeModelFromJson(response.body) ;
+      setState(() {
+        data.consultType.forEach((element) {
+          consultTypeList.add(element);
+        });
+      });
+      print('Data:: ' + data.consultType[0].name);
+      return data;
+    }else {
+      return null;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -124,12 +170,13 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                       setState(() {
                                                         _selectedType = newValue;
                                                         selectedPatientType= newValue;
+                                                        fetchConsultType();
                                                       });
                                                     },
-                                                    items: StringResources.patientType.map((gender) {
+                                                    items: patientTypeList.map((patNo) {
                                                       return DropdownMenuItem(
-                                                        child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
-                                                        value: gender,
+                                                        child: Text(patNo.patientTypeName, style: GoogleFonts.roboto(fontSize: 14),),
+                                                        value: patNo.patientTypeNo,
                                                       );
                                                     }).toList(),
                                                   ),
@@ -180,14 +227,16 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                     value: _selectedConsultation,
                                                     onChanged: (newValue) {
                                                       setState(() {
+                                                        //print(newValue);
                                                         _selectedConsultation = newValue;
                                                         selectedConsultationType= newValue;
+
                                                       });
                                                     },
-                                                    items: StringResources.consultationType.map((gender) {
+                                                    items: consultTypeList.map((consNo) {
                                                       return DropdownMenuItem(
-                                                        child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
-                                                        value: gender,
+                                                        child: new Text(consNo.name, style: GoogleFonts.roboto(fontSize: 14),),
+                                                        value: consNo.no,
                                                       );
                                                     }).toList(),
                                                   ),

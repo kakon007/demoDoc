@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
 
 import '../../../constant.dart';
+import 'switch_account_alert_dialog.dart';
 
 class SwitchAccount extends StatefulWidget {
   @override
@@ -130,27 +131,32 @@ class _SwitchAccountState extends State<SwitchAccount> {
                   fontWeight: FontWeight.w500),
             ),
             spaceBetween,
-            DashedContainer(
-              dashColor: AppTheme.appbarPrimary,
-              borderRadius: 5.0,
-              dashedLength: 15.0,
-              blankLength: 5.0,
-              child: Container(
-                height: 30,
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.person_add_sharp,
-                      color: AppTheme.appbarPrimary,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("Add New Account",
-                        style: GoogleFonts.poppins(color: HexColor("#354291"))),
-                  ],
+            GestureDetector(
+              onTap: (){
+                _showAlert(context);
+              },
+              child: DashedContainer(
+                dashColor: AppTheme.appbarPrimary,
+                borderRadius: 5.0,
+                dashedLength: 15.0,
+                blankLength: 5.0,
+                child: Container(
+                  height: 30,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.person_add_sharp,
+                        color: AppTheme.appbarPrimary,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Add New Account",
+                          style: GoogleFonts.poppins(color: HexColor("#354291"))),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -454,6 +460,14 @@ class _SwitchAccountState extends State<SwitchAccount> {
         ),
       ),
     );
+  }
+
+  void _showAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return SwitchAccountAlert();
+        });
   }
 }
 

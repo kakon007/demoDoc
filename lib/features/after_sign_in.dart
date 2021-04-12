@@ -121,7 +121,7 @@ class _AfterSignInState extends State<AfterSignIn> {
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData(isFromOnPageLoad: true);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
-    vm2.getData();
+    vm2.getData(isFromOnPageLoad: true);
     super.initState();
   }
   @override
@@ -586,36 +586,10 @@ class _AfterSignInState extends State<AfterSignIn> {
                               ),
                             ),
                             SizedBox(height: 10,),
-                            // FutureBuilder<NewsUpdatedModel>(
-                            //   //  scrollDirection: Axis.horizontal,
-                            //   //  physics: ClampingScrollPhysics(),
-                            //   //  shrinkWrap: true,
-                            //   // itemCount: dataList.length,
-                            //     future:fetchNewspdate(),
-                            //     builder: (BuildContext context, snapshot){
-                            //       if(snapshot.hasData){
-                            //         return SingleChildScrollView(
-                            //           scrollDirection: Axis.horizontal,
-                            //           child: Padding(
-                            //             padding: const EdgeInsets.only(left:18.0,),
-                            //             child:
-                            //             Row(
-                            //               children: [
-                            //                 ...List.generate(
-                            //                   snapshot.data.items.length,
-                            //                       (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(dataList2[i].publishDate).toLocal()),dataList2[i].title,dataList2[i].newsLink),
-                            //                 ),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         );
-                            //       }else{
-                            //         return CircularProgressIndicator();
-                            //       }
-                            //     }),
-
-
-                            SingleChildScrollView(
+                            vm2.shouldShowPageLoader
+                                ? Center(
+                              child: CircularProgressIndicator(),
+                            ):SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Padding(
                                 padding: const EdgeInsets.only(left:18.0,),

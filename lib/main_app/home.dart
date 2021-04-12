@@ -21,6 +21,8 @@ import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../get_appointment_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   String accessToken;
   String userName;
@@ -105,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
         widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
-      AppointmentScreen(),
+      GetAppointment(),
       HospitalScreen(),
       PrescriptionListScreen(),
     ];

@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 //var accessToken;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

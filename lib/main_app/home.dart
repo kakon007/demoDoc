@@ -100,13 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
-    // var pages=<Widget>[
-    //   Stack(children: finalStack()),
     var pages = <Widget>[
       Stack(
           children: [
-        DrawerScreen(),
-        widget.accessToken == null ? DashboardScreen() : AfterSignIn(userName:  widget.accessToken)]),
+            widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
+        widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
       AppointmentScreen(),
       HospitalScreen(),
       PrescriptionListScreen(),

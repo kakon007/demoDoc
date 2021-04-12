@@ -17,8 +17,15 @@ void main() async{
   SharedPreferences prefs= await SharedPreferences.getInstance();
   var accessToken = prefs.getString('accessToken');
   print(accessToken);
-  var providers=[ ChangeNotifierProvider<FilterViewModel>(
-      create: (context)=>FilterViewModel())];
+  var providers=[
+
+    ChangeNotifierProvider<FilterViewModel>(
+      create: (context)=>FilterViewModel()),
+    ChangeNotifierProvider<HospitalListViewModel>(create: (context) => HospitalListViewModel()),
+    ChangeNotifierProvider<NewsViewModel>(create: (context) => NewsViewModel()),
+
+
+  ];
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   FlavorConfig(
       flavor: Flavor.DEV,

@@ -11,6 +11,8 @@ import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.da
 
 
 class DrawerScreen extends StatefulWidget {
+  String accessToken;
+  DrawerScreen({this.accessToken});
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -93,7 +95,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     var url =
         "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
     var client = http.Client();
-    var response = await client.post(url,headers: {'Authorization': 'Bearer ${signInData.accessToken}',});
+    var response = await client.post(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonMap = json.decode(response.body);
       print("Body"+jsonMap.toString());

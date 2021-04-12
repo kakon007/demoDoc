@@ -16,7 +16,6 @@ class AvailableSlotsRepository {
       String orgNo) async {
     print(companyNo);
     print("shakil");
-    print("prity");
     print(pickedAppointDate.toString());
     print(orgNo);
     print(doctorNo);

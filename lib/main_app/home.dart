@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
         widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
       GetAppointment(),
       HospitalScreen(),
-      PrescriptionListScreen(),
+      PrescriptionListScreen(accessToken: widget.accessToken,),
     ];
 
     //BottomNavBar

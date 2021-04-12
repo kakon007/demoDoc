@@ -23,8 +23,8 @@ class FindYourDoctorScreen extends StatefulWidget {
   String phoneText;
   String emailText;
   String addressText;
-  String companyNo;
   String orgNo;
+  String companyNo;
 
   FindYourDoctorScreen(this.title, this.phoneText, this.emailText,
       this.addressText, this.orgNo, this.companyNo);

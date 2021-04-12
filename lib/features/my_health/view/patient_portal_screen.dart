@@ -21,6 +21,8 @@ import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
 
 class PrescriptionListScreen extends StatefulWidget {
+  String accessToken;
+  PrescriptionListScreen({this.accessToken});
   @override
   _PrescriptionListScreenState createState() => _PrescriptionListScreenState();
 }
@@ -102,7 +104,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   MultiSelectController controller2 = new MultiSelectController();
   MultiSelectController controller3 = new MultiSelectController();
 
-   Future<PrescriptionListModel> fetchedData;
+  Future<PrescriptionListModel> fetchedData;
 
   @override
   void initState() {
@@ -147,27 +149,26 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   Future<PrescriptionListModel> fetchPrescriptionList() async {
     var url =
         "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/patient-prescription-list?draw=1&columns%5B0%5D%5Bdata%5D=consultationId&columns%5B0%5D%5Bname%5D=consultationId&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=prescriptionDateTime&columns%5B1%5D%5Bname%5D=prescriptionDateTime&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=doctorName&columns%5B2%5D%5Bname%5D=doctorName&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=companyName&columns%5B3%5D%5Bname%5D=companyName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1617439318994";
-  print('Token: '+ signInData.accessToken);
-    var response = await http.get(url,headers: {
-    'Authorization': 'Bearer ${signInData.accessToken}'
-    });
+   // print('Token: '+ signInData.accessToken);
+    var client = http.Client();
+    var response = await client.get(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
     if (response.statusCode == 200) {
       print('Response: '+ response.body.toString());
-     // Map<String, dynamic> jsonMap = json.decode(response.body);
+      // Map<String, dynamic> jsonMap = json.decode(response.body);
       PrescriptionListModel data1 = prescriptionListModelFromJson(response.body) ;
 
-         setState(() {
-          data1.obj.data.forEach((elemant) {
-            dataList2.add(elemant);
-          });
+      setState(() {
+        data1.obj.data.forEach((elemant) {
+          dataList2.add(elemant);
         });
+      });
 
       // setState(() {
       //   dataList2=data1.obj.data.first.phoneMobile;
       // });
 
-     // print('Data:: ' + data.items[5].companyName);
-     // print('DataList2:: ' + dataList2.first.consultationId);
+      // print('Data:: ' + data.items[5].companyName);
+      // print('DataList2:: ' + dataList2.first.consultationId);
       print('Data:::: '+ data1.toJson().toString());
       print('Data1234312:::: '+ dataList2.toString());
       return data1;
@@ -327,13 +328,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                 builder: (context) {
                   return StatefulBuilder(
                       builder: (BuildContext context, StateSetter setState) {
-                    var index = 0;
-                    bool isTrue = false;
-                    return FractionallySizedBox(
-                      heightFactor: 0.65,
-                      child:ShareDocument()
-                    );
-                  });
+                        var index = 0;
+                        bool isTrue = false;
+                        return FractionallySizedBox(
+                            heightFactor: 0.65,
+                            child:ShareDocument()
+                        );
+                      });
                 });
           }
           break;
@@ -411,583 +412,583 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     );
     return Scaffold(
       key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: HexColor('#354291'),
-          title: Text('Patient Portal',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
-          actions: (controller.isSelecting || controller2.isSelecting)
-              ? <Widget>[
-            Row(
-                children: [
-                  GestureDetector(
-                    onTap: (){},
-                    child: Container(
-                        width: 18,
-                        height: 18,
-                        child:Image.asset('assets/icons/slt.png')),
-                  ),
-                  SizedBox(width: 15,),
-                  GestureDetector(
-                    onTap: (){delete();},
-                    child: Container(
-                        width: 18,
-                        height: 18,
-                        child:Image.asset('assets/icons/dlt.png')),
-                  ),
-                  SizedBox(width: 15,),
-                  GestureDetector(
-                    child: Container(
-                        width: 18,
-                        height: 18,
-                        child:Image.asset('assets/icons/sh.png')),
-                  ),
-                  SizedBox(width: 15,),
-                  GestureDetector(
-                    child: Container(
-                        width: 18,
-                        height: 18,
-                        child:Image.asset('assets/icons/dwn.png')),
-                  ),
-                  SizedBox(width: 15,),
-                ],
+      appBar: AppBar(
+        backgroundColor: HexColor('#354291'),
+        title: Text('Patient Portal',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
+        actions: (controller.isSelecting || controller2.isSelecting)
+            ? <Widget>[
+          Row(
+            children: [
+              GestureDetector(
+                onTap: (){},
+                child: Container(
+                    width: 18,
+                    height: 18,
+                    child:Image.asset('assets/icons/slt.png')),
               ),
-          ]
-              : <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.notifications,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
-                },
-              )
-          ],
-            leading: new IconButton(
-                icon: new Icon(Icons.notes),
-                onPressed: () => _scaffoldKey.currentState.openDrawer()),
-        ),
-        drawer: Drawer(
-          child: ListView(children: [
-            RaisedButton(onPressed:(){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> SwitchAccount()));
-            },
-              child: Text("Switch Account", style: GoogleFonts.poppins(
-              ),),
-
-            )
-          ],),
-        ),
-        body: DefaultTabController(
-          length: 3,
-          child: Column(
-            children: <Widget>[
-              Container(
-                constraints: BoxConstraints(maxHeight: 150.0),
-                child: Material(
-                  color: HexColor('#E9ECFE'),
-                  child: TabBar(
-                    indicatorColor: HexColor('#8592E5'),
-                    indicatorWeight:4,
-                    tabs: [
-                       Container(
-                        height: 40,
-                        //width: 10.0,
-                        child:Center(child: Text('Prescriptions',style: GoogleFonts.roboto(color: HexColor('#354291',),fontWeight: FontWeight.w500),)),
-                      ),
-                       Container(
-                        height: 40,
-                        child: Center(child: Text('Reports',style: GoogleFonts.roboto(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
-                      ),
-                       Container(
-                        height: 40,
-                        //width: 30.0,
-                        child:Center(child: Text('Documents',style: GoogleFonts.roboto(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
-                      ),
-                    ],
-                  ),
-                ),
+              SizedBox(width: 15,),
+              GestureDetector(
+                onTap: (){delete();},
+                child: Container(
+                    width: 18,
+                    height: 18,
+                    child:Image.asset('assets/icons/dlt.png')),
               ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    WillPopScope(
-                      onWillPop: () async {
-                        //block app from quitting when selecting
-                        var before = !controller.isSelecting;
-                        setState(() {
-                          controller.deselectAll();
-                        });
-                        return before;
-                      },
-                      child: Scaffold(
-                body:
-
-                Column(
-                children: [
-                Row(
-                children: [
-                Padding(
-                padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                child: Text("33 Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+              SizedBox(width: 15,),
+              GestureDetector(
+                child: Container(
+                    width: 18,
+                    height: 18,
+                    child:Image.asset('assets/icons/sh.png')),
               ),
-              Spacer(),
-              searchField,
+              SizedBox(width: 15,),
+              GestureDetector(
+                child: Container(
+                    width: 18,
+                    height: 18,
+                    child:Image.asset('assets/icons/dwn.png')),
+              ),
+              SizedBox(width: 15,),
             ],
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              physics: ScrollPhysics(),
-              child: FutureBuilder<PrescriptionListModel>(
-                future: fetchPrescriptionList(),
-                builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    return ListView.builder( physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount:dataList2.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return MultiSelectItem(
-                            isSelecting: controller.isSelecting,
-                            onSelected: () {
-                              setState(() {
-                                controller.toggle(index);
-                              });
-                            },
-                            child: Stack(
-                                children:[
-                                  InkWell(
-                                    onLongPress: (){
-                                      setState(() {
-                                        controller.toggle(index);
-                                      });
-                                      print("tapped");},
-                                    onTap: (){
-
-                                      if(controller.isSelecting){
-                                        setState(() {
-                                          controller.toggle(index);
-                                        });
-                                      }
-                                      print("tappeddd");
-                                    },
-                                    child: Container(
-
-                                      height: cardHeight*0.8,
-                                      margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                          1.0,
-                                          1.0
-                                        ], colors: [
-                                          HexColor('#C5CAE8'),
-                                          HexColor('#E9ECFE'),
-
-                                        ]),
-                                        //color: Colors.white,
-                                        // border: Border.all(
-                                        //   color: HexColor("#E9ECFE"),
-                                        //   width: 1,
-                                        // ),
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left:10.0),
-                                            child: CircleAvatar(
-                                              radius: 31,
-                                              backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                              child: CircleAvatar(
-                                                radius: 30,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  backgroundImage: AssetImage('assets/images/proimg.png'),
-                                                  radius: 28,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          //SizedBox(width: 5,),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(height: 8,),
-                                                Text(dataList2[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                Text(DateUtil().formattedDate(DateTime.parse(dataList2[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                SizedBox(height: 5,),
-                                                Container(width:200,child: Text(dataList2[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
-                                                Text(dataList2[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
-                                              ],
-                                            ),
-
-                                          ),
-                                          // Container(width:45,child: rx),
-                                          // (controller.isSelecting)?
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                          //   child: righticon,
-                                          // ):
-                                          Padding(
-                                            padding: const EdgeInsets.only(right:18.0,),
-                                            child: Stack(children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(top:10.0),
-                                                child: Container(width:45,child: rx),
-                                              ),
-                                              (controller.isSelected(index))?
-                                              Padding(
-                                                padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                child: righticon,
-                                              ): (controller.isSelecting)?Padding(
-                                                padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                child: greyright,
-                                              ):Padding(
-                                                padding: EdgeInsets.only(left: 38,top: 5),
-                                                child: popup,
-                                              ),
-                                            ]),
-                                          ),
-
-
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ]
-                            ),
-                          );
-                        });
-
-                  }else{
-                    return Center( child: CircularProgressIndicator());
-                  }
-
-                }
-              ),
+        ]
+            : <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+              size: 20,
             ),
-          ),
-          ],
-        )
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
+            },
+          )
+        ],
+        leading: new IconButton(
+            icon: new Icon(Icons.notes),
+            onPressed: () => _scaffoldKey.currentState.openDrawer()),
+      ),
+      drawer: Drawer(
+        child: ListView(children: [
+          RaisedButton(onPressed:(){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> SwitchAccount()));
+          },
+            child: Text("Switch Account", style: GoogleFonts.poppins(
+            ),),
 
-    ),
+          )
+        ],),
+      ),
+      body: DefaultTabController(
+        length: 3,
+        child: Column(
+          children: <Widget>[
+            Container(
+              constraints: BoxConstraints(maxHeight: 150.0),
+              child: Material(
+                color: HexColor('#E9ECFE'),
+                child: TabBar(
+                  indicatorColor: HexColor('#8592E5'),
+                  indicatorWeight:4,
+                  tabs: [
+                    Container(
+                      height: 40,
+                      //width: 10.0,
+                      child:Center(child: Text('Prescriptions',style: GoogleFonts.roboto(color: HexColor('#354291',),fontWeight: FontWeight.w500),)),
                     ),
-
-
-
-                    //REPORT Screen
-
-                    WillPopScope(
-                      onWillPop: () async {
-                        //block app from quitting when selecting
-                        var before = !controller2.isSelecting;
-                        setState(() {
-                          controller2.deselectAll();
-                        });
-                        return before;
-                      },
-                      child: Scaffold(
-                          body:
-
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                                    child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                                  ),
-                                  Spacer(),
-                                  searchField,
-                                ],
-                              ),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                    physics: ScrollPhysics(),
-                                    child: Column(
-                                      children: [
-                                    ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                        itemCount:reportList.length,
-                                        shrinkWrap: true,
-                                        itemBuilder: (BuildContext context, int index) {
-                                      return MultiSelectItem(
-                                        isSelecting: controller2.isSelecting,
-                                          onSelected: () {
-                                        setState(() {
-                                          controller2.toggle(index);
-                                        });
-                                      },
-                                        child: Stack(
-                                            children:[
-                                              InkWell(
-                                                onLongPress: (){
-                                                  setState(() {
-                                                    controller2.toggle(index);
-                                                  });
-                                                  print("tapped");},
-                                                onTap: (){
-
-                                                  if(controller2.isSelecting){
-                                                    setState(() {
-                                                      controller2.toggle(index);
-                                                    });
-                                                  }
-                                                  print("tappeddd");
-                                                },
-                                                child: Container(
-                                                  height: cardHeight*0.8,
-                                                  margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                  decoration: BoxDecoration(
-                                                    gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                      1.0,
-                                                      1.0
-                                                    ], colors: [
-                                                      HexColor('#C5CAE8'),
-                                                      HexColor('#E9ECFE'),
-
-                                                    ]),
-                                                    //color: Colors.white,
-                                                    // border: Border.all(
-                                                    //   color: HexColor("#E9ECFE"),
-                                                    //   width: 1,
-                                                    // ),
-                                                    borderRadius: BorderRadius.circular(15),
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(width: 10,),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            SizedBox(height: 5,),
-                                                            Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                            Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                            SizedBox(height: 8,),
-                                                            Row(
-                                                              children: [
-                                                                CircleAvatar(
-                                                                  radius: 18,
-                                                                  backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                                  child: CircleAvatar(
-                                                                    backgroundColor: Colors.white,
-                                                                    backgroundImage: AssetImage('assets/images/ap.png'),
-                                                                    radius: 17,
-                                                                  ),
-                                                                ),
-                                                                SizedBox(width: 15,),
-                                                                Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Spacer(),
-                                                      // Padding(
-                                                      //   padding: const EdgeInsets.only(right:18.0),
-                                                      //   child: Stack(children: [
-                                                      //     Container(width:45,child: dx),
-                                                      //     Padding(
-                                                      //       padding: const EdgeInsets.only(left:30.0),
-                                                      //       child: righticon,
-                                                      //     ),
-                                                      //   ]),
-                                                      // ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(right:18.0),
-                                                        child: Stack(children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(top:10.0,right: 5),
-                                                            child: Container(width:45,child: dx),
-                                                          ),
-                                                          (controller2.isSelected(index))?
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                            child: righticon,
-                                                          ): (controller2.isSelecting)?Padding(
-                                                            padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                            child: greyright,
-                                                          ):Padding(
-                                                            padding: EdgeInsets.only(left: 38),
-                                                            child: popup,
-                                                          ),
-                                                        ]),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ]
-                                        ),
-                                      );
-                                      })
-                                      ],
-                                    )),
-                              ),
-                            ],
-                          )
-
-                      ),
+                    Container(
+                      height: 40,
+                      child: Center(child: Text('Reports',style: GoogleFonts.roboto(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
                     ),
-                   Scaffold(
-                     floatingActionButton: Padding(
-                       padding: const EdgeInsets.only(bottom:10.0,right: 10),
-                       child: UnicornDialer(
-                           backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
-                           parentButtonBackground: HexColor('#8592E5'),
-                           orientation: UnicornOrientation.VERTICAL,
-                           parentButton: Icon(Icons.add),
-                           childButtons: childButtons),
-                     ),
-                     // body: Align(
-                     //   alignment: Alignment.center,
-                     //   child: Padding(
-                     //     padding: const EdgeInsets.only(top:200.0),
-                     //     child: Container(
-                     //       child: Column(
-                     //         children: [
-                     //           pp,
-                     //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                     //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
-                     //         ],
-                     //       ),
-                     //     ),
-                     //   ),
-                     // ),
-
-                     body:   Column(
-                       children: [
-                         Row(
-                           children: [
-                             Padding(
-                               padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                               child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                             ),
-                             Spacer(),
-                             searchField,
-                           ],
-                         ),
-                         Expanded(
-                           child: SingleChildScrollView(
-                               physics: ScrollPhysics(),
-                               child: Column(
-                                 children: [
-                                   ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                       itemCount:docList.length,
-                                       shrinkWrap: true,
-                                       itemBuilder: (BuildContext context, int index) {
-                                         return MultiSelectItem(
-                                           isSelecting: controller3.isSelecting,
-                                           onSelected: () {
-                                             setState(() {
-                                               controller3.toggle(index);
-                                             });
-                                           },
-                                           child: Stack(
-                                               children:[
-                                                 InkWell(
-                                                   onLongPress: (){
-                                                     setState(() {
-                                                       controller3.toggle(index);
-                                                     });
-                                                     print("tapped");},
-                                                   onTap: (){
-
-                                                     if(controller3.isSelecting){
-                                                       setState(() {
-                                                         controller3.toggle(index);
-                                                       });
-                                                     }
-                                                     print("tappeddd");
-                                                   },
-                                                   child: Container(
-                                                     height: cardHeight*0.6,
-                                                     margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                     decoration: BoxDecoration(
-                                                       gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                         1.0,
-                                                       ], colors: [
-                                                         //HexColor('#C5CAE8'),
-                                                         HexColor('#E9ECFE'),
-
-                                                       ]),
-                                                       //color: Colors.white,
-                                                       // border: Border.all(
-                                                       //   color: HexColor("#E9ECFE"),
-                                                       //   width: 1,
-                                                       // ),
-                                                       borderRadius: BorderRadius.circular(15),
-                                                     ),
-                                                     child: Row(
-                                                       children: [
-                                                         SizedBox(width: 10,),
-                                                         Padding(
-                                                           padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                           child: Column(
-                                                             crossAxisAlignment: CrossAxisAlignment.start,
-                                                             children: [
-                                                               SizedBox(height: 10,),
-                                                               Text(docList[index].fileName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                               SizedBox(height: 5,),
-                                                               Text(docList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                               SizedBox(height: 5,),
-                                                             ],
-                                                           ),
-                                                         ),
-                                                         Spacer(),
-                                                         // Padding(
-                                                         //   padding: const EdgeInsets.only(right:18.0),
-                                                         //   child: Stack(children: [
-                                                         //     Container(width:45,child: dx),
-                                                         //     Padding(
-                                                         //       padding: const EdgeInsets.only(left:30.0),
-                                                         //       child: righticon,
-                                                         //     ),
-                                                         //   ]),
-                                                         // ),
-                                                         Padding(
-                                                           padding: const EdgeInsets.only(right:18.0),
-                                                           child: Stack(children: [
-                                                             Padding(
-                                                               padding: const EdgeInsets.only(top:3.0,right: 5),
-                                                               child: Container(width:45,child: jp),
-                                                             ),
-                                                             (controller2.isSelected(index))?
-                                                             Padding(
-                                                               padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                               child: righticon,
-                                                             ): (controller2.isSelecting)?Padding(
-                                                               padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                               child: greyright,
-                                                             ):Padding(
-                                                               padding: EdgeInsets.only(left: 38),
-                                                               child: popup,
-                                                             ),
-                                                           ]),
-                                                         ),
-                                                       ],
-                                                     ),
-                                                   ),
-                                                 ),
-                                               ]
-                                           ),
-                                         );
-                                       })
-                                 ],
-                               )),
-                         ),
-                       ],
-                     ),
-                   ),
+                    Container(
+                      height: 40,
+                      //width: 30.0,
+                      child:Center(child: Text('Documents',style: GoogleFonts.roboto(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  WillPopScope(
+                    onWillPop: () async {
+                      //block app from quitting when selecting
+                      var before = !controller.isSelecting;
+                      setState(() {
+                        controller.deselectAll();
+                      });
+                      return before;
+                    },
+                    child: Scaffold(
+                        body:
+
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                  child: Text("33 Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                ),
+                                Spacer(),
+                                searchField,
+                              ],
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                physics: ScrollPhysics(),
+                                child: FutureBuilder<PrescriptionListModel>(
+                                    future: fetchPrescriptionList(),
+                                    builder: (context, snapshot) {
+                                      if(snapshot.hasData){
+                                        return ListView.builder( physics: NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemCount:dataList2.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return MultiSelectItem(
+                                                isSelecting: controller.isSelecting,
+                                                onSelected: () {
+                                                  setState(() {
+                                                    controller.toggle(index);
+                                                  });
+                                                },
+                                                child: Stack(
+                                                    children:[
+                                                      InkWell(
+                                                        onLongPress: (){
+                                                          setState(() {
+                                                            controller.toggle(index);
+                                                          });
+                                                          print("tapped");},
+                                                        onTap: (){
+
+                                                          if(controller.isSelecting){
+                                                            setState(() {
+                                                              controller.toggle(index);
+                                                            });
+                                                          }
+                                                          print("tappeddd");
+                                                        },
+                                                        child: Container(
+
+                                                          height: cardHeight*0.8,
+                                                          margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                          decoration: BoxDecoration(
+                                                            gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                              1.0,
+                                                              1.0
+                                                            ], colors: [
+                                                              HexColor('#C5CAE8'),
+                                                              HexColor('#E9ECFE'),
+
+                                                            ]),
+                                                            //color: Colors.white,
+                                                            // border: Border.all(
+                                                            //   color: HexColor("#E9ECFE"),
+                                                            //   width: 1,
+                                                            // ),
+                                                            borderRadius: BorderRadius.circular(15),
+                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left:10.0),
+                                                                child: CircleAvatar(
+                                                                  radius: 31,
+                                                                  backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                                  child: CircleAvatar(
+                                                                    radius: 30,
+                                                                    backgroundColor: Colors.white,
+                                                                    child: CircleAvatar(
+                                                                      backgroundImage: AssetImage('assets/images/proimg.png'),
+                                                                      radius: 28,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              //SizedBox(width: 5,),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    SizedBox(height: 8,),
+                                                                    Text(dataList2[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                                    Text(DateUtil().formattedDate(DateTime.parse(dataList2[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                    SizedBox(height: 5,),
+                                                                    Container(width:200,child: Text(dataList2[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
+                                                                    Text(dataList2[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
+                                                                  ],
+                                                                ),
+
+                                                              ),
+                                                              // Container(width:45,child: rx),
+                                                              // (controller.isSelecting)?
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                              //   child: righticon,
+                                                              // ):
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right:18.0,),
+                                                                child: Stack(children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top:10.0),
+                                                                    child: Container(width:45,child: rx),
+                                                                  ),
+                                                                  (controller.isSelected(index))?
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                                    child: righticon,
+                                                                  ): (controller.isSelecting)?Padding(
+                                                                    padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                                    child: greyright,
+                                                                  ):Padding(
+                                                                    padding: EdgeInsets.only(left: 38,top: 5),
+                                                                    child: popup,
+                                                                  ),
+                                                                ]),
+                                                              ),
+
+
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]
+                                                ),
+                                              );
+                                            });
+
+                                      }else{
+                                        return Center( child: CircularProgressIndicator());
+                                      }
+
+                                    }
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+
+                    ),
+                  ),
+
+
+
+                  //REPORT Screen
+
+                  WillPopScope(
+                    onWillPop: () async {
+                      //block app from quitting when selecting
+                      var before = !controller2.isSelecting;
+                      setState(() {
+                        controller2.deselectAll();
+                      });
+                      return before;
+                    },
+                    child: Scaffold(
+                        body:
+
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                  child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                ),
+                                Spacer(),
+                                searchField,
+                              ],
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                  physics: ScrollPhysics(),
+                                  child: Column(
+                                    children: [
+                                      ListView.builder( physics: NeverScrollableScrollPhysics(),
+                                          itemCount:reportList.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context, int index) {
+                                            return MultiSelectItem(
+                                              isSelecting: controller2.isSelecting,
+                                              onSelected: () {
+                                                setState(() {
+                                                  controller2.toggle(index);
+                                                });
+                                              },
+                                              child: Stack(
+                                                  children:[
+                                                    InkWell(
+                                                      onLongPress: (){
+                                                        setState(() {
+                                                          controller2.toggle(index);
+                                                        });
+                                                        print("tapped");},
+                                                      onTap: (){
+
+                                                        if(controller2.isSelecting){
+                                                          setState(() {
+                                                            controller2.toggle(index);
+                                                          });
+                                                        }
+                                                        print("tappeddd");
+                                                      },
+                                                      child: Container(
+                                                        height: cardHeight*0.8,
+                                                        margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                        decoration: BoxDecoration(
+                                                          gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                            1.0,
+                                                            1.0
+                                                          ], colors: [
+                                                            HexColor('#C5CAE8'),
+                                                            HexColor('#E9ECFE'),
+
+                                                          ]),
+                                                          //color: Colors.white,
+                                                          // border: Border.all(
+                                                          //   color: HexColor("#E9ECFE"),
+                                                          //   width: 1,
+                                                          // ),
+                                                          borderRadius: BorderRadius.circular(15),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            SizedBox(width: 10,),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                              child: Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  SizedBox(height: 5,),
+                                                                  Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                                  Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                  SizedBox(height: 8,),
+                                                                  Row(
+                                                                    children: [
+                                                                      CircleAvatar(
+                                                                        radius: 18,
+                                                                        backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                                        child: CircleAvatar(
+                                                                          backgroundColor: Colors.white,
+                                                                          backgroundImage: AssetImage('assets/images/ap.png'),
+                                                                          radius: 17,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 15,),
+                                                                      Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Spacer(),
+                                                            // Padding(
+                                                            //   padding: const EdgeInsets.only(right:18.0),
+                                                            //   child: Stack(children: [
+                                                            //     Container(width:45,child: dx),
+                                                            //     Padding(
+                                                            //       padding: const EdgeInsets.only(left:30.0),
+                                                            //       child: righticon,
+                                                            //     ),
+                                                            //   ]),
+                                                            // ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(right:18.0),
+                                                              child: Stack(children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(top:10.0,right: 5),
+                                                                  child: Container(width:45,child: dx),
+                                                                ),
+                                                                (controller2.isSelected(index))?
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                  child: righticon,
+                                                                ): (controller2.isSelecting)?Padding(
+                                                                  padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                  child: greyright,
+                                                                ):Padding(
+                                                                  padding: EdgeInsets.only(left: 38),
+                                                                  child: popup,
+                                                                ),
+                                                              ]),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ]
+                                              ),
+                                            );
+                                          })
+                                    ],
+                                  )),
+                            ),
+                          ],
+                        )
+
+                    ),
+                  ),
+                  Scaffold(
+                    floatingActionButton: Padding(
+                      padding: const EdgeInsets.only(bottom:10.0,right: 10),
+                      child: UnicornDialer(
+                          backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
+                          parentButtonBackground: HexColor('#8592E5'),
+                          orientation: UnicornOrientation.VERTICAL,
+                          parentButton: Icon(Icons.add),
+                          childButtons: childButtons),
+                    ),
+                    // body: Align(
+                    //   alignment: Alignment.center,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(top:200.0),
+                    //     child: Container(
+                    //       child: Column(
+                    //         children: [
+                    //           pp,
+                    //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                    //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+
+                    body:   Column(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                              child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                            ),
+                            Spacer(),
+                            searchField,
+                          ],
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                              physics: ScrollPhysics(),
+                              child: Column(
+                                children: [
+                                  ListView.builder( physics: NeverScrollableScrollPhysics(),
+                                      itemCount:docList.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return MultiSelectItem(
+                                          isSelecting: controller3.isSelecting,
+                                          onSelected: () {
+                                            setState(() {
+                                              controller3.toggle(index);
+                                            });
+                                          },
+                                          child: Stack(
+                                              children:[
+                                                InkWell(
+                                                  onLongPress: (){
+                                                    setState(() {
+                                                      controller3.toggle(index);
+                                                    });
+                                                    print("tapped");},
+                                                  onTap: (){
+
+                                                    if(controller3.isSelecting){
+                                                      setState(() {
+                                                        controller3.toggle(index);
+                                                      });
+                                                    }
+                                                    print("tappeddd");
+                                                  },
+                                                  child: Container(
+                                                    height: cardHeight*0.6,
+                                                    margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                    decoration: BoxDecoration(
+                                                      gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                        1.0,
+                                                      ], colors: [
+                                                        //HexColor('#C5CAE8'),
+                                                        HexColor('#E9ECFE'),
+
+                                                      ]),
+                                                      //color: Colors.white,
+                                                      // border: Border.all(
+                                                      //   color: HexColor("#E9ECFE"),
+                                                      //   width: 1,
+                                                      // ),
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        SizedBox(width: 10,),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              SizedBox(height: 10,),
+                                                              Text(docList[index].fileName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                              SizedBox(height: 5,),
+                                                              Text(docList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                              SizedBox(height: 5,),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Spacer(),
+                                                        // Padding(
+                                                        //   padding: const EdgeInsets.only(right:18.0),
+                                                        //   child: Stack(children: [
+                                                        //     Container(width:45,child: dx),
+                                                        //     Padding(
+                                                        //       padding: const EdgeInsets.only(left:30.0),
+                                                        //       child: righticon,
+                                                        //     ),
+                                                        //   ]),
+                                                        // ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(right:18.0),
+                                                          child: Stack(children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top:3.0,right: 5),
+                                                              child: Container(width:45,child: jp),
+                                                            ),
+                                                            (controller2.isSelected(index))?
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                              child: righticon,
+                                                            ): (controller2.isSelecting)?Padding(
+                                                              padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                              child: greyright,
+                                                            ):Padding(
+                                                              padding: EdgeInsets.only(left: 38),
+                                                              child: popup,
+                                                            ),
+                                                          ]),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]
+                                          ),
+                                        );
+                                      })
+                                ],
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
 
   }
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
 import 'package:provider/provider.dart';
 
 
@@ -48,23 +49,27 @@ class HospitalListViewModel extends ChangeNotifier{
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
+  int _page = 1;
 
   Future<void> refresh(){
+    _page = 0;
   _hospitalList.clear();
     return getData();
   }
 
-  Future<void> getData() async {
+  Future<void> getData({bool isFromOnPageLoad = false}) async {
 
-    // if (isFromOnPageLoad) {
-    //   if (_lastFetchTime != null) if (_lastFetchTime
-    //       .difference(DateTime.now()) <
-    //       CommonServiceRule.onLoadPageReloadTime) return;
-    // }
-    _hospitalList.clear();
+
+    if (isFromOnPageLoad) {
+      if (_lastFetchTime != null) if (_lastFetchTime
+          .difference(DateTime.now()) <
+          CommonServiceRule.onLoadPageReloadTime) return;
+    }
+    _isFetchingData = true;
+    _lastFetchTime = DateTime.now();
     var res = await HospitalListRepositry().fetchHospitalList();
     notifyListeners();
-
+   _hospitalList.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
@@ -91,6 +96,7 @@ class HospitalListViewModel extends ChangeNotifier{
 
   bool get shouldShowPageLoader =>
       _isFetchingData && _hospitalList.length == 0;
+
 
   List<Item> get hospitalList => _hospitalList;
 

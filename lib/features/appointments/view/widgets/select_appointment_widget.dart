@@ -5,9 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
+import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/no_available_slots.dart';
+import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 class SelectAppointTime extends StatefulWidget {
   String doctorNo;
   String companyNo;
@@ -38,7 +42,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
   AvailableSlotModel slotItem;
   final List<Items> availableSlotList = List<Items>();
   Future<AvailableSlotModel>  fetchSpecializationList() async {
-    print(widget.companyNo);
+   // print(widget.companyNo);
     pickedAppointDate2=pickedAppointDate;
     var url =
         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/getAvailableSlot";
@@ -48,7 +52,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
       "doctorNo": widget.doctorNo,
       "ogNo": widget.orgNo
     }),);
-    print(response.body);
+   // print(response.body);
     if (response.statusCode == 200) {
       print(response.body);
       slotItem = availableSlotModelFromJson(response.body) ;
@@ -71,15 +75,20 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
     pickedAppointDate = DateTime.now();
     pickedAppointDate2 = DateTime.now();
     fetchSpecializationList();
-  }
+    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+    vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+   }
 
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<AvailableSlotsViewModel>(context);
+    List<Items> slots = vm.slotList;
+    print("slots" +  slots.length.toString());
     var spaceBetween= SizedBox(height: 10,);
     var height = MediaQuery.of(context).size.height;
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickedAppointDate);
-    pickedAppointDate!= pickedAppointDate2 ? fetchSpecializationList(): pickedAppointDate=pickedAppointDate2;
-    print(_formatDate);
+    pickedAppointDate!= pickedAppointDate2 ? vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo): pickedAppointDate=pickedAppointDate2;
+   // print(_formatDate);
     var appointmentDate = Row(
       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -165,7 +174,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
       Expanded(
           child: GridView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: availableSlotList.length,
+            itemCount: vm.slotList.length,
             itemBuilder: (context, index) => Stack(
               children: [
                 Container(
@@ -197,7 +206,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
                                 : height / 65.09),
                         child: Center(
                             child: Text(
-                              "Serial - " + availableSlotList[index].slotNo.toString(),
+                              "Serial - " + vm.slotList[index].slotNo.toString(),
                               style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -213,7 +222,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
                                 : height / 80),
                         child: Center(
                             child: Text(
-                              "Time : " + DateFormat("hh:mm:ss").format(DateTime.parse(availableSlotList[index].startTime.toString()).toLocal()),
+                              "Time : " + DateFormat("hh:mm:ss").format(DateTime.parse(vm.slotList[index].startTime.toString()).toLocal()),
                               style: GoogleFonts.poppins(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,

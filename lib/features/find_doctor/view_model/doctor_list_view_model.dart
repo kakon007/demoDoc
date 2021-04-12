@@ -14,7 +14,7 @@ class DoctorListViewModel extends ChangeNotifier{
   bool _isFetchingData = false;
 
 
-  Future<void> getDoctor(String orgNo, String companyNo) async {
+  Future<DoctorsGridModel> getDoctor(String orgNo, String companyNo) async {
     var res = await DoctorListRepository().getDoctorList(orgNo, companyNo);
     notifyListeners();
     res.fold((l) {

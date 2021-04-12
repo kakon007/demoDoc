@@ -195,8 +195,9 @@ class FindYourDoctorScreen extends StatefulWidget {
 
 class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   AsyncMemoizer<DoctorsGridModel> _memoizer;
-  final List<Datum> doctorsList = List<Datum>();
-  List<Item> dataList = List<Item>();
+
+  // final List<Datum> doctorsList = List<Datum>();
+
   final Widget filtericon = SvgPicture.asset(
     "assets/icons/fliter.svg",
     width: 10,
@@ -207,33 +208,32 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     //semanticsLabel: 'Acme Logo'
   );
 
-
-
-  Future<DoctorsGridModel> getDoctorList() async {
-    return this._memoizer.runOnce(() async {
-      var url =
-          "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/gridList?draw=1&columns%5B0%5D%5Bdata%5D=photo&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=doctorName&columns%5B1%5D%5Bname%5D=doctorName&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=specializationName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=docDegree&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=consultationFee&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=9&search%5Bvalue%5D=&search%5Bregex%5D=false&ogNo=${widget.orgNo}&companyNo=${widget.companyNo}&_=1617590097400";
-      var client = http.Client();
-      var response = await client.get(url);
-      print(response.body);
-
-      if (response.statusCode == 200) {
-        DoctorsGridModel data = doctorsGridModelFromJson(response.body);
-        setState(() {
-          data.obj.data.forEach((element) {
-            doctorsList.add(element);
-          });
-          print(doctorsList.length);
-          // data.data.forEach((element) {
-          //   patientTypeList.add(element);
-          // });
-        });
-        return data;
-      } else {
-        return null;
-      }
-    });
-  }
+  // Future<DoctorsGridModel> getDoctorList() async {
+  //   return this._memoizer.runOnce(() async {
+  //     var url =
+  //         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/gridList?draw=1&columns%5B0%5D%5Bdata%5D=photo&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=doctorName&columns%5B1%5D%5Bname%5D=doctorName&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=specializationName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=docDegree&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=consultationFee&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=9&search%5Bvalue%5D=&search%5Bregex%5D=false&ogNo=${widget.orgNo}&companyNo=${widget.companyNo}&_=1617590097400";
+  //     var client = http.Client();
+  //     var response = await client.get(url);
+  //     print(response.body);
+  //
+  //     if (response.statusCode == 200) {
+  //       DoctorsGridModel data = doctorsGridModelFromJson(response.body);
+  //       setState(() {
+  //         data.obj.data.forEach((element) {
+  //           doctorsList.add(element);
+  //         });
+  //         print(doctorsList.length);
+  //         // data.data.forEach((element) {
+  //         //   patientTypeList.add(element);
+  //         // });
+  //       });
+  //       return data;
+  //     } else {
+  //       return null;
+  //     }
+  //   });
+  // }
+  ScrollController _scrollController;
 
   @override
   void initState() {
@@ -242,14 +242,15 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     // TODO: implement initState
     super.initState();
     _memoizer = AsyncMemoizer();
-    getDoctorList();
-    DoctorListRepository().getDoctorList(widget.orgNo, widget.companyNo);
   }
 
   @override
   Widget build(BuildContext context) {
+    print("asdsdsadsadsdsadsadsdsadsadsadsa");
+
     var vm = Provider.of<DoctorListViewModel>(context);
     List<Datum> doctorList = vm.doctorList;
+    print(doctorList[1].specializationName);
     final String assetName1 = "assets/icons/phone.svg";
     final String assetName2 = "assets/icons/mail.svg";
     final String assetName3 = "assets/icons/marker.svg";
@@ -515,36 +516,21 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                   child: Text('Doctors',
                       style: GoogleFonts.poppins(
                           fontSize: 15, fontWeight: FontWeight.w600))),
-              FutureBuilder<DoctorListModel>(
-                  future: vm.getDoctor(widget.orgNo, widget.companyNo),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.hasData) {
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          children: [
-                            ...List.generate(
-                              snapshot.data.doctorList.length,
-                              (i) => CustomContainer(
-                                  snapshot.data.doctorList[i].doctorName,
-                                  snapshot.data.doctorList[i].specializationName,
-                                  'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
-                                  "assets/images/doc.png",
-                                  snapshot.data.doctorList[i].consultationFee
-                                      .toString(),
-                                  snapshot.data.doctorList[i].buName,
-                                  snapshot.data.doctorList[i].doctorNo.toString(),
-                                  snapshot.data.doctorList[i].companyNo
-                                      .toString(),
-                                  snapshot.data.doctorList[i].ogNo.toString()),
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  })
+              Column(children: [
+                ...List.generate(
+                  doctorList.length,
+                  (i) => CustomContainer(
+                      doctorList[i].doctorName,
+                      doctorList[i].specializationName,
+                      'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
+                      "assets/images/doc.png",
+                      doctorList[i].consultationFee.toString(),
+                      doctorList[i].buName,
+                      doctorList[i].doctorNo.toString(),
+                      doctorList[i].companyNo.toString(),
+                      doctorList[i].ogNo.toString()),
+                ),
+              ])
             ],
           ),
         ),

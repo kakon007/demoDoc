@@ -27,8 +27,6 @@ class HospitalScreen extends StatefulWidget {
 
 class _HospitalScreenState extends State<HospitalScreen> {
   List<Item> dataList = List<Item>();
-  final List<DeptItem> departmentList = List<DeptItem>();
-  final List<SpecializationItem> specializationList = List<SpecializationItem>();
   List _items3 = [];
   List _items4 = [];
   DeptListModel data;
@@ -456,9 +454,6 @@ class _HospitalScreenState extends State<HospitalScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // FlatButton(onPressed: (){
-            //  fetchSpecializationList();
-            // }),
             searchField,
             Expanded(child: hospital),
           ],

@@ -6,14 +6,20 @@ import 'package:myhealthbd_app/root.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 //var accessToken;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs= await SharedPreferences.getInstance();
   var accessToken = prefs.getString('accessToken');
   print(accessToken);
-  var providers=[ ChangeNotifierProvider<FilterViewModel>(
-      create: (context)=>FilterViewModel())];
+  var providers=[
+    ChangeNotifierProvider<FilterViewModel>(
+      create: (context)=>FilterViewModel()),
+    ChangeNotifierProvider<DoctorListViewModel>(
+        create: (context)=>DoctorListViewModel()),
+  ];
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   FlavorConfig(
       flavor: Flavor.DEV,

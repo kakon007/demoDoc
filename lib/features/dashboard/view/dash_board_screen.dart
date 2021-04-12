@@ -134,7 +134,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
-    List<hos.Item> list = vm.hospiitalList;
+    List<hos.Item> list = vm.hospitalList;
     var lengthofHospitalList = list.length;
     var vm2 = Provider.of<NewsViewModel>(context);
     List<Item> list2 = vm2.newsList;

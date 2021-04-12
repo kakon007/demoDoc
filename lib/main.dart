@@ -25,7 +25,8 @@ void main() async{
       create: (context)=>FilterViewModel()),
     ChangeNotifierProvider<HospitalListViewModel>(create: (context) => HospitalListViewModel()),
     ChangeNotifierProvider<NewsViewModel>(create: (context) => NewsViewModel()),
-
+    ChangeNotifierProvider<DoctorListViewModel>(
+        create: (context)=>DoctorListViewModel()),
 
   ];
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

@@ -61,7 +61,7 @@ class HospitalListViewModel extends ChangeNotifier{
     //       .difference(DateTime.now()) <
     //       CommonServiceRule.onLoadPageReloadTime) return;
     // }
-
+    _hospitalList.clear();
     var res = await HospitalListRepositry().fetchHospitalList();
     notifyListeners();
 
@@ -92,7 +92,6 @@ class HospitalListViewModel extends ChangeNotifier{
   bool get shouldShowPageLoader =>
       _isFetchingData && _hospitalList.length == 0;
 
-
-  List<Item> get hospiitalList => _hospitalList;
+  List<Item> get hospitalList => _hospitalList;
 
 }

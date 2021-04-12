@@ -20,6 +20,7 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -118,7 +119,7 @@ class _AfterSignInState extends State<AfterSignIn> {
     // fetchNewspdate();
     NewsRepository().fetchNewspdate();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
-    vm.getData();
+    vm.getData(isFromOnPageLoad: true);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData();
     super.initState();
@@ -580,6 +581,11 @@ class _AfterSignInState extends State<AfterSignIn> {
                             //       }
                             //     }
                             //     ),
+
+                            vm.shouldShowPageLoader
+                                ? Center(
+                              child: Loader(),
+                            ) :
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Padding(

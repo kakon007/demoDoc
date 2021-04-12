@@ -250,7 +250,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
 
     var vm = Provider.of<DoctorListViewModel>(context);
     List<Datum> doctorList = vm.doctorList;
-    print(doctorList[1].specializationName);
+    //print(doctorList[1].specializationName);
     final String assetName1 = "assets/icons/phone.svg";
     final String assetName2 = "assets/icons/mail.svg";
     final String assetName3 = "assets/icons/marker.svg";

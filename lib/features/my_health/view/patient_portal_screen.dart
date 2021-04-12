@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
+import 'package:myhealthbd_app/features/my_health/repositories/prescription_repository.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
@@ -108,6 +109,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   @override
   void initState() {
+    PrescriptionRepository().fetchPrescriptionList(widget.accessToken);
 
     super.initState();
     if(fetchedData==null){

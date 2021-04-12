@@ -183,8 +183,11 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
           //     ],
           //   ),
           // ),
-          Column(
-            children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
+          Padding(
+            padding: const EdgeInsets.only(top:50.0),
+            child: Column(
+              children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
+            ),
           ),
 
         ],

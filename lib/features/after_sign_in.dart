@@ -553,40 +553,10 @@ class _AfterSignInState extends State<AfterSignIn> {
                               ),
                             ),
                             SizedBox(height: 10,),
-                            // FutureBuilder<hos.HospitalListModel>(
-                            //   //  scrollDirection: Axis.horizontal,
-                            //   //  physics: ClampingScrollPhysics(),
-                            //   //  shrinkWrap: true,
-                            //   // itemCount: dataList.length,
-                            //     future:fetchHospitalList(),
-                            //     builder: (BuildContext context, snapshot){
-                            //       if(snapshot.hasData){
-                            //         return SingleChildScrollView(
-                            //           scrollDirection: Axis.horizontal,
-                            //           child: Padding(
-                            //             padding: const EdgeInsets.only(left:18.0,),
-                            //             child:
-                            //             Row(
-                            //               children: [
-                            //                 ...List.generate(
-                            //                   snapshot.data.items.length,
-                            //                       (i) => CustomCard(snapshot.data.items[i].companyName,snapshot.data.items[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":snapshot.data.items[i].companyAddress,"60 Doctors",snapshot.data.items[i].companyPhone==null?"+880 1962823007":snapshot.data.items[i].companyPhone,snapshot.data.items[i].companyEmail==null?"info@mysoftitd.com":snapshot.data.items[i].companyEmail,snapshot.data.items[i].companyLogo),
-                            //                 ),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         );
-                            //       }else{
-                            //         return CircularProgressIndicator();
-                            //       }
-                            //     }
-                            //     ),
-
                             vm.shouldShowPageLoader
                                 ? Center(
-                              child: Loader(),
-                            ) :
-                            SingleChildScrollView(
+                              child: CircularProgressIndicator(),
+                            ):SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Padding(
                                 padding: const EdgeInsets.only(left:18.0,),

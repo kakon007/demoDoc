@@ -59,6 +59,7 @@ class HospitalListViewModel extends ChangeNotifier{
 
   Future<void> getData({bool isFromOnPageLoad = false}) async {
 
+
     if (isFromOnPageLoad) {
       if (_lastFetchTime != null) if (_lastFetchTime
           .difference(DateTime.now()) <
@@ -68,7 +69,7 @@ class HospitalListViewModel extends ChangeNotifier{
     _lastFetchTime = DateTime.now();
     var res = await HospitalListRepositry().fetchHospitalList();
     notifyListeners();
-
+   _hospitalList.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
@@ -97,6 +98,6 @@ class HospitalListViewModel extends ChangeNotifier{
       _isFetchingData && _hospitalList.length == 0;
 
 
-  List<Item> get hospiitalList => _hospitalList;
+  List<Item> get hospitalList => _hospitalList;
 
 }

@@ -455,11 +455,6 @@ var accessToken;
                 //       : SizedBox();
                 // }
                 //List<Item> advice = list[index];
-                if (index == lengthh) {
-                  return vm.isFetchingMoreData
-                      ? Padding(padding: EdgeInsets.all(15), child: Loader())
-                      : SizedBox();
-                }
                 print("LIIIISSSYYSY:::" + list[index].companyName);
                 return HospitalListCard(
                   list[index].companyName,

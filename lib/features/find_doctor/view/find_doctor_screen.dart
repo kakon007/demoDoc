@@ -1,164 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:hexcolor/hexcolor.dart';
-// import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-// import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-// import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
-// class Sample2 extends StatefulWidget {
-//   @override
-//   _Sample2State createState() => _Sample2State();
-// }
-//
-// class _Sample2State extends State<Sample2> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Material(
-//         child: CustomScrollView(
-//           slivers: [
-//             //createSilverAppBar1(),
-//             SliverPersistentHeader(
-//               delegate: MySliverAppBar(expandedHeight: 200),
-//               pinned: true,
-//             ),
-//             createSilverAppBar2(),
-//             SliverList(
-//               delegate: SliverChildBuilderDelegate(
-//                     (_, index) =>
-//                     ListTile(
-//                       title: Text("Index: $index"),
-//                     ),
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//   SliverAppBar createSilverAppBar2() {
-//     var deviceWidth = MediaQuery
-//         .of(context)
-//         .size
-//         .width;
-//     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
-//     return SliverAppBar(
-//       backgroundColor: Colors.white,
-//       pinned: true,
-//       title: Container(
-//         width: contrainerWidth,
-//         height: 50,
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(25),
-//           color: Colors.white,
-//           border: Border.all(color: HexColor('#E1E1E1')),
-//           boxShadow: [
-//             BoxShadow(
-//               color: Colors.grey.withOpacity(0.2),
-//               spreadRadius: 2,
-//               blurRadius: 5,
-//               offset: Offset(0, 2), // changes position of shadow
-//             ),
-//           ],
-//         ),
-//         child: InkWell(
-//           onTap: () {},
-//           child: Row(
-//             children: <Widget>[
-//               SizedBox(
-//                 width: 8,
-//               ),
-//               Text(
-//                 "  Find your Doctor",
-//                 style: GoogleFonts.poppins(
-//                   color: Colors.grey[400],
-//                   fontSize: deviceWidth >= 400 ? 20 : 13,
-//                 ),
-//               ),
-//               Spacer(),
-//               Padding(
-//                 padding: const EdgeInsets.only(right: 8.0),
-//                 child: Icon(
-//                   Icons.search,
-//                   color: Colors.grey,
-//                   size: 28,
-//                 ),
-//               ),
-//
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// class MySliverAppBar extends SliverPersistentHeaderDelegate {
-//   final double expandedHeight;
-//
-//   MySliverAppBar({@required this.expandedHeight});
-//
-//   @override
-//   Widget build(
-//       BuildContext context, double shrinkOffset, bool overlapsContent) {
-//     return Stack(
-//       fit: StackFit.expand,
-//       overflow: Overflow.visible,
-//       children: [
-//         Container(
-//           height: 420.0,
-//           width: MediaQuery.of(context).size.width,
-//           child: FadeInImage(
-//             fit: BoxFit.cover,
-//             image:AssetImage("assets/images/dashboard_back.png"),
-//             placeholder: AssetImage(''),
-//           ),
-//         ),
-//         Center(
-//           child: Opacity(
-//             opacity: shrinkOffset / expandedHeight,
-//             child: Padding(
-//               padding: const EdgeInsets.only(top:15.0),
-//               child: Text(
-//                 "Aalock Health Care Ltd",
-//                 style: GoogleFonts.poppins(
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.w700,
-//                   fontSize: 23,
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//         Positioned(
-//           top: expandedHeight / 4 - shrinkOffset,
-//           left: MediaQuery.of(context).size.width / 12,
-//           child: Opacity(
-//             opacity: (1 - shrinkOffset / expandedHeight),
-//             child: Card(
-//               elevation: 10,
-//               child: SizedBox(
-//                 height: 80,
-//                 width: MediaQuery.of(context).size.width / 5,
-//                 child:Image.asset("assets/images/dummyimg.png")
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-//
-//   @override
-//   double get maxExtent => expandedHeight;
-//
-//   @override
-//   double get minExtent => kToolbarHeight;
-//
-//   @override
-//   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
-// }
-
-//
 import 'dart:convert';
 import 'dart:ui';
 import 'package:async/async.dart';
@@ -170,9 +9,14 @@ import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.da
 import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
 import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
 import 'package:http/http.dart' as http;
@@ -185,9 +29,10 @@ class FindYourDoctorScreen extends StatefulWidget {
   String addressText;
   String orgNo;
   String companyNo;
+  String id;
 
   FindYourDoctorScreen(this.title, this.phoneText, this.emailText,
-      this.addressText, this.orgNo, this.companyNo);
+      this.addressText, this.orgNo, this.companyNo, this.id);
 
   @override
   _FindYourDoctorScreenState createState() => _FindYourDoctorScreenState();
@@ -207,7 +52,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     matchTextDirection: true,
     //semanticsLabel: 'Acme Logo'
   );
-
+  ScrollController _scrollController;
+  ScrollController _scrollController2;
   // Future<DoctorsGridModel> getDoctorList() async {
   //   return this._memoizer.runOnce(() async {
   //     var url =
@@ -233,28 +79,101 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   //     }
   //   });
   // }
-  ScrollController _scrollController;
 
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController2 = ScrollController();
     var vm = Provider.of<DoctorListViewModel>(context, listen: false);
     vm.getDoctor(widget.orgNo, widget.companyNo);
     // TODO: implement initState
     super.initState();
     _memoizer = AsyncMemoizer();
+    var vm2 = Provider.of<FilterViewModel>(context, listen: false);
+    vm2.getDepartment(widget.companyNo);
+    vm2.getSpecialist(widget.id, widget.orgNo);
   }
 
   @override
   Widget build(BuildContext context) {
-    print("asdsdsadsadsdsadsadsdsadsadsadsa");
-
     var vm = Provider.of<DoctorListViewModel>(context);
-    List<Datum> doctorList = vm.doctorList;
-    //print(doctorList[1].specializationName);
     final String assetName1 = "assets/icons/phone.svg";
     final String assetName2 = "assets/icons/mail.svg";
     final String assetName3 = "assets/icons/marker.svg";
-
+    var width = MediaQuery.of(context).size.width * 0.44;
+    var height = MediaQuery.of(context).size.height;
+    var verticalSpace = SizedBox(
+      width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
+    );
+    var horizontalSpace = SizedBox(
+      height: height >= 600 ? 10.0 : 5.0,
+    );
+    var searchDepartment = TextFormField(
+        decoration: new InputDecoration(
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+            child: Icon(Icons.search),
+          ),
+          hintText: StringResources.searchDepartment,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          border: new OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: new BorderSide(color: Colors.teal)),
+          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+        ));
+    var searchSpeciality = TextFormField(
+        decoration: new InputDecoration(
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+            child: Icon(Icons.search),
+          ),
+          hintText: StringResources.searchSpeciality,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          border: new OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: new BorderSide(color: Colors.teal)),
+          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+        ));
+    var modalSheetTitle = Padding(
+      padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
+      child: Column(
+        children: [
+          horizontalSpace,
+          horizontalSpace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              verticalSpace,
+              Text(
+                StringResources.filters,
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.clear)),
+            ],
+          ),
+          horizontalSpace,
+          horizontalSpace
+        ],
+      ),
+    );
     final Widget phoneimg = SvgPicture.asset(
       assetName1,
       width: 10,
@@ -518,17 +437,18 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                           fontSize: 15, fontWeight: FontWeight.w600))),
               Column(children: [
                 ...List.generate(
-                  doctorList.length,
+                  vm.doctorList.length,
                   (i) => CustomContainer(
-                      doctorList[i].doctorName,
-                      doctorList[i].specializationName,
+                      vm.doctorList[i]?.doctorName==null? "" :vm.doctorList[i]?.doctorName,
+                      vm.doctorList[i]?.specializationName==null? "" :vm.doctorList[i]?.specializationName,
                       'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
                       "assets/images/doc.png",
-                      doctorList[i].consultationFee.toString(),
-                      doctorList[i].buName,
-                      doctorList[i].doctorNo.toString(),
-                      doctorList[i].companyNo.toString(),
-                      doctorList[i].ogNo.toString()),
+                      vm.doctorList[i]?.consultationFee.toString()==null? "" :vm.doctorList[i]?.consultationFee.toString(),
+                      vm.doctorList[i]?.buName==null? "" :vm.doctorList[i]?.buName,
+                      vm.doctorList[i]?.doctorNo.toString()==null? "" :vm.doctorList[i]?.doctorNo.toString(),
+                      vm.doctorList[i]?.companyNo.toString()==null? "" :vm.doctorList[i]?.companyNo.toString(),
+                      vm.doctorList[i]?.ogNo.toString()==null? "" :vm.doctorList[i]?.ogNo.toString()
+                  ),
                 ),
               ])
             ],
@@ -539,6 +459,86 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   }
 
   SliverAppBar createSilverAppBar2() {
+    var vm2 = Provider.of<FilterViewModel>(context);
+    List<DeptItem> deptList = vm2.departmentList;
+    List<SpecializationItem> specialistList = vm2.specialList;
+    var width = MediaQuery.of(context).size.width * 0.44;
+    var height = MediaQuery.of(context).size.height;
+    var verticalSpace = SizedBox(
+      width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
+    );
+    List _items3 = [];
+    List _items4 = [];
+
+    var horizontalSpace = SizedBox(
+      height: height >= 600 ? 10.0 : 5.0,
+    );
+    var searchDepartment = TextFormField(
+        decoration: new InputDecoration(
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+            child: Icon(Icons.search),
+          ),
+          hintText: StringResources.searchDepartment,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          border: new OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: new BorderSide(color: Colors.teal)),
+          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+        ));
+    var searchSpeciality = TextFormField(
+        decoration: new InputDecoration(
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+            child: Icon(Icons.search),
+          ),
+          hintText: StringResources.searchSpeciality,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          border: new OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: new BorderSide(color: Colors.teal)),
+          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+        ));
+    var modalSheetTitle = Padding(
+      padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
+      child: Column(
+        children: [
+          horizontalSpace,
+          horizontalSpace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              verticalSpace,
+              Text(
+                StringResources.filters,
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.clear)),
+            ],
+          ),
+          horizontalSpace,
+          horizontalSpace
+        ],
+      ),
+    );
     var deviceWidth = MediaQuery.of(context).size.width;
     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     return SliverAppBar(
@@ -565,14 +565,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               borderRadius: BorderRadius.circular(25),
               color: Colors.white,
               border: Border.all(color: HexColor('#E1E1E1')),
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.grey.withOpacity(0.2),
-              //     spreadRadius: 2,
-              //     blurRadius: 5,
-              //     offset: Offset(0, 2), // changes position of shadow
-              //   ),
-              // ],
             ),
             child: InkWell(
               onTap: () {},
@@ -604,77 +596,261 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 18.0, bottom: 25),
-          child: filtericon,
+        GestureDetector(
+          onTap: (){
+            showModalBottomSheet(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25))),
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        var index=0;
+                        bool isTrue= false;
+                        return FractionallySizedBox(
+                          heightFactor: 0.85,
+                          child: Column(
+                            children: [
+                              modalSheetTitle,
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: width / 6.912,
+                                      right: width / 6.912),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: height/3.55,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(25),
+                                              topRight:
+                                              Radius.circular(25)),
+                                          border: Border.all(
+                                            color: HexColor("#D6DCFF"),
+                                            //                   <--- border color
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            searchDepartment,
+                                            Expanded(
+                                              child: Scrollbar(
+                                                isAlwaysShown: true,
+                                                controller:
+                                                _scrollController,
+                                                child: ListView(
+                                                  controller:
+                                                  _scrollController,
+                                                  children: deptList
+                                                      .map(
+                                                        (DeptItem
+                                                    item) =>
+                                                        Container(
+                                                          height: 35,
+                                                          child:
+                                                          CheckboxListTile(
+                                                            activeColor:
+                                                            AppTheme
+                                                                .signInSignUpColor,
+                                                            controlAffinity:
+                                                            ListTileControlAffinity
+                                                                .leading,
+                                                            title: Text(
+                                                              item.buName,
+                                                              style: GoogleFonts.poppins(
+                                                                  fontWeight: item.isChecked ==
+                                                                      true
+                                                                      ? FontWeight
+                                                                      .w600
+                                                                      : FontWeight
+                                                                      .normal),
+                                                            ),
+                                                            value: item
+                                                                .isChecked,
+                                                            onChanged:
+                                                                (bool val) {
+                                                              setState(() {
+                                                                val == true
+                                                                    ? _items3.add(item.buName)
+                                                                    : _items3
+                                                                    .remove(item.buName);
+                                                                item.isChecked =
+                                                                    val;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                  )
+                                                      .toList(),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      horizontalSpace,
+                                      horizontalSpace,
+                                      horizontalSpace,
+                                      Container(
+                                        height: height/3.55,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(25),
+                                              topRight:
+                                              Radius.circular(25)),
+                                          border: Border.all(
+                                            color: HexColor("#D6DCFF"),
+                                            //                   <--- border color
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            searchSpeciality,
+                                            Expanded(
+                                              child: Scrollbar(
+                                                isAlwaysShown: true,
+                                                controller:
+                                                _scrollController2,
+                                                child: ListView(
+                                                  controller:
+                                                  _scrollController2,
+                                                  children: specialistList
+                                                      .map(
+                                                        (SpecializationItem
+                                                    item) =>
+                                                        Container(
+                                                          height: 35,
+                                                          child:
+                                                          CheckboxListTile(
+                                                            activeColor:
+                                                            AppTheme
+                                                                .signInSignUpColor,
+                                                            controlAffinity:
+                                                            ListTileControlAffinity
+                                                                .leading,
+                                                            title: Text(
+                                                              item.dtlName,
+                                                              style: GoogleFonts.poppins(
+                                                                  fontWeight: item.isChecked ==
+                                                                      true
+                                                                      ? FontWeight
+                                                                      .w600
+                                                                      : FontWeight
+                                                                      .normal),
+                                                            ),
+                                                            value: item
+                                                                .isChecked,
+                                                            onChanged:
+                                                                (bool val) {
+                                                              setState(() {
+                                                                val == true
+                                                                    ? _items3.add(item.dtlName)
+                                                                    : _items3
+                                                                    .remove(item.dtlName);
+                                                                item.isChecked =
+                                                                    val;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                  )
+                                                      .toList(),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height:height>=600 ? 40: 25,),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          AbsorbPointer(
+                                            absorbing:
+                                            _items4.isEmpty && _items3.isEmpty
+                                                ? true
+                                                : false,
+                                            child: SizedBox(
+                                              width: width * .9,
+                                              height: width * .25,
+                                              child: FlatButton(
+                                                onPressed: () {
+                                                  _items4.clear();
+                                                  _items3.clear();
+                                                },
+                                                textColor: _items4.isEmpty &&
+                                                    _items3.isEmpty
+                                                    ? HexColor("#969EC8")
+                                                    : AppTheme.appbarPrimary,
+                                                color: HexColor("#FFFFFF"),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(8),
+                                                    side: BorderSide(
+                                                        color: _items4.isEmpty &&
+                                                            _items3.isEmpty
+                                                            ? HexColor("#969EC8")
+                                                            : AppTheme
+                                                            .appbarPrimary,
+                                                        width: 1)),
+                                                child: Text(
+                                                  StringResources.clearFilterText,
+                                                  style: GoogleFonts.poppins(),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          AbsorbPointer(
+                                            absorbing:
+                                            _items4.isEmpty && _items3.isEmpty
+                                                ? true
+                                                : false,
+                                            child: SizedBox(
+                                              width: width * .9,
+                                              height: width * .25,
+                                              child: FlatButton(
+                                                textColor: Colors.white,
+                                                onPressed: () {},
+                                                color: _items4.isEmpty &&
+                                                    _items3.isEmpty
+                                                    ? HexColor("#969EC8")
+                                                    : AppTheme.appbarPrimary,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(8),
+                                                ),
+                                                child: Text(
+                                                  StringResources.applyFilterText,
+                                                  style: GoogleFonts.poppins(),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      });
+                });
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(right: 18.0, bottom: 25),
+            child: filtericon,
+          ),
         ),
       ],
     );
   }
 }
-
-// class MySliverAppBar extends SliverPersistentHeaderDelegate {
-//   final double expandedHeight;
-//
-//   MySliverAppBar({@required this.expandedHeight});
-//
-//   @override
-//   Widget build(
-//       BuildContext context, double shrinkOffset, bool overlapsContent) {
-//     return Stack(
-//       fit: StackFit.expand,
-//       overflow: Overflow.visible,
-//       children: [
-//         Container(
-//           height: 420.0,
-//           width: MediaQuery.of(context).size.width,
-//           child: FadeInImage(
-//             fit: BoxFit.cover,
-//             image:AssetImage("assets/images/dashboard_back.png"),
-//             placeholder: AssetImage(''),
-//           ),
-//         ),
-//         Center(
-//           child: Opacity(
-//             opacity: shrinkOffset / expandedHeight,
-//             child: Padding(
-//               padding: const EdgeInsets.only(top:15.0),
-//               child: Text(
-//                 "Aalock Health Care Ltd",
-//                 style: GoogleFonts.poppins(
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.w700,
-//                   fontSize: 23,
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//         Positioned(
-//           top: expandedHeight / 4 - shrinkOffset,
-//           left: MediaQuery.of(context).size.width / 12,
-//           child: Opacity(
-//             opacity: (1 - shrinkOffset / expandedHeight),
-//             child: Card(
-//               elevation: 10,
-//               child: SizedBox(
-//                 height: 80,
-//                 width: MediaQuery.of(context).size.width / 5,
-//                 child:Image.asset("assets/images/dummyimg.png")
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-//
-//   @override
-//   double get maxExtent => expandedHeight;
-//
-//   @override
-//   double get minExtent => kToolbarHeight;
-//
-//   @override
-//   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
-// }

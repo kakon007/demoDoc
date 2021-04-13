@@ -29,17 +29,10 @@ class HospitalScreen extends StatefulWidget {
 class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
   List<Item> dataList = List<Item>();
 var accessToken;
-  List _items3 = [];
-  List _items4 = [];
   ScrollController _scrollController;
-  ScrollController _scrollController2;
   @override
   void afterFirstLayout(BuildContext context) {
-    var vm2 = Provider.of<FilterViewModel>(context, listen: false);
-    vm2.getDepartment();
-    vm2.getSpecialist();
     _scrollController = ScrollController();
-    _scrollController2 = ScrollController();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
   }
@@ -47,96 +40,7 @@ var accessToken;
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
     List<Item> list = vm.hospitalList;
-    var vm2 = Provider.of<FilterViewModel>(context);
-    List<DeptItem> deptList = vm2.departmentList;
-    List<SpecializationItem> specialistList = vm2.specialList;
     var lengthh = list.length;
-    var searchField = SignUpFormField(
-      borderRadius: 30,
-      hintText: StringResources.searchBoxHint,
-      suffixIcon: Padding(
-        padding: const EdgeInsets.only(right: 20.0),
-        child: Icon(
-          Icons.search_rounded,
-          color: Colors.grey,
-        ),
-      ),
-    );
-    var width = MediaQuery.of(context).size.width * 0.44;
-    var height = MediaQuery.of(context).size.height;
-    var verticalSpace = SizedBox(
-      width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
-    );
-    var horizontalSpace = SizedBox(
-      height: height >= 600 ? 10.0 : 5.0,
-    );
-    var searchDepartment = TextFormField(
-        decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-            child: Icon(Icons.search),
-          ),
-          hintText: StringResources.searchDepartment,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-        ));
-    var searchSpeciality = TextFormField(
-        decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-            child: Icon(Icons.search),
-          ),
-          hintText: StringResources.searchSpeciality,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-        ));
-    var modalSheetTitle = Padding(
-      padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
-      child: Column(
-        children: [
-          horizontalSpace,
-          horizontalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              verticalSpace,
-              Text(
-                StringResources.filters,
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-              ),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.clear)),
-            ],
-          ),
-          horizontalSpace,
-          horizontalSpace
-        ],
-      ),
-    );
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -164,276 +68,12 @@ var accessToken;
               color: Colors.white,
               size: 20,
             ),
-            onPressed: () {
-
-              showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25))),
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          var index=0;
-                          bool isTrue= false;
-                          return FractionallySizedBox(
-                            heightFactor: 0.85,
-                            child: Column(
-                              children: [
-                                modalSheetTitle,
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: width / 6.912,
-                                        right: width / 6.912),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          height: height/3.55,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(25),
-                                                topRight:
-                                                Radius.circular(25)),
-                                            border: Border.all(
-                                              color: HexColor("#D6DCFF"),
-                                              //                   <--- border color
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              searchDepartment,
-                                              Expanded(
-                                                child: Scrollbar(
-                                                  isAlwaysShown: true,
-                                                  controller:
-                                                  _scrollController,
-                                                  child: ListView(
-                                                    controller:
-                                                    _scrollController,
-                                                    children: deptList
-                                                        .map(
-                                                          (DeptItem
-                                                      item) =>
-                                                          Container(
-                                                            height: 35,
-                                                            child:
-                                                            CheckboxListTile(
-                                                              activeColor:
-                                                              AppTheme
-                                                                  .signInSignUpColor,
-                                                              controlAffinity:
-                                                              ListTileControlAffinity
-                                                                  .leading,
-                                                              title: Text(
-                                                                item.buName,
-                                                                style: GoogleFonts.poppins(
-                                                                    fontWeight: item.isChecked ==
-                                                                        true
-                                                                        ? FontWeight
-                                                                        .w600
-                                                                        : FontWeight
-                                                                        .normal),
-                                                              ),
-                                                              value: item
-                                                                  .isChecked,
-                                                              onChanged:
-                                                                  (bool val) {
-                                                                setState(() {
-                                                                  val == true
-                                                                      ? _items3.add(item.buName)
-                                                                      : _items3
-                                                                      .remove(item.buName);
-                                                                  item.isChecked =
-                                                                      val;
-                                                                });
-                                                              },
-                                                            ),
-                                                          ),
-                                                    )
-                                                        .toList(),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        horizontalSpace,
-                                        horizontalSpace,
-                                        horizontalSpace,
-                                        Container(
-                                          height: height/3.55,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(25),
-                                                topRight:
-                                                Radius.circular(25)),
-                                            border: Border.all(
-                                              color: HexColor("#D6DCFF"),
-                                              //                   <--- border color
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              searchSpeciality,
-                                              Expanded(
-                                                child: Scrollbar(
-                                                  isAlwaysShown: true,
-                                                  controller:
-                                                  _scrollController2,
-                                                  child: ListView(
-                                                    controller:
-                                                    _scrollController2,
-                                                    children: specialistList
-                                                        .map(
-                                                          (SpecializationItem
-                                                      item) =>
-                                                          Container(
-                                                            height: 35,
-                                                            child:
-                                                            CheckboxListTile(
-                                                              activeColor:
-                                                              AppTheme
-                                                                  .signInSignUpColor,
-                                                              controlAffinity:
-                                                              ListTileControlAffinity
-                                                                  .leading,
-                                                              title: Text(
-                                                                item.dtlName,
-                                                                style: GoogleFonts.poppins(
-                                                                    fontWeight: item.isChecked ==
-                                                                        true
-                                                                        ? FontWeight
-                                                                        .w600
-                                                                        : FontWeight
-                                                                        .normal),
-                                                              ),
-                                                              value: item
-                                                                  .isChecked,
-                                                              onChanged:
-                                                                  (bool val) {
-                                                                setState(() {
-                                                                  val == true
-                                                                      ? _items3.add(item.dtlName)
-                                                                      : _items3
-                                                                      .remove(item.dtlName);
-                                                                  item.isChecked =
-                                                                      val;
-                                                                });
-                                                              },
-                                                            ),
-                                                          ),
-                                                    )
-                                                        .toList(),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height:height>=600 ? 40: 25,),
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            AbsorbPointer(
-                                              absorbing:
-                                              _items4.isEmpty && _items3.isEmpty
-                                                  ? true
-                                                  : false,
-                                              child: SizedBox(
-                                                width: width * .9,
-                                                height: width * .25,
-                                                child: FlatButton(
-                                                  onPressed: () {
-                                                    _items4.clear();
-                                                    _items3.clear();
-                                                  },
-                                                  textColor: _items4.isEmpty &&
-                                                      _items3.isEmpty
-                                                      ? HexColor("#969EC8")
-                                                      : AppTheme.appbarPrimary,
-                                                  color: HexColor("#FFFFFF"),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(8),
-                                                      side: BorderSide(
-                                                          color: _items4.isEmpty &&
-                                                              _items3.isEmpty
-                                                              ? HexColor("#969EC8")
-                                                              : AppTheme
-                                                              .appbarPrimary,
-                                                          width: 1)),
-                                                  child: Text(
-                                                    StringResources.clearFilterText,
-                                                    style: GoogleFonts.poppins(),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            AbsorbPointer(
-                                              absorbing:
-                                              _items4.isEmpty && _items3.isEmpty
-                                                  ? true
-                                                  : false,
-                                              child: SizedBox(
-                                                width: width * .9,
-                                                height: width * .25,
-                                                child: FlatButton(
-                                                  textColor: Colors.white,
-                                                  onPressed: () {},
-                                                  color: _items4.isEmpty &&
-                                                      _items3.isEmpty
-                                                      ? HexColor("#969EC8")
-                                                      : AppTheme.appbarPrimary,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius.circular(8),
-                                                  ),
-                                                  child: Text(
-                                                    StringResources.applyFilterText,
-                                                    style: GoogleFonts.poppins(),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                  });
-            },
+            onPressed: () {},
           )
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8),
-        // child: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: <Widget>[
-        //     searchField,
-        //     Expanded(child:ListView.builder(
-        //           key: Key("dashboardHorizontalCareerAdviceListKey"),
-        //           padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-        //           scrollDirection: Axis.vertical,
-        //           itemCount: length,
-        //           itemBuilder: (context, index) {
-        //             var advice = list[index];
-        //             return HospitalListCard(advice.companyName,advice.companyAddress==null?"Mirpur,Dahaka,Bangladesh":advice.companyAddress,"60 Doctors",advice.companyPhone==null?"+880 1962823007":advice.companyPhone,advice.companyEmail==null?"info@mysoftitd.com":advice.companyEmail,advice.companyLogo,);
-        //           })),
-        //   ],
-        // ),
-
         child: RefreshIndicator(
           onRefresh: vm.refresh,
           child: vm.shouldShowPageLoader
@@ -449,12 +89,6 @@ var accessToken;
                 height: 8,
               ),
               itemBuilder: (BuildContext context, int index) {
-                // if (index == lengthh) {
-                //   return vm.isFetchingMoreData
-                //       ? Padding(padding: EdgeInsets.all(15), child: Loader())
-                //       : SizedBox();
-                // }
-                //List<Item> advice = list[index];
                 print("LIIIISSSYYSY:::" + list[index].companyName);
                 return HospitalListCard(
                   list[index].companyName,
@@ -470,7 +104,9 @@ var accessToken;
                       : list[index].companyEmail,
                   list[index].companyLogo,
                   list[index].companyId,
+
                   list[index].ogNo.toString(),
+                  list[index].id.toString(),
                 );
               }),
         ),

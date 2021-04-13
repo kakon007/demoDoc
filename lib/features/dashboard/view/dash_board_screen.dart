@@ -566,7 +566,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             children: [
                                               ...List.generate(
                                                 lengthofHospitalList,
-                                                    (i) => CustomCard(list[i].companyName,list[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[i].companyAddress,"60 Doctors",list[i].companyPhone==null?"+880 1962823007":list[i].companyPhone,list[i].companyEmail==null?"info@mysoftitd.com":list[i].companyEmail,list[i].companyLogo,list[i].companyId,list[i].ogNo.toString()),
+                                                    (i) => CustomCard(list[i].companyName,list[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[i].companyAddress,"60 Doctors",list[i].companyPhone==null?"+880 1962823007":list[i].companyPhone,list[i].companyEmail==null?"info@mysoftitd.com":list[i].companyEmail,list[i].companyLogo,list[i].companyId,list[i].ogNo.toString(), list[i].id.toString()),
                                               ),
                                             ],
                                           ),

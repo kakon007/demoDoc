@@ -13,7 +13,8 @@ class CustomCard extends StatelessWidget {
   String phoneText;
   String emailText;
   String logo;
-  CustomCard(@required this.titleText,@required this.addressText,@required this.countText, this.orgNo, this.companyNo, this.phoneText,this.emailText,this.logo);
+  String id;
+  CustomCard(@required this.titleText,@required this.addressText,@required this.countText, this.orgNo, this.companyNo, this.phoneText,this.emailText,this.logo, this.id);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,7 +60,7 @@ class CustomCard extends StatelessWidget {
                     SizedBox(height: 10,),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(titleText,phoneText,emailText,addressText, orgNo,companyNo)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(titleText,phoneText,emailText,addressText, orgNo,companyNo, id)));
                       },
                       child: Material(
                         elevation: 0  ,

@@ -34,10 +34,6 @@ class AppointmentScreen extends StatefulWidget {
   _AppointmentScreenState createState() => _AppointmentScreenState();
 }
 class _AppointmentScreenState extends State<AppointmentScreen> {
-  List<Item> dataList = List<Item>();
-  final List<DeptItem> departmentList = List<DeptItem>();
-  final List<SpecializationItem> specializationList = List<SpecializationItem>();
-  DeptListModel data;
   @override
   void initState() {
         forMeBackColor = "#141D53";

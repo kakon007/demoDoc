@@ -12,13 +12,13 @@ class FilterViewModel extends ChangeNotifier{
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
 
-  Future<void> refresh(){
-    _departments.clear();
-    return getDepartment();
-  }
+  // Future<void> refresh(){
+  //   _departments.clear();
+  //   return getDepartment();
+  // }
 
-  Future<void> getDepartment() async {
-    var res = await FilterRepository().fetchDepartment();
+  Future<void> getDepartment(String companyNo) async {
+    var res = await FilterRepository().fetchDepartment(companyNo);
     notifyListeners();
     res.fold((l) {
       _appError = l;

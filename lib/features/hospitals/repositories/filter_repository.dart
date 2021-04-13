@@ -8,15 +8,18 @@ import 'package:myhealthbd_app/features/hospitals/models/specialization_list_mod
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 class FilterRepository{
-  Future<Either<AppError,DepartmentListModel>> fetchDepartment() async {
+  Future<Either<AppError,DepartmentListModel>> fetchDepartment(String companyNo) async {
+    print("shakil");
+    print(companyNo);
+    print("shakil");
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/departmentList?companyNo=2&flagList=2,3";
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/departmentList?companyNo=$companyNo&flagList=2,3";
     try{
       var client = http.Client();
       var response = await client.get(url);
+      print(response.body);
       if (response.statusCode == 200) {
         DeptListModel data = deptListModelFromJson(response.body) ;
-        print('Dataaaaaaa:: ' + data.deptItem[5].buName);
         return Right(
             DepartmentListModel(
               deptList: data.deptItem,
@@ -46,7 +49,7 @@ class FilterRepository{
       }),);
       if (response.statusCode == 200) {
         SepcializationListModel data = sepcializationListModelFromJson(response.body) ;
-        print('Dataaaaaaa:: ' + data.specializationItem[5].dtlName);
+        //print('Dataaaaaaa:: ' + data.specializationItem[5].dtlName);
         return Right(
             SpecialistListModel(
               specialList: data.specializationItem,

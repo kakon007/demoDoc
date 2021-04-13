@@ -23,7 +23,7 @@ class DoctorListRepository {
        print(response.body);
         return Right(
             DoctorListModel(
-              doctorList: data.obj.data,
+               doctorList : data.obj.data
             )
         );
       }else {

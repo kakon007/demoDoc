@@ -64,12 +64,12 @@ class PrescriptionRepository{
         //   dataList.add(elemant);
         // });
         //
-       // print('Dataaaaaaa:: ' + data.items[5].companyAddress);
+        print('Dataaaaaaa:: ' + data.obj.data.first.consultationId);
         // return data;
 
         return Right(
             PrescriptioM(
-              dataList: data.obj.data,
+              dataListofPrescription: data.obj.data,
             )
 
         );
@@ -93,6 +93,7 @@ class PrescriptionRepository{
 }
 
 class PrescriptioM{
-  List<Datum> dataList = new List<Datum>();
-  PrescriptioM({this.dataList});
+  List<Datum> dataListofPrescription=List<Datum>();
+  PrescriptioM({this.dataListofPrescription});
+
 }

@@ -12,14 +12,15 @@ class FilterViewModel extends ChangeNotifier{
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
 
-  // Future<void> refresh(){
+  // Future<void> refresh(String companyNo){
   //   _departments.clear();
-  //   return getDepartment();
+  //   return getDepartment(companyNo);
   // }
 
   Future<void> getDepartment(String companyNo) async {
     var res = await FilterRepository().fetchDepartment(companyNo);
     notifyListeners();
+    _departments.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
@@ -30,9 +31,10 @@ class FilterViewModel extends ChangeNotifier{
       notifyListeners();
     });
   }
-  Future<void> getSpecialist() async {
-    var res = await FilterRepository().fetchSpeciality();
+  Future<void> getSpecialist(String id, String orgNo) async {
+    var res = await FilterRepository().fetchSpeciality(id, orgNo);
     notifyListeners();
+    _specialist.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;

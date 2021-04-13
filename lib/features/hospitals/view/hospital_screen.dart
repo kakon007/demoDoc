@@ -104,7 +104,9 @@ var accessToken;
                       : list[index].companyEmail,
                   list[index].companyLogo,
                   list[index].companyId,
+
                   list[index].ogNo.toString(),
+                  list[index].id.toString(),
                 );
               }),
         ),

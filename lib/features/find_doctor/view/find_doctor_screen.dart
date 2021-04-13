@@ -29,9 +29,10 @@ class FindYourDoctorScreen extends StatefulWidget {
   String addressText;
   String orgNo;
   String companyNo;
+  String id;
 
   FindYourDoctorScreen(this.title, this.phoneText, this.emailText,
-      this.addressText, this.orgNo, this.companyNo);
+      this.addressText, this.orgNo, this.companyNo, this.id);
 
   @override
   _FindYourDoctorScreenState createState() => _FindYourDoctorScreenState();
@@ -90,7 +91,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     _memoizer = AsyncMemoizer();
     var vm2 = Provider.of<FilterViewModel>(context, listen: false);
     vm2.getDepartment(widget.companyNo);
-    vm2.getSpecialist();
+    vm2.getSpecialist(widget.id, widget.orgNo);
   }
 
   @override

@@ -13,18 +13,7 @@ class _GetAppointmentState extends State<GetAppointment> {
       appBar: AppBar(
         title: Text('Appointments'),
       ),
-      body: Center(child: FlatButton(
-        onPressed: (){
-          showInSnackBar("Some text");
-          print("Shakil");
-        },
-        child: Text("Appointments"),))
+      body: Center(child: Container(child: Text("No Appointments Yet"),))
     );
-  }
-
-  void showInSnackBar(String s) {
-    Scaffold.of(context).showSnackBar(new SnackBar(
-        content: new Text(s)
-    ));
   }
 }

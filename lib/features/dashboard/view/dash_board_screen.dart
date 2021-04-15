@@ -690,6 +690,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                               ),
                                             )
                                         ),
+                                        SizedBox(height: 10,),
                                       ],
                                     ),
                                   ),

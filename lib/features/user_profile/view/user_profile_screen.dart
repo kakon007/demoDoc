@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
@@ -271,7 +272,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Date of birth        : $dob",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Date of birth        : ${DateUtil().formattedDate(DateTime.parse(dob).toLocal())}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -378,4 +379,13 @@ class _UserProfileState extends State<UserProfile> {
         });
   }
 
+}
+
+
+class DateUtil {
+  static const DATE_FORMAT = 'yyyy-MM-dd';
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
+  }
 }

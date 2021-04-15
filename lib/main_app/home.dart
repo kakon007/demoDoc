@@ -362,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       Stack(
           children: [
             widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
-            widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
+            DashboardScreen(accessToken: widget.accessToken,) ]),
       widget.accessToken==null?SignInPrompt():GetAppointment(),
       HospitalScreen(),
       widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),

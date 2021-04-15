@@ -31,7 +31,8 @@ import 'package:http/http.dart' as http;
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
-  DashboardScreen({this.menuCallBack,this.isDrawerOpen});
+  String accessToken;
+  DashboardScreen({this.menuCallBack,this.isDrawerOpen,this.accessToken});
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
@@ -266,7 +267,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         actions: [
                           Padding(
                             padding: const EdgeInsets.only(right:10),
-                            child: GestureDetector(
+                            child: widget.accessToken==null?GestureDetector(
                               onTap: (){
 
                                 Navigator.push(context, PageRouteBuilder(
@@ -442,6 +443,14 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   //   ),
                                   // ),
                                 ],
+                              )
+
+                            ): CircleAvatar(
+                              radius: 18,
+                              backgroundColor: Colors.white,
+                              child: CircleAvatar(
+                                backgroundImage: AssetImage('assets/images/proimg.png'),
+                                radius: 16,
                               ),
                             ),
                           )
@@ -516,147 +525,188 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                       //         print("Jahid");
                       //       }),
                       // ),
-                      body: SlidingUpPanel(
-                        minHeight: deviceHeight>=600?480:250,
-                        maxHeight: 710,
-                        isDraggable: true,
-                        //backdropEnabled: true,
-                        borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
-                        panel:Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top:18,left:20.0,right: 20),
-                              child: Row(
-                                children: [
-                                  Text(StringResources.esayDoctorAppointmentText,style:  GoogleFonts.poppins(fontSize: 17
-                                      ,fontWeight: FontWeight.w600),),
-                                  Spacer(),
-                                  Container(
-                                      width: 100,
-
-                                      child: Image.asset("assets/images/my_health_logo.png")),
-
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            Padding(
-                              padding: const EdgeInsets.only(left:15.0,right: 15),
-                              child: SearchBarViewWidget(),
-                            ),
-                            //SizedBox(height: 10,),
-                            // CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
-                            // SizedBox(height: 10,),
-                            SizedBox(height: 30,),
-                            Padding(
-                              padding: const EdgeInsets.only(left:18.0,right: 18),
-                              child: Row(
-                                children: [
-                                  Text(StringResources.hospitalDiagnosticsText,style:  GoogleFonts.poppins(fontSize: 16
-                                      ,fontWeight: FontWeight.w600),),
-                                  Spacer(),
-                                  GestureDetector(onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
-                                  },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11,fontWeight: FontWeight.w600),)),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            vm.shouldShowPageLoader
-                                ? Center(
-                              child: CircularProgressIndicator(),
-                            ):SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left:18.0,),
-                                child:
-                                Row(
+                      body: Padding(
+                        padding: deviceHeight >= 600
+                            ? EdgeInsets.only(top: 230.0)
+                            : EdgeInsets.only(top: 210),
+                        child: Container(
+                          height: double.infinity,
+                          // minHeight: deviceHeight>=600?480:250,
+                          // maxHeight: 710,
+                          // isDraggable: true,
+                          // //backdropEnabled: true,
+                          // borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
+                          decoration: BoxDecoration(
+                              borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(25)):BorderRadius.only(
+                                  topLeft: Radius.circular(25),
+                                  topRight: Radius.circular(25)),
+                              color: HexColor("#FFFFFF"),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: HexColor("#0D1231").withOpacity(0.08),
+                                  spreadRadius: 10,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3), // changes position of shadow
+                                ),
+                              ]),
+                          child:Column(
+                            children: [
+                              Container(
+                                child: Column(
                                   children: [
-                                    ...List.generate(
-                                      lengthofHospitalList,
-                                          (i) => CustomCard( list[i].companyName,
-                                            list[i].companyAddress == null
-                                                ? "Mirpur,Dahaka,Bangladesh"
-                                                : list[i].companyAddress,
-                                            "60 Doctors",
-                                            list[i].companyPhone == null
-                                                ? "+880 1962823007"
-                                                : list[i].companyPhone,
-                                            list[i].companyEmail == null
-                                                ? "info@mysoftitd.com"
-                                                : list[i].companyEmail,
-                                            list[i].companyLogo,
-                                            list[i].companyId,
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:18,left:20.0,right: 20),
+                                      child: Row(
+                                        children: [
+                                          Text(StringResources.esayDoctorAppointmentText,style:  GoogleFonts.poppins(fontSize: 17
+                                              ,fontWeight: FontWeight.w600),),
+                                          Spacer(),
+                                          Container(
+                                              width: 100,
 
-                                            list[i].ogNo.toString(),
-                                            list[i].id.toString(),),
+                                              child: Image.asset("assets/images/my_health_logo.png")),
+                                        ],
+                                      ),
                                     ),
+                                    SizedBox(height: 10,),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:15.0,right: 15),
+                                      child: SearchBarViewWidget(),
+                                    ),
+                                    //SizedBox(height: 10,),
+                                    widget.accessToken==null?Container():CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
+                                    // SizedBox(height: 10,),
+                                    SizedBox(height: 30,),
                                   ],
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 20,),
-                            Padding(
-                              padding: const EdgeInsets.only(left:18.0,right: 18),
-                              child: Row(
-                                children: [
-                                  Text("News & Update",style:  GoogleFonts.poppins(fontSize: 16
-                                      ,fontWeight: FontWeight.w600),),
-                                  Spacer(),
-                                  GestureDetector(onTap:(){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
-                                  },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),)),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            vm2.shouldShowPageLoader
-                                ? Center(
-                              child: CircularProgressIndicator(),
-                            ):SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left:18.0,),
-                                child:
-                                Row(
-                                  children: [
-                                    ...List.generate(
-                                      lengthofNewsList,
-                                          (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(list2[i].publishDate).toLocal()),list2[i].title,list2[i].newsLink),
+
+
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  child: Container(
+                                   // height:200,
+                                    child: Column(
+                                      children: [
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:18.0,right: 18),
+                                          child: Row(
+                                            children: [
+                                              Text(StringResources.hospitalDiagnosticsText,style:  GoogleFonts.poppins(fontSize: 16
+                                                  ,fontWeight: FontWeight.w600),),
+                                              Spacer(),
+                                              GestureDetector(onTap: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
+                                              },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11,fontWeight: FontWeight.w600),)),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                        vm.shouldShowPageLoader
+                                            ? Center(
+                                          child: CircularProgressIndicator(),
+                                        ):SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left:18.0,),
+                                            child:
+                                            Row(
+                                              children: [
+                                                ...List.generate(
+                                                  lengthofHospitalList,
+                                                      (i) => CustomCard( list[i].companyName,
+                                                    list[i].companyAddress == null
+                                                        ? "Mirpur,Dahaka,Bangladesh"
+                                                        : list[i].companyAddress,
+                                                    "60 Doctors",
+                                                    list[i].companyPhone == null
+                                                        ? "+880 1962823007"
+                                                        : list[i].companyPhone,
+                                                    list[i].companyEmail == null
+                                                        ? "info@mysoftitd.com"
+                                                        : list[i].companyEmail,
+                                                    list[i].companyLogo,
+                                                    list[i].companyId,
+
+                                                    list[i].ogNo.toString(),
+                                                    list[i].id.toString(),),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 20,),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:18.0,right: 18),
+                                          child: Row(
+                                            children: [
+                                              Text("News & Update",style:  GoogleFonts.poppins(fontSize: 16
+                                                  ,fontWeight: FontWeight.w600),),
+                                              Spacer(),
+                                              GestureDetector(onTap:(){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
+                                              },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),)),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                        vm2.shouldShowPageLoader
+                                            ? Center(
+                                          child: CircularProgressIndicator(),
+                                        ):SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left:18.0,),
+                                            child:
+                                            Row(
+                                              children: [
+                                                ...List.generate(
+                                                  lengthofNewsList,
+                                                      (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(list2[i].publishDate).toLocal()),list2[i].title,list2[i].newsLink),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 20,),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:18.0,right: 18),
+                                          child: Row(
+                                            children: [
+                                              Text("My Health Video",style: GoogleFonts.poppins(fontSize: 16
+                                                  ,fontWeight: FontWeight.w600),),
+                                              Spacer(),
+                                              Text(StringResources.viewAllText,style: GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11 ,fontWeight: FontWeight.w600),),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                        SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left:18.0),
+                                              child: Row(
+                                                children: [
+                                                  CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                                                  SizedBox(width:15),
+                                                  CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                                                  SizedBox(width:15),
+                                                  CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
+                                                ],
+                                              ),
+                                            )
+                                        ),
+                                        SizedBox(height: 10,),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            Padding(
-                              padding: const EdgeInsets.only(left:18.0,right: 18),
-                              child: Row(
-                                children: [
-                                  Text("My Health Video",style: GoogleFonts.poppins(fontSize: 16
-                                      ,fontWeight: FontWeight.w600),),
-                                  Spacer(),
-                                  Text(StringResources.viewAllText,style: GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11 ,fontWeight: FontWeight.w600),),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:18.0),
-                                  child: Row(
-                                    children: [
-                                      CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                      SizedBox(width:15),
-                                      CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                      SizedBox(width:15),
-                                      CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                    ],
                                   ),
-                                )
-                            ),
-                          ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

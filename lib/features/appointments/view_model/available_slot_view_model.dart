@@ -84,7 +84,7 @@ class AvailableSlotsViewModel extends ChangeNotifier{
       notifyListeners();
     });
   }
-  Future<void> getSlotStatus(String slotNo,String companyNo,  String orgNo) async {
+  Future<SlotCheckModel> getSlotStatus(String slotNo,String companyNo,  String orgNo) async {
     var res = await AvailableSlotsRepository().fetchStatus(slotNo, companyNo, orgNo);
     notifyListeners();
     print(res);

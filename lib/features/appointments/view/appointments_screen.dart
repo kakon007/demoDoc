@@ -174,16 +174,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         color: AppTheme.appbarPrimary,
         onPressed: () {
           vm.getSlotStatus(slotNo.toString(), widget.companyNo, widget.orgNo);
-          print(vm.slot);
-          if(vm.slot== "OK") {
+          setState(() {
             Timer.periodic(const Duration(milliseconds: 1000), (t) {
+              if(vm.slotStatus=="OK")
               setState(() {
                 isOk = false; //set loading to false
               });
               t.cancel();
               isOk=true;//stops the timer
             });
-          }
+          });
         },
         textColor: Colors.white,
         child: Text(

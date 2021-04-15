@@ -45,7 +45,7 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
       onTap: (){
         setState(() {
           selectedMenuIndex=index;
-          //widget.menuCallBack(index);
+          widget.menuCallBack(index);
         });
       },
       child: Padding(

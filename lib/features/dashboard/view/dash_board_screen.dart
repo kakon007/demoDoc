@@ -59,67 +59,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   // double xOffset2 = 0.0;
   // double yOffset2 = 0.0;
   // double scaleFactor2 = 1;
-  // Future<hos.HospitalListModel> fetchHospitalList() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-  //   var client = http.Client();
-  //   var response = await client.get(url);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     //data = jsonMap["items"];
-  //     hos.HospitalListModel data = hos.hospitalListModelFromJson(response.body) ;
-  //     setState(() {
-  //       data.items.forEach((elemant) {
-  //         dataList.add(elemant);
-  //       });
-  //     });
-  //     //print('Data:: ' + data.items[5].companyName);
-  //     return data;
-  //     //print(data[0]['companySlogan']);
-  //   }else {
-  //     return null;
-  //   }
-  // }
 
-  // Future<HospitalListModel> fetchHospitalLogo() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyLogoList";
-  //   var client = http.Client();
-  //   var response = await client.get(url);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     //data = jsonMap["items"];
-  //     HospitalListModel data = hospitalListModelFromJson(response.body) ;
-  //     setState(() {
-  //       data.items.forEach((elemant) {
-  //         dataList.add(elemant);
-  //       });
-  //     });
-  //     //print('Data:: ' + data.items[5].companyName);
-  //     return data;
-  //     //print(data[0]['companySlogan']);
-  //   }else {
-  //     return null;
-  //   }
-  // }
-
-
-  // Future<NewsUpdatedModel> fetchNewspdate() async{
-  //   var url='https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
-  //   var res=await http.get(url);
-  //   if(res.statusCode==200){
-  //     NewsUpdatedModel data2=newsUpdatedModelFromJson(res.body);
-  //     setState(() {
-  //       data2.items.forEach((element) {
-  //         dataList2.add(element);
-  //       });
-  //     });
-  //     print("bodddytew::::"+data2.items.first.title.toString());
-  //     return data2;
-  //   }else{
-  //     return null;
-  //   }
-  // }
   @override
   void initState() {
     // TODO: implement initState
@@ -165,63 +105,34 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     );
     return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left:230.0,top: 60),
-          child: AnimatedContainer(
-            transform: Matrix4.translationValues(-0.5, yOffset, 0)
-              ..scale(0.7),
-            duration: Duration(milliseconds: 200),
-            decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.3),
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            height: double.infinity,
-            width: double.infinity,
-            child: Container(),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left:230.0,top: 60),
+        //   child: AnimatedContainer(
+        //     transform: Matrix4.translationValues(-0.5, yOffset, 0)
+        //       ..scale(0.7),
+        //     duration: Duration(milliseconds: 200),
+        //     decoration: BoxDecoration(
+        //         color: Colors.grey.withOpacity(0.3),
+        //         borderRadius: BorderRadius.all(Radius.circular(30))),
+        //     height: double.infinity,
+        //     width: double.infinity,
+        //     child: Container(),
+        //   ),
+        // ),
 
-        AnimatedContainer(
-          transform: Matrix4.translationValues(xOffset, yOffset, 0)
-            ..scale(scaleFactor),
-          duration: Duration(milliseconds: 200),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
-          height: double.infinity,
-          width: double.infinity,
-          child: Stack(
+        // AnimatedContainer(
+        //   transform: Matrix4.translationValues(xOffset, yOffset, 0)
+        //     ..scale(scaleFactor),
+        //   duration: Duration(milliseconds: 200),
+        //   decoration: BoxDecoration(
+        //       color: Colors.white,
+        //       borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
+        //   height: double.infinity,
+        //   width: double.infinity,
+        //   child:
+
+          Stack(
             children: <Widget>[
-              // this._backgroundImage(),
-              // Padding(
-              //   padding: const EdgeInsets.only(top:110.0,left: 70),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text("20 Health tips",style:  GoogleFonts.poppins(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
-              //       SizedBox(height: 1,),
-              //       Text("to help you start off towards \nhealthy living in 2021",style:  GoogleFonts.poppins(fontSize: 10,color: Colors.white,fontWeight: FontWeight.w500),),
-              //       SizedBox(height: 8,),
-              //       new Container(
-              //        width: 90,
-              //         height: 20,
-              //         decoration: BoxDecoration(
-              //             border: Border.all(color: Colors.white),
-              //            borderRadius: BorderRadius.circular(30),
-              //         ),
-              //         child: Padding(
-              //           padding: const EdgeInsets.only(right:10.0,left: 10),
-              //           child: Row(
-              //             children: [
-              //               Text("Read More",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 8),),
-              //               Spacer(),
-              //               Icon(Icons.arrow_forward,size: 10,color: Colors.white,)
-              //             ],
-              //           ),
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
               Stack(
                   children: [
                    isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
@@ -289,147 +200,6 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
                                 ));
 
-
-                                // showGeneralDialog(
-                                //   barrierLabel: "Label",
-                                //   barrierDismissible: true,
-                                //   barrierColor: Colors.black.withOpacity(0.5),
-                                //   transitionDuration: Duration(milliseconds: 700),
-                                //   context: context,
-                                //   pageBuilder: (context, anim1, anim2) {
-                                //     return Stack(
-                                //       children:[
-                                //          Align(
-                                //           alignment: Alignment.bottomCenter,
-                                //           child: Material(
-                                //             type: MaterialType.transparency,
-                                //             child: Container(
-                                //               height: 200,
-                                //              // child: SizedBox.expand(child: FlutterLogo()),
-                                //               //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
-                                //               decoration: BoxDecoration(
-                                //                 //color: HexColor('#f9f2f3'),
-                                //                 gradient: LinearGradient(
-                                //                   begin: Alignment.topCenter,
-                                //                   end: Alignment.bottomCenter,
-                                //                   colors: [
-                                //                     HexColor('#fdf0f2'),
-                                //                     HexColor('#FFFFFF')
-                                //                   ],
-                                //                   tileMode: TileMode.repeated,
-                                //                 ),
-                                //                 borderRadius: radius,
-                                //               ),
-                                //               child: Padding(
-                                //                 padding: const EdgeInsets.only(top:70.0),
-                                //                 child: Center(
-                                //                   child: Column(
-                                //                     children: [
-                                //                       Text("To access your Patient portal,",style:TextStyle(fontSize: 18,color: Colors.black)),
-                                //                       SizedBox(height: 5,),
-                                //                       Text("Sign In required.",style:TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.w500)),
-                                //                       SizedBox(height: 10,),
-                                //                       Padding(
-                                //                         padding: const EdgeInsets.only(left:40.0),
-                                //                         child: Row(
-                                //                           children: [
-                                //                             GestureDetector(
-                                //                               onTap:(){
-                                //                                 Navigator.pop(context);
-                                //                               },
-                                //                               child: Material(
-                                //                                 elevation: 0,
-                                //                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),side: BorderSide(color:HexColor('#354291') )),
-                                //                                 color: Colors.white,
-                                //                                 child: SizedBox(
-                                //                                   height: 50,
-                                //                                   width: 150,
-                                //                                   child: Center(
-                                //                                     child: Padding(
-                                //                                       padding: const EdgeInsets.all(8.0),
-                                //                                         child: Text(
-                                //                                           "Cancel",
-                                //                                           style: TextStyle(color: HexColor('#354291'),fontWeight: FontWeight.w500,fontSize: 15),
-                                //                                         ),
-                                //
-                                //                                     ),
-                                //                                   ),
-                                //                                 ),
-                                //                               ),
-                                //                             ),
-                                //                             SizedBox(width: 15,),
-                                //                             GestureDetector(
-                                //                               onTap: (){
-                                //                                 Navigator.push(context, PageRouteBuilder(
-                                //                                   transitionDuration: Duration(seconds: 1),
-                                //                                   transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                //                                     var begin = Offset(0, 1.0);
-                                //                                     var end = Offset.zero;
-                                //                                     var curve = Curves.easeInOut;
-                                //
-                                //                                     var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                                //
-                                //                                     return SlideTransition(
-                                //                                       position: animation.drive(tween),
-                                //                                       child: child,
-                                //                                     );
-                                //                                   },
-                                //                                   pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
-                                //                                 ));
-                                //                               },
-                                //                               child: Material(
-                                //                                 elevation: 0,
-                                //                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                //                                 color: HexColor('#354291'),
-                                //                                 child: SizedBox(
-                                //                                   height: 50,
-                                //                                   width: 150,
-                                //                                   child: Center(
-                                //                                     child: Padding(
-                                //                                       padding: const EdgeInsets.all(8.0),
-                                //                                       child: Text(
-                                //                                        "Continue",
-                                //                                         style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
-                                //                                       ),
-                                //                                     ),
-                                //                                   ),
-                                //                                 ),
-                                //                               ),
-                                //                             ),
-                                //                           ],
-                                //                         ),
-                                //                       )
-                                //                     ],
-                                //                   ),
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ),
-                                //
-                                //         Positioned(
-                                //           top: MediaQuery.of(context).size.height/1.5,
-                                //           left:100,
-                                //           right:100,
-                                //           child: CircleAvatar(
-                                //             backgroundColor: Colors.transparent,
-                                //             radius: Constants.avatarRadius,
-                                //             child: ClipRRect(
-                                //                 borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                                //                 child: Image.asset("assets/icons/sign_in_prompt.png")
-                                //             ),
-                                //           ),
-                                //         ),
-                                //     ],
-                                //     );
-                                //   },
-                                //   transitionBuilder: (context, anim1, anim2, child) {
-                                //     return SlideTransition(
-                                //       position: Tween(begin: Offset(0, 2), end: Offset(0, 0)).animate(anim1),
-                                //       child: child,
-                                //     );
-                                //   },
-                                // );
                               },
                               child: Row(
                                 children: [
@@ -459,29 +229,37 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         ],
                         backgroundColor: Colors.transparent,
                         elevation: 0.0,
+                        // leading: Container(
+                        //   child: isDrawerOpen
+                        //       ? IconButton(
+                        //       icon: Icon(Icons.arrow_back),
+                        //       onPressed: () {
+                        //         setState(() {
+                        //           xOffset = 0;
+                        //           yOffset = 0;
+                        //           scaleFactor = 1;
+                        //           isDrawerOpen = false;
+                        //         });
+                        //       })
+                        //       : IconButton(
+                        //       icon: Icon(Icons.notes),
+                        //       onPressed: () {
+                        //         setState(() {
+                        //           xOffset = 250;
+                        //           yOffset = 100;
+                        //           scaleFactor = 0.8;
+                        //           isDrawerOpen = true;
+                        //         });
+                        //         print("Jahid");
+                        //       }),
+                        // ),
                         leading: Container(
-                          child: isDrawerOpen
-                              ? IconButton(
-                              icon: Icon(Icons.arrow_back),
-                              onPressed: () {
-                                setState(() {
-                                  xOffset = 0;
-                                  yOffset = 0;
-                                  scaleFactor = 1;
-                                  isDrawerOpen = false;
-                                });
-                              })
-                              : IconButton(
+                          child:  IconButton(
                               icon: Icon(Icons.notes),
                               onPressed: () {
-                                setState(() {
-                                  xOffset = 250;
-                                  yOffset = 100;
-                                  scaleFactor = 0.8;
-                                  isDrawerOpen = true;
-                                });
-                                print("Jahid");
-                              }),
+                               widget.menuCallBack();
+                              })
+
                         ),
                       ),
                       // drawer: Drawer(
@@ -716,7 +494,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               ),
             ],
           ),
-        ),
+
       ],
     );
 

@@ -144,7 +144,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
     List<hos.Item> list = vm.hospitalList;
-    var lengthofHospitalList = list.length;
+    var lengthofHospitalList ;
+    MediaQuery.of(context).size.width>600? lengthofHospitalList = list.length < 5 ? list.length : 6 : lengthofHospitalList= list.length < 5 ? list.length : 5;
+
     var vm2 = Provider.of<NewsViewModel>(context);
     List<Item> list2 = vm2.newsList;
     var lengthofNewsList = list2.length;

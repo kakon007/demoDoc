@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31">
+  <g id="Phone_Icon" data-name="Phone Icon" transform="translate(-246 -160)">
+    <rect id="Rectangle_1623" data-name="Rectangle 1623" width="31" height="31" rx="4" transform="translate(246 160)" fill="#354291"/>
+    <g id="telephone" transform="translate(249 163)">
+      <g id="Group_1064" data-name="Group 1064" transform="translate(17.623 14.716)">
+        <g id="Group_1063" data-name="Group 1063">
+          <path id="Path_1255" data-name="Path 1255" d="M367.65,305.123l-3.107-3.108a2.251,2.251,0,0,0-3.108,0l-.518.518,6.215,6.215.518-.518A2.2,2.2,0,0,0,367.65,305.123Z" transform="translate(-360.917 -301.393)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_1066" data-name="Group 1066" transform="translate(0 2.219)">
+        <g id="Group_1065" data-name="Group 1065" transform="translate(0)">
+          <path id="Path_1256" data-name="Path 1256" d="M16.559,60.088a1.648,1.648,0,0,1-2.184-.112L8.231,53.828a1.649,1.649,0,0,1-.112-2.184l-6.2-6.2A7.908,7.908,0,0,0,2.3,56.182l9.722,9.726a7.863,7.863,0,0,0,10.739.381Z" transform="translate(0 -45.443)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_1068" data-name="Group 1068" transform="translate(2.911 0)">
+        <g id="Group_1067" data-name="Group 1067">
+          <path id="Path_1257" data-name="Path 1257" d="M66.345,3.73,63.238.622a2.251,2.251,0,0,0-3.108,0l-.518.518,6.215,6.215.518-.518A2.2,2.2,0,0,0,66.345,3.73Z" transform="translate(-59.612 0)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

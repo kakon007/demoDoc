@@ -3,18 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-
-import 'book_appoint_for_me.dart';
+import 'package:http/http.dart' as http;
 class AddPatient extends StatefulWidget {
   @override
   _AddPatientState createState() => _AddPatientState();
 }
 
 class _AddPatientState extends State<AddPatient> {
+  final List<PatientItem> patientTypeList = List<PatientItem>();
+  final List<ConsultType> consultTypeList = List<ConsultType>();
   DateTime pickBirthDate;
+
   Future<Null> selectBirthDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -40,20 +44,65 @@ class _AddPatientState extends State<AddPatient> {
       });
     }
   }
+
   String _selectedGender;
   String color = "#EAEBED";
-  var selectedPatientType= "";
-  var selectedConsultationType= "";
+  var selectedPatientType = "";
+  var selectedConsultationType = "";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     pickBirthDate = DateTime.now();
-    selectedPatientType= "";
-    selectedConsultationType= "";
+    selectedPatientType = "";
+    selectedConsultationType = "";
+    fetchConsultType();
+    fetchPatientType();
   }
+
+  Future<PatientTypeModel> fetchPatientType() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findPatTypeList?doctorNo=2000011";
+    var client = http.Client();
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      PatientTypeModel data = patientTypeModelFromJson(response.body);
+      setState(() {
+        data.patientItem.forEach((element) {
+          patientTypeList.add(element);
+        });
+      });
+      print('Data:: ' + data.patientItem[0].patientTypeName);
+      return data;
+    } else {
+      return null;
+    }
+  }
+
+  Future<ConsultTypeModel> fetchConsultType() async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findConTypeList?doctorNo=2000011&patTypeNo=$_selectedType&companyNo=2&ogNo=2";
+    var client = http.Client();
+    var response = await client.get(url);
+
+    if (response.statusCode == 200) {
+      ConsultTypeModel data = consultTypeModelFromJson(response.body);
+      setState(() {
+        data.consultType.forEach((element) {
+          consultTypeList.add(element);
+        });
+      });
+      print('Data:: ' + data.consultType[0].name);
+      return data;
+    } else {
+      return null;
+    }
+  }
+
   String _selectedType;
   String _selectedConsultation;
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -103,7 +152,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                   height: 20.0,
-                  width: MediaQuery.of(context).size.width*.4,
+                  width: MediaQuery.of(context).size.width * .4,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -112,15 +161,14 @@ class _AddPatientState extends State<AddPatient> {
                             style: GoogleFonts.roboto(fontSize: 12)),
                         Text(
                           " *",
-                          style:
-                          GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
                         )
                       ],
                     ),
                   )),
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.42,
+                width: MediaQuery.of(context).size.width * .42,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(color)),
@@ -137,7 +185,12 @@ class _AddPatientState extends State<AddPatient> {
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
-                                hint: Text(StringResources.gender, style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                                hint: Text(
+                                  StringResources.gender,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 15, color: HexColor("#D2D2D2")),
+                                ),
+                                // Not necessary for Option 1
                                 value: _selectedGender,
                                 onChanged: (newValue) {
                                   setState(() {
@@ -146,7 +199,10 @@ class _AddPatientState extends State<AddPatient> {
                                 },
                                 items: StringResources.genderList.map((gender) {
                                   return DropdownMenuItem(
-                                    child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                                    child: new Text(
+                                      gender,
+                                      style: GoogleFonts.roboto(fontSize: 14),
+                                    ),
                                     value: gender,
                                   );
                                 }).toList(),
@@ -156,7 +212,10 @@ class _AddPatientState extends State<AddPatient> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 120.0, top: 5),
-                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
+                          child: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: HexColor("#D2D2D2"),
+                          ),
                         ),
                       ],
                     )
@@ -177,7 +236,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                   height: 20.0,
-                  width: MediaQuery.of(context).size.width*.2,
+                  width: MediaQuery.of(context).size.width * .2,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -193,7 +252,7 @@ class _AddPatientState extends State<AddPatient> {
                   )),
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.38,
+                width: MediaQuery.of(context).size.width * .38,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(color)),
@@ -215,7 +274,7 @@ class _AddPatientState extends State<AddPatient> {
                       child: Container(
                           height: 18,
                           child:
-                          Image.asset("assets/images/calender_icon.png")),
+                              Image.asset("assets/images/calender_icon.png")),
                     ),
                   ],
                 ),
@@ -228,14 +287,14 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
-    var patientType=  Row(
+    var patientType = Row(
       children: [
         GestureDetector(
           child: Column(
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.82,
+                width: MediaQuery.of(context).size.width * .82,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(color)),
@@ -252,18 +311,27 @@ class _AddPatientState extends State<AddPatient> {
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
-                                hint: Text(StringResources.patientTypeText, style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                                hint: Text(
+                                  StringResources.patientTypeText,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 15, color: HexColor("#D2D2D2")),
+                                ),
+                                // Not necessary for Option 1
                                 value: _selectedType,
                                 onChanged: (newValue) {
                                   setState(() {
                                     _selectedType = newValue;
-                                    selectedPatientType=newValue;
+                                    selectedPatientType = newValue;
+                                    fetchConsultType();
                                   });
                                 },
-                                items: StringResources.patientType.map((gender) {
+                                items: patientTypeList.map((patNo) {
                                   return DropdownMenuItem(
-                                    child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
-                                    value: gender,
+                                    child: Text(
+                                      patNo.patientTypeName,
+                                      style: GoogleFonts.roboto(fontSize: 14),
+                                    ),
+                                    value: patNo.patientTypeNo,
                                   );
                                 }).toList(),
                               ),
@@ -272,7 +340,10 @@ class _AddPatientState extends State<AddPatient> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 280.0, top: 5),
-                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
+                          child: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: HexColor("#D2D2D2"),
+                          ),
                         ),
                       ],
                     )
@@ -284,14 +355,14 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
-    var consultationType= Row(
+    var consultationType = Row(
       children: [
         GestureDetector(
           child: Column(
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.82,
+                width: MediaQuery.of(context).size.width * .82,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(color)),
@@ -304,23 +375,31 @@ class _AddPatientState extends State<AddPatient> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Container(
-                            width:
-                            MediaQuery.of(context).size.width * .77,
+                            width: MediaQuery.of(context).size.width * .77,
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
-                                hint: Text(StringResources.consultationTypeText, style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                                hint: Text(
+                                  StringResources.consultationTypeText,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 15, color: HexColor("#D2D2D2")),
+                                ),
+                                // Not necessary for Option 1
                                 value: _selectedConsultation,
                                 onChanged: (newValue) {
                                   setState(() {
+                                    //print(newValue);
                                     _selectedConsultation = newValue;
-                                    selectedConsultationType= newValue;
+                                    selectedConsultationType = newValue;
                                   });
                                 },
-                                items: StringResources.consultationType.map((gender) {
+                                items: consultTypeList.map((consNo) {
                                   return DropdownMenuItem(
-                                    child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
-                                    value: gender,
+                                    child: new Text(
+                                      consNo.name,
+                                      style: GoogleFonts.roboto(fontSize: 14),
+                                    ),
+                                    value: consNo.no,
                                   );
                                 }).toList(),
                               ),
@@ -328,8 +407,11 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 280.0, top: 5),
-                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
+                          padding: EdgeInsets.only(left: 280.0, top: 5),
+                          child: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: HexColor("#D2D2D2"),
+                          ),
                         ),
                       ],
                     )
@@ -350,9 +432,9 @@ class _AddPatientState extends State<AddPatient> {
               child: Container(
                 child: Center(
                     child: Text(
-                      "Confirm Booking",
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: Colors.white),
-                    )),
+                  "Confirm Booking",
+                  style: GoogleFonts.poppins(color: Colors.white),
+                )),
                 height: 45.0,
                 width: MediaQuery.of(context).size.width * .89,
                 decoration: BoxDecoration(
@@ -371,76 +453,94 @@ class _AddPatientState extends State<AddPatient> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Padding(
-                padding:
-                EdgeInsets.only(right: 15.0, left: 15),
-                child: Column(
-                  children: [
-                    spaceBetween,
-                    patientType,
-                    spaceBetween,
-                    consultationType,
-                    spaceBetween,
-                    name,
-                    email,
-                    mobile,
-                    password,
-                    confirmPassword,
-                    address,
-                    spaceBetween,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                children: [
+                  spaceBetween,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15.0, left: 15),
+                    child: Column(
                       children: [
-                      gender, dateOfBirth,
-                      ],),
-                    spaceBetween,
-                    spaceBetween,
-                    DashedContainer(
-                      dashColor:HexColor("#E9ECFE"),
-                      borderRadius: 10.0,
-                      dashedLength: 10.0,
-                      blankLength: 2.0,
-                      child: Container(
-                        height: 90.0,
-                        width: MediaQuery.of(context).size.width * .5,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        spaceBetween,
+                        patientType,
+                        spaceBetween,
+                        consultationType,
+                        spaceBetween,
+                        name,
+                        email,
+                        mobile,
+                        password,
+                        confirmPassword,
+                        address,
+                        spaceBetween,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  selectedPatientType!= "" && selectedConsultationType!= ""  ? "500" : "",
-                                  style: GoogleFonts.poppins(
-                                      color: AppTheme.appbarPrimary,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(selectedPatientType!= "" && selectedConsultationType!= ""  ? "BDT" : "",
-                                        style: GoogleFonts.poppins(
-                                            color: AppTheme.appbarPrimary,
-                                            fontWeight: FontWeight.w500))
-                                  ],
-                                )
-                              ],
-                            ),
-                            Text(selectedPatientType!= "" && selectedConsultationType!= ""  ? "Consultation Fee" :"",
-                                style: GoogleFonts.poppins(
-                                    color: AppTheme.appbarPrimary,
-                                    fontWeight: FontWeight.w500))
+                            gender,
+                            dateOfBirth,
                           ],
                         ),
-                      ),
+                        spaceBetween,
+                        spaceBetween,
+                        DashedContainer(
+                          dashColor: HexColor("#E9ECFE"),
+                          borderRadius: 10.0,
+                          dashedLength: 10.0,
+                          blankLength: 2.0,
+                          child: Container(
+                            height: 90.0,
+                            width: MediaQuery.of(context).size.width * .5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      selectedPatientType != "" &&
+                                              selectedConsultationType != ""
+                                          ? "500"
+                                          : "",
+                                      style: GoogleFonts.poppins(
+                                          color: AppTheme.appbarPrimary,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                            selectedPatientType != "" &&
+                                                    selectedConsultationType !=
+                                                        ""
+                                                ? "BDT"
+                                                : "",
+                                            style: GoogleFonts.poppins(
+                                                color: AppTheme.appbarPrimary,
+                                                fontWeight: FontWeight.w500))
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Text(
+                                    selectedPatientType != "" &&
+                                            selectedConsultationType != ""
+                                        ? "Consultation Fee"
+                                        : "",
+                                    style: GoogleFonts.poppins(
+                                        color: AppTheme.appbarPrimary,
+                                        fontWeight: FontWeight.w500))
+                              ],
+                            ),
+                          ),
+                        ),
+                        spaceBetween,
+                      ],
                     ),
-                    spaceBetween,
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

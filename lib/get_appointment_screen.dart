@@ -11,26 +11,9 @@ class _GetAppointmentState extends State<GetAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Get Appointment'),
+        title: Text('Appointments'),
       ),
-      body: CustomTextFieldRounded(
-        textFieldKey: Key("signUpName"),
-        errorText: "Error",
-        keyboardType: TextInputType.text,
-        //focusNode: _nameFocusNode,
-        textInputAction: TextInputAction.next,
-        //controller: _nameEditingController,
-        hintText: "Enter",
-        prefixIcon: Icon(
-          Icons.person_outline,
-        ),
-        //onChanged: signUpModel.validateNameLocal,
-        // onSubmitted: (s) {
-        //   _nameFocusNode.unfocus();
-        //   FocusScope.of(_scaffoldKey.currentState.context)
-        //       .requestFocus(_emailFocusNode);
-        // },
-      ),
+      body: Center(child: Container(child: Text("No Appointments Yet"),))
     );
   }
 }

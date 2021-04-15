@@ -529,8 +529,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                       // ),
                       body: Padding(
                         padding: deviceHeight >= 600
-                            ? EdgeInsets.only(top: 230.0)
-                            : EdgeInsets.only(top: 210),
+                            ? EdgeInsets.only(top: 200.0)
+                            : EdgeInsets.only(top: 250),
                         child: Container(
                           height: double.infinity,
                           // minHeight: deviceHeight>=600?480:250,

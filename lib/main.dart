@@ -30,7 +30,7 @@ void main() async{
     ChangeNotifierProvider<DoctorListViewModel>(
         create: (context)=>DoctorListViewModel()),
     ChangeNotifierProvider<AvailableSlotsViewModel>(
-        create: (context)=>AvailableSlotsViewModel())
+        create: (context)=>AvailableSlotsViewModel()),
     ChangeNotifierProvider<PrescriptionListViewModel>(create: (context) => PrescriptionListViewModel()),
 
   ];

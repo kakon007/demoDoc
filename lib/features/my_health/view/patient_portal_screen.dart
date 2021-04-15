@@ -437,14 +437,14 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                     child:Image.asset('assets/icons/slt.png')),
               ),
               SizedBox(width: 15,),
-              GestureDetector(
-                onTap: (){delete();},
-                child: Container(
-                    width: 18,
-                    height: 18,
-                    child:Image.asset('assets/icons/dlt.png')),
-              ),
-              SizedBox(width: 15,),
+              // GestureDetector(
+              //   onTap: (){delete();},
+              //   child: Container(
+              //       width: 18,
+              //       height: 18,
+              //       child:Image.asset('assets/icons/dlt.png')),
+              // ),
+              // SizedBox(width: 15,),
               GestureDetector(
                 child: Container(
                     width: 18,

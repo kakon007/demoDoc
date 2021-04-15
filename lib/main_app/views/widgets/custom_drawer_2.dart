@@ -11,6 +11,8 @@ import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.da
 
 
 class DrawerScreen2 extends StatefulWidget {
+  final Function(int) menuCallBack;
+  DrawerScreen2({this.menuCallBack});
   @override
   _DrawerScreen2State createState() => _DrawerScreen2State();
 }
@@ -43,6 +45,7 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
       onTap: (){
         setState(() {
           selectedMenuIndex=index;
+          //widget.menuCallBack(index);
         });
       },
       child: Padding(

@@ -29,12 +29,18 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
 
 class DashboardScreen extends StatefulWidget {
+  final Function menuCallBack;
+  bool isDrawerOpen;
+  DashboardScreen({this.menuCallBack,this.isDrawerOpen});
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProviderStateMixin{
   ScrollController _controller;
+  // AnimationController _animationController;
+  // Animation<double> scaleAnimation;
+  // Duration duration=Duration(milliseconds: 200);
   // List<hos.Item> dataList = new List<hos.Item>();
   // List<Item> dataList2=new List<Item>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -124,6 +130,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData(isFromOnPageLoad: true);
     super.initState();
+    // _animationController=AnimationController(vsync: this,duration: duration);
+    // scaleAnimation=Tween<double>(begin: 1.0,end:0.6).animate(_animationController);
   }
   @override
   void dispose() {
@@ -557,21 +565,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             vm.shouldShowPageLoader
                                 ? Center(
                               child: CircularProgressIndicator(),
-                            ): SingleChildScrollView(
-                                   scrollDirection: Axis.horizontal,
-                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:18.0,),
-                                   child:
-                                          Row(
-                                            children: [
-                                              ...List.generate(
-                                                lengthofHospitalList,
-                                                    (i) => CustomCard(list[i].companyName,list[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[i].companyAddress,"60 Doctors",list[i].companyPhone==null?"+880 1962823007":list[i].companyPhone,list[i].companyEmail==null?"info@mysoftitd.com":list[i].companyEmail,list[i].companyLogo,list[i].companyId,list[i].ogNo.toString(), list[i].id.toString()),
-                                              ),
-                                            ],
-                                          ),
-                                   ),
-                        ),
+                            ):SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:18.0,),
+                                child:
+                                Row(
+                                  children: [
+                                    ...List.generate(
+                                      lengthofHospitalList,
+                                          (i) => CustomCard(list[i].companyName,list[i].companyAddress==null?"Mirpur,Dahaka,Bangladesh":list[i].companyAddress,"60 Doctors",list[i].companyPhone==null?"+880 1962823007":list[i].companyPhone,list[i].companyEmail==null?"info@mysoftitd.com":list[i].companyEmail,list[i].companyLogo,list[i].ogNo.toString(), list[i].companyId, list[i].id.toString()),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 20,),
                             Padding(
                               padding: const EdgeInsets.only(left:18.0,right: 18),
@@ -655,6 +663,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(30)),
+        image: DecorationImage(
+            image: AssetImage(
+                "assets/images/dashboard_back.png"),
+            fit: BoxFit.cover),
+      ),
+      height: 418.0,
+      width: double.infinity,
+      // child: FadeInImage(
+      //   fit: BoxFit.cover,
+      //   image:AssetImage("assets/images/dashboard_back.png"),
+      //   placeholder: AssetImage(''),
+      // ),
+    );
+  }
+  Widget _backgroundImage2() {
+    return Container(
+      // decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     borderRadius: BorderRadius.all(Radius.circular(30))),
+
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        //borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
             image: AssetImage(
                 "assets/images/dashboard_back.png"),

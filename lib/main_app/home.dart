@@ -16,8 +16,10 @@ import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dar
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_Sign_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer_2.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_signIn_for_patient_portal.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,8 +34,14 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin{
+  AnimationController _animationController;
+  Animation<double> scaleAnimation;
+  Duration duration=Duration(milliseconds: 200);
+  bool isDrawerOpen = false;
+  bool isSelected=false;
   int currentIndex=0;
+  List<Animation> scaleAnimations;
   _moveTo(int index){
     currentIndex=index;
     setState(() {
@@ -189,27 +197,82 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // List<Widget> screens=[
-  //      DashboardScreen(),
-  //      NotificationScreen(),
-  // ];
-
+  // Map<int,Widget> screens= {
+  //   0: DashboardScreen(isDrawerOpen: true,),
+  //   1: HospitalScreen(),
+  //   2: GetAppointment(),
+  //   3: GetAppointment(),
+  // };
+  //
+  // List<Widget> screenShots;
   // List<Widget> finalStack(){
   //   List<Widget> stackToReturn=[];
-  //   stackToReturn.add(DrawerScreen());
-  //   stackToReturn.add(DashboardScreen());
-  //    // screens.asMap().entries.map((e) => DashboardScreen());
+  //   stackToReturn.add(DrawerScreen2(menuCallBack:(selectedIndex) {
+  //     setState(() {
+  //       isSelected=true;
+  //       screenShots=screens.values.toList();
+  //     final selectedWidget=screenShots.removeAt(selectedIndex);
+  //     screenShots.insert(0, selectedWidget);
+  //     });
+  //   },));
+  //   //stackToReturn.add(DashboardScreen());
+  //   screenShots.asMap().entries.map((e) => buildStackedScreen(e.key)).toList().reversed..forEach((element) {stackToReturn.add(element);});
   //   return stackToReturn;
   // }
-
-  // Widget buildStackedScreen(){
   //
+  // Widget buildStackedScreen(int position){
+  //   var deviceWidth=MediaQuery.of(context).size.width;
+  //   return AnimatedPositioned(
+  //     duration: duration,
+  //     top: 0,
+  //     left:isDrawerOpen?deviceWidth*0.50:0,
+  //     right:isDrawerOpen?deviceWidth*-0.45:0,
+  //     bottom: 0,
+  //     // transform: Matrix4.translationValues(xOffset, yOffset, 0)
+  //     //   ..scale(scaleFactor),
+  //     // duration: Duration(milliseconds: 200),
+  //     // decoration: BoxDecoration(
+  //     //     color: Colors.white,
+  //     //     borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
+  //     // height: double.infinity,
+  //     // width: double.infinity,
+  //     child: ScaleTransition(
+  //       scale: scaleAnimations[position],
+  //       child: GestureDetector(
+  //         onTap: (){
+  //           if(isDrawerOpen){
+  //             setState(() {
+  //               isDrawerOpen=false;
+  //               _animationController.reverse();
+  //             });
+  //           }
+  //         },
+  //         child:screenShots[position],
+  //       ),
+  //     ),
+  //   );
   // }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // _animationController=AnimationController(vsync: this,duration: duration);
+    // scaleAnimation=Tween<double>(begin: 1.0,end:0.7).animate(_animationController);
+    // scaleAnimations=[
+    // Tween<double>(begin: 1.0,end:0.7).animate(_animationController),
+    // Tween<double>(begin: 1.0,end:0.7).animate(_animationController),
+    // Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
+    // Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
+    // ];
+    // //_animationController.forward();
+    // screenShots=screens.values.toList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    var deviceWidth=MediaQuery.of(context).size.width;
+    //print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     print(widget.accessToken);
     final String dashboardiconiamg = "assets/icons/dashboard_icon.svg";
     final Widget dashboardicon = SvgPicture.asset(
@@ -251,14 +314,58 @@ class _HomeScreenState extends State<HomeScreen> {
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
-    var pages = <Widget>[
+    List pages = <Widget>[
+    // isDrawerOpen?Stack(children:finalStack(),):Stack(
+    //       children:[
+    //         widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
+    //     widget.accessToken == null ?
+    // AnimatedPositioned(
+    // duration: duration,
+    // top: 0,
+    // left:isDrawerOpen?deviceWidth*0.50:0,
+    // right:isDrawerOpen?deviceWidth*-0.45:0,
+    // bottom: 0,
+    // // transform: Matrix4.translationValues(xOffset, yOffset, 0)
+    // //   ..scale(scaleFactor),
+    // // duration: Duration(milliseconds: 200),
+    // // decoration: BoxDecoration(
+    // //     color: Colors.white,
+    // //     borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
+    // // height: double.infinity,
+    // // width: double.infinity,
+    // child: ScaleTransition(
+    // scale: scaleAnimation,
+    // child: GestureDetector(
+    //   onTap: (){
+    //     if(isDrawerOpen){
+    //       setState(() {
+    //         isDrawerOpen=false;
+    //         _animationController.reverse();
+    //       });
+    //     }
+    //   },
+    //   child: DashboardScreen(menuCallBack: (){
+    //     setState(() {
+    //       isDrawerOpen=true;
+    //       _animationController.forward();
+    //       print("Heeoollo");
+    //     });
+    //   },isDrawerOpen: isDrawerOpen,),
+    // ),
+    // ),
+    // )
+    //
+    //      : AfterSignIn()
+    //
+    //
+    //       ]),
       Stack(
           children: [
             widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
-        widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
-      GetAppointment(),
+            widget.accessToken == null ? DashboardScreen() : AfterSignIn()]),
+      widget.accessToken==null?SignInPrompt():GetAppointment(),
       HospitalScreen(),
-      PrescriptionListScreen(accessToken: widget.accessToken,),
+      widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
     ];
 
     //BottomNavBar

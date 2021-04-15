@@ -30,35 +30,38 @@ class SignUpFormField extends StatelessWidget {
   final Widget prefixIcon;
   final Widget suffixIcon;
   final double borderRadius;
+  final bool obSecure;
 
-  const SignUpFormField(
-      {this.readOnly = false,
-      this.enabled = true,
-      this.maxLength,
-      this.validator,
-      this.prefix,
-      this.errorText,
-      this.onChanged,
-      this.textInputAction,
-      this.autovalidate = false,
-      this.controller,
-      this.onFieldSubmitted,
-      this.focusNode,
-      this.isRequired = false,
-      this.autofocus = false,
-      this.labelText,
-      this.hintText,
-      this.minLines,
-      this.prefixIcon,
-      this.suffixIcon,
-        this.borderRadius= 10,
-      this.onTap,
-        this.margin= const EdgeInsets.all(8),
-      this.keyboardType,
-      this.contentPadding =
-          const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      this.maxLines = 1,
-      this.textFieldKey});
+  const SignUpFormField({
+    this.readOnly = false,
+    this.enabled = true,
+    this.maxLength,
+    this.validator,
+    this.prefix,
+    this.errorText,
+    this.onChanged,
+    this.textInputAction,
+    this.autovalidate = false,
+    this.controller,
+    this.onFieldSubmitted,
+    this.focusNode,
+    this.isRequired = false,
+    this.autofocus = false,
+    this.labelText,
+    this.hintText,
+    this.minLines,
+    this.prefixIcon,
+    this.obSecure = false,
+    this.suffixIcon,
+    this.borderRadius = 10,
+    this.onTap,
+    this.margin = const EdgeInsets.all(8),
+    this.keyboardType,
+    this.contentPadding =
+        const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    this.maxLines = 1,
+    this.textFieldKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +84,7 @@ class SignUpFormField extends StatelessWidget {
                   if (isRequired)
                     Text(
                       " *",
-                      style:  GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                      style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
                     )
                 ],
               ),
@@ -91,6 +94,7 @@ class SignUpFormField extends StatelessWidget {
           ),
           Container(
             child: TextFormField(
+              obscureText: obSecure,
               key: textFieldKey,
               onTap: onTap,
               readOnly: readOnly,
@@ -104,8 +108,12 @@ class SignUpFormField extends StatelessWidget {
               maxLines: maxLines,
               autovalidate: autovalidate,
               keyboardType: keyboardType,
-              validator: validator ??
-                  (isRequired ? Validator().nullFieldValidate : null),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
               controller: controller,
               textInputAction: textInputAction,
               decoration: new InputDecoration(
@@ -116,7 +124,7 @@ class SignUpFormField extends StatelessWidget {
                 hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
                 focusedBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
+                      BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                   borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),

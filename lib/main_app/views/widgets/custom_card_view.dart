@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class CustomCard extends StatelessWidget {
   String titleText;
-  String subTitleText;
+  String addressText;
   String countText;
-  CustomCard(@required this.titleText,@required this.subTitleText,@required this.countText,);
+  String phoneText;
+  String emailText;
+  String logo;
+  String companyNo;
+  String orgNo;
+  String id;
+  CustomCard(@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
   @override
   Widget build(BuildContext context) {
     return Container(
-
       //height: 40,
-      width: 265,
-      height: 110,
+      width: 300,
+      height: 135,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -22,9 +29,12 @@ class CustomCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                 // width: 80,
-
-                  child: Image.asset("assets/icons/sz.png")),
+                height: 100,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Image.asset("assets/images/dummyimg.png")),
             ),
             Flexible(
               child: Padding(
@@ -32,33 +42,38 @@ class CustomCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(titleText,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
+                    Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
                     SizedBox(height: 3,),
-                    Text(subTitleText,style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold),textAlign:TextAlign.start),
+                    Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 8),textAlign:TextAlign.start),
                     SizedBox(height: 3,),
                     Row(
                       children: [
                         CircleAvatar(
                           minRadius: 3,
-                          backgroundColor: HexColor("#1DBF6D"),
+                          backgroundColor: HexColor("#1EE573"),
                         ),
                         SizedBox(width: 3,),
-                        Text(countText,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold),),
+                        Text(countText,style:  GoogleFonts.poppins(fontSize: 8,),),
 
                       ],
                     ),
                     SizedBox(height: 10,),
-                    Material(
-                      elevation: 2  ,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      color: HexColor("#354291"),
-                      child: SizedBox(
-                        width: 130,
-                        height: 30,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Get An Appointment",style: TextStyle(color: Colors.white,fontSize: 11),),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
+                      },
+                      child: Material(
+                        elevation: 0  ,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        color: HexColor("#354291"),
+                        child: SizedBox(
+                          width: 130,
+                          height: 30,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                            ),
                           ),
                         ),
                       ),

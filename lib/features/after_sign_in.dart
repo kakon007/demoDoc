@@ -211,7 +211,7 @@ class _AfterSignInState extends State<AfterSignIn> {
               // ),
               Stack(
                   children: [
-                    this._backgroundImage(),
+                    isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
                     Padding(
                       padding: const EdgeInsets.only(top:110.0,left: 70),
                       child: Column(
@@ -653,6 +653,29 @@ class _AfterSignInState extends State<AfterSignIn> {
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(30)),
+        image: DecorationImage(
+            image: AssetImage(
+                "assets/images/dashboard_back.png"),
+            fit: BoxFit.cover),
+      ),
+      height: 418.0,
+      width: double.infinity,
+      // child: FadeInImage(
+      //   fit: BoxFit.cover,
+      //   image:AssetImage("assets/images/dashboard_back.png"),
+      //   placeholder: AssetImage(''),
+      // ),
+    );
+  }
+  Widget _backgroundImage2() {
+    return Container(
+      // decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     borderRadius: BorderRadius.all(Radius.circular(30))),
+
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        //borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
             image: AssetImage(
                 "assets/images/dashboard_back.png"),

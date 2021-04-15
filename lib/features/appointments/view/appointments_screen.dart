@@ -188,7 +188,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        widget.name,maxLines: 1,
+                        widget.name,overflow: TextOverflow.clip,maxLines: 3,
                         style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold, fontSize: 12),
                       ),
@@ -230,6 +230,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   size: 20,
                 ),
                 onPressed: () {
+                  showInSnackBar("Some text");
                   setState(() {
                     isLoggedIn == true ? isLoggedIn = false : isLoggedIn = true;
                   });
@@ -458,6 +459,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     //     ),
     //   ),
     // );
+  }
+
+  void showInSnackBar(String s) {
+    Scaffold.of(context).showSnackBar(new SnackBar(
+        content: new Text(s)
+    ));
   }
 }
 

@@ -13,7 +13,7 @@ class _GetAppointmentState extends State<GetAppointment> {
       appBar: AppBar(
         title: Text('Appointments'),
       ),
-      body: Center(child: Container(child: Text("Appointments"),))
+      body: Center(child: Container(child: Text("No Appointments Yet"),))
     );
   }
 }

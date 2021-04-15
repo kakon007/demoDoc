@@ -8,6 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/add_patient.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/book_appoint_for_me.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/select_appointment_widget.dart';
+import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
@@ -20,6 +21,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class AppointmentScreen extends StatefulWidget {
   String specialist;
@@ -29,7 +31,8 @@ class AppointmentScreen extends StatefulWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
-  AppointmentScreen({this.name, this.designation, this.fee, this.specialist, this.companyNo, this.doctorNo, this.orgNo});
+  bool ok=false;
+  AppointmentScreen({this.name, this.designation, this.fee, this.specialist, this.companyNo, this.doctorNo, this.orgNo, this.ok});
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
 }
@@ -42,6 +45,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     addPatient = false;
     addPatientBackColor = "#00FFFFFF";
     addPatientTextColor = "#8389A9";
+    print(widget.ok);
   }
     BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
@@ -58,7 +62,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //print(specializationList[2].dtlName);
+    print("babababababababbabaababbababbabaa" + widget.ok.toString());
     var height = MediaQuery.of(context).size.height;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
@@ -209,6 +213,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         ),
       ),
     );
+    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         //key: _scaffoldKey,
@@ -270,9 +275,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       ]),
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 20.0, right: 20, top: 60),
-                    child: isLoggedIn == true
-                        ? Column(
+                         EdgeInsets.only(left: 20.0, right: 20, top: 60),
+                    child: isLoggedIn == true?
+                         Column(
                             children: [
                               selectType,
                               forMe == true ? BookAppointForMe() : AddPatient(),

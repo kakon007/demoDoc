@@ -1,57 +1,54 @@
-import 'dart:convert';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
-import '../appointments_screen.dart';
-class NewFile extends StatefulWidget {
+
+class MyGridView extends StatefulWidget {
   @override
-  _NewFileState createState() => _NewFileState();
+  _MyGridViewState createState() => _MyGridViewState();
 }
 
-class _NewFileState extends State<NewFile> {
-  AvailableSlotModel spItem;
-  final List<Items> specializationList = List<Items>();
-  Future<AvailableSlotModel>  fetchSpecializationList() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/getAvailableSlot";
-    final http.Response response = await http.post(url,body: jsonEncode(<String, String>{
-      "appointDate": "2021-04-07T03:48:46.483Z",
-      "companyNo": "2",
-      "doctorNo": "2000011",
-      "ogNo": "2"
-    }),);
-    //print(response.body);
-    if (response.statusCode == 200) {
-      print(response.body);
-      spItem = availableSlotModelFromJson(response.body) ;
-      // print(spItem);
-      setState(() {
-        spItem.items.forEach((element) {
-          specializationList.add(element);
-        });
-      });
-      // print('Data:: ' + spItem.specializationItem[2].dtlDescription);
-      return spItem;
-    }else {
-      return null;
-    }
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    fetchSpecializationList();
-    super.initState();
-  }
+class _MyGridViewState extends State<MyGridView> {
+
+  // set an int with value -1 since no card has been selected  
+  int selectedCard = -1;
+
   @override
   Widget build(BuildContext context) {
-    print(specializationList[1].doctorName.toString());
-    return Scaffold(
-      body: ListView.builder(
-          itemCount: specializationList.length,
-          itemBuilder: (ctx, index) {
-            return Text(specializationList[index].slotNo.toString());
-          })
-    );
+    return GridView.builder(
+        shrinkWrap: false,
+        scrollDirection: Axis.vertical,
+        itemCount: 10,
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 3),
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                // ontap of each card, set the defined int to the grid view index 
+                selectedCard = index;
+              });
+            },
+            child: Card(
+              // check if the index is equal to the selected Card integer
+              color: selectedCard == index ? Colors.blue : Colors.amber,
+              child: Container(
+                height: 200,
+                width: 200,
+                child: Center(
+                  child: Text(
+                    '$index',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

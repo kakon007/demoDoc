@@ -31,7 +31,8 @@ import 'package:http/http.dart' as http;
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
-  DashboardScreen({this.menuCallBack,this.isDrawerOpen});
+  String accessToken;
+  DashboardScreen({this.menuCallBack,this.isDrawerOpen,this.accessToken});
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
@@ -266,7 +267,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         actions: [
                           Padding(
                             padding: const EdgeInsets.only(right:10),
-                            child: GestureDetector(
+                            child: widget.accessToken==null?GestureDetector(
                               onTap: (){
 
                                 Navigator.push(context, PageRouteBuilder(
@@ -442,6 +443,14 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   //   ),
                                   // ),
                                 ],
+                              )
+
+                            ): CircleAvatar(
+                              radius: 18,
+                              backgroundColor: Colors.white,
+                              child: CircleAvatar(
+                                backgroundImage: AssetImage('assets/images/proimg.png'),
+                                radius: 16,
                               ),
                             ),
                           )
@@ -565,7 +574,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                       child: SearchBarViewWidget(),
                                     ),
                                     //SizedBox(height: 10,),
-                                    // CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
+                                    widget.accessToken==null?Container():CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
                                     // SizedBox(height: 10,),
                                     SizedBox(height: 30,),
                                   ],

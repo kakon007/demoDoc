@@ -330,6 +330,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
   }
   void startTimer() {
     Timer.periodic(const Duration(seconds: 2), (t) {
+      if(mounted)
       setState(() {
         isLoading = false; //set loading to false
       });

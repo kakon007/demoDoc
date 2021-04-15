@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
+import 'package:myhealthbd_app/features/my_health/repositories/prescription_repository.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
@@ -12,11 +13,13 @@ import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dar
 import 'package:myhealthbd_app/features/my_health/view/widgets/share_document_widget.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account_alert_dialog.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:multi_select_item/multi_select_item.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
 
@@ -108,11 +111,14 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   @override
   void initState() {
+    PrescriptionRepository().fetchPrescriptionList(widget.accessToken);
 
     super.initState();
-    if(fetchedData==null){
-      fetchPrescriptionList();
-    }
+    // if(fetchedData==null){
+    //   fetchPrescriptionList();
+    // }
+    var vm = Provider.of<PrescriptionListViewModel>(context, listen: false);
+    vm.getData(widget.accessToken);
     print("jaaaaahhhhhhiiiiddddddd");
     controller.disableEditingWhenNoneSelected = true;
     controller.set(dataList2.length);
@@ -146,40 +152,44 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   }
 
 
-  Future<PrescriptionListModel> fetchPrescriptionList() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/patient-prescription-list?draw=1&columns%5B0%5D%5Bdata%5D=consultationId&columns%5B0%5D%5Bname%5D=consultationId&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=prescriptionDateTime&columns%5B1%5D%5Bname%5D=prescriptionDateTime&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=doctorName&columns%5B2%5D%5Bname%5D=doctorName&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=companyName&columns%5B3%5D%5Bname%5D=companyName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1617439318994";
-   // print('Token: '+ signInData.accessToken);
-    var client = http.Client();
-    var response = await client.get(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
-    if (response.statusCode == 200) {
-      print('Response: '+ response.body.toString());
-      // Map<String, dynamic> jsonMap = json.decode(response.body);
-      PrescriptionListModel data1 = prescriptionListModelFromJson(response.body) ;
-
-      setState(() {
-        data1.obj.data.forEach((elemant) {
-          dataList2.add(elemant);
-        });
-      });
-
-      // setState(() {
-      //   dataList2=data1.obj.data.first.phoneMobile;
-      // });
-
-      // print('Data:: ' + data.items[5].companyName);
-      // print('DataList2:: ' + dataList2.first.consultationId);
-      print('Data:::: '+ data1.toJson().toString());
-      print('Data1234312:::: '+ dataList2.toString());
-      return data1;
-    }else {
-      return null;
-    }
-  }
+  // Future<PrescriptionListModel> fetchPrescriptionList() async {
+  //   var url =
+  //       "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/patient-prescription-list?draw=1&columns%5B0%5D%5Bdata%5D=consultationId&columns%5B0%5D%5Bname%5D=consultationId&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=prescriptionDateTime&columns%5B1%5D%5Bname%5D=prescriptionDateTime&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=doctorName&columns%5B2%5D%5Bname%5D=doctorName&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=companyName&columns%5B3%5D%5Bname%5D=companyName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1617439318994";
+  //  // print('Token: '+ signInData.accessToken);
+  //   var client = http.Client();
+  //   var response = await client.get(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
+  //   if (response.statusCode == 200) {
+  //     print('Response: '+ response.body.toString());
+  //     // Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     PrescriptionListModel data1 = prescriptionListModelFromJson(response.body) ;
+  //
+  //     setState(() {
+  //       data1.obj.data.forEach((elemant) {
+  //         dataList2.add(elemant);
+  //       });
+  //     });
+  //
+  //     // setState(() {
+  //     //   dataList2=data1.obj.data.first.phoneMobile;
+  //     // });
+  //
+  //     // print('Data:: ' + data.items[5].companyName);
+  //     // print('DataList2:: ' + dataList2.first.consultationId);
+  //     print('Data:::: '+ data1.toJson().toString());
+  //     print('Data1234312:::: '+ dataList2.toString());
+  //     return data1;
+  //   }else {
+  //     return null;
+  //   }
+  // }
 
 
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<PrescriptionListViewModel>(context);
+    List<Datum> list = vm.prescriptionList;
+    var lengthofPrescriptionList = list.length;
+
     var childButtons = List<UnicornButton>();
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
@@ -427,14 +437,14 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                     child:Image.asset('assets/icons/slt.png')),
               ),
               SizedBox(width: 15,),
-              GestureDetector(
-                onTap: (){delete();},
-                child: Container(
-                    width: 18,
-                    height: 18,
-                    child:Image.asset('assets/icons/dlt.png')),
-              ),
-              SizedBox(width: 15,),
+              // GestureDetector(
+              //   onTap: (){delete();},
+              //   child: Container(
+              //       width: 18,
+              //       height: 18,
+              //       child:Image.asset('assets/icons/dlt.png')),
+              // ),
+              // SizedBox(width: 15,),
               GestureDetector(
                 child: Container(
                     width: 18,
@@ -537,136 +547,132 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               ],
                             ),
                             Expanded(
-                              child: SingleChildScrollView(
+                              child:
+                              vm.shouldShowPageLoader
+                                  ? Center(
+                                child: CircularProgressIndicator(),
+                              ):SingleChildScrollView(
                                 physics: ScrollPhysics(),
-                                child: FutureBuilder<PrescriptionListModel>(
-                                    future: fetchPrescriptionList(),
-                                    builder: (context, snapshot) {
-                                      if(snapshot.hasData){
-                                        return ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount:dataList2.length,
-                                            itemBuilder: (BuildContext context, int index) {
-                                              return MultiSelectItem(
-                                                isSelecting: controller.isSelecting,
-                                                onSelected: () {
-                                                  setState(() {
-                                                    controller.toggle(index);
-                                                  });
-                                                },
-                                                child: Stack(
-                                                    children:[
-                                                      InkWell(
-                                                        onLongPress: (){
-                                                          setState(() {
-                                                            controller.toggle(index);
-                                                          });
-                                                          print("tapped");},
-                                                        onTap: (){
+                                child:
 
-                                                          if(controller.isSelecting){
-                                                            setState(() {
-                                                              controller.toggle(index);
-                                                            });
-                                                          }
-                                                          print("tappeddd");
-                                                        },
-                                                        child: Container(
+                                ListView.builder( physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount:lengthofPrescriptionList,
+                                itemBuilder: (BuildContext context, int index) {
+                                  print("LIIIISSSYYSY:::" + list[index].consultationId);
+                                  return MultiSelectItem(
+                                    isSelecting: controller.isSelecting,
+                                    onSelected: () {
+                                      setState(() {
+                                        controller.toggle(index);
+                                      });
+                                    },
+                                    child: Stack(
+                                        children:[
+                                          InkWell(
+                                            onLongPress: (){
+                                              setState(() {
+                                                controller.toggle(index);
+                                              });
+                                              print("tapped");},
+                                            onTap: (){
 
-                                                          height: cardHeight*0.8,
-                                                          margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                          decoration: BoxDecoration(
-                                                            gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                              1.0,
-                                                              1.0
-                                                            ], colors: [
-                                                              HexColor('#C5CAE8'),
-                                                              HexColor('#E9ECFE'),
+                                              if(controller.isSelecting){
+                                                setState(() {
+                                                  controller.toggle(index);
+                                                });
+                                              }
+                                              print("tappeddd");
+                                            },
+                                            child: Container(
 
-                                                            ]),
-                                                            //color: Colors.white,
-                                                            // border: Border.all(
-                                                            //   color: HexColor("#E9ECFE"),
-                                                            //   width: 1,
-                                                            // ),
-                                                            borderRadius: BorderRadius.circular(15),
-                                                          ),
-                                                          child: Row(
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left:10.0),
-                                                                child: CircleAvatar(
-                                                                  radius: 31,
-                                                                  backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                                  child: CircleAvatar(
-                                                                    radius: 30,
-                                                                    backgroundColor: Colors.white,
-                                                                    child: CircleAvatar(
-                                                                      backgroundImage: AssetImage('assets/images/proimg.png'),
-                                                                      radius: 28,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              //SizedBox(width: 5,),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    SizedBox(height: 8,),
-                                                                    Text(dataList2[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                                    Text(DateUtil().formattedDate(DateTime.parse(dataList2[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                                    SizedBox(height: 5,),
-                                                                    Container(width:200,child: Text(dataList2[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
-                                                                    Text(dataList2[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
-                                                                  ],
-                                                                ),
+                                              height: cardHeight*0.8,
+                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                  1.0,
+                                                  1.0
+                                                ], colors: [
+                                                  HexColor('#C5CAE8'),
+                                                  HexColor('#E9ECFE'),
 
-                                                              ),
-                                                              // Container(width:45,child: rx),
-                                                              // (controller.isSelecting)?
-                                                              // Padding(
-                                                              //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                              //   child: righticon,
-                                                              // ):
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(right:18.0,),
-                                                                child: Stack(children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(top:10.0),
-                                                                    child: Container(width:45,child: rx),
-                                                                  ),
-                                                                  (controller.isSelected(index))?
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                                    child: righticon,
-                                                                  ): (controller.isSelecting)?Padding(
-                                                                    padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                                    child: greyright,
-                                                                  ):Padding(
-                                                                    padding: EdgeInsets.only(left: 38,top: 5),
-                                                                    child: popup,
-                                                                  ),
-                                                                ]),
-                                                              ),
-
-
-                                                            ],
-                                                          ),
+                                                ]),
+                                                //color: Colors.white,
+                                                // border: Border.all(
+                                                //   color: HexColor("#E9ECFE"),
+                                                //   width: 1,
+                                                // ),
+                                                borderRadius: BorderRadius.circular(15),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left:10.0),
+                                                    child: CircleAvatar(
+                                                      radius: 31,
+                                                      backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                      child: CircleAvatar(
+                                                        radius: 30,
+                                                        backgroundColor: Colors.white,
+                                                        child: CircleAvatar(
+                                                          backgroundImage: AssetImage('assets/images/proimg.png'),
+                                                          radius: 28,
                                                         ),
                                                       ),
-                                                    ]
-                                                ),
-                                              );
-                                            });
+                                                    ),
+                                                  ),
+                                                  //SizedBox(width: 5,),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        SizedBox(height: 8,),
+                                                        Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                        Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                        SizedBox(height: 5,),
+                                                        Container(width:200,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
+                                                        Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
+                                                      ],
+                                                    ),
 
-                                      }else{
-                                        return Center( child: CircularProgressIndicator());
-                                      }
+                                                  ),
+                                                  // Container(width:45,child: rx),
+                                                  // (controller.isSelecting)?
+                                                  // Padding(
+                                                  //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                  //   child: righticon,
+                                                  // ):
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right:18.0,),
+                                                    child: Stack(children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top:10.0),
+                                                        child: Container(width:45,child: rx),
+                                                      ),
+                                                      (controller.isSelected(index))?
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                        child: righticon,
+                                                      ): (controller.isSelecting)?Padding(
+                                                        padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                        child: greyright,
+                                                      ):Padding(
+                                                        padding: EdgeInsets.only(left: 38,top: 5),
+                                                        child: popup,
+                                                      ),
+                                                    ]),
+                                                  ),
 
-                                    }
-                                ),
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ]
+                                    ),
+                                  );
+                                }),
                               ),
                             ),
                           ],

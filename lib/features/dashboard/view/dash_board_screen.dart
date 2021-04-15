@@ -221,7 +221,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               // ),
               Stack(
                   children: [
-                    this._backgroundImage(),
+                   isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
                     Padding(
                       padding: const EdgeInsets.only(top:110.0,left: 70),
                       child: Column(

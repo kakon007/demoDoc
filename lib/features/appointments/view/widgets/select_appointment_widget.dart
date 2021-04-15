@@ -299,35 +299,6 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
   double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
   int _crossAxisCount = 4;
   AvailableSlotModel slotItem;
-  final List<Items> availableSlotList = List<Items>();
-  Future<AvailableSlotModel>  fetchSpecializationList() async {
-    print(widget.companyNo);
-    pickedAppointDate2=pickedAppointDate;
-    var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/getAvailableSlot";
-    final http.Response response = await http.post(url,body: jsonEncode(<String, String>{
-      "appointDate": DateFormat("yyyy-MM-dd").format(pickedAppointDate).toString(),
-      "companyNo": widget.companyNo,
-      "doctorNo": widget.doctorNo,
-      "ogNo": widget.orgNo
-    }),);
-    print(response.body);
-    if (response.statusCode == 200) {
-      print(response.body);
-      slotItem = availableSlotModelFromJson(response.body) ;
-      // print(spItem);
-      availableSlotList.clear();
-      setState(() {
-        slotItem.items.forEach((element) {
-          availableSlotList.add(element);
-        });
-      });
-      // print('Data:: ' + spItem.specializationItem[2].dtlDescription);
-      return slotItem;
-    }else {
-      return null;
-    }
-  }
   void startTimer() {
     Timer.periodic(const Duration(seconds: 2), (t) {
       if(mounted)
@@ -347,8 +318,6 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
    // print("shakil111111");
     vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-    //print("shakil111111");
-    fetchSpecializationList();
     AvailableSlotsRepository().fetchSlotInfo(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
 
   }
@@ -438,8 +407,8 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
         onPressed: () {
           vm.getSlotStatus(slotNo.toString(), widget.companyNo, widget.orgNo);
           print(vm.slot);
-          if(vm.slotStatus== "Ok") {
-            BotToast.showText(text: "Unable to launch");
+          if(vm.slotStatus== "OK") {
+           // BotToast.showText(text: "Unable to launch");
             setState(() {
               AppointmentScreen(ok: true,);
             });}

@@ -53,7 +53,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
-
+  // List<Widget> screenShots;
+  // Map<int,Widget> screens;
 
   //Navigation screen
 
@@ -73,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         screenShots=screens.values.toList();
       final selectedWidget=screenShots.removeAt(selectedIndex);
       screenShots.insert(0, selectedWidget);
+      selectedIndex==0?"":
       Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
       });
     },));
@@ -136,6 +138,104 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     var deviceWidth=MediaQuery.of(context).size.width;
+    //
+    // screens= {
+    //   0:  AnimatedPositioned(
+    //     duration: duration,
+    //     top: 0,
+    //     left:isDrawerOpen?deviceWidth*0.50:0,
+    //     right:isDrawerOpen?deviceWidth*-0.45:0,
+    //     bottom: 0,
+    //     // transform: Matrix4.translationValues(xOffset, yOffset, 0)
+    //     //   ..scale(scaleFactor),
+    //     // duration: Duration(milliseconds: 200),
+    //     // decoration: BoxDecoration(
+    //     //     color: Colors.white,
+    //     //     borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
+    //     // height: double.infinity,
+    //     // width: double.infinity,
+    //     child: ScaleTransition(
+    //       scale: scaleAnimation,
+    //       child: GestureDetector(
+    //         onTap: (){
+    //           if(isDrawerOpen){
+    //             setState(() {
+    //               isDrawerOpen=false;
+    //               _animationController.reverse();
+    //             });
+    //           }
+    //         },
+    //         child: DashboardScreen(menuCallBack: (){
+    //           setState(() {
+    //             isDrawerOpen=true;
+    //             _animationController.forward();
+    //             print("Heeoollo");
+    //           });
+    //         },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,),
+    //       ),
+    //     ),
+    //   ),
+    //   1: FindYourDoctorScreen('','','','','','',''),
+    //   2: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
+    //   3: GetAppointment(),
+    // };
+    // screenShots=screens.values.toList();
+    // Widget buildStackedScreen(int position){
+    //   var deviceWidth=MediaQuery.of(context).size.width;
+    //   return AnimatedPositioned(
+    //     duration: duration,
+    //     top: 0,
+    //     left:isDrawerOpen?deviceWidth*0.50:0,
+    //     right:isDrawerOpen?deviceWidth*-0.45:0,
+    //     bottom: 0,
+    //     // transform: Matrix4.translationValues(xOffset, yOffset, 0)
+    //     //   ..scale(scaleFactor),
+    //     // duration: Duration(milliseconds: 200),
+    //     // decoration: BoxDecoration(
+    //     //     color: Colors.white,
+    //     //     borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
+    //     // height: double.infinity,
+    //     // width: double.infinity,
+    //     child: ScaleTransition(
+    //       scale: scaleAnimations[position],
+    //       child: GestureDetector(
+    //         onTap: (){
+    //           if(isDrawerOpen){
+    //             setState(() {
+    //               isDrawerOpen=false;
+    //               _animationController.reverse();
+    //             });
+    //           }
+    //         },
+    //         child:screenShots[position],
+    //       ),
+    //     ),
+    //   );
+    //   // return Scaffold(
+    //   //   body: screenShots[position],
+    //   // );
+    // }
+    //
+    //
+    // List<Widget> finalStack(){
+    //   List<Widget> stackToReturn=[];
+    //   stackToReturn.add(DrawerScreen2(menuCallBack:(selectedIndex) {
+    //     setState(() {
+    //       //isSelected=true;
+    //       screenShots=screens.values.toList();
+    //       final selectedWidget=screenShots.removeAt(selectedIndex);
+    //       screenShots.insert(0, selectedWidget);
+    //       Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
+    //     });
+    //   },));
+    //   //stackToReturn.add(DashboardScreen());
+    //   screenShots.asMap().entries.map((e) => buildStackedScreen(e.key)).toList().reversed..forEach((element) {stackToReturn.add(element);});
+    //   return stackToReturn;
+    // }
+
+
+
+
     print(widget.accessToken);
     final String dashboardiconiamg = "assets/icons/dashboard_icon.svg";
     final Widget dashboardicon = SvgPicture.asset(
@@ -180,7 +280,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     //List Of Pages
     List pages = <Widget>[
-    isDrawerOpen?Stack(children:finalStack(),):Stack(
+    isDrawerOpen?Stack(children:finalStack(),):
+
+    Stack(
           children:[
             widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
         widget.accessToken == null ?

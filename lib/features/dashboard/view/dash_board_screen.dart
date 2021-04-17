@@ -54,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   double xOffset = 0.0;
   double yOffset = 0.0;
   double scaleFactor = 1;
-  bool isDrawerOpen = false;
+  //bool isDrawerOpen = false;
   //
   // double xOffset2 = 0.0;
   // double yOffset2 = 0.0;
@@ -135,7 +135,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
             children: <Widget>[
               Stack(
                   children: [
-                   isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
+                   widget.isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
                     Padding(
                       padding: const EdgeInsets.only(top:110.0,left: 70),
                       child: Column(
@@ -317,7 +317,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                           // //backdropEnabled: true,
                           // borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
                           decoration: BoxDecoration(
-                              borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(25)):BorderRadius.only(
+                              borderRadius: widget.isDrawerOpen?BorderRadius.all(Radius.circular(25)):BorderRadius.only(
                                   topLeft: Radius.circular(25),
                                   topRight: Radius.circular(25)),
                               color: HexColor("#FFFFFF"),

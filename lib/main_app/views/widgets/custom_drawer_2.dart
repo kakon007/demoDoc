@@ -26,7 +26,6 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
 
   List<String> menuItem=[
     "Dashboard",
-    "Find Your Doctor",
     "Appointments",
     "Prescriptions",
     "Reports",

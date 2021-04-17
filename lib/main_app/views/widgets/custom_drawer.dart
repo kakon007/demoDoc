@@ -133,7 +133,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-         widget.accessToken==null?SizedBox(height:5,):InkWell(
+         widget.accessToken==null?SizedBox():InkWell(
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob,)));
               print("Presssss");
@@ -187,8 +187,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
               ],
             ),
           ),
-          Column(
-            children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
+          Padding(
+            padding: const EdgeInsets.only(bottom:10.0),
+            child: Column(
+              children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
+            ),
           ),
 
         ],

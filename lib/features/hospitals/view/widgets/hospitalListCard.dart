@@ -21,10 +21,11 @@ class HospitalListCard extends StatelessWidget {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
+    print(cardHeight*1.5);
     return Container(
       margin: EdgeInsets.all(6),
       width: MediaQuery.of(context).size.width,
-      height:  cardHeight * 1.2,
+      height:  150,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -46,20 +47,25 @@ class HospitalListCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: height <= 600 ? 12 : 14,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
-                    SizedBox(height: 3,),
-                    Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: height <= 600 ? 9 : 10,),textAlign:TextAlign.start),
-                    SizedBox(height: 3,),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          minRadius: 3,
-                          backgroundColor: HexColor("#1EE573"),
-                        ),
-                        SizedBox(width: 3,),
-                        Text(countText,style:  GoogleFonts.poppins(fontSize: height <= 600 ? 9 : 10,),),
+                    Container(
+                        height: cardHeight*.4,
+                        child: Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: height <= 600 ? 12 : 14,fontWeight: FontWeight.bold,),textAlign:TextAlign.start)),
+                    SizedBox(height: 2,),
+                    Container(height: cardHeight*.12,child: Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: height <= 600 ? 9 : 10,),textAlign:TextAlign.start)),
+                    SizedBox(height: 2,),
+                    Container(
+                      height: cardHeight*.12,
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            minRadius: 3,
+                            backgroundColor: HexColor("#1EE573"),
+                          ),
+                          SizedBox(width: 3,),
+                          Text(countText,style:  GoogleFonts.poppins(fontSize: height <= 600 ? 9 : 10,),),
 
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(height: 10,),
                     GestureDetector(

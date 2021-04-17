@@ -34,7 +34,6 @@ void main() async{
     ChangeNotifierProvider<PrescriptionListViewModel>(create: (context) => PrescriptionListViewModel()),
 
   ];
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   FlavorConfig(
       flavor: Flavor.DEV,
       color: Colors.deepOrange,

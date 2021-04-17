@@ -147,7 +147,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                 children: [
                                   Container(
                                     height: 45.0,
-                                    width: MediaQuery.of(context).size.width*.82,
+                                    width: MediaQuery.of(context).size.width*.8,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border.all(color: HexColor(color)),
@@ -160,7 +160,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                             Padding(
                                               padding: const EdgeInsets.only(left: 15.0),
                                               child: Container(
-                                                width: MediaQuery.of(context).size.width * .77,
+                                                width: MediaQuery.of(context).size.width * .72,
                                                 child: DropdownButtonHideUnderline(
                                                   child: DropdownButton(
                                                     iconSize: 0.0,
@@ -184,7 +184,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 280.0, top: 5),
+                                              padding: const EdgeInsets.only(left: 260.0, top: 5),
                                               child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
                                             ),
                                           ],
@@ -205,7 +205,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                 children: [
                                   Container(
                                     height: 45.0,
-                                    width: MediaQuery.of(context).size.width*.82,
+                                    width: MediaQuery.of(context).size.width*.80,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border.all(color: HexColor(color)),
@@ -219,7 +219,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                               padding: const EdgeInsets.only(left: 15.0),
                                               child: Container(
                                                 width:
-                                                MediaQuery.of(context).size.width * .77,
+                                                MediaQuery.of(context).size.width * .72,
                                                 child: DropdownButtonHideUnderline(
                                                   child: DropdownButton(
                                                     iconSize: 0.0,
@@ -244,7 +244,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 280.0, top: 5),
+                                              padding: const EdgeInsets.only(left: 260.0, top: 5),
                                               child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
                                             ),
                                           ],

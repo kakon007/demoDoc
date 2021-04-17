@@ -34,8 +34,8 @@ class _AddPatientState extends State<AddPatient> {
         );
       },
       initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 6)),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
 
     if (date != null && date != pickBirthDate) {
@@ -181,7 +181,7 @@ class _AddPatientState extends State<AddPatient> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Container(
-                            width: 145,
+                            width: 120,
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
@@ -236,7 +236,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                   height: 20.0,
-                  width: MediaQuery.of(context).size.width * .2,
+                  width: MediaQuery.of(context).size.width * .23,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -294,7 +294,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .82,
+                width: MediaQuery.of(context).size.width * .8,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(color)),
@@ -307,7 +307,7 @@ class _AddPatientState extends State<AddPatient> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * .77,
+                            width: MediaQuery.of(context).size.width * .72,
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
@@ -339,7 +339,7 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 280.0, top: 5),
+                          padding: const EdgeInsets.only(left: 260.0, top: 5),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),
@@ -362,7 +362,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .82,
+                width: MediaQuery.of(context).size.width * .8,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(color)),
@@ -375,7 +375,7 @@ class _AddPatientState extends State<AddPatient> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * .77,
+                            width: MediaQuery.of(context).size.width * .72,
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
@@ -407,7 +407,7 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 280.0, top: 5),
+                          padding: EdgeInsets.only(left: 260.0, top: 5),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),

@@ -406,12 +406,6 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
         color: AppTheme.appbarPrimary,
         onPressed: () {
           vm.getSlotStatus(slotNo.toString(), widget.companyNo, widget.orgNo);
-          print(vm.slot);
-          if(vm.slotStatus== "OK") {
-           // BotToast.showText(text: "Unable to launch");
-            setState(() {
-              AppointmentScreen(ok: true,);
-            });}
           // vm.slotStatus=="OK" ? Navigator.push(context, MaterialPageRoute(builder: (context){
           //   return  MyGridView();
           // }));

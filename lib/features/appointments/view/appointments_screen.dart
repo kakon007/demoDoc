@@ -6,10 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/add_patient.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/book_appoint_for_me.dart';
+import 'package:myhealthbd_app/features/appointments/view/widgets/no_available_slots.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class AppointmentScreen extends StatefulWidget {
   String specialist;
   String name;
@@ -18,17 +20,41 @@ class AppointmentScreen extends StatefulWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
-  bool ok=false;
-  AppointmentScreen({this.name, this.designation, this.fee, this.specialist, this.companyNo, this.doctorNo, this.orgNo, this.ok});
+  bool ok = false;
+
+  AppointmentScreen(
+      {this.name,
+      this.designation,
+      this.fee,
+      this.specialist,
+      this.companyNo,
+      this.doctorNo,
+      this.orgNo,
+      this.ok});
+
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
 }
+
 class _AppointmentScreenState extends State<AppointmentScreen> {
   DateTime pickedAppointDate;
   DateTime pickedAppointDate2;
+  bool isClicked;
+
   Future<Null> selectAppointDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppTheme.appbarPrimary,
+            accentColor: AppTheme.appbarPrimary,
+            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
       initialDate: pickedAppointDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
@@ -39,41 +65,42 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       });
     }
   }
+
   int selectedCard = -1;
   var slotNo;
   bool isLoading = false;
   bool isOk;
+  bool isSelected;
   double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
-  int _crossAxisCount = 4;
+
   AvailableSlotModel slotItem;
-  var selectedPatientType= "";
-  var selectedConsultationType= "";
+  var selectedPatientType = "";
+  var selectedConsultationType = "";
   String color = "#EAEBED";
-  void startTimer() {
-    Timer.periodic(const Duration(seconds: 2), (t) {
-      if(mounted)
-        setState(() {
-          isLoading = false; //set loading to false
-        });
+
+  startTimer() {
+    Timer.periodic(const Duration(milliseconds: 1500), (t) {
+      if (mounted) setState(() {});
       t.cancel();
-      isLoading=true;//stops the timer
     });
   }
+
   @override
   void initState() {
-    isOk= false;
+    isClicked = false;
+    isOk = false;
+    isSelected = false;
     forMeBackColor = "#141D53";
     forMeTextColor = "#FFFFFF";
     forMe = true;
     addPatient = false;
     addPatientBackColor = "#00FFFFFF";
     addPatientTextColor = "#8389A9";
-    print(widget.ok);
-    startTimer();
     pickedAppointDate = DateTime.now();
     pickedAppointDate2 = DateTime.now();
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-    vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+    vm.getSlots(
+        pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
   }
 
   BorderRadiusGeometry radius = BorderRadius.only(
@@ -91,28 +118,24 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int _crossAxisCount = MediaQuery.of(context).size.height >= 700 ? 4 : 3;
     print("babababababababbabaababbababbabaa" + widget.ok.toString());
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    var height = MediaQuery.of(context).size.height;
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-    if(pickedAppointDate!=pickedAppointDate2){
-      vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+    if (pickedAppointDate != pickedAppointDate2) {
+      vm.getSlots(
+          pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       pickedAppointDate2 = pickedAppointDate;
-      Timer.periodic(const Duration(milliseconds: 1000), (t) {
-        setState(() {
-          isLoading = false; //set loading to false
-        });
-        t.cancel();
-        isLoading=true;//stops the timer
-      });
+      startTimer();
+      selectedCard = -1;
+      isSelected = false;
     }
     List<Items> list = vm.slotList;
-    var spaceBetween= SizedBox(height: 10,);
+    var spaceBetween = SizedBox(
+      height: 10,
+    );
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickedAppointDate);
     var appointmentDate = Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           child: Column(
@@ -164,44 +187,54 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         ),
       ],
     );
-    var proceedButton=      isLoading== false ? SizedBox() :    Container(
-      width: MediaQuery.of(context).size.width,
-      height: 45,
-      child: FlatButton(
-
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8)),
-        color: AppTheme.appbarPrimary,
-        onPressed: () {
-          vm.getSlotStatus(slotNo.toString(), widget.companyNo, widget.orgNo);
-          setState(() {
-            Timer.periodic(const Duration(milliseconds: 1000), (t) {
-              if(vm.slotStatus=="OK")
-              setState(() {
-                isOk = false; //set loading to false
-              });
-              t.cancel();
-              isOk=true;//stops the timer
-            });
-          });
-        },
-        textColor: Colors.white,
-        child: Text(
-          "Proceed",
-          style: GoogleFonts.poppins(
-              fontSize: height <= 600 ? 8 : 15,
-              color: Colors.white,
-              fontWeight: FontWeight.w600),
-        ),
-      ),
-    );
+    var proceedButton = vm.isLoading == true
+        ? SizedBox()
+        : Container(
+            width: MediaQuery.of(context).size.width,
+            height: 45,
+            child: AbsorbPointer(
+              absorbing: isSelected == false ? true : false,
+              child: isClicked == true
+                  ? Center(child: CircularProgressIndicator(  valueColor:
+              AlwaysStoppedAnimation<Color>(
+                  AppTheme.appbarPrimary),))
+                  : FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      color: isSelected == false
+                          ? HexColor("#969EC8")
+                          : AppTheme.appbarPrimary,
+                      onPressed: () {
+                        vm.getSlotStatus(
+                            slotNo.toString(), widget.companyNo, widget.orgNo);
+                        setState(() {
+                          isClicked = true;
+                          Timer.periodic(const Duration(milliseconds: 1000),
+                              (t) {
+                            if (vm.slotStatus == "OK")
+                              setState(() {
+                                isOk = false; //set loading to false
+                              });
+                            t.cancel();
+                            isOk = true; //stops the timer
+                          });
+                        });
+                      },
+                      textColor: Colors.white,
+                      child: Text(
+                        "Proceed",
+                        style: GoogleFonts.poppins(
+                            fontSize: height <= 600 ? 15 : 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+            ),
+          );
 
     var selectType = Container(
       height: 65.0,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: HexColor("#E9ECFE"), borderRadius: BorderRadius.circular(13)),
       child: Padding(
@@ -214,20 +247,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 decoration: BoxDecoration(
                     color: HexColor(forMeBackColor),
                     borderRadius: BorderRadius.circular(10)),
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.06,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * .4,
+                height: MediaQuery.of(context).size.height * 0.06,
+                width: MediaQuery.of(context).size.width * .4,
                 child: Center(
                     child: Text(
-                      "For Me",
-                      style: GoogleFonts.poppins(
-                          color: HexColor(forMeTextColor)),
-                    )),
+                  "For Me",
+                  style: GoogleFonts.poppins(color: HexColor(forMeTextColor)),
+                )),
               ),
               onTap: () {
                 setState(() {
@@ -251,20 +277,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   decoration: BoxDecoration(
                       color: HexColor(addPatientBackColor),
                       borderRadius: BorderRadius.circular(10)),
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.06,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * .4,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  width: MediaQuery.of(context).size.width * .4,
                   child: Center(
                       child: Text(
-                        "Add patient",
-                        style: GoogleFonts.poppins(
-                            color: HexColor(addPatientTextColor)),
-                      ))),
+                    "Add patient",
+                    style: GoogleFonts.poppins(
+                        color: HexColor(addPatientTextColor)),
+                  ))),
               onTap: () {
                 setState(() {
                   if (forMe == true) {
@@ -311,7 +331,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 children: [
                   Container(
                     height: 100,
-                    width: 120,
+                    width: 108,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
@@ -322,23 +342,37 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 20,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         widget.specialist,
-                        style: GoogleFonts.poppins(height: 1.5,
+                        style: GoogleFonts.poppins(
+                            height: 1.5,
                             color: AppTheme.appbarPrimary,
                             fontWeight: FontWeight.w600),
                       ),
-                      Text(
-                        widget.name, overflow: TextOverflow.clip, maxLines: 3,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold, fontSize: 12),
+                      Container(
+                          width: 185,
+                          child: Text(
+                            widget.name,
+                            style: GoogleFonts.poppins(
+                                fontSize: 13, fontWeight: FontWeight.w700),
+                          )),
+                      SizedBox(
+                        height: 1,
                       ),
-                      Text(widget.designation == null ? "" : widget.designation,
-                          style: GoogleFonts.poppins(height: 0.7, fontSize: 13)
+                      Container(
+                        width: 185,
+                        child: Text(
+                            widget.designation == null
+                                ? ""
+                                : widget.designation,
+                            style:
+                                GoogleFonts.poppins(height: 0.7, fontSize: 11)),
                       ),
                       SizedBox(
                         height: 3,
@@ -380,19 +414,24 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   });
                 },
               ),
-              isLoggedIn == false ? Container(
-                //margin: EdgeInsets.all(100.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
-                ),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage("assets/images/alok.png"),
-                  radius: 15.0,),
-              ) : SizedBox(),
-              SizedBox(width: 10,)
+              isLoggedIn == false
+                  ? Container(
+                      //margin: EdgeInsets.all(100.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage("assets/images/alok.png"),
+                        radius: 15.0,
+                      ),
+                    )
+                  : SizedBox(),
+              SizedBox(
+                width: 10,
+              )
             ],
             leading: IconButton(
                 icon: Icon(Icons.notes),
@@ -404,14 +443,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 90.0),
                 child: Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(25),
@@ -426,125 +459,190 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         ),
                       ]),
                   child: Padding(
-                    padding:
-                    EdgeInsets.only(left: 20.0, right: 20, top: 60),
-                    child: isOk == true ?
-                    Column(
-                      children: [
-                        selectType,
-                        forMe == true ? BookAppointForMe() : AddPatient(),
-                        // confirmBooking
-                      ],
-                    ) : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        appointmentDate,
-                        spaceBetween,
-                        Text("Available Slots",
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600)),
-                        spaceBetween,
-                        isLoading== false ? Center(child: CircularProgressIndicator()) : Expanded(
-                            child: GridView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: list.length,
-                              itemBuilder: (context, index) => GestureDetector(
-
-                                onTap: () {
-                                  setState(() {
-                                    selectedCard = index;
-                                    slotNo = vm.slotList[index].slotNo;
-                                  });
-                                },
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                            begin: Alignment.bottomRight,
-                                            stops: [
-                                              1.0,
-                                              1.0
-                                            ],
-                                            colors: [
-                                              selectedCard == index ?   HexColor("#8592E5") : HexColor("#C1C8F1"),
-                                              selectedCard == index ? HexColor("#F6F8FB") : HexColor("#FAFBFC"),
-                                            ]),
-                                        border: Border.all(
-                                          color: selectedCard == index ? HexColor("#8592E5") :  HexColor("#C1C8F1"),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: height <= 800
-                                                    ? height / 110
-                                                    : height / 65.09),
-                                            child: Center(
-                                                child: Text(
-                                                  "Serial - " + list[index].slotSl.toString(),
-                                                  style: GoogleFonts.poppins(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w600,
-                                                      color: selectedCard == index ? HexColor("#354291") :  HexColor("#999FC7")),
-                                                )),
-                                          ),
-                                          SizedBox(height: 10,),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: height <= 800
-                                                    ? height / 100
-                                                    : height / 80),
-                                            child: Center(
-                                                child: Text(
-                                                  "Time : " + DateFormat("hh:mm:ss").format(DateTime.parse(list[index].startTime.toString()).toLocal()),
-                                                  style: GoogleFonts.poppins(
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w600,
-                                                      color: Colors.white),
-                                                )),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: _crossAxisCount,
-                                crossAxisSpacing: _crossAxisSpacing,
-                                mainAxisSpacing: _mainAxisSpacing,
-                                childAspectRatio: _aspectRatio,
-                              ),
+                      padding: EdgeInsets.only(left: 20.0, right: 20, top: 60),
+                      child: isOk == true
+                          ? Column(
+                              children: [
+                                selectType,
+                                forMe == true
+                                    ? BookAppointForMe()
+                                    : AddPatient(),
+                                // confirmBooking
+                              ],
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                appointmentDate,
+                                spaceBetween,
+                                Text("Available Slots",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600)),
+                                spaceBetween,
+                                vm.isLoading == true
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                AppTheme.appbarPrimary),
+                                      ))
+                                    : Expanded(
+                                        child: vm.slotList.length == 0
+                                            ? NoAvailableSlots()
+                                            : GridView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: list.length,
+                                                itemBuilder: (context, index) =>
+                                                    GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      isSelected = true;
+                                                      selectedCard = index;
+                                                      slotNo = vm
+                                                          .slotList[index]
+                                                          .slotNo;
+                                                    });
+                                                  },
+                                                  child: Stack(
+                                                    children: [
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          gradient: LinearGradient(
+                                                              begin: Alignment
+                                                                  .bottomRight,
+                                                              stops: [
+                                                                1.0,
+                                                                1.0
+                                                              ],
+                                                              colors: [
+                                                                selectedCard ==
+                                                                        index
+                                                                    ? HexColor(
+                                                                        "#8592E5")
+                                                                    : HexColor(
+                                                                        "#C1C8F1"),
+                                                                selectedCard ==
+                                                                        index
+                                                                    ? HexColor(
+                                                                        "#F6F8FB")
+                                                                    : HexColor(
+                                                                        "#FAFBFC"),
+                                                              ]),
+                                                          border: Border.all(
+                                                            color: selectedCard ==
+                                                                    index
+                                                                ? HexColor(
+                                                                    "#8592E5")
+                                                                : HexColor(
+                                                                    "#C1C8F1"),
+                                                            width: 1,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets.only(
+                                                                  top: height <= 800
+                                                                      ? height /
+                                                                          110
+                                                                      : height /
+                                                                          65.09),
+                                                              child: Center(
+                                                                  child: Text(
+                                                                "Serial - " +
+                                                                    list[index]
+                                                                        .slotSl
+                                                                        .toString(),
+                                                                style: GoogleFonts.poppins(
+                                                                    fontSize:
+                                                                        MediaQuery.of(context).size.height >= 700
+                                                                            ? 14
+                                                                            : 12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: selectedCard ==
+                                                                            index
+                                                                        ? HexColor(
+                                                                            "#354291")
+                                                                        : HexColor(
+                                                                            "#999FC7")),
+                                                              )),
+                                                            ),
+                                                            SizedBox(
+                                                                height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height >=
+                                                                        700
+                                                                    ? 10
+                                                                    : 5),
+                                                            Padding(
+                                                              padding: EdgeInsets.only(
+                                                                  top: height <= 800
+                                                                      ? height /
+                                                                          100
+                                                                      : height /
+                                                                          80),
+                                                              child: Center(
+                                                                  child: Text(
+                                                                "Time : " +
+                                                                    DateFormat("hh:mm:ss").format(DateTime.parse(list[index]
+                                                                            .startTime
+                                                                            .toString())
+                                                                        .toLocal()),
+                                                                style: GoogleFonts.poppins(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: Colors
+                                                                        .white),
+                                                              )),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                gridDelegate:
+                                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount:
+                                                      _crossAxisCount,
+                                                  crossAxisSpacing:
+                                                      _crossAxisSpacing,
+                                                  mainAxisSpacing:
+                                                      _mainAxisSpacing,
+                                                  childAspectRatio:
+                                                      _aspectRatio,
+                                                ),
+                                              )),
+                                //  AvailableSlots(selectDate: _formatDate,doctorNo: widget.doctorNo, orgNo: widget.orgNo,companyNo: widget.companyNo,),
+                                spaceBetween,
+                                vm.slotList.length == 0
+                                    ? SizedBox()
+                                    : proceedButton,
+                                spaceBetween,
+                              ],
                             )),
-                        //  AvailableSlots(selectDate: _formatDate,doctorNo: widget.doctorNo, orgNo: widget.orgNo,companyNo: widget.companyNo,),
-                        spaceBetween,
-                        vm.slotList.length==0? SizedBox() : proceedButton,
-                        spaceBetween,
-                      ],
-                    )
-                  ),
                 ),
               ),
             ),
             doctorCard,
           ],
-        )
-    );
+        ));
   }
 }
-
-
-
-
-
 
 //
 // import 'dart:convert';

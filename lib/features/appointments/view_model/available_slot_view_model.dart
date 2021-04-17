@@ -61,13 +61,11 @@ class AvailableSlotsViewModel extends ChangeNotifier{
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
+  bool _isLoading;
 
   Future<AvailableSlotModel> getSlots(DateTime pickedAppointDate, String companyNo, String docotrNo, String orgNo) async {
-
+     _isLoading= true;
     print(pickedAppointDate);
-    print(companyNo);
-    print(docotrNo);
-    print(orgNo);
     var res = await AvailableSlotsRepository().fetchSlotInfo(pickedAppointDate, companyNo, docotrNo, orgNo);
     slotList.clear();
     _slots.clear();
@@ -80,7 +78,7 @@ class AvailableSlotsViewModel extends ChangeNotifier{
     }, (r) {
       _isFetchingMoreData = true;
       _slots.addAll(r.slotList);
-      //print(_slots);
+      _isLoading= false;
       notifyListeners();
     });
   }
@@ -127,7 +125,7 @@ class AvailableSlotsViewModel extends ChangeNotifier{
 
   bool get isFetchingMoreData => _isFetchingMoreData;
 
-
+  bool get isLoading => _isLoading;
   bool get shouldShowPageLoader =>
       _isFetchingData && _slots.length == 0;
   String  get slotStatus =>   slot;

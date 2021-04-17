@@ -10,9 +10,11 @@ import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.da
 
 
 
+// ignore: must_be_immutable
 class DrawerScreen extends StatefulWidget {
   String accessToken;
-  DrawerScreen({this.accessToken});
+  final Function(int) menuCallBack;
+  DrawerScreen({@required this.accessToken,@required this.menuCallBack});
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -26,7 +28,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
   List<String> menuItem=[
     "Dashboard",
-    "Find Your Doctor",
     "Appointments",
     "Prescriptions",
     "Reports",
@@ -45,6 +46,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       onTap: (){
         setState(() {
           selectedMenuIndex=index;
+          widget.menuCallBack(index);
         });
       },
       child: Padding(
@@ -98,18 +100,18 @@ class _DrawerScreenState extends State<DrawerScreen> {
     var response = await client.post(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonMap = json.decode(response.body);
-      print("Body"+jsonMap.toString());
+      //print("Body"+jsonMap.toString());
       //data = jsonMap["items"];
       FindHospitalNumberModel data2 = findHospitalNumberModelFromJson(response.body) ;
       //Obj odj=Obj.fromJson();
       setState(() {
-        fName=data2.obj.fname;
-        phoneNumber=data2.obj.phoneMobile;
-        address=data2.obj.address;
-        dob=data2.obj.dob;
+        fName=data2?.obj?.fname;
+        phoneNumber=data2?.obj?.phoneMobile;
+        address=data2?.obj?.address;
+        dob=data2?.obj?.dob;
       });
-      print('Data:: ' + data2.obj.fname);
-      print('DataList:: ' + fName.toString());
+      // print('Data:: ' + data2.obj.fname);
+      // print('DataList:: ' + fName.toString());
       return data2;
       //print(data[0]['companySlogan']);
     }else {
@@ -131,7 +133,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
+         widget.accessToken==null?SizedBox(height:5,):InkWell(
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob,)));
               print("Presssss");

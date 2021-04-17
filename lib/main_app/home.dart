@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     scaleAnimation=Tween<double>(begin: 1.0,end:0.7).animate(_animationController);
     scaleAnimations=[
     Tween<double>(begin: 1.0,end:0.7).animate(_animationController),
-    Tween<double>(begin: 1.0,end:0.7).animate(_animationController),
+    Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
     Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
     Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
     Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
@@ -158,13 +158,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       2: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
       3: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
       4: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
-      5:Container(),
+      5:SignInForPP(),
       6:NotificationScreen(),
-      7:Container(),
-      8:Container(),
+      7:SignInForPP(),
+      8:SignInForPP(),
       9:SwitchAccount(),
     };
+
     screenShots=screens.values.toList();
+
     Widget buildStackedScreen(int position){
       var deviceWidth=MediaQuery.of(context).size.width;
       return AnimatedPositioned(
@@ -173,14 +175,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         left:isDrawerOpen?deviceWidth*0.50:0,
         right:isDrawerOpen?deviceWidth*-0.45:0,
         bottom: 0,
-        // transform: Matrix4.translationValues(xOffset, yOffset, 0)
-        //   ..scale(scaleFactor),
-        // duration: Duration(milliseconds: 200),
-        // decoration: BoxDecoration(
-        //     color: Colors.white,
-        //     borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
-        // height: double.infinity,
-        // width: double.infinity,
         child: ScaleTransition(
           scale: scaleAnimations[position],
           child: GestureDetector(
@@ -192,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 });
               }
             },
-            child:screenShots[position],
+            child:AbsorbPointer(absorbing: isDrawerOpen,child: screenShots[position]),
           ),
         ),
       );
@@ -204,7 +198,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     List<Widget> finalStack(){
       List<Widget> stackToReturn=[];
-      stackToReturn.add(DrawerScreen2(menuCallBack:(selectedIndex) {
+      stackToReturn.add(
+      //     widget.accessToken==null?DrawerScreen2(menuCallBack:(selectedIndex) {
+      //   setState(() {
+      //     //isSelected=true;
+      //     screenShots=screens.values.toList();
+      //     final selectedWidget=screenShots.removeAt(selectedIndex);
+      //     screenShots.insert(0, selectedWidget);
+      //     // ignore: unnecessary_statements
+      //     selectedIndex==0?null:
+      //     Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
+      //   });
+      // },):
+          DrawerScreen(menuCallBack:(selectedIndex) {
         setState(() {
           //isSelected=true;
           screenShots=screens.values.toList();
@@ -214,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           selectedIndex==0?null:
           Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
         });
-      },));
+      },accessToken: widget.accessToken,));
       //stackToReturn.add(DashboardScreen());
       screenShots.asMap().entries.map((e) => buildStackedScreen(e.key)).toList().reversed..forEach((element) {stackToReturn.add(element);});
       return stackToReturn;
@@ -272,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     Stack(
           children:[
             widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
-        widget.accessToken == null ?
+
     AnimatedPositioned(
     duration: duration,
     top: 0,
@@ -307,8 +313,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,),
     ),
     ),
-    ):AfterSignIn()
-          ]),
+    )]),
     //   Stack(
     //       children: [
     //         widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),

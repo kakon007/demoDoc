@@ -24,6 +24,8 @@ import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
 
 class PrescriptionListScreen extends StatefulWidget {
+  // final Function menuCallBack;
+  // bool isDrawerOpen;
   String accessToken;
   PrescriptionListScreen({this.accessToken});
   @override
@@ -442,21 +444,28 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
             },
           )
         ],
-        leading: new IconButton(
-            icon: new Icon(Icons.notes),
-            onPressed: () => _scaffoldKey.currentState.openDrawer()),
+        // leading: new IconButton(
+        //     icon: new Icon(Icons.notes),
+        //     onPressed: () => _scaffoldKey.currentState.openDrawer()),
+        // leading: Container(
+        //     child:  IconButton(
+        //         icon: Icon(Icons.notes),
+        //         onPressed: () {
+        //           widget.menuCallBack();
+        //         })
+        // ),
       ),
-      drawer: Drawer(
-        child: ListView(children: [
-          RaisedButton(onPressed:(){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> SwitchAccount()));
-          },
-            child: Text("Switch Account", style: GoogleFonts.poppins(
-            ),),
-
-          )
-        ],),
-      ),
+      // drawer: Drawer(
+      //   child: ListView(children: [
+      //     RaisedButton(onPressed:(){
+      //       Navigator.push(context, MaterialPageRoute(builder: (context)=> SwitchAccount()));
+      //     },
+      //       child: Text("Switch Account", style: GoogleFonts.poppins(
+      //       ),),
+      //
+      //     )
+      //   ],),
+      // ),
       body: DefaultTabController(
         length: 3,
         child: Column(
@@ -527,7 +536,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 shrinkWrap: true,
                                 itemCount:lengthofPrescriptionList,
                                 itemBuilder: (BuildContext context, int index) {
-                                  print("LIIIISSSYYSY:::" + list[index].consultationId);
+                                  //print("LIIIISSSYYSY:::" + list[index].consultationId);
                                   return MultiSelectItem(
                                     isSelecting: controller.isSelecting,
                                     onSelected: () {

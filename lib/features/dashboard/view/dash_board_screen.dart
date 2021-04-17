@@ -4,18 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-//import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
-import 'package:myhealthbd_app/features/constant.dart';
-import 'package:myhealthbd_app/features/custom_dialog_box.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
-
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'as hos;
 import 'package:myhealthbd_app/features/news/model/news_model.dart';
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
-import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -105,20 +100,20 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     );
     return Stack(
       children: [
-        // Padding(
-        //   padding: const EdgeInsets.only(left:230.0,top: 60),
-        //   child: AnimatedContainer(
-        //     transform: Matrix4.translationValues(-0.5, yOffset, 0)
-        //       ..scale(0.7),
-        //     duration: Duration(milliseconds: 200),
-        //     decoration: BoxDecoration(
-        //         color: Colors.grey.withOpacity(0.3),
-        //         borderRadius: BorderRadius.all(Radius.circular(30))),
-        //     height: double.infinity,
-        //     width: double.infinity,
-        //     child: Container(),
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.only(left:230.0,top: 60),
+          child: AnimatedContainer(
+            transform: Matrix4.translationValues(-0.5, yOffset, 0)
+              ..scale(0.7),
+            duration: Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.3),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            height: double.infinity,
+            width: double.infinity,
+            child: Container(),
+          ),
+        ),
 
         // AnimatedContainer(
         //   transform: Matrix4.translationValues(xOffset, yOffset, 0)
@@ -551,7 +546,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
 class DateUtil {
   static const DATE_FORMAT = 'yyyy-MM-dd';
   String formattedDate(DateTime dateTime) {
-    print('dateTime ($dateTime)');
+    //print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

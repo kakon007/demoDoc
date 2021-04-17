@@ -210,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       //     Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
       //   });
       // },):
-          DrawerScreen(menuCallBack:(selectedIndex) {
+          DrawerScreen(accessToken: widget.accessToken,menuCallBack:(selectedIndex) {
         setState(() {
           //isSelected=true;
           screenShots=screens.values.toList();
@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           selectedIndex==0?null:
           Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
         });
-      },accessToken: widget.accessToken,));
+      },));
       //stackToReturn.add(DashboardScreen());
       screenShots.asMap().entries.map((e) => buildStackedScreen(e.key)).toList().reversed..forEach((element) {stackToReturn.add(element);});
       return stackToReturn;
@@ -320,7 +320,49 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //         DashboardScreen(accessToken: widget.accessToken,) ]),
       widget.accessToken==null?SignInPrompt():GetAppointment(),
       HospitalScreen(),
+      // isDrawerOpen?Stack(children:finalStack(),):
+      // Stack(
+      //     children:[
+      //       widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
+      //
+      //       AnimatedPositioned(
+      //         duration: duration,
+      //         top: 0,
+      //         left:isDrawerOpen?deviceWidth*0.50:0,
+      //         right:isDrawerOpen?deviceWidth*-0.45:0,
+      //         bottom: 0,
+      //         // transform: Matrix4.translationValues(xOffset, yOffset, 0)
+      //         //   ..scale(scaleFactor),
+      //         // duration: Duration(milliseconds: 200),
+      //         // decoration: BoxDecoration(
+      //         //     color: Colors.white,
+      //         //     borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
+      //         // height: double.infinity,
+      //         // width: double.infinity,
+      //         child: ScaleTransition(
+      //           scale: scaleAnimation,
+      //           child: GestureDetector(
+      //             onTap: (){
+      //               if(isDrawerOpen){
+      //                 setState(() {
+      //                   isDrawerOpen=false;
+      //                   _animationController.reverse();
+      //                 });
+      //               }
+      //             },
+      //             child: widget.accessToken==null?SignInForPP():PrescriptionListScreen(menuCallBack: (){
+      //               setState(() {
+      //                 isDrawerOpen=true;
+      //                 _animationController.forward();
+      //                 print("Heeoollo");
+      //               });
+      //             },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,),
+      //           ),
+      //         ),
+      //       )]),
+
       widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
+
     ];
 
     //BottomNavBar

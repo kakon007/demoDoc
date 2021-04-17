@@ -13,6 +13,7 @@ import 'package:myhealthbd_app/features/hospitals/repositories/hospital_list_rep
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -130,6 +131,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     Tween<double>(begin: 1.0,end:0.7).animate(_animationController),
     Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
     Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
+    Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
+    Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
+    Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
+    Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
+    Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
+    Tween<double>(begin: 1.0,end:0.5).animate(_animationController),
     ];
     //_animationController.forward();
     //screenShots=screens.values.toList();
@@ -147,9 +154,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,),
-      1: FindYourDoctorScreen('','','','','','',''),
+      1: widget.accessToken==null?SignInPrompt():GetAppointment(),
       2: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
-      3: GetAppointment(),
+      3: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
+      4: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
+      5:Container(),
+      6:NotificationScreen(),
+      7:Container(),
+      8:Container(),
+      9:SwitchAccount(),
     };
     screenShots=screens.values.toList();
     Widget buildStackedScreen(int position){
@@ -197,7 +210,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           screenShots=screens.values.toList();
           final selectedWidget=screenShots.removeAt(selectedIndex);
           screenShots.insert(0, selectedWidget);
-          selectedIndex==0?"":
+          // ignore: unnecessary_statements
+          selectedIndex==0?null:
           Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
         });
       },));

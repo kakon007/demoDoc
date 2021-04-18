@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../get_appointment_screen.dart';
+import 'views/widgets/default_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   String accessToken;
@@ -158,10 +159,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       2: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
       3: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
       4: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
-      5:SignInForPP(),
+      5:DefaultScreen(),
       6:NotificationScreen(),
-      7:SignInForPP(),
-      8:SignInForPP(),
+      7:DefaultScreen(),
+      8:DefaultScreen(),
       9:SwitchAccount(),
     };
 

@@ -498,7 +498,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                               children: [
                                                 ...List.generate(
                                                   lengthofVideoList,
-                                                      (i) => CustomCardVideo(list3[i].snippet.thumbnails.standard.url,list3[i].snippet.title,''),
+                                                      (i) => CustomCardVideo(list3[i].snippet.thumbnails.standard.url,list3[i].snippet.title,list3[i].snippet.resourceId.videoId),
                                                 ),
                                               ],
                                             ),

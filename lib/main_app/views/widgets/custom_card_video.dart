@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:myhealthbd_app/features/videos/view/video_player_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 // ignore: must_be_immutable
 class CustomCardVideo extends StatefulWidget {
   String image;
   String title;
-  String urls;
-  CustomCardVideo(this.image,this.title,this.urls);
+  String videoId;
+  CustomCardVideo(this.image,this.title,this.videoId);
   @override
   _CustomCardVideoState createState() => _CustomCardVideoState();
 }
@@ -68,10 +70,13 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
                     SizedBox(height: 10,),
                     InkWell(
                       onTap: (){
-                        // if (url != null) {
-                        //   if (url.isNotEmpty)
-                        //     UrlLauncherHelper.launchUrl(url);
-                        // }
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: VideoPlayerScreen(widget.videoId,widget.title),
+                          ),
+                        );
                       },
                       child: Material(
                         elevation: 0  ,

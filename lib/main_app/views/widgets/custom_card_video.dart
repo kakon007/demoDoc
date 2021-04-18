@@ -28,14 +28,17 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  // height: 100,
-                  // width: 90,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+                  height: 120,
+                  width: 90,
+                  // decoration: BoxDecoration(
+                  //   borderRadius: BorderRadius.circular(30),
+                  // ),
                   child:
-                   CachedNetworkImage(
-                     imageUrl: widget.image,
+                   ClipRRect(
+                     borderRadius: BorderRadius.all(Radius.circular(15)),
+                     child: CachedNetworkImage(
+                       imageUrl: widget.image,
+                     ),
                    )
               ),
             ),

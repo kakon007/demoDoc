@@ -261,6 +261,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         // ),
                         leading: Container(
                           child: widget.isDrawerOpen?IconButton(
+                            iconSize: 35,
                               icon: Icon(Icons.arrow_back),
                               onPressed: () {
                                widget.menuCallBack();

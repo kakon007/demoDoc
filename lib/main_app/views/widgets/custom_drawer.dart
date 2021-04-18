@@ -127,75 +127,103 @@ class _DrawerScreenState extends State<DrawerScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 60,bottom: 20),
-      color: HexColor('#141D53'),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-         widget.accessToken==null?SizedBox():InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob,)));
-              print("Presssss");
-            },
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: CircleAvatar(
-                    radius: 33,
-                    backgroundColor: Colors.white,
+    return Stack(
+      children:[
+
+        Container(
+        padding: EdgeInsets.only(top: 60,bottom: 20),
+        color: HexColor('#141D53'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+           widget.accessToken==null?SizedBox():InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob,)));
+                print("Presssss");
+              },
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
                     child: CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/proimg.png'),
-                      radius: 30,
+                      radius: 33,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/proimg.png'),
+                        radius: 30,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          fName,
-                          style: GoogleFonts.roboto(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white),
-                        ),
-                        SizedBox(width: 80,),
-                        Icon(Icons.close,color: Colors.white,size: 18,)
-                      ],
-                    ),
-                    SizedBox(height: 5,),
-                    Text("Mirpur,Dhaka", style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
-                    SizedBox(height: 8,),
-                    Container(
-                      width: 120,
-                      height: 25,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: HexColor('#8592E5')),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Center(child: Text("Update My Profile",style:  GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 8),)),
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom:10.0),
-            child: Column(
-              children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
-            ),
-          ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          FutureBuilder(
+                            future: fetchUserDetails(),
+                            builder: (c,snapshot){
+                              if(snapshot.hasData){
+                                return Text(
+                                  fName,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white),
+                                );
+                              }else{
+                                return CircularProgressIndicator();
+                              }
 
-        ],
+                            },
+                          ),
+                          SizedBox(width: 80,),
+                          //Icon(Icons.close,color: Colors.white,size: 18,)
+                        ],
+                      ),
+                      SizedBox(height: 5,),
+                      Text("Mirpur,Dhaka", style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
+                      SizedBox(height: 8,),
+                      Container(
+                        width: 120,
+                        height: 25,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: HexColor('#8592E5')),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Center(child: Text("Update My Profile",style:  GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 8),)),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(top:40.0),
+                  child: Column(
+                    children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
+
+        Padding(
+          padding: const EdgeInsets.only(top:150.0,left: 210),
+          child: Container(
+            height:450,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.3),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+          ),
+        ),],
     );
   }
 }

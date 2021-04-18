@@ -583,31 +583,28 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                               ),
                                               child: Row(
                                                 children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left:10.0),
+                                                  CircleAvatar(
+                                                    radius: 31,
+                                                    backgroundColor: HexColor('#354291').withOpacity(0.2),
                                                     child: CircleAvatar(
-                                                      radius: 31,
-                                                      backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                      radius: 30,
+                                                      backgroundColor: Colors.white,
                                                       child: CircleAvatar(
-                                                        radius: 30,
-                                                        backgroundColor: Colors.white,
-                                                        child: CircleAvatar(
-                                                          backgroundImage: AssetImage('assets/images/proimg.png'),
-                                                          radius: 28,
-                                                        ),
+                                                        backgroundImage: AssetImage('assets/images/proimg.png'),
+                                                        radius: 28,
                                                       ),
                                                     ),
                                                   ),
                                                   //SizedBox(width: 5,),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         SizedBox(height: 8,),
                                                         Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
                                                         Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                        SizedBox(height: 5,),
+                                                        SizedBox(height: 8,),
                                                         Container(width:200,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
                                                         Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
                                                       ],

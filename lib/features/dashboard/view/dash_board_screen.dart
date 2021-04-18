@@ -260,10 +260,14 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         //       }),
                         // ),
                         leading: Container(
-                          child:  IconButton(
-                              icon: Icon(Icons.notes),
+                          child: widget.isDrawerOpen?IconButton(
+                              icon: Icon(Icons.arrow_back),
                               onPressed: () {
                                widget.menuCallBack();
+                              }):IconButton(
+                              icon: Icon(Icons.notes),
+                              onPressed: () {
+                                widget.menuCallBack();
                               })
 
                         ),

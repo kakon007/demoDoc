@@ -10,7 +10,8 @@ class CustomCardVideo extends StatefulWidget {
   String image;
   String title;
   String videoId;
-  CustomCardVideo(this.image,this.title,this.videoId);
+  String description;
+  CustomCardVideo(this.image,this.title,this.videoId,this.description);
   @override
   _CustomCardVideoState createState() => _CustomCardVideoState();
 }
@@ -74,7 +75,7 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
                           context,
                           PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: VideoPlayerScreen(widget.videoId,widget.title),
+                            child: VideoPlayerScreen(widget.videoId,widget.title,widget.description),
                           ),
                         );
                       },

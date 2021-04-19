@@ -67,10 +67,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   int selectedCard = -1;
+  bool isSelected;
   var slotNo;
   bool isLoading = false;
   bool isOk;
-  bool isSelected;
   double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
 
   AvailableSlotModel slotItem;
@@ -79,7 +79,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   String color = "#EAEBED";
 
   startTimer() {
-    Timer.periodic(const Duration(milliseconds: 1500), (t) {
+    Timer.periodic(const Duration(milliseconds: 2000), (t) {
       if (mounted) setState(() {});
       t.cancel();
     });
@@ -101,6 +101,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
     vm.getSlots(
         pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+    print("Shakil" + vm.slotList.length.toString());
   }
 
   BorderRadiusGeometry radius = BorderRadius.only(
@@ -131,6 +132,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       isSelected = false;
     }
     List<Items> list = vm.slotList;
+    print("Shakil" + vm.slotList.length.toString());
     var spaceBetween = SizedBox(
       height: 10,
     );
@@ -209,7 +211,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             slotNo.toString(), widget.companyNo, widget.orgNo);
                         setState(() {
                           isClicked = true;
-                          Timer.periodic(const Duration(milliseconds: 1000),
+                          Timer.periodic(const Duration(milliseconds: 2000),
                               (t) {
                             if (vm.slotStatus == "OK")
                               setState(() {
@@ -465,8 +467,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               children: [
                                 selectType,
                                 forMe == true
-                                    ? BookAppointForMe()
-                                    : AddPatient(),
+                                    ? BookAppointForMe(orgNo: widget.orgNo,companyNo: widget.companyNo,doctorNo: widget.doctorNo)
+                                    : AddPatient(doctorNo: widget.doctorNo,companyNo: widget.companyNo, orgNo: widget.orgNo,),
                                 // confirmBooking
                               ],
                             )

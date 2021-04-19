@@ -328,7 +328,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
     if(pickedAppointDate!=pickedAppointDate2){
       vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       pickedAppointDate2 = pickedAppointDate;
-        Timer.periodic(const Duration(milliseconds: 1000), (t) {
+        Timer.periodic(const Duration(milliseconds: 2000), (t) {
           setState(() {
             isLoading = false; //set loading to false
           });

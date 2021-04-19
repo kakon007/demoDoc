@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/appointments/view_model/appoinment_fee_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 //var accessToken;
 void main() async{
@@ -32,7 +33,7 @@ void main() async{
     ChangeNotifierProvider<AvailableSlotsViewModel>(
         create: (context)=>AvailableSlotsViewModel()),
     ChangeNotifierProvider<PrescriptionListViewModel>(create: (context) => PrescriptionListViewModel()),
-
+    ChangeNotifierProvider< AppointFeeViewModel>(create: (context) =>  AppointFeeViewModel()),
   ];
   FlavorConfig(
       flavor: Flavor.DEV,

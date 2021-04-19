@@ -86,6 +86,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     _scrollController2 = ScrollController();
     var vm = Provider.of<DoctorListViewModel>(context, listen: false);
     vm.getDoctor(widget.orgNo, widget.companyNo);
+    print("IShraak" + vm.doctorList.length.toString());
     // TODO: implement initState
     super.initState();
     _memoizer = AsyncMemoizer();

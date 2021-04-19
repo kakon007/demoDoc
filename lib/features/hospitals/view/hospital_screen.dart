@@ -15,7 +15,6 @@ class HospitalScreen extends StatefulWidget {
 }
 
 class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
-  List<Item> dataList = List<Item>();
   var accessToken;
   ScrollController _scrollController;
 
@@ -24,6 +23,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     _scrollController = ScrollController();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
+    print(vm.hospitalList.length);
   }
 
   @override
@@ -85,7 +85,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             searchField,
-            vm.isLoading== true? CircularProgressIndicator():  Expanded(
+            vm.isLoading== true? Center(child: CircularProgressIndicator()):  Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: ListView.builder(

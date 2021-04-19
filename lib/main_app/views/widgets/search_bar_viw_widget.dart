@@ -28,30 +28,53 @@ class SearchBarViewWidget extends StatelessWidget {
       ),
       child: InkWell(
         onTap: onTap,
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 8,
-            ),
-            Text(
-              "  Type hospital / Diagnosis / Doctor Chamber",
-              style: TextStyle(
-                color: Colors.grey[400],
-                fontSize: deviceWidth>=400?15:12,
+        // child: Row(
+        //   children: <Widget>[
+        //     SizedBox(
+        //       width: 8,
+        //     ),
+        //     Text(
+        //       "  Type hospital / Diagnosis / Doctor Chamber",
+        //       style: TextStyle(
+        //         color: Colors.grey[400],
+        //         fontSize: deviceWidth>=400?15:12,
+        //       ),
+        //     ),
+        //     Spacer(),
+        //     Padding(
+        //       padding: const EdgeInsets.only(right:8.0),
+        //       child: Icon(
+        //         Icons.search,
+        //         color: Colors.grey,
+        //         size: 28,
+        //       ),
+        //     ),
+        //
+        //   ],
+        // ),
+        child:
+        TextFormField(
+          cursorColor: Colors.black,
+          //keyboardType: ,
+          decoration: new InputDecoration(
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              contentPadding:
+              EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+              hintText: " Type hospital / Diagnosis / Doctor Chamber",
+              helperStyle:TextStyle(
+            color: Colors.grey[400],
+            fontSize: deviceWidth>=400?15:12,
               ),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(right:8.0),
-              child: Icon(
-                Icons.search,
-                color: Colors.grey,
-                size: 28,
+              suffixIcon: Padding(
+                padding: const EdgeInsets.only(right:10.0),
+                child: Icon(Icons.search_sharp,color: Colors.grey,),
               ),
-            ),
-
-          ],
-        ),
+          ),
+        )
       ),
     );
   }

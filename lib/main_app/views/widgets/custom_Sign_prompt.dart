@@ -19,7 +19,9 @@ class _SignInPromptState extends State<SignInPrompt> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Appointments'),
+          //title: Text('Appointments'),
+          backgroundColor: HexColor('#354291'),
+          title: Text('Appointments',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
         ),
         body:  Center(child: Container(child: GestureDetector(
           onTap: (){

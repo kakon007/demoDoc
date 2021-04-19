@@ -5,11 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:http/http.dart' as http;
 class BookAppointForMe extends StatefulWidget {
+  String companyNo;
+  String orgNo;
+  String doctorNo;
+  BookAppointForMe({this.orgNo, this.companyNo, this.doctorNo});
   @override
   _BookAppointForMeState createState() => _BookAppointForMeState();
 }
@@ -37,6 +42,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
       lastDate: DateTime.now().add(Duration(days: 6)),
     );
 
+
     if (date != null && date != pickBirthDate) {
       setState(() {
         pickBirthDate = date;
@@ -51,7 +57,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
     // TODO: implement initState
     super.initState();
     fetchPatientType();
-    fetchConsultType();
+   // fetchConsultType();
     pickBirthDate = DateTime.now();
     selectedPatientType= "";
     selectedConsultationType= "";
@@ -76,27 +82,51 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
       return null;
     }
   }
-  Future<ConsultTypeModel> fetchConsultType() async {
+  Future<ConsultTypeModel> fetchConsultType(String _selectedType, String companyNo, String orgNo) async {
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findConTypeList?doctorNo=2000011&patTypeNo=$_selectedType&companyNo=2&ogNo=2";
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findConTypeList?doctorNo=2000011&patTypeNo=$_selectedType&companyNo=$companyNo&ogNo=$orgNo";
     var client = http.Client();
     var response = await client.get(url);
-
+    consultTypeList.clear();
     if (response.statusCode == 200) {
-      ConsultTypeModel data = consultTypeModelFromJson(response.body) ;
+      ConsultTypeModel data = consultTypeModelFromJson(response.body);
       setState(() {
         data.consultType.forEach((element) {
           consultTypeList.add(element);
         });
       });
-      print('Data:: ' + data.consultType[0].name);
+      // print('Data:: ' + data.consultType[0].name);
       return data;
-    }else {
+    } else {
       return null;
     }
   }
+  Future<PatientFee> fetchFee(String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo) async {
+    var url =
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/getConsultationFee";
+    final http.Response response = await http.post(url,body: jsonEncode(<String, String>{
+      "companyNo": companyNo,
+      "conTypeNo": conTypeNo,
+      "doctorNo": doctorNo,
+      "ogNo": orgNo,
+      "patTypeNo": patTypeNo
+    }),);
+    print(response.body);
+    if (response.statusCode == 200) {
+      PatientFee data = patientFeeFromJson(response.body);
+      setState(() {
+        fee = data.obj.toString();
+      });
+      // print('Data:: ' + data.consultType[0].name);
+      return data;
+    } else {
+      return null;
+    }
+  }
+  String fee;
   @override
   Widget build(BuildContext context) {
+
     var height = MediaQuery.of(context).size.height;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
@@ -147,7 +177,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                 children: [
                                   Container(
                                     height: 45.0,
-                                    width: MediaQuery.of(context).size.width*.82,
+                                    width: MediaQuery.of(context).size.width*.8,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border.all(color: HexColor(color)),
@@ -160,7 +190,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                             Padding(
                                               padding: const EdgeInsets.only(left: 15.0),
                                               child: Container(
-                                                width: MediaQuery.of(context).size.width * .77,
+                                                width: MediaQuery.of(context).size.width * .72,
                                                 child: DropdownButtonHideUnderline(
                                                   child: DropdownButton(
                                                     iconSize: 0.0,
@@ -170,7 +200,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                       setState(() {
                                                         _selectedType = newValue;
                                                         selectedPatientType= newValue;
-                                                        fetchConsultType();
+                                                        fetchConsultType(_selectedType, widget.companyNo, widget.orgNo);
                                                       });
                                                     },
                                                     items: patientTypeList.map((patNo) {
@@ -184,7 +214,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 280.0, top: 5),
+                                              padding: const EdgeInsets.only(left: 260.0, top: 5),
                                               child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
                                             ),
                                           ],
@@ -205,7 +235,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                 children: [
                                   Container(
                                     height: 45.0,
-                                    width: MediaQuery.of(context).size.width*.82,
+                                    width: MediaQuery.of(context).size.width*.80,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border.all(color: HexColor(color)),
@@ -219,7 +249,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                               padding: const EdgeInsets.only(left: 15.0),
                                               child: Container(
                                                 width:
-                                                MediaQuery.of(context).size.width * .77,
+                                                MediaQuery.of(context).size.width * .72,
                                                 child: DropdownButtonHideUnderline(
                                                   child: DropdownButton(
                                                     iconSize: 0.0,
@@ -230,7 +260,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                         //print(newValue);
                                                         _selectedConsultation = newValue;
                                                         selectedConsultationType= newValue;
-
+                                                        fetchFee(widget.companyNo, _selectedConsultation, widget.doctorNo, widget.orgNo, _selectedType);
                                                       });
                                                     },
                                                     items: consultTypeList.map((consNo) {
@@ -244,7 +274,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 280.0, top: 5),
+                                              padding: const EdgeInsets.only(left: 260.0, top: 5),
                                               child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
                                             ),
                                           ],
@@ -279,7 +309,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      selectedPatientType!= "" && selectedConsultationType!= ""  ? "500" :"",
+                                      selectedPatientType!= "" && selectedConsultationType!= ""  ? fee==null? "": fee :"",
                                       style: GoogleFonts.poppins(
                                           color: AppTheme.appbarPrimary,
                                           fontSize: 30,

@@ -31,7 +31,6 @@ class SignUpFormField extends StatelessWidget {
   final Widget suffixIcon;
   final double borderRadius;
   final bool obSecure;
-
   const SignUpFormField({
     this.readOnly = false,
     this.enabled = true,
@@ -92,49 +91,52 @@ class SignUpFormField extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          Container(
-            child: TextFormField(
-              obscureText: obSecure,
-              key: textFieldKey,
-              onTap: onTap,
-              readOnly: readOnly,
-              enabled: enabled,
-              maxLength: maxLength,
-              minLines: minLines,
-              onChanged: onChanged,
-              onFieldSubmitted: onFieldSubmitted,
-              autofocus: autofocus,
-              focusNode: focusNode,
-              maxLines: maxLines,
-              autovalidate: autovalidate,
-              keyboardType: keyboardType,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-              controller: controller,
-              textInputAction: textInputAction,
-              decoration: new InputDecoration(
-                suffixIcon: suffixIcon,
-                prefixIcon: prefixIcon,
-                prefix: prefix,
-                border: InputBorder.none,
-                hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                ),
-                contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                ),
-                hintText: hintText,
+          TextFormField(
+            obscureText: obSecure,
+            key: textFieldKey,
+            onTap: onTap,
+            readOnly: readOnly,
+            enabled: enabled,
+            maxLength: maxLength,
+            minLines: minLines,
+            onChanged: onChanged,
+            onFieldSubmitted: onFieldSubmitted,
+            autofocus: autofocus,
+            focusNode: focusNode,
+            maxLines: maxLines,
+            autovalidate: autovalidate,
+            keyboardType: keyboardType,
+            validator: validator,
+            controller: controller,
+            textInputAction: textInputAction,
+            decoration: new InputDecoration(
+              suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
+              prefix: prefix,
+              border: InputBorder.none,
+              hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
+              focusedBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderRadius: BorderRadius.circular(borderRadius),
               ),
+              contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+              enabledBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide:
+                BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide:
+                BorderSide(color: Colors.red, width: 1.0),
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              hintText: hintText,
             ),
           ),
         ],

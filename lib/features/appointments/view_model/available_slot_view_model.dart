@@ -45,6 +45,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/slot_status.dart';
 import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
 import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
@@ -53,25 +55,26 @@ import 'package:myhealthbd_app/features/hospitals/models/department_list_model.d
 import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/repositories/filter_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
 
 class AvailableSlotsViewModel extends ChangeNotifier{
   List<Items> _slots =[];
+  List<PatientItem> _patientItem= [];
+  List<ConsultType> _consultItem= [];
   String slot;
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
+  bool _isLoading;
+  bool _isPatientLoading;
 
-  Future<AvailableSlotModel> getSlots(DateTime pickedAppointDate, String companyNo, String docotrNo, String orgNo) async {
-
+  Future<void> getSlots(DateTime pickedAppointDate, String companyNo, String docotrNo, String orgNo) async {
+     _isLoading= true;
     print(pickedAppointDate);
-    print(companyNo);
-    print(docotrNo);
-    print(orgNo);
     var res = await AvailableSlotsRepository().fetchSlotInfo(pickedAppointDate, companyNo, docotrNo, orgNo);
     slotList.clear();
     _slots.clear();
-    print("length" + slotList.length.toString());
     notifyListeners();
     res.fold((l) {
       _appError = l;
@@ -80,7 +83,7 @@ class AvailableSlotsViewModel extends ChangeNotifier{
     }, (r) {
       _isFetchingMoreData = true;
       _slots.addAll(r.slotList);
-      //print(_slots);
+      _isLoading= false;
       notifyListeners();
     });
   }
@@ -100,26 +103,43 @@ class AvailableSlotsViewModel extends ChangeNotifier{
     });
 
   }
+ Future<void> getPatType(String doctorNo) async {
+    _isLoading= true;
+    var res = await AvailableSlotsRepository().fetchPatType(doctorNo);
+   patientItem.clear();
+   _patientItem.clear();
+   print(res);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isFetchingMoreData = true;
+      notifyListeners();
+    }, (r) async {
+      _isFetchingMoreData = true;
+      _patientItem.addAll(r.patType);
+      _isLoading= false;
+      notifyListeners();
+    });
+  }
 
-  // Future<SlotStatusModel> getSlotStatus(String slotNo,String companyNo,  String orgNo) async {
-  //
-  //   var res = await AvailableSlotsRepository().fetchStatus(slotNo, companyNo, orgNo);
-  //
-  //   notifyListeners();
-  //   res.fold((l) {
-  //     print("ssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-  //     _appError = l;
-  //     _isFetchingMoreData = false;
-  //     slot = r.model;
-  //     notifyListeners();
-  //   }, (r) {
-  //     _isFetchingMoreData = false;
-  //     slot = r.model;
-  //     print("12330255236");
-  //     print(slot);
-  //     notifyListeners();
-  //   });
-  // }
+  Future<void> getConType(String selectedType, String companyNo, String orgNo) async {
+    var res = await AvailableSlotsRepository().fetchConType(selectedType, companyNo, orgNo);
+    consultType.clear();
+    _consultItem.clear();
+    notifyListeners();
+    print(res);
+    res.fold((l) {
+      _appError = l;
+      _isFetchingMoreData = true;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = true;
+      _consultItem.addAll(r.consultType);
+      //print(_slots);
+      notifyListeners();
+    });
+
+  }
 
   AppError get appError => _appError;
 
@@ -127,10 +147,11 @@ class AvailableSlotsViewModel extends ChangeNotifier{
 
   bool get isFetchingMoreData => _isFetchingMoreData;
 
-
+  bool get isLoading => _isLoading;
   bool get shouldShowPageLoader =>
       _isFetchingData && _slots.length == 0;
   String  get slotStatus =>   slot;
   List<Items> get slotList => _slots;
-
+  List<PatientItem> get patientItem => _patientItem;
+  List<ConsultType> get consultType => _consultItem;
 }

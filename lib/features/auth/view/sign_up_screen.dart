@@ -28,6 +28,17 @@ class _SignUpState extends State<SignUp> {
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppTheme.appbarPrimary,
+            accentColor: AppTheme.appbarPrimary,
+            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
       initialDate: DateTime(2003),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
@@ -188,9 +199,9 @@ class _SignUpState extends State<SignUp> {
                   Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
+                        padding:  EdgeInsets.only(left: 15.0),
                         child: Container(
-                          width: 145,
+                          width: 140,
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton(
                               iconSize: 0.0,
@@ -212,7 +223,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 140.0, top: 5),
+                        padding: const EdgeInsets.only(left: 120.0, top: 5),
                         child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
                       ),
                     ],
@@ -297,9 +308,8 @@ class _SignUpState extends State<SignUp> {
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           body: Padding(
-            padding: height >= 600
-                ? EdgeInsets.only(top: 50.0)
-                : EdgeInsets.only(top: 25),
+            padding:
+                 EdgeInsets.only(top: MediaQuery.of(context).size.width*.04),
             child: Column(
               children: [
                 Expanded(
@@ -394,10 +404,10 @@ class _SignUpState extends State<SignUp> {
     return Stack(
       children: [
         Positioned(
-          top: MediaQuery.of(context).size.height * .09,
-          left: MediaQuery.of(context).size.width * .27,
+          top: MediaQuery.of(context).size.height >= 700 ? MediaQuery.of(context).size.width * .17 :MediaQuery.of(context).size.width * .12 ,
+          left: MediaQuery.of(context).size.width * .32,
           child: Container(
-            height:  MediaQuery.of(context).size.height >=600? 200 :60,
+            height:  MediaQuery.of(context).size.width*.13,
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
               fit: BoxFit.fitHeight,

@@ -14,7 +14,7 @@ class DoctorListViewModel extends ChangeNotifier{
   bool _isFetchingData = false;
 
 
-  Future<DoctorListModel> getDoctor(String orgNo, String companyNo) async {
+  Future<void> getDoctor(String orgNo, String companyNo) async {
     var res = await DoctorListRepository().getDoctorList(orgNo, companyNo);
     _doctor.clear();
     notifyListeners();
@@ -28,15 +28,9 @@ class DoctorListViewModel extends ChangeNotifier{
       notifyListeners();
     });
   }
-
-
   AppError get appError => _appError;
-
   bool get isFetchingData => _isFetchingData;
-
   bool get isFetchingMoreData => _isFetchingMoreData;
-
-
   bool get shouldShowPageLoader =>
       _isFetchingData && _doctor.length == 0;
 

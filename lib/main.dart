@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/appointments/view_model/appoinment_fee_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 //var accessToken;
 void main() async{
@@ -35,8 +36,8 @@ void main() async{
     ChangeNotifierProvider<PrescriptionListViewModel>(create: (context) => PrescriptionListViewModel()),
     ChangeNotifierProvider<VideoViewModel>(create: (context) => VideoViewModel()),
 
+    ChangeNotifierProvider< AppointFeeViewModel>(create: (context) =>  AppointFeeViewModel()),
   ];
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   FlavorConfig(
       flavor: Flavor.DEV,
       color: Colors.deepOrange,

@@ -86,6 +86,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     _scrollController2 = ScrollController();
     var vm = Provider.of<DoctorListViewModel>(context, listen: false);
     vm.getDoctor(widget.orgNo, widget.companyNo);
+    print("IShraak" + vm.doctorList.length.toString());
     // TODO: implement initState
     super.initState();
     _memoizer = AsyncMemoizer();
@@ -100,80 +101,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     final String assetName1 = "assets/icons/phone.svg";
     final String assetName2 = "assets/icons/mail.svg";
     final String assetName3 = "assets/icons/marker.svg";
-    var width = MediaQuery.of(context).size.width * 0.44;
+    var width = MediaQuery.of(context).size.width ;
     var height = MediaQuery.of(context).size.height;
-    var verticalSpace = SizedBox(
-      width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
-    );
-    var horizontalSpace = SizedBox(
-      height: height >= 600 ? 10.0 : 5.0,
-    );
-    var searchDepartment = TextFormField(
-        decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-            child: Icon(Icons.search),
-          ),
-          hintText: StringResources.searchDepartment,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-        ));
-    var searchSpeciality = TextFormField(
-        decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-            child: Icon(Icons.search),
-          ),
-          hintText: StringResources.searchSpeciality,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-        ));
-    var modalSheetTitle = Padding(
-      padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
-      child: Column(
-        children: [
-          horizontalSpace,
-          horizontalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              verticalSpace,
-              Text(
-                StringResources.filters,
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-              ),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.clear)),
-            ],
-          ),
-          horizontalSpace,
-          horizontalSpace
-        ],
-      ),
-    );
     final Widget phoneimg = SvgPicture.asset(
       assetName1,
       width: 10,
@@ -444,7 +373,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
                       "assets/images/doc.png",
                       vm.doctorList[i]?.consultationFee.toString()==null? "" :vm.doctorList[i]?.consultationFee.toString(),
-                      vm.doctorList[i]?.buName==null? "" :vm.doctorList[i]?.buName,
+                      vm.doctorList[i]?.docDegree==null? "" :vm.doctorList[i]?.docDegree,
                       vm.doctorList[i]?.doctorNo.toString()==null? "" :vm.doctorList[i]?.doctorNo.toString(),
                       vm.doctorList[i]?.companyNo.toString()==null? "" :vm.doctorList[i]?.companyNo.toString(),
                       vm.doctorList[i]?.ogNo.toString()==null? "" :vm.doctorList[i]?.ogNo.toString()
@@ -608,8 +537,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                 builder: (context) {
                   return StatefulBuilder(
                       builder: (BuildContext context, StateSetter setState) {
-                        var index=0;
-                        bool isTrue= false;
                         return FractionallySizedBox(
                           heightFactor: 0.85,
                           child: Column(
@@ -623,7 +550,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                   child: Column(
                                     children: [
                                       Container(
-                                        height: height/3.55,
+                                        height: height/3.60,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(25),
@@ -694,8 +621,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                         ),
                                       ),
                                       horizontalSpace,
-                                      horizontalSpace,
-                                      horizontalSpace,
+
                                       Container(
                                         height: height/3.55,
                                         decoration: BoxDecoration(

@@ -113,6 +113,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
     );
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: HexColor('#354291'),
         title: Text(
           "Switch Account",
           style: GoogleFonts.poppins(fontSize: 15),

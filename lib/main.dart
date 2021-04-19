@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
+import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/root.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/appointments/view_model/appoinment_fee_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 //var accessToken;
 void main() async{
@@ -32,9 +34,10 @@ void main() async{
     ChangeNotifierProvider<AvailableSlotsViewModel>(
         create: (context)=>AvailableSlotsViewModel()),
     ChangeNotifierProvider<PrescriptionListViewModel>(create: (context) => PrescriptionListViewModel()),
+    ChangeNotifierProvider<VideoViewModel>(create: (context) => VideoViewModel()),
 
+    ChangeNotifierProvider< AppointFeeViewModel>(create: (context) =>  AppointFeeViewModel()),
   ];
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   FlavorConfig(
       flavor: Flavor.DEV,
       color: Colors.deepOrange,

@@ -24,6 +24,8 @@ import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
 
 class PrescriptionListScreen extends StatefulWidget {
+  // final Function menuCallBack;
+  // bool isDrawerOpen;
   String accessToken;
   PrescriptionListScreen({this.accessToken});
   @override
@@ -150,38 +152,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       controller.toggleAll();
     });
   }
-
-
-  // Future<PrescriptionListModel> fetchPrescriptionList() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/patient-prescription-list?draw=1&columns%5B0%5D%5Bdata%5D=consultationId&columns%5B0%5D%5Bname%5D=consultationId&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=prescriptionDateTime&columns%5B1%5D%5Bname%5D=prescriptionDateTime&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=doctorName&columns%5B2%5D%5Bname%5D=doctorName&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=companyName&columns%5B3%5D%5Bname%5D=companyName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1617439318994";
-  //  // print('Token: '+ signInData.accessToken);
-  //   var client = http.Client();
-  //   var response = await client.get(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
-  //   if (response.statusCode == 200) {
-  //     print('Response: '+ response.body.toString());
-  //     // Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     PrescriptionListModel data1 = prescriptionListModelFromJson(response.body) ;
-  //
-  //     setState(() {
-  //       data1.obj.data.forEach((elemant) {
-  //         dataList2.add(elemant);
-  //       });
-  //     });
-  //
-  //     // setState(() {
-  //     //   dataList2=data1.obj.data.first.phoneMobile;
-  //     // });
-  //
-  //     // print('Data:: ' + data.items[5].companyName);
-  //     // print('DataList2:: ' + dataList2.first.consultationId);
-  //     print('Data:::: '+ data1.toJson().toString());
-  //     print('Data1234312:::: '+ dataList2.toString());
-  //     return data1;
-  //   }else {
-  //     return null;
-  //   }
-  // }
 
 
   @override
@@ -474,21 +444,28 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
             },
           )
         ],
-        leading: new IconButton(
-            icon: new Icon(Icons.notes),
-            onPressed: () => _scaffoldKey.currentState.openDrawer()),
+        // leading: new IconButton(
+        //     icon: new Icon(Icons.notes),
+        //     onPressed: () => _scaffoldKey.currentState.openDrawer()),
+        // leading: Container(
+        //     child:  IconButton(
+        //         icon: Icon(Icons.notes),
+        //         onPressed: () {
+        //           widget.menuCallBack();
+        //         })
+        // ),
       ),
-      drawer: Drawer(
-        child: ListView(children: [
-          RaisedButton(onPressed:(){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> SwitchAccount()));
-          },
-            child: Text("Switch Account", style: GoogleFonts.poppins(
-            ),),
-
-          )
-        ],),
-      ),
+      // drawer: Drawer(
+      //   child: ListView(children: [
+      //     RaisedButton(onPressed:(){
+      //       Navigator.push(context, MaterialPageRoute(builder: (context)=> SwitchAccount()));
+      //     },
+      //       child: Text("Switch Account", style: GoogleFonts.poppins(
+      //       ),),
+      //
+      //     )
+      //   ],),
+      // ),
       body: DefaultTabController(
         length: 3,
         child: Column(
@@ -559,7 +536,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 shrinkWrap: true,
                                 itemCount:lengthofPrescriptionList,
                                 itemBuilder: (BuildContext context, int index) {
-                                  print("LIIIISSSYYSY:::" + list[index].consultationId);
+                                  //print("LIIIISSSYYSY:::" + list[index].consultationId);
                                   return MultiSelectItem(
                                     isSelecting: controller.isSelecting,
                                     onSelected: () {
@@ -606,31 +583,28 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                               ),
                                               child: Row(
                                                 children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left:10.0),
+                                                  CircleAvatar(
+                                                    radius: 31,
+                                                    backgroundColor: HexColor('#354291').withOpacity(0.2),
                                                     child: CircleAvatar(
-                                                      radius: 31,
-                                                      backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                      radius: 30,
+                                                      backgroundColor: Colors.white,
                                                       child: CircleAvatar(
-                                                        radius: 30,
-                                                        backgroundColor: Colors.white,
-                                                        child: CircleAvatar(
-                                                          backgroundImage: AssetImage('assets/images/proimg.png'),
-                                                          radius: 28,
-                                                        ),
+                                                        backgroundImage: AssetImage('assets/images/proimg.png'),
+                                                        radius: 28,
                                                       ),
                                                     ),
                                                   ),
                                                   //SizedBox(width: 5,),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         SizedBox(height: 8,),
                                                         Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
                                                         Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                        SizedBox(height: 5,),
+                                                        SizedBox(height: 8,),
                                                         Container(width:200,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
                                                         Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
                                                       ],

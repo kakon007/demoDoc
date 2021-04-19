@@ -24,10 +24,11 @@ class CustomContainer extends StatelessWidget {
     var spaceBetween = SizedBox(
       height: height >= 600 ? 15.0 : 10.0,
     );
+    print( (cardHeight*.5).toString());
     return Container(
 
-      height: cardHeight*1.24,
-      margin: EdgeInsets.only(top: 8,bottom: 6,right: 14,left: 14),
+      height: 162,
+      margin: EdgeInsets.only(top: 6,bottom: 6,right: 14,left: 14),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -45,26 +46,22 @@ class CustomContainer extends StatelessWidget {
               // SizedBox(
               //   width: cardHeight *0.1,
               // ),
-              Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
-                      child: Image.asset(
-                          images,
-                          fit: BoxFit.cover,
-                        width: cardWidth*0.9,
-                        height: 146,
-                        ),
+              ClipRRect(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                  child: Image.asset(
+                      images,
+                      fit: BoxFit.cover,
+                    width: cardWidth*0.9,
+                    height: 160,
+                    ),
 
-                  ),
-                ],
               ),
               SizedBox(
-                width: cardHeight *0.1,
+                width: cardHeight *0.2,
               ),
               Container(
                 width: cardWidth * 1.6,
-                height: cardHeight*1.13,
+                height: 140,
                 decoration: BoxDecoration(
                   color: HexColor("#FFFFFF"),
                   borderRadius: BorderRadius.only(
@@ -73,25 +70,27 @@ class CustomContainer extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 15.0, right: 10, top: 12),
+                      left: 0.0, right: 10, top: 5),
                   child: Column(
                     crossAxisAlignment:CrossAxisAlignment.start,
                     children: [
-                      Text(titleText, style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w700),),
-                      Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.bold ),),
-                      Text(undersubtitle, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),),
+                      Container(
+                          height: 39,
+                          child: Text(titleText, style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w700),)),
+                      Container(height: 18,child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.bold ),)),
+                      Container(height: 30,child: Text(undersubtitle, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),)),
 
                       SizedBox(
-                        height: cardHeight/15,
+                        height: cardHeight/10,
                       ),
 
                       Row(
                         children: [
                           Text(consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
-                          SizedBox(width: 40,),
+                          SizedBox(width: height*.03,),
                           Container(
                             width: cardWidth*0.7,
-                            height: 28,
+                            height: 30,
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5)),
@@ -105,7 +104,6 @@ class CustomContainer extends StatelessWidget {
                                 onTap: (){
                                   Navigator.push(context,MaterialPageRoute(builder: (context){
                                     return AppointmentScreen(name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo,);
-                              //    return NewFile();
                                   }));
                                 },
                                 child: Text(

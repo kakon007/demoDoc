@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/features/after_sign_in.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
-import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
-import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 SignInModel signInData;
+
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
@@ -27,6 +26,26 @@ class _SignInState extends State<SignIn> {
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
+  bool isObSecure;
+  bool validUser;
+  bool isClicked;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    isObSecure = true;
+    validUser = true;
+    isClicked = false;
+    super.initState();
+  }
+
+  Future<void> getUSerDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("username", _username.text);
+    prefs.setString("password", _password.text);
+  }
+
+  final FocusNode _emailFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +53,39 @@ class _SignInState extends State<SignIn> {
     var height = MediaQuery.of(context).size.height;
     print(height);
     var spaceBetween = SizedBox(
-      height: height >= 600 ? 15.0 : 5.0,
+      height: height >= 700 ? 10.0 : 5.0,
     );
-    var userName = SignUpFormField(
+    var userName = CustomTextFieldRounded(
       controller: _username,
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.only(top: 8, left: 8, right: 8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
-    var password = SignUpFormField(
-      obSecure: true,
+    var password = CustomTextFieldRounded(
+      // validator: (value) {
+      //   if (value == null || value.isEmpty) {
+      //     return 'Please enter password';
+      //   }
+      //   return null;
+      // },
+      suffixIcon: IconButton(
+        icon: isObSecure == true
+            ? Icon(
+                Icons.visibility_off,
+              )
+            : Icon(
+                Icons.visibility,
+              ),
+        onPressed: () {
+          setState(() {
+            isObSecure == true ? isObSecure = false : isObSecure = true;
+          });
+        },
+      ),
+      obscureText: isObSecure,
       controller: _password,
-      margin: EdgeInsets.all(8),
-      contentPadding: EdgeInsets.all(15),
+      margin: EdgeInsets.only(left: 8, right: 8),
+      contentPadding: EdgeInsets.only(left: 15, right: 15, top: 15),
       hintText: StringResources.passwordHint,
     );
     var rememberMe = Padding(
@@ -89,7 +128,7 @@ class _SignInState extends State<SignIn> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: AppTheme.signInSignUpColor,
         child: SizedBox(
-          height: height >= 600 ? 50 : 35,
+          height: height*.07,
           width: MediaQuery.of(context).size.width / .2,
           child: Center(
             child: Padding(
@@ -162,87 +201,120 @@ class _SignInState extends State<SignIn> {
       body: Stack(children: <Widget>[
         this._backgroundImage(),
         Scaffold(
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
-          body: Form(
-            key: _formKey,
-            child: Padding(
-              padding: height >= 600
-                  ? EdgeInsets.only(top: 360.0)
-                  : EdgeInsets.only(top: 210),
-              child: new Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                    color: HexColor("#FFFFFF"),
-                    boxShadow: [
-                      BoxShadow(
-                        color: HexColor("#0D1231").withOpacity(0.08),
-                        spreadRadius: 10,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ]),
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 25, left: 15),
-                  child: Column(
-                    children: [
-                      spaceBetween,
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Center(
-                          child: Text(
-                        StringResources.welcomeBack,
-                        style: GoogleFonts.roboto(
-                            color: HexColor("#0D1231"),
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w600),
-                      )),
-                      // spaceBetween,
-                      userName,
-                      password,
-                      rememberMe,
-                      spaceBetween,
-                      GestureDetector(
-                          onTap: () async {
-                            String username = 'telemedCareIdPassword';
-                            String password = 'secret';
-                            String basicAuth =
-                                'Basic ' + base64Encode(utf8.encode('$username:$password'));
-                            String url =
-                                "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
-                            var response = await http.post(url,  headers: <String, String>{'authorization': basicAuth});
-                            if (response.statusCode == 200) {
-                              signInData = signInModelFromJson(response.body) ;
-                              if (signInData != null) {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          HomeScreen(accessToken: signInData.accessToken,),
-                                    ),
-                                    (Route<dynamic> route) => false);
+          body: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding:  EdgeInsets.only(top: height>=700 ? height*.45: height*.41),
 
-                                SharedPreferences prefs= await SharedPreferences.getInstance();
-                                prefs.setString("accessToken", signInData.accessToken);
-                                prefs.setString("username", _username.text);
-                                prefs.setString("password", _password.text
-                                );
-                              }
-                              setState(() {
+                child: new Container(
+                  height:  height>=700 ? MediaQuery.of(context).size.height * .55 : MediaQuery.of(context).size.height * .6,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25)),
+                      color: HexColor("#FFFFFF"),
+                      boxShadow: [
+                        BoxShadow(
+                          color: HexColor("#0D1231").withOpacity(0.08),
+                          spreadRadius: 10,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 25, left: 15),
+                    child: Column(
+                      children: [
+                        spaceBetween,
+                        SizedBox(
+                          height: height>=700 ? 15 : 5,
+                        ),
+                        Center(
+                            child: Text(
+                          StringResources.welcomeBack,
+                          style: GoogleFonts.roboto(
+                              color: HexColor("#0D1231"),
+                              fontSize: height*.03,
+                              fontWeight: FontWeight.w600),
+                        )),
+                        userName,
+                        password,
+                        validUser == false
+                            ? Container(
+                                color: Colors.red[100],
+                                child: Text(
+                                  "Invalid Credential",
+                                  style: GoogleFonts.poppins(color: Colors.red),
+                                ))
+                            : SizedBox(),
+                        rememberMe,
+                        isClicked == false
+                            ? GestureDetector(
+                                onTap: () async {
+                                  setState(() {
+                                    isClicked = true;
+                                  });
+                                  String username = 'telemedCareIdPassword';
+                                  String password = 'secret';
+                                  String basicAuth = 'Basic ' +
+                                      base64Encode(
+                                          utf8.encode('$username:$password'));
+                                  String url =
+                                      "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
+                                  var response = await http.post(url,
+                                      headers: <String, String>{
+                                        'authorization': basicAuth
+                                      });
+                                  if (response.statusCode == 200) {
+                                    print(response.body);
+                                    signInData =
+                                        signInModelFromJson(response.body);
+                                    if (signInData != null) {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                HomeScreen(
+                                              accessToken:
+                                                  signInData.accessToken,
+                                            ),
+                                          ),
+                                          (Route<dynamic> route) => false);
 
-                              });
-                            } else {
-                              // Toast
-                            }
-                          },
-                          child: signInButton),
-                      spaceBetween,
-                      socialSignIn,
-                      spaceBetween,
-                      signUp
-                    ],
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setString("accessToken",
+                                          signInData.accessToken);
+                                      prefs.setString(
+                                          "username", _username.text);
+                                      prefs.setString(
+                                          "password", _password.text);
+                                    }
+                                  } else {
+                                    setState(() {
+                                      if (validUser == true) {
+                                        validUser = false;
+                                      }
+                                      if (isClicked == true) {
+                                        isClicked = false;
+                                      }
+                                    });
+                                  }
+                                },
+                                child: signInButton)
+                            : CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.green),
+                                backgroundColor: Colors.red,
+                              ),
+                        spaceBetween,
+                        socialSignIn,
+                        spaceBetween,
+                        signUp
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -254,29 +326,12 @@ class _SignInState extends State<SignIn> {
   }
 
   Widget _backgroundImage() {
-    return Stack(
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height >= 600 ? 350.0 : 205,
-          width: MediaQuery.of(context).size.width,
-          child: FadeInImage(
-            fit: BoxFit.cover,
-            image: AssetImage("assets/images/background_signin_1.png"),
-            placeholder: AssetImage(''),
-          ),
-        ),
-        Positioned(
-          child: Container(
-            alignment: Alignment(0, -.85),
-            child: FadeInImage(
-              fit: BoxFit.cover,
-              image: AssetImage("assets/images/myhealth.png"),
-              placeholder: AssetImage(''),
-            ),
-          ),
-        )
-      ],
+    return Container(
+      height: MediaQuery.of(context).size.height*.47,
+      width: MediaQuery.of(context).size.width,
+      child: Image.asset(kMyHealthLogo,
+        fit: BoxFit.fill,
+      ),
     );
   }
-
 }

@@ -4,22 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-//import 'package:myhealthbd_app/features/auth/sign_in_screen.dart';
-import 'package:myhealthbd_app/features/constant.dart';
-import 'package:myhealthbd_app/features/custom_dialog_box.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
-
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'as hos;
-import 'package:myhealthbd_app/features/news/model/news_model.dart';
+import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
-import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
+import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart';
+import 'package:myhealthbd_app/features/videos/repositories/channel_Info_repository.dart';
+import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
@@ -54,82 +53,25 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   double xOffset = 0.0;
   double yOffset = 0.0;
   double scaleFactor = 1;
-  bool isDrawerOpen = false;
+  //bool isDrawerOpen = false;
   //
   // double xOffset2 = 0.0;
   // double yOffset2 = 0.0;
   // double scaleFactor2 = 1;
-  // Future<hos.HospitalListModel> fetchHospitalList() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
-  //   var client = http.Client();
-  //   var response = await client.get(url);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     //data = jsonMap["items"];
-  //     hos.HospitalListModel data = hos.hospitalListModelFromJson(response.body) ;
-  //     setState(() {
-  //       data.items.forEach((elemant) {
-  //         dataList.add(elemant);
-  //       });
-  //     });
-  //     //print('Data:: ' + data.items[5].companyName);
-  //     return data;
-  //     //print(data[0]['companySlogan']);
-  //   }else {
-  //     return null;
-  //   }
-  // }
 
-  // Future<HospitalListModel> fetchHospitalLogo() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyLogoList";
-  //   var client = http.Client();
-  //   var response = await client.get(url);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     //data = jsonMap["items"];
-  //     HospitalListModel data = hospitalListModelFromJson(response.body) ;
-  //     setState(() {
-  //       data.items.forEach((elemant) {
-  //         dataList.add(elemant);
-  //       });
-  //     });
-  //     //print('Data:: ' + data.items[5].companyName);
-  //     return data;
-  //     //print(data[0]['companySlogan']);
-  //   }else {
-  //     return null;
-  //   }
-  // }
-
-
-  // Future<NewsUpdatedModel> fetchNewspdate() async{
-  //   var url='https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
-  //   var res=await http.get(url);
-  //   if(res.statusCode==200){
-  //     NewsUpdatedModel data2=newsUpdatedModelFromJson(res.body);
-  //     setState(() {
-  //       data2.items.forEach((element) {
-  //         dataList2.add(element);
-  //       });
-  //     });
-  //     print("bodddytew::::"+data2.items.first.title.toString());
-  //     return data2;
-  //   }else{
-  //     return null;
-  //   }
-  // }
   @override
   void initState() {
     // TODO: implement initState
     // fetchHospitalList();
     // fetchNewspdate();
+    VideoInfoRepository().getVideoInfo();
     NewsRepository().fetchNewspdate();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData(isFromOnPageLoad: true);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData(isFromOnPageLoad: true);
+    var vm3 = Provider.of<VideoViewModel>(context, listen: false);
+    vm3.getData(isFromOnPageLoad: true);
     super.initState();
     // _animationController=AnimationController(vsync: this,duration: duration);
     // scaleAnimation=Tween<double>(begin: 1.0,end:0.6).animate(_animationController);
@@ -148,8 +90,12 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     MediaQuery.of(context).size.width>600? lengthofHospitalList = list.length < 5 ? list.length : 6 : lengthofHospitalList= list.length < 5 ? list.length : 5;
 
     var vm2 = Provider.of<NewsViewModel>(context);
-    List<Item> list2 = vm2.newsList;
+    List<news.Item> list2 = vm2.newsList;
     var lengthofNewsList = list2.length;
+
+    var vm3 = Provider.of<VideoViewModel>(context);
+    List<Item> list3 = vm3.videoList;
+    var lengthofVideoList = list3.length;
     var deviceHeight=MediaQuery.of(context).size.height;
     var deviceWidth=MediaQuery.of(context).size.width;
 
@@ -180,51 +126,22 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           ),
         ),
 
-        AnimatedContainer(
-          transform: Matrix4.translationValues(xOffset, yOffset, 0)
-            ..scale(scaleFactor),
-          duration: Duration(milliseconds: 200),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
-          height: double.infinity,
-          width: double.infinity,
-          child: Stack(
+        // AnimatedContainer(
+        //   transform: Matrix4.translationValues(xOffset, yOffset, 0)
+        //     ..scale(scaleFactor),
+        //   duration: Duration(milliseconds: 200),
+        //   decoration: BoxDecoration(
+        //       color: Colors.white,
+        //       borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
+        //   height: double.infinity,
+        //   width: double.infinity,
+        //   child:
+
+          Stack(
             children: <Widget>[
-              // this._backgroundImage(),
-              // Padding(
-              //   padding: const EdgeInsets.only(top:110.0,left: 70),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text("20 Health tips",style:  GoogleFonts.poppins(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
-              //       SizedBox(height: 1,),
-              //       Text("to help you start off towards \nhealthy living in 2021",style:  GoogleFonts.poppins(fontSize: 10,color: Colors.white,fontWeight: FontWeight.w500),),
-              //       SizedBox(height: 8,),
-              //       new Container(
-              //        width: 90,
-              //         height: 20,
-              //         decoration: BoxDecoration(
-              //             border: Border.all(color: Colors.white),
-              //            borderRadius: BorderRadius.circular(30),
-              //         ),
-              //         child: Padding(
-              //           padding: const EdgeInsets.only(right:10.0,left: 10),
-              //           child: Row(
-              //             children: [
-              //               Text("Read More",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 8),),
-              //               Spacer(),
-              //               Icon(Icons.arrow_forward,size: 10,color: Colors.white,)
-              //             ],
-              //           ),
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
               Stack(
                   children: [
-                   isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
+                   widget.isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
                     Padding(
                       padding: const EdgeInsets.only(top:110.0,left: 70),
                       child: Column(
@@ -289,147 +206,6 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
                                 ));
 
-
-                                // showGeneralDialog(
-                                //   barrierLabel: "Label",
-                                //   barrierDismissible: true,
-                                //   barrierColor: Colors.black.withOpacity(0.5),
-                                //   transitionDuration: Duration(milliseconds: 700),
-                                //   context: context,
-                                //   pageBuilder: (context, anim1, anim2) {
-                                //     return Stack(
-                                //       children:[
-                                //          Align(
-                                //           alignment: Alignment.bottomCenter,
-                                //           child: Material(
-                                //             type: MaterialType.transparency,
-                                //             child: Container(
-                                //               height: 200,
-                                //              // child: SizedBox.expand(child: FlutterLogo()),
-                                //               //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
-                                //               decoration: BoxDecoration(
-                                //                 //color: HexColor('#f9f2f3'),
-                                //                 gradient: LinearGradient(
-                                //                   begin: Alignment.topCenter,
-                                //                   end: Alignment.bottomCenter,
-                                //                   colors: [
-                                //                     HexColor('#fdf0f2'),
-                                //                     HexColor('#FFFFFF')
-                                //                   ],
-                                //                   tileMode: TileMode.repeated,
-                                //                 ),
-                                //                 borderRadius: radius,
-                                //               ),
-                                //               child: Padding(
-                                //                 padding: const EdgeInsets.only(top:70.0),
-                                //                 child: Center(
-                                //                   child: Column(
-                                //                     children: [
-                                //                       Text("To access your Patient portal,",style:TextStyle(fontSize: 18,color: Colors.black)),
-                                //                       SizedBox(height: 5,),
-                                //                       Text("Sign In required.",style:TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.w500)),
-                                //                       SizedBox(height: 10,),
-                                //                       Padding(
-                                //                         padding: const EdgeInsets.only(left:40.0),
-                                //                         child: Row(
-                                //                           children: [
-                                //                             GestureDetector(
-                                //                               onTap:(){
-                                //                                 Navigator.pop(context);
-                                //                               },
-                                //                               child: Material(
-                                //                                 elevation: 0,
-                                //                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),side: BorderSide(color:HexColor('#354291') )),
-                                //                                 color: Colors.white,
-                                //                                 child: SizedBox(
-                                //                                   height: 50,
-                                //                                   width: 150,
-                                //                                   child: Center(
-                                //                                     child: Padding(
-                                //                                       padding: const EdgeInsets.all(8.0),
-                                //                                         child: Text(
-                                //                                           "Cancel",
-                                //                                           style: TextStyle(color: HexColor('#354291'),fontWeight: FontWeight.w500,fontSize: 15),
-                                //                                         ),
-                                //
-                                //                                     ),
-                                //                                   ),
-                                //                                 ),
-                                //                               ),
-                                //                             ),
-                                //                             SizedBox(width: 15,),
-                                //                             GestureDetector(
-                                //                               onTap: (){
-                                //                                 Navigator.push(context, PageRouteBuilder(
-                                //                                   transitionDuration: Duration(seconds: 1),
-                                //                                   transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                //                                     var begin = Offset(0, 1.0);
-                                //                                     var end = Offset.zero;
-                                //                                     var curve = Curves.easeInOut;
-                                //
-                                //                                     var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                                //
-                                //                                     return SlideTransition(
-                                //                                       position: animation.drive(tween),
-                                //                                       child: child,
-                                //                                     );
-                                //                                   },
-                                //                                   pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
-                                //                                 ));
-                                //                               },
-                                //                               child: Material(
-                                //                                 elevation: 0,
-                                //                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                //                                 color: HexColor('#354291'),
-                                //                                 child: SizedBox(
-                                //                                   height: 50,
-                                //                                   width: 150,
-                                //                                   child: Center(
-                                //                                     child: Padding(
-                                //                                       padding: const EdgeInsets.all(8.0),
-                                //                                       child: Text(
-                                //                                        "Continue",
-                                //                                         style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
-                                //                                       ),
-                                //                                     ),
-                                //                                   ),
-                                //                                 ),
-                                //                               ),
-                                //                             ),
-                                //                           ],
-                                //                         ),
-                                //                       )
-                                //                     ],
-                                //                   ),
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ),
-                                //
-                                //         Positioned(
-                                //           top: MediaQuery.of(context).size.height/1.5,
-                                //           left:100,
-                                //           right:100,
-                                //           child: CircleAvatar(
-                                //             backgroundColor: Colors.transparent,
-                                //             radius: Constants.avatarRadius,
-                                //             child: ClipRRect(
-                                //                 borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                                //                 child: Image.asset("assets/icons/sign_in_prompt.png")
-                                //             ),
-                                //           ),
-                                //         ),
-                                //     ],
-                                //     );
-                                //   },
-                                //   transitionBuilder: (context, anim1, anim2, child) {
-                                //     return SlideTransition(
-                                //       position: Tween(begin: Offset(0, 2), end: Offset(0, 0)).animate(anim1),
-                                //       child: child,
-                                //     );
-                                //   },
-                                // );
                               },
                               child: Row(
                                 children: [
@@ -459,29 +235,42 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         ],
                         backgroundColor: Colors.transparent,
                         elevation: 0.0,
+                        // leading: Container(
+                        //   child: isDrawerOpen
+                        //       ? IconButton(
+                        //       icon: Icon(Icons.arrow_back),
+                        //       onPressed: () {
+                        //         setState(() {
+                        //           xOffset = 0;
+                        //           yOffset = 0;
+                        //           scaleFactor = 1;
+                        //           isDrawerOpen = false;
+                        //         });
+                        //       })
+                        //       : IconButton(
+                        //       icon: Icon(Icons.notes),
+                        //       onPressed: () {
+                        //         setState(() {
+                        //           xOffset = 250;
+                        //           yOffset = 100;
+                        //           scaleFactor = 0.8;
+                        //           isDrawerOpen = true;
+                        //         });
+                        //         print("Jahid");
+                        //       }),
+                        // ),
                         leading: Container(
-                          child: isDrawerOpen
-                              ? IconButton(
+                          child: widget.isDrawerOpen?IconButton(
+                            iconSize: 35,
                               icon: Icon(Icons.arrow_back),
                               onPressed: () {
-                                setState(() {
-                                  xOffset = 0;
-                                  yOffset = 0;
-                                  scaleFactor = 1;
-                                  isDrawerOpen = false;
-                                });
-                              })
-                              : IconButton(
+                               widget.menuCallBack();
+                              }):IconButton(
                               icon: Icon(Icons.notes),
                               onPressed: () {
-                                setState(() {
-                                  xOffset = 250;
-                                  yOffset = 100;
-                                  scaleFactor = 0.8;
-                                  isDrawerOpen = true;
-                                });
-                                print("Jahid");
-                              }),
+                                widget.menuCallBack();
+                              })
+
                         ),
                       ),
                       // drawer: Drawer(
@@ -539,7 +328,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                           // //backdropEnabled: true,
                           // borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
                           decoration: BoxDecoration(
-                              borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(25)):BorderRadius.only(
+                              borderRadius: widget.isDrawerOpen?BorderRadius.all(Radius.circular(25)):BorderRadius.only(
                                   topLeft: Radius.circular(25),
                                   topRight: Radius.circular(25)),
                               color: HexColor("#FFFFFF"),
@@ -575,10 +364,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                       padding: const EdgeInsets.only(left:15.0,right: 15),
                                       child: SearchBarViewWidget(),
                                     ),
-                                    //SizedBox(height: 10,),
+                                    SizedBox(height: 10,),
                                     widget.accessToken==null?Container():CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
-                                    // SizedBox(height: 10,),
-                                    SizedBox(height: 30,),
+                                    SizedBox(height: 10,),
+                                    //SizedBox(height: 30,),
                                   ],
                                 ),
                               ),
@@ -686,20 +475,39 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                           ),
                                         ),
                                         SizedBox(height: 10,),
-                                        SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left:18.0),
-                                              child: Row(
-                                                children: [
-                                                  CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                                  SizedBox(width:15),
-                                                  CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                                  SizedBox(width:15),
-                                                  CustomCardNews("১৫ জানুয়ারি, ২০২১","স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত","60 Doctors"),
-                                                ],
-                                              ),
-                                            )
+                                        // SingleChildScrollView(
+                                        //     scrollDirection: Axis.horizontal,
+                                        //     child: Padding(
+                                        //       padding: const EdgeInsets.only(left:18.0),
+                                        //       child: Row(
+                                        //         children: [
+                                        //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
+                                        //           SizedBox(width:15),
+                                        //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
+                                        //           SizedBox(width:15),
+                                        //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
+                                        //         ],
+                                        //       ),
+                                        //     )
+                                        // ),
+
+                                        vm3.shouldShowPageLoader
+                                            ? Center(
+                                          child: CircularProgressIndicator(),
+                                        ):SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left:18.0,),
+                                            child:
+                                            Row(
+                                              children: [
+                                                ...List.generate(
+                                                  lengthofVideoList,
+                                                      (i) => CustomCardVideo(list3[i].snippet.thumbnails.standard.url,list3[i].snippet.title,list3[i].snippet.resourceId.videoId,list3[i].snippet.description),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                         SizedBox(height: 10,),
                                       ],
@@ -716,7 +524,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               ),
             ],
           ),
-        ),
+
       ],
     );
 
@@ -773,7 +581,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
 class DateUtil {
   static const DATE_FORMAT = 'yyyy-MM-dd';
   String formattedDate(DateTime dateTime) {
-    print('dateTime ($dateTime)');
+    //print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

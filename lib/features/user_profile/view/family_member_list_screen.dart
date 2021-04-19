@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/add_family_member_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/edit_member_list_prompt.dart';
 
 class FamilyMemberListScreen extends StatefulWidget {
@@ -121,27 +122,32 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
               onTap: (){
                 //_showAlert(context);
               },
-              child: DashedContainer(
-                dashColor: AppTheme.appbarPrimary,
-                borderRadius: 5.0,
-                dashedLength: 15.0,
-                blankLength: 5.0,
-                child: Container(
-                  height: 30,
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.person_add_sharp,
-                        color: AppTheme.appbarPrimary,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("Add family members",
-                          style: GoogleFonts.roboto(color: HexColor("#354291"),fontSize: 15)),
-                    ],
+              child: GestureDetector(
+                onTap: (){
+                  _showAlertDialogForAddMember(context);
+                },
+                child: DashedContainer(
+                  dashColor: AppTheme.appbarPrimary,
+                  borderRadius: 5.0,
+                  dashedLength: 15.0,
+                  blankLength: 5.0,
+                  child: Container(
+                    height: 30,
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.person_add_sharp,
+                          color: AppTheme.appbarPrimary,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Add family members",
+                            style: GoogleFonts.roboto(color: HexColor("#354291"),fontSize: 15)),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -441,6 +447,14 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
         context: context,
         builder: (context) {
           return EditMemberListPrompt();
+        });
+  }
+
+  void _showAlertDialogForAddMember(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AddFamilyMemberPrompt();
         });
   }
 }

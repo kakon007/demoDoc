@@ -517,7 +517,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                                  child: Text("33 Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                  child: Text("${lengthofPrescriptionList.toString()} Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
                                 ),
                                 Spacer(),
                                 searchField,

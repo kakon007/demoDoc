@@ -438,9 +438,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                               Text("News & Update",style:  GoogleFonts.poppins(fontSize: 16
                                                   ,fontWeight: FontWeight.w600),),
                                               Spacer(),
-                                              GestureDetector(onTap:(){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
-                                              },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),)),
+                                              Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),),
                                             ],
                                           ),
                                         ),

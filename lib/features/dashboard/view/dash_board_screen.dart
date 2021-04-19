@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/health_video_all.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'as hos;
@@ -470,7 +471,11 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                               Text("My Health Video",style: GoogleFonts.poppins(fontSize: 16
                                                   ,fontWeight: FontWeight.w600),),
                                               Spacer(),
-                                              Text(StringResources.viewAllText,style: GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11 ,fontWeight: FontWeight.w600),),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HealthVideoAll()));
+                                                },
+                                                  child: Text(StringResources.viewAllText,style: GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11 ,fontWeight: FontWeight.w600),)),
                                             ],
                                           ),
                                         ),

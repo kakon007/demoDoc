@@ -378,6 +378,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
+
                   : vm.doctorList.length == 0
                       ? Center(child: Text("No doctors found!"))
                       : Column(children: [

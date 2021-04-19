@@ -12,19 +12,23 @@ class DoctorListViewModel extends ChangeNotifier{
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
+  bool _isLoading = false;
 
 
-  Future<void> getDoctor(String orgNo, String companyNo) async {
-    var res = await DoctorListRepository().getDoctorList(orgNo, companyNo);
+  Future<void> getDoctor(String orgNo, String companyNo, String deptItem, String specialSelectedItem) async {
+    _isLoading=true;
+    var res = await DoctorListRepository().getDoctorList(orgNo, companyNo,deptItem, specialSelectedItem);
     _doctor.clear();
     notifyListeners();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
+      _isLoading=false;
       notifyListeners();
     }, (r) {
       _isFetchingMoreData = false;
       _doctor.addAll(r.doctorList);
+      _isLoading=false;
       notifyListeners();
     });
   }
@@ -33,7 +37,7 @@ class DoctorListViewModel extends ChangeNotifier{
   bool get isFetchingMoreData => _isFetchingMoreData;
   bool get shouldShowPageLoader =>
       _isFetchingData && _doctor.length == 0;
-
+  bool get isLoading =>_isLoading;
   List<Datum> get doctorList => _doctor;
 
 }

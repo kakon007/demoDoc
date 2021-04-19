@@ -7,9 +7,11 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
+import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 class BookAppointForMe extends StatefulWidget {
   String companyNo;
   String orgNo;
@@ -23,32 +25,6 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
   DateTime pickBirthDate;
   final List<PatientItem> patientTypeList = List<PatientItem>();
   final List<ConsultType> consultTypeList = List<ConsultType>();
-  Future<Null> selectBirthDate(BuildContext context) async {
-    final DateTime date = await showDatePicker(
-      context: context,
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppTheme.appbarPrimary,
-            accentColor: AppTheme.appbarPrimary,
-            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
-          child: child,
-        );
-      },
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 6)),
-    );
-
-
-    if (date != null && date != pickBirthDate) {
-      setState(() {
-        pickBirthDate = date;
-      });
-    }
-  }
   var selectedPatientType= "";
   var selectedConsultationType= "";
   String color = "#EAEBED";
@@ -56,7 +32,9 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchPatientType();
+    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+    //vm.getPatType(widget.doctorNo);
+   fetchPatientType(widget.doctorNo);
    // fetchConsultType();
     pickBirthDate = DateTime.now();
     selectedPatientType= "";
@@ -64,9 +42,9 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
   }
   String _selectedType;
   String _selectedConsultation;
-  Future<PatientTypeModel> fetchPatientType() async {
+  Future<PatientTypeModel> fetchPatientType(String doctorNo) async {
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findPatTypeList?doctorNo=2000011";
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findPatTypeList?doctorNo=$doctorNo";
     var client = http.Client();
     var response = await client.get(url);
     if (response.statusCode == 200) {
@@ -126,7 +104,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
   String fee;
   @override
   Widget build(BuildContext context) {
-
+    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
     var height = MediaQuery.of(context).size.height;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
@@ -200,10 +178,12 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                       setState(() {
                                                         _selectedType = newValue;
                                                         selectedPatientType= newValue;
+                                                        //vm.getConType(_selectedType, widget.companyNo, widget.orgNo);
                                                         fetchConsultType(_selectedType, widget.companyNo, widget.orgNo);
                                                       });
                                                     },
                                                     items: patientTypeList.map((patNo) {
+                                                   // items: vm.patientItem.map((patNo) {
                                                       return DropdownMenuItem(
                                                         child: Text(patNo.patientTypeName, style: GoogleFonts.roboto(fontSize: 14),),
                                                         value: patNo.patientTypeNo,
@@ -261,8 +241,10 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                         _selectedConsultation = newValue;
                                                         selectedConsultationType= newValue;
                                                         fetchFee(widget.companyNo, _selectedConsultation, widget.doctorNo, widget.orgNo, _selectedType);
+                                                     //   vm.getFee(widget.companyNo, _selectedConsultation, widget.doctorNo, widget.orgNo, _selectedType);
                                                       });
                                                     },
+                                                  //  items: vm.consultType.map((consNo) {
                                                     items: consultTypeList.map((consNo) {
                                                       return DropdownMenuItem(
                                                         child: new Text(consNo.name, style: GoogleFonts.roboto(fontSize: 14),),
@@ -305,11 +287,12 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Row(
+                           Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       selectedPatientType!= "" && selectedConsultationType!= ""  ? fee==null? "": fee :"",
+                                     // selectedPatientType!= "" && selectedConsultationType!= ""  ? fee==null? "": vm.consultationFee :"",
                                       style: GoogleFonts.poppins(
                                           color: AppTheme.appbarPrimary,
                                           fontSize: 30,

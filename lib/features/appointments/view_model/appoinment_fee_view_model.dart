@@ -65,7 +65,7 @@ String consultFee;
       notifyListeners();
     }, (r) {
       _isFetchingMoreData = true;
-      consultFee = r.fee ;
+      consultFee = r.fee.toString() ;
       _isLoading= false;
       notifyListeners();
     });

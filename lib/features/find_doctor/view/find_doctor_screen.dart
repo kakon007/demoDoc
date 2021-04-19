@@ -42,7 +42,11 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   AsyncMemoizer<DoctorsGridModel> _memoizer;
 
   // final List<Datum> doctorsList = List<Datum>();
-
+  List _items1 = [];
+  List _items2 = [];
+  List _items3 = [];
+  List _items4 = [];
+  var length;
   final Widget filtericon = SvgPicture.asset(
     "assets/icons/fliter.svg",
     width: 10,
@@ -54,6 +58,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   );
   ScrollController _scrollController;
   ScrollController _scrollController2;
+
   // Future<DoctorsGridModel> getDoctorList() async {
   //   return this._memoizer.runOnce(() async {
   //     var url =
@@ -85,7 +90,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     _scrollController = ScrollController();
     _scrollController2 = ScrollController();
     var vm = Provider.of<DoctorListViewModel>(context, listen: false);
-    vm.getDoctor(widget.orgNo, widget.companyNo);
+    vm.getDoctor(widget.orgNo, widget.companyNo, null, null);
     print("IShraak" + vm.doctorList.length.toString());
     // TODO: implement initState
     super.initState();
@@ -101,7 +106,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     final String assetName1 = "assets/icons/phone.svg";
     final String assetName2 = "assets/icons/mail.svg";
     final String assetName3 = "assets/icons/marker.svg";
-    var width = MediaQuery.of(context).size.width ;
+    var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     final Widget phoneimg = SvgPicture.asset(
       assetName1,
@@ -359,27 +364,53 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //       FlatButton(onPressed: (){
+              //         vm.getDoctor("7", "10");
+              //       },
+              // child: Text("Button"),
+              // ),
               Container(
                   margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
                   child: Text('Doctors',
                       style: GoogleFonts.poppins(
                           fontSize: 15, fontWeight: FontWeight.w600))),
-              Column(children: [
-                ...List.generate(
-                  vm.doctorList.length,
-                  (i) => CustomContainer(
-                      vm.doctorList[i]?.doctorName==null? "" :vm.doctorList[i]?.doctorName,
-                      vm.doctorList[i]?.specializationName==null? "" :vm.doctorList[i]?.specializationName,
-                      'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
-                      "assets/images/doc.png",
-                      vm.doctorList[i]?.consultationFee.toString()==null? "" :vm.doctorList[i]?.consultationFee.toString(),
-                      vm.doctorList[i]?.docDegree==null? "" :vm.doctorList[i]?.docDegree,
-                      vm.doctorList[i]?.doctorNo.toString()==null? "" :vm.doctorList[i]?.doctorNo.toString(),
-                      vm.doctorList[i]?.companyNo.toString()==null? "" :vm.doctorList[i]?.companyNo.toString(),
-                      vm.doctorList[i]?.ogNo.toString()==null? "" :vm.doctorList[i]?.ogNo.toString()
-                  ),
-                ),
-              ])
+              vm.isLoading == true
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : vm.doctorList.length == 0
+                      ? Center(child: Text("No doctors found!"))
+                      : Column(children: [
+                          ...List.generate(
+                            vm.doctorList.length,
+                            (i) => CustomContainer(
+                                vm.doctorList[i]?.doctorName == null
+                                    ? ""
+                                    : vm.doctorList[i]?.doctorName,
+                                vm.doctorList[i]?.specializationName == null
+                                    ? ""
+                                    : vm.doctorList[i]?.specializationName,
+                                'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
+                                "assets/images/doc.png",
+                                vm.doctorList[i]?.consultationFee.toString() ==
+                                        null
+                                    ? ""
+                                    : vm.doctorList[i]?.consultationFee
+                                        .toString(),
+                                vm.doctorList[i]?.docDegree == null
+                                    ? ""
+                                    : vm.doctorList[i]?.docDegree,
+                                vm.doctorList[i]?.doctorNo.toString() == null
+                                    ? ""
+                                    : vm.doctorList[i]?.doctorNo.toString(),
+                                vm.doctorList[i]?.companyNo.toString() == null
+                                    ? ""
+                                    : vm.doctorList[i]?.companyNo.toString(),
+                                vm.doctorList[i]?.ogNo.toString() == null
+                                    ? ""
+                                    : vm.doctorList[i]?.ogNo.toString()),
+                          ),
+                        ])
             ],
           ),
         ),
@@ -396,52 +427,52 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     var verticalSpace = SizedBox(
       width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
     );
-    List _items3 = [];
-    List _items4 = [];
 
     var horizontalSpace = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
     );
     var searchDepartment = TextFormField(
         decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-            child: Icon(Icons.search),
-          ),
-          hintText: StringResources.searchDepartment,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-        ));
+      prefixIcon: Padding(
+        padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+        child: Icon(Icons.search),
+      ),
+      hintText: StringResources.searchDepartment,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      border: new OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: new BorderSide(color: Colors.teal)),
+      contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+    ));
     var searchSpeciality = TextFormField(
         decoration: new InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-            child: Icon(Icons.search),
-          ),
-          hintText: StringResources.searchSpeciality,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-            borderRadius: BorderRadius.circular(25),
-          ),
-          border: new OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-        ));
+      prefixIcon: Padding(
+        padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+        child: Icon(Icons.search),
+      ),
+      hintText: StringResources.searchSpeciality,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+        borderRadius: BorderRadius.circular(25),
+      ),
+      border: new OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: new BorderSide(color: Colors.teal)),
+      contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+    ));
+    var deptSelectedItem;
+    var specialSelectedItem;
     var modalSheetTitle = Padding(
       padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
       child: Column(
@@ -468,6 +499,9 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
         ],
       ),
     );
+    //var list = ['one', 'two', 'three'];
+    var vm = Provider.of<DoctorListViewModel>(context, listen: false);
+
     var deviceWidth = MediaQuery.of(context).size.width;
     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     return SliverAppBar(
@@ -526,7 +560,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       ),
       actions: [
         GestureDetector(
-          onTap: (){
+          onTap: () {
             showModalBottomSheet(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -537,238 +571,264 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                 builder: (context) {
                   return StatefulBuilder(
                       builder: (BuildContext context, StateSetter setState) {
-                        return FractionallySizedBox(
-                          heightFactor: 0.85,
-                          child: Column(
-                            children: [
-                              modalSheetTitle,
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width / 6.912,
-                                      right: width / 6.912),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: height/3.60,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(25),
-                                              topRight:
-                                              Radius.circular(25)),
-                                          border: Border.all(
-                                            color: HexColor("#D6DCFF"),
-                                            //                   <--- border color
-                                            width: 1.0,
-                                          ),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            searchDepartment,
-                                            Expanded(
-                                              child: Scrollbar(
-                                                isAlwaysShown: true,
-                                                controller:
-                                                _scrollController,
-                                                child: ListView(
-                                                  controller:
-                                                  _scrollController,
-                                                  children: deptList
-                                                      .map(
-                                                        (DeptItem
-                                                    item) =>
+                    return FractionallySizedBox(
+                      heightFactor: 0.85,
+                      child: Column(
+                        children: [
+                          modalSheetTitle,
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: width / 6.912, right: width / 6.912),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: height / 3.60,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(25),
+                                          topRight: Radius.circular(25)),
+                                      border: Border.all(
+                                        color: HexColor("#D6DCFF"),
+                                        //                   <--- border color
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        searchDepartment,
+                                        Expanded(
+                                          child: Scrollbar(
+                                            isAlwaysShown: true,
+                                            controller: _scrollController,
+                                            child: ListView(
+                                              controller: _scrollController,
+                                              children: deptList
+                                                  .map(
+                                                    (DeptItem item) =>
                                                         Container(
-                                                          height: 35,
-                                                          child:
-                                                          CheckboxListTile(
-                                                            activeColor:
-                                                            AppTheme
-                                                                .signInSignUpColor,
-                                                            controlAffinity:
+                                                      height: 35,
+                                                      child: CheckboxListTile(
+                                                        activeColor: AppTheme
+                                                            .signInSignUpColor,
+                                                        controlAffinity:
                                                             ListTileControlAffinity
                                                                 .leading,
-                                                            title: Text(
-                                                              item.buName,
-                                                              style: GoogleFonts.poppins(
-                                                                  fontWeight: item.isChecked ==
+                                                        title: Text(
+                                                          item.buName,
+                                                          style: GoogleFonts.poppins(
+                                                              fontWeight: item
+                                                                          .isChecked ==
                                                                       true
-                                                                      ? FontWeight
+                                                                  ? FontWeight
                                                                       .w600
-                                                                      : FontWeight
+                                                                  : FontWeight
                                                                       .normal),
-                                                            ),
-                                                            value: item
-                                                                .isChecked,
-                                                            onChanged:
-                                                                (bool val) {
-                                                              setState(() {
-                                                                val == true
-                                                                    ? _items3.add(item.buName)
-                                                                    : _items3
-                                                                    .remove(item.buName);
-                                                                item.isChecked =
-                                                                    val;
-                                                              });
-                                                            },
-                                                          ),
                                                         ),
+                                                        value: item.isChecked,
+                                                        onChanged: (bool val) {
+                                                          setState(() {
+                                                            val == true
+                                                                ? _items3.add(
+                                                                    item.id)
+                                                                : _items3
+                                                                    .remove(item
+                                                                        .id);
+                                                            print(_items1);
+                                                            print(_items3);
+                                                            item.isChecked =
+                                                                val;
+                                                            var stringList =
+                                                                _items3.join(
+                                                                    "&buList%5B%5D=");
+                                                            deptSelectedItem =
+                                                                "&buList%5B%5D=" +
+                                                                    stringList;
+                                                            print(
+                                                                deptSelectedItem);
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
                                                   )
-                                                      .toList(),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      horizontalSpace,
-
-                                      Container(
-                                        height: height/3.55,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(25),
-                                              topRight:
-                                              Radius.circular(25)),
-                                          border: Border.all(
-                                            color: HexColor("#D6DCFF"),
-                                            //                   <--- border color
-                                            width: 1.0,
+                                                  .toList(),
+                                            ),
                                           ),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            searchSpeciality,
-                                            Expanded(
-                                              child: Scrollbar(
-                                                isAlwaysShown: true,
-                                                controller:
-                                                _scrollController2,
-                                                child: ListView(
-                                                  controller:
-                                                  _scrollController2,
-                                                  children: specialistList
-                                                      .map(
-                                                        (SpecializationItem
-                                                    item) =>
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  horizontalSpace,
+                                  Container(
+                                    height: height / 3.55,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(25),
+                                          topRight: Radius.circular(25)),
+                                      border: Border.all(
+                                        color: HexColor("#D6DCFF"),
+                                        //                   <--- border color
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        searchSpeciality,
+                                        Expanded(
+                                          child: Scrollbar(
+                                            isAlwaysShown: true,
+                                            controller: _scrollController2,
+                                            child: ListView(
+                                              controller: _scrollController2,
+                                              children: specialistList
+                                                  .map(
+                                                    (SpecializationItem item) =>
                                                         Container(
-                                                          height: 35,
-                                                          child:
-                                                          CheckboxListTile(
-                                                            activeColor:
-                                                            AppTheme
-                                                                .signInSignUpColor,
-                                                            controlAffinity:
+                                                      height: 35,
+                                                      child: CheckboxListTile(
+                                                        activeColor: AppTheme
+                                                            .signInSignUpColor,
+                                                        controlAffinity:
                                                             ListTileControlAffinity
                                                                 .leading,
-                                                            title: Text(
-                                                              item.dtlName,
-                                                              style: GoogleFonts.poppins(
-                                                                  fontWeight: item.isChecked ==
+                                                        title: Text(
+                                                          item.dtlName,
+                                                          style: GoogleFonts.poppins(
+                                                              fontWeight: item
+                                                                          .isChecked ==
                                                                       true
-                                                                      ? FontWeight
+                                                                  ? FontWeight
                                                                       .w600
-                                                                      : FontWeight
+                                                                  : FontWeight
                                                                       .normal),
-                                                            ),
-                                                            value: item
-                                                                .isChecked,
-                                                            onChanged:
-                                                                (bool val) {
-                                                              setState(() {
-                                                                val == true
-                                                                    ? _items3.add(item.dtlName)
-                                                                    : _items3
-                                                                    .remove(item.dtlName);
-                                                                item.isChecked =
-                                                                    val;
-                                                              });
-                                                            },
-                                                          ),
                                                         ),
+                                                        value: item.isChecked,
+                                                        onChanged: (bool val) {
+                                                          setState(() {
+                                                            val == true
+                                                                ? _items4.add(
+                                                                    item.id)
+                                                                : _items4
+                                                                    .remove(item
+                                                                        .id);
+                                                            item.isChecked =
+                                                                val;
+                                                            var stringList =
+                                                                _items4.join(
+                                                                    "&specializationList%5B%5D=");
+                                                            specialSelectedItem =
+                                                                "&specializationList%5B%5D=" +
+                                                                    stringList;
+                                                            print(
+                                                                specialSelectedItem);
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
                                                   )
-                                                      .toList(),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height:height>=600 ? 40: 25,),
-                                      Row(
-                                        mainAxisAlignment:
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: height >= 600 ? 40 : 25,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          AbsorbPointer(
-                                            absorbing:
+                                    children: [
+                                      AbsorbPointer(
+                                        absorbing:
                                             _items4.isEmpty && _items3.isEmpty
                                                 ? true
                                                 : false,
-                                            child: SizedBox(
-                                              width: width * .9,
-                                              height: width * .25,
-                                              child: FlatButton(
-                                                onPressed: () {
-                                                  _items4.clear();
-                                                  _items3.clear();
-                                                },
-                                                textColor: _items4.isEmpty &&
+                                        child: SizedBox(
+                                          width: width * .9,
+                                          height: width * .25,
+                                          child: FlatButton(
+                                            onPressed: () {
+                                              vm.getDoctor(widget.orgNo,
+                                                  widget.companyNo, null, null);
+                                              Navigator.pop(context);
+                                            },
+                                            textColor: _items4.isEmpty &&
                                                     _items3.isEmpty
-                                                    ? HexColor("#969EC8")
-                                                    : AppTheme.appbarPrimary,
-                                                color: HexColor("#FFFFFF"),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
+                                                ? HexColor("#969EC8")
+                                                : AppTheme.appbarPrimary,
+                                            color: HexColor("#FFFFFF"),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
                                                     BorderRadius.circular(8),
-                                                    side: BorderSide(
-                                                        color: _items4.isEmpty &&
+                                                side: BorderSide(
+                                                    color: _items4.isEmpty &&
                                                             _items3.isEmpty
-                                                            ? HexColor("#969EC8")
-                                                            : AppTheme
+                                                        ? HexColor("#969EC8")
+                                                        : AppTheme
                                                             .appbarPrimary,
-                                                        width: 1)),
-                                                child: Text(
-                                                  StringResources.clearFilterText,
-                                                  style: GoogleFonts.poppins(),
-                                                ),
-                                              ),
+                                                    width: 1)),
+                                            child: Text(
+                                              StringResources.clearFilterText,
+                                              style: GoogleFonts.poppins(),
                                             ),
                                           ),
-                                          AbsorbPointer(
-                                            absorbing:
-                                            _items4.isEmpty && _items3.isEmpty
-                                                ? true
-                                                : false,
-                                            child: SizedBox(
-                                              width: width * .9,
-                                              height: width * .25,
-                                              child: FlatButton(
-                                                textColor: Colors.white,
-                                                onPressed: () {},
-                                                color: _items4.isEmpty &&
-                                                    _items3.isEmpty
-                                                    ? HexColor("#969EC8")
-                                                    : AppTheme.appbarPrimary,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(8),
-                                                ),
-                                                child: Text(
-                                                  StringResources.applyFilterText,
-                                                  style: GoogleFonts.poppins(),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                        ),
                                       ),
+                                      AbsorbPointer(
+                                        absorbing: _items4.isEmpty &&
+                                                    _items3.isEmpty ||
+                                                _items1.join('') ==
+                                                        _items3.join('') &&
+                                                    _items2.join('') ==
+                                                        _items4.join('')
+                                            ? true
+                                            : false,
+                                        child: SizedBox(
+                                          width: width * .9,
+                                          height: width * .25,
+                                          child: FlatButton(
+                                            textColor: Colors.white,
+                                            onPressed: () {
+                                              _items1 = List.from(_items3);
+                                              _items2 = List.from(_items4);
+                                              Navigator.pop(context);
+                                              vm.getDoctor(
+                                                  widget.orgNo,
+                                                  widget.companyNo,
+                                                  deptSelectedItem,
+                                                  specialSelectedItem);
+                                            },
+                                            color: _items4.isEmpty &&
+                                                        _items3.isEmpty ||
+                                                    _items1.join('') ==
+                                                            _items3.join('') &&
+                                                        _items2.join('') ==
+                                                            _items4.join('')
+                                                ? HexColor("#969EC8")
+                                                : AppTheme.appbarPrimary,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Text(
+                                              StringResources.applyFilterText,
+                                              style: GoogleFonts.poppins(),
+                                            ),
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        );
-                      });
+                        ],
+                      ),
+                    );
+                  });
                 });
           },
           child: Padding(

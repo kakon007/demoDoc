@@ -15,6 +15,7 @@ import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_Sign_prompt.dart';
@@ -162,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       5:DefaultScreen(),
       6:NotificationScreen(),
       7:DefaultScreen(),
-      8:DefaultScreen(),
+      8:FamilyMemberListScreen(),
       9:SwitchAccount(),
     };
 

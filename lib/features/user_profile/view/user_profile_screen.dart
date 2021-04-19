@@ -5,8 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
+import 'package:page_transition/page_transition.dart';
 
 class UserProfile extends StatefulWidget {
   String fName;
@@ -71,7 +73,15 @@ class _UserProfileState extends State<UserProfile> {
                          children: [
                            Text("Family members",style:GoogleFonts.roboto(color:HexColor('#354291'),fontSize: 16,fontWeight: FontWeight.bold),),
                            Spacer(),
-                           Text("View All",style:GoogleFonts.roboto(color:HexColor('#8592E5'),fontSize: 10),),
+                           InkWell(onTap: (){
+                             Navigator.push(
+                               context,
+                               PageTransition(
+                                 type: PageTransitionType.rightToLeft,
+                                 child: FamilyMemberListScreen(),
+                               ),
+                             );
+                           },child: Text("View All",style:GoogleFonts.roboto(color:HexColor('#8592E5'),fontSize: 10),)),
                          ],
                        ),
                      ),

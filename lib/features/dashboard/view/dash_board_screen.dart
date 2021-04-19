@@ -173,6 +173,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                       ),
                     ),
                     Scaffold(
+                      resizeToAvoidBottomInset: false,
                       key: _scaffoldKey,
                       backgroundColor: Colors.transparent,
                       appBar: new AppBar(

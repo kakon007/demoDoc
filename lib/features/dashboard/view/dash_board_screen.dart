@@ -16,11 +16,13 @@ import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart';
 import 'package:myhealthbd_app/features/videos/repositories/channel_Info_repository.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
+import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/failure_widget.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -443,10 +445,24 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                           ),
                                         ),
                                         SizedBox(height: 10,),
+                                        // vm2.shouldShowAppError
+                                        //     ? ListView( key: Key('allJobsListView2'),
+                                        //   children: [errorWidget()],
+                                        // ):
                                         vm2.shouldShowPageLoader
                                             ? Center(
                                           child: CircularProgressIndicator(),
-                                        ):SingleChildScrollView(
+                                        ):
+                                        vm2.shouldShowNoNewsFound
+                                            ? Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                                StringResources.noNewsFound),
+                                            key: Key('noJobsFound1'),
+                                          ),
+                                        ):
+                                        SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Padding(
                                             padding: const EdgeInsets.only(left:18.0,),
@@ -574,6 +590,49 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
       // ),
     );
   }
+
+  // Widget errorWidget() {
+  //   print("ERROR WIDGETS");
+  //   var jobListViewModel =
+  //   Provider.of<NewsViewModel>(context, listen: false);
+  //   switch (jobListViewModel.appError) {
+  //     case AppError.serverError:
+  //       return FailureFullScreenWidget(
+  //         errorMessage: StringResources.unableToLoadData,
+  //         onTap: () {
+  //           return Provider.of<NewsViewModel>(context, listen: false)
+  //               .refresh();
+  //         },
+  //       );
+  //
+  //     case AppError.networkError:
+  //       return FailureFullScreenWidget(
+  //         errorMessage: StringResources.unableToReachServerMessage,
+  //         onTap: () {
+  //           return Provider.of<NewsViewModel>(context, listen: false)
+  //               .refresh();
+  //         },
+  //       );
+  //
+  //     // case AppError.unauthorized:
+  //     //   return FailureFullScreenWidget(
+  //     //     errorMessage: StringResources.somethingIsWrong,
+  //     //     onTap: () {
+  //     //       return locator<SettingsViewModel>().signOut();
+  //     //     },
+  //     //   );
+  //
+  //     default:
+  //       return FailureFullScreenWidget(
+  //         errorMessage: StringResources.somethingIsWrong,
+  //         onTap: () {
+  //           return Provider.of<NewsViewModel>(context, listen: false)
+  //               .refresh();
+  //         },
+  //       );
+  //   }
+  //
+  // }
 
 }
 

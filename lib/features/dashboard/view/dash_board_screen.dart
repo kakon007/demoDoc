@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,7 +30,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:path_provider/path_provider.dart';
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
@@ -89,7 +91,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   // Future fetchPDF() async {
   //   final uri = 'https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription';
   //   var map = new Map<String, dynamic>();
-  //   map['prescriptionId'] = '6921000126';
+  //   map['prescriptionId'] = '2220000115';
   //   map['pClient'] = 'aalok';
   //   map['pLayout'] = '1';
   //
@@ -103,6 +105,17 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   //   print("PDF:::"+body);
   //   print("JAHIIIDISDOHADSO");
   //   return body;
+  // }
+
+  // Future<String> _createFileFromString() async {
+  //   final encodedStr='''''';
+  //   Uint8List bytes = base64.decode(encodedStr);
+  //   String dir = (await getApplicationDocumentsDirectory()).path;
+  //   File file = File(
+  //       "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+  //   await file.writeAsBytes(bytes);
+  //   //print("FILEEEEE"+file.path.toString);
+  //   return file.path;
   // }
   @override
   Widget build(BuildContext context) {

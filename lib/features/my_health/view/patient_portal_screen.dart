@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +24,7 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart' as pp;
 
 class PrescriptionListScreen extends StatefulWidget {
   // final Function menuCallBack;
@@ -111,11 +114,60 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   Future<PrescriptionListModel> fetchedData;
 
+
+  Future fetchPDF() async {
+    try {
+      print("FETCHPDFDATA");
+      var headers = {
+        'Authorization': 'Bearer ${widget.accessToken}'
+      };
+      var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription'));
+      request.fields.addAll({
+        'prescriptionId': '2220000115',
+        'pClient': 'aalok',
+        'pLayout': '1'
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var body = await response.stream.toBytes();
+        print("BODYOFSTRING:::"+body.toString());
+        return body;
+      }
+      else {
+        print("ERROROFSTRING::::"+response.reasonPhrase);
+        return null;
+      }
+    } on Exception catch (e) {
+      // TODO
+      print("PDFDATAERROR");
+      print(e.toString());
+      return null;
+    }
+
+  }
+
+  Future<String> _createPdfFileFromString() async {
+    // final encodedStr='''''';
+    // Uint8List bytes = base64.decode(encodedStr);
+    String dir = (await pp.getExternalStorageDirectory()).path;
+    File file = File(
+        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+    await file.writeAsBytes(await fetchPDF());
+    print("FILEEEEE"+file.path);
+    return file.path;
+  }
+
   @override
   void initState() {
-    PrescriptionRepository().fetchPrescriptionList(widget.accessToken);
+
 
     super.initState();
+    _createPdfFileFromString();
+    PrescriptionRepository().fetchPrescriptionList(widget.accessToken);
     // if(fetchedData==null){
     //   fetchPrescriptionList();
     // }
@@ -322,6 +374,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         case 'Download':
           break;
         case 'Rename':
+          {
+
+          }
           break;
       }
     }

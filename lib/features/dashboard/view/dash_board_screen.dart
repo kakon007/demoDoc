@@ -66,6 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     // TODO: implement initState
     // fetchHospitalList();
     // fetchNewspdate();
+    //fetchPDF();
     VideoInfoRepository().getVideoInfo();
     NewsRepository().fetchNewspdate();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
@@ -84,6 +85,25 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     //fetchHospitalList();
     super.dispose();
   }
+
+  // Future fetchPDF() async {
+  //   final uri = 'https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription';
+  //   var map = new Map<String, dynamic>();
+  //   map['prescriptionId'] = '6921000126';
+  //   map['pClient'] = 'aalok';
+  //   map['pLayout'] = '1';
+  //
+  //   http.Response response = await http.post(
+  //     uri,
+  //     headers: {'Authorization': 'Bearer ${widget.accessToken}',},
+  //     body: map,
+  //   );
+  //   String body=response.body;
+  //   print("STATUS::"+response.statusCode.toString());
+  //   print("PDF:::"+body);
+  //   print("JAHIIIDISDOHADSO");
+  //   return body;
+  // }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
@@ -368,8 +388,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                       child: SearchBarViewWidget(),
                                     ),
                                     SizedBox(height: 10,),
-                                    widget.accessToken==null?Container():CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
-                                    SizedBox(height: 10,),
+
                                     //SizedBox(height: 30,),
                                   ],
                                 ),
@@ -384,7 +403,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                    // height:200,
                                     child: Column(
                                       children: [
-
+                                        widget.accessToken==null?Container():CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
+                                        SizedBox(height: 10,),
                                         Padding(
                                           padding: const EdgeInsets.only(left:18.0,right: 18),
                                           child: Row(

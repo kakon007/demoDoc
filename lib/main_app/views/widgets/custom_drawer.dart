@@ -127,6 +127,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    var devicewidth=MediaQuery.of(context).size.width;
     return Stack(
       children:[
 
@@ -166,12 +167,16 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             future: fetchUserDetails(),
                             builder: (c,snapshot){
                               if(snapshot.hasData){
-                                return Text(
-                                  fName,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white),
+                                return Container(
+                                  width: devicewidth*0.5,
+                                  child: Text(
+                                    fName,
+                                      maxLines:1,overflow:TextOverflow.ellipsis,
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  ),
                                 );
                               }else{
                                 return CircularProgressIndicator();

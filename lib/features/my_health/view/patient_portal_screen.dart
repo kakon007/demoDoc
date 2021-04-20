@@ -154,6 +154,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<PrescriptionListViewModel>(context);
@@ -669,149 +670,166 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                       return before;
                     },
                     child: Scaffold(
-                        body:
-
-                        Column(
-                          children: [
-                            Row(
+                      body: Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top:200.0),
+                          child: Container(
+                            child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                                  child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                                ),
-                                Spacer(),
-                                searchField,
+                                pp,
+                                SizedBox(height: 10,),
+                                Text('You have no report available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+
                               ],
                             ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                  physics: ScrollPhysics(),
-                                  child: Column(
-                                    children: [
-                                      ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                          itemCount:reportList.length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return MultiSelectItem(
-                                              isSelecting: controller2.isSelecting,
-                                              onSelected: () {
-                                                setState(() {
-                                                  controller2.toggle(index);
-                                                });
-                                              },
-                                              child: Stack(
-                                                  children:[
-                                                    InkWell(
-                                                      onLongPress: (){
-                                                        setState(() {
-                                                          controller2.toggle(index);
-                                                        });
-                                                        print("tapped");},
-                                                      onTap: (){
-
-                                                        if(controller2.isSelecting){
-                                                          setState(() {
-                                                            controller2.toggle(index);
-                                                          });
-                                                        }
-                                                        print("tappeddd");
-                                                      },
-                                                      child: Container(
-                                                        height: cardHeight*0.8,
-                                                        margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                        decoration: BoxDecoration(
-                                                          gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                            1.0,
-                                                            1.0
-                                                          ], colors: [
-                                                            HexColor('#C5CAE8'),
-                                                            HexColor('#E9ECFE'),
-
-                                                          ]),
-                                                          //color: Colors.white,
-                                                          // border: Border.all(
-                                                          //   color: HexColor("#E9ECFE"),
-                                                          //   width: 1,
-                                                          // ),
-                                                          borderRadius: BorderRadius.circular(15),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            SizedBox(width: 10,),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                              child: Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  SizedBox(height: 5,),
-                                                                  Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                                  Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                                  SizedBox(height: 8,),
-                                                                  Row(
-                                                                    children: [
-                                                                      CircleAvatar(
-                                                                        radius: 18,
-                                                                        backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                                        child: CircleAvatar(
-                                                                          backgroundColor: Colors.white,
-                                                                          backgroundImage: AssetImage('assets/images/ap.png'),
-                                                                          radius: 17,
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(width: 15,),
-                                                                      Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
-                                                                    ],
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Spacer(),
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(right:18.0),
-                                                            //   child: Stack(children: [
-                                                            //     Container(width:45,child: dx),
-                                                            //     Padding(
-                                                            //       padding: const EdgeInsets.only(left:30.0),
-                                                            //       child: righticon,
-                                                            //     ),
-                                                            //   ]),
-                                                            // ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(right:18.0),
-                                                              child: Stack(children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top:10.0,right: 5),
-                                                                  child: Container(width:45,child: dx),
-                                                                ),
-                                                                (controller2.isSelected(index))?
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                                  child: righticon,
-                                                                ): (controller2.isSelecting)?Padding(
-                                                                  padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                                  child: greyright,
-                                                                ):Padding(
-                                                                  padding: EdgeInsets.only(left: 38),
-                                                                  child: popup,
-                                                                ),
-                                                              ]),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ]
-                                              ),
-                                            );
-                                          })
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        )
+                          ),
+                        ),
+                      ),
+                        // body:
+                        // Column(
+                        //   children: [
+                        //     Row(
+                        //       children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                        //           child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                        //         ),
+                        //         Spacer(),
+                        //         searchField,
+                        //       ],
+                        //     ),
+                        //     Expanded(
+                        //       child: SingleChildScrollView(
+                        //           physics: ScrollPhysics(),
+                        //           child: Column(
+                        //             children: [
+                        //               ListView.builder( physics: NeverScrollableScrollPhysics(),
+                        //                   itemCount:reportList.length,
+                        //                   shrinkWrap: true,
+                        //                   itemBuilder: (BuildContext context, int index) {
+                        //                     return MultiSelectItem(
+                        //                       isSelecting: controller2.isSelecting,
+                        //                       onSelected: () {
+                        //                         setState(() {
+                        //                           controller2.toggle(index);
+                        //                         });
+                        //                       },
+                        //                       child: Stack(
+                        //                           children:[
+                        //                             InkWell(
+                        //                               onLongPress: (){
+                        //                                 setState(() {
+                        //                                   controller2.toggle(index);
+                        //                                 });
+                        //                                 print("tapped");},
+                        //                               onTap: (){
+                        //
+                        //                                 if(controller2.isSelecting){
+                        //                                   setState(() {
+                        //                                     controller2.toggle(index);
+                        //                                   });
+                        //                                 }
+                        //                                 print("tappeddd");
+                        //                               },
+                        //                               child: Container(
+                        //                                 height: cardHeight*0.8,
+                        //                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                        //                                 decoration: BoxDecoration(
+                        //                                   gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                        //                                     1.0,
+                        //                                     1.0
+                        //                                   ], colors: [
+                        //                                     HexColor('#C5CAE8'),
+                        //                                     HexColor('#E9ECFE'),
+                        //
+                        //                                   ]),
+                        //                                   //color: Colors.white,
+                        //                                   // border: Border.all(
+                        //                                   //   color: HexColor("#E9ECFE"),
+                        //                                   //   width: 1,
+                        //                                   // ),
+                        //                                   borderRadius: BorderRadius.circular(15),
+                        //                                 ),
+                        //                                 child: Row(
+                        //                                   children: [
+                        //                                     SizedBox(width: 10,),
+                        //                                     Padding(
+                        //                                       padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                        //                                       child: Column(
+                        //                                         crossAxisAlignment: CrossAxisAlignment.start,
+                        //                                         children: [
+                        //                                           SizedBox(height: 5,),
+                        //                                           Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                        //                                           Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                        //                                           SizedBox(height: 8,),
+                        //                                           Row(
+                        //                                             children: [
+                        //                                               CircleAvatar(
+                        //                                                 radius: 18,
+                        //                                                 backgroundColor: HexColor('#354291').withOpacity(0.2),
+                        //                                                 child: CircleAvatar(
+                        //                                                   backgroundColor: Colors.white,
+                        //                                                   backgroundImage: AssetImage('assets/images/ap.png'),
+                        //                                                   radius: 17,
+                        //                                                 ),
+                        //                                               ),
+                        //                                               SizedBox(width: 15,),
+                        //                                               Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
+                        //                                             ],
+                        //                                           )
+                        //                                         ],
+                        //                                       ),
+                        //                                     ),
+                        //                                     Spacer(),
+                        //                                     // Padding(
+                        //                                     //   padding: const EdgeInsets.only(right:18.0),
+                        //                                     //   child: Stack(children: [
+                        //                                     //     Container(width:45,child: dx),
+                        //                                     //     Padding(
+                        //                                     //       padding: const EdgeInsets.only(left:30.0),
+                        //                                     //       child: righticon,
+                        //                                     //     ),
+                        //                                     //   ]),
+                        //                                     // ),
+                        //                                     Padding(
+                        //                                       padding: const EdgeInsets.only(right:18.0),
+                        //                                       child: Stack(children: [
+                        //                                         Padding(
+                        //                                           padding: const EdgeInsets.only(top:10.0,right: 5),
+                        //                                           child: Container(width:45,child: dx),
+                        //                                         ),
+                        //                                         (controller2.isSelected(index))?
+                        //                                         Padding(
+                        //                                           padding: const EdgeInsets.only(left:38.0,top: 10),
+                        //                                           child: righticon,
+                        //                                         ): (controller2.isSelecting)?Padding(
+                        //                                           padding: const EdgeInsets.only(left:38.0,top: 10),
+                        //                                           child: greyright,
+                        //                                         ):Padding(
+                        //                                           padding: EdgeInsets.only(left: 38),
+                        //                                           child: popup,
+                        //                                         ),
+                        //                                       ]),
+                        //                                     ),
+                        //                                   ],
+                        //                                 ),
+                        //                               ),
+                        //                             ),
+                        //                           ]
+                        //                       ),
+                        //                     );
+                        //                   })
+                        //             ],
+                        //           )),
+                        //     ),
+                        //   ],
+                        // )
 
                     ),
                   ),
+
+                  //Documentation Screen
                   Scaffold(
                     floatingActionButton: Padding(
                       padding: const EdgeInsets.only(bottom:10.0,right: 10),
@@ -822,145 +840,146 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                           parentButton: Icon(Icons.add),
                           childButtons: childButtons),
                     ),
-                    // body: Align(
-                    //   alignment: Alignment.center,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(top:200.0),
-                    //     child: Container(
-                    //       child: Column(
-                    //         children: [
-                    //           pp,
-                    //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                    //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
 
-                    body:   Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                              child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                            ),
-                            Spacer(),
-                            searchField,
-                          ],
+                    body: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:200.0),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              pp,
+                              Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                              Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
+                            ],
+                          ),
                         ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                              physics: ScrollPhysics(),
-                              child: Column(
-                                children: [
-                                  ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                      itemCount:docList.length,
-                                      shrinkWrap: true,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return MultiSelectItem(
-                                          isSelecting: controller3.isSelecting,
-                                          onSelected: () {
-                                            setState(() {
-                                              controller3.toggle(index);
-                                            });
-                                          },
-                                          child: Stack(
-                                              children:[
-                                                InkWell(
-                                                  onLongPress: (){
-                                                    setState(() {
-                                                      controller3.toggle(index);
-                                                    });
-                                                    print("tapped");},
-                                                  onTap: (){
-
-                                                    if(controller3.isSelecting){
-                                                      setState(() {
-                                                        controller3.toggle(index);
-                                                      });
-                                                    }
-                                                    print("tappeddd");
-                                                  },
-                                                  child: Container(
-                                                    height: cardHeight*0.6,
-                                                    margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                    decoration: BoxDecoration(
-                                                      gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                        1.0,
-                                                      ], colors: [
-                                                        //HexColor('#C5CAE8'),
-                                                        HexColor('#E9ECFE'),
-
-                                                      ]),
-                                                      //color: Colors.white,
-                                                      // border: Border.all(
-                                                      //   color: HexColor("#E9ECFE"),
-                                                      //   width: 1,
-                                                      // ),
-                                                      borderRadius: BorderRadius.circular(15),
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        SizedBox(width: 10,),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              SizedBox(height: 10,),
-                                                              Text(docList[index].fileName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                              SizedBox(height: 5,),
-                                                              Text(docList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                              SizedBox(height: 5,),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Spacer(),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(right:18.0),
-                                                        //   child: Stack(children: [
-                                                        //     Container(width:45,child: dx),
-                                                        //     Padding(
-                                                        //       padding: const EdgeInsets.only(left:30.0),
-                                                        //       child: righticon,
-                                                        //     ),
-                                                        //   ]),
-                                                        // ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right:18.0),
-                                                          child: Stack(children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top:3.0,right: 5),
-                                                              child: Container(width:45,child: jp),
-                                                            ),
-                                                            (controller2.isSelected(index))?
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                              child: righticon,
-                                                            ): (controller2.isSelecting)?Padding(
-                                                              padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                              child: greyright,
-                                                            ):Padding(
-                                                              padding: EdgeInsets.only(left: 38),
-                                                              child: popup,
-                                                            ),
-                                                          ]),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]
-                                          ),
-                                        );
-                                      })
-                                ],
-                              )),
-                        ),
-                      ],
+                      ),
                     ),
+
+                    // body:   Column(
+                    //   children: [
+                    //     Row(
+                    //       children: [
+                    //         Padding(
+                    //           padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                    //           child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                    //         ),
+                    //         Spacer(),
+                    //         searchField,
+                    //       ],
+                    //     ),
+                    //     Expanded(
+                    //       child: SingleChildScrollView(
+                    //           physics: ScrollPhysics(),
+                    //           child: Column(
+                    //             children: [
+                    //               ListView.builder( physics: NeverScrollableScrollPhysics(),
+                    //                   itemCount:docList.length,
+                    //                   shrinkWrap: true,
+                    //                   itemBuilder: (BuildContext context, int index) {
+                    //                     return MultiSelectItem(
+                    //                       isSelecting: controller3.isSelecting,
+                    //                       onSelected: () {
+                    //                         setState(() {
+                    //                           controller3.toggle(index);
+                    //                         });
+                    //                       },
+                    //                       child: Stack(
+                    //                           children:[
+                    //                             InkWell(
+                    //                               onLongPress: (){
+                    //                                 setState(() {
+                    //                                   controller3.toggle(index);
+                    //                                 });
+                    //                                 print("tapped");},
+                    //                               onTap: (){
+                    //
+                    //                                 if(controller3.isSelecting){
+                    //                                   setState(() {
+                    //                                     controller3.toggle(index);
+                    //                                   });
+                    //                                 }
+                    //                                 print("tappeddd");
+                    //                               },
+                    //                               child: Container(
+                    //                                 height: cardHeight*0.6,
+                    //                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                    //                                 decoration: BoxDecoration(
+                    //                                   gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                    //                                     1.0,
+                    //                                   ], colors: [
+                    //                                     //HexColor('#C5CAE8'),
+                    //                                     HexColor('#E9ECFE'),
+                    //
+                    //                                   ]),
+                    //                                   //color: Colors.white,
+                    //                                   // border: Border.all(
+                    //                                   //   color: HexColor("#E9ECFE"),
+                    //                                   //   width: 1,
+                    //                                   // ),
+                    //                                   borderRadius: BorderRadius.circular(15),
+                    //                                 ),
+                    //                                 child: Row(
+                    //                                   children: [
+                    //                                     SizedBox(width: 10,),
+                    //                                     Padding(
+                    //                                       padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                    //                                       child: Column(
+                    //                                         crossAxisAlignment: CrossAxisAlignment.start,
+                    //                                         children: [
+                    //                                           SizedBox(height: 10,),
+                    //                                           Text(docList[index].fileName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                    //                                           SizedBox(height: 5,),
+                    //                                           Text(docList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                    //                                           SizedBox(height: 5,),
+                    //                                         ],
+                    //                                       ),
+                    //                                     ),
+                    //                                     Spacer(),
+                    //                                     // Padding(
+                    //                                     //   padding: const EdgeInsets.only(right:18.0),
+                    //                                     //   child: Stack(children: [
+                    //                                     //     Container(width:45,child: dx),
+                    //                                     //     Padding(
+                    //                                     //       padding: const EdgeInsets.only(left:30.0),
+                    //                                     //       child: righticon,
+                    //                                     //     ),
+                    //                                     //   ]),
+                    //                                     // ),
+                    //                                     Padding(
+                    //                                       padding: const EdgeInsets.only(right:18.0),
+                    //                                       child: Stack(children: [
+                    //                                         Padding(
+                    //                                           padding: const EdgeInsets.only(top:3.0,right: 5),
+                    //                                           child: Container(width:45,child: jp),
+                    //                                         ),
+                    //                                         (controller2.isSelected(index))?
+                    //                                         Padding(
+                    //                                           padding: const EdgeInsets.only(left:38.0,top: 10),
+                    //                                           child: righticon,
+                    //                                         ): (controller2.isSelecting)?Padding(
+                    //                                           padding: const EdgeInsets.only(left:38.0,top: 10),
+                    //                                           child: greyright,
+                    //                                         ):Padding(
+                    //                                           padding: EdgeInsets.only(left: 38),
+                    //                                           child: popup,
+                    //                                         ),
+                    //                                       ]),
+                    //                                     ),
+                    //                                   ],
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                           ]
+                    //                       ),
+                    //                     );
+                    //                   })
+                    //             ],
+                    //           )),
+                    //     ),
+                    //   ],
+                    // ),
                   ),
                 ],
               ),

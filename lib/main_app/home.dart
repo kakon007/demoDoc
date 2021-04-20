@@ -21,7 +21,8 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_Sign_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer_2.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_signIn_for_patient_portal.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashBoard_prompt.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashboard_prompt_for_patient_profile.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -156,10 +157,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,),
-      1: widget.accessToken==null?SignInPrompt():GetAppointment(),
-      2: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
-      3: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
-      4: widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
+      1: widget.accessToken==null?SignInPrompt("To access your Appointments,",'Appointments'):GetAppointment(),
+      2: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
+      3: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
+      4: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
       5:DefaultScreen(),
       6:NotificationScreen(),
       7:DefaultScreen(),
@@ -320,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //       children: [
     //         widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
     //         DashboardScreen(accessToken: widget.accessToken,) ]),
-      widget.accessToken==null?SignInPrompt():GetAppointment(),
+      widget.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
       HospitalScreen(),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(
@@ -363,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       //         ),
       //       )]),
 
-      widget.accessToken==null?SignInForPP():PrescriptionListScreen(accessToken: widget.accessToken,),
+      widget.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: widget.accessToken,),
 
     ];
 

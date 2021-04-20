@@ -4,16 +4,20 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 
-class SignInForPP extends StatefulWidget {
+class SignInDashboardForPatientPrompt extends StatefulWidget {
+  String title;
+  SignInDashboardForPatientPrompt(this.title);
   @override
-  _SignInForPPState createState() => _SignInForPPState();
+  _SignInDashboardForPatientPromptState createState() => _SignInDashboardForPatientPromptState();
 }
 
-class _SignInForPPState extends State<SignInForPP> {
+class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPatientPrompt> {
+
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
+
 
   _showAppoinmentPrompt(){
     _showAlert(context);
@@ -33,10 +37,13 @@ class _SignInForPPState extends State<SignInForPP> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        //title: Text('Appointments'),
         backgroundColor: HexColor('#354291'),
         title: Text('Patient Portal',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
       ),
+
     );
+
 
   }
 
@@ -76,7 +83,7 @@ class _SignInForPPState extends State<SignInForPP> {
                     child: Center(
                       child: Column(
                         children: [
-                          Text("To access your Appointments,",style:TextStyle(fontSize: 18,color: Colors.black)),
+                          Text(widget.title,style:TextStyle(fontSize: 18,color: Colors.black)),
                           SizedBox(height: 5,),
                           Text("Sign In required.",style:TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.w500)),
                           SizedBox(height: 10,),
@@ -182,4 +189,5 @@ class _SignInForPPState extends State<SignInForPP> {
       },
     );
   }
+
 }

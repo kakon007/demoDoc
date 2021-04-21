@@ -47,15 +47,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
-import 'package:myhealthbd_app/features/appointments/models/slot_status.dart';
 import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
-import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
-import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/repositories/filter_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
-import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
+
 
 class AvailableSlotsViewModel extends ChangeNotifier {
   List<Items> _slots = [];
@@ -71,24 +65,6 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   bool _isPatientLoading;
   int consultFee;
 
-  // Future<void> getSlots(DateTime pickedAppointDate, String companyNo, String docotrNo, String orgNo) async {
-  //    _isLoading= true;
-  //   print(pickedAppointDate);
-  //   var res = await AvailableSlotsRepository().fetchSlotInfo(pickedAppointDate, companyNo, docotrNo, orgNo);
-  //   slotList.clear();
-  //   _slots.clear();
-  //   notifyListeners();
-  //   res.fold((l) {
-  //     _appError = l;
-  //     _isFetchingMoreData = true;
-  //     notifyListeners();
-  //   }, (r) {
-  //     _isFetchingMoreData = true;
-  //     _slots.addAll(r.slotList);
-  //     _isLoading= false;
-  //     notifyListeners();
-  //   });
-  // }
 
   Future<void> getSlots(DateTime pickedAppointDate, String companyNo,
       String docotrNo, String orgNo) async {
@@ -128,24 +104,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-  //
-  // Future<void> getSlotStatus(
-  //     String slotNo, String companyNo, String orgNo) async {
-  //   var res =
-  //       await AvailableSlotsRepository().fetchStatus(slotNo, companyNo, orgNo);
-  //   notifyListeners();
-  //   print(res);
-  //   res.fold((l) {
-  //     _appError = l;
-  //     _isFetchingMoreData = true;
-  //     notifyListeners();
-  //   }, (r) {
-  //     _isFetchingMoreData = true;
-  //     slot = r.slotStatus;
-  //     //print(_slots);
-  //     notifyListeners();
-  //   });
-  // }
+
 
   Future<void> getPatType(String doctorNo) async {
     _isLoading = true;
@@ -165,29 +124,10 @@ class AvailableSlotsViewModel extends ChangeNotifier {
     });
   }
 
-  //
-  // Future<void> getPatType(String doctorNo) async {
-  //   _isLoading = true;
-  //   var res = await AvailableSlotsRepository().fetchPatType(doctorNo);
-  //   patientItem.clear();
-  //   _patientItem.clear();
-  //   print(res);
-  //   notifyListeners();
-  //   res.fold((l) {
-  //     _appError = l;
-  //     _isFetchingMoreData = true;
-  //     notifyListeners();
-  //   }, (r) async {
-  //     _isFetchingMoreData = true;
-  //     _patientItem.addAll(r.patType);
-  //     _isLoading = false;
-  //     notifyListeners();
-  //   });
-  // }
-  Future<void> getConType(String selectedType, String companyNo, String orgNo) async {
+  Future<void> getConType(String doctorNo, String selectedType, String companyNo, String orgNo) async {
     _isLoading = true;
     var res = await AvailableSlotsRepository()
-        .fetchConType(selectedType, companyNo, orgNo);
+        .fetchConType(doctorNo, selectedType, companyNo, orgNo);
     consultType.clear();
     _consultItem.clear();
     notifyListeners();
@@ -203,57 +143,23 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-  Future<void> getFee(String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo) async {
-    _isLoading = true;
-    var res = await AvailableSlotsRepository().fetchFee(companyNo, conTypeNo, doctorNo,orgNo, patTypeNo);
-    notifyListeners();
-    res.fold((l) {
-      _appError = l;
-      _isLoading = false;
-      _isFetchingMoreData = false;
-      notifyListeners();
-    }, (r) {
-      _isFetchingMoreData = false;
-     consultFee = r.fee;
-      _isLoading = false;
-      notifyListeners();
-    });
-  }
   // Future<void> getFee(String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo) async {
-  //   _isLoading= true;
+  //   _isLoading = true;
   //   var res = await AvailableSlotsRepository().fetchFee(companyNo, conTypeNo, doctorNo,orgNo, patTypeNo);
   //   notifyListeners();
   //   res.fold((l) {
   //     _appError = l;
-  //     _isFetchingMoreData = true;
+  //     _isLoading = false;
+  //     _isFetchingMoreData = false;
   //     notifyListeners();
   //   }, (r) {
-  //     _isFetchingMoreData = true;
-  //     consultFee = r.fee ;
-  //     _isLoading= false;
+  //     _isFetchingMoreData = false;
+  //    consultFee = r.obj;
+  //     _isLoading = false;
   //     notifyListeners();
   //   });
   // }
 
-  // Future<void> getConType(
-  //     String selectedType, String companyNo, String orgNo) async {
-  //   var res = await AvailableSlotsRepository()
-  //       .fetchConType(selectedType, companyNo, orgNo);
-  //   consultType.clear();
-  //   _consultItem.clear();
-  //   notifyListeners();
-  //   print(res);
-  //   res.fold((l) {
-  //     _appError = l;
-  //     _isFetchingMoreData = true;
-  //     notifyListeners();
-  //   }, (r) {
-  //     _isFetchingMoreData = true;
-  //     _consultItem.addAll(r.consultType);
-  //     //print(_slots);
-  //     notifyListeners();
-  //   });
-  // }
 
   AppError get appError => _appError;
 

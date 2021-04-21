@@ -63,6 +63,7 @@ dependencies:
   youtube_player_flutter:
   cached_network_image:
   page_transition: ^1.1.7+6
+  carousel_slider: ^3.0.0
 
 
 dev_dependencies:

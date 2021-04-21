@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:dashed_container/dashed_container.dart';
@@ -34,8 +35,8 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
     super.initState();
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
     //vm.getPatType(widget.doctorNo);
-   fetchPatientType(widget.doctorNo);
-   // fetchConsultType();
+    fetchPatientType(widget.doctorNo);
+    // fetchConsultType();
     pickBirthDate = DateTime.now();
     selectedPatientType= "";
     selectedConsultationType= "";
@@ -134,6 +135,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
         spaceBetween,
       ],
     );
+
     return Expanded(
       child: Column(
         children: [
@@ -183,7 +185,7 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                       });
                                                     },
                                                     items: patientTypeList.map((patNo) {
-                                                   // items: vm.patientItem.map((patNo) {
+                                                      // items: vm.patientItem.map((patNo) {
                                                       return DropdownMenuItem(
                                                         child: Text(patNo.patientTypeName, style: GoogleFonts.roboto(fontSize: 14),),
                                                         value: patNo.patientTypeNo,
@@ -241,10 +243,10 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                                                         _selectedConsultation = newValue;
                                                         selectedConsultationType= newValue;
                                                         fetchFee(widget.companyNo, _selectedConsultation, widget.doctorNo, widget.orgNo, _selectedType);
-                                                     //   vm.getFee(widget.companyNo, _selectedConsultation, widget.doctorNo, widget.orgNo, _selectedType);
+                                                        //   vm.getFee(widget.companyNo, _selectedConsultation, widget.doctorNo, widget.orgNo, _selectedType);
                                                       });
                                                     },
-                                                  //  items: vm.consultType.map((consNo) {
+                                                    //  items: vm.consultType.map((consNo) {
                                                     items: consultTypeList.map((consNo) {
                                                       return DropdownMenuItem(
                                                         child: new Text(consNo.name, style: GoogleFonts.roboto(fontSize: 14),),
@@ -287,12 +289,12 @@ class _BookAppointForMeState extends State<BookAppointForMe> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                           Row(
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       selectedPatientType!= "" && selectedConsultationType!= ""  ? fee==null? "": fee :"",
-                                     // selectedPatientType!= "" && selectedConsultationType!= ""  ? fee==null? "": vm.consultationFee :"",
+                                      // selectedPatientType!= "" && selectedConsultationType!= ""  ? fee==null? "": vm.consultationFee :"",
                                       style: GoogleFonts.poppins(
                                           color: AppTheme.appbarPrimary,
                                           fontSize: 30,

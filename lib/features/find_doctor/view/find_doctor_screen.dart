@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
@@ -98,6 +99,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     var vm2 = Provider.of<FilterViewModel>(context, listen: false);
     vm2.getDepartment(widget.companyNo);
     vm2.getSpecialist(widget.id, widget.orgNo);
+    
+  
   }
 
   @override

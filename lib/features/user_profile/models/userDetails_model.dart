@@ -1,15 +1,15 @@
 // To parse this JSON data, do
 //
-//     final findHospitalNumberModel = findHospitalNumberModelFromJson(jsonString);
+//     final userDetailsModel = userDetailsModelFromJson(jsonString);
 
 import 'dart:convert';
 
-FindHospitalNumberModel findHospitalNumberModelFromJson(String str) => FindHospitalNumberModel.fromJson(json.decode(str));
+UserDetailsModel userDetailsModelFromJson(String str) => UserDetailsModel.fromJson(json.decode(str));
 
-String findHospitalNumberModelToJson(FindHospitalNumberModel data) => json.encode(data.toJson());
+String userDetailsModelToJson(UserDetailsModel data) => json.encode(data.toJson());
 
-class FindHospitalNumberModel {
-  FindHospitalNumberModel({
+class UserDetailsModel {
+  UserDetailsModel({
     this.success,
     this.info,
     this.warning,
@@ -31,7 +31,7 @@ class FindHospitalNumberModel {
   dynamic items;
   Obj obj;
 
-  factory FindHospitalNumberModel.fromJson(Map<String, dynamic> json) => FindHospitalNumberModel(
+  factory UserDetailsModel.fromJson(Map<String, dynamic> json) => UserDetailsModel(
     success: json["success"],
     info: json["info"],
     warning: json["warning"],

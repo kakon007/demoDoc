@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
-import 'package:myhealthbd_app/features/dashboard/model/user_details_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 
@@ -121,6 +120,7 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
   void initState() {
     // TODO: implement initState
     //fetchUserDetails();
+
     super.initState();
   }
   @override

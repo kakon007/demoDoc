@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/root.dart';
@@ -37,6 +38,7 @@ void main() async{
     ChangeNotifierProvider<VideoViewModel>(create: (context) => VideoViewModel()),
 
     ChangeNotifierProvider< AppointFeeViewModel>(create: (context) =>  AppointFeeViewModel()),
+    ChangeNotifierProvider< UserDetailsViewModel>(create: (context) =>  UserDetailsViewModel()),
   ];
   FlavorConfig(
       flavor: Flavor.DEV,

@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
-import 'package:myhealthbd_app/features/dashboard/model/user_details_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
+import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -93,40 +96,46 @@ class _DrawerScreenState extends State<DrawerScreen> {
   }
 
 
-  Future<FindHospitalNumberModel> fetchUserDetails() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
-    var client = http.Client();
-    var response = await client.post(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonMap = json.decode(response.body);
-      //print("Body"+jsonMap.toString());
-      //data = jsonMap["items"];
-      FindHospitalNumberModel data2 = findHospitalNumberModelFromJson(response.body) ;
-      //Obj odj=Obj.fromJson();
-      setState(() {
-        fName=data2?.obj?.fname;
-        phoneNumber=data2?.obj?.phoneMobile;
-        address=data2?.obj?.address;
-        dob=data2?.obj?.dob;
-      });
-      // print('Data:: ' + data2.obj.fname);
-      // print('DataList:: ' + fName.toString());
-      return data2;
-      //print(data[0]['companySlogan']);
-    }else {
-      return null;
-    }
-  }
+  // Future<FindHospitalNumberModel> fetchUserDetails() async {
+  //   var url =
+  //       "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
+  //   var client = http.Client();
+  //   var response = await client.post(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     //print("Body"+jsonMap.toString());
+  //     //data = jsonMap["items"];
+  //     FindHospitalNumberModel data2 = findHospitalNumberModelFromJson(response.body) ;
+  //     //Obj odj=Obj.fromJson();
+  //     setState(() {
+  //       fName=data2?.obj?.fname;
+  //       phoneNumber=data2?.obj?.phoneMobile;
+  //       address=data2?.obj?.address;
+  //       dob=data2?.obj?.dob;
+  //     });
+  //     // print('Data:: ' + data2.obj.fname);
+  //     // print('DataList:: ' + fName.toString());
+  //     return data2;
+  //     //print(data[0]['companySlogan']);
+  //   }else {
+  //     return null;
+  //   }
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
-    fetchUserDetails();
+    //fetchUserDetails();
+    UserDetailsRepository().fetchUserDetails(widget.accessToken);
     super.initState();
+
+    var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+    vm.getData(widget.accessToken);
   }
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<UserDetailsViewModel>(context);
+    Obj userDetails = vm.userDetailsList;
     var devicewidth=MediaQuery.of(context).size.width;
     return Stack(
       children:[
@@ -163,27 +172,22 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     children: [
                       Row(
                         children: [
-                          FutureBuilder(
-                            future: fetchUserDetails(),
-                            builder: (c,snapshot){
-                              if(snapshot.hasData){
-                                return Container(
+                          vm.shouldShowPageLoader
+                              ? Center(
+                            child: CircularProgressIndicator(),
+                          ):
+                           Container(
                                   width: devicewidth*0.5,
                                   child: Text(
-                                    fName,
+                                    userDetails.fname,
                                       maxLines:1,overflow:TextOverflow.ellipsis,
                                     style: GoogleFonts.roboto(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white),
                                   ),
-                                );
-                              }else{
-                                return CircularProgressIndicator();
-                              }
+                                ),
 
-                            },
-                          ),
                           SizedBox(width: 80,),
                           //Icon(Icons.close,color: Colors.white,size: 18,)
                         ],

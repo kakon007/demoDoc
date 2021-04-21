@@ -65,7 +65,7 @@ dependencies:
   page_transition: ^1.1.7+6
   path:
   open_file:
-  simple_permissions:
+  flutter_pdfview:
 
 
 

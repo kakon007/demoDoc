@@ -23,6 +23,7 @@ import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
@@ -215,30 +216,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
 
-    // childButtons.add(UnicornButton(
-    //     hasLabel: true,
-    //     labelText: "Choo choo",
-    //     currentButton: FloatingActionButton(
-    //       heroTag: "train",
-    //       backgroundColor: Colors.redAccent,
-    //       mini: true,
-    //       child: Icon(Icons.train),
-    //       onPressed: () {},
-    //     )));
-    //
-    // childButtons.add(UnicornButton(
-    //     currentButton: FloatingActionButton(
-    //         heroTag: "airplane",
-    //         backgroundColor: Colors.greenAccent,
-    //         mini: true,
-    //         child: Icon(Icons.airplanemode_active))));
-    //
-    // childButtons.add(UnicornButton(
-    //     currentButton: FloatingActionButton(
-    //         heroTag: "directions",
-    //         backgroundColor: Colors.blueAccent,
-    //         mini: true,
-    //         child: Icon(Icons.directions_car))));
 
     final String assetName4 = "assets/images/dx.svg";
     final String assetName2="assets/icons/right.svg";
@@ -317,7 +294,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     );
 
 
-
     childButtons.add(UnicornButton(
         hasLabel: true,
         labelText: "Capture Documents",
@@ -371,11 +347,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           break;
         case 'Download':
           break;
-        case 'Rename':
-          {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>PdfViewerScreen()));
-          }
-          break;
+
       }
     }
     var popup= Padding(
@@ -387,7 +359,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         child: PopupMenuButton<String>(
           onSelected: handleClick,
           itemBuilder: (BuildContext context) {
-            return {'Share', 'Download','Rename'}.map((String choice) {
+            return {'Share', 'Download'}.map((String choice) {
               return PopupMenuItem<String>(
                 height: 30,
                 value: choice,
@@ -606,12 +578,19 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 controller.toggle(index);
                                               });
                                               print("tapped");},
-                                            onTap: (){
+                                            onTap: () async{
+
 
                                               if(controller.isSelecting){
                                                 setState(() {
                                                   controller.toggle(index);
                                                 });
+                                              }else{
+                                                final file=await _createPdfFileFromString();
+                                                Navigator.push(context, PageTransition(
+                                                  type: PageTransitionType.rightToLeft,
+                                                  child:PdfViewerScreen(file),
+                                                ),);
                                               }
                                               print("tappeddd");
                                             },

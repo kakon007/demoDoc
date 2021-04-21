@@ -178,7 +178,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                   children: [
                    widget.isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
                     Padding(
-                      padding: const EdgeInsets.only(top:110.0,left: 70),
+                      padding: const EdgeInsets.only(top:90.0,left: 70),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -354,7 +354,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                       // ),
                       body: Padding(
                         padding: deviceHeight >= 600
-                            ? EdgeInsets.only(top: 200.0)
+                            ? EdgeInsets.only(top: 140.0)
                             : EdgeInsets.only(top: 250),
                         child: Container(
                           height: double.infinity,
@@ -589,10 +589,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         image: DecorationImage(
             image: AssetImage(
                 "assets/images/dashboard_back.png"),
-            fit: BoxFit.cover),
+            fit: BoxFit.fill),
       ),
       height: 418.0,
-      width: double.infinity,
+      //width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
       //   image:AssetImage("assets/images/dashboard_back.png"),
@@ -612,10 +612,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         image: DecorationImage(
             image: AssetImage(
                 "assets/images/dashboard_back.png"),
-            fit: BoxFit.cover),
+            fit: BoxFit.fill),
       ),
-      height: 418.0,
-      width: double.infinity,
+      height: 300.0,
+     // width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
       //   image:AssetImage("assets/images/dashboard_back.png"),

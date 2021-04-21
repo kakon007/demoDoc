@@ -64,6 +64,9 @@ dependencies:
   cached_network_image:
   page_transition: ^1.1.7+6
   path:
+  open_file:
+  simple_permissions:
+
 
 
 dev_dependencies:

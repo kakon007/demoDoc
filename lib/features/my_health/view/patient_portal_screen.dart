@@ -19,8 +19,10 @@ import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_m
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:multi_select_item/multi_select_item.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
 import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
@@ -123,7 +125,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       };
       var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription'));
       request.fields.addAll({
-        'prescriptionId': '2220000115',
+        'prescriptionId': '6921000126',
         'pClient': 'aalok',
         'pLayout': '1'
       });
@@ -150,29 +152,25 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   }
 
-  Future<String> _createPdfFileFromString() async {
+  Future<File> _createPdfFileFromString() async {
     // final encodedStr='''''';
     // Uint8List bytes = base64.decode(encodedStr);
-    String dir = (await pp.getExternalStorageDirectory()).path;
+    String dir = (await pp.getApplicationDocumentsDirectory()).path;
     File file = File(
         "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
-    await file.writeAsBytes(await fetchPDF());
-    print("FILEEEEE"+file.path);
-    return file.path;
+    await file.writeAsBytes(await fetchPDF(),flush: true);
+    print("FILEEEEE"+file.toString());
+    return file;
   }
 
   @override
   void initState() {
-
+    PrescriptionRepository().fetchPrescriptionList(widget.accessToken);
 
     super.initState();
-    _createPdfFileFromString();
-    PrescriptionRepository().fetchPrescriptionList(widget.accessToken);
-    // if(fetchedData==null){
-    //   fetchPrescriptionList();
-    // }
     var vm = Provider.of<PrescriptionListViewModel>(context, listen: false);
     vm.getData(widget.accessToken);
+    _createPdfFileFromString();
     print("jaaaaahhhhhhiiiiddddddd");
     controller.disableEditingWhenNoneSelected = true;
     controller.set(dataList2.length);
@@ -375,7 +373,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           break;
         case 'Rename':
           {
-
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>PdfViewerScreen()));
           }
           break;
       }

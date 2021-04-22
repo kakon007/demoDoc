@@ -565,7 +565,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     child: Row(
                                       children: [
                                         Text(
-                                          "News & Update",
+                                          "MyHealthBD News",
                                           style: GoogleFonts.poppins(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600),
@@ -635,8 +635,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 ),
                                               ),
                                             ),
+
                                   SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
@@ -644,7 +645,70 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     child: Row(
                                       children: [
                                         Text(
-                                          "My Health Video",
+                                          "MyHealthBD Blog",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Spacer(),
+                                        GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HealthVideoAll(
+                                                            pageNo: 0,
+                                                          )));
+                                            },
+                                            child: Text(
+                                              StringResources.viewAllText,
+                                              style: GoogleFonts.poppins(
+                                                  color: HexColor("#8592E5"),
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  vm4.shouldShowPageLoader
+                                      ? Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                      : Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 18.0,
+                                    ),
+                                    child: SizedBox(
+                                      height: 120,
+                                      child: ListView.builder(
+                                        itemBuilder:
+                                            (BuildeContext, index) {
+                                          return CustomBlogWidget(
+                                            title:
+                                            vm4.newsList[index].title,
+                                            news: vm4.newsList[index]
+                                                .blogDetail,
+                                          );
+                                        },
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: vm4.newsList.length,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 18.0, right: 18),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "MyHealthBD Videos",
                                           style: GoogleFonts.poppins(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600),
@@ -720,70 +784,6 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                           .description),
                                                 ),
                                               ],
-                                            ),
-                                          ),
-                                        ),
-
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, right: 18),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Blog",
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        Spacer(),
-                                        GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          HealthVideoAll(
-                                                            pageNo: 0,
-                                                          )));
-                                            },
-                                            child: Text(
-                                              StringResources.viewAllText,
-                                              style: GoogleFonts.poppins(
-                                                  color: HexColor("#8592E5"),
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w600),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  vm4.shouldShowPageLoader
-                                      ? Center(
-                                          child: CircularProgressIndicator(),
-                                        )
-                                      : Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 18.0,
-                                          ),
-                                          child: SizedBox(
-                                            height: 120,
-                                            child: ListView.builder(
-                                              itemBuilder:
-                                                  (BuildeContext, index) {
-                                                return CustomBlogWidget(
-                                                  title:
-                                                      vm4.newsList[index].title,
-                                                  news: vm4.newsList[index]
-                                                      .blogDetail,
-                                                );
-                                              },
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: vm4.newsList.length,
                                             ),
                                           ),
                                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
@@ -9,7 +10,6 @@ import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'features/appointments/view_model/appoinment_fee_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +28,7 @@ void main() async{
         create: (context)=>AvailableSlotsViewModel()),
     ChangeNotifierProvider<PrescriptionListViewModel>(create: (context) => PrescriptionListViewModel()),
     ChangeNotifierProvider<VideoViewModel>(create: (context) => VideoViewModel()),
-    ChangeNotifierProvider< AppointFeeViewModel>(create: (context) =>  AppointFeeViewModel()),
+    ChangeNotifierProvider< BLogViewModel>(create: (context) =>  BLogViewModel()),
   ];
   FlavorConfig(
       flavor: Flavor.DEV,

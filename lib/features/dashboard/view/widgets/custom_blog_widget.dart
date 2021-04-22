@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/blog_details.dart';
 class CustomBlogWidget extends StatefulWidget {
   String image;
   String title;
@@ -49,17 +50,24 @@ class _CustomBlogWidgetState extends State<CustomBlogWidget> {
 
                         },
 
-                      child: Material(
-                        elevation: 0  ,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        color: HexColor("#354291"),
-                        child: SizedBox(
-                          width: 130,
-                          height: 30,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("Read Blog",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext){
+                            return BlogDetails(title: widget.title,details: widget.news,);
+                          }));
+                        },
+                        child: Material(
+                          elevation: 0  ,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          color: HexColor("#354291"),
+                          child: SizedBox(
+                            width: 130,
+                            height: 30,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("Read Blog",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                              ),
                             ),
                           ),
                         ),

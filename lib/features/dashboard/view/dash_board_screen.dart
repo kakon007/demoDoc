@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/dashboard/repositories/blog_repository.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/health_video_all.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart' as hos;
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
@@ -15,7 +17,7 @@ import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart';
 import 'package:myhealthbd_app/features/videos/repositories/channel_Info_repository.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_blog_widget.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/custom_blog_widget.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
@@ -66,19 +68,18 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void initState() {
     // TODO: implement initState
-    // fetchHospitalList();
-    // fetchNewspdate();
     VideoInfoRepository().getVideoInfo();
     NewsRepository().fetchNewspdate();
+    BlogRepository().fetchBlog();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData(isFromOnPageLoad: true);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData(isFromOnPageLoad: true);
     var vm3 = Provider.of<VideoViewModel>(context, listen: false);
     vm3.getData(isFromOnPageLoad: true);
+    var vm4 = Provider.of<BLogViewModel>(context, listen: false);
+    vm4.getData(isFromOnPageLoad: true);
     super.initState();
-    // _animationController=AnimationController(vsync: this,duration: duration);
-    // scaleAnimation=Tween<double>(begin: 1.0,end:0.6).animate(_animationController);
   }
 
   @override
@@ -90,6 +91,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   Widget build(BuildContext context) {
+    var vm4 = Provider.of<BLogViewModel>(context, listen: true);
     var vm = Provider.of<HospitalListViewModel>(context);
     List<hos.Item> list = vm.hospitalList;
     var lengthofHospitalList;
@@ -706,29 +708,30 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  // vm4.shouldShowPageLoader
-                                  //     ? Center(
-                                  //         child: CircularProgressIndicator(),
-                                  //       )
-                                  //     : Padding(
-                                  //         padding: const EdgeInsets.only(
-                                  //           left: 18.0,
-                                  //         ),
-                                  //         child: SizedBox(
-                                  //           height: 120,
-                                  //           child: ListView.builder(
-                                  //             itemBuilder:
-                                  //                 (BuildeContext, index) {
-                                  //               return CustomBlogWidget(
-                                  //                 title: vm4.newsList[index].title,
-                                  //               );
-                                  //             },
-                                  //             scrollDirection:
-                                  //                 Axis.horizontal,
-                                  //             itemCount: vm4.newsList.length,
-                                  //           ),
-                                  //         ),
-                                  //       ),
+                                  vm4.shouldShowPageLoader
+                                      ? Center(
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 18.0,
+                                          ),
+                                          child: SizedBox(
+                                            height: 120,
+                                            child: ListView.builder(
+                                              itemBuilder:
+                                                  (BuildeContext, index) {
+                                                return CustomBlogWidget(
+                                                  title: vm4.newsList[index].title,
+                                                  news: vm4.newsList[index].blogDetail,
+                                                );
+                                              },
+                                              scrollDirection:
+                                                  Axis.horizontal,
+                                              itemCount: vm4.newsList.length,
+                                            ),
+                                          ),
+                                        ),
                                 ],
                               ),
                             ),

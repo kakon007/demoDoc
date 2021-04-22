@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
-import 'package:myhealthbd_app/main_app/views/blog_vlog_article_card.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/blog_vlog_article_card.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
   final CarouselController _controller = CarouselController();
   PageController _pageController;
   int itemIndex;
+
   // void onPageChange(int index, CarouselPageChangedReason changeReason) {
   //   setState(() {
   //     itemIndex = index;
@@ -58,6 +60,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
         itemIndex = index;
       });
     }
+
     // final List<Widget> imageSliders = list
     //     .map((item) => Column(
     //   children: [
@@ -145,6 +148,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
     );
     var vm = Provider.of<VideoViewModel>(context, listen: false);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
+    var vm3 = Provider.of<BLogViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
@@ -160,20 +164,21 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
             CarouselSlider.builder(
               itemCount: list.length,
               itemBuilder: (BuildContext context, int a, int i) {
-                return   Container(
+                return Container(
                   margin: EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: itemIndex==  a ? Colors.black.withOpacity(0.1) :HexColor(list[a].color).withOpacity(0.1),
+                        color: itemIndex == a
+                            ? Colors.black.withOpacity(0.1)
+                            : HexColor(list[a].color).withOpacity(0.1),
                         offset: Offset(2.0, 2.0),
                         blurRadius: 3.0,
                         spreadRadius: 2.0,
                       ),
                     ],
                   ),
-
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     child: Container(
@@ -194,7 +199,9 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                               child: Text(
                                 list[a].name,
                                 style: GoogleFonts.poppins(
-                                    fontSize: 20, fontWeight: FontWeight.w700, color: HexColor("#354291")),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: HexColor("#354291")),
                               ),
                             ),
                             SizedBox(
@@ -225,7 +232,9 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
               ),
               carouselController: _controller,
             ),
-            SizedBox(height: 8,),
+            SizedBox(
+              height: 8,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
@@ -244,7 +253,11 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                   child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: itemIndex == 1? vm2.newsList.length : vm.videoList.length,
+                      itemCount: itemIndex == 1
+                          ? vm2.newsList.length
+                          : itemIndex == 2
+                              ? vm.videoList.length
+                              : vm3.newsList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return itemIndex == 2
                             ? BlogVlogArticleCard(
@@ -260,21 +273,20 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                               )
                             : itemIndex == 1
                                 ? BlogVlogArticleCard(
-                                    title:
-                                        vm2.newsList[index].title,
+                                    title: vm2.newsList[index].title,
                                     buttonName: "Read News",
                                     image: vm.videoList[index].snippet
                                         .thumbnails.standard.url,
                                     pageNo: "1",
-                                    url:
-                                    vm2.newsList[index].newsLink,
+                                    url: vm2.newsList[index].newsLink,
                                   )
                                 : BlogVlogArticleCard(
-                                    title: "Worlds's Health Organization",
+                                    title: vm3.newsList[index].title,
                                     buttonName: "Read Blog",
                                     image: vm.videoList[index].snippet
                                         .thumbnails.standard.url,
                                     pageNo: "0",
+                                    blogDetails: vm3.newsList[index].blogDetail,
                                   );
                       })),
 

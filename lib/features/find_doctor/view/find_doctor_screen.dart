@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -13,6 +14,7 @@ import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_
 import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/repositories/filter_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
@@ -42,7 +44,7 @@ class FindYourDoctorScreen extends StatefulWidget {
 class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   AsyncMemoizer<DoctorsGridModel> _memoizer;
 
-  // final List<Datum> doctorsList = List<Datum>();
+  TextEditingController editingController = TextEditingController();
   List _items1 = [];
   List _items2 = [];
   List _items3 = [];
@@ -59,50 +61,34 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   );
   ScrollController _scrollController;
   ScrollController _scrollController2;
-
-  // Future<DoctorsGridModel> getDoctorList() async {
-  //   return this._memoizer.runOnce(() async {
-  //     var url =
-  //         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/gridList?draw=1&columns%5B0%5D%5Bdata%5D=photo&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=doctorName&columns%5B1%5D%5Bname%5D=doctorName&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=specializationName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=docDegree&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=consultationFee&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=9&search%5Bvalue%5D=&search%5Bregex%5D=false&ogNo=${widget.orgNo}&companyNo=${widget.companyNo}&_=1617590097400";
-  //     var client = http.Client();
-  //     var response = await client.get(url);
-  //     print(response.body);
-  //
-  //     if (response.statusCode == 200) {
-  //       DoctorsGridModel data = doctorsGridModelFromJson(response.body);
-  //       setState(() {
-  //         data.obj.data.forEach((element) {
-  //           doctorsList.add(element);
-  //         });
-  //         print(doctorsList.length);
-  //         // data.data.forEach((element) {
-  //         //   patientTypeList.add(element);
-  //         // });
-  //       });
-  //       return data;
-  //     } else {
-  //       return null;
-  //     }
-  //   });
-  // }
-
+  List<SpecializationItem> specialistList;
+  var items = List<SpecializationItem>();
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController2 = ScrollController();
     var vm = Provider.of<DoctorListViewModel>(context, listen: false);
     vm.getDoctor(widget.orgNo, widget.companyNo, null, null);
-    print("IShraak" + vm.doctorList.length.toString());
     // TODO: implement initState
     super.initState();
     _memoizer = AsyncMemoizer();
-    var vm2 = Provider.of<FilterViewModel>(context, listen: false);
-    vm2.getDepartment(widget.companyNo);
-    vm2.getSpecialist(widget.id, widget.orgNo);
-    
-  
+    // Future.delayed(Duration(milliseconds: 100)).then((_) {
+      var vm2 = Provider.of<FilterViewModel>(context, listen: false);
+      vm2.getDepartment(widget.companyNo);
+      vm2.getSpecialist(widget.id, widget.orgNo);
+      specialistList= vm2.specialList;
+      items.addAll(specialistList);
+    // });
   }
-
+  @override
+  void asyncMethod()  {
+    var vm2 = Provider.of<FilterViewModel>(context, listen: true);
+    vm2.getSpecialist(widget.id, widget.orgNo);
+    specialistList= vm2.specialList;
+    items.addAll(specialistList);
+    super.didChangeDependencies();
+    // ....
+  }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<DoctorListViewModel>(context);
@@ -120,6 +106,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
+
     final Widget mailimg = SvgPicture.asset(
       assetName2,
       width: 10,
@@ -423,14 +410,40 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   }
 
   SliverAppBar createSilverAppBar2() {
-    var vm2 = Provider.of<FilterViewModel>(context);
-    List<DeptItem> deptList = vm2.departmentList;
+    var vm2 = Provider.of<FilterViewModel>(context, listen: true);
     List<SpecializationItem> specialistList = vm2.specialList;
+    List<DeptItem> deptList = vm2.departmentList;
+   // specialistList = vm2.specialList;
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
     var verticalSpace = SizedBox(
       width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
     );
+    void filterSearchResults(String query) {
+      List<SpecializationItem> dummySearchList = List<SpecializationItem>();
+      dummySearchList.addAll(specialistList);
+      print(dummySearchList.length);
+      if(query.isNotEmpty) {
+        List<SpecializationItem> dummyListData = List<SpecializationItem>();
+        dummySearchList.forEach((item) {
+          if(item.dtlName.contains(query)) {
+            dummyListData.add(item);
+            print(dummyListData.length);
+          }
+        });
+        setState(() {
+          items.clear();
+          items.addAll(dummyListData);
+        });
+        return;
+      } else {
+        setState(() {
+          items.clear();
+          items.addAll(specialistList);
+        });
+      }
+
+    }
 
     var horizontalSpace = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
@@ -600,7 +613,23 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     ),
                                     child: Column(
                                       children: [
-                                        searchDepartment,
+                                       searchDepartment,
+                                        // Padding(
+                                        //   padding: const EdgeInsets.all(8.0),
+                                        //   child: TextField(
+                                        //     onChanged: (value) {
+                                        //       filterSearchResults(value);
+                                        //      // print(value);
+                                        //     },
+                                        //     controller: editingController,
+                                        //     decoration: InputDecoration(
+                                        //         labelText: "Search",
+                                        //         hintText: "Search",
+                                        //         prefixIcon: Icon(Icons.search),
+                                        //         border: OutlineInputBorder(
+                                        //             borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+                                        //   ),
+                                        // ),
                                         Expanded(
                                           child: Scrollbar(
                                             isAlwaysShown: true,
@@ -723,8 +752,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             specialSelectedItem =
                                                                 "&specializationList%5B%5D=" +
                                                                     stringList;
-                                                            print(
-                                                                specialSelectedItem);
                                                           });
                                                         },
                                                       ),
@@ -754,6 +781,12 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           height: width * .25,
                                           child: FlatButton(
                                             onPressed: () {
+                                              vm2.specialList.forEach((element) {element.isChecked=false;});
+                                              vm2.departmentList.forEach((element) {element.isChecked=false;});
+                                              _items3.clear();
+                                              _items4.clear();
+                                              _items1.clear();
+                                              _items2.clear();
                                               vm.getDoctor(widget.orgNo,
                                                   widget.companyNo, null, null);
                                               Navigator.pop(context);

@@ -142,7 +142,11 @@ class AvailableSlotsRepository {
   }
 
   Future<Either<AppError, FeeCheck>>   fetchFee( String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo ) async {
-
+    print(companyNo);
+    print(conTypeNo);
+    print(doctorNo);
+    print(orgNo);
+    print(patTypeNo);
     var url =
         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/getConsultationFee";
 
@@ -158,7 +162,7 @@ class AvailableSlotsRepository {
         print(response.body);
         PatientFee data = patientFeeFromJson(response.body);
         return Right(FeeCheck(
-            fee: data.obj,
+            fee: data.obj.toString(),
         ));
       } else {
         // BotToast.showText(text: StringResources.somethingIsWrong);
@@ -198,7 +202,7 @@ class SlotCheckModel {
   SlotCheckModel({this.slotStatus});
 }
 class FeeCheck {
-  int fee;
+  String fee;
 
   FeeCheck({this.fee});
 }

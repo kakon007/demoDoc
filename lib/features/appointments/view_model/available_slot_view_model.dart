@@ -63,9 +63,25 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   bool _isLoading;
   bool _isSlotStatusLoading;
   bool _isPatientLoading;
-  int consultFee;
-
-
+  String consultFee;
+  bool _forMe= true;
+  bool _addPatient= false;
+  String _forMeBackColor = "#141D53";
+  String _forMeTextColor = "#FFFFFF";
+  String _addPatientBackColor = "#00FFFFFF";
+  String _addPatientTextColor = "#8389A9";
+  getAppointType(bool forMe, bool addPatient){
+    _forMe = forMe;
+    _addPatient= addPatient;
+    notifyListeners();
+  }
+  getButtonColor(String forMeBackColor, String forMeTextColor, String addPatientBackColor, String addPatientTextColor){
+    _forMeBackColor= forMeBackColor;
+    _forMeTextColor= forMeTextColor;
+    _addPatientBackColor= addPatientBackColor;
+    _addPatientTextColor= addPatientTextColor;
+    notifyListeners();
+  }
   Future<void> getSlots(DateTime pickedAppointDate, String companyNo,
       String docotrNo, String orgNo) async {
     _isLoading = true;
@@ -103,6 +119,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       _isSlotStatusLoading = false;
       notifyListeners();
     });
+
   }
 
 
@@ -143,22 +160,22 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-  // Future<void> getFee(String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo) async {
-  //   _isLoading = true;
-  //   var res = await AvailableSlotsRepository().fetchFee(companyNo, conTypeNo, doctorNo,orgNo, patTypeNo);
-  //   notifyListeners();
-  //   res.fold((l) {
-  //     _appError = l;
-  //     _isLoading = false;
-  //     _isFetchingMoreData = false;
-  //     notifyListeners();
-  //   }, (r) {
-  //     _isFetchingMoreData = false;
-  //    consultFee = r.obj;
-  //     _isLoading = false;
-  //     notifyListeners();
-  //   });
-  // }
+  Future<void> getFee(String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo) async {
+    _isLoading = true;
+    var res = await AvailableSlotsRepository().fetchFee(companyNo, conTypeNo, doctorNo,orgNo, patTypeNo);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isLoading = false;
+      _isFetchingMoreData = false;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = false;
+     consultFee = r.fee;
+      _isLoading = false;
+      notifyListeners();
+    });
+  }
 
 
   AppError get appError => _appError;
@@ -173,8 +190,14 @@ class AvailableSlotsViewModel extends ChangeNotifier {
 
   String get slotStatus => slot;
 
-  int  get consultationFee =>   consultFee;
+  String  get consultationFee =>   consultFee;
   List<PatientItem> get patientItem => _patientItem;
   List<Items> get slotList => _slots;
   List<ConsultType> get consultType => _consultItem;
+  bool get forMe => _forMe;
+  bool get addPatient => _addPatient;
+  String get forMeBackColor => _forMeBackColor;
+  String get forMeTextColor=> _forMeTextColor;
+  String get addPatientBackColor=> _addPatientBackColor;
+  String get addPatientTextColor => _addPatientTextColor;
 }

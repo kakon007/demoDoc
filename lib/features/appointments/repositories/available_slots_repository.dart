@@ -113,10 +113,10 @@ class AvailableSlotsRepository {
     }      // BotToast.showText(text: StringResources.somethingIsWrong);
     return Left(AppError.unknownError);
   }
-  Future<Either<AppError, ConsultTypeModel>>   fetchConType( String selectedType, String companyNo, String orgNo ) async {
+  Future<Either<AppError, ConsultTypes>>   fetchConType( String doctorNo,String selectedType, String companyNo, String orgNo ) async {
 
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findConTypeList?doctorNo=2000011&patTypeNo=$selectedType&companyNo=2&ogNo=2";
+        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/findConTypeList?doctorNo=$doctorNo&patTypeNo=$selectedType&companyNo=2&ogNo=2";
     var client = http.Client();
     var response = await client.get(url);
    print(response.body);
@@ -124,7 +124,7 @@ class AvailableSlotsRepository {
       if (response.statusCode == 200) {
        print(response.body);
         ConsultTypeModel data = consultTypeModelFromJson(response.body);
-        return Right(ConsultTypeModel(
+        return Right(ConsultTypes(
             consultType: data.consultType
         ));
       } else {
@@ -142,22 +142,27 @@ class AvailableSlotsRepository {
   }
 
   Future<Either<AppError, FeeCheck>>   fetchFee( String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo ) async {
-
+    print(companyNo);
+    print(conTypeNo);
+    print(doctorNo);
+    print(orgNo);
+    print(patTypeNo);
     var url =
         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/getConsultationFee";
-    final http.Response response = await http.post(url,body: jsonEncode(<String, String>{
-      "companyNo": companyNo,
-      "conTypeNo": conTypeNo,
-      "doctorNo": doctorNo,
-      "ogNo": orgNo,
-      "patTypeNo": patTypeNo
-    }),);
+
     try {
+      final http.Response response = await http.post(url,body: jsonEncode(<String, String>{
+        "companyNo": companyNo,
+        "conTypeNo": conTypeNo,
+        "doctorNo": doctorNo,
+        "ogNo": orgNo,
+        "patTypeNo": patTypeNo
+      }),);
       if (response.statusCode == 200) {
         print(response.body);
         PatientFee data = patientFeeFromJson(response.body);
         return Right(FeeCheck(
-            fee: data.obj.toString()
+            fee: data.obj.toString(),
         ));
       } else {
         // BotToast.showText(text: StringResources.somethingIsWrong);
@@ -176,7 +181,6 @@ class AvailableSlotsRepository {
 }
 
 
-
 class AvailableSlotListModel {
   List<Items> slotList = new List<Items>();
 
@@ -186,6 +190,11 @@ class PatientType {
   List<PatientItem> patType = new List<PatientItem>();
 
   PatientType({this.patType});
+}
+class ConsultTypes {
+  List<ConsultType> consultType = new List<ConsultType>();
+
+  ConsultTypes({this.consultType});
 }
 class SlotCheckModel {
   String slotStatus;

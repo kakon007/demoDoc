@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
+import 'package:provider/provider.dart';
 
 class CustomCardNews extends StatelessWidget {
   String titleText;
@@ -11,6 +14,7 @@ class CustomCardNews extends StatelessWidget {
   CustomCardNews(@required this.titleText,@required this.subTitleText,@required this.url,);
   @override
   Widget build(BuildContext context) {
+
     return Container(
       //height: 40,
       width: 300,

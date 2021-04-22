@@ -298,25 +298,14 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
   bool isLoading = false;
   double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
   int _crossAxisCount = 4;
-  AvailableSlotModel slotItem;
-  void startTimer() {
-    Timer.periodic(const Duration(seconds: 2), (t) {
-      if(mounted)
-      setState(() {
-        isLoading = false; //set loading to false
-      });
-      t.cancel();
-      isLoading=true;//stops the timer
-    });
-  }
+ // AvailableSlotModel slotItem;
   @override
   void initState() {
     super.initState();
-    startTimer();
+
     pickedAppointDate = DateTime.now();
     pickedAppointDate2 = DateTime.now();
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-   // print("shakil111111");
     vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
     AvailableSlotsRepository().fetchSlotInfo(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
 
@@ -328,13 +317,6 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
     if(pickedAppointDate!=pickedAppointDate2){
       vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       pickedAppointDate2 = pickedAppointDate;
-        Timer.periodic(const Duration(milliseconds: 2000), (t) {
-          setState(() {
-            isLoading = false; //set loading to false
-          });
-          t.cancel();
-          isLoading=true;//stops the timer
-        });
     }
     List<Items> list = vm.slotList;
     var spaceBetween= SizedBox(height: 10,);
@@ -396,7 +378,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
         ),
       ],
     );
-    var proceedButton=      isLoading== false ? SizedBox() :    Container(
+    var proceedButton=      vm.isSlotStatusLoading== true ? SizedBox() :    Container(
       width: MediaQuery.of(context).size.width,
       height: 45,
       child: FlatButton(
@@ -431,7 +413,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
                 fontSize: 14,
                 fontWeight: FontWeight.w600)),
         spaceBetween,
-        isLoading== false ? Center(child: CircularProgressIndicator()) : Expanded(
+        vm.isLoading== true ? Center(child: CircularProgressIndicator()) : Expanded(
             child: GridView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: list.length,

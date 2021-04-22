@@ -66,6 +66,7 @@ dependencies:
   path:
   open_file:
   flutter_pdfview:
+  fluttertoast:
 
 
 

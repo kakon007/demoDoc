@@ -148,7 +148,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
           children: [
            widget.accessToken==null?SizedBox():InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: userDetails.patientName,phoneNumber: userDetails.phoneMobile,address: userDetails.address,dob: userDetails.dob,)));
                 print("Presssss");
               },
               child: Row(

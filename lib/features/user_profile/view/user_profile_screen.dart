@@ -36,7 +36,7 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),
-        leading: Icon(Icons.notes),
+        //leading: Icon(Icons.notes),
         title: Row(
           children: [
             Text('User Profile',style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w500),),

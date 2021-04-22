@@ -4,15 +4,14 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 
-class SignInPrompt extends StatefulWidget {
+class SignInDashboardForPatientPrompt extends StatefulWidget {
   String title;
-  String appBarName;
-  SignInPrompt(this.title,this.appBarName);
+  SignInDashboardForPatientPrompt(this.title);
   @override
-  _SignInPromptState createState() => _SignInPromptState();
+  _SignInDashboardForPatientPromptState createState() => _SignInDashboardForPatientPromptState();
 }
 
-class _SignInPromptState extends State<SignInPrompt> {
+class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPatientPrompt> {
 
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
@@ -20,7 +19,9 @@ class _SignInPromptState extends State<SignInPrompt> {
   );
 
 
-
+  _showAppoinmentPrompt(){
+    _showAlert(context);
+  }
 
   @override
   void initState() {
@@ -28,20 +29,33 @@ class _SignInPromptState extends State<SignInPrompt> {
 
     super.initState();
 
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-    //   await _showAppoinmentPrompt();
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _showAppoinmentPrompt();
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-        appBar: AppBar(
-          //title: Text('Appointments'),
-          backgroundColor: HexColor('#354291'),
-          title: Text(widget.appBarName,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
-        ),
-        body:Stack(
+      appBar: AppBar(
+        //title: Text('Appointments'),
+        backgroundColor: HexColor('#354291'),
+        title: Text('Patient Portal',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
+      ),
+
+    );
+
+
+  }
+
+  void _showAlert(BuildContext context) {
+    showGeneralDialog(
+      barrierLabel: "Label",
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 700),
+      context: context,
+      pageBuilder: (context, anim1, anim2) {
+        return Stack(
           children:[
             Align(
               alignment: Alignment.bottomCenter,
@@ -152,7 +166,7 @@ class _SignInPromptState extends State<SignInPrompt> {
             ),
 
             Positioned(
-              top: MediaQuery.of(context).size.height/1.8,
+              top: MediaQuery.of(context).size.height/1.5,
               left:100,
               right:100,
               child: CircleAvatar(
@@ -165,11 +179,15 @@ class _SignInPromptState extends State<SignInPrompt> {
               ),
             ),
           ],
-        ) ,
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return SlideTransition(
+          position: Tween(begin: Offset(0, 2), end: Offset(0, 0)).animate(anim1),
+          child: child,
+        );
+      },
     );
-
-
   }
-
 
 }

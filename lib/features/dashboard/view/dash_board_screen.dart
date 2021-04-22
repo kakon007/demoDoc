@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,17 +18,19 @@ import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart';
 import 'package:myhealthbd_app/features/videos/repositories/channel_Info_repository.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
+import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/failure_widget.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:path_provider/path_provider.dart';
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
@@ -64,6 +68,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     // TODO: implement initState
     // fetchHospitalList();
     // fetchNewspdate();
+    //fetchPDF();
     VideoInfoRepository().getVideoInfo();
     NewsRepository().fetchNewspdate();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
@@ -82,6 +87,36 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     //fetchHospitalList();
     super.dispose();
   }
+
+  // Future fetchPDF() async {
+  //   final uri = 'https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription';
+  //   var map = new Map<String, dynamic>();
+  //   map['prescriptionId'] = '2220000115';
+  //   map['pClient'] = 'aalok';
+  //   map['pLayout'] = '1';
+  //
+  //   http.Response response = await http.post(
+  //     uri,
+  //     headers: {'Authorization': 'Bearer ${widget.accessToken}',},
+  //     body: map,
+  //   );
+  //   String body=response.body;
+  //   print("STATUS::"+response.statusCode.toString());
+  //   print("PDF:::"+body);
+  //   print("JAHIIIDISDOHADSO");
+  //   return body;
+  // }
+
+  // Future<String> _createFileFromString() async {
+  //   final encodedStr='''''';
+  //   Uint8List bytes = base64.decode(encodedStr);
+  //   String dir = (await getApplicationDocumentsDirectory()).path;
+  //   File file = File(
+  //       "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+  //   await file.writeAsBytes(bytes);
+  //   //print("FILEEEEE"+file.path.toString);
+  //   return file.path;
+  // }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
@@ -137,56 +172,57 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         //   width: double.infinity,
         //   child:
 
-          Stack(
-            children: <Widget>[
-              Stack(
-                  children: [
-                   widget.isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
-                    Padding(
-                      padding: const EdgeInsets.only(top:110.0,left: 70),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("20 Health tips",style:  GoogleFonts.poppins(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
-                          SizedBox(height: 1,),
-                          Text("to help you start off towards \nhealthy living in 2021",style:  GoogleFonts.poppins(fontSize: 10,color: Colors.white,fontWeight: FontWeight.w500),),
-                          SizedBox(height: 8,),
-                          Container(
-                            width: 90,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(30),
+        Stack(
+          children: <Widget>[
+            Stack(
+                children: [
+                  widget.isDrawerOpen?this._backgroundImage():this._backgroundImage2(),
+                  Padding(
+                    padding: const EdgeInsets.only(top:80.0,left: 70),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("20 Health tips",style:  GoogleFonts.poppins(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),),
+                        SizedBox(height: 1,),
+                        Text("to help you start off towards \nhealthy living in 2021",style:  GoogleFonts.poppins(fontSize: 10,color: Colors.white,fontWeight: FontWeight.w500),),
+                        SizedBox(height: 8,),
+                        Container(
+                          width: 90,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right:10.0,left: 10),
+                            child: Row(
+                              children: [
+                                Text("Read More",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 8),),
+                                Spacer(),
+                                Icon(Icons.arrow_forward,size: 10,color: Colors.white,)
+                              ],
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(right:10.0,left: 10),
-                              child: Row(
-                                children: [
-                                  Text("Read More",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 8),),
-                                  Spacer(),
-                                  Icon(Icons.arrow_forward,size: 10,color: Colors.white,)
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
-                    Scaffold(
-                      key: _scaffoldKey,
-                      backgroundColor: Colors.transparent,
-                      appBar: new AppBar(
-                        // leading: Container(
-                        //     height: 10,
-                        //     child: svg),
-                        title: new Text(
-                          StringResources.dasboardAppBarText,
-                          style:  GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w600),
-                        ),
-                        actions: [
-                          Padding(
-                            padding: const EdgeInsets.only(right:10),
-                            child: widget.accessToken==null?GestureDetector(
+                  ),
+                  Scaffold(
+                    resizeToAvoidBottomInset: false,
+                    key: _scaffoldKey,
+                    backgroundColor: Colors.transparent,
+                    appBar: new AppBar(
+                      // leading: Container(
+                      //     height: 10,
+                      //     child: svg),
+                      title: new Text(
+                        StringResources.dasboardAppBarText,
+                        style:  GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w600),
+                      ),
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.only(right:10),
+                          child: widget.accessToken==null?GestureDetector(
                               onTap: (){
 
                                 Navigator.push(context, PageRouteBuilder(
@@ -223,79 +259,22 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                 ],
                               )
 
-                            ): CircleAvatar(
-                              radius: 18,
-                              backgroundColor: Colors.white,
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage('assets/images/proimg.png'),
-                                radius: 16,
-                              ),
+                          ): CircleAvatar(
+                            radius: 18,
+                            backgroundColor: Colors.white,
+                            child: CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/proimg.png'),
+                              radius: 16,
                             ),
-                          )
-                        ],
-                        backgroundColor: Colors.transparent,
-                        elevation: 0.0,
-                        // leading: Container(
-                        //   child: isDrawerOpen
-                        //       ? IconButton(
-                        //       icon: Icon(Icons.arrow_back),
-                        //       onPressed: () {
-                        //         setState(() {
-                        //           xOffset = 0;
-                        //           yOffset = 0;
-                        //           scaleFactor = 1;
-                        //           isDrawerOpen = false;
-                        //         });
-                        //       })
-                        //       : IconButton(
-                        //       icon: Icon(Icons.notes),
-                        //       onPressed: () {
-                        //         setState(() {
-                        //           xOffset = 250;
-                        //           yOffset = 100;
-                        //           scaleFactor = 0.8;
-                        //           isDrawerOpen = true;
-                        //         });
-                        //         print("Jahid");
-                        //       }),
-                        // ),
-                        leading: Container(
-                          child: widget.isDrawerOpen?IconButton(
-                            iconSize: 35,
-                              icon: Icon(Icons.arrow_back),
-                              onPressed: () {
-                               widget.menuCallBack();
-                              }):IconButton(
-                              icon: Icon(Icons.notes),
-                              onPressed: () {
-                                widget.menuCallBack();
-                              })
-
-                        ),
-                      ),
-                      // drawer: Drawer(
-                      //   // child: GestureDetector(
-                      //   //   onTap: (){
-                      //   //     //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainCollapsingToolbar()));
-                      //   //   },
-                      //   //   child: Padding(
-                      //   //     padding: const EdgeInsets.only(top:50.0,left:10),
-                      //   //     child: Column(
-                      //   //       children: [
-                      //   //         Row(
-                      //   //           children: [
-                      //   //             Text("Find Your Doctor",style: TextStyle(fontSize: 18),),
-                      //   //             Spacer(),
-                      //   //             Icon(Icons.arrow_forward),
-                      //   //           ],
-                      //   //         ),
-                      //   //       ],
-                      //   //     ),
-                      //   //   ),
-                      //   // ),
+                          ),
+                        )
+                      ],
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      // leading: Container(
                       //   child: isDrawerOpen
                       //       ? IconButton(
-                      //       icon: Icon(Icons.arrow_back_sharp),
+                      //       icon: Icon(Icons.arrow_back),
                       //       onPressed: () {
                       //         setState(() {
                       //           xOffset = 0;
@@ -305,225 +284,284 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                       //         });
                       //       })
                       //       : IconButton(
-                      //       icon: Icon(Icons.menu),
+                      //       icon: Icon(Icons.notes),
                       //       onPressed: () {
                       //         setState(() {
                       //           xOffset = 250;
-                      //           yOffset = 150;
-                      //           scaleFactor = 0.6;
+                      //           yOffset = 100;
+                      //           scaleFactor = 0.8;
                       //           isDrawerOpen = true;
                       //         });
                       //         print("Jahid");
                       //       }),
                       // ),
-                      body: Padding(
-                        padding: deviceHeight >= 600
-                            ? EdgeInsets.only(top: 200.0)
-                            : EdgeInsets.only(top: 250),
-                        child: Container(
-                          height: double.infinity,
-                          // minHeight: deviceHeight>=600?480:250,
-                          // maxHeight: 710,
-                          // isDraggable: true,
-                          // //backdropEnabled: true,
-                          // borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
-                          decoration: BoxDecoration(
-                              borderRadius: widget.isDrawerOpen?BorderRadius.all(Radius.circular(25)):BorderRadius.only(
-                                  topLeft: Radius.circular(25),
-                                  topRight: Radius.circular(25)),
-                              color: HexColor("#FFFFFF"),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: HexColor("#0D1231").withOpacity(0.08),
-                                  spreadRadius: 10,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3), // changes position of shadow
-                                ),
-                              ]),
-                          child:Column(
-                            children: [
-                              Container(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top:18,left:20.0,right: 20),
-                                      child: Row(
-                                        children: [
-                                          Text(StringResources.esayDoctorAppointmentText,style:  GoogleFonts.poppins(fontSize: 17
-                                              ,fontWeight: FontWeight.w600),),
-                                          Spacer(),
-                                          Container(
-                                              width: 100,
+                      leading: Container(
+                          child: widget.isDrawerOpen?IconButton(
+                              iconSize: 35,
+                              icon: Icon(Icons.arrow_back),
+                              onPressed: () {
+                                widget.menuCallBack();
+                              }):IconButton(
+                              icon: Icon(Icons.notes),
+                              onPressed: () {
+                                widget.menuCallBack();
+                              })
 
-                                              child: Image.asset("assets/images/my_health_logo.png")),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 10,),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left:15.0,right: 15),
-                                      child: SearchBarViewWidget(),
-                                    ),
-                                    SizedBox(height: 10,),
-                                    widget.accessToken==null?Container():CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
-                                    SizedBox(height: 10,),
-                                    //SizedBox(height: 30,),
-                                  ],
-                                ),
+                      ),
+                    ),
+                    // drawer: Drawer(
+                    //   // child: GestureDetector(
+                    //   //   onTap: (){
+                    //   //     //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainCollapsingToolbar()));
+                    //   //   },
+                    //   //   child: Padding(
+                    //   //     padding: const EdgeInsets.only(top:50.0,left:10),
+                    //   //     child: Column(
+                    //   //       children: [
+                    //   //         Row(
+                    //   //           children: [
+                    //   //             Text("Find Your Doctor",style: TextStyle(fontSize: 18),),
+                    //   //             Spacer(),
+                    //   //             Icon(Icons.arrow_forward),
+                    //   //           ],
+                    //   //         ),
+                    //   //       ],
+                    //   //     ),
+                    //   //   ),
+                    //   // ),
+                    //   child: isDrawerOpen
+                    //       ? IconButton(
+                    //       icon: Icon(Icons.arrow_back_sharp),
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           xOffset = 0;
+                    //           yOffset = 0;
+                    //           scaleFactor = 1;
+                    //           isDrawerOpen = false;
+                    //         });
+                    //       })
+                    //       : IconButton(
+                    //       icon: Icon(Icons.menu),
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           xOffset = 250;
+                    //           yOffset = 150;
+                    //           scaleFactor = 0.6;
+                    //           isDrawerOpen = true;
+                    //         });
+                    //         print("Jahid");
+                    //       }),
+                    // ),
+                    body: Padding(
+                      padding: deviceHeight >= 600
+                          ? EdgeInsets.only(top: 115.0)
+                          : EdgeInsets.only(top: 250),
+                      child: Container(
+                        height: double.infinity,
+                        // minHeight: deviceHeight>=600?480:250,
+                        // maxHeight: 710,
+                        // isDraggable: true,
+                        // //backdropEnabled: true,
+                        // borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
+                        decoration: BoxDecoration(
+                            borderRadius: widget.isDrawerOpen?BorderRadius.all(Radius.circular(25)):BorderRadius.only(
+                                topLeft: Radius.circular(25),
+                                topRight: Radius.circular(25)),
+                            color: HexColor("#FFFFFF"),
+                            boxShadow: [
+                              BoxShadow(
+                                color: HexColor("#0D1231").withOpacity(0.08),
+                                spreadRadius: 10,
+                                blurRadius: 7,
+                                offset: Offset(0, 3), // changes position of shadow
                               ),
+                            ]),
+                        child:Column(
+                          children: [
+                            Expanded(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                physics: AlwaysScrollableScrollPhysics(),
+                                child: Container(
+                                  // height:200,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:18,left:20.0,right: 20),
+                                        child: Row(
+                                          children: [
+                                            Text(StringResources.esayDoctorAppointmentText,style:  GoogleFonts.poppins(fontSize: 17
+                                                ,fontWeight: FontWeight.w600),),
+                                            Spacer(),
+                                            Container(
+                                                width: 100,
 
-
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  physics: AlwaysScrollableScrollPhysics(),
-                                  child: Container(
-                                   // height:200,
-                                    child: Column(
-                                      children: [
-
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:18.0,right: 18),
-                                          child: Row(
+                                                child: Image.asset("assets/images/my_health_logo.png")),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:15.0,right: 15),
+                                        child: SearchBarViewWidget(),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      widget.accessToken==null?Container():CustomCardPat("You have an upcoming appointment","22-02-2021 Monday 08:30pm \nSerial-12","Dr. Jahid Hasan","Alok hospital"),
+                                      SizedBox(height: 10,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:18.0,right: 18),
+                                        child: Row(
+                                          children: [
+                                            Text(StringResources.hospitalDiagnosticsText,style:  GoogleFonts.poppins(fontSize: 16
+                                                ,fontWeight: FontWeight.w600),),
+                                            Spacer(),
+                                            GestureDetector(onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
+                                            },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11,fontWeight: FontWeight.w600),)),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      vm.shouldShowPageLoader
+                                          ? Center(
+                                        child: CircularProgressIndicator(),
+                                      ):SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left:18.0,),
+                                          child:
+                                          Row(
                                             children: [
-                                              Text(StringResources.hospitalDiagnosticsText,style:  GoogleFonts.poppins(fontSize: 16
-                                                  ,fontWeight: FontWeight.w600),),
-                                              Spacer(),
-                                              GestureDetector(onTap: (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
-                                              },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11,fontWeight: FontWeight.w600),)),
+                                              ...List.generate(
+                                                lengthofHospitalList,
+                                                    (i) => CustomCard( list[i].companyName,
+                                                  list[i].companyAddress == null
+                                                      ? "Mirpur,Dahaka,Bangladesh"
+                                                      : list[i].companyAddress,
+                                                  "60 Doctors",
+                                                  list[i].companyPhone == null
+                                                      ? "+880 1962823007"
+                                                      : list[i].companyPhone,
+                                                  list[i].companyEmail == null
+                                                      ? "info@mysoftitd.com"
+                                                      : list[i].companyEmail,
+                                                  list[i].companyLogo,
+                                                  list[i].companyId,
+
+                                                  list[i].ogNo.toString(),
+                                                  list[i].id.toString(),),
+                                              ),
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 10,),
-                                        vm.shouldShowPageLoader
-                                            ? Center(
-                                          child: CircularProgressIndicator(),
-                                        ):SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left:18.0,),
-                                            child:
-                                            Row(
-                                              children: [
-                                                ...List.generate(
-                                                  lengthofHospitalList,
-                                                      (i) => CustomCard( list[i].companyName,
-                                                    list[i].companyAddress == null
-                                                        ? "Mirpur,Dahaka,Bangladesh"
-                                                        : list[i].companyAddress,
-                                                    "60 Doctors",
-                                                    list[i].companyPhone == null
-                                                        ? "+880 1962823007"
-                                                        : list[i].companyPhone,
-                                                    list[i].companyEmail == null
-                                                        ? "info@mysoftitd.com"
-                                                        : list[i].companyEmail,
-                                                    list[i].companyLogo,
-                                                    list[i].companyId,
-
-                                                    list[i].ogNo.toString(),
-                                                    list[i].id.toString(),),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                      ),
+                                      SizedBox(height: 20,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:18.0,right: 18),
+                                        child: Row(
+                                          children: [
+                                            Text("News & Update",style:  GoogleFonts.poppins(fontSize: 16
+                                                ,fontWeight: FontWeight.w600),),
+                                            Spacer(),
+                                            Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),),
+                                          ],
                                         ),
-                                        SizedBox(height: 20,),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:18.0,right: 18),
-                                          child: Row(
+                                      ),
+                                      SizedBox(height: 10,),
+                                      // vm2.shouldShowAppError
+                                      //     ? ListView( key: Key('allJobsListView2'),
+                                      //   children: [errorWidget()],
+                                      // ):
+                                      vm2.shouldShowPageLoader
+                                          ? Center(
+                                        child: CircularProgressIndicator(),
+                                      ):
+                                      vm2.shouldShowNoNewsFound
+                                          ? Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                              StringResources.noNewsFound),
+                                          key: Key('noJobsFound1'),
+                                        ),
+                                      ):
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left:18.0,),
+                                          child:
+                                          Row(
                                             children: [
-                                              Text("News & Update",style:  GoogleFonts.poppins(fontSize: 16
-                                                  ,fontWeight: FontWeight.w600),),
-                                              Spacer(),
-                                              GestureDetector(onTap:(){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>HospitalScreen()));
-                                              },child: Text(StringResources.viewAllText,style:  GoogleFonts.poppins(color:HexColor("#8592E5"),fontSize: 11,fontWeight: FontWeight.w600 ),)),
+                                              ...List.generate(
+                                                lengthofNewsList,
+                                                    (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(list2[i].publishDate).toLocal()),list2[i].title,list2[i].newsLink),
+                                              ),
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 10,),
-                                        vm2.shouldShowPageLoader
-                                            ? Center(
-                                          child: CircularProgressIndicator(),
-                                        ):SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left:18.0,),
-                                            child:
-                                            Row(
-                                              children: [
-                                                ...List.generate(
-                                                  lengthofNewsList,
-                                                      (i) => CustomCardNews(DateUtil().formattedDate(DateTime.parse(list2[i].publishDate).toLocal()),list2[i].title,list2[i].newsLink),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                      ),
+                                      SizedBox(height: 20,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:18.0,right: 18),
+                                        child: Row(
+                                          children: [
+                                            Text("My Health Video",style: GoogleFonts.poppins(fontSize: 16
+                                                ,fontWeight: FontWeight.w600),),
+                                            Spacer(),
+                                            Text(StringResources.viewAllText,style: GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11 ,fontWeight: FontWeight.w600),),
+                                          ],
                                         ),
-                                        SizedBox(height: 20,),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:18.0,right: 18),
-                                          child: Row(
+                                      ),
+                                      SizedBox(height: 10,),
+                                      // SingleChildScrollView(
+                                      //     scrollDirection: Axis.horizontal,
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.only(left:18.0),
+                                      //       child: Row(
+                                      //         children: [
+                                      //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
+                                      //           SizedBox(width:15),
+                                      //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
+                                      //           SizedBox(width:15),
+                                      //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
+                                      //         ],
+                                      //       ),
+                                      //     )
+                                      // ),
+
+                                      vm3.shouldShowPageLoader
+                                          ? Center(
+                                        child: CircularProgressIndicator(),
+                                      ):SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left:18.0,),
+                                          child:
+                                          Row(
                                             children: [
-                                              Text("My Health Video",style: GoogleFonts.poppins(fontSize: 16
-                                                  ,fontWeight: FontWeight.w600),),
-                                              Spacer(),
-                                              Text(StringResources.viewAllText,style: GoogleFonts.poppins(color:HexColor("#8592E5") ,fontSize: 11 ,fontWeight: FontWeight.w600),),
+                                              ...List.generate(
+                                                lengthofVideoList,
+                                                    (i) => CustomCardVideo(list3[i].snippet.thumbnails.standard.url,list3[i].snippet.title,list3[i].snippet.resourceId.videoId,list3[i].snippet.description),
+                                              ),
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 10,),
-                                        // SingleChildScrollView(
-                                        //     scrollDirection: Axis.horizontal,
-                                        //     child: Padding(
-                                        //       padding: const EdgeInsets.only(left:18.0),
-                                        //       child: Row(
-                                        //         children: [
-                                        //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
-                                        //           SizedBox(width:15),
-                                        //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
-                                        //           SizedBox(width:15),
-                                        //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
-                                        //         ],
-                                        //       ),
-                                        //     )
-                                        // ),
-
-                                        vm3.shouldShowPageLoader
-                                            ? Center(
-                                          child: CircularProgressIndicator(),
-                                        ):SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left:18.0,),
-                                            child:
-                                            Row(
-                                              children: [
-                                                ...List.generate(
-                                                  lengthofVideoList,
-                                                      (i) => CustomCardVideo(list3[i].snippet.thumbnails.standard.url,list3[i].snippet.title,list3[i].snippet.resourceId.videoId,list3[i].snippet.description),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10,),
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                    ],
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
-                  ]
-              ),
-            ],
-          ),
+                  ),
+                ]
+            ),
+          ],
+        ),
 
       ],
     );
@@ -541,10 +579,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         image: DecorationImage(
             image: AssetImage(
                 "assets/images/dashboard_back.png"),
-            fit: BoxFit.cover),
+            fit: BoxFit.fill),
       ),
       height: 418.0,
-      width: double.infinity,
+      //width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
       //   image:AssetImage("assets/images/dashboard_back.png"),
@@ -564,10 +602,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         image: DecorationImage(
             image: AssetImage(
                 "assets/images/dashboard_back.png"),
-            fit: BoxFit.cover),
+            fit: BoxFit.fill),
       ),
-      height: 418.0,
-      width: double.infinity,
+      height: 300.0,
+      // width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
       //   image:AssetImage("assets/images/dashboard_back.png"),
@@ -575,6 +613,49 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
       // ),
     );
   }
+
+// Widget errorWidget() {
+//   print("ERROR WIDGETS");
+//   var jobListViewModel =
+//   Provider.of<NewsViewModel>(context, listen: false);
+//   switch (jobListViewModel.appError) {
+//     case AppError.serverError:
+//       return FailureFullScreenWidget(
+//         errorMessage: StringResources.unableToLoadData,
+//         onTap: () {
+//           return Provider.of<NewsViewModel>(context, listen: false)
+//               .refresh();
+//         },
+//       );
+//
+//     case AppError.networkError:
+//       return FailureFullScreenWidget(
+//         errorMessage: StringResources.unableToReachServerMessage,
+//         onTap: () {
+//           return Provider.of<NewsViewModel>(context, listen: false)
+//               .refresh();
+//         },
+//       );
+//
+//     // case AppError.unauthorized:
+//     //   return FailureFullScreenWidget(
+//     //     errorMessage: StringResources.somethingIsWrong,
+//     //     onTap: () {
+//     //       return locator<SettingsViewModel>().signOut();
+//     //     },
+//     //   );
+//
+//     default:
+//       return FailureFullScreenWidget(
+//         errorMessage: StringResources.somethingIsWrong,
+//         onTap: () {
+//           return Provider.of<NewsViewModel>(context, listen: false)
+//               .refresh();
+//         },
+//       );
+//   }
+//
+// }
 
 }
 

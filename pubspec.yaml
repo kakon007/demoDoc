@@ -63,6 +63,11 @@ dependencies:
   youtube_player_flutter:
   cached_network_image:
   page_transition: ^1.1.7+6
+  path:
+  open_file:
+  flutter_pdfview:
+  fluttertoast:
+
 
 
 dev_dependencies:

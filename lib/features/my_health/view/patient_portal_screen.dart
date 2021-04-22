@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,11 +19,15 @@ import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_m
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:multi_select_item/multi_select_item.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart' as pp;
 
 class PrescriptionListScreen extends StatefulWidget {
   // final Function menuCallBack;
@@ -111,14 +117,59 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   Future<PrescriptionListModel> fetchedData;
 
+
+  Future fetchPDF(String index) async {
+    try {
+      print("FETCHPDFDATA");
+      print('INDEX'+index);
+      var headers = {
+        'Authorization': 'Bearer ${widget.accessToken}'
+      };
+      var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription'));
+      request.fields.addAll({
+        'prescriptionId': index,
+        'pClient': 'aalok',
+        'pLayout': '1'
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var body = await response.stream.toBytes();
+        print("BODYOFSTRING:::"+body.toString());
+        return body;
+      }
+      else {
+        print("ERROROFSTRING::::"+response.reasonPhrase);
+        return null;
+      }
+    } on Exception catch (e) {
+      // TODO
+      print("PDFDATAERROR");
+      print(e.toString());
+      return null;
+    }
+
+  }
+
+  Future<File> _createPdfFileFromString(String index) async {
+    // final encodedStr='''''';
+    // Uint8List bytes = base64.decode(encodedStr);
+    String dir = (await pp.getApplicationDocumentsDirectory()).path;
+    File file = File(
+        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+    await file.writeAsBytes(await fetchPDF(index),flush: true);
+    print("FILEEEEE"+file.toString());
+    return file;
+  }
+
   @override
   void initState() {
     PrescriptionRepository().fetchPrescriptionList(widget.accessToken);
 
     super.initState();
-    // if(fetchedData==null){
-    //   fetchPrescriptionList();
-    // }
     var vm = Provider.of<PrescriptionListViewModel>(context, listen: false);
     vm.getData(widget.accessToken);
     print("jaaaaahhhhhhiiiiddddddd");
@@ -154,6 +205,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<PrescriptionListViewModel>(context);
@@ -164,30 +216,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
 
-    // childButtons.add(UnicornButton(
-    //     hasLabel: true,
-    //     labelText: "Choo choo",
-    //     currentButton: FloatingActionButton(
-    //       heroTag: "train",
-    //       backgroundColor: Colors.redAccent,
-    //       mini: true,
-    //       child: Icon(Icons.train),
-    //       onPressed: () {},
-    //     )));
-    //
-    // childButtons.add(UnicornButton(
-    //     currentButton: FloatingActionButton(
-    //         heroTag: "airplane",
-    //         backgroundColor: Colors.greenAccent,
-    //         mini: true,
-    //         child: Icon(Icons.airplanemode_active))));
-    //
-    // childButtons.add(UnicornButton(
-    //     currentButton: FloatingActionButton(
-    //         heroTag: "directions",
-    //         backgroundColor: Colors.blueAccent,
-    //         mini: true,
-    //         child: Icon(Icons.directions_car))));
 
     final String assetName4 = "assets/images/dx.svg";
     final String assetName2="assets/icons/right.svg";
@@ -266,7 +294,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     );
 
 
-
     childButtons.add(UnicornButton(
         hasLabel: true,
         labelText: "Capture Documents",
@@ -320,8 +347,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           break;
         case 'Download':
           break;
-        case 'Rename':
-          break;
+
       }
     }
     var popup= Padding(
@@ -333,7 +359,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         child: PopupMenuButton<String>(
           onSelected: handleClick,
           itemBuilder: (BuildContext context) {
-            return {'Share', 'Download','Rename'}.map((String choice) {
+            return {'Share', 'Download'}.map((String choice) {
               return PopupMenuItem<String>(
                 height: 30,
                 value: choice,
@@ -517,7 +543,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                                  child: Text("33 Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                  child: Text("${lengthofPrescriptionList.toString()} Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
                                 ),
                                 Spacer(),
                                 searchField,
@@ -552,12 +578,20 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 controller.toggle(index);
                                               });
                                               print("tapped");},
-                                            onTap: (){
+                                            onTap: () async{
+
 
                                               if(controller.isSelecting){
                                                 setState(() {
                                                   controller.toggle(index);
                                                 });
+                                              }else{
+                                                print('PDFPRESSED');
+                                                final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
+                                                Navigator.push(context, PageTransition(
+                                                  type: PageTransitionType.rightToLeft,
+                                                  child:PdfViewerScreen(file),
+                                                ),);
                                               }
                                               print("tappeddd");
                                             },
@@ -669,149 +703,166 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                       return before;
                     },
                     child: Scaffold(
-                        body:
-
-                        Column(
-                          children: [
-                            Row(
+                      body: Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top:200.0),
+                          child: Container(
+                            child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                                  child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                                ),
-                                Spacer(),
-                                searchField,
+                                pp,
+                                SizedBox(height: 10,),
+                                Text('You have no report available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+
                               ],
                             ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                  physics: ScrollPhysics(),
-                                  child: Column(
-                                    children: [
-                                      ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                          itemCount:reportList.length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return MultiSelectItem(
-                                              isSelecting: controller2.isSelecting,
-                                              onSelected: () {
-                                                setState(() {
-                                                  controller2.toggle(index);
-                                                });
-                                              },
-                                              child: Stack(
-                                                  children:[
-                                                    InkWell(
-                                                      onLongPress: (){
-                                                        setState(() {
-                                                          controller2.toggle(index);
-                                                        });
-                                                        print("tapped");},
-                                                      onTap: (){
-
-                                                        if(controller2.isSelecting){
-                                                          setState(() {
-                                                            controller2.toggle(index);
-                                                          });
-                                                        }
-                                                        print("tappeddd");
-                                                      },
-                                                      child: Container(
-                                                        height: cardHeight*0.8,
-                                                        margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                        decoration: BoxDecoration(
-                                                          gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                            1.0,
-                                                            1.0
-                                                          ], colors: [
-                                                            HexColor('#C5CAE8'),
-                                                            HexColor('#E9ECFE'),
-
-                                                          ]),
-                                                          //color: Colors.white,
-                                                          // border: Border.all(
-                                                          //   color: HexColor("#E9ECFE"),
-                                                          //   width: 1,
-                                                          // ),
-                                                          borderRadius: BorderRadius.circular(15),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            SizedBox(width: 10,),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                              child: Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  SizedBox(height: 5,),
-                                                                  Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                                  Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                                  SizedBox(height: 8,),
-                                                                  Row(
-                                                                    children: [
-                                                                      CircleAvatar(
-                                                                        radius: 18,
-                                                                        backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                                        child: CircleAvatar(
-                                                                          backgroundColor: Colors.white,
-                                                                          backgroundImage: AssetImage('assets/images/ap.png'),
-                                                                          radius: 17,
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(width: 15,),
-                                                                      Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
-                                                                    ],
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Spacer(),
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(right:18.0),
-                                                            //   child: Stack(children: [
-                                                            //     Container(width:45,child: dx),
-                                                            //     Padding(
-                                                            //       padding: const EdgeInsets.only(left:30.0),
-                                                            //       child: righticon,
-                                                            //     ),
-                                                            //   ]),
-                                                            // ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(right:18.0),
-                                                              child: Stack(children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top:10.0,right: 5),
-                                                                  child: Container(width:45,child: dx),
-                                                                ),
-                                                                (controller2.isSelected(index))?
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                                  child: righticon,
-                                                                ): (controller2.isSelecting)?Padding(
-                                                                  padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                                  child: greyright,
-                                                                ):Padding(
-                                                                  padding: EdgeInsets.only(left: 38),
-                                                                  child: popup,
-                                                                ),
-                                                              ]),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ]
-                                              ),
-                                            );
-                                          })
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        )
+                          ),
+                        ),
+                      ),
+                        // body:
+                        // Column(
+                        //   children: [
+                        //     Row(
+                        //       children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                        //           child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                        //         ),
+                        //         Spacer(),
+                        //         searchField,
+                        //       ],
+                        //     ),
+                        //     Expanded(
+                        //       child: SingleChildScrollView(
+                        //           physics: ScrollPhysics(),
+                        //           child: Column(
+                        //             children: [
+                        //               ListView.builder( physics: NeverScrollableScrollPhysics(),
+                        //                   itemCount:reportList.length,
+                        //                   shrinkWrap: true,
+                        //                   itemBuilder: (BuildContext context, int index) {
+                        //                     return MultiSelectItem(
+                        //                       isSelecting: controller2.isSelecting,
+                        //                       onSelected: () {
+                        //                         setState(() {
+                        //                           controller2.toggle(index);
+                        //                         });
+                        //                       },
+                        //                       child: Stack(
+                        //                           children:[
+                        //                             InkWell(
+                        //                               onLongPress: (){
+                        //                                 setState(() {
+                        //                                   controller2.toggle(index);
+                        //                                 });
+                        //                                 print("tapped");},
+                        //                               onTap: (){
+                        //
+                        //                                 if(controller2.isSelecting){
+                        //                                   setState(() {
+                        //                                     controller2.toggle(index);
+                        //                                   });
+                        //                                 }
+                        //                                 print("tappeddd");
+                        //                               },
+                        //                               child: Container(
+                        //                                 height: cardHeight*0.8,
+                        //                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                        //                                 decoration: BoxDecoration(
+                        //                                   gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                        //                                     1.0,
+                        //                                     1.0
+                        //                                   ], colors: [
+                        //                                     HexColor('#C5CAE8'),
+                        //                                     HexColor('#E9ECFE'),
+                        //
+                        //                                   ]),
+                        //                                   //color: Colors.white,
+                        //                                   // border: Border.all(
+                        //                                   //   color: HexColor("#E9ECFE"),
+                        //                                   //   width: 1,
+                        //                                   // ),
+                        //                                   borderRadius: BorderRadius.circular(15),
+                        //                                 ),
+                        //                                 child: Row(
+                        //                                   children: [
+                        //                                     SizedBox(width: 10,),
+                        //                                     Padding(
+                        //                                       padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                        //                                       child: Column(
+                        //                                         crossAxisAlignment: CrossAxisAlignment.start,
+                        //                                         children: [
+                        //                                           SizedBox(height: 5,),
+                        //                                           Text(reportList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                        //                                           Text(reportList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                        //                                           SizedBox(height: 8,),
+                        //                                           Row(
+                        //                                             children: [
+                        //                                               CircleAvatar(
+                        //                                                 radius: 18,
+                        //                                                 backgroundColor: HexColor('#354291').withOpacity(0.2),
+                        //                                                 child: CircleAvatar(
+                        //                                                   backgroundColor: Colors.white,
+                        //                                                   backgroundImage: AssetImage('assets/images/ap.png'),
+                        //                                                   radius: 17,
+                        //                                                 ),
+                        //                                               ),
+                        //                                               SizedBox(width: 15,),
+                        //                                               Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
+                        //                                             ],
+                        //                                           )
+                        //                                         ],
+                        //                                       ),
+                        //                                     ),
+                        //                                     Spacer(),
+                        //                                     // Padding(
+                        //                                     //   padding: const EdgeInsets.only(right:18.0),
+                        //                                     //   child: Stack(children: [
+                        //                                     //     Container(width:45,child: dx),
+                        //                                     //     Padding(
+                        //                                     //       padding: const EdgeInsets.only(left:30.0),
+                        //                                     //       child: righticon,
+                        //                                     //     ),
+                        //                                     //   ]),
+                        //                                     // ),
+                        //                                     Padding(
+                        //                                       padding: const EdgeInsets.only(right:18.0),
+                        //                                       child: Stack(children: [
+                        //                                         Padding(
+                        //                                           padding: const EdgeInsets.only(top:10.0,right: 5),
+                        //                                           child: Container(width:45,child: dx),
+                        //                                         ),
+                        //                                         (controller2.isSelected(index))?
+                        //                                         Padding(
+                        //                                           padding: const EdgeInsets.only(left:38.0,top: 10),
+                        //                                           child: righticon,
+                        //                                         ): (controller2.isSelecting)?Padding(
+                        //                                           padding: const EdgeInsets.only(left:38.0,top: 10),
+                        //                                           child: greyright,
+                        //                                         ):Padding(
+                        //                                           padding: EdgeInsets.only(left: 38),
+                        //                                           child: popup,
+                        //                                         ),
+                        //                                       ]),
+                        //                                     ),
+                        //                                   ],
+                        //                                 ),
+                        //                               ),
+                        //                             ),
+                        //                           ]
+                        //                       ),
+                        //                     );
+                        //                   })
+                        //             ],
+                        //           )),
+                        //     ),
+                        //   ],
+                        // )
 
                     ),
                   ),
+
+                  //Documentation Screen
                   Scaffold(
                     floatingActionButton: Padding(
                       padding: const EdgeInsets.only(bottom:10.0,right: 10),
@@ -822,145 +873,146 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                           parentButton: Icon(Icons.add),
                           childButtons: childButtons),
                     ),
-                    // body: Align(
-                    //   alignment: Alignment.center,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(top:200.0),
-                    //     child: Container(
-                    //       child: Column(
-                    //         children: [
-                    //           pp,
-                    //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                    //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
 
-                    body:   Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                              child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                            ),
-                            Spacer(),
-                            searchField,
-                          ],
+                    body: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:200.0),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              pp,
+                              Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                              Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
+                            ],
+                          ),
                         ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                              physics: ScrollPhysics(),
-                              child: Column(
-                                children: [
-                                  ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                      itemCount:docList.length,
-                                      shrinkWrap: true,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return MultiSelectItem(
-                                          isSelecting: controller3.isSelecting,
-                                          onSelected: () {
-                                            setState(() {
-                                              controller3.toggle(index);
-                                            });
-                                          },
-                                          child: Stack(
-                                              children:[
-                                                InkWell(
-                                                  onLongPress: (){
-                                                    setState(() {
-                                                      controller3.toggle(index);
-                                                    });
-                                                    print("tapped");},
-                                                  onTap: (){
-
-                                                    if(controller3.isSelecting){
-                                                      setState(() {
-                                                        controller3.toggle(index);
-                                                      });
-                                                    }
-                                                    print("tappeddd");
-                                                  },
-                                                  child: Container(
-                                                    height: cardHeight*0.6,
-                                                    margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                    decoration: BoxDecoration(
-                                                      gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                        1.0,
-                                                      ], colors: [
-                                                        //HexColor('#C5CAE8'),
-                                                        HexColor('#E9ECFE'),
-
-                                                      ]),
-                                                      //color: Colors.white,
-                                                      // border: Border.all(
-                                                      //   color: HexColor("#E9ECFE"),
-                                                      //   width: 1,
-                                                      // ),
-                                                      borderRadius: BorderRadius.circular(15),
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        SizedBox(width: 10,),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              SizedBox(height: 10,),
-                                                              Text(docList[index].fileName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                              SizedBox(height: 5,),
-                                                              Text(docList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                              SizedBox(height: 5,),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Spacer(),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(right:18.0),
-                                                        //   child: Stack(children: [
-                                                        //     Container(width:45,child: dx),
-                                                        //     Padding(
-                                                        //       padding: const EdgeInsets.only(left:30.0),
-                                                        //       child: righticon,
-                                                        //     ),
-                                                        //   ]),
-                                                        // ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right:18.0),
-                                                          child: Stack(children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top:3.0,right: 5),
-                                                              child: Container(width:45,child: jp),
-                                                            ),
-                                                            (controller2.isSelected(index))?
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                              child: righticon,
-                                                            ): (controller2.isSelecting)?Padding(
-                                                              padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                              child: greyright,
-                                                            ):Padding(
-                                                              padding: EdgeInsets.only(left: 38),
-                                                              child: popup,
-                                                            ),
-                                                          ]),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]
-                                          ),
-                                        );
-                                      })
-                                ],
-                              )),
-                        ),
-                      ],
+                      ),
                     ),
+
+                    // body:   Column(
+                    //   children: [
+                    //     Row(
+                    //       children: [
+                    //         Padding(
+                    //           padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                    //           child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                    //         ),
+                    //         Spacer(),
+                    //         searchField,
+                    //       ],
+                    //     ),
+                    //     Expanded(
+                    //       child: SingleChildScrollView(
+                    //           physics: ScrollPhysics(),
+                    //           child: Column(
+                    //             children: [
+                    //               ListView.builder( physics: NeverScrollableScrollPhysics(),
+                    //                   itemCount:docList.length,
+                    //                   shrinkWrap: true,
+                    //                   itemBuilder: (BuildContext context, int index) {
+                    //                     return MultiSelectItem(
+                    //                       isSelecting: controller3.isSelecting,
+                    //                       onSelected: () {
+                    //                         setState(() {
+                    //                           controller3.toggle(index);
+                    //                         });
+                    //                       },
+                    //                       child: Stack(
+                    //                           children:[
+                    //                             InkWell(
+                    //                               onLongPress: (){
+                    //                                 setState(() {
+                    //                                   controller3.toggle(index);
+                    //                                 });
+                    //                                 print("tapped");},
+                    //                               onTap: (){
+                    //
+                    //                                 if(controller3.isSelecting){
+                    //                                   setState(() {
+                    //                                     controller3.toggle(index);
+                    //                                   });
+                    //                                 }
+                    //                                 print("tappeddd");
+                    //                               },
+                    //                               child: Container(
+                    //                                 height: cardHeight*0.6,
+                    //                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                    //                                 decoration: BoxDecoration(
+                    //                                   gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                    //                                     1.0,
+                    //                                   ], colors: [
+                    //                                     //HexColor('#C5CAE8'),
+                    //                                     HexColor('#E9ECFE'),
+                    //
+                    //                                   ]),
+                    //                                   //color: Colors.white,
+                    //                                   // border: Border.all(
+                    //                                   //   color: HexColor("#E9ECFE"),
+                    //                                   //   width: 1,
+                    //                                   // ),
+                    //                                   borderRadius: BorderRadius.circular(15),
+                    //                                 ),
+                    //                                 child: Row(
+                    //                                   children: [
+                    //                                     SizedBox(width: 10,),
+                    //                                     Padding(
+                    //                                       padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                    //                                       child: Column(
+                    //                                         crossAxisAlignment: CrossAxisAlignment.start,
+                    //                                         children: [
+                    //                                           SizedBox(height: 10,),
+                    //                                           Text(docList[index].fileName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                    //                                           SizedBox(height: 5,),
+                    //                                           Text(docList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                    //                                           SizedBox(height: 5,),
+                    //                                         ],
+                    //                                       ),
+                    //                                     ),
+                    //                                     Spacer(),
+                    //                                     // Padding(
+                    //                                     //   padding: const EdgeInsets.only(right:18.0),
+                    //                                     //   child: Stack(children: [
+                    //                                     //     Container(width:45,child: dx),
+                    //                                     //     Padding(
+                    //                                     //       padding: const EdgeInsets.only(left:30.0),
+                    //                                     //       child: righticon,
+                    //                                     //     ),
+                    //                                     //   ]),
+                    //                                     // ),
+                    //                                     Padding(
+                    //                                       padding: const EdgeInsets.only(right:18.0),
+                    //                                       child: Stack(children: [
+                    //                                         Padding(
+                    //                                           padding: const EdgeInsets.only(top:3.0,right: 5),
+                    //                                           child: Container(width:45,child: jp),
+                    //                                         ),
+                    //                                         (controller2.isSelected(index))?
+                    //                                         Padding(
+                    //                                           padding: const EdgeInsets.only(left:38.0,top: 10),
+                    //                                           child: righticon,
+                    //                                         ): (controller2.isSelecting)?Padding(
+                    //                                           padding: const EdgeInsets.only(left:38.0,top: 10),
+                    //                                           child: greyright,
+                    //                                         ):Padding(
+                    //                                           padding: EdgeInsets.only(left: 38),
+                    //                                           child: popup,
+                    //                                         ),
+                    //                                       ]),
+                    //                                     ),
+                    //                                   ],
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                           ]
+                    //                       ),
+                    //                     );
+                    //                   })
+                    //             ],
+                    //           )),
+                    //     ),
+                    //   ],
+                    // ),
                   ),
                 ],
               ),

@@ -46,7 +46,7 @@ class NewsViewModel extends ChangeNotifier{
   AppError get appError => _appError;
 
 
-
+  bool get shouldShowAppError => _appError != null && _newsList.length == 0;
   bool get isFetchingData => _isFetchingData;
 
   bool get isFetchingMoreData => _isFetchingMoreData;
@@ -55,6 +55,8 @@ class NewsViewModel extends ChangeNotifier{
   //
   // bool get shouldFetchMoreData =>
   //     _hasMoreData && !_isFetchingData && !_isFetchingMoreData;
+
+  bool get shouldShowNoNewsFound => _newsList.length == 0 && !isFetchingData;
 
   bool get shouldShowPageLoader =>
       _isFetchingData && _newsList.length == 0;

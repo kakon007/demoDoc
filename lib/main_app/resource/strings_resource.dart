@@ -628,7 +628,7 @@ class StringResources {
   static const String successfulText = "Successful!";
   static const String savedText = "Saved";
   static const String typeToSearch = "Type to search";
-  static const String noJobsFound = "No jobs found";
+  static const String noNewsFound = "No news found";
   static const String noSimilarJobsFound = "No Similar Job(s) Found.";
   static const String noOpenJobsFound = "No Open Job(s) Found.";
   static const String noFavouriteJobsFound = "No favourite jobs found";

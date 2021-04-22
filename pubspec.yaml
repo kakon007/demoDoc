@@ -67,10 +67,9 @@ dependencies:
   open_file:
   flutter_pdfview:
   fluttertoast:
-
   carousel_slider: ^3.0.0
   flutter_html: ^1.0.2
-  flutter_widget_from_html_core: ^0.5.2
+
 
 
 dev_dependencies:

@@ -398,10 +398,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 width: 10,
               )
             ],
-            leading: IconButton(
-                icon: Icon(Icons.notes),
-                onPressed: () => _scaffoldKey.currentState.openDrawer())),
-        drawer: Drawer(),
+            // leading: IconButton(
+            //     icon: Icon(Icons.notes),
+            //     onPressed: () => _scaffoldKey.currentState.openDrawer())
+        ),
+        //drawer: Drawer(),
         body: Stack(
           children: <Widget>[
             Positioned(

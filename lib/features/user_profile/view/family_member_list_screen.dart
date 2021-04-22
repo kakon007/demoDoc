@@ -80,7 +80,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
     );
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.notes),
+        //leading: Icon(Icons.notes),
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Members",

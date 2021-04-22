@@ -237,13 +237,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  flutter_pdfview:
-    dependency: "direct main"
-    description:
-      name: flutter_pdfview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   flutter_layout_grid:
     dependency: transitive
     description:
@@ -251,6 +244,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.5"
+  flutter_pdfview:
+    dependency: "direct main"
+    description:
+      name: flutter_pdfview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   flutter_speed_dial:
     dependency: "direct main"
     description:
@@ -303,13 +303,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.1.8"
-  flutter_widget_from_html_core:
-    dependency: "direct main"
-    description:
-      name: flutter_widget_from_html_core
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.2+1"
   font_awesome_flutter:
     dependency: "direct main"
     description:

@@ -118,15 +118,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   Future<PrescriptionListModel> fetchedData;
 
 
-  Future fetchPDF() async {
+  Future fetchPDF(String index) async {
     try {
       print("FETCHPDFDATA");
+      print('INDEX'+index);
       var headers = {
         'Authorization': 'Bearer ${widget.accessToken}'
       };
       var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription'));
       request.fields.addAll({
-        'prescriptionId': '6921000126',
+        'prescriptionId': index,
         'pClient': 'aalok',
         'pLayout': '1'
       });
@@ -153,13 +154,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   }
 
-  Future<File> _createPdfFileFromString() async {
+  Future<File> _createPdfFileFromString(String index) async {
     // final encodedStr='''''';
     // Uint8List bytes = base64.decode(encodedStr);
     String dir = (await pp.getApplicationDocumentsDirectory()).path;
     File file = File(
         "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
-    await file.writeAsBytes(await fetchPDF(),flush: true);
+    await file.writeAsBytes(await fetchPDF(index),flush: true);
     print("FILEEEEE"+file.toString());
     return file;
   }
@@ -171,7 +172,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     super.initState();
     var vm = Provider.of<PrescriptionListViewModel>(context, listen: false);
     vm.getData(widget.accessToken);
-    _createPdfFileFromString();
     print("jaaaaahhhhhhiiiiddddddd");
     controller.disableEditingWhenNoneSelected = true;
     controller.set(dataList2.length);
@@ -586,7 +586,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                   controller.toggle(index);
                                                 });
                                               }else{
-                                                final file=await _createPdfFileFromString();
+                                                print('PDFPRESSED');
+                                                final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
                                                 Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
                                                   child:PdfViewerScreen(file),

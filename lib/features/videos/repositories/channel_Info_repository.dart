@@ -42,21 +42,7 @@ class VideoInfoRepository{
       var client = http.Client();
       var response = await client.get(uri);
       if (response.statusCode == 200) {
-        // Map<String, dynamic> jsonMap = json.decode(response.body);
-        //data = jsonMap["items"];
-        // HospitalListModel data =hospitalListModelFromJson(response.body) ;
-        // var mapData = json.decode(utf8.decode(response.bodyBytes));
-        // var hospitalList = fromJson(mapData);
-
         ChannelInfoModel data = channelInfoModelFromJson(response.body) ;
-        // data.items.forEach((elemant) {
-        //   dataList.add(elemant);
-        // });
-
-        // data.items.forEach((elemant) {
-        //   dataList.add(elemant);
-        // });
-        //
         print('Dataaaaaaa::::::: ' + data.items[1].snippet.title);
         // return data;
 

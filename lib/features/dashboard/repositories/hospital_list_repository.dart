@@ -19,22 +19,8 @@ class HospitalListRepositry{
       var client = http.Client();
       var response = await client.get(url);
       if (response.statusCode == 200) {
-       // Map<String, dynamic> jsonMap = json.decode(response.body);
-        //data = jsonMap["items"];
-        // HospitalListModel data =hospitalListModelFromJson(response.body) ;
-        // var mapData = json.decode(utf8.decode(response.bodyBytes));
-        // var hospitalList = fromJson(mapData);
-
         HospitalListModel data = hospitalListModelFromJson(response.body) ;
-        // data.items.forEach((elemant) {
-        //   dataList.add(elemant);
-        // });
-
-        // data.items.forEach((elemant) {
-        //   dataList.add(elemant);
-        // });
-        //
-        print('Dataaaaaaa:: ' + data.items[5].companyAddress);
+        print('Hospital Data:: ' + data.items[5].companyAddress);
         // return data;
 
         return Right(
@@ -59,15 +45,6 @@ class HospitalListRepositry{
     }
 
   }
-  // List<HospitalListModel> fromJson(json) {
-  //   List<HospitalListModel> hospitalList = new List<HospitalListModel>();
-  //   if (json != null) {
-  //     json.forEach((v) {
-  //       hospitalList.add(new HospitalListModel.fromJson(v));
-  //     });
-  //   }
-  //   return hospitalList;
-  // }
 }
 
 class HospiitalListM{

@@ -49,6 +49,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   }
 
 
+  TextEditingController _searchTextEditingController = TextEditingController();
+  var _searchFieldFocusNode = FocusNode();
+
   List<Datum> dataList2=List<Datum>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //final String assetName2="assets/icons/right.svg";
@@ -167,7 +170,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   @override
   void initState() {
-    PrescriptionRepository().fetchPrescriptionList(widget.accessToken);
+    PrescriptionRepository().fetchPrescriptionList(accessToken: widget.accessToken);
 
     super.initState();
     var vm = Provider.of<PrescriptionListViewModel>(context, listen: false);
@@ -177,6 +180,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     controller.set(dataList2.length);
     controller2.set(reportList.length);
     controller3.set(docList.length);
+
+    if (vm.isInSearchMode) {
+      _searchFieldFocusNode.requestFocus();
+    }
   }
 
   void delete() {
@@ -393,10 +400,15 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         height: 60,
         child:Padding(
           padding: const EdgeInsets.only(bottom:20.0,right: 12),
-          child: Stack(
-              children:[
-                Align(alignment: Alignment.topRight,child: IconButton(icon: Icon(Icons.search_outlined,size: 25,), onPressed: null)),
-                TextFormField(
+          child:
+          // Stack(
+          //     children:[
+                //Align(alignment: Alignment.topRight,child: IconButton(icon: Icon(Icons.search_outlined,size: 25,), onPressed: null)),
+                TextField(
+                  autofocus: false,
+                  textInputAction: TextInputAction.search,
+                  focusNode: _searchFieldFocusNode,
+                  controller: _searchTextEditingController,
                   cursorColor: HexColor('#C5CAE8'),
                   decoration: InputDecoration(
                     hintText: 'Search prescriptions',
@@ -407,13 +419,24 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                       borderSide:  BorderSide(color: HexColor('#354291').withOpacity(0.5), width: 1.5),
                       //borderRadius: BorderRadius.circular(25.0),
                     ),
+                    suffixIcon:IconButton(
+                      icon:Icon(Icons.search_sharp),
+                      onPressed: (){
+                        vm.search(_searchTextEditingController.text,widget.accessToken);
+
+                      },
+                    )
                   ),
-                  onChanged: (text) {
-                    //value = text;
+                  // onChanged: (text) {
+                  //   //value = text;
+                  // },
+                  onSubmitted: (v){
+                    vm.search(_searchTextEditingController.text,widget.accessToken);
                   },
+
                 ),
-              ]
-          ),
+          //     ]
+          // ),
         )
     );
     return Scaffold(
@@ -525,167 +548,193 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
             Expanded(
               child: TabBarView(
                 children: [
-                  WillPopScope(
-                    onWillPop: () async {
-                      //block app from quitting when selecting
-                      var before = !controller.isSelecting;
-                      setState(() {
-                        controller.deselectAll();
-                      });
-                      return before;
+                  RefreshIndicator(
+                    onRefresh: (){
+                      _searchTextEditingController?.clear();
+                      // Provider.of<FeaturedJobListViewModel>(context, listen: false)
+                      //     .resetState();
+                      return Provider.of<PrescriptionListViewModel>(context, listen: false)
+                          .refresh(widget.accessToken);
                     },
-                    child: Scaffold(
-                        body:
+                    child: WillPopScope(
+                      onWillPop: () async {
+                        //block app from quitting when selecting
+                        var before = !controller.isSelecting;
+                        setState(() {
+                          controller.deselectAll();
+                        });
+                        return before;
+                      },
+                      child: Scaffold(
+                          body:
 
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                                  child: Text("${lengthofPrescriptionList.toString()} Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                                ),
-                                Spacer(),
-                                searchField,
-                              ],
-                            ),
-                            Expanded(
-                              child:
-                              vm.shouldShowPageLoader
-                                  ? Center(
-                                child: CircularProgressIndicator(),
-                              ):SingleChildScrollView(
-                                physics: ScrollPhysics(),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:12.0,bottom: 15),
+                                    child: Text("${lengthofPrescriptionList.toString()} Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                  ),
+                                  Spacer(),
+                                  if (vm.isInSearchMode)searchField,
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom:12.0),
+                                    child: IconButton(
+                                      key: Key('featuredJobSearchToggleButtonKey'),
+                                      icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search),
+                                      onPressed: () {
+                                        _searchTextEditingController?.clear();
+                                        vm.toggleIsInSearchMode(widget.accessToken);
+
+                                        if (vm.isInSearchMode) {
+                                          _searchFieldFocusNode.requestFocus();
+                                        } else {
+                                          _searchFieldFocusNode.unfocus();
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
                                 child:
+                                vm.shouldShowPageLoader
+                                    ? Center(
+                                  child: CircularProgressIndicator(),
+                                ):SingleChildScrollView(
+                                  physics: ScrollPhysics(),
+                                  child:
 
-                                ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount:lengthofPrescriptionList,
-                                itemBuilder: (BuildContext context, int index) {
-                                  //print("LIIIISSSYYSY:::" + list[index].consultationId);
-                                  return MultiSelectItem(
-                                    isSelecting: controller.isSelecting,
-                                    onSelected: () {
-                                      setState(() {
-                                        controller.toggle(index);
-                                      });
-                                    },
-                                    child: Stack(
-                                        children:[
-                                          InkWell(
-                                            onLongPress: (){
-                                              setState(() {
-                                                controller.toggle(index);
-                                              });
-                                              print("tapped");},
-                                            onTap: () async{
-
-
-                                              if(controller.isSelecting){
+                                  ListView.builder( physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount:lengthofPrescriptionList,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    //print("LIIIISSSYYSY:::" + list[index].consultationId);
+                                    return MultiSelectItem(
+                                      isSelecting: controller.isSelecting,
+                                      onSelected: () {
+                                        setState(() {
+                                          controller.toggle(index);
+                                        });
+                                      },
+                                      child: Stack(
+                                          children:[
+                                            InkWell(
+                                              onLongPress: (){
                                                 setState(() {
                                                   controller.toggle(index);
                                                 });
-                                              }else{
-                                                print('PDFPRESSED');
-                                                final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
-                                                Navigator.push(context, PageTransition(
-                                                  type: PageTransitionType.rightToLeft,
-                                                  child:PdfViewerScreen(file),
-                                                ),);
-                                              }
-                                              print("tappeddd");
-                                            },
-                                            child: Container(
+                                                print("tapped");},
+                                              onTap: () async{
 
-                                              height: cardHeight*0.8,
-                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                  1.0,
-                                                  1.0
-                                                ], colors: [
-                                                  HexColor('#C5CAE8'),
-                                                  HexColor('#E9ECFE'),
 
-                                                ]),
-                                                //color: Colors.white,
-                                                // border: Border.all(
-                                                //   color: HexColor("#E9ECFE"),
-                                                //   width: 1,
-                                                // ),
-                                                borderRadius: BorderRadius.circular(15),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  CircleAvatar(
-                                                    radius: 31,
-                                                    backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                    child: CircleAvatar(
-                                                      radius: 30,
-                                                      backgroundColor: Colors.white,
+                                                if(controller.isSelecting){
+                                                  setState(() {
+                                                    controller.toggle(index);
+                                                  });
+                                                }else{
+                                                  print('PDFPRESSED');
+                                                  final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
+                                                  Navigator.push(context, PageTransition(
+                                                    type: PageTransitionType.rightToLeft,
+                                                    child:PdfViewerScreen(file),
+                                                  ),);
+                                                }
+                                                print("tappeddd");
+                                              },
+                                              child: Container(
+
+                                                height: cardHeight*0.8,
+                                                margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                    1.0,
+                                                    1.0
+                                                  ], colors: [
+                                                    HexColor('#C5CAE8'),
+                                                    HexColor('#E9ECFE'),
+
+                                                  ]),
+                                                  //color: Colors.white,
+                                                  // border: Border.all(
+                                                  //   color: HexColor("#E9ECFE"),
+                                                  //   width: 1,
+                                                  // ),
+                                                  borderRadius: BorderRadius.circular(15),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: 31,
+                                                      backgroundColor: HexColor('#354291').withOpacity(0.2),
                                                       child: CircleAvatar(
-                                                        backgroundImage: AssetImage('assets/images/proimg.png'),
-                                                        radius: 28,
+                                                        radius: 30,
+                                                        backgroundColor: Colors.white,
+                                                        child: CircleAvatar(
+                                                          backgroundImage: AssetImage('assets/images/proimg.png'),
+                                                          radius: 28,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  //SizedBox(width: 5,),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(height: 8,),
-                                                        Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                        Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                        SizedBox(height: 8,),
-                                                        Container(width:200,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
-                                                        Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
-                                                      ],
+                                                    //SizedBox(width: 5,),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          SizedBox(height: 8,),
+                                                          Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                          Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                          SizedBox(height: 8,),
+                                                          Container(width:200,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
+                                                          Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
+                                                        ],
+                                                      ),
+
+                                                    ),
+                                                    // Container(width:45,child: rx),
+                                                    // (controller.isSelecting)?
+                                                    // Padding(
+                                                    //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                    //   child: righticon,
+                                                    // ):
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right:18.0,),
+                                                      child: Stack(children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top:10.0),
+                                                          child: Container(width:45,child: rx),
+                                                        ),
+                                                        (controller.isSelected(index))?
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                          child: righticon,
+                                                        ): (controller.isSelecting)?Padding(
+                                                          padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                          child: greyright,
+                                                        ):Padding(
+                                                          padding: EdgeInsets.only(left: 38,top: 5),
+                                                          child: popup,
+                                                        ),
+                                                      ]),
                                                     ),
 
-                                                  ),
-                                                  // Container(width:45,child: rx),
-                                                  // (controller.isSelecting)?
-                                                  // Padding(
-                                                  //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                  //   child: righticon,
-                                                  // ):
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right:18.0,),
-                                                    child: Stack(children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top:10.0),
-                                                        child: Container(width:45,child: rx),
-                                                      ),
-                                                      (controller.isSelected(index))?
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                        child: righticon,
-                                                      ): (controller.isSelecting)?Padding(
-                                                        padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                        child: greyright,
-                                                      ):Padding(
-                                                        padding: EdgeInsets.only(left: 38,top: 5),
-                                                        child: popup,
-                                                      ),
-                                                    ]),
-                                                  ),
 
-
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ]
-                                    ),
-                                  );
-                                }),
+                                          ]
+                                      ),
+                                    );
+                                  }),
+                                ),
                               ),
-                            ),
-                          ],
-                        )
+                            ],
+                          )
 
+                      ),
                     ),
                   ),
 

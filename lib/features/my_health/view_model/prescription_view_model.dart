@@ -52,7 +52,9 @@ class PrescriptionListViewModel extends ChangeNotifier{
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
-  int _page = 1;
+  int _pageCount = 1;
+  String searchQuery = '';
+  bool _isInSearchMode = false;
 
   // Future<void> refresh(){
   //   _page = 0;
@@ -60,7 +62,7 @@ class PrescriptionListViewModel extends ChangeNotifier{
   //   return getData();
   // }
 
-  Future<void> getData(String accessToken) async {
+  Future<bool> getData(String accessToken) async {
 
     //
     // if (isFromOnPageLoad) {
@@ -70,19 +72,46 @@ class PrescriptionListViewModel extends ChangeNotifier{
     // }
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
-    var res = await PrescriptionRepository().fetchPrescriptionList(accessToken);
+    var res = await PrescriptionRepository().fetchPrescriptionList(accessToken: accessToken,query: searchQuery);
     notifyListeners();
     _prescriptionList.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
       notifyListeners();
+      return false;
     }, (r) {
       _isFetchingMoreData = false;
       _prescriptionList.addAll(r.dataListofPrescription);
       print('Dataaaaaaa2222222:: ' + _prescriptionList.toString());
       notifyListeners();
+      return true;
     });
+  }
+
+
+  Future<bool> refresh(String accessToke) async {
+    _pageCount = 1;
+    notifyListeners();
+    return getData(accessToke);
+  }
+  search(String query,String accessToken) {
+    _prescriptionList.clear();
+    _pageCount = 1;
+    searchQuery = query;
+    print("Searching for: $query");
+    getData(accessToken);
+  }
+
+  toggleIsInSearchMode(String accessToken) {
+    _isInSearchMode = !_isInSearchMode;
+    //count = 0;
+    //resetPageCounter();
+    if (!_isInSearchMode) {
+      searchQuery = "";
+      getData(accessToken);
+    }
+    notifyListeners();
   }
 
   AppError get appError => _appError;
@@ -92,6 +121,13 @@ class PrescriptionListViewModel extends ChangeNotifier{
   bool get isFetchingData => _isFetchingData;
 
   bool get isFetchingMoreData => _isFetchingMoreData;
+
+  bool get isInSearchMode => _isInSearchMode;
+
+  set isInSearchMode(bool value) {
+    _isInSearchMode = value;
+  }
+
 
   // bool get hasMoreData => _hasMoreData;
   //

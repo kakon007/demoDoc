@@ -249,6 +249,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
+
+    final String disabledashboardiconiamg = "assets/icons/disable_dashboard_icon.svg";
+    final Widget disabledashboardicon = SvgPicture.asset(
+      disabledashboardiconiamg,
+      width: 10,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
     final String appointmenticonimg = "assets/icons/appointment_icon.svg";
     final Widget appointmenticon = SvgPicture.asset(
       appointmenticonimg,
@@ -259,6 +271,17 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
+    final String disableappointmenticonimg = "assets/icons/disable_appointment_icon.svg";
+    final Widget disableappointmenticon = SvgPicture.asset(
+      disableappointmenticonimg,
+      width: 10,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
     final String hospitaliconimag = "assets/icons/hospital_icon.svg";
     final Widget hospitalicon = SvgPicture.asset(
       hospitaliconimag,
@@ -269,9 +292,32 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
+
+    final String disablehospitaliconimag = "assets/icons/disable_hospital_icon.svg";
+    final Widget disablehospitalicon = SvgPicture.asset(
+      disablehospitaliconimag,
+      width: 10,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
     final String myhealthiconimag = "assets/icons/myhealth_icon.svg";
     final Widget myhealthicon = SvgPicture.asset(
       myhealthiconimag,
+      width: 10,
+      height: 20,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
+    final String disablemyhealthiconimag = "assets/icons/disable_profile_icon.svg";
+    final Widget disablemyhealthicon = SvgPicture.asset(
+      disablemyhealthiconimag,
       width: 10,
       height: 20,
       fit: BoxFit.fitWidth,
@@ -395,9 +441,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         type: BottomNavigationBarType.fixed,
         items: [
       //dashboard
-      BottomNavigationBarItem(icon: Material(
+      BottomNavigationBarItem(
+          icon: Material(
         color: Colors.transparent,
-        child: dashboardicon,
+        child:currentIndex==0?dashboardicon:disabledashboardicon,
 
       // ignore: deprecated_member_use
       ),title: Padding(
@@ -406,9 +453,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       )),
       //appointments
       // ignore: deprecated_member_use
-      BottomNavigationBarItem(icon: Material(
+      BottomNavigationBarItem(
+          icon: Material(
         color: Colors.transparent,
-        child: appointmenticon,
+        child:currentIndex==1?appointmenticon:disableappointmenticon,
 
         // ignore: deprecated_member_use
       ),title: Padding(
@@ -417,9 +465,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       )),
       //hospitals
       // ignore: deprecated_member_use
-      BottomNavigationBarItem(icon:  Material(
+      BottomNavigationBarItem(
+          icon:  Material(
         color: Colors.transparent,
-        child:hospitalicon,
+        child:currentIndex==2?hospitalicon:disablehospitalicon,
 
         // ignore: deprecated_member_use
       ),title: Padding(
@@ -428,9 +477,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       )),
       //my_health
       // ignore: deprecated_member_use
-      BottomNavigationBarItem(icon: Material(
+      BottomNavigationBarItem(
+          icon: Material(
         color: Colors.transparent,
-        child: myhealthicon,
+        child:currentIndex==3?myhealthicon:disablemyhealthicon,
 
         // ignore: deprecated_member_use
       ),title: Padding(

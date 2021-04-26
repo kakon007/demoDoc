@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/models/previous_appointment_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/upcoming_appointment_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
@@ -15,7 +16,34 @@ class GetAppointment extends StatefulWidget {
 }
 
 class _GetAppointmentState extends State<GetAppointment> {
+  bool checkedValue=false;
+  DateTime pickBirthDate;
+  Future<Null> selectBirthDate(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppTheme.appbarPrimary,
+            accentColor: AppTheme.appbarPrimary,
+            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 6)),
+    );
 
+    if (date != null && date != pickBirthDate) {
+      setState(() {
+        pickBirthDate = date;
+      });
+    }
+  }
+  String color = "#EAEBED";
   List<Upcoming> upComingList = [
     Upcoming(
         reportName: 'Dr. Md. Nazmul Hoque',
@@ -350,7 +378,138 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left:18.0),
-                                    child: filtericon,
+                                    child: GestureDetector(
+                                        onTap: (){
+                                          showModalBottomSheet(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.only(
+                                                      topLeft: Radius.circular(25),
+                                                      topRight: Radius.circular(25))),
+                                              context: context,
+                                              isScrollControlled: true,
+                                              builder: (context) {
+
+                                                return Container(
+                                                  height: 500,
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(height: 20,),
+                                                      Text("Filter"),
+                                                    SingleChildScrollView(
+                                                      child:
+                                                      Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top:15.0,right: 270),
+                                                            child: Text(
+                                                              'Select Date'
+                                                            ),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: (){
+                                                              selectBirthDate(context);
+                                                            },
+                                                            child: Container(
+                                                              height: 45.0,
+                                                              width: MediaQuery.of(context).size.width*0.88,
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors.transparent,
+                                                                  border: Border.all(color: HexColor(color)),
+                                                                  borderRadius: BorderRadius.circular(10)),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                                    child: Text(
+                                                                      pickBirthDate == DateTime.now()
+                                                                          ? "Select Date"
+                                                                          : "From: 22/02/2021",
+                                                                      style: TextStyle(fontSize: 13.0),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                                    child: Container(
+                                                                        height: 18,
+                                                                        child:
+                                                                        Image.asset("assets/images/calender_icon.png")),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: (){
+                                                              selectBirthDate(context);
+                                                            },
+                                                            child: Container(
+                                                              height: 45.0,
+                                                              width: MediaQuery.of(context).size.width*0.88,
+                                                              decoration: BoxDecoration(
+                                                                  color: Colors.transparent,
+                                                                  border: Border.all(color: HexColor(color)),
+                                                                  borderRadius: BorderRadius.circular(10)),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(left: 15.0),
+                                                                    child: Text(
+                                                                      pickBirthDate == DateTime.now()
+                                                                          ? "Select Date"
+                                                                          : "To:",
+                                                                      style: TextStyle(fontSize: 13.0),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                                    child: Container(
+                                                                        height: 18,
+                                                                        child:
+                                                                        Image.asset("assets/images/calender_icon.png")),
+                                                                  ),
+
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top:15.0,right: 230),
+                                                            child: Text(
+                                                                'Consultation type'
+                                                            ),
+                                                          ),
+                                                          CheckboxListTile(
+                                                            title: Text("title text"),
+                                                            value: checkedValue,
+                                                            onChanged: (newValue) {
+                                                              setState(() {
+                                                                checkedValue = newValue;
+                                                              });
+                                                            },
+                                                            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                                          ),
+                                                          CheckboxListTile(
+                                                            title: Text("title text"),
+                                                            value: checkedValue,
+                                                            onChanged: (newValue) {
+                                                              setState(() {
+                                                                checkedValue = newValue;
+                                                              });
+                                                            },
+                                                            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                                          ),
+                                                        ],
+                                                      )
+                                                      ,
+                                                    )
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                        },
+                                        child: filtericon),
                                   )
                                 ],
                               ),

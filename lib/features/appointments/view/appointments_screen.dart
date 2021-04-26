@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/add_patient.dart';
+import 'package:myhealthbd_app/features/appointments/view/widgets/available_slots.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/no_available_slots.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -99,12 +100,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       vm.getAppointType(true, false);
     });
   }
-
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool isLoggedIn = false;
   @override
   Widget build(BuildContext context) {
@@ -437,7 +436,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           AddPatient(doctorNo: widget.doctorNo,companyNo: widget.companyNo, orgNo: widget.orgNo,),
                         ],
                       )
-                          : Column(
+                          :
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           appointmentDate,
@@ -601,7 +601,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               : proceedButton,
                           spaceBetween,
                         ],
-                      )),
+                      )
+                  ),
                 ),
               ),
             ),

@@ -21,29 +21,38 @@ class SignIn extends StatefulWidget {
   _SignInState createState() => _SignInState();
 }
 
+
 class _SignInState extends State<SignIn> {
-  bool value = false;
+  bool value= true;
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
   bool isObSecure;
   bool validUser;
   bool isClicked;
-
+  var user;
+  var pass;
+  Future<void> getUSerDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    user= prefs.getString("username");
+    pass= prefs.getString("password");
+    var abc= prefs.getBool("value");
+    _username.text = user;
+    _password.text = pass;
+  }
   @override
   void initState() {
     // TODO: implement initState
     isObSecure = true;
     validUser = true;
     isClicked = false;
+    getUSerDetails();
+
+    print(pass);
+
     super.initState();
   }
 
-  Future<void> getUSerDetails() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("username", _username.text);
-    prefs.setString("password", _password.text);
-  }
 
   final FocusNode _emailFocus = FocusNode();
 
@@ -71,11 +80,11 @@ class _SignInState extends State<SignIn> {
       suffixIcon: IconButton(
         icon: isObSecure == true
             ? Icon(
-                Icons.visibility_off,
-              )
+          Icons.visibility_off,
+        )
             : Icon(
-                Icons.visibility,
-              ),
+          Icons.visibility,
+        ),
         onPressed: () {
           setState(() {
             isObSecure == true ? isObSecure = false : isObSecure = true;
@@ -234,81 +243,110 @@ class _SignInState extends State<SignIn> {
                         ),
                         Center(
                             child: Text(
-                          StringResources.welcomeBack,
-                          style: GoogleFonts.roboto(
-                              color: HexColor("#0D1231"),
-                              fontSize: height*.03,
-                              fontWeight: FontWeight.w600),
-                        )),
+                              StringResources.welcomeBack,
+                              style: GoogleFonts.roboto(
+                                  color: HexColor("#0D1231"),
+                                  fontSize: height*.03,
+                                  fontWeight: FontWeight.w600),
+                            )),
                         userName,
                         password,
                         validUser == false
                             ? Container(
-                                color: Colors.red[100],
-                                child: Text(
-                                  "Invalid Credential",
-                                  style: GoogleFonts.poppins(color: Colors.red),
-                                ))
+                            color: Colors.red[100],
+                            child: Text(
+                              "Invalid Credential",
+                              style: GoogleFonts.poppins(color: Colors.red),
+                            ))
                             : SizedBox(),
                         rememberMe,
                         isClicked == false
                             ? GestureDetector(
-                                onTap: () async {
-                                  setState(() {
-                                    isClicked = true;
+                            onTap: () async {
+                              setState(() {
+                                isClicked = true;
+                              });
+                              String username = 'telemedCareIdPassword';
+                              String password = 'secret';
+                              String basicAuth = 'Basic ' +
+                                  base64Encode(
+                                      utf8.encode('$username:$password'));
+                              String url =
+                                  "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
+                              var response = await http.post(url,
+                                  headers: <String, String>{
+                                    'authorization': basicAuth
                                   });
-                                  String username = 'telemedCareIdPassword';
-                                  String password = 'secret';
-                                  String basicAuth = 'Basic ' +
-                                      base64Encode(
-                                          utf8.encode('$username:$password'));
-                                  String url =
-                                      "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
-                                  var response = await http.post(url,
-                                      headers: <String, String>{
-                                        'authorization': basicAuth
-                                      });
-                                  if (response.statusCode == 200) {
-                                    print(response.body);
-                                    signInData =
-                                        signInModelFromJson(response.body);
-                                    if (signInData != null) {
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                HomeScreen(
+                              if (response.statusCode == 200) {
+                                //print(response.body);
+                                signInData =
+                                    signInModelFromJson(response.body);
+                                if (signInData != null) {
+                                  print(signInData.accessToken);
+                                  print(signInData.expiresIn);
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            HomeScreen(
                                               accessToken:
-                                                  signInData.accessToken,
+                                              signInData.accessToken,
                                             ),
-                                          ),
+                                      ),
                                           (Route<dynamic> route) => false);
 
-                                      SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-                                      prefs.setString("accessToken",
-                                          signInData.accessToken);
-                                      prefs.setString(
-                                          "username", _username.text);
-                                      prefs.setString(
-                                          "password", _password.text);
-                                    }
-                                  } else {
-                                    setState(() {
-                                      if (validUser == true) {
-                                        validUser = false;
-                                      }
-                                      if (isClicked == true) {
-                                        isClicked = false;
-                                      }
-                                    });
+                                  SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                                  prefs.setString("accessToken",
+                                      signInData.accessToken);
+                                  if(this.value== true){
+                                    print(_username.text);
+                                    prefs.setString(
+                                        "username", _username.text);
+                                    prefs.setString(
+                                        "password", _password.text);
+                                    prefs.setBool("value", true);
                                   }
-                                },
-                                child: signInButton)
+                                  else{
+                                    print(_password.text);
+                                    prefs.remove("username");
+                                    prefs.remove("password");
+                                    prefs.setBool("value", false);
+                                  }
+                                }
+                              } else {
+
+                                SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                                if(this.value== true){
+                                  print(_username.text);
+                                  prefs.setString(
+                                      "username", _username.text);
+                                  prefs.setString(
+                                      "password", _password.text);
+                                  prefs.setBool("value", true);
+                                }
+                                else{
+                                  print(_password.text);
+                                  prefs.remove("username");
+                                  prefs.remove("password");
+                                  prefs.setBool("value", false);
+                                }
+                                setState(() {
+                                  if (validUser == true) {
+                                    validUser = false;
+                                  }
+                                  if (isClicked == true) {
+                                    isClicked = false;
+                                  }
+                                });
+                              }
+                            },
+                            child: signInButton)
                             : CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.green),
-                                backgroundColor: Colors.red,
-                              ),
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.green),
+                          backgroundColor: Colors.red,
+                        ),
                         spaceBetween,
                         socialSignIn,
                         spaceBetween,

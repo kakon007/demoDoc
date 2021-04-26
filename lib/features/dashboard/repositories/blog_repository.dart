@@ -8,12 +8,13 @@ import 'package:myhealthbd_app/features/dashboard/model/blog_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class BlogRepository{
 
   Future<Either<AppError,BlogList>> fetchBlog() async {
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=2";
+        "${Urls.buildUrl}online-appointment-api/fapi/news-blogs/list-by-type?blogType=2";
     try{
       var client = http.Client();
       var response = await client.get(url);

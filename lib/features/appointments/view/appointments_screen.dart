@@ -91,9 +91,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     isSelected = false;
     pickedAppointDate = DateTime.now();
     pickedAppointDate2 = DateTime.now();
-    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-    vm.getSlots(
-        pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+    Future.delayed(Duration.zero,()async{
+      var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+      vm.getSlots(
+          pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
+      vm.getAppointType(true, false);
+    });
   }
 
   BorderRadiusGeometry radius = BorderRadius.only(

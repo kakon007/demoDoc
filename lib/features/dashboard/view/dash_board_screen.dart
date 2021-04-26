@@ -6,13 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/custom_blog_widget.dart';
-import 'package:myhealthbd_app/features/dashboard/view/widgets/health_video_all.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'
-    as hos;
+as hos;
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';
@@ -23,7 +25,9 @@ import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart';
 import 'package:myhealthbd_app/features/videos/repositories/channel_Info_repository.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
@@ -32,10 +36,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/failure_widget.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
@@ -50,7 +51,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen>
     with SingleTickerProviderStateMixin {
   ScrollController _controller;
-
+  String _dropDownValue;
   // AnimationController _animationController;
   // Animation<double> scaleAnimation;
   // Duration duration=Duration(milliseconds: 200);
@@ -66,32 +67,32 @@ class _DashboardScreenState extends State<DashboardScreen>
   double xOffset = 0.0;
   double yOffset = 0.0;
   double scaleFactor = 1;
-
   //bool isDrawerOpen = false;
   //
   // double xOffset2 = 0.0;
   // double yOffset2 = 0.0;
   // double scaleFactor2 = 1;
-
-  @override
+  Future<void> signOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    //await preferences.clear();
+    await preferences.remove("accessToken");
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => HomeScreen()));
+  }
+@override
   void initState() {
+  VideoInfoRepository().getVideoInfo();
+  NewsRepository().fetchNewspdate();
+  var vm = Provider.of<HospitalListViewModel>(context, listen: false);
+  vm.getData(isFromOnPageLoad: true);
+  var vm2 = Provider.of<NewsViewModel>(context, listen: false);
+  vm2.getData(isFromOnPageLoad: true);
+  var vm3 = Provider.of<VideoViewModel>(context, listen: false);
+  vm3.getData(isFromOnPageLoad: true);
+  var vm4 = Provider.of<BLogViewModel>(context, listen: false);
+  vm4.getData(isFromOnPageLoad: true);
     // TODO: implement initState
-    // fetchHospitalList();
-    // fetchNewspdate();
-    //fetchPDF();
-    VideoInfoRepository().getVideoInfo();
-    NewsRepository().fetchNewspdate();
-    var vm = Provider.of<HospitalListViewModel>(context, listen: false);
-    vm.getData(isFromOnPageLoad: true);
-    var vm2 = Provider.of<NewsViewModel>(context, listen: false);
-    vm2.getData(isFromOnPageLoad: true);
-    var vm3 = Provider.of<VideoViewModel>(context, listen: false);
-    vm3.getData(isFromOnPageLoad: true);
-    var vm4 = Provider.of<BLogViewModel>(context, listen: false);
-    vm4.getData(isFromOnPageLoad: true);
     super.initState();
-    // _animationController=AnimationController(vsync: this,duration: duration);
-    // scaleAnimation=Tween<double>(begin: 1.0,end:0.6).animate(_animationController);
   }
 
   @override
@@ -100,7 +101,6 @@ class _DashboardScreenState extends State<DashboardScreen>
     //fetchHospitalList();
     super.dispose();
   }
-
   // Future fetchPDF() async {
   //   final uri = 'https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription';
   //   var map = new Map<String, dynamic>();
@@ -266,62 +266,68 @@ class _DashboardScreenState extends State<DashboardScreen>
                       padding: const EdgeInsets.only(right: 10),
                       child: widget.accessToken == null
                           ? GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      transitionDuration: Duration(seconds: 1),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        var begin = Offset(0, 1.0);
-                                        var end = Offset.zero;
-                                        var curve = Curves.easeInOut;
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  transitionDuration: Duration(seconds: 1),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    var begin = Offset(0, 1.0);
+                                    var end = Offset.zero;
+                                    var curve = Curves.easeInOut;
 
-                                        var tween = Tween(
-                                                begin: begin, end: end)
-                                            .chain(CurveTween(curve: curve));
+                                    var tween = Tween(
+                                        begin: begin, end: end)
+                                        .chain(CurveTween(curve: curve));
 
-                                        return SlideTransition(
-                                          position: animation.drive(tween),
-                                          child: child,
-                                        );
-                                      },
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          SignIn(),
-                                    ));
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    StringResources.dasboardAppBarSignInText,
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 10),
-                                  ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  svg,
-                                  // CircleAvatar(
-                                  //   radius: 18,
-                                  //   backgroundColor: Colors.white,
-                                  //   child: CircleAvatar(
-                                  //     backgroundImage: AssetImage('assets/images/proimg.png'),
-                                  //     radius: 16,
-                                  //   ),
-                                  // ),
-                                ],
-                              ))
-                          : CircleAvatar(
-                              radius: 18,
-                              backgroundColor: Colors.white,
-                              child: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/images/proimg.png'),
-                                radius: 16,
+                                    return SlideTransition(
+                                      position: animation.drive(tween),
+                                      child: child,
+                                    );
+                                  },
+                                  pageBuilder: (context, animation,
+                                      secondaryAnimation) =>
+                                      SignIn(),
+                                ));
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                StringResources.dasboardAppBarSignInText,
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 10),
                               ),
-                            ),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              svg,
+                              // CircleAvatar(
+                              //   radius: 18,
+                              //   backgroundColor: Colors.white,
+                              //   child: CircleAvatar(
+                              //     backgroundImage: AssetImage('assets/images/proimg.png'),
+                              //     radius: 16,
+                              //   ),
+                              // ),
+                            ],
+                          ))
+                          : GestureDetector(
+                        onTap: (){
+                          print("shakil");
+                          signOut();
+                        },
+                            child: CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.white,
+                        child: CircleAvatar(
+                            backgroundImage:
+                            AssetImage('assets/images/proimg.png'),
+                            radius: 16,
+                        ),
+                      ),
+                          ),
                     )
                   ],
                   backgroundColor: Colors.transparent,
@@ -353,16 +359,16 @@ class _DashboardScreenState extends State<DashboardScreen>
                   leading: Container(
                       child: widget.isDrawerOpen
                           ? IconButton(
-                              iconSize: 35,
-                              icon: Icon(Icons.arrow_back),
-                              onPressed: () {
-                                widget.menuCallBack();
-                              })
+                          iconSize: 35,
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: () {
+                            widget.menuCallBack();
+                          })
                           : IconButton(
-                              icon: Icon(Icons.notes),
-                              onPressed: () {
-                                widget.menuCallBack();
-                              })),
+                          icon: Icon(Icons.notes),
+                          onPressed: () {
+                            widget.menuCallBack();
+                          })),
                 ),
                 // drawer: Drawer(
                 //   // child: GestureDetector(
@@ -422,8 +428,8 @@ class _DashboardScreenState extends State<DashboardScreen>
                         borderRadius: widget.isDrawerOpen
                             ? BorderRadius.all(Radius.circular(25))
                             : BorderRadius.only(
-                                topLeft: Radius.circular(25),
-                                topRight: Radius.circular(25)),
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25)),
                         color: HexColor("#FFFFFF"),
                         boxShadow: [
                           BoxShadow(
@@ -477,10 +483,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   widget.accessToken == null
                                       ? Container()
                                       : CustomCardPat(
-                                          "You have an upcoming appointment",
-                                          "22-02-2021 Monday 08:30pm \nSerial-12",
-                                          "Dr. Jahid Hasan",
-                                          "Alok hospital"),
+                                      "You have an upcoming appointment",
+                                      "22-02-2021 Monday 08:30pm \nSerial-12",
+                                      "Dr. Jahid Hasan",
+                                      "Alok hospital"),
                                   SizedBox(
                                     height: 10,
                                   ),
@@ -520,42 +526,42 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   ),
                                   vm.shouldShowPageLoader
                                       ? Center(
-                                          child: CircularProgressIndicator(),
-                                        )
+                                    child: CircularProgressIndicator(),
+                                  )
                                       : SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 18.0,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                ...List.generate(
-                                                  lengthofHospitalList,
-                                                  (i) => CustomCard(
-                                                    list[i].companyName,
-                                                    list[i].companyAddress ==
-                                                            null
-                                                        ? "Mirpur,Dahaka,Bangladesh"
-                                                        : list[i]
-                                                            .companyAddress,
-                                                    "60 Doctors",
-                                                    list[i].companyPhone == null
-                                                        ? "+880 1962823007"
-                                                        : list[i].companyPhone,
-                                                    list[i].companyEmail == null
-                                                        ? "info@mysoftitd.com"
-                                                        : list[i].companyEmail,
-                                                    list[i].companyLogo,
-                                                    list[i].companyId,
-                                                    list[i].ogNo.toString(),
-                                                    list[i].id.toString(),
-                                                  ),
-                                                ),
-                                              ],
+                                    scrollDirection: Axis.horizontal,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 18.0,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          ...List.generate(
+                                            lengthofHospitalList,
+                                                (i) => CustomCard(
+                                              list[i].companyName,
+                                              list[i].companyAddress ==
+                                                  null
+                                                  ? "Mirpur,Dahaka,Bangladesh"
+                                                  : list[i]
+                                                  .companyAddress,
+                                              "60 Doctors",
+                                              list[i].companyPhone == null
+                                                  ? "+880 1962823007"
+                                                  : list[i].companyPhone,
+                                              list[i].companyEmail == null
+                                                  ? "info@mysoftitd.com"
+                                                  : list[i].companyEmail,
+                                              list[i].companyLogo,
+                                              list[i].companyId,
+                                              list[i].ogNo.toString(),
+                                              list[i].id.toString(),
                                             ),
                                           ),
-                                        ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(
                                     height: 20,
                                   ),
@@ -600,41 +606,41 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   // ):
                                   vm2.shouldShowPageLoader
                                       ? Center(
-                                          child: CircularProgressIndicator(),
-                                        )
+                                    child: CircularProgressIndicator(),
+                                  )
                                       : vm2.shouldShowNoNewsFound
-                                          ? Center(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(StringResources
-                                                    .noNewsFound),
-                                                key: Key('noJobsFound1'),
-                                              ),
-                                            )
-                                          : SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 18.0,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    ...List.generate(
-                                                      lengthofNewsList,
-                                                      (i) => CustomCardNews(
-                                                          DateUtil().formattedDate(
-                                                              DateTime.parse(list2[
-                                                                          i]
-                                                                      .publishDate)
-                                                                  .toLocal()),
-                                                          list2[i].title,
-                                                          list2[i].newsLink),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+                                      ? Center(
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.all(8.0),
+                                      child: Text(StringResources
+                                          .noNewsFound),
+                                      key: Key('noJobsFound1'),
+                                    ),
+                                  )
+                                      : SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 18.0,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          ...List.generate(
+                                            lengthofNewsList,
+                                                (i) => CustomCardNews(
+                                                DateUtil().formattedDate(
+                                                    DateTime.parse(list2[
+                                                    i]
+                                                        .publishDate)
+                                                        .toLocal()),
+                                                list2[i].title,
+                                                list2[i].newsLink),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
 
                                   SizedBox(
                                     height: 10,
@@ -756,37 +762,37 @@ class _DashboardScreenState extends State<DashboardScreen>
 
                                   vm3.shouldShowPageLoader
                                       ? Center(
-                                          child: CircularProgressIndicator(),
-                                        )
+                                    child: CircularProgressIndicator(),
+                                  )
                                       : SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 18.0,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                ...List.generate(
-                                                  lengthofVideoList,
-                                                  (i) => CustomCardVideo(
-                                                      list3[i]
-                                                          .snippet
-                                                          .thumbnails
-                                                          .standard
-                                                          .url,
-                                                      list3[i].snippet.title,
-                                                      list3[i]
-                                                          .snippet
-                                                          .resourceId
-                                                          .videoId,
-                                                      list3[i]
-                                                          .snippet
-                                                          .description),
-                                                ),
-                                              ],
-                                            ),
+                                    scrollDirection: Axis.horizontal,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 18.0,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          ...List.generate(
+                                            lengthofVideoList,
+                                                (i) => CustomCardVideo(
+                                                list3[i]
+                                                    .snippet
+                                                    .thumbnails
+                                                    .standard
+                                                    .url,
+                                                list3[i].snippet.title,
+                                                list3[i]
+                                                    .snippet
+                                                    .resourceId
+                                                    .videoId,
+                                                list3[i]
+                                                    .snippet
+                                                    .description),
                                           ),
-                                        ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

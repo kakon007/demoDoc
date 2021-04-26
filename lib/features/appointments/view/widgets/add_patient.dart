@@ -391,7 +391,7 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
-    var consultFee=       DashedContainer(
+    var consultFee=    DashedContainer(
       dashColor:HexColor("#E9ECFE"),
       borderRadius: 10.0,
       dashedLength: 10.0,
@@ -399,7 +399,7 @@ class _AddPatientState extends State<AddPatient> {
       child:  Container(
         height: 90.0,
         width: MediaQuery.of(context).size.width * .5,
-        child: vm.consultFee==null ? SizedBox() :Column(
+        child: vm.consultFee==null || (selectedPatientType == "" || selectedConsultationType == "" ) ? SizedBox() :Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

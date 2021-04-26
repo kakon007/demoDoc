@@ -1,28 +1,19 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
 import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/repositories/filter_repository.dart';
-import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class FindYourDoctorScreen extends StatefulWidget {
@@ -44,7 +35,8 @@ class FindYourDoctorScreen extends StatefulWidget {
 class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   AsyncMemoizer<DoctorsGridModel> _memoizer;
 
-  TextEditingController editingController = TextEditingController();
+  TextEditingController specialityController = TextEditingController();
+  TextEditingController deptController = TextEditingController();
   List _items1 = [];
   List _items2 = [];
   List _items3 = [];
@@ -62,7 +54,9 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   ScrollController _scrollController;
   ScrollController _scrollController2;
   List<SpecializationItem> specialistList;
-  var items = List<SpecializationItem>();
+  List<DeptItem> deptList;
+  var specialityItems = List<SpecializationItem>();
+  var deptItems = List<DeptItem>();
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -72,22 +66,17 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     // TODO: implement initState
     super.initState();
     _memoizer = AsyncMemoizer();
-    // Future.delayed(Duration(milliseconds: 100)).then((_) {
+    Future.delayed(Duration.zero,()async{
       var vm2 = Provider.of<FilterViewModel>(context, listen: false);
-      vm2.getDepartment(widget.companyNo);
-      vm2.getSpecialist(widget.id, widget.orgNo);
+      await vm2.getDepartment(widget.companyNo);
+      await vm2.getSpecialist(widget.id, widget.orgNo);
       specialistList= vm2.specialList;
-      items.addAll(specialistList);
+      specialityItems.addAll(specialistList);
+      deptList= vm2.departmentList;
+      deptItems.addAll(deptList);
+    });
+
     // });
-  }
-  @override
-  void asyncMethod()  {
-    var vm2 = Provider.of<FilterViewModel>(context, listen: true);
-    vm2.getSpecialist(widget.id, widget.orgNo);
-    specialistList= vm2.specialList;
-    items.addAll(specialistList);
-    super.didChangeDependencies();
-    // ....
   }
   @override
   Widget build(BuildContext context) {
@@ -366,7 +355,9 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                           fontSize: 15, fontWeight: FontWeight.w600))),
               vm.isLoading == true
                   ? Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator( valueColor:
+                      AlwaysStoppedAnimation<Color>(
+                          AppTheme.appbarPrimary),),
                     )
 
                   : vm.doctorList.length == 0
@@ -419,27 +410,48 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     var verticalSpace = SizedBox(
       width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
     );
-    void filterSearchResults(String query) {
-      List<SpecializationItem> dummySearchList = List<SpecializationItem>();
-      dummySearchList.addAll(specialistList);
-      print(dummySearchList.length);
+    void specializationSearch(String query) {
+      List<SpecializationItem> initialSpecialitySearch = List<SpecializationItem>();
+      initialSpecialitySearch.addAll(specialistList);
       if(query.isNotEmpty) {
-        List<SpecializationItem> dummyListData = List<SpecializationItem>();
-        dummySearchList.forEach((item) {
-          if(item.dtlName.contains(query)) {
-            dummyListData.add(item);
-            print(dummyListData.length);
+        List<SpecializationItem> initialSpecialitySearchItems = List<SpecializationItem>();
+        initialSpecialitySearch.forEach((item) {
+          if(item.dtlName.contains(query.substring(0,1).toUpperCase() + query.substring(1).toLowerCase())) {
+            initialSpecialitySearchItems.add(item);
           }
         });
         setState(() {
-          items.clear();
-          items.addAll(dummyListData);
+          specialityItems.clear();
+          specialityItems.addAll(initialSpecialitySearchItems);
         });
         return;
       } else {
         setState(() {
-          items.clear();
-          items.addAll(specialistList);
+          specialityItems.clear();
+          specialityItems.addAll(specialistList);
+        });
+      }
+
+    }
+    void departmentSearch(String query) {
+      List<DeptItem> initialDeptSearch = List<DeptItem>();
+      initialDeptSearch.addAll(deptList);
+      if(query.isNotEmpty) {
+        List<DeptItem> initialDeptSearchItems = List<DeptItem>();
+        initialDeptSearch.forEach((item) {
+          if(item.buName.contains(query)) {
+            initialDeptSearchItems.add(item);
+          }
+        });
+        setState(() {
+          deptItems.clear();
+          deptItems.addAll(initialDeptSearchItems);
+        });
+        return;
+      } else {
+        setState(() {
+          deptItems.clear();
+          deptItems.addAll(deptList);
         });
       }
 
@@ -448,7 +460,11 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     var horizontalSpace = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
     );
-    var searchDepartment = TextFormField(
+    var searchDepartment = TextField(
+        onChanged: (value) {
+          departmentSearch(value.toUpperCase());
+        },
+        controller: deptController,
         decoration: new InputDecoration(
       prefixIcon: Padding(
         padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
@@ -469,6 +485,11 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
     ));
     var searchSpeciality = TextFormField(
+        onChanged: (value) {
+          specializationSearch(value);
+          // print(value);
+        },
+        controller: specialityController,
         decoration: new InputDecoration(
       prefixIcon: Padding(
         padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
@@ -614,29 +635,13 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     child: Column(
                                       children: [
                                        searchDepartment,
-                                        // Padding(
-                                        //   padding: const EdgeInsets.all(8.0),
-                                        //   child: TextField(
-                                        //     onChanged: (value) {
-                                        //       filterSearchResults(value);
-                                        //      // print(value);
-                                        //     },
-                                        //     controller: editingController,
-                                        //     decoration: InputDecoration(
-                                        //         labelText: "Search",
-                                        //         hintText: "Search",
-                                        //         prefixIcon: Icon(Icons.search),
-                                        //         border: OutlineInputBorder(
-                                        //             borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-                                        //   ),
-                                        // ),
                                         Expanded(
                                           child: Scrollbar(
                                             isAlwaysShown: true,
                                             controller: _scrollController,
                                             child: ListView(
                                               controller: _scrollController,
-                                              children: deptList
+                                              children: deptItems
                                                   .map(
                                                     (DeptItem item) =>
                                                         Container(
@@ -648,7 +653,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             ListTileControlAffinity
                                                                 .leading,
                                                         title: Text(
-                                                          item.buName,
+                                                          item.buName.substring(0, 1).toUpperCase() + item.buName.substring(1).toLowerCase(),
                                                           style: GoogleFonts.poppins(
                                                               fontWeight: item
                                                                           .isChecked ==
@@ -713,7 +718,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                             controller: _scrollController2,
                                             child: ListView(
                                               controller: _scrollController2,
-                                              children: specialistList
+                                              children: specialityItems
                                                   .map(
                                                     (SpecializationItem item) =>
                                                         Container(

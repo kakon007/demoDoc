@@ -12,12 +12,12 @@ import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'features/auth/view_model/auth_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs= await SharedPreferences.getInstance();
   var accessToken = prefs.getString('accessToken');
-  print(accessToken);
   var providers=[
 
     ChangeNotifierProvider<FilterViewModel>(
@@ -32,6 +32,8 @@ void main() async{
     ChangeNotifierProvider<VideoViewModel>(create: (context) => VideoViewModel()),
     ChangeNotifierProvider< UserDetailsViewModel>(create: (context) =>  UserDetailsViewModel()),
     ChangeNotifierProvider< BLogViewModel>(create: (context) =>  BLogViewModel()),
+    ChangeNotifierProvider< AuthViewModel>(create: (context) =>  AuthViewModel()),
+
   ];
   FlavorConfig(
       flavor: Flavor.DEV,

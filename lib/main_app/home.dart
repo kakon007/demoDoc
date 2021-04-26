@@ -125,6 +125,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   void initState() {
+    print("shakil");
+    print(widget.accessToken);
     // TODO: implement initState
     super.initState();
     _animationController=AnimationController(vsync: this,duration: duration);
@@ -238,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
 
 
-    print(widget.accessToken);
+    //print(widget.accessToken);
     final String dashboardiconiamg = "assets/icons/dashboard_icon.svg";
     final Widget dashboardicon = SvgPicture.asset(
       dashboardiconiamg,

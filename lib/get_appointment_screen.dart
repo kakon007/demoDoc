@@ -108,6 +108,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
     var deviceWidth = MediaQuery.of(context).size.width;
     var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
+    var width = MediaQuery.of(context).size.width * 0.44;
     final Widget filtericon = SvgPicture.asset(
       "assets/icons/fliter.svg",
       width: 10,
@@ -117,17 +118,15 @@ class _GetAppointmentState extends State<GetAppointment> {
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
-    var searchField =
-    SignUpFormField(
-      borderRadius: 30,
-      hintText: 'Search here',
-      suffixIcon: Padding(
-        padding: const EdgeInsets.only(right: 20.0),
-        child: Icon(
-          Icons.search_rounded,
-          color: Colors.grey,
-        ),
-      ),
+
+    final Widget calenderIcon = SvgPicture.asset(
+      "assets/icons/calen.svg",
+      width: 10,
+      height: 18,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
     );
     return Scaffold(
       appBar: AppBar(
@@ -394,23 +393,35 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                   child: Column(
                                                     children: [
                                                       SizedBox(height: 20,),
-                                                      Text("Filter"),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:180.0),
+                                                        child: Row(
+                                                          children: [
+                                                            Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
+                                                            SizedBox(width: 100,),
+                                                            GestureDetector(onTap: (){
+                                                              Navigator.pop(context);
+                                                            },child: Icon(Icons.close,size: 30,)),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     SingleChildScrollView(
                                                       child:
                                                       Column(
                                                         children: [
                                                           Padding(
-                                                            padding: const EdgeInsets.only(top:15.0,right: 270),
+                                                            padding: const EdgeInsets.only(top:15.0,right: 245),
                                                             child: Text(
-                                                              'Select Date'
+                                                              'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
                                                             ),
                                                           ),
+                                                          SizedBox(height: 10,),
                                                           GestureDetector(
                                                             onTap: (){
                                                               selectBirthDate(context);
                                                             },
                                                             child: Container(
-                                                              height: 45.0,
+                                                              height: 50.0,
                                                               width: MediaQuery.of(context).size.width*0.88,
                                                               decoration: BoxDecoration(
                                                                   color: Colors.transparent,
@@ -425,7 +436,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       pickBirthDate == DateTime.now()
                                                                           ? "Select Date"
                                                                           : "From: 22/02/2021",
-                                                                      style: TextStyle(fontSize: 13.0),
+                                                                      style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
                                                                     ),
                                                                   ),
                                                                   Padding(
@@ -433,18 +444,20 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     child: Container(
                                                                         height: 18,
                                                                         child:
-                                                                        Image.asset("assets/images/calender_icon.png")),
+                                                                        calenderIcon,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
                                                             ),
                                                           ),
+                                                          SizedBox(height: 10,),
                                                           GestureDetector(
                                                             onTap: (){
                                                               selectBirthDate(context);
                                                             },
                                                             child: Container(
-                                                              height: 45.0,
+                                                              height: 50.0,
                                                               width: MediaQuery.of(context).size.width*0.88,
                                                               decoration: BoxDecoration(
                                                                   color: Colors.transparent,
@@ -459,7 +472,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       pickBirthDate == DateTime.now()
                                                                           ? "Select Date"
                                                                           : "To:",
-                                                                      style: TextStyle(fontSize: 13.0),
+                                                                        style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
                                                                     ),
                                                                   ),
                                                                   Padding(
@@ -467,7 +480,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     child: Container(
                                                                         height: 18,
                                                                         child:
-                                                                        Image.asset("assets/images/calender_icon.png")),
+                                                                        calenderIcon,
+                                                                    ),
                                                                   ),
 
                                                                 ],
@@ -475,13 +489,56 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             ),
                                                           ),
                                                           Padding(
-                                                            padding: const EdgeInsets.only(top:15.0,right: 230),
+                                                            padding: const EdgeInsets.only(top:15.0,right: 190),
                                                             child: Text(
-                                                                'Consultation type'
+                                                                'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
                                                             ),
                                                           ),
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                flex:2,
+                                                                child: CheckboxListTile(
+                                                                  title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                                                  value: checkedValue,
+                                                                  onChanged: (newValue) {
+                                                                    setState(() {
+                                                                      checkedValue = newValue;
+                                                                    });
+                                                                  },
+                                                                  controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                flex:2,
+                                                                child: CheckboxListTile(
+                                                                  title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                                                  value: checkedValue,
+                                                                  onChanged: (newValue) {
+                                                                    setState(() {
+                                                                      checkedValue = newValue;
+                                                                    });
+                                                                  },
+                                                                  controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                flex:2,
+                                                                child: CheckboxListTile(
+                                                                  title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                                                  value: checkedValue,
+                                                                  onChanged: (newValue) {
+                                                                    setState(() {
+                                                                      checkedValue = newValue;
+                                                                    });
+                                                                  },
+                                                                  controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                           CheckboxListTile(
-                                                            title: Text("title text"),
+                                                            title: Text("2nd Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
                                                             value: checkedValue,
                                                             onChanged: (newValue) {
                                                               setState(() {
@@ -490,15 +547,53 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             },
                                                             controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
                                                           ),
-                                                          CheckboxListTile(
-                                                            title: Text("title text"),
-                                                            value: checkedValue,
-                                                            onChanged: (newValue) {
-                                                              setState(() {
-                                                                checkedValue = newValue;
-                                                              });
-                                                            },
-                                                            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                SizedBox(
+                                                                  width: width * .9,
+                                                                  height: width * .25,
+                                                                  child: FlatButton(
+                                                                    onPressed: () {
+                                                                      Navigator.pop(context);
+                                                                    },
+                                                                    textColor:  AppTheme.appbarPrimary,
+                                                                    color: HexColor("#FFFFFF"),
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                        BorderRadius.circular(8),
+                                                                        side: BorderSide(
+                                                                            color: AppTheme
+                                                                                .appbarPrimary,
+                                                                            width: 1)),
+                                                                    child: Text(
+                                                                      "Clear Filter",
+                                                                      style: GoogleFonts.poppins(),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: width * .9,
+                                                                  height: width * .25,
+                                                                  child: FlatButton(
+                                                                    textColor: Colors.white,
+                                                                    onPressed: () {},
+                                                                    color:  AppTheme.appbarPrimary,
+                                                                    shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(8),
+                                                                    ),
+                                                                    child: Text(
+                                                                      "Apply Filter",
+                                                                      style: GoogleFonts.poppins(),
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
                                                         ],
                                                       )

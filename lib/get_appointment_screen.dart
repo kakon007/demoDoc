@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/models/previous_appointment_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/upcoming_appointment_model.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 
 class GetAppointment extends StatefulWidget {
@@ -74,10 +78,46 @@ class _GetAppointmentState extends State<GetAppointment> {
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
+    var deviceWidth = MediaQuery.of(context).size.width;
+    var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
+    final Widget filtericon = SvgPicture.asset(
+      "assets/icons/fliter.svg",
+      width: 10,
+      height: 18,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+    var searchField =
+    SignUpFormField(
+      borderRadius: 30,
+      hintText: 'Search here',
+      suffixIcon: Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+        child: Icon(
+          Icons.search_rounded,
+          color: Colors.grey,
+        ),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.notes),
         backgroundColor: HexColor('#354291'),
-        title: Text('Appointments'),
+        title: Text('Appointments',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+              size: 20,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
+            },
+          )
+        ],
       ),
       body:
       DefaultTabController(
@@ -146,7 +186,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             ),
                                                             SizedBox(width: 5,),
                                                             Padding(
-                                                              padding: const EdgeInsets.only(top:5.0,bottom: 8,left: 1),
+                                                              padding: const EdgeInsets.only(bottom: 20,left: 1),
                                                               child: Column(
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children: [
@@ -170,11 +210,11 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                         ),
                                                         Divider(thickness: 1,),
                                                         Padding(
-                                                          padding: const EdgeInsets.only(top:8.0,right: 2,bottom: 8,left: 20),
+                                                          padding: const EdgeInsets.only(top:5.0,right: 2,bottom: 8,left: 20),
                                                           child: Column(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              SizedBox(height: 5,),
+                                                              SizedBox(height: 3,),
                                                               Row(
                                                                 children: [
                                                                   Row(
@@ -264,83 +304,208 @@ class _GetAppointmentState extends State<GetAppointment> {
                   WillPopScope(
                     child: Scaffold(
                         body:
-
                         Column(
                           children: [
+                            Container(
+                              height: 55,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:12.0,right: 0,top:5,bottom: 3),
+                                    child: Container(
+                                      width: 320,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: Colors.white,
+                                        border: Border.all(color: HexColor('#E1E1E1')),
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {},
+                                        child: Row(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              "  Search here",
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.grey.withOpacity(0.5),
+                                                fontSize: deviceWidth >= 400 ? 20 : 13,
+                                              ),
+                                            ),
+                                            Spacer(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 8.0),
+                                              child: Icon(
+                                                Icons.search,
+                                                color: Colors.grey,
+                                                size: 28,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:18.0),
+                                    child: filtericon,
+                                  )
+                                ],
+                              ),
+                            ),
                             Expanded(
                               child:
                               SingleChildScrollView(
                                 physics: ScrollPhysics(),
                                 child:
-
                                 ListView.builder( physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemCount:previousList.length,
+                                    itemCount:upComingList.length,
                                     itemBuilder: (BuildContext context, int index) {
                                       //print("LIIIISSSYYSY:::" + list[index].consultationId);
                                       return  Stack(
                                           children:[
                                             InkWell(
                                               child: Container(
-
-                                                height: cardHeight*0.8,
+                                                height: cardHeight*1.7,
                                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                 decoration: BoxDecoration(
-                                                  // gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                  //   1.0,
-                                                  //   1.0
-                                                  // ], colors: [
-                                                  //   HexColor('#C5CAE8'),
-                                                  //   HexColor('#E9ECFE'),
-                                                  //
-                                                  // ]),
-                                                  // //color: Colors.white,
-                                                  // // border: Border.all(
-                                                  // //   color: HexColor("#E9ECFE"),
-                                                  // //   width: 1,
-                                                  // // ),
                                                   color:HexColor('#F0F2FF'),
                                                   borderRadius: BorderRadius.circular(15),
                                                 ),
-                                                child: Row(
-                                                  children: [
-                                                    CircleAvatar(
-                                                      radius: 31,
-                                                      backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                      child: CircleAvatar(
-                                                        radius: 30,
-                                                        backgroundColor: Colors.white,
-                                                        child: CircleAvatar(
-                                                          backgroundImage: AssetImage('assets/images/proimg.png'),
-                                                          radius: 28,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    //SizedBox(width: 5,),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left:10.0,right:10),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
                                                         children: [
-                                                          SizedBox(height: 8,),
-                                                          Text(previousList[index].hosName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                          Text(previousList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                          SizedBox(height: 8,),
-                                                          Container(width:200,child: Text(upComingList[index].day,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
-                                                          Text(previousList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
+                                                          Container(
+                                                            height: 60,
+                                                            //width: 20,
+                                                            child: Image.asset('assets/images/aapoin.png'),
+                                                          ),
+                                                          SizedBox(width: 5,),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(bottom: 20,left: 1),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                SizedBox(height: 8,),
+                                                                Text(upComingList[index].reportName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#393939'),fontSize: 12),),
+                                                                Text(upComingList[index].day,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12,fontWeight: FontWeight.w500),),
+                                                                Container(width:260,child: Text(upComingList[index].hosName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12))),
+                                                              ],
+                                                            ),
+
+                                                          ),
+                                                          // Container(width:45,child: rx),
+                                                          // (controller.isSelecting)?
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                          //   child: righticon,
+                                                          // ):
+
+
                                                         ],
                                                       ),
+                                                      Divider(thickness: 1,),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top:5.0,right: 2,bottom: 8,left: 20),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            SizedBox(height: 3,),
+                                                            Row(
+                                                              children: [
+                                                                Row(
+                                                                  children: [
+                                                                    Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: 12),),
+                                                                    Text("01",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: 12),),
 
-                                                    ),
-                                                    // Container(width:45,child: rx),
-                                                    // (controller.isSelecting)?
-                                                    // Padding(
-                                                    //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                    //   child: righticon,
-                                                    // ):
+                                                                  ],
+                                                                ),
+                                                                SizedBox(width: 10,),
+                                                                Row(
+                                                                  children: [
+                                                                    Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: 12),),
+                                                                    Text("Monday 25-01-2021",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: 12),),
 
+                                                                  ],
+                                                                ),
+                                                                SizedBox(width: 10,),
+                                                                Row(
+                                                                  children: [
+                                                                    Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: 12),),
+                                                                    Text("05:47 PM",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: 12),),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(height: 10,),
+                                                            Row(
+                                                              children: [
+                                                                Row(
+                                                                  children: [
+                                                                    Text("Consultation Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: 12),),
+                                                                    Text("Fresh visit",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: 12),),
 
-                                                  ],
+                                                                  ],
+                                                                ),
+                                                                SizedBox(width: 10,),
+                                                                Row(
+                                                                  children: [
+                                                                    Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: 12),),
+                                                                    Text("Completed",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#32C974'),fontSize: 12),),
+
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+
+                                                          ],
+                                                        ),
+
+                                                      ),
+                                                      SizedBox(height: 5,),
+                                                      Row(
+                                                        children: [
+                                                          Material(
+                                                            elevation: 0  ,
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                            color: HexColor("#354291"),
+                                                            child: SizedBox(
+                                                              width: 165,
+                                                              height: 30,
+                                                              child: Center(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.all(8.0),
+                                                                  child: Text("REBOOK",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 20,),
+                                                          Material(
+                                                            elevation: 0  ,
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                            color: HexColor("#354291"),
+                                                            child: SizedBox(
+                                                              width: 165,
+                                                              height: 30,
+                                                              child: Center(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.all(8.0),
+                                                                  child: Text("VIEW PRESCRIPTION",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),

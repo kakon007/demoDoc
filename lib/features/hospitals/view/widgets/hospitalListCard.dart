@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -5,6 +7,7 @@ import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class HospitalListCard extends StatelessWidget {
+  Uint8List image;
   String titleText;
   String addressText;
   String countText;
@@ -15,7 +18,7 @@ class HospitalListCard extends StatelessWidget {
   String orgNo;
   String id;
 
-  HospitalListCard(@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
+  HospitalListCard(@required this.image,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
@@ -39,7 +42,7 @@ class HospitalListCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.asset("assets/images/dummyimg.png")),
+                  child: Image.memory(image)),
             ),
             Flexible(
               child: Padding(
@@ -70,7 +73,7 @@ class HospitalListCard extends StatelessWidget {
                     SizedBox(height: 10,),
                     GestureDetector(
                       onTap: (){
-                        //Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
                       },
                       child: Material(
                         elevation: 0  ,

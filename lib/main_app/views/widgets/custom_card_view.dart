@@ -30,7 +30,6 @@ class CustomCard extends StatelessWidget {
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child:Row(
           children: [
-            image!=null?
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -40,7 +39,7 @@ class CustomCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Image.memory(image)),
-            ):CircularProgressIndicator(),
+            ),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

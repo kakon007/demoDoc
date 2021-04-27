@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
@@ -18,12 +22,20 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
   var accessToken;
   ScrollController _scrollController;
 
+  loadImage(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+    return _bytesImage;
+
+  }
+
   @override
   void afterFirstLayout(BuildContext context) {
     _scrollController = ScrollController();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     print(vm.hospitalList.length);
+    var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
+    vm5.getData(isFromOnPageLoad: true);
   }
 
   @override
@@ -40,6 +52,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       ),
     );
     var vm = Provider.of<HospitalListViewModel>(context);
+    var vm5 = Provider.of<HospitalLogoViewModel>(context);
     List<Item> list = vm.hospitalList;
     var length = list.length;
     return Scaffold(
@@ -85,7 +98,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             searchField,
-            vm.isLoading== true? Center(child: CircularProgressIndicator()):  Expanded(
+            vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Center(child: CircularProgressIndicator()):  Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: ListView.builder(
@@ -93,7 +106,9 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                     shrinkWrap: true,
                     itemCount: length,
                     itemBuilder: (BuildContext context, int index) {
+                      int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==list[index].id);
                       return HospitalListCard(
+                        loadImage(vm5.hospitalLogoList[index].photoLogo),
                         list[index].companyName,
                         list[index].companyAddress == null
                             ? "Mirpur,Dahaka,Bangladesh"

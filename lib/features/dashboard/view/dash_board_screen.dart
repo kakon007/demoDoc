@@ -55,11 +55,6 @@ class _DashboardScreenState extends State<DashboardScreen>
   ScrollController _controller;
   Uint8List _base64;
   File imageData;
-  // AnimationController _animationController;
-  // Animation<double> scaleAnimation;
-  // Duration duration=Duration(milliseconds: 200);
-  // List<hos.Item> dataList = new List<hos.Item>();
-  // List<Item> dataList2=new List<Item>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = new GlobalKey<ScaffoldState>();
   BorderRadiusGeometry radius = BorderRadius.only(
@@ -70,33 +65,6 @@ class _DashboardScreenState extends State<DashboardScreen>
   double xOffset = 0.0;
   double yOffset = 0.0;
   double scaleFactor = 1;
-
-  //bool isDrawerOpen = false;
-  //
-  // double xOffset2 = 0.0;
-  // double yOffset2 = 0.0;
-  // double scaleFactor2 = 1;
-  // List<Item> dataListforLogo = new List<Item>();
-  //
-  // Future<CompanyLogoModel> fetchHospitalList() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyLogoList";
-  //   var client = http.Client();
-  //   var response = await client.get(url);
-  //   if (response.statusCode == 200) {
-  //     //Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     //data = jsonMap["items"];
-  //     CompanyLogoModel data = companyLogoModelFromJson(response.body) ;
-  //     data.items.forEach((elemant) {
-  //       dataListforLogo.add(elemant);
-  //     });
-  //     //print('CompanyLogo:::::: ' + data.items[0].photoLogo);
-  //     return data;
-  //     //print(data[0]['companySlogan']);
-  //   }else {
-  //     return null;
-  //   }
-  // }
 
 
 
@@ -154,6 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 
     var vm4 = Provider.of<BLogViewModel>(context, listen: true);
 
+    var vm5 = Provider.of<HospitalLogoViewModel>(context);
 
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
@@ -459,7 +428,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  vm.shouldShowPageLoader
+                                  vm.shouldShowPageLoader||vm5.shouldShowPageLoader
                                       ? Center(
                                           child: CircularProgressIndicator(),
                                         )
@@ -474,10 +443,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 ...List.generate(
                                                   lengthofHospitalList,
                                                   (i) {
-                                                    var vm5 = Provider.of<HospitalLogoViewModel>(context);
-                                                    int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==list[i].id);
-                                                    return vm5.hospitalLogoList.isNotEmpty? CustomCard(
-                                                      loadImage(vm5.hospitalLogoList[ind].photoLogo),
+                                                    int index = vm5.hospitalLogoList.indexWhere((element) => element.id==list[i].id);
+                                                    return  CustomCard(
+                                                      loadImage(vm5.hospitalLogoList[index].photoLogo),
                                                         list[i].companyName,
                                                         list[i].companyAddress ==
                                                                 null
@@ -495,7 +463,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                         list[i].companyId,
                                                         list[i].ogNo.toString(),
                                                         list[i].id.toString(),
-                                                      ):CircularProgressIndicator();
+                                                      );
                                                   }
                                                 ),
                                               ],

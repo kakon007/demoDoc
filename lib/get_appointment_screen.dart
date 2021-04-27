@@ -302,10 +302,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             width: double.infinity,
                                                             height: 35,
                                                             child: Center(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.all(8.0),
-                                                                child: Text("START CONSULTING",style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w500),),
-                                                              ),
+                                                              child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
                                                             ),
                                                           ),
                                                         ),
@@ -389,7 +386,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                               builder: (context) {
 
                                                 return Container(
-                                                  height: 500,
+                                                  height: 480,
                                                   child: Column(
                                                     children: [
                                                       SizedBox(height: 20,),
@@ -522,6 +519,10 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
                                                                 ),
                                                               ),
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
                                                               Expanded(
                                                                 flex:2,
                                                                 child: CheckboxListTile(
@@ -535,17 +536,21 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
                                                                 ),
                                                               ),
+                                                              Expanded(
+                                                                flex:2,
+                                                                child: CheckboxListTile(
+                                                                  title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                                                  value: checkedValue,
+                                                                  onChanged: (newValue) {
+                                                                    setState(() {
+                                                                      checkedValue = newValue;
+                                                                    });
+                                                                  },
+                                                                  controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                                                ),
+                                                              ),
+
                                                             ],
-                                                          ),
-                                                          CheckboxListTile(
-                                                            title: Text("2nd Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                            value: checkedValue,
-                                                            onChanged: (newValue) {
-                                                              setState(() {
-                                                                checkedValue = newValue;
-                                                              });
-                                                            },
-                                                            controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
                                                           ),
                                                           Padding(
                                                             padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
@@ -731,12 +736,9 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             color: HexColor("#354291"),
                                                             child: SizedBox(
                                                               width: 165,
-                                                              height: 30,
+                                                              height: 32,
                                                               child: Center(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.all(8.0),
-                                                                  child: Text("REBOOK",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
-                                                                ),
+                                                                child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
                                                               ),
                                                             ),
                                                           ),
@@ -747,12 +749,9 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             color: HexColor("#354291"),
                                                             child: SizedBox(
                                                               width: 165,
-                                                              height: 30,
+                                                              height: 32,
                                                               child: Center(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.all(8.0),
-                                                                  child: Text("VIEW PRESCRIPTION",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
-                                                                ),
+                                                                child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
                                                               ),
                                                             ),
                                                           ),

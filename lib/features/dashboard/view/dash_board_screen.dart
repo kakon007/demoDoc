@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/custom_blog_widget.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/health_video_all.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
@@ -13,13 +15,14 @@ import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'
     as hos;
+import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
-import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart';
+import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart' as video;
 import 'package:myhealthbd_app/features/videos/repositories/channel_Info_repository.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
@@ -50,7 +53,8 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen>
     with SingleTickerProviderStateMixin {
   ScrollController _controller;
-
+  Uint8List _base64;
+  File imageData;
   // AnimationController _animationController;
   // Animation<double> scaleAnimation;
   // Duration duration=Duration(milliseconds: 200);
@@ -72,13 +76,40 @@ class _DashboardScreenState extends State<DashboardScreen>
   // double xOffset2 = 0.0;
   // double yOffset2 = 0.0;
   // double scaleFactor2 = 1;
+  // List<Item> dataListforLogo = new List<Item>();
+  //
+  // Future<CompanyLogoModel> fetchHospitalList() async {
+  //   var url =
+  //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyLogoList";
+  //   var client = http.Client();
+  //   var response = await client.get(url);
+  //   if (response.statusCode == 200) {
+  //     //Map<String, dynamic> jsonMap = json.decode(response.body);
+  //     //data = jsonMap["items"];
+  //     CompanyLogoModel data = companyLogoModelFromJson(response.body) ;
+  //     data.items.forEach((elemant) {
+  //       dataListforLogo.add(elemant);
+  //     });
+  //     //print('CompanyLogo:::::: ' + data.items[0].photoLogo);
+  //     return data;
+  //     //print(data[0]['companySlogan']);
+  //   }else {
+  //     return null;
+  //   }
+  // }
+
+
+
+  loadImage(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+    return _bytesImage;
+
+  }
+
 
   @override
   void initState() {
     // TODO: implement initState
-    // fetchHospitalList();
-    // fetchNewspdate();
-    //fetchPDF();
     VideoInfoRepository().getVideoInfo();
     NewsRepository().fetchNewspdate();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
@@ -89,9 +120,9 @@ class _DashboardScreenState extends State<DashboardScreen>
     vm3.getData(isFromOnPageLoad: true);
     var vm4 = Provider.of<BLogViewModel>(context, listen: false);
     vm4.getData(isFromOnPageLoad: true);
+    var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
+    vm5.getData(isFromOnPageLoad: true);
     super.initState();
-    // _animationController=AnimationController(vsync: this,duration: duration);
-    // scaleAnimation=Tween<double>(begin: 1.0,end:0.6).animate(_animationController);
   }
 
   @override
@@ -101,35 +132,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     super.dispose();
   }
 
-  // Future fetchPDF() async {
-  //   final uri = 'https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription';
-  //   var map = new Map<String, dynamic>();
-  //   map['prescriptionId'] = '2220000115';
-  //   map['pClient'] = 'aalok';
-  //   map['pLayout'] = '1';
-  //
-  //   http.Response response = await http.post(
-  //     uri,
-  //     headers: {'Authorization': 'Bearer ${widget.accessToken}',},
-  //     body: map,
-  //   );
-  //   String body=response.body;
-  //   print("STATUS::"+response.statusCode.toString());
-  //   print("PDF:::"+body);
-  //   print("JAHIIIDISDOHADSO");
-  //   return body;
-  // }
 
-  // Future<String> _createFileFromString() async {
-  //   final encodedStr='''''';
-  //   Uint8List bytes = base64.decode(encodedStr);
-  //   String dir = (await getApplicationDocumentsDirectory()).path;
-  //   File file = File(
-  //       "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
-  //   await file.writeAsBytes(bytes);
-  //   //print("FILEEEEE"+file.path.toString);
-  //   return file.path;
-  // }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
@@ -144,12 +147,17 @@ class _DashboardScreenState extends State<DashboardScreen>
     var lengthofNewsList = list2.length;
 
     var vm3 = Provider.of<VideoViewModel>(context);
-    List<Item> list3 = vm3.videoList;
+    List<video.Item> list3 = vm3.videoList;
     var lengthofVideoList = list3.length;
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
 
     var vm4 = Provider.of<BLogViewModel>(context, listen: true);
+
+
+    // List<Item> list5 = vm5.hospitalLogoList;
+    // var lengthofHopitalLogoList = list5.length;
+
 
     final String assetName1 = "assets/icons/sign_in.svg";
     final Widget svg = SvgPicture.asset(
@@ -326,30 +334,6 @@ class _DashboardScreenState extends State<DashboardScreen>
                   ],
                   backgroundColor: Colors.transparent,
                   elevation: 0.0,
-                  // leading: Container(
-                  //   child: isDrawerOpen
-                  //       ? IconButton(
-                  //       icon: Icon(Icons.arrow_back),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           xOffset = 0;
-                  //           yOffset = 0;
-                  //           scaleFactor = 1;
-                  //           isDrawerOpen = false;
-                  //         });
-                  //       })
-                  //       : IconButton(
-                  //       icon: Icon(Icons.notes),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           xOffset = 250;
-                  //           yOffset = 100;
-                  //           scaleFactor = 0.8;
-                  //           isDrawerOpen = true;
-                  //         });
-                  //         print("Jahid");
-                  //       }),
-                  // ),
                   leading: Container(
                       child: widget.isDrawerOpen
                           ? IconButton(
@@ -364,49 +348,6 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 widget.menuCallBack();
                               })),
                 ),
-                // drawer: Drawer(
-                //   // child: GestureDetector(
-                //   //   onTap: (){
-                //   //     //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MainCollapsingToolbar()));
-                //   //   },
-                //   //   child: Padding(
-                //   //     padding: const EdgeInsets.only(top:50.0,left:10),
-                //   //     child: Column(
-                //   //       children: [
-                //   //         Row(
-                //   //           children: [
-                //   //             Text("Find Your Doctor",style: TextStyle(fontSize: 18),),
-                //   //             Spacer(),
-                //   //             Icon(Icons.arrow_forward),
-                //   //           ],
-                //   //         ),
-                //   //       ],
-                //   //     ),
-                //   //   ),
-                //   // ),
-                //   child: isDrawerOpen
-                //       ? IconButton(
-                //       icon: Icon(Icons.arrow_back_sharp),
-                //       onPressed: () {
-                //         setState(() {
-                //           xOffset = 0;
-                //           yOffset = 0;
-                //           scaleFactor = 1;
-                //           isDrawerOpen = false;
-                //         });
-                //       })
-                //       : IconButton(
-                //       icon: Icon(Icons.menu),
-                //       onPressed: () {
-                //         setState(() {
-                //           xOffset = 250;
-                //           yOffset = 150;
-                //           scaleFactor = 0.6;
-                //           isDrawerOpen = true;
-                //         });
-                //         print("Jahid");
-                //       }),
-                // ),
                 body: Padding(
                   padding: deviceHeight >= 600
                       ? EdgeInsets.only(top: 115.0)
@@ -532,25 +473,30 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               children: [
                                                 ...List.generate(
                                                   lengthofHospitalList,
-                                                  (i) => CustomCard(
-                                                    list[i].companyName,
-                                                    list[i].companyAddress ==
-                                                            null
-                                                        ? "Mirpur,Dahaka,Bangladesh"
-                                                        : list[i]
-                                                            .companyAddress,
-                                                    "60 Doctors",
-                                                    list[i].companyPhone == null
-                                                        ? "+880 1962823007"
-                                                        : list[i].companyPhone,
-                                                    list[i].companyEmail == null
-                                                        ? "info@mysoftitd.com"
-                                                        : list[i].companyEmail,
-                                                    list[i].companyLogo,
-                                                    list[i].companyId,
-                                                    list[i].ogNo.toString(),
-                                                    list[i].id.toString(),
-                                                  ),
+                                                  (i) {
+                                                    var vm5 = Provider.of<HospitalLogoViewModel>(context);
+                                                    int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==list[i].id);
+                                                    return vm5.hospitalLogoList.isNotEmpty? CustomCard(
+                                                      loadImage(vm5.hospitalLogoList[ind].photoLogo),
+                                                        list[i].companyName,
+                                                        list[i].companyAddress ==
+                                                                null
+                                                            ? "Mirpur,Dahaka,Bangladesh"
+                                                            : list[i]
+                                                                .companyAddress,
+                                                        "60 Doctors",
+                                                        list[i].companyPhone == null
+                                                            ? "+880 1962823007"
+                                                            : list[i].companyPhone,
+                                                        list[i].companyEmail == null
+                                                            ? "info@mysoftitd.com"
+                                                            : list[i].companyEmail,
+                                                        list[i].companyLogo,
+                                                        list[i].companyId,
+                                                        list[i].ogNo.toString(),
+                                                        list[i].id.toString(),
+                                                      ):CircularProgressIndicator();
+                                                  }
                                                 ),
                                               ],
                                             ),

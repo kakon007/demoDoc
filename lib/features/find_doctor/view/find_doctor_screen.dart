@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class FindYourDoctorScreen extends StatefulWidget {
+  Uint8List image;
   String title;
   String phoneText;
   String emailText;
@@ -34,7 +36,7 @@ class FindYourDoctorScreen extends StatefulWidget {
   String companyNo;
   String id;
 
-  FindYourDoctorScreen(this.title, this.phoneText, this.emailText,
+  FindYourDoctorScreen(this.image,this.title, this.phoneText, this.emailText,
       this.addressText, this.orgNo, this.companyNo, this.id);
 
   @override
@@ -253,8 +255,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                             child: SizedBox(
                                 height: 85,
                                 width: MediaQuery.of(context).size.width / 4.5,
-                                child:
-                                    Image.asset("assets/images/dummyimg.png")),
+                                child:Image.memory( widget.image)),
                           ),
                         ),
                         SizedBox(

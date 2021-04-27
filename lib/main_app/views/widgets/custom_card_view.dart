@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -5,6 +8,7 @@ import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class CustomCard extends StatelessWidget {
+  Uint8List image;
   String titleText;
   String addressText;
   String countText;
@@ -14,7 +18,7 @@ class CustomCard extends StatelessWidget {
   String companyNo;
   String orgNo;
   String id;
-  CustomCard(@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
+  CustomCard(@required this.image,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,6 +30,7 @@ class CustomCard extends StatelessWidget {
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child:Row(
           children: [
+            image!=null?
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -34,8 +39,8 @@ class CustomCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.asset("assets/images/dummyimg.png")),
-            ),
+                  child: Image.memory(image)),
+            ):CircularProgressIndicator(),
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -60,7 +65,7 @@ class CustomCard extends StatelessWidget {
                     SizedBox(height: 10,),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
                       },
                       child: Material(
                         elevation: 0  ,

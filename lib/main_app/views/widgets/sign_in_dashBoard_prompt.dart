@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
@@ -29,21 +30,72 @@ class _SignInDashboardForAppoinmentPromptState extends State<SignInDashboardForA
 
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _showAppoinmentPrompt();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   await _showAppoinmentPrompt();
+    // });
   }
   @override
   Widget build(BuildContext context) {
+
+    final Widget appoinIcon = SvgPicture.asset(
+      "assets/icons/appointment_big_icon_.svg",
+      width: 50,
+      height:220,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
+    );
+
     return Scaffold(
       appBar: AppBar(
         //title: Text('Appointments'),
         backgroundColor: HexColor('#354291'),
         title: Text('Appointments',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
       ),
+      body: Center(
+     child: Container(
+       child: Padding(
+         padding: const EdgeInsets.only(top:70.0),
+         child: Column(
+           children: [
+             Padding(
+               padding: const EdgeInsets.only(right:20.0),
+               child: Container(
+                   width: 250,
+                   child: Image.asset(
+                       "assets/images/my_health_logo.png")),
+             ),
+             SizedBox(height: 10,),
+             appoinIcon,
+         SizedBox(height: 20,),
+             Text('Want to access and view your appointments \n anytime?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
+             SizedBox(height: 20,),
+             Material(
+               elevation: 0  ,
+               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+               color: HexColor("#354291"),
+               child: SizedBox(
+                 width: 330,
+                 height: 50,
+                 child: Center(
+                   child: Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Text("Sign In",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                   ),
+                 ),
+               ),
+             ),
+             SizedBox(height: 20,),
+             Text("Sign Up",style:  GoogleFonts.poppins(color: HexColor('#8592E5'),fontSize: 12,fontWeight: FontWeight.w600),),
 
+
+           ],
+         ),
+       ),
+     ),
+   ),
     );
-
 
   }
 

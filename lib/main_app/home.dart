@@ -243,6 +243,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     final Widget dashboardicon = SvgPicture.asset(
       dashboardiconiamg,
       width: 10,
+      color: currentIndex==0? HexColor('#354291'):HexColor('#969EC8'),
       height: 20,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
@@ -250,32 +251,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       //semanticsLabel: 'Acme Logo'
     );
 
-    final String disabledashboardiconiamg = "assets/icons/disable_dashboard_icon.svg";
-    final Widget disabledashboardicon = SvgPicture.asset(
-      disabledashboardiconiamg,
-      width: 10,
-      height: 20,
-      fit: BoxFit.fitWidth,
-      allowDrawingOutsideViewBox: true,
-      matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
-    );
 
     final String appointmenticonimg = "assets/icons/appointment_icon.svg";
     final Widget appointmenticon = SvgPicture.asset(
       appointmenticonimg,
       width: 10,
       height: 20,
-      fit: BoxFit.fitWidth,
-      allowDrawingOutsideViewBox: true,
-      matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
-    );
-    final String disableappointmenticonimg = "assets/icons/disable_appointment_icon.svg";
-    final Widget disableappointmenticon = SvgPicture.asset(
-      disableappointmenticonimg,
-      width: 10,
-      height: 20,
+      color: currentIndex==1? HexColor('#354291'):HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -287,44 +269,27 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       hospitaliconimag,
       width: 10,
       height: 20,
+      color: currentIndex==2? HexColor('#354291'):HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
 
-    final String disablehospitaliconimag = "assets/icons/disable_hospital_icon.svg";
-    final Widget disablehospitalicon = SvgPicture.asset(
-      disablehospitaliconimag,
-      width: 10,
-      height: 20,
-      fit: BoxFit.fitWidth,
-      allowDrawingOutsideViewBox: true,
-      matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
-    );
+
 
     final String myhealthiconimag = "assets/icons/myhealth_icon.svg";
     final Widget myhealthicon = SvgPicture.asset(
       myhealthiconimag,
       width: 10,
       height: 20,
+      color: currentIndex==3? HexColor('#354291'):HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
 
-    final String disablemyhealthiconimag = "assets/icons/disable_profile_icon.svg";
-    final Widget disablemyhealthicon = SvgPicture.asset(
-      disablemyhealthiconimag,
-      width: 10,
-      height: 20,
-      fit: BoxFit.fitWidth,
-      allowDrawingOutsideViewBox: true,
-      matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
-    );
 
     //List Of Pages
     List pages = <Widget>[
@@ -444,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       BottomNavigationBarItem(
           icon: Material(
         color: Colors.transparent,
-        child:currentIndex==0?dashboardicon:disabledashboardicon,
+        child:dashboardicon,
 
       // ignore: deprecated_member_use
       ),title: Padding(
@@ -456,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       BottomNavigationBarItem(
           icon: Material(
         color: Colors.transparent,
-        child:currentIndex==1?appointmenticon:disableappointmenticon,
+        child:appointmenticon,
 
         // ignore: deprecated_member_use
       ),title: Padding(
@@ -468,7 +433,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       BottomNavigationBarItem(
           icon:  Material(
         color: Colors.transparent,
-        child:currentIndex==2?hospitalicon:disablehospitalicon,
+        child:hospitalicon,
 
         // ignore: deprecated_member_use
       ),title: Padding(
@@ -480,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       BottomNavigationBarItem(
           icon: Material(
         color: Colors.transparent,
-        child:currentIndex==3?myhealthicon:disablemyhealthicon,
+        child:myhealthicon,
 
         // ignore: deprecated_member_use
       ),title: Padding(

@@ -9,6 +9,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.
 
 class CustomCard extends StatelessWidget {
   Uint8List image;
+  Uint8List backgroundImage;
   String titleText;
   String addressText;
   String countText;
@@ -18,7 +19,7 @@ class CustomCard extends StatelessWidget {
   String companyNo;
   String orgNo;
   String id;
-  CustomCard(@required this.image,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
+  CustomCard(@required this.image,@required this.backgroundImage,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,7 +65,7 @@ class CustomCard extends StatelessWidget {
                     SizedBox(height: 10,),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,backgroundImage,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
                       },
                       child: Material(
                         elevation: 0  ,

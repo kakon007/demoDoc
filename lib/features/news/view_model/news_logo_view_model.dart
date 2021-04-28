@@ -1,63 +1,53 @@
 
-import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:myhealthbd_app/features/hospitals/models/company_image_model.dart';
-import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart' as logo;
-import 'package:myhealthbd_app/features/hospitals/repositories/hospital_logo_repository.dart';
+import 'package:myhealthbd_app/features/news/model/news_logo_model.dart';
+import 'package:myhealthbd_app/features/news/repositories/news_logo_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
-import 'package:provider/provider.dart';
 
-class HospitalLogoViewModel extends ChangeNotifier{
-  List<logo.Item> _hospitalLogoList =[];
+class NewsLogoViewModel extends ChangeNotifier{
+  List<Item> _newsLogoList =[];
 
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   int _page = 1;
-  bool _isLoading;
 
   Future<void> refresh(){
-    _page = 0;
-    _hospitalLogoList.clear();
+    _newsLogoList.clear();
     return getData();
   }
 
   Future<void> getData({bool isFromOnPageLoad = false}) async {
+
     if (isFromOnPageLoad) {
       if (_lastFetchTime != null) if (_lastFetchTime
           .difference(DateTime.now()) <
           CommonServiceRule.onLoadPageReloadTime) return;
     }
-
-    print("DATA fromLOGO List:::::");
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
-    _isLoading = true;
-    var res = await HospitalLogoRepository().fetchHospitalLogo();
+    var res = await NewsLogoRepository().fetchNewsLogo();
     notifyListeners();
-    _hospitalLogoList.clear();
+    _newsLogoList.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
       notifyListeners();
     }, (r) {
-      _isLoading= false;
       _isFetchingMoreData = false;
-      _hospitalLogoList.addAll(r.dataList);
+      _newsLogoList.addAll(r.dataList);
       notifyListeners();
-      print("DATA fromLOGO List:::::" + _hospitalLogoList.last.companyLogo);
     });
+    print("hhhhhh:::::::"+_newsLogoList.first.title);
   }
-
 
   AppError get appError => _appError;
 
 
-
+  bool get shouldShowAppError => _appError != null && _newsLogoList.length == 0;
   bool get isFetchingData => _isFetchingData;
 
   bool get isFetchingMoreData => _isFetchingMoreData;
@@ -67,10 +57,11 @@ class HospitalLogoViewModel extends ChangeNotifier{
   // bool get shouldFetchMoreData =>
   //     _hasMoreData && !_isFetchingData && !_isFetchingMoreData;
 
+  bool get shouldShowNoNewsFound => _newsLogoList.length == 0 && !isFetchingData;
+
   bool get shouldShowPageLoader =>
-      _isFetchingData && _hospitalLogoList.length == 0;
-  bool get isLoading=> _isLoading;
+      _isFetchingData && _newsLogoList.length == 0;
 
-  List<logo.Item> get hospitalLogoList => _hospitalLogoList;
 
+  List<Item> get newsLogoList => _newsLogoList;
 }

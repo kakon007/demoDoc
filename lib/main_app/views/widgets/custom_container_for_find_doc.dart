@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -6,6 +8,7 @@ import 'package:myhealthbd_app/features/appointments/view/widgets/NewFile.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class CustomContainer extends StatelessWidget {
+  Image logo;
   String titleText;
   String subTitleText;
   String undersubtitle;
@@ -15,7 +18,7 @@ class CustomContainer extends StatelessWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
-  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo);
+  CustomContainer(@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo);
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
@@ -48,12 +51,7 @@ class CustomContainer extends StatelessWidget {
               // ),
               ClipRRect(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
-                  child: Image.asset(
-                      images,
-                      fit: BoxFit.cover,
-                    width: cardWidth*0.9,
-                    height: 160,
-                    ),
+                  child: logo,
 
               ),
               SizedBox(

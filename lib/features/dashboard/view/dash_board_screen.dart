@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/custom_blog_widget.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/health_video_all.dart';
@@ -15,10 +16,12 @@ import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart'
     as hos;
+import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';
+import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
@@ -68,10 +71,14 @@ class _DashboardScreenState extends State<DashboardScreen>
 
 
 
+  loadLogo(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+    return _bytesImage;
+  }
+
   loadImage(String image){
     Uint8List  _bytesImage = Base64Decoder().convert(image);
     return _bytesImage;
-
   }
 
 
@@ -90,6 +97,13 @@ class _DashboardScreenState extends State<DashboardScreen>
     vm4.getData(isFromOnPageLoad: true);
     var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
     vm5.getData(isFromOnPageLoad: true);
+    print('Bdfor data');
+    var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
+    vm6.getImageData(isFromOnPageLoad: true);
+    var vm7 = Provider.of<NewsLogoViewModel>(context, listen: false);
+    vm7.getData(isFromOnPageLoad: true);
+    var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
+    vm8.getData(isFromOnPageLoad: true);
     super.initState();
   }
 
@@ -123,6 +137,9 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm4 = Provider.of<BLogViewModel>(context, listen: true);
 
     var vm5 = Provider.of<HospitalLogoViewModel>(context);
+    var vm6 = Provider.of<HospitalImageViewModel>(context);
+    var vm7 = Provider.of<NewsLogoViewModel>(context);
+    var vm8 = Provider.of<BLogLogoViewModel>(context);
 
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
@@ -428,7 +445,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  vm.shouldShowPageLoader||vm5.shouldShowPageLoader
+                                  vm.shouldShowPageLoader||vm5.shouldShowPageLoader||vm6.shouldShowPageLoaderForImage
                                       ? Center(
                                           child: CircularProgressIndicator(),
                                         )
@@ -444,8 +461,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                   lengthofHospitalList,
                                                   (i) {
                                                     int index = vm5.hospitalLogoList.indexWhere((element) => element.id==list[i].id);
+                                                    int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==list[i].id);
                                                     return  CustomCard(
-                                                      loadImage(vm5.hospitalLogoList[index].photoLogo),
+                                                      loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                                                      vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
                                                         list[i].companyName,
                                                         list[i].companyAddress ==
                                                                 null
@@ -512,7 +531,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   //     ? ListView( key: Key('allJobsListView2'),
                                   //   children: [errorWidget()],
                                   // ):
-                                  vm2.shouldShowPageLoader
+                                  vm2.shouldShowPageLoader||vm7.shouldShowPageLoader
                                       ? Center(
                                           child: CircularProgressIndicator(),
                                         )
@@ -536,14 +555,18 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                   children: [
                                                     ...List.generate(
                                                       lengthofNewsList,
-                                                      (i) => CustomCardNews(
+                                                      (i) {
+                                                        int index = vm7.newsLogoList.indexWhere((element) => element.blogNo==list2[i].blogNo);
+                                                        return CustomCardNews(
+                                                          loadLogo(vm7.newsLogoList[index].logo),
                                                           DateUtil().formattedDate(
                                                               DateTime.parse(list2[
                                                                           i]
                                                                       .publishDate)
                                                                   .toLocal()),
                                                           list2[i].title,
-                                                          list2[i].newsLink),
+                                                          list2[i].newsLink);
+                                                      },
                                                     ),
                                                   ],
                                                 ),
@@ -588,7 +611,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  vm4.shouldShowPageLoader
+                                  vm4.shouldShowPageLoader||vm8.shouldShowPageLoader
                                       ? Center(
                                     child: CircularProgressIndicator(),
                                   )
@@ -601,7 +624,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       child: ListView.builder(
                                         itemBuilder:
                                             (BuildeContext, index) {
+                                              int i = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm4.newsList[index].blogNo);
                                           return CustomBlogWidget(
+                                            logo: loadLogo(vm8.blogLogoList[i].logo),
                                             title:
                                             vm4.newsList[index].title,
                                             news: vm4.newsList[index]
@@ -652,22 +677,6 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  // SingleChildScrollView(
-                                  //     scrollDirection: Axis.horizontal,
-                                  //     child: Padding(
-                                  //       padding: const EdgeInsets.only(left:18.0),
-                                  //       child: Row(
-                                  //         children: [
-                                  //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
-                                  //           SizedBox(width:15),
-                                  //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
-                                  //           SizedBox(width:15),
-                                  //           CustomCardVideo('',"স্বাস্থ্যসেবা অটোমেশনে মাইসফট ও মাইহেলথ বিডির অনন্য দৃষ্টান্ত",''),
-                                  //         ],
-                                  //       ),
-                                  //     )
-                                  // ),
-
                                   vm3.shouldShowPageLoader
                                       ? Center(
                                           child: CircularProgressIndicator(),

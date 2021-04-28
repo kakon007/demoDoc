@@ -73,7 +73,7 @@ class HospitalListCard extends StatelessWidget {
                     SizedBox(height: 10,),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
+                       // Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
                       },
                       child: Material(
                         elevation: 0  ,

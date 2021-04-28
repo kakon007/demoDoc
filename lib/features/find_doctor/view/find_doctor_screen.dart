@@ -28,6 +28,7 @@ import 'package:provider/provider.dart';
 
 class FindYourDoctorScreen extends StatefulWidget {
   Uint8List image;
+  Uint8List backgroundImage;
   String title;
   String phoneText;
   String emailText;
@@ -36,7 +37,7 @@ class FindYourDoctorScreen extends StatefulWidget {
   String companyNo;
   String id;
 
-  FindYourDoctorScreen(this.image,this.title, this.phoneText, this.emailText,
+  FindYourDoctorScreen(this.image,this.backgroundImage,this.title, this.phoneText, this.emailText,
       this.addressText, this.orgNo, this.companyNo, this.id);
 
   @override
@@ -65,6 +66,19 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   ScrollController _scrollController2;
   List<SpecializationItem> specialistList;
   var items = List<SpecializationItem>();
+
+
+  loadLogo(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+
+    return Image.memory(
+      _bytesImage,
+      fit: BoxFit.cover,
+      width: 120,
+      height: 160,
+    );
+  }
+
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -99,6 +113,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     final String assetName3 = "assets/icons/marker.svg";
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+    var cardWidth = MediaQuery.of(context).size.width * 0.3435;
     final Widget phoneimg = SvgPicture.asset(
       assetName1,
       width: 10,
@@ -213,16 +228,10 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                     // ),
                     Stack(children: <Widget>[
                       Container(
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage(
-                              'assets/images/backhosimg.png',
-                            ),
-                          ),
-                        ),
+                        color: Colors.transparent,
                         height: 450.0,
+                        width: double.infinity,
+                        child: FittedBox(child: Image.memory( widget.backgroundImage),fit: BoxFit.fill,),
                       ),
                       Container(
                         height: 350.0,
@@ -365,7 +374,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                   child: Text('Doctors',
                       style: GoogleFonts.poppins(
                           fontSize: 15, fontWeight: FontWeight.w600))),
-              vm.isLoading == true
+              vm.isLoading==true
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
@@ -376,6 +385,12 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                           ...List.generate(
                             vm.doctorList.length,
                             (i) => CustomContainer(
+                                vm.doctorList[i].photo!=null?loadLogo(vm.doctorList[i].photo):Image.asset(
+                                  "assets/images/doc.png",
+                                  fit: BoxFit.cover,
+                                  width: cardWidth*0.9,
+                                  height: 160,
+                                ),
                                 vm.doctorList[i]?.doctorName == null
                                     ? ""
                                     : vm.doctorList[i]?.doctorName,

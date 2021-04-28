@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -8,10 +10,11 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.
 import 'package:provider/provider.dart';
 
 class CustomCardNews extends StatelessWidget {
+  Uint8List image;
   String titleText;
   String subTitleText;
   String url;
-  CustomCardNews(@required this.titleText,@required this.subTitleText,@required this.url,);
+  CustomCardNews(@required this.image,@required this.titleText,@required this.subTitleText,@required this.url,);
   @override
   Widget build(BuildContext context) {
 
@@ -32,7 +35,7 @@ class CustomCardNews extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.asset("assets/images/dum2.png")),
+                  child: Image.memory(image)),
             ),
             Flexible(
               child: Padding(

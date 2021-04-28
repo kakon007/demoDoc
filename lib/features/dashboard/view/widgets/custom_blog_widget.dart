@@ -1,13 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/blog_details.dart';
 class CustomBlogWidget extends StatefulWidget {
+  Uint8List logo;
   String image;
   String title;
   String news;
   String author;
-  CustomBlogWidget({this.title, this.image, this.author, this.news});
+  CustomBlogWidget({this.logo,this.title, this.image, this.author, this.news});
   @override
   _CustomBlogWidgetState createState() => _CustomBlogWidgetState();
 }
@@ -32,7 +35,7 @@ class _CustomBlogWidgetState extends State<CustomBlogWidget> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.asset("assets/images/dum2.png")),
+                  child: Image.memory(widget.logo)),
             ),
             Flexible(
               child: Padding(

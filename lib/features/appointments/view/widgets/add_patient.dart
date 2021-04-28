@@ -1,25 +1,40 @@
+import 'dart:convert';
+
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/appointments/models/book_appointment_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:myhealthbd_app/features/appointments/view_model/book_appointment_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 class AddPatient extends StatefulWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
+
   AddPatient({this.doctorNo, this.companyNo, this.orgNo});
+
   @override
   _AddPatientState createState() => _AddPatientState();
 }
 
 class _AddPatientState extends State<AddPatient> {
+  var accessToken;
+  Future<void> accesstoken() async {
+    SharedPreferences prefs= await SharedPreferences.getInstance();
+     accessToken = prefs.getString('accessToken');
+  }
   final List<PatientItem> patientTypeList = List<PatientItem>();
   final List<ConsultType> consultTypeList = List<ConsultType>();
   DateTime pickBirthDate;
@@ -49,46 +64,59 @@ class _AddPatientState extends State<AddPatient> {
       });
     }
   }
-
+  bool isClicked= false;
   String _selectedGender;
   String color = "#EAEBED";
   var selectedPatientType = "";
   var selectedConsultationType = "";
+  TextEditingController _name = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _mobile = TextEditingController();
+  TextEditingController _address = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-    vm.getPatType(widget.doctorNo);
+    Future.delayed(Duration.zero,()async{
+      var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+      vm.getPatType(widget.doctorNo);
+      accesstoken();
+    });
+    isClicked= false;
     pickBirthDate = DateTime.now();
     selectedPatientType = "";
     selectedConsultationType = "";
-
-
   }
+
   String _selectedType;
   String _selectedConsultation;
+
   @override
   Widget build(BuildContext context) {
+    var vm2 = Provider.of<BookAppointmentViewModel>(context, listen: false);
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: true);
+    var vm3 = Provider.of<UserDetailsViewModel>(context);
     var height = MediaQuery.of(context).size.height;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
     );
     var name = SignUpFormField(
+      controller: _name,
       margin: EdgeInsets.all(2),
       labelText: "Name",
       isRequired: true,
       hintText: StringResources.name,
     );
     var email = SignUpFormField(
+      controller: _email,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Email",
       hintText: StringResources.email,
     );
     var mobile = SignUpFormField(
+      controller: _mobile,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Mobile",
@@ -107,6 +135,7 @@ class _AddPatientState extends State<AddPatient> {
       hintText: StringResources.confirmPassword,
     );
     var address = SignUpFormField(
+      controller: _address,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Address",
@@ -195,6 +224,7 @@ class _AddPatientState extends State<AddPatient> {
       ],
     );
     String formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
+    String birthDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
     var dateOfBirth = Row(
       children: [
         GestureDetector(
@@ -241,7 +271,7 @@ class _AddPatientState extends State<AddPatient> {
                       child: Container(
                           height: 18,
                           child:
-                          Image.asset("assets/images/calender_icon.png")),
+                              Image.asset("assets/images/calender_icon.png")),
                     ),
                   ],
                 ),
@@ -289,7 +319,11 @@ class _AddPatientState extends State<AddPatient> {
                                   setState(() {
                                     _selectedType = newValue;
                                     selectedPatientType = newValue;
-                                    vm.getConType(widget.doctorNo, _selectedType, widget.companyNo, widget.orgNo);
+                                    vm.getConType(
+                                        widget.doctorNo,
+                                        _selectedType,
+                                        widget.companyNo,
+                                        widget.orgNo);
                                   });
                                 },
                                 items: vm.patientItem.map((patNo) {
@@ -358,7 +392,12 @@ class _AddPatientState extends State<AddPatient> {
                                     //print(newValue);
                                     _selectedConsultation = newValue;
                                     selectedConsultationType = newValue;
-                                    vm.getFee(widget.companyNo, _selectedConsultation, widget.doctorNo, widget.orgNo, _selectedType);
+                                    vm.getFee(
+                                        widget.companyNo,
+                                        _selectedConsultation,
+                                        widget.doctorNo,
+                                        widget.orgNo,
+                                        _selectedType);
                                   });
                                 },
                                 items: vm.consultType.map((consNo) {
@@ -391,67 +430,121 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
-    var consultFee=    DashedContainer(
-      dashColor:HexColor("#E9ECFE"),
+    var consultFee = DashedContainer(
+      dashColor: HexColor("#E9ECFE"),
       borderRadius: 10.0,
       dashedLength: 10.0,
       blankLength: 2.0,
-      child:  Container(
+      child: Container(
         height: 90.0,
         width: MediaQuery.of(context).size.width * .5,
-        child: vm.consultFee==null || (selectedPatientType == "" || selectedConsultationType == "" ) ? SizedBox() :Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  vm.consultationFee,
-                  style: GoogleFonts.poppins(
-                      color: AppTheme.appbarPrimary,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600),
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("BDT",
+        child: vm.consultFee == null ||
+                (selectedPatientType == "" || selectedConsultationType == "")
+            ? SizedBox()
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        vm.consultationFee,
                         style: GoogleFonts.poppins(
                             color: AppTheme.appbarPrimary,
-                            fontWeight: FontWeight.w500))
-                  ],
-                )
-              ],
-            ),
-            Text("Consultation Fee",
-                style: GoogleFonts.poppins(
-                    color: AppTheme.appbarPrimary,
-                    fontWeight: FontWeight.w500))
-          ],
-        ),
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("BDT",
+                              style: GoogleFonts.poppins(
+                                  color: AppTheme.appbarPrimary,
+                                  fontWeight: FontWeight.w500))
+                        ],
+                      )
+                    ],
+                  ),
+                  Text("Consultation Fee",
+                      style: GoogleFonts.poppins(
+                          color: AppTheme.appbarPrimary,
+                          fontWeight: FontWeight.w500))
+                ],
+              ),
       ),
     );
-    var confirmBooking = Column(
+    var confirmBooking = vm2.isLoading== true? CircularProgressIndicator() : Column(
       children: [
         spaceBetween,
         GestureDetector(
-          child: Container(
-            child: Material(
-              child: Container(
-                child: Center(
-                    child: Text(
-                      "Confirm Booking",
-                      style: GoogleFonts.poppins(color: Colors.white),
-                    )),
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .89,
-                decoration: BoxDecoration(
-                    color: AppTheme.appbarPrimary,
-                    border: Border.all(color: HexColor("#354391")),
-                    borderRadius: BorderRadius.circular(10)),
+          onTap: () async {
+            isClicked= true;
+            await vm2.getAppointData(
+               widget.doctorNo,
+              vm.doctorName,
+              vm.appointDate,
+              vm.shiftdtlNo,
+              vm.shift,
+              vm.slotNo,
+              vm.slotSl,
+              vm.startTime,
+              vm.endTime,
+              vm.durationMin,
+              vm.extraSlot,
+              vm.slotSplited,
+              vm3.userDetailsList.ssCreatedOn,
+              vm3.userDetailsList.ssCreator.toString(),
+              vm.remarks,
+              vm.appointStatus,
+              vm.companyNo,
+              vm.ogNo,
+              selectedPatientType,
+              selectedConsultationType,
+              vm.consultationFee,
+              vm.forMe== false? _name.text : vm3.userDetailsList.fname,
+              vm.forMe== false? _mobile.text: vm3.userDetailsList.phoneMobile,
+              vm.forMe== false? _selectedGender=="Male"? "M" : _selectedGender=="Female"? "F" : "O" : vm3.userDetailsList.gender,
+              vm.forMe== false? _address.text : vm3.userDetailsList.address,
+              vm.forMe== false? _email.text: "ish@ish.com",
+              vm.forMe== false? birthDate : vm3.userDetailsList.dob,
+              "0",
+            );
+            Future.delayed(Duration.zero,()async{
+
+            setState(() {
+              if( vm2.message==null){
+                _showAlert(context);
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        HomeScreen(accessToken:accessToken,)));
+              }
+              else{
+                isClicked= false;
+              }
+            });
+            });
+
+          },
+          child: AbsorbPointer(
+            absorbing: isClicked== true? true: false,
+            child: Container(
+              child: Material(
+                child: Container(
+                  child: Center(
+                      child: Text(
+                    "Confirm Booking",
+                    style: GoogleFonts.poppins(color: Colors.white),
+                  )),
+                  height: 45.0,
+                  width: MediaQuery.of(context).size.width * .89,
+                  decoration: BoxDecoration(
+                      color: AppTheme.appbarPrimary,
+                      border: Border.all(color: HexColor("#354391")),
+                      borderRadius: BorderRadius.circular(10)),
+                ),
               ),
             ),
           ),
@@ -476,24 +569,28 @@ class _AddPatientState extends State<AddPatient> {
                         spaceBetween,
                         consultationType,
                         spaceBetween,
-                        vm.forMe== false? Column(crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          name,
-                          email,
-                          mobile,
-                          password,
-                          confirmPassword,
-                          address,
-                          spaceBetween,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              gender,
-                              dateOfBirth,
-                            ],
-                          ),
-                        ],
-                        ) :SizedBox(),
+                        vm.forMe == false
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  name,
+                                  email,
+                                  mobile,
+                                  //password,
+                                  //confirmPassword,
+                                  address,
+                                  spaceBetween,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      gender,
+                                      dateOfBirth,
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : SizedBox(),
                         spaceBetween,
                         spaceBetween,
                         consultFee,
@@ -508,6 +605,105 @@ class _AddPatientState extends State<AddPatient> {
           confirmBooking
         ],
       ),
+    );
+  }
+
+  void _showAlert(BuildContext context) {
+    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+    var vm3 = Provider.of<UserDetailsViewModel>(context, listen: false);
+    showGeneralDialog(
+      barrierLabel: "Label",
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 700),
+      context: context,
+      pageBuilder: (context, anim1, anim2) {
+        return Material(
+          type: MaterialType.transparency,
+          child: Padding(
+            padding: const EdgeInsets.only(top:150.0, bottom: 150, right: 30, left: 30),
+            child: Container(
+              height: 150,
+              // child: SizedBox.expand(child: FlutterLogo()),
+              //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
+              decoration: BoxDecoration(
+
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+
+                color: HexColor('#FFFFFF'),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                        Row(
+                          children: [
+                            Text("Dear ", style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15),),
+                             vm.forMe== false ? Text(_name.text+ ","): Text(vm3.userDetailsList.fname+","),
+                ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            Text("Appointment with : ",  style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15),),
+
+                          ],
+                        ),
+                          Text(vm.doctorName,  style: GoogleFonts.poppins( fontSize: 15)),
+                          SizedBox(height: 10,),
+                        Text("Successfully Done!",  style: GoogleFonts.poppins( fontSize: 14, color: Colors.green)),
+                      ],)
+                    ],),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Text("Serial No - ", style: GoogleFonts.poppins( fontSize: 14,)),
+                        Container(
+                          height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                               color: Colors.blue,
+                                borderRadius: BorderRadius.all(Radius.circular(20))
+                            ),
+                          child: Center(child: Text(vm.slotSl,  style: GoogleFonts.poppins( fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white))),
+                        )
+                    ],),
+                    SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Text("Date - ",style: GoogleFonts.poppins( fontSize: 14, fontWeight: FontWeight.w700)),
+                      Text(DateFormat("dd/MM/yyyy").format(DateTime.parse(vm.appointDate
+                          .toString())
+                          .toLocal()) ,style: GoogleFonts.poppins( fontSize: 14)),
+                      SizedBox(width: 5,),
+                      Text(", Time - ", style: GoogleFonts.poppins( fontSize: 14, fontWeight: FontWeight.w500)),
+                      Text( DateFormat("hh:mm:ss").format(DateTime.parse(vm.startTime
+                          .toString())
+                          .toLocal()), style: GoogleFonts.poppins( fontSize: 14, color: Colors.green))
+                    ],),
+                    SizedBox(height: 20,),
+                    FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: Colors.red,
+                        onPressed: (){
+                          Navigator.pop(context);
+
+                        }, child: Text("Close", style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15),))
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -12,7 +12,7 @@ class _GetAppointmentState extends State<GetAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: HexColor('#354291'),
+        //backgroundColor: HexColor('#354291'),
         title: Text('Appointments'),
       ),
       body: Center(child: Container(child: Text("No Appointments Yet"),))

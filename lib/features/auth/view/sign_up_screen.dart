@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 
 class SignUp extends StatefulWidget {
@@ -24,7 +25,7 @@ class _SignUpState extends State<SignUp> {
       topLeft: Radius.circular(25), topRight: Radius.circular(25));
 // Option 2
   String _selectedGender;
-
+  final _formKey = GlobalKey<FormState>();
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -67,18 +68,21 @@ class _SignUpState extends State<SignUp> {
     );
     print(pickedDate);
     var name = SignUpFormField(
+      validator: Validator().nullFieldValidate,
       margin: EdgeInsets.all(2),
       labelText: "Name",
       isRequired: true,
       hintText: StringResources.name,
     );
     var email = SignUpFormField(
+        validator: Validator().validateEmail,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Email",
       hintText: StringResources.email,
     );
     var mobile = SignUpFormField(
+      validator: Validator().validatePhoneNumber,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Mobile",
@@ -97,6 +101,7 @@ class _SignUpState extends State<SignUp> {
       hintText: StringResources.confirmPassword,
     );
     var address = SignUpFormField(
+      validator: Validator().nullFieldValidate,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Address",
@@ -203,7 +208,8 @@ class _SignUpState extends State<SignUp> {
                         child: Container(
                           width: 140,
                           child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
+                            child: DropdownButtonFormField(
+                              decoration: InputDecoration(enabledBorder: InputBorder.none),
                               iconSize: 0.0,
                               hint: Text(StringResources.gender, style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
                               value: _selectedGender,
@@ -218,6 +224,7 @@ class _SignUpState extends State<SignUp> {
                                   value: gender,
                                 );
                               }).toList(),
+
                             ),
                           ),
                         ),
@@ -236,19 +243,27 @@ class _SignUpState extends State<SignUp> {
         ),
       ],
     );
-    var signUpButton = Material(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      color: AppTheme.signInSignUpColor,
-      child: SizedBox(
-        height: height >= 600 ? 50 : 40,
-        width: MediaQuery.of(context).size.width / .2,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              StringResources.signUpButton,
-              style: TextStyle(fontSize: height>=600? 18 :15, color: Colors.white),
+    var signUpButton =GestureDetector(
+
+      onTap: (){
+        if (_formKey.currentState.validate()){
+          print("shakil");
+        }
+      },
+      child:  Material(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        color: AppTheme.signInSignUpColor,
+        child: SizedBox(
+          height: height >= 600 ? 50 : 40,
+          width: MediaQuery.of(context).size.width / .2,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                StringResources.signUpButton,
+                style: TextStyle(fontSize: height>=600? 18 :15, color: Colors.white),
+              ),
             ),
           ),
         ),
@@ -307,91 +322,94 @@ class _SignUpState extends State<SignUp> {
           ),
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
-          body: Padding(
-            padding:
-                 EdgeInsets.only(top: MediaQuery.of(context).size.width*.04),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25)
-                        ),
-                        color: HexColor("#FFFFFF"),
-                        boxShadow: [
-                          BoxShadow(
-                            color: HexColor("#0D1231").withOpacity(0.08),
-                            spreadRadius: 10,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+          body: Form(
+            key: _formKey,
+            child: Padding(
+              padding:
+                   EdgeInsets.only(top: MediaQuery.of(context).size.width*.04),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(25),
+                              topRight: Radius.circular(25)
                           ),
-                        ]),
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right:15.0, left: 15),
-                        child: Column(
-                          children: [
-                            spaceBetween,
-                            Center(
-                                child: Text(
-                              StringResources.createAccount,
-                              style: TextStyle(
-                                  color: HexColor("#0D1231"),
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                            spaceBetween,
-                            name,
-                            email,
-                            mobile,
-                            password,
-                            confirmPassword,
-                            address,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                gender,
-                                date,
-
-                              ],
+                          color: HexColor("#FFFFFF"),
+                          boxShadow: [
+                            BoxShadow(
+                              color: HexColor("#0D1231").withOpacity(0.08),
+                              spreadRadius: 10,
+                              blurRadius: 7,
+                              offset: Offset(0, 3), // changes position of shadow
                             ),
-                            spaceBetween,
-                          ],
+                          ]),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right:15.0, left: 15),
+                          child: Column(
+                            children: [
+                              spaceBetween,
+                              Center(
+                                  child: Text(
+                                StringResources.createAccount,
+                                style: TextStyle(
+                                    color: HexColor("#0D1231"),
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w500),
+                              )),
+                              spaceBetween,
+                              name,
+                              email,
+                              mobile,
+                              password,
+                              confirmPassword,
+                              address,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  gender,
+                                  date,
+
+                                ],
+                              ),
+                              spaceBetween,
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-               Container(
-                 decoration: BoxDecoration(
+                 Container(
+                   decoration: BoxDecoration(
 
-                     color: Colors.white,
-                     boxShadow: [
-                       BoxShadow(
-                         color: HexColor("#0D1231").withOpacity(0.08),
-                         spreadRadius: 10,
-                         blurRadius: 7,
-                         offset: Offset(0, 3), // changes position of shadow
-                       ),
-                     ]),
-                 height: height>=600? 200:150,
-                 child: Padding(
-                   padding: const EdgeInsets.only(right:15.0, left: 15),
-                   child: Column(children: [
-                     spaceBetween,
-                     spaceBetween,
-                     spaceBetween,
-                     signUpButton,
-                     spaceBetween,
-                     signIn,
-                     spaceBetween,
-                     termsPolicy
-                   ],),
-                 ),
-               )
-              ],
+                       color: Colors.white,
+                       boxShadow: [
+                         BoxShadow(
+                           color: HexColor("#0D1231").withOpacity(0.08),
+                           spreadRadius: 10,
+                           blurRadius: 7,
+                           offset: Offset(0, 3), // changes position of shadow
+                         ),
+                       ]),
+                   height: height>=600? 200:150,
+                   child: Padding(
+                     padding: const EdgeInsets.only(right:15.0, left: 15),
+                     child: Column(children: [
+                       spaceBetween,
+                       spaceBetween,
+                       spaceBetween,
+                       signUpButton,
+                       spaceBetween,
+                       signIn,
+                       spaceBetween,
+                       termsPolicy
+                     ],),
+                   ),
+                 )
+                ],
+              ),
             ),
           ),
 

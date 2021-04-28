@@ -50,7 +50,6 @@ import 'package:myhealthbd_app/features/appointments/models/patient_type_model.d
 import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
-
 class AvailableSlotsViewModel extends ChangeNotifier {
   List<Items> _slots = [];
   List<PatientItem> _patientItem = [];
@@ -64,24 +63,93 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   bool _isSlotStatusLoading;
   bool _isPatientLoading;
   String consultFee;
-  bool _forMe= true;
-  bool _addPatient= false;
+  bool _forMe = true;
+  bool _addPatient = false;
   String _forMeBackColor = "#141D53";
   String _forMeTextColor = "#FFFFFF";
   String _addPatientBackColor = "#00FFFFFF";
   String _addPatientTextColor = "#8389A9";
-  getAppointType(bool forMe, bool addPatient){
+
+  String _doctorNo;
+  String _doctorName;
+  String _appointDate;
+  String _shiftdtlNo;
+  String _shift;
+  String _slotNo;
+  String _slotSl;
+  String _startTime;
+  String _endTime;
+  String _durationMin;
+  String _extraSlot;
+  String _slotSplited;
+  String _ssCreatedOn;
+  String _ssCreator;
+  String _remarks;
+  String _appointStatus;
+  String _companyNo;
+  String _ogNo;
+
+  getAppointInfo(
+      String doctorNo,
+      String doctorName,
+      String appointDate,
+      String shiftdtlNo,
+      String shift,
+      String slotNo,
+      String slotSl,
+      String startTime,
+      String endTime,
+      String durationMin,
+      String extraSlot,
+      String slotSplited,
+      String ssCreatedOn,
+      String ssCreator,
+      String remarks,
+      String appointStatus,
+      String companyNo,
+      String ogNo) {
+    print(doctorNo);
+    print(ssCreator);
+    print(ssCreatedOn);
+    print(slotSplited);
+    print(slotSl);
+    _doctorNo = _doctorName;
+    _doctorName = doctorName;
+    _appointDate = appointDate;
+    _shiftdtlNo = shiftdtlNo;
+    _shift = shift;
+    _slotNo = slotNo;
+    _slotSl = slotSl;
+    _startTime = startTime;
+    _endTime = endTime;
+    _durationMin = durationMin;
+    _extraSlot = extraSlot;
+    _slotSplited = slotSplited;
+    _ssCreatedOn = ssCreatedOn;
+    _ssCreator = ssCreator;
+    _remarks = remarks;
+    _appointStatus = appointStatus;
+    _companyNo = companyNo;
+    _ogNo = ogNo;
+
+    notifyListeners();
+  }
+
+  getAppointType(bool forMe, bool addPatient) {
     _forMe = forMe;
-    _addPatient= addPatient;
+    _addPatient = addPatient;
     notifyListeners();
   }
-  getButtonColor(String forMeBackColor, String forMeTextColor, String addPatientBackColor, String addPatientTextColor){
-    _forMeBackColor= forMeBackColor;
-    _forMeTextColor= forMeTextColor;
-    _addPatientBackColor= addPatientBackColor;
-    _addPatientTextColor= addPatientTextColor;
+
+  getButtonColor(String forMeBackColor, String forMeTextColor,
+      String addPatientBackColor, String addPatientTextColor) {
+    _forMeBackColor = forMeBackColor;
+    _forMeTextColor = forMeTextColor;
+    _addPatientBackColor = addPatientBackColor;
+    _addPatientTextColor = addPatientTextColor;
     notifyListeners();
   }
+
   Future<void> getSlots(DateTime pickedAppointDate, String companyNo,
       String docotrNo, String orgNo) async {
     _isLoading = true;
@@ -102,10 +170,11 @@ class AvailableSlotsViewModel extends ChangeNotifier {
     });
   }
 
-  Future<void> getSlotStatus(String slotNo, String companyNo, String orgNo) async {
+  Future<void> getSlotStatus(
+      String slotNo, String companyNo, String orgNo) async {
     _isSlotStatusLoading = true;
-    var res = await AvailableSlotsRepository()
-        .fetchStatus(slotNo, companyNo, orgNo);
+    var res =
+        await AvailableSlotsRepository().fetchStatus(slotNo, companyNo, orgNo);
     _slots.clear();
     notifyListeners();
     res.fold((l) {
@@ -119,9 +188,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       _isSlotStatusLoading = false;
       notifyListeners();
     });
-
   }
-
 
   Future<void> getPatType(String doctorNo) async {
     _isLoading = true;
@@ -141,7 +208,8 @@ class AvailableSlotsViewModel extends ChangeNotifier {
     });
   }
 
-  Future<void> getConType(String doctorNo, String selectedType, String companyNo, String orgNo) async {
+  Future<void> getConType(String doctorNo, String selectedType,
+      String companyNo, String orgNo) async {
     _isLoading = true;
     var res = await AvailableSlotsRepository()
         .fetchConType(doctorNo, selectedType, companyNo, orgNo);
@@ -160,9 +228,12 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-  Future<void> getFee(String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo) async {
+
+  Future<void> getFee(String companyNo, String conTypeNo, String doctorNo,
+      String orgNo, String patTypeNo) async {
     _isLoading = true;
-    var res = await AvailableSlotsRepository().fetchFee(companyNo, conTypeNo, doctorNo,orgNo, patTypeNo);
+    var res = await AvailableSlotsRepository()
+        .fetchFee(companyNo, conTypeNo, doctorNo, orgNo, patTypeNo);
     notifyListeners();
     res.fold((l) {
       _appError = l;
@@ -171,33 +242,79 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       notifyListeners();
     }, (r) {
       _isFetchingMoreData = false;
-     consultFee = r.fee;
+      consultFee = r.fee;
       _isLoading = false;
       notifyListeners();
     });
   }
-
 
   AppError get appError => _appError;
 
   bool get isFetchingData => _isFetchingData;
 
   bool get isFetchingMoreData => _isFetchingMoreData;
+
   bool get isSlotStatusLoading => _isSlotStatusLoading;
+
   bool get isLoading => _isLoading;
 
   bool get shouldShowPageLoader => _isFetchingData && _slots.length == 0;
 
   String get slotStatus => slot;
 
-  String  get consultationFee =>   consultFee;
+  String get consultationFee => consultFee;
+
   List<PatientItem> get patientItem => _patientItem;
+
   List<Items> get slotList => _slots;
+
   List<ConsultType> get consultType => _consultItem;
+
   bool get forMe => _forMe;
+
   bool get addPatient => _addPatient;
+
   String get forMeBackColor => _forMeBackColor;
-  String get forMeTextColor=> _forMeTextColor;
-  String get addPatientBackColor=> _addPatientBackColor;
+
+  String get forMeTextColor => _forMeTextColor;
+
+  String get addPatientBackColor => _addPatientBackColor;
+
   String get addPatientTextColor => _addPatientTextColor;
+
+  String get doctorNo => _doctorNo;
+
+  String get doctorName => _doctorName;
+
+  String get appointDate => _appointDate;
+
+  String get shiftdtlNo => _shiftdtlNo;
+
+  String get shift => _shift;
+
+  String get slotNo => _slotNo;
+
+  String get slotSl => _slotSl;
+
+  String get startTime => _startTime;
+
+  String get endTime => _endTime;
+
+  String get durationMin => _durationMin;
+
+  String get extraSlot => _extraSlot;
+
+  String get slotSplited => _slotSplited;
+
+  String get ssCreatedOn => _ssCreatedOn;
+
+  String get ssCreator => _ssCreator;
+
+  String get remarks => _remarks;
+
+  String get appointStatus => _appointStatus;
+
+  String get companyNo => _companyNo;
+
+  String get ogNo => _ogNo;
 }

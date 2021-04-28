@@ -11,6 +11,8 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/main_app/util/validator.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -64,13 +66,15 @@ class _SignInState extends State<SignIn> {
     var spaceBetween = SizedBox(
       height: height >= 700 ? 10.0 : 5.0,
     );
-    var userName = CustomTextFieldRounded(
+    var userName = SignUpFormField(
+      validator: Validator().nullFieldValidate,
       controller: _username,
-      margin: EdgeInsets.only(top: 8, left: 8, right: 8),
+      margin: EdgeInsets.only(top: 3, left: 8, right: 8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
-    var password = CustomTextFieldRounded(
+    var password = SignUpFormField(
+      validator: Validator().nullFieldValidate,
       // validator: (value) {
       //   if (value == null || value.isEmpty) {
       //     return 'Please enter password';
@@ -91,7 +95,7 @@ class _SignInState extends State<SignIn> {
           });
         },
       ),
-      obscureText: isObSecure,
+      obSecure: isObSecure,
       controller: _password,
       margin: EdgeInsets.only(left: 8, right: 8),
       contentPadding: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -263,41 +267,61 @@ class _SignInState extends State<SignIn> {
                         isClicked == false
                             ? GestureDetector(
                             onTap: () async {
-                              setState(() {
-                                isClicked = true;
-                              });
-                              String username = 'telemedCareIdPassword';
-                              String password = 'secret';
-                              String basicAuth = 'Basic ' +
-                                  base64Encode(
-                                      utf8.encode('$username:$password'));
-                              String url =
-                                  "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
-                              var response = await http.post(url,
-                                  headers: <String, String>{
-                                    'authorization': basicAuth
-                                  });
-                              if (response.statusCode == 200) {
-                                //print(response.body);
-                                signInData =
-                                    signInModelFromJson(response.body);
-                                if (signInData != null) {
-                                  print(signInData.accessToken);
-                                  print(signInData.expiresIn);
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            HomeScreen(
-                                              accessToken:
-                                              signInData.accessToken,
-                                            ),
-                                      ),
-                                          (Route<dynamic> route) => false);
+                              if (_formKey.currentState.validate()){
+                                setState(() {
+                                  isClicked = true;
+                                });
+                                String username = 'telemedCareIdPassword';
+                                String password = 'secret';
+                                String basicAuth = 'Basic ' +
+                                    base64Encode(
+                                        utf8.encode('$username:$password'));
+                                String url =
+                                    "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
+                                var response = await http.post(url,
+                                    headers: <String, String>{
+                                      'authorization': basicAuth
+                                    });
+                                if (response.statusCode == 200) {
+                                  //print(response.body);
+                                  signInData =
+                                      signInModelFromJson(response.body);
+                                  if (signInData != null) {
+                                    print(signInData.accessToken);
+                                    print(signInData.expiresIn);
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              HomeScreen(
+                                                accessToken:
+                                                signInData.accessToken,
+                                              ),
+                                        ),
+                                            (Route<dynamic> route) => false);
+
+                                    SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                    prefs.setString("accessToken",
+                                        signInData.accessToken);
+                                    if(this.value== true){
+                                      print(_username.text);
+                                      prefs.setString(
+                                          "username", _username.text);
+                                      prefs.setString(
+                                          "password", _password.text);
+                                      prefs.setBool("value", true);
+                                    }
+                                    else{
+                                      print(_password.text);
+                                      prefs.remove("username");
+                                      prefs.remove("password");
+                                      prefs.setBool("value", false);
+                                    }
+                                  }
+                                } else {
 
                                   SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                                  prefs.setString("accessToken",
-                                      signInData.accessToken);
                                   if(this.value== true){
                                     print(_username.text);
                                     prefs.setString(
@@ -312,34 +336,17 @@ class _SignInState extends State<SignIn> {
                                     prefs.remove("password");
                                     prefs.setBool("value", false);
                                   }
+                                  setState(() {
+                                    if (validUser == true) {
+                                      validUser = false;
+                                    }
+                                    if (isClicked == true) {
+                                      isClicked = false;
+                                    }
+                                  });
                                 }
-                              } else {
-
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                                if(this.value== true){
-                                  print(_username.text);
-                                  prefs.setString(
-                                      "username", _username.text);
-                                  prefs.setString(
-                                      "password", _password.text);
-                                  prefs.setBool("value", true);
-                                }
-                                else{
-                                  print(_password.text);
-                                  prefs.remove("username");
-                                  prefs.remove("password");
-                                  prefs.setBool("value", false);
-                                }
-                                setState(() {
-                                  if (validUser == true) {
-                                    validUser = false;
-                                  }
-                                  if (isClicked == true) {
-                                    isClicked = false;
-                                  }
-                                });
                               }
+
                             },
                             child: signInButton)
                             : CircularProgressIndicator(

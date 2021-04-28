@@ -20,7 +20,7 @@ class AppointmentScreen extends StatefulWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
-  bool ok = false;
+
 
   AppointmentScreen(
       {this.name,
@@ -30,7 +30,7 @@ class AppointmentScreen extends StatefulWidget {
         this.companyNo,
         this.doctorNo,
         this.orgNo,
-        this.ok});
+      });
 
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
@@ -40,7 +40,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   DateTime pickedAppointDate;
   DateTime pickedAppointDate2;
   bool isClicked;
-
+  String status;
   Future<Null> selectAppointDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -69,6 +69,19 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   int selectedCard = -1;
   bool isSelected;
   var slotNo;
+  var slotSl;
+  var appointDate;
+  var shiftdtlNo;
+  var shift;
+  var startTime;
+  var endTime;
+  var durationMin;
+  var extraSlot;
+  var slotSplited;
+  var ssCreatedOn;
+  var ssCreator;
+  var remarks;
+  var appointStatus;
   bool isLoading = false;
   bool isStatusOk;
   double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
@@ -87,6 +100,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   void initState() {
+    status= "Not Ok";
     isClicked = false;
     isStatusOk = false;
     isSelected = false;
@@ -182,31 +196,23 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       height: 45,
       child: AbsorbPointer(
         absorbing: isSelected == false ? true : false,
-        child: isClicked == true
-            ? Center(child: CircularProgressIndicator(  valueColor:
-        AlwaysStoppedAnimation<Color>(
-            AppTheme.appbarPrimary),))
-            : FlatButton(
+        child: FlatButton(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8)),
           color: isSelected == false
               ? HexColor("#969EC8")
               : AppTheme.appbarPrimary,
-          onPressed: () {
-            vm.getSlotStatus(
+          onPressed: () async {
+           await vm.getSlotStatus(
                 slotNo.toString(), widget.companyNo, widget.orgNo);
             setState(() {
               isClicked = true;
-              Timer.periodic(const Duration(milliseconds: 0),
-                      (t) {
                     if (vm.slotStatus == "OK")
                       setState(() {
-                        isStatusOk = false; //set loading to false
+                        isStatusOk = true;
+                        vm.getAppointInfo(widget.doctorNo, widget.name, appointDate, shiftdtlNo.toString(), shift.toString(), slotNo.toString(), slotSl.toString(), startTime, endTime, durationMin.toString(), extraSlot.toString(), slotSplited.toString(), ssCreatedOn, ssCreator.toString(), remarks, appointStatus.toString(), widget.companyNo, widget.orgNo,);
                       });
-                    t.cancel();
-                    isStatusOk = true; //stops the timer
                   });
-            });
           },
           textColor: Colors.white,
           child: Text(
@@ -470,6 +476,27 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                           slotNo = vm
                                               .slotList[index]
                                               .slotNo;
+                                          print(slotNo);
+                                           slotSl= vm
+                                               .slotList[index]
+                                               .slotSl;
+                                          appointDate  =   DateFormat("yyyy-MM-dd").format(DateTime.parse(vm.slotList[index]
+                                              .appointDate
+                                              .toString())
+                                              .toLocal());
+                                          shiftdtlNo = vm.slotList[index].shiftdtlNo;
+                                          shift = vm.slotList[index].shift;
+                                           startTime= vm.slotList[index].startTime;
+                                           endTime= vm.slotList[index].endTime;
+                                           durationMin= vm.slotList[index].durationMin;
+                                           extraSlot= vm.slotList[index].extraSlot;
+                                           slotSplited= vm.slotList[index].slotSplited;
+                                           ssCreatedOn=  DateFormat("yyyy-MM-dd").format(DateTime.parse(vm.slotList[index].ssCreatedOn
+                                               .toString())
+                                               .toLocal());
+                                           ssCreator= vm.slotList[index].ssCreator;
+                                           remarks= vm.slotList[index].remarks;
+                                           appointStatus= vm.slotList[index].appointStatus;
                                         });
                                       },
                                       child: Stack(

@@ -15,9 +15,9 @@ class DoctorListViewModel extends ChangeNotifier{
   bool _isLoading = false;
 
 
-  Future<void> getDoctor(String orgNo, String companyNo, String deptItem, String specialSelectedItem) async {
+  Future<void> getDoctor(String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch) async {
     _isLoading=true;
-    var res = await DoctorListRepository().getDoctorList(orgNo, companyNo,deptItem, specialSelectedItem);
+    var res = await DoctorListRepository().getDoctorList(orgNo, companyNo,deptItem, specialSelectedItem, doctorSearch);
     _doctor.clear();
     notifyListeners();
     res.fold((l) {

@@ -76,6 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     SharedPreferences preferences = await SharedPreferences.getInstance();
     //await preferences.clear();
     await preferences.remove("accessToken");
+    await preferences.remove("password");
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (BuildContext context) => HomeScreen()));
   }

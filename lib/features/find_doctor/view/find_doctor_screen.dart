@@ -386,7 +386,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                             vm.doctorList.length,
                             (i) => CustomContainer(
                                 vm.doctorList[i].photo!=null?loadLogo(vm.doctorList[i].photo):Image.asset(
-                                  "assets/images/doc.png",
+                                  "assets/images/d.png",
                                   fit: BoxFit.cover,
                                   width: cardWidth*0.9,
                                   height: 160,

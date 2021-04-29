@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_m
 import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
@@ -41,6 +42,7 @@ void main() async{
     ChangeNotifierProvider<HospitalImageViewModel>(create: (context) =>  HospitalImageViewModel()),
     ChangeNotifierProvider<NewsLogoViewModel>(create: (context) =>  NewsLogoViewModel()),
     ChangeNotifierProvider<BLogLogoViewModel>(create: (context) =>  BLogLogoViewModel()),
+    ChangeNotifierProvider<PasswordChangeViewModel>(create: (context) =>  PasswordChangeViewModel(accessToken: accessToken)),
   ];
   FlavorConfig(
       flavor: Flavor.DEV,

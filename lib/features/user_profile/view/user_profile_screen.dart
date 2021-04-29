@@ -15,7 +15,9 @@ class UserProfile extends StatefulWidget {
   String phoneNumber;
   String address;
   String dob;
-  UserProfile({this.fName,this.phoneNumber,this.address,this.dob});
+  String id;
+  String accessToken;
+  UserProfile({this.fName,this.phoneNumber,this.address,this.dob,this.id,this.accessToken});
   @override
   _UserProfileState createState() => _UserProfileState(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob);
 }
@@ -377,7 +379,7 @@ class _UserProfileState extends State<UserProfile> {
     showDialog(
         context: context,
         builder: (context) {
-          return ChangePasswordAlert();
+          return ChangePasswordAlert(widget.accessToken,widget.id);
         });
   }
 

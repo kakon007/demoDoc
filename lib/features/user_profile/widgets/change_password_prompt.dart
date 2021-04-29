@@ -2,48 +2,141 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/change_password_text_fileld.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/common_button.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
+import 'package:provider/provider.dart';
 class ChangePasswordAlert extends StatefulWidget {
+  String accessToken;
+  String id;
+
+  ChangePasswordAlert(this.accessToken,this.id);
   @override
   _ChangePasswordAlertState createState() => _ChangePasswordAlertState();
 }
 
 class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
-  final _username = TextEditingController();
+  final _oldPassword = TextEditingController();
   final _password = TextEditingController();
   final _confirmPassword = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
+
+  bool validate() {
+    return _oldPassword != null &&
+        _password != null && _confirmPassword!=null;
+//        &&
+//        _confirmPasswordTextController != null;
+  }
+
+  _handleChangePassword(context) async{
+    var changePassViewModel =
+    Provider.of<PasswordChangeViewModel>(context, listen: false);
+    var isSuccess = await changePassViewModel.changePassword();
+    if(isSuccess){
+      Navigator.pop(context);
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PasswordChangeViewModel(accessToken: widget.accessToken,userId: widget.id);
+  }
   @override
   Widget build(BuildContext context) {
+    var changePassViewModel = Provider.of<PasswordChangeViewModel>(context);
+
     var width = MediaQuery.of(context).size.width * 0.44;
-    var currentPassword = SignUpFormField(
-      labelText: "Current Password",
-      isRequired: true,
-      controller: _username,
-      margin: EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 3),
-      contentPadding: EdgeInsets.all(15),
-      hintText:'Password',
+    var currentPassword =
+   Consumer<PasswordChangeViewModel>(
+       builder: (context, passwordChangeViewModel, _) {
+      bool isObscure = passwordChangeViewModel.isObscurePasswordOld;
+      return ChangePasswordFormField(
+        labelText: "Current Password",
+        isRequired: true,
+        onChanged: passwordChangeViewModel.onChangeOldPassword,
+        errorText: passwordChangeViewModel.errorTextOldPassword,
+        controller: _oldPassword,
+        margin: EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 3),
+        contentPadding: EdgeInsets.all(15),
+        obscureText: passwordChangeViewModel.isObscurePasswordOld,
+        hintText:'Password',
+      );
+       },
+
+   );
+    var newPassword =
+        Consumer<PasswordChangeViewModel>(
+            builder: (context, passwordChangeViewModel, _) {
+      bool isObscure = passwordChangeViewModel.isObscurePasswordNew;
+            return   ChangePasswordFormField(
+              labelText: "New Password",
+              isRequired: true,
+              onChanged: passwordChangeViewModel.onChangeNewPassword,
+              errorText: passwordChangeViewModel.errorTextNewPassword,
+              controller: _password,
+              margin: EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 3),
+              contentPadding: EdgeInsets.all(15),
+              obscureText: passwordChangeViewModel.isObscurePasswordNew,
+              hintText: 'Confirm Password',
+            );
+            });
+
+    var confirmPassword =
+    // Consumer<PasswordChangeViewModel>(
+    //  builder: (context, passwordChangeViewModel, _) {
+    //    bool isObscure = passwordChangeViewModel.isObscurePasswordConfirm;
+      ChangePasswordFormField(
+       labelText: "Confirm Password",
+       isRequired: true,
+       obSecure: true,
+       //onChanged: passwordChangeViewModel.onConfirmPassword,
+       //errorText: passwordChangeViewModel.errorTextConfirmPassword,
+       controller: _confirmPassword,
+       margin: EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 3),
+       contentPadding: EdgeInsets.all(15),
+      // obscureText: passwordChangeViewModel.isObscurePasswordConfirm,
+       hintText: 'Confirm Password',
+     );
+
+
+    // var submitButton = changePassViewModel.isBusy? Loader():
+    // SizedBox(
+    //   width: width * .8,
+    //   height: width * .25,
+    //   child: FlatButton(
+    //     textColor: Colors.white,
+    //     onPressed: () {},
+    //     color:  AppTheme.appbarPrimary,
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius:
+    //       BorderRadius.circular(8),
+    //     ),
+    //     child: Text(
+    //       "Save",
+    //       style: GoogleFonts.poppins(),
+    //     ),
+    //   ),
+    // );
+
+    var submitButton = changePassViewModel.isBusy? Loader(): Container(
+      width: width * .8,
+      height: width * .25,
+      child: CommonButton(
+        onTap: changePassViewModel.allowSubmitButton
+            ? () {
+          _handleChangePassword(context);
+        }
+            : null,
+        key: Key('changePasswordSubmitButton'),
+        label: StringResources.submitButtonText,
+      ),
     );
-    var newPassword = SignUpFormField(
-      labelText: "New Password",
-      isRequired: true,
-      obSecure: true,
-      controller: _password,
-      margin: EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 3),
-      contentPadding: EdgeInsets.all(15),
-      hintText: 'Confirm Password',
-    );
-    var confirmPassword = SignUpFormField(
-      labelText: "Confirm Password",
-      isRequired: true,
-      obSecure: true,
-      controller: _confirmPassword,
-      margin: EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 3),
-      contentPadding: EdgeInsets.all(15),
-      hintText: 'Confirm Password',
-    );
+
     return Center(
         child: SingleChildScrollView(
           child: Center(
@@ -134,6 +227,8 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                         ),
                                       ),
                                     )
+
+                                   // submitButton
                                   ],
                                 ),
                               ),

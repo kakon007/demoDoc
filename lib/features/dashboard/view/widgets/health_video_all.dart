@@ -1,9 +1,15 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
+import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/blog_vlog_article_card.dart';
@@ -42,6 +48,11 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
   //   });
   // }
 
+  loadLogo(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+    return _bytesImage;
+  }
+
   @override
   void initState() {
     itemIndex = widget.pageNo;
@@ -49,6 +60,11 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
     vm.getData(isFromOnPageLoad: true);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData(isFromOnPageLoad: true);
+    var vm7 = Provider.of<NewsLogoViewModel>(context, listen: false);
+    vm7.getData(isFromOnPageLoad: true);
+    var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
+    vm8.getData(isFromOnPageLoad: true);
+    super.initState();
     // TODO: implement initState
     super.initState();
   }
@@ -149,6 +165,9 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
     var vm = Provider.of<VideoViewModel>(context, listen: false);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     var vm3 = Provider.of<BLogViewModel>(context, listen: true);
+    var vm7 = Provider.of<NewsLogoViewModel>(context);
+    var vm8 = Provider.of<BLogLogoViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
@@ -259,6 +278,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                               ? vm.videoList.length
                               : vm3.newsList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
                         return itemIndex == 2
                             ? BlogVlogArticleCard(
                                 buttonName: "Watch Video",
@@ -268,23 +288,22 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                                 description:
                                     vm.videoList[index].snippet.description,
                                 title: vm.videoList[index].snippet.title,
-                                image: vm.videoList[index].snippet.thumbnails
-                                    .standard.url,
+                          logo: vm.videoList[index].snippet
+                              .thumbnails.standard.url,
                               )
                             : itemIndex == 1
                                 ? BlogVlogArticleCard(
                                     title: vm2.newsList[index].title,
                                     buttonName: "Read News",
-                                    image: vm.videoList[index].snippet
-                                        .thumbnails.standard.url,
+                                    image: loadLogo(vm7.newsLogoList[i].logo),
                                     pageNo: "1",
                                     url: vm2.newsList[index].newsLink,
                                   )
                                 : BlogVlogArticleCard(
                                     title: vm3.newsList[index].title,
                                     buttonName: "Read Blog",
-                                    image: vm.videoList[index].snippet
-                                        .thumbnails.standard.url,
+
+                                    image: loadLogo(vm8.blogLogoList[index].logo),
                                     pageNo: "0",
                                     blogDetails: vm3.newsList[index].blogDetail,
                                   );

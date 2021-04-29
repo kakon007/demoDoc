@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -28,6 +29,11 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
 
   }
 
+  loadLogo(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+    return _bytesImage;
+  }
+
   @override
   void afterFirstLayout(BuildContext context) {
     _scrollController = ScrollController();
@@ -36,6 +42,8 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     print(vm.hospitalList.length);
     var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
     vm5.getData(isFromOnPageLoad: true);
+    var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
+    vm6.getImageData(isFromOnPageLoad: true);
   }
 
   @override
@@ -53,6 +61,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     );
     var vm = Provider.of<HospitalListViewModel>(context);
     var vm5 = Provider.of<HospitalLogoViewModel>(context);
+    var vm6 = Provider.of<HospitalImageViewModel>(context);
     List<Item> list = vm.hospitalList;
     var length = list.length;
     return Scaffold(
@@ -107,8 +116,10 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                     itemCount: length,
                     itemBuilder: (BuildContext context, int index) {
                       int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==list[index].id);
+                      int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==list[index].id);
                       return HospitalListCard(
-                        loadImage(vm5.hospitalLogoList[index].photoLogo),
+                        loadImage(vm5.hospitalLogoList[ind].photoLogo),
+                        vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
                         list[index].companyName,
                         list[index].companyAddress == null
                             ? "Mirpur,Dahaka,Bangladesh"

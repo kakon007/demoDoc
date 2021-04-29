@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,8 @@ import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:page_transition/page_transition.dart';
 
 class BlogVlogArticleCard extends StatefulWidget {
-  String image;
+  Uint8List image;
+  String logo;
   String title;
   String videoId;
   String description;
@@ -20,6 +23,7 @@ class BlogVlogArticleCard extends StatefulWidget {
 
   BlogVlogArticleCard(
       {this.title,
+        this.logo,
         this.image,
         this.description,
         this.videoId,
@@ -46,18 +50,24 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  height: 110,
-                  width: 100,
-                  // decoration: BoxDecoration(
-                  //   borderRadius: BorderRadius.circular(30),
-                  // ),
-                  child: ClipRRect(
-                    child: CachedNetworkImage(
-                      imageUrl: widget.image,
-                      fit: BoxFit.fill,
-                    ),
-                  )),
+              child:widget.image!=null? Container(
+                  height: 100,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Image.memory(widget.image)):Container(
+          height: 110,
+          width: 100,
+          // decoration: BoxDecoration(
+          //   borderRadius: BorderRadius.circular(30),
+          // ),
+          child: ClipRRect(
+            child: CachedNetworkImage(
+              imageUrl: widget.logo,
+              fit: BoxFit.fill,
+            ),
+          )),
             ),
             Flexible(
               child: Padding(

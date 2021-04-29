@@ -18,9 +18,8 @@ class CustomContainer extends StatelessWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
-  CustomContainer(@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo);
   String hospitalName;
-  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo, this.hospitalName);
+  CustomContainer(@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName);
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;

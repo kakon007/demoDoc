@@ -130,7 +130,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     );
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.notes),
+        //leading: Icon(Icons.notes),
         backgroundColor: HexColor('#354291'),
         title: Text('Appointments',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
         actions: [

@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/custom_blog_widget.dart';
-import 'package:myhealthbd_app/features/dashboard/view/widgets/health_video_all.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
@@ -29,6 +30,7 @@ import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart' a
 import 'package:myhealthbd_app/features/videos/repositories/channel_Info_repository.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
@@ -39,6 +41,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/failure_widget.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -82,7 +85,17 @@ class _DashboardScreenState extends State<DashboardScreen>
     return _bytesImage;
   }
 
-
+  Future<void> signOut() async {
+    var vm = Provider.of<SignOutViewModel>(context, listen: false);
+    await vm.getSignOutData(widget.accessToken);
+    if( vm.message=="User Revoke Successfull"){
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.remove("accessToken");
+      await preferences.remove("password");
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => HomeScreen()));
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -308,15 +321,20 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   // ),
                                 ],
                               ))
-                          : CircleAvatar(
-                              radius: 18,
-                              backgroundColor: Colors.white,
-                              child: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/images/proimg.png'),
-                                radius: 16,
+                          : GestureDetector(
+                        onTap: (){
+                          signOut();
+                        },
+                            child: CircleAvatar(
+                                radius: 18,
+                                backgroundColor: Colors.white,
+                                child: CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/images/proimg.png'),
+                                  radius: 16,
+                                ),
                               ),
-                            ),
+                          ),
                     )
                   ],
                   backgroundColor: Colors.transparent,

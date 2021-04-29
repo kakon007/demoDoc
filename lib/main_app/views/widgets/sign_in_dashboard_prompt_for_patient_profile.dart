@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
+import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 
 class SignInDashboardForPatientPrompt extends StatefulWidget {
@@ -71,23 +72,76 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
                 SizedBox(height: 20,),
                 Text('Want to manage your Prescriptions, Reports and \n Documents from anywhere?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
                 SizedBox(height: 20,),
-                Material(
-                  elevation: 0  ,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  color: HexColor("#354291"),
-                  child: SizedBox(
-                    width: 330,
-                    height: 50,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Sign In",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration: Duration(seconds: 1),
+                          transitionsBuilder: (context, animation,
+                              secondaryAnimation, child) {
+                            var begin = Offset(0, 1.0);
+                            var end = Offset.zero;
+                            var curve = Curves.easeInOut;
+
+                            var tween = Tween(
+                                begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+                          pageBuilder: (context, animation,
+                              secondaryAnimation) =>
+                              SignIn(),
+                        ));
+                  },
+                  child: Material(
+                    elevation: 0  ,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    color: HexColor("#354291"),
+                    child: SizedBox(
+                      width: 330,
+                      height: 50,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Sign In",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                        ),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20,),
-                Text("Sign Up",style:  GoogleFonts.poppins(color: HexColor('#8592E5'),fontSize: 12,fontWeight: FontWeight.w600),),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration: Duration(seconds: 1),
+                          transitionsBuilder: (context, animation,
+                              secondaryAnimation, child) {
+                            var begin = Offset(0, 1.0);
+                            var end = Offset.zero;
+                            var curve = Curves.easeInOut;
+
+                            var tween = Tween(
+                                begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+                          pageBuilder: (context, animation,
+                              secondaryAnimation) =>
+                              SignUp(),
+                        ));
+                  },
+                    child: Text("Sign Up",style:  GoogleFonts.poppins(color: HexColor('#8592E5'),fontSize: 12,fontWeight: FontWeight.w600),)),
 
 
               ],

@@ -29,6 +29,7 @@ import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart' a
 import 'package:myhealthbd_app/features/videos/repositories/channel_Info_repository.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
@@ -447,7 +448,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   ),
                                   vm.shouldShowPageLoader||vm5.shouldShowPageLoader||vm6.shouldShowPageLoaderForImage
                                       ? Center(
-                                          child: CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(  valueColor:
+                                          AlwaysStoppedAnimation<Color>(
+                                              AppTheme.appbarPrimary),),
                                         )
                                       : SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
@@ -533,7 +536,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   // ):
                                   vm2.shouldShowPageLoader||vm7.shouldShowPageLoader
                                       ? Center(
-                                          child: CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(  valueColor:
+                                          AlwaysStoppedAnimation<Color>(
+                                              AppTheme.appbarPrimary),),
                                         )
                                       : vm2.shouldShowNoNewsFound
                                           ? Center(
@@ -613,7 +618,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   ),
                                   vm4.shouldShowPageLoader||vm8.shouldShowPageLoader
                                       ? Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(  valueColor:
+                                    AlwaysStoppedAnimation<Color>(
+                                        AppTheme.appbarPrimary),),
                                   )
                                       : Padding(
                                     padding: const EdgeInsets.only(
@@ -679,7 +686,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   ),
                                   vm3.shouldShowPageLoader
                                       ? Center(
-                                          child: CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(  valueColor:
+                                          AlwaysStoppedAnimation<Color>(
+                                              AppTheme.appbarPrimary),),
                                         )
                                       : SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,

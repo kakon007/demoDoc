@@ -107,7 +107,9 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             searchField,
-            vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Center(child: CircularProgressIndicator()):  Expanded(
+            vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Center(child: CircularProgressIndicator(  valueColor:
+            AlwaysStoppedAnimation<Color>(
+                AppTheme.appbarPrimary),)):  Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: ListView.builder(

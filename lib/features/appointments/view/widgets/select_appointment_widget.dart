@@ -413,7 +413,9 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
                 fontSize: 14,
                 fontWeight: FontWeight.w600)),
         spaceBetween,
-        vm.isLoading== true ? Center(child: CircularProgressIndicator()) : Expanded(
+        vm.isLoading== true ? Center(child: CircularProgressIndicator(  valueColor:
+        AlwaysStoppedAnimation<Color>(
+            AppTheme.appbarPrimary),)) : Expanded(
             child: GridView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: list.length,

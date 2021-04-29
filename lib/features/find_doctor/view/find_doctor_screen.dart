@@ -376,7 +376,9 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                           fontSize: 15, fontWeight: FontWeight.w600))),
               vm.isLoading==true
                   ? Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(  valueColor:
+                      AlwaysStoppedAnimation<Color>(
+                          AppTheme.appbarPrimary),),
                     )
 
                   : vm.doctorList.length == 0

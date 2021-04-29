@@ -601,7 +601,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 child:
                                 vm.shouldShowPageLoader
                                     ? Center(
-                                  child: CircularProgressIndicator(),
+                                  child: CircularProgressIndicator(  valueColor:
+                                  AlwaysStoppedAnimation<Color>(
+                                      AppTheme.appbarPrimary),),
                                 ):SingleChildScrollView(
                                   physics: ScrollPhysics(),
                                   child:

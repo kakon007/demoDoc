@@ -9,6 +9,7 @@ import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.da
 import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
 
@@ -174,7 +175,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         children: [
                           vm.shouldShowPageLoader
                               ? Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(  valueColor:
+                            AlwaysStoppedAnimation<Color>(
+                                AppTheme.appbarPrimary),),
                           ):
                            Container(
                                   width: devicewidth*0.5,

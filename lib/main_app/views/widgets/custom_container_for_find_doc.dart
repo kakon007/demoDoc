@@ -51,6 +51,7 @@ class CustomContainer extends StatelessWidget {
               //   width: cardHeight *0.1,
               // ),
               ClipRRect(
+
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
                   child: logo,
 

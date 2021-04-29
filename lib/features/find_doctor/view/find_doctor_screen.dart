@@ -412,7 +412,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                 vm.doctorList[i].photo!=null?loadLogo(vm.doctorList[i].photo):Image.asset(
                                   "assets/images/d.png",
                                   fit: BoxFit.cover,
-                                  width: cardWidth*0.9,
+                                  width: 110,
                                   height: 160,
                                 ),
                                 vm.doctorList[i]?.doctorName == null

@@ -47,7 +47,7 @@ class BookAppointmentRepository {
       String paymodeNo,
       ) async {
    var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/bookAppointment";
-  // BotToast.showLoading();
+   print("Shakil" + ssCreator);
     try {
       final http.Response response = await http.post(url,body: jsonEncode(<String, dynamic>{
 
@@ -56,7 +56,7 @@ class BookAppointmentRepository {
         "appointDate": appointDate,
         "shiftdtlNo": shiftdtlNo,
         "shift":shift,
-        "slotNo": 2210000226100,
+        "slotNo": slotNo,
         "slotSl": slotSl,
         "startTime" : startTime,
         "endTime": endTime,
@@ -79,7 +79,7 @@ class BookAppointmentRepository {
         "address":address,
         "email":email,
         "dob": dob,
-        "paymodeNo":5 ,
+        "paymodeNo":paymodeNo ,
         "paymentArray": [],
         "appointType": "Internet"
       }),);

@@ -419,7 +419,9 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     : vm.doctorList[i]?.companyNo.toString(),
                                 vm.doctorList[i]?.ogNo.toString() == null
                                     ? ""
-                                    : vm.doctorList[i]?.ogNo.toString()),
+                                    : vm.doctorList[i]?.ogNo.toString(),
+                            widget.title,
+                            ),
                           ),
                         ])
             ],

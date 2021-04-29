@@ -363,8 +363,8 @@ class _SignUpState extends State<SignUp> {
                               name,
                               email,
                               mobile,
-                              password,
-                              confirmPassword,
+                              //password,
+                              //confirmPassword,
                               address,
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -422,7 +422,7 @@ class _SignUpState extends State<SignUp> {
     return Stack(
       children: [
         Positioned(
-          top: MediaQuery.of(context).size.height >= 700 ? MediaQuery.of(context).size.width * .17 :MediaQuery.of(context).size.width * .12 ,
+          top: MediaQuery.of(context).size.height >= 700 ? MediaQuery.of(context).size.width * .15 :MediaQuery.of(context).size.width * .12 ,
           left: MediaQuery.of(context).size.width * .32,
           child: Container(
             height:  MediaQuery.of(context).size.width*.13,

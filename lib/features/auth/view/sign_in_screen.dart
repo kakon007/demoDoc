@@ -220,10 +220,9 @@ class _SignInState extends State<SignIn> {
             child: Form(
               key: _formKey,
               child: Padding(
-                padding:  EdgeInsets.only(top: height>=700 ? height*.45: height*.41),
-
+                padding:  EdgeInsets.only(top: height>=700 ? height*.52: height*.41),
                 child: new Container(
-                  height:  height>=700 ? MediaQuery.of(context).size.height * .55 : MediaQuery.of(context).size.height * .6,
+                  height:  height>=700 ? MediaQuery.of(context).size.height * .48 : MediaQuery.of(context).size.height * .6,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(25),

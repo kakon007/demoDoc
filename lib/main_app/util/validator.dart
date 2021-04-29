@@ -58,7 +58,7 @@ class Validator {
     Pattern pattern = r'\+?(88)?0?1[3456789][0-9]{8}\b';
     RegExp regex = new RegExp(pattern);
     if(value == ''){
-      return null;
+      return StringResources.enterValidPhoneNumber;
     }else if(value.length > 11){
       return StringResources.enterValidPhoneNumber;
     }else if (!regex.hasMatch(value))

@@ -20,7 +20,7 @@ class AppointmentScreen extends StatefulWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
-
+String hospitalName;
 
   AppointmentScreen(
       {this.name,
@@ -30,6 +30,7 @@ class AppointmentScreen extends StatefulWidget {
         this.companyNo,
         this.doctorNo,
         this.orgNo,
+        this.hospitalName
       });
 
   @override
@@ -439,7 +440,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           ? Column(
                         children: [
                           selectType,
-                          AddPatient(doctorNo: widget.doctorNo,companyNo: widget.companyNo, orgNo: widget.orgNo,),
+                          AddPatient(doctorNo: widget.doctorNo,companyNo: widget.companyNo, orgNo: widget.orgNo,hospitalName: widget.hospitalName),
                         ],
                       )
                           :
@@ -589,7 +590,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                   child: Center(
                                                       child: Text(
                                                         "Time : " +
-                                                            DateFormat("hh:mm:ss").format(DateTime.parse(list[index]
+                                                            DateFormat("hh:mm a").format(DateTime.parse(list[index]
                                                                 .startTime
                                                                 .toString())
                                                                 .toLocal()),

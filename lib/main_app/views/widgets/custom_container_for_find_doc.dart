@@ -15,7 +15,8 @@ class CustomContainer extends StatelessWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
-  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo);
+  String hospitalName;
+  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo, this.hospitalName);
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
@@ -103,7 +104,7 @@ class CustomContainer extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: (){
                                   Navigator.push(context,MaterialPageRoute(builder: (context){
-                                    return AppointmentScreen(name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo);
+                                    return AppointmentScreen(name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
                                   }));
                                 },
                                 child: Text(

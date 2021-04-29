@@ -8,6 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/custom_blog_widget.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
@@ -73,12 +74,15 @@ class _DashboardScreenState extends State<DashboardScreen>
   // double yOffset2 = 0.0;
   // double scaleFactor2 = 1;
   Future<void> signOut() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    //await preferences.clear();
-    await preferences.remove("accessToken");
-    await preferences.remove("password");
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => HomeScreen()));
+    var vm = Provider.of<SignOutViewModel>(context, listen: false);
+    await vm.getSignOutData(widget.accessToken);
+    if( vm.message=="User Revoke Successfull"){
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.remove("accessToken");
+      await preferences.remove("password");
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => HomeScreen()));
+    }
   }
 @override
   void initState() {

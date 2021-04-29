@@ -70,7 +70,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     return Image.memory(
       _bytesImage,
       fit: BoxFit.cover,
-      width: 120,
+      width: 110,
       height: 160,
     );
   }

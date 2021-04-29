@@ -544,94 +544,94 @@ class _AddPatientState extends State<AddPatient> {
               spaceBetween,
               GestureDetector(
                 onTap: () async {
-                  if ((selectedPatientType != "" && selectedConsultationType != "") ||
-                      (vm.forMe == false && selectedGender != "")
-                      ) {
-                    //print(selectedConsultationType);
-                    setState(() {
-                      if (selectedPatientType != "") {
-                        patientBorderColor = "#EAEBED";
-                      }
-                      if (selectedGender != "") {
-                        genderBorderColor = "#EAEBED";
-                      }
-                      if (selectedConsultationType != "") {
-                        consultBorderColor = "#EAEBED";
-                      }
-                    });
-                    if (_formKey.currentState.validate()) {
-                      //isClicked = true;
-                      await vm2.getAppointData(
-                        widget.doctorNo,
-                        vm.doctorName,
-                        vm.appointDate,
-                        vm.shiftdtlNo,
-                        vm.shift,
-                        vm.slotNo,
-                        vm.slotSl,
-                        vm.startTime,
-                        vm.endTime,
-                        vm.durationMin,
-                        vm.extraSlot,
-                        vm.slotSplited,
-                        vm3.userDetailsList.ssCreatedOn,
-                        vm3.userDetailsList.ssCreator.toString(),
-                        vm.remarks,
-                        vm.appointStatus,
-                        vm.companyNo,
-                        vm.ogNo,
-                        selectedPatientType,
-                        selectedConsultationType,
-                        vm.consultationFee,
-                        vm.forMe == false
-                            ? _name.text
-                            : vm3.userDetailsList.fname,
-                        vm.forMe == false
-                            ? _mobile.text
-                            : vm3.userDetailsList.phoneMobile,
-                        vm.forMe == false
-                            ? _selectedGender == "Male"
-                                ? "M"
-                                : _selectedGender == "Female"
-                                    ? "F"
-                                    : "O"
-                            : vm3.userDetailsList.gender,
-                        vm.forMe == false
-                            ? _address.text
-                            : vm3.userDetailsList.address,
-                        vm.forMe == false ? _email.text : "ish@ish.com",
-                        vm.forMe == false ? birthDate : vm3.userDetailsList.dob,
-                        "0",
-                      );
-                      Future.delayed(Duration.zero, () async {
-                        setState(() {
-                          if (vm2.message == null) {
-                            _showAlert(context);
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        HomeScreen(
-                                          accessToken: accessToken,
-                                        )));
-                          } else {
-                            //isClicked = false;
-                          }
-                        });
-                      });
-                    }
-                  } else {
-                    setState(() {
-                      if (selectedPatientType == "") {
-                        patientBorderColor = "#FF0000";
-                      }
-                      if (vm.forMe == false && selectedGender == "") {
-                        genderBorderColor = "#FF0000";
-                      }
-                      if (selectedConsultationType == "") {
-                        consultBorderColor = "#FF0000";
-                      }
-                    });
-                  }
+                  // if ((selectedPatientType != "" && selectedConsultationType != "") ||
+                  //     (vm.forMe == false && selectedGender != "")
+                  //     ) {
+                  //   //print(selectedConsultationType);
+                  //   setState(() {
+                  //     if (selectedPatientType != "") {
+                  //       patientBorderColor = "#EAEBED";
+                  //     }
+                  //     if (selectedGender != "") {
+                  //       genderBorderColor = "#EAEBED";
+                  //     }
+                  //     if (selectedConsultationType != "") {
+                  //       consultBorderColor = "#EAEBED";
+                  //     }
+                  //   });
+                  //   if (_formKey.currentState.validate()) {
+                  //     //isClicked = true;
+                  //     await vm2.getAppointData(
+                  //       widget.doctorNo,
+                  //       vm.doctorName,
+                  //       vm.appointDate,
+                  //       vm.shiftdtlNo,
+                  //       vm.shift,
+                  //       vm.slotNo,
+                  //       vm.slotSl,
+                  //       vm.startTime,
+                  //       vm.endTime,
+                  //       vm.durationMin,
+                  //       vm.extraSlot,
+                  //       vm.slotSplited,
+                  //       vm3.userDetailsList.ssCreatedOn,
+                  //       vm3.userDetailsList.ssCreator.toString(),
+                  //       vm.remarks,
+                  //       vm.appointStatus,
+                  //       vm.companyNo,
+                  //       vm.ogNo,
+                  //       selectedPatientType,
+                  //       selectedConsultationType,
+                  //       vm.consultationFee,
+                  //       vm.forMe == false
+                  //           ? _name.text
+                  //           : vm3.userDetailsList.fname,
+                  //       vm.forMe == false
+                  //           ? _mobile.text
+                  //           : vm3.userDetailsList.phoneMobile,
+                  //       vm.forMe == false
+                  //           ? _selectedGender == "Male"
+                  //               ? "M"
+                  //               : _selectedGender == "Female"
+                  //                   ? "F"
+                  //                   : "O"
+                  //           : vm3.userDetailsList.gender,
+                  //       vm.forMe == false
+                  //           ? _address.text
+                  //           : vm3.userDetailsList.address,
+                  //       vm.forMe == false ? _email.text : "ish@ish.com",
+                  //       vm.forMe == false ? birthDate : vm3.userDetailsList.dob,
+                  //       "0",
+                  //     );
+                  //     Future.delayed(Duration.zero, () async {
+                  //       setState(() {
+                  //         if (vm2.message == null) {
+                             _showAlert(context);
+                  //           Navigator.of(context).pushReplacement(
+                  //               MaterialPageRoute(
+                  //                   builder: (BuildContext context) =>
+                  //                       HomeScreen(
+                  //                         accessToken: accessToken,
+                  //                       )));
+                  //         } else {
+                  //           //isClicked = false;
+                  //         }
+                  //       });
+                  //     });
+                  //   }
+                  // } else {
+                  //   setState(() {
+                  //     if (selectedPatientType == "") {
+                  //       patientBorderColor = "#FF0000";
+                  //     }
+                  //     if (vm.forMe == false && selectedGender == "") {
+                  //       genderBorderColor = "#FF0000";
+                  //     }
+                  //     if (selectedConsultationType == "") {
+                  //       consultBorderColor = "#FF0000";
+                  //     }
+                  //   });
+                  // }
                 },
                 child: AbsorbPointer(
                   absorbing: isClicked == true ? true : false,
@@ -769,11 +769,11 @@ class _AddPatientState extends State<AddPatient> {
                              crossAxisAlignment: CrossAxisAlignment.start,
                              children: [
                                   Text("Booked Successfully!", style: GoogleFonts.poppins(color: HexColor("#037BB7"), fontSize: 18, fontWeight: FontWeight.w500),),
-                               SizedBox(height: 20,),
+                               SizedBox(height: 10,),
                                Row(
                                     children: [
-                                    Text("Serial No ", style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
-                                    Text("#" + vm.slotSl.toString(), style: GoogleFonts.poppins(color: HexColor("#037BB7")),),
+                                    Text("Serial No ", style: GoogleFonts.poppins(fontWeight: FontWeight.w600),),
+                                    Text("#" + vm.slotSl.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w600,color: HexColor("#037BB7")),),
                                   ],),
                                Row(
                                  children: [
@@ -790,8 +790,10 @@ class _AddPatientState extends State<AddPatient> {
                                Text(vm.doctorName, style: GoogleFonts.poppins(color: HexColor("#037BB7"),fontSize: 13),),
                                Text(widget.hospitalName, style: GoogleFonts.poppins(color: HexColor("#037BB7"),fontSize: 13),),
                                SizedBox(height: 8,),
-                               Text("* Please proceed with the payment to confirm this appointment",  style: GoogleFonts.poppins(fontSize: 13),)
+                               Text(" * Please proceed with the payment",  style: GoogleFonts.poppins(fontSize: 13),)
                              ,
+                               Text("    confirm this appointment",  style: GoogleFonts.poppins(fontSize: 13),)
+                               ,
                              ],
                            ),
                          ),
@@ -804,8 +806,9 @@ class _AddPatientState extends State<AddPatient> {
                                onPressed: (){
                                  Navigator.pop(context);
                                },
+                               minWidth: 120,
                              shape: RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(10)),
+                                 borderRadius: BorderRadius.circular(5)),
                                color: AppTheme.appbarPrimary,
                                child: Text("OK", style: GoogleFonts.poppins(color: Colors.white),))
                          ],)

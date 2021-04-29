@@ -17,6 +17,9 @@ import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'features/appointments/view_model/book_appointment_view_model.dart';
+import 'features/auth/view_model/auth_view_model.dart';
+import 'features/auth/view_model/sign_out_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'features/hospitals/models/company_logo_model.dart';
 void main() async{
@@ -43,6 +46,9 @@ void main() async{
     ChangeNotifierProvider<NewsLogoViewModel>(create: (context) =>  NewsLogoViewModel()),
     ChangeNotifierProvider<BLogLogoViewModel>(create: (context) =>  BLogLogoViewModel()),
     ChangeNotifierProvider<PasswordChangeViewModel>(create: (context) =>  PasswordChangeViewModel(accessToken: accessToken)),
+    ChangeNotifierProvider< AuthViewModel>(create: (context) =>  AuthViewModel()),
+    ChangeNotifierProvider< BookAppointmentViewModel>(create: (context) =>  BookAppointmentViewModel()),
+    ChangeNotifierProvider< SignOutViewModel>(create: (context) =>  SignOutViewModel()),
   ];
   FlavorConfig(
       flavor: Flavor.DEV,

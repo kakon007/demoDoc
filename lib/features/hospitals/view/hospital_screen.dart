@@ -34,6 +34,9 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     return _bytesImage;
   }
 
+  TextEditingController hospitalController = TextEditingController();
+  List<Item> hospitalList;
+  var hospitalItems = List<Item>();
   @override
   void afterFirstLayout(BuildContext context) {
     _scrollController = ScrollController();
@@ -44,11 +47,48 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     vm5.getData(isFromOnPageLoad: true);
     var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
     vm6.getImageData(isFromOnPageLoad: true);
+    Future.delayed(Duration.zero,()async{
+      var vm = Provider.of<HospitalListViewModel>(context, listen: false);
+      await vm.getData();
+      //print(vm.hospitalList.length);
+      hospitalList = vm.hospitalList;
+      hospitalItems.addAll(hospitalList);
+    });
+  }
+
+  void hospitalSearch(String query) {
+    print(query);
+    List<Item> initialHospitalSearch = List<Item>();
+    initialHospitalSearch.addAll(hospitalList);
+    //print("shakil" + initialHospitalSearch.length.toString());
+    if(query.isNotEmpty) {
+      List<Item> initialHospitalSearchItems = List<Item>();
+      initialHospitalSearch.forEach((item) {
+        if(item.companyName.contains(query)) {
+          initialHospitalSearchItems.add(item);
+        }
+      });
+      setState(() {
+        hospitalItems.clear();
+        hospitalItems.addAll(initialHospitalSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        hospitalItems.clear();
+        hospitalItems.addAll(hospitalList);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     var searchField = SignUpFormField(
+      onChanged: (value) {
+        hospitalSearch(value);
+        // print(value);
+      },
+      controller: hospitalController,
       borderRadius: 30,
       hintText: StringResources.searchBoxHint,
       suffixIcon: Padding(
@@ -112,33 +152,32 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                 AppTheme.appbarPrimary),)):  Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
-                child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: length,
-                    itemBuilder: (BuildContext context, int index) {
-                      int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==list[index].id);
-                      int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==list[index].id);
-                      return HospitalListCard(
-                        loadImage(vm5.hospitalLogoList[ind].photoLogo),
-                        vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
-                        list[index].companyName,
-                        list[index].companyAddress == null
-                            ? "Mirpur,Dahaka,Bangladesh"
-                            : list[index].companyAddress,
-                        "60 Doctors",
-                        list[index].companyPhone == null
-                            ? "+880 1962823007"
-                            : list[index].companyPhone,
-                        list[index].companyEmail == null
-                            ? "info@mysoftitd.com"
-                            : list[index].companyEmail,
-                        list[index].companyLogo,
-                        list[index].companyId,
-                        list[index].ogNo.toString(),
-                        list[index].id.toString(),
-                      );
-                    }),
+                  child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: hospitalItems.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
+                        int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
+                        return HospitalListCard(loadImage(vm5.hospitalLogoList[ind].photoLogo),
+                          vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                          hospitalItems[index].companyName,
+                          hospitalItems[index].companyAddress == null
+                              ? "Mirpur,Dahaka,Bangladesh"
+                              : hospitalItems[index].companyAddress,
+                          "60 Doctors",
+                          hospitalItems[index].companyPhone == null
+                              ? "+880 1962823007"
+                              : hospitalItems[index].companyPhone,
+                          hospitalItems[index].companyEmail == null
+                              ? "info@mysoftitd.com"
+                              : list[index].companyEmail,
+                          hospitalItems[index].companyLogo,
+                          hospitalItems[index].companyId,
+                          hospitalItems[index].ogNo.toString(),
+                          hospitalItems[index].id.toString(),
+                        );
+                      }),
               ),
             ),
           ],

@@ -125,6 +125,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   void initState() {
+    print("shakil");
+    print(widget.accessToken);
     // TODO: implement initState
     super.initState();
     _animationController=AnimationController(vsync: this,duration: duration);
@@ -144,6 +146,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //_animationController.forward();
     //screenShots=screens.values.toList();
   }
+
   Future<void> signOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
@@ -289,7 +292,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
-
 
     //List Of Pages
     List pages = <Widget>[

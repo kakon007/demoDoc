@@ -7,12 +7,13 @@ import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class HospitalListRepositry{
 
 
   Future<Either<AppError,HospiitalListM>> fetchHospitalList() async {
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+        "${Urls.buildUrl}online-appointment-api/fapi/appointment/companyList";
    // List<Item> dataList = new List<Item>();
 
     try{

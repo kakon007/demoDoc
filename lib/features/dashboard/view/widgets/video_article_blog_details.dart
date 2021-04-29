@@ -18,12 +18,12 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:provider/provider.dart';
 
 var list = [
-  vlog(name: "Health Blog", image: "assets/images/blog.png", color: "#C6FEDE"),
-  vlog(
-      name: "Health Article",
+  BlogVideoNews(name: "MyHealthBD Blog", image: "assets/images/blog.png", color: "#C6FEDE"),
+  BlogVideoNews(
+      name: "MyHealthBD News",
       image: "assets/images/article.png",
       color: "#D0EFFF"),
-  vlog(name: "Health Vlog", image: "assets/images/v.png", color: "#DEE3FC"),
+  BlogVideoNews(name: "MyHealthBD Video", image: "assets/images/v.png", color: "#DEE3FC"),
 ];
 
 class HealthVideoAll extends StatefulWidget {
@@ -76,75 +76,13 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
         itemIndex = index;
       });
     }
-
-    // final List<Widget> imageSliders = list
-    //     .map((item) => Column(
-    //   children: [
-    //     Container(
-    //       margin: EdgeInsets.all(5.0),
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(10),
-    //         boxShadow: [
-    //           BoxShadow(
-    //             color: itemIndex==  1 ? Colors.black.withOpacity(0.1) :HexColor(item.color).withOpacity(0.1),
-    //             offset: Offset(2.0, 2.0),
-    //             blurRadius: 3.0,
-    //             spreadRadius: 2.0,
-    //           ),
-    //         ],
-    //       ),
-    //
-    //       child: ClipRRect(
-    //         borderRadius: BorderRadius.all(Radius.circular(5.0)),
-    //         child: Container(
-    //             width: 1000,
-    //             decoration: BoxDecoration(
-    //               borderRadius: BorderRadius.circular(10),
-    //               color: HexColor(item.color),
-    //             ),
-    //             padding: EdgeInsets.symmetric(
-    //                 vertical: 10.0, horizontal: 20.0),
-    //             child: Row(
-    //               children: <Widget>[
-    //                 SizedBox(
-    //                   width: 15,
-    //                 ),
-    //                 Container(
-    //                   width: 75,
-    //                   child: Text(
-    //                     item.name,
-    //                     style: GoogleFonts.poppins(
-    //                         fontSize: 20, fontWeight: FontWeight.w500),
-    //                   ),
-    //                 ),
-    //                 SizedBox(
-    //                   width: 10,
-    //                 ),
-    //                 Flexible(
-    //                   child: Container(
-    //                     height: 130,
-    //                     width: 125,
-    //                     child: Image.asset(
-    //                       item.image,
-    //                       fit: BoxFit.fill,
-    //                     ),
-    //                   ),
-    //                 )
-    //               ],
-    //             )),
-    //       ),
-    //     ),
-    //     // Text("Shakil")
-    //   ],
-    // ))
-    //     .toList();
     var searchField = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
-            "Blog, Article & Vlog",
+            "News, Blog & Video",
             style:
                 GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
           ),
@@ -207,18 +145,18 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                           color: HexColor(list[a].color),
                         ),
                         padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
+                            vertical: 10.0, horizontal: 18.0),
                         child: Row(
                           children: <Widget>[
                             SizedBox(
-                              width: 15,
+                              width: 5,
                             ),
                             Container(
-                              width: 75,
+                              width: 115,
                               child: Text(
                                 list[a].name,
                                 style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w700,
                                     color: HexColor("#354291")),
                               ),
@@ -258,9 +196,9 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
                 itemIndex == 2
-                    ? "Health Vlog"
+                    ? "Health Video"
                     : itemIndex == 1
-                        ? "Health Article"
+                        ? "Health News"
                         : "Health Blog",
                 style: GoogleFonts.poppins(
                     fontSize: 12, fontWeight: FontWeight.w500),
@@ -424,12 +362,12 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
 //   }
 // }
 //
-class vlog {
+class BlogVideoNews {
   String name;
   String image;
   String color;
 
-  vlog({this.name, this.image, this.color});
+  BlogVideoNews({this.name, this.image, this.color});
 }
 // // Container(
 // //   height: 150,

@@ -7,23 +7,16 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
 import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/repositories/filter_repository.dart';
-import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class FindYourDoctorScreen extends StatefulWidget {
@@ -36,6 +29,7 @@ class FindYourDoctorScreen extends StatefulWidget {
   String orgNo;
   String companyNo;
   String id;
+  String status;
 
   FindYourDoctorScreen(this.image,this.backgroundImage,this.title, this.phoneText, this.emailText,
       this.addressText, this.orgNo, this.companyNo, this.id);
@@ -47,7 +41,9 @@ class FindYourDoctorScreen extends StatefulWidget {
 class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   AsyncMemoizer<DoctorsGridModel> _memoizer;
 
-  TextEditingController editingController = TextEditingController();
+  TextEditingController specialityController = TextEditingController();
+  TextEditingController deptController = TextEditingController();
+  TextEditingController doctorController = TextEditingController();
   List _items1 = [];
   List _items2 = [];
   List _items3 = [];
@@ -79,32 +75,40 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     );
   }
 
+  List<DeptItem> deptList;
+  var specialityItems = List<SpecializationItem>();
+  var deptItems = List<DeptItem>();
+  var deptSelectedItem;
+  var specialSelectedItem;
+  var doctorItem="";
+  var doctorSearchItem="";
+  bool isFiltered = false;
+  // void doctorSearch(String value){
+  //   doctorSearchItem= value;
+  // }
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController2 = ScrollController();
     var vm = Provider.of<DoctorListViewModel>(context, listen: false);
-    vm.getDoctor(widget.orgNo, widget.companyNo, null, null);
+    vm.getDoctor(widget.orgNo, widget.companyNo, null, null, "");
     // TODO: implement initState
     super.initState();
+    isFiltered = false;
     _memoizer = AsyncMemoizer();
-    // Future.delayed(Duration(milliseconds: 100)).then((_) {
+    Future.delayed(Duration.zero, () async {
       var vm2 = Provider.of<FilterViewModel>(context, listen: false);
-      vm2.getDepartment(widget.companyNo);
-      vm2.getSpecialist(widget.id, widget.orgNo);
-      specialistList= vm2.specialList;
-      items.addAll(specialistList);
+      await vm2.getDepartment(widget.companyNo);
+      await vm2.getSpecialist(widget.id, widget.orgNo);
+      specialistList = vm2.specialList;
+      specialityItems.addAll(specialistList);
+      deptList = vm2.departmentList;
+      deptItems.addAll(deptList);
+    });
+
     // });
   }
-  @override
-  void asyncMethod()  {
-    var vm2 = Provider.of<FilterViewModel>(context, listen: true);
-    vm2.getSpecialist(widget.id, widget.orgNo);
-    specialistList= vm2.specialList;
-    items.addAll(specialistList);
-    super.didChangeDependencies();
-    // ....
-  }
+
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<DoctorListViewModel>(context);
@@ -173,40 +177,43 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(Icons.arrow_back_outlined,
-                                  color: Colors.white)),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Container(
-                            width: 175,
-                            child: Text(widget.title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                )),
-                          ),
-                          Spacer(),
-                          IconButton(
-                            icon: Icon(
-                              Icons.notifications,
-                              color: Colors.white,
-                              size: 20,
+                      Container(
+
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(Icons.arrow_back_outlined,
+                                    color: Colors.white)),
+                            SizedBox(
+                              width: 3,
                             ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => NotificationScreen()));
-                            },
-                          )
-                        ],
+                            Container(
+                              width: 175,
+                              child: Text(widget.title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                  )),
+                            ),
+                            Spacer(),
+                            IconButton(
+                              icon: Icon(
+                                Icons.notifications,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => NotificationScreen()));
+                              },
+                            )
+                          ],
+                        ),
                       ),
 
                       // Text("Collapsing Toolbar",
@@ -369,16 +376,31 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               //       },
               // child: Text("Button"),
               // ),
-              Container(
-                  margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
-                  child: Text('Doctors',
-                      style: GoogleFonts.poppins(
-                          fontSize: 15, fontWeight: FontWeight.w600))),
-              vm.isLoading==true
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
+                      child: Text('Doctors',
+                          style: GoogleFonts.poppins(
+                              fontSize: 15, fontWeight: FontWeight.w600))),
+          isFiltered == false? Text(""):
+          Container(
+              margin: EdgeInsets.only(top: 8, bottom: 3, right: 25),
+              child: Text('Showing Filtered result',
+                  style: GoogleFonts.poppins(
+                      fontSize: 13,)))
+          // Container(
+          //     margin: EdgeInsets.only(top: 15, bottom: 3, right: 25),
+          //     child: Text("Showing Filtered result", style: GoogleFonts.poppins(),)),
+                ],
+              ),
+              vm.isLoading == true
                   ? Center(
-                      child: CircularProgressIndicator(  valueColor:
-                      AlwaysStoppedAnimation<Color>(
-                          AppTheme.appbarPrimary),),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            AppTheme.appbarPrimary),
+                      ),
                     )
 
                   : vm.doctorList.length == 0
@@ -417,7 +439,9 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     : vm.doctorList[i]?.companyNo.toString(),
                                 vm.doctorList[i]?.ogNo.toString() == null
                                     ? ""
-                                    : vm.doctorList[i]?.ogNo.toString()),
+                                    : vm.doctorList[i]?.ogNo.toString(),
+                            widget.title,
+                            ),
                           ),
                         ])
             ],
@@ -431,83 +455,112 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     var vm2 = Provider.of<FilterViewModel>(context, listen: true);
     List<SpecializationItem> specialistList = vm2.specialList;
     List<DeptItem> deptList = vm2.departmentList;
-   // specialistList = vm2.specialList;
+    // specialistList = vm2.specialList;
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
     var verticalSpace = SizedBox(
       width: MediaQuery.of(context).size.width >= 400 ? 10.0 : 5.0,
     );
-    void filterSearchResults(String query) {
-      List<SpecializationItem> dummySearchList = List<SpecializationItem>();
-      dummySearchList.addAll(specialistList);
-      print(dummySearchList.length);
-      if(query.isNotEmpty) {
-        List<SpecializationItem> dummyListData = List<SpecializationItem>();
-        dummySearchList.forEach((item) {
-          if(item.dtlName.contains(query)) {
-            dummyListData.add(item);
-            print(dummyListData.length);
+    void specializationSearch(String query) {
+      List<SpecializationItem> initialSpecialitySearch =
+          List<SpecializationItem>();
+      initialSpecialitySearch.addAll(specialistList);
+      if (query.isNotEmpty) {
+        List<SpecializationItem> initialSpecialitySearchItems =
+            List<SpecializationItem>();
+        initialSpecialitySearch.forEach((item) {
+          if (item.dtlName.contains(query.substring(0, 1).toUpperCase() +
+              query.substring(1).toLowerCase())) {
+            initialSpecialitySearchItems.add(item);
           }
         });
         setState(() {
-          items.clear();
-          items.addAll(dummyListData);
+          specialityItems.clear();
+          specialityItems.addAll(initialSpecialitySearchItems);
         });
         return;
       } else {
         setState(() {
-          items.clear();
-          items.addAll(specialistList);
+          specialityItems.clear();
+          specialityItems.addAll(specialistList);
         });
       }
-
+    }
+    void departmentSearch(String query) {
+      List<DeptItem> initialDeptSearch = List<DeptItem>();
+      initialDeptSearch.addAll(deptList);
+      if (query.isNotEmpty) {
+        List<DeptItem> initialDeptSearchItems = List<DeptItem>();
+        initialDeptSearch.forEach((item) {
+          if (item.buName.contains(query)) {
+            initialDeptSearchItems.add(item);
+          }
+        });
+        setState(() {
+          deptItems.clear();
+          deptItems.addAll(initialDeptSearchItems);
+        });
+        return;
+      } else {
+        setState(() {
+          deptItems.clear();
+          deptItems.addAll(deptList);
+        });
+      }
     }
 
     var horizontalSpace = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
     );
-    var searchDepartment = TextFormField(
+    var searchDepartment = TextField(
+        onChanged: (value) {
+          departmentSearch(value.toUpperCase());
+        },
+        controller: deptController,
         decoration: new InputDecoration(
-      prefixIcon: Padding(
-        padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-        child: Icon(Icons.search),
-      ),
-      hintText: StringResources.searchDepartment,
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      border: new OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: new BorderSide(color: Colors.teal)),
-      contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-    ));
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+            child: Icon(Icons.search),
+          ),
+          hintText: StringResources.searchDepartment,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          border: new OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: new BorderSide(color: Colors.teal)),
+          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+        ));
     var searchSpeciality = TextFormField(
+        onChanged: (value) {
+          specializationSearch(value);
+          // print(value);
+        },
+        controller: specialityController,
         decoration: new InputDecoration(
-      prefixIcon: Padding(
-        padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-        child: Icon(Icons.search),
-      ),
-      hintText: StringResources.searchSpeciality,
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      border: new OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: new BorderSide(color: Colors.teal)),
-      contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-    ));
-    var deptSelectedItem;
-    var specialSelectedItem;
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+            child: Icon(Icons.search),
+          ),
+          hintText: StringResources.searchSpeciality,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          border: new OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: new BorderSide(color: Colors.teal)),
+          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+        ));
     var modalSheetTitle = Padding(
       padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
       child: Column(
@@ -556,41 +609,36 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
             start: 18.0, bottom: 10.0, top: 15, end: 45),
         title: Padding(
           padding: const EdgeInsets.only(bottom: 7.0, right: 10),
-          child: Container(
-            width: contrainerWidth,
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.white,
-              border: Border.all(color: HexColor('#E1E1E1')),
-            ),
-            child: InkWell(
-              onTap: () {},
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    "  Find your doctor",
-                    style: GoogleFonts.poppins(
-                      color: Colors.grey.withOpacity(0.5),
-                      fontSize: deviceWidth >= 400 ? 20 : 13,
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                      size: 28,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          child: TextField(
+              onChanged: (value) {
+                doctorItem= value.replaceAll(" ", "%20");
+
+                vm.getDoctor(widget.orgNo, widget.companyNo, deptSelectedItem, specialSelectedItem, doctorItem);
+                 //doctorSearch(doctorItem);
+              },
+              controller: doctorController,
+              decoration: new InputDecoration(
+                prefixIcon: Padding(
+                  padding: EdgeInsets.only(
+                      left: width / 8.64, right: width / 8.64),
+                  child: Icon(Icons.search),
+                ),
+                hintText: "Find your doctor",
+                focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: HexColor("#D6DCFF"), width: 1),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(color: HexColor("#EAEBED"), width: 1),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                border: new OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: new BorderSide(color: Colors.teal)),
+                contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+              )),
         ),
       ),
       actions: [
@@ -631,30 +679,14 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     ),
                                     child: Column(
                                       children: [
-                                       searchDepartment,
-                                        // Padding(
-                                        //   padding: const EdgeInsets.all(8.0),
-                                        //   child: TextField(
-                                        //     onChanged: (value) {
-                                        //       filterSearchResults(value);
-                                        //      // print(value);
-                                        //     },
-                                        //     controller: editingController,
-                                        //     decoration: InputDecoration(
-                                        //         labelText: "Search",
-                                        //         hintText: "Search",
-                                        //         prefixIcon: Icon(Icons.search),
-                                        //         border: OutlineInputBorder(
-                                        //             borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-                                        //   ),
-                                        // ),
+                                        searchDepartment,
                                         Expanded(
                                           child: Scrollbar(
                                             isAlwaysShown: true,
                                             controller: _scrollController,
                                             child: ListView(
                                               controller: _scrollController,
-                                              children: deptList
+                                              children: deptItems
                                                   .map(
                                                     (DeptItem item) =>
                                                         Container(
@@ -666,7 +698,13 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             ListTileControlAffinity
                                                                 .leading,
                                                         title: Text(
-                                                          item.buName,
+                                                          item.buName
+                                                                  .substring(
+                                                                      0, 1)
+                                                                  .toUpperCase() +
+                                                              item.buName
+                                                                  .substring(1)
+                                                                  .toLowerCase(),
                                                           style: GoogleFonts.poppins(
                                                               fontWeight: item
                                                                           .isChecked ==
@@ -695,8 +733,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             deptSelectedItem =
                                                                 "&buList%5B%5D=" +
                                                                     stringList;
-                                                            print(
-                                                                deptSelectedItem);
                                                           });
                                                         },
                                                       ),
@@ -709,6 +745,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                       ],
                                     ),
                                   ),
+                                  horizontalSpace,
                                   horizontalSpace,
                                   Container(
                                     height: height / 3.55,
@@ -731,7 +768,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                             controller: _scrollController2,
                                             child: ListView(
                                               controller: _scrollController2,
-                                              children: specialistList
+                                              children: specialityItems
                                                   .map(
                                                     (SpecializationItem item) =>
                                                         Container(
@@ -783,7 +820,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: height >= 600 ? 40 : 25,
+                                    height: height >= 600 ? 25 : 15,
                                   ),
                                   Row(
                                     mainAxisAlignment:
@@ -791,7 +828,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     children: [
                                       AbsorbPointer(
                                         absorbing:
-                                            _items4.isEmpty && _items3.isEmpty
+                                            _items4.isEmpty && _items3.isEmpty || isFiltered== false
                                                 ? true
                                                 : false,
                                         child: SizedBox(
@@ -799,31 +836,40 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           height: width * .25,
                                           child: FlatButton(
                                             onPressed: () {
-                                              vm2.specialList.forEach((element) {element.isChecked=false;});
-                                              vm2.departmentList.forEach((element) {element.isChecked=false;});
+                                              isFiltered = false;
+                                              vm2.specialList
+                                                  .forEach((element) {
+                                                element.isChecked = false;
+                                              });
+                                              vm2.departmentList
+                                                  .forEach((element) {
+                                                element.isChecked = false;
+                                              });
+                                              print("Shakil" + doctorItem);
                                               _items3.clear();
                                               _items4.clear();
                                               _items1.clear();
                                               _items2.clear();
                                               vm.getDoctor(widget.orgNo,
-                                                  widget.companyNo, null, null);
+                                                  widget.companyNo, null, null, doctorItem);
                                               Navigator.pop(context);
                                             },
-                                            textColor: _items4.isEmpty &&
-                                                    _items3.isEmpty
-                                                ? HexColor("#969EC8")
+                                            textColor: Colors.white,
+                                            color: _items4.isEmpty &&
+                                                _items3.isEmpty || isFiltered== false ? HexColor("#969EC8")
                                                 : AppTheme.appbarPrimary,
-                                            color: HexColor("#FFFFFF"),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                                 side: BorderSide(
                                                     color: _items4.isEmpty &&
-                                                            _items3.isEmpty
+                                                            _items3.isEmpty || isFiltered== false
                                                         ? HexColor("#969EC8")
                                                         : AppTheme
                                                             .appbarPrimary,
-                                                    width: 1)),
+                                                    width: 1)
+
+                                            ),
                                             child: Text(
                                               StringResources.clearFilterText,
                                               style: GoogleFonts.poppins(),
@@ -846,14 +892,16 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           child: FlatButton(
                                             textColor: Colors.white,
                                             onPressed: () {
+                                              isFiltered = true;
                                               _items1 = List.from(_items3);
                                               _items2 = List.from(_items4);
                                               Navigator.pop(context);
+                                              print(doctorSearchItem);
                                               vm.getDoctor(
                                                   widget.orgNo,
                                                   widget.companyNo,
                                                   deptSelectedItem,
-                                                  specialSelectedItem);
+                                                  specialSelectedItem, doctorItem);
                                             },
                                             color: _items4.isEmpty &&
                                                         _items3.isEmpty ||
@@ -888,7 +936,16 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 18.0, bottom: 25),
-            child: filtericon,
+            child: SvgPicture.asset(
+              "assets/icons/fliter.svg",
+              width: 10,
+              height: 18,
+              fit: BoxFit.fitWidth,
+              allowDrawingOutsideViewBox: true,
+              matchTextDirection: true,
+              color: isFiltered == true? Colors.blue : Colors.grey,
+              //semanticsLabel: 'Acme Logo'
+            ),
           ),
         ),
       ],

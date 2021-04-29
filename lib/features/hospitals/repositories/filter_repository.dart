@@ -7,11 +7,12 @@ import 'package:myhealthbd_app/features/hospitals/models/department_list_model.d
 import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class FilterRepository{
   Future<Either<AppError,DepartmentListModel>> fetchDepartment(String companyNo) async {
 
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/departmentList?companyNo=$companyNo&flagList=2,3";
+        "${Urls.buildUrl}online-appointment-api/fapi/appointment/departmentList?companyNo=$companyNo&flagList=2,3";
     try{
       var client = http.Client();
       var response = await client.get(url);
@@ -43,7 +44,7 @@ class FilterRepository{
     //print(id);
     //print("shakil");
     //print(orgNo);
-    var url ="https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/specializationList";
+    var url ="${Urls.buildUrl}online-appointment-api/fapi/appointment/specializationList";
     try{
       final http.Response response = await http.post(url,body: jsonEncode(<String, String>{
         'id': id,

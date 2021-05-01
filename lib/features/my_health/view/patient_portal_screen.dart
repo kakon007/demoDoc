@@ -118,6 +118,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   MultiSelectController controller2 = new MultiSelectController();
   MultiSelectController controller3 = new MultiSelectController();
 
+  ScrollController _scrollController = ScrollController();
+
   Future<PrescriptionListModel> fetchedData;
 
 
@@ -184,6 +186,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     if (vm.isInSearchMode) {
       _searchFieldFocusNode.requestFocus();
     }
+
+    _scrollController.addListener(() {
+
+
+       if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent-100) {
+        vm.getMoreData(widget.accessToken);
+      }
+
+    });
   }
 
   void delete() {
@@ -604,134 +616,137 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   child: CircularProgressIndicator(  valueColor:
                                   AlwaysStoppedAnimation<Color>(
                                       AppTheme.appbarPrimary),),
-                                ):SingleChildScrollView(
-                                  physics: ScrollPhysics(),
-                                  child:
+                                ):ListView.builder(
+                                    controller: _scrollController,
+                                    //physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount:lengthofPrescriptionList+1,
+                                itemBuilder: (BuildContext context, int index) {
+                                  //print("LIIIISSSYYSY:::" + list[index].consultationId);
 
-                                  ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount:lengthofPrescriptionList,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    //print("LIIIISSSYYSY:::" + list[index].consultationId);
-                                    return MultiSelectItem(
-                                      isSelecting: controller.isSelecting,
-                                      onSelected: () {
-                                        setState(() {
-                                          controller.toggle(index);
-                                        });
-                                      },
-                                      child: Stack(
-                                          children:[
-                                            InkWell(
-                                              onLongPress: (){
+                                  if(index==lengthofPrescriptionList){
+                                    return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
+                                    //return SizedBox(height: 15,);
+
+                                  }
+                                  return MultiSelectItem(
+                                    isSelecting: controller.isSelecting,
+                                    onSelected: () {
+                                      setState(() {
+                                        controller.toggle(index);
+                                      });
+                                    },
+                                    child: Stack(
+                                        children:[
+                                          InkWell(
+                                            onLongPress: (){
+                                              setState(() {
+                                                controller.toggle(index);
+                                              });
+                                              print("tapped");},
+                                            onTap: () async{
+
+
+                                              if(controller.isSelecting){
                                                 setState(() {
                                                   controller.toggle(index);
                                                 });
-                                                print("tapped");},
-                                              onTap: () async{
+                                              }else{
+                                                print('PDFPRESSED');
+                                                final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
+                                                Navigator.push(context, PageTransition(
+                                                  type: PageTransitionType.rightToLeft,
+                                                  child:PdfViewerScreen(file),
+                                                ),);
+                                              }
+                                              print("tappeddd");
+                                            },
+                                            child: Container(
 
+                                              height: cardHeight*0.8,
+                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                  1.0,
+                                                  1.0
+                                                ], colors: [
+                                                  HexColor('#C5CAE8'),
+                                                  HexColor('#E9ECFE'),
 
-                                                if(controller.isSelecting){
-                                                  setState(() {
-                                                    controller.toggle(index);
-                                                  });
-                                                }else{
-                                                  print('PDFPRESSED');
-                                                  final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
-                                                  Navigator.push(context, PageTransition(
-                                                    type: PageTransitionType.rightToLeft,
-                                                    child:PdfViewerScreen(file),
-                                                  ),);
-                                                }
-                                                print("tappeddd");
-                                              },
-                                              child: Container(
-
-                                                height: cardHeight*0.8,
-                                                margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                decoration: BoxDecoration(
-                                                  gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                    1.0,
-                                                    1.0
-                                                  ], colors: [
-                                                    HexColor('#C5CAE8'),
-                                                    HexColor('#E9ECFE'),
-
-                                                  ]),
-                                                  //color: Colors.white,
-                                                  // border: Border.all(
-                                                  //   color: HexColor("#E9ECFE"),
-                                                  //   width: 1,
-                                                  // ),
-                                                  borderRadius: BorderRadius.circular(15),
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    CircleAvatar(
-                                                      radius: 31,
-                                                      backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                ]),
+                                                //color: Colors.white,
+                                                // border: Border.all(
+                                                //   color: HexColor("#E9ECFE"),
+                                                //   width: 1,
+                                                // ),
+                                                borderRadius: BorderRadius.circular(15),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    radius: 31,
+                                                    backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                    child: CircleAvatar(
+                                                      radius: 30,
+                                                      backgroundColor: Colors.white,
                                                       child: CircleAvatar(
-                                                        radius: 30,
-                                                        backgroundColor: Colors.white,
-                                                        child: CircleAvatar(
-                                                          backgroundImage: AssetImage('assets/images/proimg.png'),
-                                                          radius: 28,
-                                                        ),
+                                                        backgroundImage: AssetImage('assets/images/proimg.png'),
+                                                        radius: 28,
                                                       ),
                                                     ),
-                                                    //SizedBox(width: 5,),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          SizedBox(height: 8,),
-                                                          Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                          Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                          SizedBox(height: 8,),
-                                                          Container(width:200,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
-                                                          Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
-                                                        ],
+                                                  ),
+                                                  //SizedBox(width: 5,),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        SizedBox(height: 8,),
+                                                        Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                        Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                        SizedBox(height: 8,),
+                                                        Container(width:200,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
+                                                        Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
+                                                      ],
+                                                    ),
+
+                                                  ),
+                                                  // Container(width:45,child: rx),
+                                                  // (controller.isSelecting)?
+                                                  // Padding(
+                                                  //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                  //   child: righticon,
+                                                  // ):
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right:18.0,),
+                                                    child: Stack(children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top:10.0),
+                                                        child: Container(width:45,child: rx),
                                                       ),
-
-                                                    ),
-                                                    // Container(width:45,child: rx),
-                                                    // (controller.isSelecting)?
-                                                    // Padding(
-                                                    //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                    //   child: righticon,
-                                                    // ):
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right:18.0,),
-                                                      child: Stack(children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top:10.0),
-                                                          child: Container(width:45,child: rx),
-                                                        ),
-                                                        (controller.isSelected(index))?
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                          child: righticon,
-                                                        ): (controller.isSelecting)?Padding(
-                                                          padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                          child: greyright,
-                                                        ):Padding(
-                                                          padding: EdgeInsets.only(left: 38,top: 5),
-                                                          child: popup,
-                                                        ),
-                                                      ]),
-                                                    ),
+                                                      (controller.isSelected(index))?
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                        child: righticon,
+                                                      ): (controller.isSelecting)?Padding(
+                                                        padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                        child: greyright,
+                                                      ):Padding(
+                                                        padding: EdgeInsets.only(left: 38,top: 5),
+                                                        child: popup,
+                                                      ),
+                                                    ]),
+                                                  ),
 
 
-                                                  ],
-                                                ),
+                                                ],
                                               ),
                                             ),
-                                          ]
-                                      ),
-                                    );
-                                  }),
-                                ),
+                                          ),
+                                        ]
+                                    ),
+                                  );
+                                }),
                               ),
                             ],
                           )

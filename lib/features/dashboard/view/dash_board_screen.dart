@@ -133,10 +133,10 @@ class _DashboardScreenState extends State<DashboardScreen>
   Widget build(BuildContext context) {
     var vm = Provider.of<HospitalListViewModel>(context);
     List<hos.Item> list = vm.hospitalList;
-    var lengthofHospitalList=list.length;
-    // MediaQuery.of(context).size.width > 600
-    //     ? lengthofHospitalList = list.length < 5 ? list.length : 6
-    //     : lengthofHospitalList = list.length < 5 ? list.length : 5;
+    var lengthofHospitalList;
+    MediaQuery.of(context).size.width > 600
+        ? lengthofHospitalList = list.length < 5 ? list.length : 6
+        : lengthofHospitalList = list.length < 5 ? list.length : 5;
 
     var vm2 = Provider.of<NewsViewModel>(context);
     List<news.Item> list2 = vm2.newsList;

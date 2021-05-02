@@ -59,7 +59,7 @@ class _AddFamilyMemberPromptState extends State<AddFamilyMemberPrompt> {
           child: Center(
             child: Container(
               padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3),
+              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.3),
               child: Material(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),

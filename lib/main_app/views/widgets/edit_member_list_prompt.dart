@@ -234,8 +234,8 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
         child: SingleChildScrollView(
           child: Center(
             child: Container(
-              padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.3),
+              padding:  EdgeInsets.symmetric(horizontal: 16,),
+              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.6),
               child: Material(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -283,7 +283,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
 
                                 ],),
                               Padding(
-                                padding: const EdgeInsets.only(left: 2.0, top: 22),
+                                padding: const EdgeInsets.only(left: 2.0, top: 28),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,

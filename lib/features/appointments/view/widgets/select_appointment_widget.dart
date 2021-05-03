@@ -278,6 +278,7 @@ class SelectAppointTime extends StatefulWidget {
 }
 
 class _SelectAppointTimeState extends State<SelectAppointTime> {
+
   DateTime pickedAppointDate;
   DateTime pickedAppointDate2;
   Future<Null> selectAppointDate(BuildContext context) async {

@@ -85,9 +85,11 @@ class _SignInState extends State<SignIn> {
         icon: isObSecure == true
             ? Icon(
           Icons.visibility_off,
+            color: AppTheme.appbarPrimary
         )
             : Icon(
           Icons.visibility,
+          color: AppTheme.appbarPrimary,
         ),
         onPressed: () {
           setState(() {
@@ -350,8 +352,7 @@ class _SignInState extends State<SignIn> {
                             child: signInButton)
                             : CircularProgressIndicator(
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.green),
-                          backgroundColor: Colors.red,
+                          AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
                         ),
                         spaceBetween,
                         socialSignIn,

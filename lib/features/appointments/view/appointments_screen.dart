@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/features/appointments/models/available_slots_mode
 import 'package:myhealthbd_app/features/appointments/view/widgets/add_patient.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/available_slots.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/no_available_slots.dart';
+import 'package:myhealthbd_app/features/appointments/view/widgets/sign_required_propmt.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
@@ -98,9 +99,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       t.cancel();
     });
   }
+  var accessToken;
+  Future<void> accesstoken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    accessToken = prefs.getString('accessToken');
+  }
 
   @override
   void initState() {
+    accesstoken();
     status= "Not Ok";
     isClicked = false;
     isStatusOk = false;
@@ -204,16 +211,23 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               ? HexColor("#969EC8")
               : AppTheme.appbarPrimary,
           onPressed: () async {
-           await vm.getSlotStatus(
-                slotNo.toString(), widget.companyNo, widget.orgNo);
-            setState(() {
-              isClicked = true;
-                    if (vm.slotStatus == "OK")
-                      setState(() {
-                        isStatusOk = true;
-                        vm.getAppointInfo(widget.doctorNo, widget.name, appointDate, shiftdtlNo.toString(), shift.toString(), slotNo.toString(), slotSl.toString(), startTime, endTime, durationMin.toString(), extraSlot.toString(), slotSplited.toString(), ssCreatedOn, ssCreator.toString(), remarks, appointStatus.toString(), widget.companyNo, widget.orgNo,);
-                      });
+            if(accessToken!=null){
+              await vm.getSlotStatus(
+                  slotNo.toString(), widget.companyNo, widget.orgNo);
+              setState(() {
+                isClicked = true;
+                if (vm.slotStatus == "OK")
+                  setState(() {
+                    isStatusOk = true;
+                    vm.getAppointInfo(widget.doctorNo, widget.name, appointDate, shiftdtlNo.toString(), shift.toString(), slotNo.toString(), slotSl.toString(), startTime, endTime, durationMin.toString(), extraSlot.toString(), slotSplited.toString(), ssCreatedOn, ssCreator.toString(), remarks, appointStatus.toString(), widget.companyNo, widget.orgNo,);
                   });
+              });
+            }
+            else{
+              signInRequired(context);
+            }
+
+
           },
           textColor: Colors.white,
           child: Text(
@@ -637,5 +651,18 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             doctorCard,
           ],
         ));
+  }
+
+  void signInRequired(BuildContext context) {
+    showGeneralDialog(
+      barrierLabel: "Label",
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 700),
+      context: context,
+      pageBuilder: (context, anim1, anim2) {
+        return SignInRequired();
+      },
+    );
   }
 }

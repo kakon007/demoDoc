@@ -43,7 +43,7 @@ class _RootState extends State<Root> {
         Duration(seconds: 3),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) =>
-                //DoctorHomeScreen(
+               // DoctorHomeScreen(
                 HomeScreen(accessToken: widget.accessToken
 
             ))));

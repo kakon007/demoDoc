@@ -5,8 +5,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
+import 'package:myhealthbd_app/features/appointments/view/widgets/sign_required_propmt.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/book_appointment_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -24,6 +26,7 @@ class AddPatient extends StatefulWidget {
   String companyNo;
   String orgNo;
   String hospitalName;
+
   AddPatient({this.doctorNo, this.companyNo, this.orgNo, this.hospitalName});
 
   @override
@@ -76,6 +79,7 @@ class _AddPatientState extends State<AddPatient> {
   var patientBorderColor = "#EAEBED";
   var consultBorderColor = "#EAEBED";
   var selectedPatientType = "";
+  var selectedMemberType = "";
   var selectedConsultationType = "";
   String selectedGender = "";
   TextEditingController _name = TextEditingController();
@@ -90,6 +94,7 @@ class _AddPatientState extends State<AddPatient> {
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       vm.getPatType(widget.doctorNo);
+      vm.getConType(widget.doctorNo, "2000002", widget.companyNo, widget.orgNo);
       accesstoken();
     });
     isClicked = false;
@@ -99,7 +104,9 @@ class _AddPatientState extends State<AddPatient> {
     selectedGender = "";
   }
 
+  String _selectedName;
   String _selectedType;
+  String _selectedMemberType;
   String _selectedConsultation;
 
   @override
@@ -234,18 +241,18 @@ class _AddPatientState extends State<AddPatient> {
                   ],
                 ),
               ),
-
               genderBorderColor != "#FF0000"
-                  ? SizedBox(width: 2,)
+                  ? SizedBox(
+                      width: 2,
+                    )
                   : Padding(
-                padding:
-                const EdgeInsets.only(left: 0, top: 8, right: 0),
-                child: Text(
-                  "This Field Is Required",
-                  style: GoogleFonts.poppins(
-                      color: Colors.red, fontSize: 12),
-                ),
-              )
+                      padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      ),
+                    )
             ],
           ),
         ),
@@ -304,14 +311,14 @@ class _AddPatientState extends State<AddPatient> {
                   ],
                 ),
               ),
-
               genderBorderColor != "#FF0000"
-                  ? SizedBox(width: 2,)
+                  ? SizedBox(
+                      width: 2,
+                    )
                   : Padding(
-                padding:
-                const EdgeInsets.only(left: 0, top: 8, right: 0),
-                child: Text(""),
-              )
+                      padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
+                      child: Text(""),
+                    )
             ],
           ),
           onTap: () {
@@ -320,7 +327,195 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
+    var membersList =  Row(
+      children: [
+        GestureDetector(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 45.0,
+                width: MediaQuery.of(context).size.width * .8,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: HexColor(patientBorderColor)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * .72,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                iconSize: 0.0,
+                                hint: Text(
+                                  "Select Patient Type",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 15, color: HexColor("#D2D2D2")),
+                                ),
+                                // Not necessary for Option 1
+                                value: _selectedMemberType,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedMemberType = newValue;
+                                    selectedMemberType = newValue;
+                                  });
+                                },
+                                items: StringResources.memberList.map((patNo) {
+                                  return DropdownMenuItem(
+                                    child: Text(
+                                      patNo,
+                                      style: GoogleFonts.roboto(fontSize: 14),
+                                    ),
+                                    value: patNo,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 260.0, top: 5),
+                          child: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: HexColor("#D2D2D2"),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              patientBorderColor != "#FF0000"
+                  ? SizedBox(
+                width: 2,
+              )
+                  : Padding(
+                  padding:
+                  const EdgeInsets.only(left: 16, top: 8, right: 38),
+                  child: Text(
+                    "This Field Is Required",
+                    style: GoogleFonts.poppins(
+                        color: Colors.red, fontSize: 12),
+                  )),
+            ],
+          ),
+        ),
+      ],
+    );
+    var membersNameList =  Row(
+      children: [
+        GestureDetector(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 45.0,
+                width: MediaQuery.of(context).size.width * .8,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: HexColor(patientBorderColor)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * .72,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                iconSize: 0.0,
+                                hint: Text(
+                                  "Select Family member",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 15, color: HexColor("#D2D2D2")),
+                                ),
+                                // Not necessary for Option 1
+                                value: _selectedName,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedName = newValue;
+                                   /// selectedMemberType = newValue;
+                                  });
+                                },
+                                items: StringResources.memberNameList.map((patNo) {
+                                  return DropdownMenuItem(
+                                    child: Text(
+                                      patNo,
+                                      style: GoogleFonts.roboto(fontSize: 14),
+                                    ),
+                                    value: patNo,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 260.0, top: 5),
+                          child: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: HexColor("#D2D2D2"),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              patientBorderColor != "#FF0000"
+                  ? SizedBox(
+                width: 2,
+              )
+                  : Padding(
+                  padding:
+                  const EdgeInsets.only(left: 16, top: 8, right: 38),
+                  child: Text(
+                    "This Field Is Required",
+                    style: GoogleFonts.poppins(
+                        color: Colors.red, fontSize: 12),
+                  )),
+            ],
+          ),
+        ),
+      ],
+    );
     var patientType = Row(
+      children: [
+        GestureDetector(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 45.0,
+                width: MediaQuery.of(context).size.width * .8,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: HexColor(patientBorderColor)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0, top: 12),
+                  child: Text(
+                    "Registered Patient",
+                    style: GoogleFonts.roboto(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+    var patientType3 = Row(
       children: [
         GestureDetector(
           child: Column(
@@ -391,13 +586,41 @@ class _AddPatientState extends State<AddPatient> {
               patientBorderColor != "#FF0000"
                   ? SizedBox(width: 2,)
                   : Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, top: 8, right: 38),
-                      child: Text(
-                        "This Field Is Required",
-                        style: GoogleFonts.poppins(
-                            color: Colors.red, fontSize: 12),
-                      )),
+                  padding:
+                  const EdgeInsets.only(left: 16, top: 8, right: 38),
+                  child: Text(
+                    "This Field Is Required",
+                    style: GoogleFonts.poppins(
+                        color: Colors.red, fontSize: 12),
+                  )),
+            ],
+          ),
+        ),
+      ],
+    );
+    var patientType2 = Row(
+      children: [
+        GestureDetector(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 45.0,
+                width: MediaQuery.of(context).size.width * .8,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: HexColor(patientBorderColor)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0, top: 12),
+                  child: Text(
+                    "Not Registered",
+                    style: GoogleFonts.roboto(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -445,7 +668,7 @@ class _AddPatientState extends State<AddPatient> {
                                         _selectedConsultation,
                                         widget.doctorNo,
                                         widget.orgNo,
-                                        _selectedType);
+                                    );
                                   });
                                 },
                                 items: vm.consultType.map((consNo) {
@@ -474,7 +697,9 @@ class _AddPatientState extends State<AddPatient> {
                 ),
               ),
               consultBorderColor != "#FF0000"
-                  ? SizedBox(width: 2,)
+                  ? SizedBox(
+                      width: 2,
+                    )
                   : Padding(
                       padding:
                           const EdgeInsets.only(left: 16, top: 8, right: 38),
@@ -497,8 +722,7 @@ class _AddPatientState extends State<AddPatient> {
       child: Container(
         height: 90.0,
         width: MediaQuery.of(context).size.width * .5,
-        child: vm.consultFee == null ||
-                (selectedPatientType == "" || selectedConsultationType == "")
+        child: vm.consultFee == null || selectedConsultationType == ""
             ? SizedBox()
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -536,120 +760,108 @@ class _AddPatientState extends State<AddPatient> {
       ),
     );
     var confirmBooking = vm2.isLoading == true
-        ? CircularProgressIndicator(  valueColor:
-    AlwaysStoppedAnimation<Color>(
-        AppTheme.appbarPrimary),)
+        ? CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
+          )
         : Column(
             children: [
               spaceBetween,
               GestureDetector(
                 onTap: () async {
-                  // if ((selectedPatientType != "" && selectedConsultationType != "") ||
-                  //     (vm.forMe == false && selectedGender != "")
-                  //     ) {
-                  //   //print(selectedConsultationType);
-                  //   setState(() {
-                  //     if (selectedPatientType != "") {
-                  //       patientBorderColor = "#EAEBED";
-                  //     }
-                  //     if (selectedGender != "") {
-                  //       genderBorderColor = "#EAEBED";
-                  //     }
-                  //     if (selectedConsultationType != "") {
-                  //       consultBorderColor = "#EAEBED";
-                  //     }
-                  //   });
-                  //   if (_formKey.currentState.validate()) {
-                  //     //isClicked = true;
-                  //     await vm2.getAppointData(
-                  //       widget.doctorNo,
-                  //       vm.doctorName,
-                  //       vm.appointDate,
-                  //       vm.shiftdtlNo,
-                  //       vm.shift,
-                  //       vm.slotNo,
-                  //       vm.slotSl,
-                  //       vm.startTime,
-                  //       vm.endTime,
-                  //       vm.durationMin,
-                  //       vm.extraSlot,
-                  //       vm.slotSplited,
-                  //       vm3.userDetailsList.ssCreatedOn,
-                  //       vm3.userDetailsList.ssCreator.toString(),
-                  //       vm.remarks,
-                  //       vm.appointStatus,
-                  //       vm.companyNo,
-                  //       vm.ogNo,
-                  //       selectedPatientType,
-                  //       selectedConsultationType,
-                  //       vm.consultationFee,
-                  //       vm.forMe == false
-                  //           ? _name.text
-                  //           : vm3.userDetailsList.fname,
-                  //       vm.forMe == false
-                  //           ? _mobile.text
-                  //           : vm3.userDetailsList.phoneMobile,
-                  //       vm.forMe == false
-                  //           ? _selectedGender == "Male"
-                  //               ? "M"
-                  //               : _selectedGender == "Female"
-                  //                   ? "F"
-                  //                   : "O"
-                  //           : vm3.userDetailsList.gender,
-                  //       vm.forMe == false
-                  //           ? _address.text
-                  //           : vm3.userDetailsList.address,
-                  //       vm.forMe == false ? _email.text : "ish@ish.com",
-                  //       vm.forMe == false ? birthDate : vm3.userDetailsList.dob,
-                  //       "0",
-                  //     );
-                  //     Future.delayed(Duration.zero, () async {
-                  //       setState(() {
-                  //         if (vm2.message == null) {
-                             _showAlert(context);
-                  //           Navigator.of(context).pushReplacement(
-                  //               MaterialPageRoute(
-                  //                   builder: (BuildContext context) =>
-                  //                       HomeScreen(
-                  //                         accessToken: accessToken,
-                  //                       )));
-                  //         } else {
-                  //           //isClicked = false;
-                  //         }
-                  //       });
-                  //     });
-                  //   }
-                  // } else {
-                  //   setState(() {
-                  //     if (selectedPatientType == "") {
-                  //       patientBorderColor = "#FF0000";
-                  //     }
-                  //     if (vm.forMe == false && selectedGender == "") {
-                  //       genderBorderColor = "#FF0000";
-                  //     }
-                  //     if (selectedConsultationType == "") {
-                  //       consultBorderColor = "#FF0000";
-                  //     }
-                  //   });
-                  // }
+                  if (selectedConsultationType != "" ||
+                      (vm.forMe == false && selectedGender != "")) {
+                    setState(() {
+                      if (selectedGender != "") {
+                        genderBorderColor = "#EAEBED";
+                      }
+                      if (selectedConsultationType != "") {
+                        consultBorderColor = "#EAEBED";
+                      }
+                    });
+                    if (_formKey.currentState.validate()) {
+                      await vm2.getAppointData(
+                        widget.doctorNo,
+                        vm.doctorName,
+                        vm.appointDate,
+                        vm.shiftdtlNo,
+                        vm.shift,
+                        vm.slotNo,
+                        vm.slotSl,
+                        vm.startTime,
+                        vm.endTime,
+                        vm.durationMin,
+                        vm.extraSlot,
+                        vm.slotSplited,
+                        vm3.userDetailsList.ssCreatedOn,
+                        vm3.userDetailsList.ssCreator.toString(),
+                        vm.remarks,
+                        vm.appointStatus,
+                        vm.companyNo,
+                        vm.ogNo,
+                        selectedPatientType,
+                        selectedConsultationType,
+                        vm.consultationFee,
+                        vm.forMe == false
+                            ? _name.text
+                            : vm3.userDetailsList.fname,
+                        vm.forMe == false
+                            ? _mobile.text
+                            : vm3.userDetailsList.phoneMobile,
+                        vm.forMe == false
+                            ? _selectedGender == "Male"
+                                ? "M"
+                                : _selectedGender == "Female"
+                                    ? "F"
+                                    : "O"
+                            : vm3.userDetailsList.gender,
+                        vm.forMe == false
+                            ? _address.text
+                            : vm3.userDetailsList.address,
+                        vm.forMe == false ? _email.text : vm3.userDetailsList.email==null? "ish@ish.com" : vm3.userDetailsList.email,
+                        vm.forMe == false ? birthDate : vm3.userDetailsList.dob,
+                        "0",
+                      );
+                      Future.delayed(Duration.zero, () async {
+                        setState(() {
+                          if (vm2.message == null) {
+                            _showAlert(context);
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomeScreen(
+                                          accessToken: accessToken,
+                                        )));
+                          } else {
+                            //isClicked = false;
+                          }
+                        });
+                      });
+                    }
+                  } else {
+                    setState(() {
+                      if (vm.forMe == false && selectedGender == "") {
+                        genderBorderColor = "#FF0000";
+                      }
+                      if (selectedConsultationType == "") {
+                        consultBorderColor = "#FF0000";
+                      }
+                    });
+                  }
                 },
-                child: AbsorbPointer(
-                  absorbing: isClicked == true ? true : false,
-                  child: Container(
-                    child: Material(
-                      child: Container(
-                        child: Center(
-                            child: Text(
-                          "Confirm Booking",
-                          style: GoogleFonts.poppins(color: Colors.white),
-                        )),
-                        height: 45.0,
-                        width: MediaQuery.of(context).size.width * .89,
-                        decoration: BoxDecoration(
-                            color: AppTheme.appbarPrimary,
-                            border: Border.all(color: HexColor("#354391")),
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
+                child: Container(
+                  child: Material(
+                    child: Container(
+                      child: Center(
+                          child: Text(
+                        "Confirm Booking",
+                        style: GoogleFonts.poppins(color: Colors.white),
+                      )),
+                      height: 45.0,
+                      width: MediaQuery.of(context).size.width * .89,
+                      decoration: BoxDecoration(
+                          color: AppTheme.appbarPrimary,
+                          border: Border.all(color: HexColor("#354391")),
+                          borderRadius: BorderRadius.circular(10)),
                     ),
                   ),
                 ),
@@ -672,36 +884,71 @@ class _AddPatientState extends State<AddPatient> {
                       child: Column(
                         children: [
                           spaceBetween,
-                          patientType,
+                          vm.forMe==true? patientType : patientType3,
                           spaceBetween,
                           consultationType,
                           spaceBetween,
-                          vm.forMe == false
+                          vm.forMe == false && selectedMemberType=="Others"
                               ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    name,
-                                    email,
-                                    mobile,
-                                    //password,
-                                    //confirmPassword,
-                                    address,
-                                    spaceBetween,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        gender,
-                                        dateOfBirth,
-                                      ],
-                                    ),
-                                  ],
-                                )
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              name,
+                              email,
+                              mobile,
+                              //password,
+                              //confirmPassword,
+                              address,
+                              spaceBetween,
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  gender,
+                                  dateOfBirth,
+                                ],
+                              ),
+                            ],
+                          )
                               : SizedBox(),
                           spaceBetween,
                           spaceBetween,
                           consultFee,
                           spaceBetween,
+
+                          // vm.forMe== false ? membersList : SizedBox(),
+                          // spaceBetween,
+                          // vm.forMe==true? patientType : selectedMemberType== "Others" ? patientType2 : SizedBox(height: 0,),
+                          // vm.forMe== false && selectedMemberType == "Others" ? spaceBetween : SizedBox(),
+                          // vm.forMe== false && selectedMemberType == "Family Member" ?  membersNameList : SizedBox(),
+                          // vm.forMe== false && selectedMemberType == "Others" ?  SizedBox() :spaceBetween,
+                          // consultationType,
+                          // spaceBetween,
+                          // vm.forMe == false && selectedMemberType=="Others"
+                          //     ? Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           name,
+                          //           email,
+                          //           mobile,
+                          //           //password,
+                          //           //confirmPassword,
+                          //           address,
+                          //           spaceBetween,
+                          //           Row(
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.spaceBetween,
+                          //             children: [
+                          //               gender,
+                          //               dateOfBirth,
+                          //             ],
+                          //           ),
+                          //         ],
+                          //       )
+                          //     : SizedBox(),
+                          // spaceBetween,
+                          // spaceBetween,
+                          // consultFee,
+                          // spaceBetween,
                         ],
                       ),
                     ),
@@ -728,241 +975,167 @@ class _AddPatientState extends State<AddPatient> {
       pageBuilder: (context, anim1, anim2) {
         return Material(
           type: MaterialType.transparency,
-         child:  Stack(
-           children:[
-             Align(
-               alignment: Alignment.bottomCenter,
-               child: Padding(
-                 padding:  EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height/4, bottom: MediaQuery.of(context).size.height/4, right: 20, left: 20),
-                 child: Container(
-                   height:300,
-                   // child: SizedBox.expand(child: FlutterLogo()),
-                   //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
-                   decoration: BoxDecoration(
-                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                     gradient: LinearGradient(
-                         begin: Alignment
-                             .topRight,
-                         // end: Alignment.topCenter,
-                         stops: [
-                           0.2,
-                           0.5,
-
-                         ],
-                         colors: [
-                           HexColor(
-                               "#D6DCFF"),
-                           HexColor(
-                               "#FFFFFF"),
-
-
-                         ]),
-                     //borderRadius: 10,
-                   ),
-                   child: Column(
-                     children: [
-                       Padding(
-                         padding:  EdgeInsets.only(top:50.0, left: 50),
-                         child: Center(
-                           child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-                                  Text("Booked Successfully!", style: GoogleFonts.poppins(color: HexColor("#037BB7"), fontSize: 18, fontWeight: FontWeight.w500),),
-                               SizedBox(height: 10,),
-                               Row(
-                                    children: [
-                                    Text("Serial No ", style: GoogleFonts.poppins(fontWeight: FontWeight.w600),),
-                                    Text("#" + vm.slotSl.toString(), style: GoogleFonts.poppins(fontWeight: FontWeight.w600,color: HexColor("#037BB7")),),
-                                  ],),
-                               Row(
-                                 children: [
-                                   Text("Date : ", style: GoogleFonts.poppins(),),
-                                   Text(DateFormat("dd/MM/yyyy").format(DateTime.parse(vm.appointDate.toString()).toLocal()), style: GoogleFonts.poppins(),),
-                                 ],),
-                               Row(
-                                 children: [
-                                   Text("Time : ", style: GoogleFonts.poppins(),),
-                                   Text(DateFormat("hh:mm a").format(
-                                                           DateTime.parse(vm.startTime.toString())
-                                                               .toLocal()),style: GoogleFonts.poppins(),),
-                                 ],),
-                               Text(vm.doctorName, style: GoogleFonts.poppins(color: HexColor("#037BB7"),fontSize: 13),),
-                               Text(widget.hospitalName, style: GoogleFonts.poppins(color: HexColor("#037BB7"),fontSize: 13),),
-                               SizedBox(height: 8,),
-                               Text(" * Please proceed with the payment",  style: GoogleFonts.poppins(fontSize: 13),)
-                             ,
-                               Text("    confirm this appointment",  style: GoogleFonts.poppins(fontSize: 13),)
-                               ,
-                             ],
-                           ),
-                         ),
-                       ),
-                       SizedBox(height: 8,),
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                           FlatButton(
-                               onPressed: (){
-                                 Navigator.pop(context);
-                               },
-                               minWidth: 120,
-                             shape: RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(5)),
-                               color: AppTheme.appbarPrimary,
-                               child: Text("OK", style: GoogleFonts.poppins(color: Colors.white),))
-                         ],)
-                     ],
-                   ),
-                 ),
-               ),
-             ),
-
-             Positioned(
-               top: MediaQuery.of(context).size.height>700 ? MediaQuery.of(context).size.height/3.4 :MediaQuery.of(context).size.height>450 && MediaQuery.of(context).size.height<=600 ? MediaQuery.of(context).size.height/6.1: MediaQuery.of(context).size.height /3.3,
-               left:MediaQuery.of(context).size.height/4.6,
-               right:MediaQuery.of(context).size.height/4.6,
-               child: CircleAvatar(
-                 backgroundColor: Colors.transparent,
-                 radius: Constants.avatarRadius,
-                 child: ClipRRect(
-                     borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                     child: Image.asset("assets/images/confirm.png")
-                 ),
-               ),
-             ),
-           ],
-         ),
-          // child: Padding(
-          //   padding: const EdgeInsets.only(
-          //       top: 150.0, bottom: 150, right: 30, left: 30),
-          //   child: Container(
-          //     height: 150,
-          //     // child: SizedBox.expand(child: FlutterLogo()),
-          //     //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.all(Radius.circular(20)),
-          //       color: HexColor('#FFFFFF'),
-          //     ),
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(25.0),
-          //       child: Column(
-          //         children: [
-          //           Row(
-          //             mainAxisAlignment: MainAxisAlignment.start,
-          //             children: [
-          //               Column(
-          //                 crossAxisAlignment: CrossAxisAlignment.start,
-          //                 children: [
-          //                   Row(
-          //                     children: [
-          //                       Text(
-          //                         "Dear ",
-          //                         style: GoogleFonts.poppins(
-          //                             fontWeight: FontWeight.w500,
-          //                             fontSize: 15),
-          //                       ),
-          //                       vm.forMe == false
-          //                           ? Text(_name.text + ",")
-          //                           : Text(vm3.userDetailsList.fname + ","),
-          //                     ],
-          //                   ),
-          //                   SizedBox(
-          //                     height: 10,
-          //                   ),
-          //                   Row(
-          //                     children: [
-          //                       Text(
-          //                         "Appointment with : ",
-          //                         style: GoogleFonts.poppins(
-          //                             fontWeight: FontWeight.w500,
-          //                             fontSize: 15),
-          //                       ),
-          //                     ],
-          //                   ),
-          //                   Text(vm.doctorName,
-          //                       style: GoogleFonts.poppins(fontSize: 15)),
-          //                   SizedBox(
-          //                     height: 10,
-          //                   ),
-          //                   Text("Successfully Done!",
-          //                       style: GoogleFonts.poppins(
-          //                           fontSize: 14, color: Colors.green)),
-          //                 ],
-          //               )
-          //             ],
-          //           ),
-          //           Row(
-          //             mainAxisAlignment: MainAxisAlignment.center,
-          //             children: [
-          //               Text("Serial No - ",
-          //                   style: GoogleFonts.poppins(
-          //                     fontSize: 14,
-          //                   )),
-          //               Container(
-          //                 height: 50,
-          //                 width: 50,
-          //                 decoration: BoxDecoration(
-          //                     color: Colors.blue,
-          //                     borderRadius:
-          //                         BorderRadius.all(Radius.circular(20))),
-          //                 child: Center(
-          //                     child: Text(vm.slotSl,
-          //                         style: GoogleFonts.poppins(
-          //                             fontSize: 14,
-          //                             fontWeight: FontWeight.w500,
-          //                             color: Colors.white))),
-          //               )
-          //             ],
-          //           ),
-          //           SizedBox(
-          //             height: 10,
-          //           ),
-          //           Row(
-          //             mainAxisAlignment: MainAxisAlignment.center,
-          //             children: [
-          //               Text("Date - ",
-          //                   style: GoogleFonts.poppins(
-          //                       fontSize: 14, fontWeight: FontWeight.w700)),
-          //               Text(
-          //                   DateFormat("dd/MM/yyyy").format(
-          //                       DateTime.parse(vm.appointDate.toString())
-          //                           .toLocal()),
-          //                   style: GoogleFonts.poppins(fontSize: 14)),
-          //               SizedBox(
-          //                 width: 5,
-          //               ),
-          //               Text(", Time - ",
-          //                   style: GoogleFonts.poppins(
-          //                       fontSize: 14, fontWeight: FontWeight.w500)),
-          //               Text(
-          //                   DateFormat("hh:mm:ss").format(
-          //                       DateTime.parse(vm.startTime.toString())
-          //                           .toLocal()),
-          //                   style: GoogleFonts.poppins(
-          //                       fontSize: 14, color: Colors.green))
-          //             ],
-          //           ),
-          //           SizedBox(
-          //             height: 20,
-          //           ),
-          //           FlatButton(
-          //               shape: RoundedRectangleBorder(
-          //                   borderRadius: BorderRadius.circular(10)),
-          //               color: Colors.red,
-          //               onPressed: () {
-          //                 Navigator.pop(context);
-          //               },
-          //               child: Text(
-          //                 "Close",
-          //                 style: GoogleFonts.poppins(
-          //                     fontWeight: FontWeight.w500, fontSize: 15),
-          //               ))
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 4,
+                      bottom: MediaQuery.of(context).size.height / 4,
+                      right: 20,
+                      left: 20),
+                  child: Container(
+                    height: 300,
+                    // child: SizedBox.expand(child: FlutterLogo()),
+                    //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      gradient: LinearGradient(begin: Alignment.topRight,
+                          // end: Alignment.topCenter,
+                          stops: [
+                            0.2,
+                            0.5,
+                          ], colors: [
+                        HexColor("#D6DCFF"),
+                        HexColor("#FFFFFF"),
+                      ]),
+                      //borderRadius: 10,
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 50.0, left: 50),
+                          child: Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Booked Successfully!",
+                                  style: GoogleFonts.poppins(
+                                      color: HexColor("#037BB7"),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Serial No ",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Text(
+                                      "#" + vm.slotSl.toString(),
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600,
+                                          color: HexColor("#037BB7")),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Date : ",
+                                      style: GoogleFonts.poppins(),
+                                    ),
+                                    Text(
+                                      DateFormat("dd/MM/yyyy").format(
+                                          DateTime.parse(
+                                                  vm.appointDate.toString())
+                                              .toLocal()),
+                                      style: GoogleFonts.poppins(),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Time : ",
+                                      style: GoogleFonts.poppins(),
+                                    ),
+                                    Text(
+                                      DateFormat("hh:mm a").format(
+                                          DateTime.parse(
+                                                  vm.startTime.toString())
+                                              .toLocal()),
+                                      style: GoogleFonts.poppins(),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  vm.doctorName,
+                                  style: GoogleFonts.poppins(
+                                      color: HexColor("#037BB7"), fontSize: 13),
+                                ),
+                                Text(
+                                  widget.hospitalName,
+                                  style: GoogleFonts.poppins(
+                                      color: HexColor("#037BB7"), fontSize: 13),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  " * Please proceed with the payment",
+                                  style: GoogleFonts.poppins(fontSize: 13),
+                                ),
+                                Text(
+                                  "    confirm this appointment",
+                                  style: GoogleFonts.poppins(fontSize: 13),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FlatButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                minWidth: 120,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                color: AppTheme.appbarPrimary,
+                                child: Text(
+                                  "OK",
+                                  style:
+                                      GoogleFonts.poppins(color: Colors.white),
+                                ))
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: MediaQuery.of(context).size.height > 700
+                    ? MediaQuery.of(context).size.height / 3.4
+                    : MediaQuery.of(context).size.height > 450 &&
+                            MediaQuery.of(context).size.height <= 600
+                        ? MediaQuery.of(context).size.height / 6.1
+                        : MediaQuery.of(context).size.height / 3.3,
+                left: MediaQuery.of(context).size.height / 4.6,
+                right: MediaQuery.of(context).size.height / 4.6,
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: Constants.avatarRadius,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(Constants.avatarRadius)),
+                      child: Image.asset("assets/images/confirm.png")),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

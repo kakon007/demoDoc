@@ -51,8 +51,9 @@ class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
   String accessToken;
+  final Function onTapFeaturedCompany;
 
-  DashboardScreen({this.menuCallBack, this.isDrawerOpen, this.accessToken});
+  DashboardScreen({this.menuCallBack, this.isDrawerOpen, this.accessToken,this.onTapFeaturedCompany});
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -179,6 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
 
+    var contrainerWidth=deviceWidth>=400?double.infinity:400.00;
 
     final String assetName1 = "assets/icons/sign_in.svg";
     final Widget svg = SvgPicture.asset(
@@ -455,7 +457,42 @@ class _DashboardScreenState extends State<DashboardScreen>
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 15.0, right: 15),
-                    child: SearchBarViewWidget(),
+                    child:GestureDetector(
+                      onTap:widget.onTapFeaturedCompany,
+                      child: Container(
+                        width: contrainerWidth,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white,
+                          border: Border.all(color: HexColor('#E1E1E1')),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Row(
+                            children: [
+                              Text(
+                                " Type hospital / Diagnosis / Doctor Chamber",
+                                style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: deviceWidth>=400?15:14,
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              Icon(Icons.search_sharp,color: Colors.grey[400] ,),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 10,

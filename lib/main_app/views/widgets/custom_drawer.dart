@@ -36,7 +36,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Prescriptions",
     "Reports",
     "Documents",
-    "Messages",
     "Notifications",
     "Settings",
     "Family Members",

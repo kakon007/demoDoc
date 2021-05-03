@@ -42,7 +42,7 @@ class BLogLogoViewModel extends ChangeNotifier{
       _blogLogoList.addAll(r.dataList2);
       notifyListeners();
     });
-    print("hhhhhh:::::::"+_blogLogoList.first.title);
+    //print("hhhhhh:::::::"+_blogLogoList.first.title);
   }
 
   AppError get appError => _appError;

@@ -32,9 +32,9 @@ class PrescriptionListViewModel extends ChangeNotifier{
     _pageCount = 1;
   }
 
-  int get totalJobCount => count;
+  int get totalCount => count;
 
-  set totalJobCount(int value) {
+  set totalCount(int value) {
     count = value;
     notifyListeners();
   }

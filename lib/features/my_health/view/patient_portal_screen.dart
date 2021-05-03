@@ -192,6 +192,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
        if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent-100) {
+         print('scrolklinggtatg');
         vm.getMoreData(widget.accessToken);
       }
 

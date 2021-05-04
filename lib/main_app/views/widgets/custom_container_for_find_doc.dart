@@ -103,7 +103,7 @@ class CustomContainer extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: (){
                                   Navigator.push(context,MaterialPageRoute(builder: (context){
-                                    return AppointmentScreen(name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
+                                    return AppointmentScreen(logo: logo,name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
                                   }));
                                 },
                                 child: Text(

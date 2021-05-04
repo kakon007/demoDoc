@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentScreen extends StatefulWidget {
+  Image logo;
   String specialist;
   String name;
   String designation;
@@ -23,14 +24,15 @@ class AppointmentScreen extends StatefulWidget {
 String hospitalName;
 
   AppointmentScreen(
-      {this.name,
+      {this.logo,
+        this.name,
         this.designation,
         this.fee,
         this.specialist,
         this.companyNo,
         this.doctorNo,
         this.orgNo,
-        this.hospitalName
+        this.hospitalName,
       });
 
   @override
@@ -311,10 +313,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           bottomLeft: Radius.circular(10)),
-                      child: Image.asset(
-                        "assets/images/doctor.png",
-                        fit: BoxFit.fill,
-                      ),
+                      child: widget.logo,
                     ),
                   ),
                   SizedBox(

@@ -78,7 +78,7 @@ class CustomContainer extends StatelessWidget {
                           height: 39,
                           child: Text(titleText, style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w700),)),
                       Container(height: 18,child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.bold ),)),
-                      Container(height: 30,child: Text(undersubtitle, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),)),
+                      Container(height: 30,child: Text(designation, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),)),
 
                       SizedBox(
                         height: cardHeight/10,

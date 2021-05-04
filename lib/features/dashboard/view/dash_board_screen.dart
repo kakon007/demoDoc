@@ -356,7 +356,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                 body: Padding(
                   padding: deviceHeight >= 600
                       ? EdgeInsets.only(top: 115.0)
-                      : EdgeInsets.only(top: 250),
+                      : EdgeInsets.only(top: 105),
                   child: Container(
                     height: double.infinity,
                     // minHeight: deviceHeight>=600?480:250,
@@ -398,12 +398,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           StringResources
                                               .esayDoctorAppointmentText,
                                           style: GoogleFonts.poppins(
-                                              fontSize: 17,
+                                              fontSize:  MediaQuery.of(context).size.width<=450 ? 15 : 17,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Spacer(),
                                         Container(
-                                            width: 100,
+                                            width: MediaQuery.of(context).size.width<=450 ? 70 : 100,
                                             child: Image.asset(
                                                 "assets/images/my_health_logo.png")),
                                       ],
@@ -521,7 +521,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         Text(
                                           "MyHealthBD News",
                                           style: GoogleFonts.poppins(
-                                              fontSize: 16,
+                                              fontSize:  MediaQuery.of(context).size.width<=450 ? 14 : 16,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Spacer(),
@@ -607,7 +607,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         Text(
                                           "MyHealthBD Blog",
                                           style: GoogleFonts.poppins(
-                                              fontSize: 16,
+                                              fontSize:  MediaQuery.of(context).size.width<=450 ? 14 : 16,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Spacer(),
@@ -674,7 +674,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         Text(
                                           "MyHealthBD Videos",
                                           style: GoogleFonts.poppins(
-                                              fontSize: 16,
+                                              fontSize:  MediaQuery.of(context).size.width<=450 ? 14 : 16,
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Spacer(),

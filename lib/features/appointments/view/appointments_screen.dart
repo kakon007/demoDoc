@@ -302,7 +302,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
         child: Container(
-          height: 100,
+          height: 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -319,7 +319,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               Row(
                 children: [
                   Container(
-                    height: 100,
+                    height: 120,
                     width: 108,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
@@ -361,7 +361,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                 ? ""
                                 : widget.designation,
                             style:
-                            GoogleFonts.poppins(height: 0.7, fontSize: 11)),
+                            GoogleFonts.poppins(height: 1.2, fontSize: 11)),
                       ),
                       SizedBox(
                         height: 3,

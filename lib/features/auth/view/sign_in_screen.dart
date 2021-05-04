@@ -313,7 +313,6 @@ class _SignInState extends State<SignIn> {
                                       prefs.setBool("value", true);
                                     }
                                     else{
-                                      print(_password.text);
                                       prefs.remove("username");
                                       prefs.remove("password");
                                       prefs.setBool("value", false);

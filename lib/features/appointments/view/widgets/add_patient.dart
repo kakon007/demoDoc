@@ -888,7 +888,7 @@ class _AddPatientState extends State<AddPatient> {
                           spaceBetween,
                           consultationType,
                           spaceBetween,
-                          vm.forMe == false && selectedMemberType=="Others"
+                          vm.forMe == false
                               ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

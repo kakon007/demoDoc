@@ -354,8 +354,8 @@ class _SignInState extends State<SignIn> {
                           backgroundColor: Colors.red,
                         ),
                         spaceBetween,
-                        socialSignIn,
-                        spaceBetween,
+                        // socialSignIn,
+                         spaceBetween,
                         signUp
                       ],
                     ),

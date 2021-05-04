@@ -586,27 +586,24 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(left:12.0,bottom: 15),
+                                    padding: const EdgeInsets.only(left:12.0),
                                     child: Text("${lengthofPrescriptionList.toString()} Prescription(s) found",style: GoogleFonts.poppins(fontSize: 10),),
                                   ),
                                   Spacer(),
                                   if (vm.isInSearchMode)searchField,
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom:12.0),
-                                    child: IconButton(
-                                      key: Key('featuredJobSearchToggleButtonKey'),
-                                      icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search),
-                                      onPressed: () {
-                                        _searchTextEditingController?.clear();
-                                        vm.toggleIsInSearchMode(widget.accessToken);
+                                  IconButton(
+                                    key: Key('featuredJobSearchToggleButtonKey'),
+                                    icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search),
+                                    onPressed: () {
+                                      _searchTextEditingController?.clear();
+                                      vm.toggleIsInSearchMode(widget.accessToken);
 
-                                        if (vm.isInSearchMode) {
-                                          _searchFieldFocusNode.requestFocus();
-                                        } else {
-                                          _searchFieldFocusNode.unfocus();
-                                        }
-                                      },
-                                    ),
+                                      if (vm.isInSearchMode) {
+                                        _searchFieldFocusNode.requestFocus();
+                                      } else {
+                                        _searchFieldFocusNode.unfocus();
+                                      }
+                                    },
                                   ),
                                 ],
                               ),

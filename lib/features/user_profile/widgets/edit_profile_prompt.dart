@@ -236,7 +236,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: Center(
             child: Container(
               padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.3),
+              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.6),
               child: Material(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -253,8 +253,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                             children: <Widget>[
                               Container(
                                 // padding: new EdgeInsets.all(10.0),
-                                decoration: new BoxDecoration(
-                                ),
                                 child: new Text(
                                   'Edit Personal Info',
                                   style: GoogleFonts.poppins(

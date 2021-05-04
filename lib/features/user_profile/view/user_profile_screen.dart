@@ -293,7 +293,16 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Sex                        : Male",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Gender                  : Male",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                       ),
+                     ),
+                     Container(
+                       color: Colors.white,
+                       height: 40.0,
+                       width: double.infinity,
+                       child:  Padding(
+                         padding: const EdgeInsets.only(left:22.0,top:10),
+                         child: Text("Blood Group         : O+",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      SizedBox(height:15,),

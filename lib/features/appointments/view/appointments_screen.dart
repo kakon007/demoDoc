@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentScreen extends StatefulWidget {
+  String jobTitle;
   Image logo;
   String specialist;
   String name;
@@ -24,7 +25,8 @@ class AppointmentScreen extends StatefulWidget {
 String hospitalName;
 
   AppointmentScreen(
-      {this.logo,
+      {this.jobTitle,
+        this.logo,
         this.name,
         this.designation,
         this.fee,
@@ -341,12 +343,26 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       ),
                       Container(
                         width: 185,
-                        child: Text(
-                            widget.designation == null
-                                ? ""
-                                : widget.designation,
-                            style:
-                            GoogleFonts.poppins(height: 0.7, fontSize: 11)),
+                        child: Row(
+                          children: [
+                            Text(
+                                widget.jobTitle == null
+                                    ? ""
+                                    : widget.jobTitle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                GoogleFonts.poppins(height: 0.7, fontSize: 11)),
+                            Text(
+                                widget.designation == null
+                                    ? ""
+                                    : widget.designation,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                GoogleFonts.poppins(height: 0.7, fontSize: 11)),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 3,

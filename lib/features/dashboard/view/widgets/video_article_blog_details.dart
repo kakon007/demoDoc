@@ -116,7 +116,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
         )
       ],
     );
-    var vm = Provider.of<VideoViewModel>(context, listen: false);
+    var vm = Provider.of<VideoViewModel>(context, listen: true);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     var vm3 = Provider.of<BLogViewModel>(context, listen: true);
     var vm7 = Provider.of<NewsLogoViewModel>(context);

@@ -51,16 +51,15 @@ class CustomContainer extends StatelessWidget {
               //   width: cardHeight *0.1,
               // ),
               ClipRRect(
-
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
                   child: logo,
 
               ),
               SizedBox(
-                width: cardHeight *0.2,
+                width: MediaQuery.of(context).size.height >650 ? cardHeight *0.2 : cardHeight *0.1,
               ),
               Container(
-                width: cardWidth * 1.6,
+                width: MediaQuery.of(context).size.height >650 ? cardWidth * 1.6 : cardWidth * 1.55,
                 height: 140,
                 decoration: BoxDecoration(
                   color: HexColor("#FFFFFF"),
@@ -89,7 +88,7 @@ class CustomContainer extends StatelessWidget {
                           Text(consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
                           SizedBox(width: height*.03,),
                           Container(
-                            width: cardWidth*0.7,
+                            width: cardWidth*0.75,
                             height: 30,
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(

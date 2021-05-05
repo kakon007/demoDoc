@@ -41,7 +41,7 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
     final Widget appoinIcon = SvgPicture.asset(
       "assets/icons/new_pro.svg",
       width: 50,
-      height:MediaQuery.of(context).size.height>600 ? 220 : MediaQuery.of(context).size.height<550? 160 :  180,
+      height:MediaQuery.of(context).size.height>650 ? 210 : MediaQuery.of(context).size.height<550? 160 :  180,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -64,7 +64,7 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
                   padding: const EdgeInsets.only(right:20.0),
                   child: Container(
                       width: 250,
-                      height:MediaQuery.of(context).size.height>600 ? 80 : MediaQuery.of(context).size.height<550? 60 :  70,
+                      height:MediaQuery.of(context).size.height>600 ? 70 : MediaQuery.of(context).size.height<550? 60 :  70,
                       child: Image.asset(
                           "assets/images/my_health_logo.png")),
                 ),

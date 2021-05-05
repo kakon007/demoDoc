@@ -216,7 +216,10 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                               ? vm.videoList.length
                               : vm3.newsList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
+                        int i;
+                        if(itemIndex == 1 || itemIndex == 0){
+                           i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
+                        }
                         return itemIndex == 2
                             ? BlogVlogArticleCard(
                                 buttonName: "Watch Video",
@@ -241,7 +244,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                                     title: vm3.newsList[index].title,
                                     buttonName: "Read Blog",
 
-                                    image: loadLogo(vm8.blogLogoList[index].logo),
+                                    image: loadLogo(vm8.blogLogoList[i].logo),
                                     pageNo: "0",
                                     blogDetails: vm3.newsList[index].blogDetail,
                                   );

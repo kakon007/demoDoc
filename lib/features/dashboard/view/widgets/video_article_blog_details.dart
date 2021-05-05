@@ -230,7 +230,17 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                           ? vm.videoList.length
                           : vm3.newsList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    // int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
+                    int i;
+                    int i2;
+                    if(itemIndex == 1 || itemIndex == 0){
+                      if(itemIndex==1){
+                        i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
+                      }else{
+                          i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
+                      }
+
+                    }
+                     //int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
                     // int i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
                     return itemIndex == 2
                         ? BlogVlogArticleCard(
@@ -248,14 +258,14 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                             ? BlogVlogArticleCard(
                                 title: vm2.newsList[index].title,
                                 buttonName: "Read News",
-                                image: loadLogo(vm7.newsLogoList[index].logo),
+                                image: loadLogo(vm7.newsLogoList[i].logo),
                                 pageNo: "1",
                                 url: vm2.newsList[index].newsLink,
                               )
                             : BlogVlogArticleCard(
                                 title: vm3.newsList[index].title,
                                 buttonName: "Read Blog",
-                                image: loadLogo(vm8.blogLogoList[index].logo),
+                                image: loadLogo(vm8.blogLogoList[i2].logo),
                                 pageNo: "0",
                                 blogDetails: vm3.newsList[index].blogDetail,
                               );

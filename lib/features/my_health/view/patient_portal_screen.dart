@@ -190,7 +190,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     super.initState();
     var vm = Provider.of<PrescriptionListViewModel>(context, listen: false);
     vm.getData(widget.accessToken);
-    startTimer();
+    //startTimer();
     print("jaaaaahhhhhhiiiiddddddd");
     controller.disableEditingWhenNoneSelected = true;
     controller.set(dataList2.length);
@@ -637,7 +637,22 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   child: CircularProgressIndicator(  valueColor:
                                   AlwaysStoppedAnimation<Color>(
                                       AppTheme.appbarPrimary),),
-                                )): lengthofPrescriptionList == 0 ? Center(child: Text("No Prescription found!")) :
+                                )): lengthofPrescriptionList == 0 ? Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top:200.0),
+                                    child: Container(
+                                      child: Column(
+                                        children: [
+                                          pp,
+                                          SizedBox(height: 10,),
+                                          Text('You have no prescription available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ) :
                                 ListView.builder(
                                     controller: _scrollController,
                                 shrinkWrap: true,

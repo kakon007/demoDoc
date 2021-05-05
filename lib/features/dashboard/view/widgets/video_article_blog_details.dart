@@ -73,7 +73,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent) {
+          _scrollController.position.maxScrollExtent-100) {
         print("Scrolling:::::::");
         if(vm.videoList.length<=vm.totalData){
           vm.getMoreData(vm.nextPageToken);
@@ -230,6 +230,11 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                           ? vm.videoList.length
                           : vm3.newsList.length,
                   itemBuilder: (BuildContext context, int index) {
+                    if(index==vm.videoList.length){
+                      return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
+                      //return SizedBox(height: 15,);
+
+                    }
                     int i;
                     int i2;
                     if(itemIndex == 1 || itemIndex == 0){

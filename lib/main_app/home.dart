@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       3: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
       4: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
       5:NotificationScreen(),
-      6:SettingScreen(),
+      6:SettingScreen(accessToken: widget.accessToken,),
       7:FamilyMemberListScreen(),
       8:SwitchAccount(),
     };

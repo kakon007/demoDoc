@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -64,6 +65,18 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     matchTextDirection: true,
     //semanticsLabel: 'Acme Logo'
   );
+
+  bool isLoading=false;
+
+  void startTimer() {
+    Timer.periodic(const Duration(seconds: 3), (t) {
+      setState(() {
+        isLoading = false; //set loading to false
+      });
+      t.cancel();
+      isLoading=true;//stops the timer
+    });
+  }
 
   List<ReportList> reportList = [
     ReportList(
@@ -177,6 +190,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     super.initState();
     var vm = Provider.of<PrescriptionListViewModel>(context, listen: false);
     vm.getData(widget.accessToken);
+    startTimer();
     print("jaaaaahhhhhhiiiiddddddd");
     controller.disableEditingWhenNoneSelected = true;
     controller.set(dataList2.length);
@@ -609,14 +623,23 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               ),
                               Expanded(
                                 child:
-                                vm.shouldShowPageLoader
-                                    ? Center(
+                                // vm.shouldShowPageLoader
+                                //     ? Center(
+                                //   child: CircularProgressIndicator(  valueColor:
+                                //   AlwaysStoppedAnimation<Color>(
+                                //       AppTheme.appbarPrimary),),
+                                // ):vm.prescriptionList.length==0
+                                //     ? lengthofPrescriptionList
+                                //
+                                //     :
+                                (vm.prescriptionList.length == 0 &&
+                                    !vm.isFetchingData) ? Center(child: Center(
                                   child: CircularProgressIndicator(  valueColor:
                                   AlwaysStoppedAnimation<Color>(
                                       AppTheme.appbarPrimary),),
-                                ):ListView.builder(
+                                )): lengthofPrescriptionList == 0 ? Center(child: Text("No Prescription found!")) :
+                                ListView.builder(
                                     controller: _scrollController,
-                                    //physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount:lengthofPrescriptionList+1,
                                 itemBuilder: (BuildContext context, int index) {

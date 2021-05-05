@@ -156,11 +156,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: CircleAvatar(
-                      radius: 33,
+                      radius: 30,
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/proimg.png'),
-                        radius: 30,
+                        backgroundImage: AssetImage('assets/images/dPro.png'),
+                        radius: 27,
                       ),
                     ),
                   ),

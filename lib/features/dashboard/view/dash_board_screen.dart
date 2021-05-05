@@ -349,12 +349,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                           signOut();
                         },
                             child: CircleAvatar(
-                                radius: 18,
+                                radius: 17,
                                 backgroundColor: Colors.white,
                                 child: CircleAvatar(
                                   backgroundImage:
-                                      AssetImage('assets/images/proimg.png'),
-                                  radius: 16,
+                                      AssetImage('assets/images/dPro.png'),
+                                  radius: 15,
                                 ),
                               ),
                           ),

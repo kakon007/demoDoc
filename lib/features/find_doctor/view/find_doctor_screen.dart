@@ -429,7 +429,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       return CustomContainer(
         vm.doctorList[i].jobtitle!=null?vm.doctorList[i].jobtitle:"",
         vm.doctorList[i].photo!=null?loadLogo(vm.doctorList[i].photo):Image.asset(
-        "assets/images/d.png",
+        "assets/icons/dct.png",
         fit: BoxFit.cover,
         width: 110,
         height: 160,

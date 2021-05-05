@@ -81,7 +81,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Sign out",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
-                      Text('Choose a unique password',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
+                      Text('Sign out from app',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
                     ],
                   ),
                   Spacer(),

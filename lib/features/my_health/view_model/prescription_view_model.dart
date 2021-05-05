@@ -148,6 +148,8 @@ class PrescriptionListViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
+  bool get shouldShowNoPrescriptionFound => _prescriptionList.length == 0 && !isFetchingData;
+
   bool get shouldShowPageLoader =>
       _isFetchingData && _prescriptionList.length == 0;
 

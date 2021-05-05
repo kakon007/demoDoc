@@ -66,6 +66,7 @@ class StringResources {
   static String address= "Type your address";
   static String gender ="Gender";
   static String bloodGroup ="Blood Group";
+  static String relation ="Relation";
   static String signUpButton= "SIGN UP";
   static String dateOfBirth= "Birth Date";
   static String createAccount= "Create an Account";
@@ -78,6 +79,9 @@ class StringResources {
   ];
   static List<String> bloodGroupList = [
   'A+', 'A-',  'B+', 'B-',  'O+', 'O-',  'AB+', 'AB-'
+  ];
+  static List<String> relationList = [
+   'Brother', 'Mother',  'Father', 'Sister',  'Aunt', 'Uncle',  'Friend',
   ];
 
    //Book an appointment

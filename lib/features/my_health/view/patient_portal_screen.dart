@@ -68,15 +68,15 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   bool isLoading=false;
 
-  void startTimer() {
-    Timer.periodic(const Duration(seconds: 3), (t) {
-      setState(() {
-        isLoading = false; //set loading to false
-      });
-      t.cancel();
-      isLoading=true;//stops the timer
-    });
-  }
+  // void startTimer() {
+  //   Timer.periodic(const Duration(seconds: 3), (t) {
+  //     setState(() {
+  //       isLoading = false; //set loading to false
+  //     });
+  //     t.cancel();
+  //     isLoading=true;//stops the timer
+  //   });
+  // }
 
   List<ReportList> reportList = [
     ReportList(
@@ -242,7 +242,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<PrescriptionListViewModel>(context);
+    var vm = Provider.of<PrescriptionListViewModel>(context,listen: true);
     List<Datum> list = vm.prescriptionList;
     var lengthofPrescriptionList = list.length;
 

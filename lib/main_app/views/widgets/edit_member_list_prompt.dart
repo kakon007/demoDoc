@@ -51,7 +51,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
       labelText: "Name",
       isRequired: true,
       controller: _username,
-      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      margin: EdgeInsets.only(top: 2),
       contentPadding: EdgeInsets.all(15),
       hintText:'Name',
     );
@@ -59,7 +59,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
       labelText: "Email",
       isRequired: true,
       controller: _email,
-      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      margin: EdgeInsets.only(top: 2),
       contentPadding: EdgeInsets.all(15),
       hintText:'Email',
     );
@@ -67,17 +67,157 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
       labelText: "Mobile",
       isRequired: true,
       controller: _mobile,
-      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      margin: EdgeInsets.only(top: 2),
       contentPadding: EdgeInsets.all(15),
       hintText:'Mobile',
     );
     var address = SignUpFormField(
-      labelText: "Relation",
+      labelText: "Address",
       isRequired: true,
-      controller: _address,
-      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      controller: _mobile,
+      margin: EdgeInsets.only(top: 2),
       contentPadding: EdgeInsets.all(15),
-      hintText:'Relation',
+      hintText:'Address',
+    );
+    var relation = Row(
+      children: [
+        GestureDetector(
+          child: Column(
+            children: [
+              Container(
+                  height: 35.0,
+                  width: MediaQuery.of(context).size.width*.4,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+                        Text(StringResources.relation,
+                            style: GoogleFonts.roboto(fontSize: 12)),
+
+                        Text(
+                          " *",
+                          style:
+                          GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                        )
+                      ],
+                    ),
+                  )),
+              Container(
+                height: 45.0,
+                width:162,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(color: HexColor(color)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            width: 145,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                iconSize: 0.0,
+                                hint: Text('Relation', style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                                value: _selectedGender,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedGender = newValue;
+                                  });
+                                },
+                                items: StringResources.relationList.map((gender) {
+                                  return DropdownMenuItem(
+                                    child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                                    value: gender,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 120.0, top: 5),
+                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+    var bloodGroup = Row(
+      children: [
+        GestureDetector(
+          child: Column(
+            children: [
+              Container(
+                  height: 35.0,
+                  width: MediaQuery.of(context).size.width*.4,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+                        Text(StringResources.bloodGroup,
+                            style: GoogleFonts.roboto(fontSize: 12)),
+                      ],
+                    ),
+                  )),
+              Container(
+                height: 45.0,
+                width:162,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(color: HexColor(color)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            width: 145,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                iconSize: 0.0,
+                                hint: Text('Blood Group', style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                                value: _selectedGender,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedGender = newValue;
+                                  });
+                                },
+                                items: StringResources.bloodGroupList.map((gender) {
+                                  return DropdownMenuItem(
+                                    child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                                    value: gender,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 120.0, top: 5),
+                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
 
     var gender = Row(
@@ -86,7 +226,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
           child: Column(
             children: [
               Container(
-                  height: 20.0,
+                  height: 35.0,
                   width: MediaQuery.of(context).size.width*.4,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
@@ -104,7 +244,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                   )),
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.42,
+                width: 163,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
                     border: Border.all(color: HexColor(color)),
@@ -160,7 +300,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  height: 20.0,
+                  height: 35.0,
                   width: MediaQuery.of(context).size.width*.2,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
@@ -177,7 +317,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                   )),
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.38,
+                width:161,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
                     border: Border.all(color: HexColor(color)),
@@ -212,30 +352,13 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
         ),
       ],
     );
-    // var newPassword = SignUpFormField(
-    //   labelText: "New Password",
-    //   isRequired: true,
-    //   obSecure: true,
-    //   controller: _password,
-    //   margin: EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 3),
-    //   contentPadding: EdgeInsets.all(15),
-    //   hintText: 'Confirm Password',
-    // );
-    // var confirmPassword = SignUpFormField(
-    //   labelText: "Confirm Password",
-    //   isRequired: true,
-    //   obSecure: true,
-    //   controller: _confirmPassword,
-    //   margin: EdgeInsets.only(top: 8,bottom: 8,right: 3,left: 3),
-    //   contentPadding: EdgeInsets.all(15),
-    //   hintText: 'Confirm Password',
-    // );
+
     return Center(
         child: SingleChildScrollView(
           child: Center(
             child: Container(
-              padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.3),
+              padding:  EdgeInsets.symmetric(horizontal: 16,),
+              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.7),
               child: Material(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -279,11 +402,17 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
+                                  relation,bloodGroup
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
                                   gender, dateOfBirth,
 
                                 ],),
                               Padding(
-                                padding: const EdgeInsets.only(left: 2.0, top: 22),
+                                padding: const EdgeInsets.only(left: 2.0, top: 28),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,

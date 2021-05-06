@@ -42,11 +42,7 @@ class _UserProfileState extends State<UserProfile> {
         title: Row(
           children: [
             Text('User Profile',style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w500),),
-            SizedBox(width: 80,),
-            Container(
-                width: 100,
 
-                child: Image.asset("assets/images/my_health_logo.png")),
           ],
         ),
         actions: [
@@ -293,7 +289,16 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Sex                        : Male",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Gender                  : Male",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                       ),
+                     ),
+                     Container(
+                       color: Colors.white,
+                       height: 40.0,
+                       width: double.infinity,
+                       child:  Padding(
+                         padding: const EdgeInsets.only(left:22.0,top:10),
+                         child: Text("Blood Group         : O+",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      SizedBox(height:15,),
@@ -365,7 +370,7 @@ class _UserProfileState extends State<UserProfile> {
                   //color: Colors.white,
                   height: 120,
                   width: 120,
-                  child:Image.asset('assets/images/pro1.png'),
+                  child:Image.asset('assets/images/dPro.png'),
                 ),
               ),
             ),

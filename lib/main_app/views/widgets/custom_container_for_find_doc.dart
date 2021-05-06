@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/features/appointments/view/widgets/NewFile.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class CustomContainer extends StatelessWidget {
+  String jobTitle;
   Image logo;
   String titleText;
   String subTitleText;
@@ -19,7 +20,7 @@ class CustomContainer extends StatelessWidget {
   String companyNo;
   String orgNo;
   String hospitalName;
-  CustomContainer(@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName);
+  CustomContainer(@required this.jobTitle,@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName);
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
@@ -51,16 +52,15 @@ class CustomContainer extends StatelessWidget {
               //   width: cardHeight *0.1,
               // ),
               ClipRRect(
-
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
                   child: logo,
 
               ),
               SizedBox(
-                width: cardHeight *0.2,
+                width: MediaQuery.of(context).size.height >650 ? cardHeight *0.2 : cardHeight *0.1,
               ),
               Container(
-                width: cardWidth * 1.6,
+                width: MediaQuery.of(context).size.height >650 ? cardWidth * 1.6 : cardWidth * 1.55,
                 height: 140,
                 decoration: BoxDecoration(
                   color: HexColor("#FFFFFF"),
@@ -78,7 +78,7 @@ class CustomContainer extends StatelessWidget {
                           height: 39,
                           child: Text(titleText, style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w700),)),
                       Container(height: 18,child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.bold ),)),
-                      Container(height: 30,child: Text(undersubtitle, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),)),
+                      Container(height: 30,child: Text(designation, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),)),
 
                       SizedBox(
                         height: cardHeight/10,
@@ -89,7 +89,7 @@ class CustomContainer extends StatelessWidget {
                           Text(consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
                           SizedBox(width: height*.03,),
                           Container(
-                            width: cardWidth*0.7,
+                            width: cardWidth*0.75,
                             height: 30,
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(
@@ -103,7 +103,7 @@ class CustomContainer extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: (){
                                   Navigator.push(context,MaterialPageRoute(builder: (context){
-                                    return AppointmentScreen(name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
+                                    return AppointmentScreen(jobTitle: jobTitle,logo: logo,name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
                                   }));
                                 },
                                 child: Text(

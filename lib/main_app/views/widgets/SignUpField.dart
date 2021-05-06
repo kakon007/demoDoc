@@ -31,6 +31,7 @@ class SignUpFormField extends StatelessWidget {
   final Widget suffixIcon;
   final double borderRadius;
   final bool obSecure;
+  final double topPadding;
 
   const SignUpFormField({
     this.readOnly = false,
@@ -55,12 +56,13 @@ class SignUpFormField extends StatelessWidget {
     this.suffixIcon,
     this.borderRadius = 10,
     this.onTap,
-    this.margin = const EdgeInsets.all(8),
+    this.margin = const EdgeInsets.all(5),
     this.keyboardType,
     this.contentPadding =
         const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     this.maxLines = 1,
     this.textFieldKey,
+    this.topPadding=25,
   });
 
   @override
@@ -120,7 +122,7 @@ class SignUpFormField extends StatelessWidget {
                 borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
-              contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+              contentPadding: EdgeInsets.fromLTRB(15.0, topPadding, 40.0, 0.0),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
@@ -139,7 +141,7 @@ class SignUpFormField extends StatelessWidget {
           errorText == null
               ? Text("")
               : Padding(
-                  padding: const EdgeInsets.only(left: 38, top: 8, right: 38),
+                  padding: const EdgeInsets.only(left: 38, top: 0, right: 38),
                   child: Text(
                     errorText,
                     style: TextStyle(color: Colors.red),

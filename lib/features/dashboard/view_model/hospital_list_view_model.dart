@@ -44,6 +44,7 @@ class HospitalListViewModel extends ChangeNotifier{
       _isLoading= false;
       _isFetchingMoreData = false;
       _hospitalList.addAll(r.dataList);
+      _hospitalList.removeAt(0);
       notifyListeners();
     });
   }

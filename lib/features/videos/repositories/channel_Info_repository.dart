@@ -12,28 +12,12 @@ import 'package:http/http.dart' as http;
 class VideoInfoRepository{
   static const Channel_Id="UCRNBfqATYKXvy6c7gxndDUA";
   static const _baseURL="youtube.googleapis.com";
-
-  //https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails&playlistId=UURNBfqATYKXvy6c7gxndDUA&key=AIzaSyAIUjojgzDL8qTGaAMEEZPIzGRmbSgRP2w
-//
-//  Future<ChannelInfoModel> getVideoInfo()async{
-//   Map<String,String> params={
-//     'part' : 'snippet,contentDetails',
-//     'playlistId' : 'UURNBfqATYKXvy6c7gxndDUA',
-//     'key' : Constants.API_key,
-//   };
-//   Uri uri=Uri.https(_baseURL, '/youtube/v3/playlistItems',params);
-//
-//   var client = http.Client();
-//   var response = await client.get(uri);
-//   print("Channel Info::"+response.body);
-//   ChannelInfoModel channelInfoModel=channelInfoModelFromJson(response.body);
-//   return channelInfoModel;
-// }
-
-  Future<Either<AppError,VideoListM>> getVideoInfo() async {
+  static Future<Either<AppError,VideoListM>> getVideoInfo({String pageToken}) async {
     Map<String,String> params={
       'part' : 'snippet,contentDetails',
+      'maxResults' : '5',
       'playlistId' : 'UURNBfqATYKXvy6c7gxndDUA',
+      "pageToken" : pageToken,
       'key' : Constants.API_key,
     };
     Uri uri=Uri.https(_baseURL, '/youtube/v3/playlistItems',params);
@@ -49,6 +33,8 @@ class VideoInfoRepository{
         return Right(
             VideoListM(
               dataList: data.items,
+                moreData: data.nextPageToken,
+              maxData: data.pageInfo.totalResults
             )
 
         );
@@ -73,5 +59,7 @@ class VideoInfoRepository{
 
 class VideoListM{
   List<Item> dataList = new List<Item>();
-  VideoListM({this.dataList});
+  String moreData;
+  int maxData;
+  VideoListM({this.dataList,this.moreData,this.maxData});
 }

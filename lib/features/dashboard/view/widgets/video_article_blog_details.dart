@@ -42,6 +42,10 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
   PageController _pageController;
   int itemIndex;
 
+  ScrollController _scrollController = ScrollController();
+  ScrollController _scrollController2 = ScrollController();
+  ScrollController _scrollController3 = ScrollController();
+
   // void onPageChange(int index, CarouselPageChangedReason changeReason) {
   //   setState(() {
   //     itemIndex = index;
@@ -57,7 +61,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
   void initState() {
     itemIndex = widget.pageNo;
     var vm = Provider.of<VideoViewModel>(context, listen: false);
-    vm.getData(isFromOnPageLoad: true);
+    vm.getMoreData('');
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData(isFromOnPageLoad: true);
     var vm7 = Provider.of<NewsLogoViewModel>(context, listen: false);
@@ -66,6 +70,18 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
     vm8.getData(isFromOnPageLoad: true);
     super.initState();
     // TODO: implement initState
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent-100) {
+        print("Scrolling:::::::");
+        if(vm.videoList.length<=vm.totalData){
+          vm.getMoreData(vm.nextPageToken);
+        }
+
+      }
+
+    });
     super.initState();
   }
 
@@ -100,7 +116,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
         )
       ],
     );
-    var vm = Provider.of<VideoViewModel>(context, listen: false);
+    var vm = Provider.of<VideoViewModel>(context, listen: true);
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     var vm3 = Provider.of<BLogViewModel>(context, listen: true);
     var vm7 = Provider.of<NewsLogoViewModel>(context);
@@ -205,47 +221,60 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
               ),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                  physics: ScrollPhysics(),
-                  child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: itemIndex == 1
-                          ? vm2.newsList.length
-                          : itemIndex == 2
-                              ? vm.videoList.length
-                              : vm3.newsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
-                        return itemIndex == 2
-                            ? BlogVlogArticleCard(
-                                buttonName: "Watch Video",
-                                pageNo: "2",
-                                videoId: vm.videoList[index].snippet.resourceId
-                                    .videoId,
-                                description:
-                                    vm.videoList[index].snippet.description,
-                                title: vm.videoList[index].snippet.title,
-                          logo: vm.videoList[index].snippet
-                              .thumbnails.standard.url,
-                              )
-                            : itemIndex == 1
-                                ? BlogVlogArticleCard(
-                                    title: vm2.newsList[index].title,
-                                    buttonName: "Read News",
-                                    image: loadLogo(vm7.newsLogoList[i].logo),
-                                    pageNo: "1",
-                                    url: vm2.newsList[index].newsLink,
-                                  )
-                                : BlogVlogArticleCard(
-                                    title: vm3.newsList[index].title,
-                                    buttonName: "Read Blog",
+              child: ListView.builder(
+                  controller:itemIndex == 2? _scrollController:itemIndex == 1?_scrollController2:_scrollController3,
+                  shrinkWrap: true,
+                  itemCount: itemIndex == 1
+                      ? vm2.newsList.length
+                      : itemIndex == 2
+                          ? vm.videoList.length
+                          : vm3.newsList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if(index==vm.videoList.length){
+                      return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
+                      //return SizedBox(height: 15,);
 
-                                    image: loadLogo(vm8.blogLogoList[index].logo),
-                                    pageNo: "0",
-                                    blogDetails: vm3.newsList[index].blogDetail,
-                                  );
-                      })),
+                    }
+                    int i;
+                    int i2;
+                    if(itemIndex == 1 || itemIndex == 0){
+                      if(itemIndex==1){
+                        i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
+                      }else{
+                          i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
+                      }
+
+                    }
+                     //int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
+                    // int i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
+                    return itemIndex == 2
+                        ? BlogVlogArticleCard(
+                            buttonName: "Watch Video",
+                            pageNo: "2",
+                            videoId: vm.videoList[index].snippet.resourceId
+                                .videoId,
+                            description:
+                                vm.videoList[index].snippet.description,
+                            title: vm.videoList[index].snippet.title,
+                      logo: vm.videoList[index].snippet
+                          .thumbnails.standard.url,
+                          )
+                        : itemIndex == 1
+                            ? BlogVlogArticleCard(
+                                title: vm2.newsList[index].title,
+                                buttonName: "Read News",
+                                image: loadLogo(vm7.newsLogoList[i].logo),
+                                pageNo: "1",
+                                url: vm2.newsList[index].newsLink,
+                              )
+                            : BlogVlogArticleCard(
+                                title: vm3.newsList[index].title,
+                                buttonName: "Read Blog",
+                                image: loadLogo(vm8.blogLogoList[i2].logo),
+                                pageNo: "0",
+                                blogDetails: vm3.newsList[index].blogDetail,
+                              );
+                  }),
 
               // return BlogVlogArticleCard(
               //   buttonName: "Read News",

@@ -36,7 +36,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Prescriptions",
     "Reports",
     "Documents",
-    "Messages",
     "Notifications",
     "Settings",
     "Family Members",
@@ -157,11 +156,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: CircleAvatar(
-                      radius: 33,
+                      radius: 30,
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/proimg.png'),
-                        radius: 30,
+                        backgroundImage: AssetImage('assets/images/dPro.png'),
+                        radius: 27,
                       ),
                     ),
                   ),
@@ -196,7 +195,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         ],
                       ),
                       SizedBox(height: 5,),
-                      Text("Mirpur,Dhaka", style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
+                      Text(userDetails.address==null?"Dhaka":userDetails?.address, style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
                       SizedBox(height: 8,),
                       Container(
                         width: 120,

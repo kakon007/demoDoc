@@ -15,6 +15,7 @@ import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -170,11 +171,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       2: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
       3: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
       4: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
-      5:DefaultScreen(),
-      6:NotificationScreen(),
-      7:DefaultScreen(),
-      8:FamilyMemberListScreen(),
-      9:SwitchAccount(),
+      5:NotificationScreen(),
+      6:SettingScreen(accessToken: widget.accessToken,),
+      7:FamilyMemberListScreen(),
+      8:SwitchAccount(),
     };
 
     screenShots=screens.values.toList();
@@ -332,7 +332,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           _animationController.forward();
           print("Heeoollo");
         });
-      },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,),
+      },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,onTapFeaturedCompany: () {
+        _moveTo(2);
+        // _paeViewController.animateToPage(2,
+        //     duration: const Duration(milliseconds: 400),
+        //     curve: Curves.easeInOut);
+      }),
     ),
     ),
     )]),

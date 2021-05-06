@@ -1,31 +1,28 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/change_password_text_fileld.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/common_button.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChangePasswordAlert extends StatefulWidget {
+class ChangePasswordScreen extends StatefulWidget {
   String accessToken;
   String id;
+  //const ChangePasswordScreen({Key key}) : super(key: key);
 
-  ChangePasswordAlert(this.accessToken, this.id);
-
+  ChangePasswordScreen({this.accessToken,this.id});
   @override
-  _ChangePasswordAlertState createState() => _ChangePasswordAlertState();
+  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
 }
 
-class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+
   final _currentPassword = TextEditingController();
   final _newPassword = TextEditingController();
   final _confirmPassword = TextEditingController();
@@ -37,13 +34,12 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
   @override
   void initState() {
     // TODO: implement initState
-     isCurrentObSecure= true;
-     isNewObSecure=true;
-     isConfirmObSecure=true;
+    isCurrentObSecure= true;
+    isNewObSecure=true;
+    isConfirmObSecure=true;
     super.initState();
     PasswordChangeViewModel(accessToken: widget.accessToken, userId: widget.id);
   }
-
   @override
   Widget build(BuildContext context) {
     var changePassViewModel = Provider.of<PasswordChangeViewModel>(context);
@@ -130,14 +126,21 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
       ),
       obSecure: isConfirmObSecure,
     );
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppTheme.appbarPrimary,
+        title: Text(
+          'Change Password',
+          style: GoogleFonts.poppins(fontSize: 15),
+        ),
+      ),
 
-    return Form(
+      body:Form(
       key: _formKey,
-      child: Center(
-          child: SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Center(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            //padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             constraints: BoxConstraints(maxWidth: 400, maxHeight: !isExpanded ? width * 2.3 : width*2.6),
             child: Material(
               shape: RoundedRectangleBorder(
@@ -146,8 +149,8 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-                    // mainAxisSize: MainAxisSize.min,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
@@ -158,11 +161,11 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                               // padding: new EdgeInsets.all(10.0),
                               decoration: new BoxDecoration(),
                               child: new Text(
-                                'Change Password',
+                                'Change your password',
                                 style: GoogleFonts.poppins(
-                                    color: AppTheme.appbarPrimary,
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w500),
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -177,91 +180,60 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                             Padding(
                               padding: const EdgeInsets.only(left:12.0, right: 10),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                currentPassword,
-                                newPassword,
-                                confirmPassword,
-                              ],
+                                children: [
+                                  currentPassword,
+                                  newPassword,
+                                  confirmPassword,
+                                ],
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 22.0, right: 22, top: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width * .8,
-                                    height: width * .25,
-                                    child: FlatButton(
-                                      onPressed: () {
+                                  left: 13.0, right: 10, top: 10),
+                              child: SizedBox(
+                                width: width * 2.6,
+                                height: width * .25,
+                                child: FlatButton(
+                                  textColor: Colors.white,
+                                  onPressed: () async {
+                                    if (_formKey.currentState.validate()) {
+                                      await changePassViewModel.getPassword(
+                                          widget.accessToken,
+                                          _newPassword.text,
+                                          _confirmPassword.text,
+                                          _currentPassword.text);
+                                      if (changePassViewModel.message ==
+                                          "Your current password not matche,Please enter current password !!") {
+                                        showAlert(context,
+                                            changePassViewModel.message);
+                                      }
+                                      if (changePassViewModel.message ==
+                                          "Change password saved successfully") {
+                                        SharedPreferences prefs =
+                                        await SharedPreferences
+                                            .getInstance();
+                                        prefs.setString(
+                                            "password", _newPassword.text);
                                         Navigator.pop(context);
-                                      },
-                                      textColor: AppTheme.appbarPrimary,
-                                      color: HexColor("#FFFFFF"),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          side: BorderSide(
-                                              color: AppTheme.appbarPrimary,
-                                              width: 1)),
-                                      child: Text(
-                                        StringResources.cancelText,
-                                        style: GoogleFonts.poppins(),
-                                      ),
-                                    ),
+                                        showAlert(context,
+                                            changePassViewModel.message);
+                                      }
+                                    }
+                                    else{
+                                      setState(() {
+                                        isExpanded= true;
+                                      });
+                                    }
+                                  },
+                                  color: AppTheme.appbarPrimary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                  SizedBox(width: 5,),
-                                  SizedBox(
-                                    width: width * .8,
-                                    height: width * .25,
-                                    child: FlatButton(
-                                      textColor: Colors.white,
-                                      onPressed: () async {
-                                        if (_formKey.currentState.validate()) {
-                                          print("shakil");
-                                          await changePassViewModel.getPassword(
-                                              widget.accessToken,
-                                              _newPassword.text,
-                                              _confirmPassword.text,
-                                              _currentPassword.text);
-                                          if (changePassViewModel.message ==
-                                              "Your current password not matche,Please enter current password !!") {
-                                            showAlert(context,
-                                                changePassViewModel.message);
-                                          }
-                                          if (changePassViewModel.message ==
-                                              "Change password saved successfully") {
-                                            SharedPreferences prefs =
-                                            await SharedPreferences
-                                                .getInstance();
-                                            prefs.setString(
-                                                "password", _newPassword.text);
-                                            Navigator.pop(context);
-                                            showAlert(context,
-                                                changePassViewModel.message);
-                                          }
-                                        }
-                                        else{
-                                          setState(() {
-                                            isExpanded= true;
-                                          });
-                                        }
-                                      },
-                                      color: AppTheme.appbarPrimary,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        "Save",
-                                        style: GoogleFonts.poppins(),
-                                      ),
-                                    ),
-                                  )
-
-                                  // submitButton
-                                ],
+                                  child: Text(
+                                    "Save",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -272,13 +244,13 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
             ),
           ),
         ),
-      )),
+      ),
+    ),
     );
   }
-
   void showAlert(BuildContext context, String message) {
     var changePassViewModel =
-        Provider.of<PasswordChangeViewModel>(context, listen: false);
+    Provider.of<PasswordChangeViewModel>(context, listen: false);
     showGeneralDialog(
       barrierLabel: "Label",
       barrierDismissible: false,
@@ -306,15 +278,15 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                         0.2,
                         0.5,
                       ], colors: [
-                    HexColor("#D6DCFF"),
-                    HexColor("#FFFFFF"),
-                  ]),
+                        HexColor("#D6DCFF"),
+                        HexColor("#FFFFFF"),
+                      ]),
                   //borderRadius: 10,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 32.0),
                   child: Column(
-                      //crossAxisAlignment: CrossAxisAlignment.center,
+                    //crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -345,7 +317,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                 child: Text(
                                   "OK",
                                   style:
-                                      GoogleFonts.poppins(color: Colors.white),
+                                  GoogleFonts.poppins(color: Colors.white),
                                 ))
                           ],
                         )

@@ -37,11 +37,11 @@ class _SignInDashboardForAppoinmentPromptState extends State<SignInDashboardForA
   }
   @override
   Widget build(BuildContext context) {
-
+print( MediaQuery.of(context).size.height);
     final Widget appoinIcon = SvgPicture.asset(
       "assets/icons/appointment_big_icon_.svg",
       width: 50,
-      height:220,
+      height:MediaQuery.of(context).size.height>600 ? 210 : MediaQuery.of(context).size.height<550? 160 :  180,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -55,98 +55,99 @@ class _SignInDashboardForAppoinmentPromptState extends State<SignInDashboardForA
         title: Text('Appointments',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
       ),
       body: Center(
-     child: Container(
-       child: Padding(
-         padding: const EdgeInsets.only(top:70.0),
-         child: Column(
-           children: [
-             Padding(
-               padding: const EdgeInsets.only(right:20.0),
-               child: Container(
-                   width: 250,
-                   child: Image.asset(
-                       "assets/images/my_health_logo.png")),
-             ),
-             SizedBox(height: 10,),
-             appoinIcon,
-         SizedBox(height: 20,),
-             Text('Want to access and view your appointments \n anytime?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
-             SizedBox(height: 20,),
-             GestureDetector(
-               onTap: (){
-                 Navigator.push(
-                     context,
-                     PageRouteBuilder(
-                       transitionDuration: Duration(seconds: 1),
-                       transitionsBuilder: (context, animation,
-                           secondaryAnimation, child) {
-                         var begin = Offset(0, 1.0);
-                         var end = Offset.zero;
-                         var curve = Curves.easeInOut;
+        child: Container(
+          child: Padding(
+            padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height<=600 ? 30: 70.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right:20.0),
+                  child: Container(
+                      width: 250,
+                      height:MediaQuery.of(context).size.height>600 ? 70 : MediaQuery.of(context).size.height<550? 60 :  70,
+                      child: Image.asset(
+                          "assets/images/my_health_logo.png")),
+                ),
+                SizedBox(height: 10,),
+                appoinIcon,
+                SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10,),
+                Text('Want to access and view your appointments \n anytime?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize:MediaQuery.of(context).size.height<=600 ? 13 : 16,fontWeight: FontWeight.w500),),
+                SizedBox(height:MediaQuery.of(context).size.height>600 ? 20 :10,),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration: Duration(seconds: 1),
+                          transitionsBuilder: (context, animation,
+                              secondaryAnimation, child) {
+                            var begin = Offset(0, 1.0);
+                            var end = Offset.zero;
+                            var curve = Curves.easeInOut;
 
-                         var tween = Tween(
-                             begin: begin, end: end)
-                             .chain(CurveTween(curve: curve));
+                            var tween = Tween(
+                                begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
 
-                         return SlideTransition(
-                           position: animation.drive(tween),
-                           child: child,
-                         );
-                       },
-                       pageBuilder: (context, animation,
-                           secondaryAnimation) =>
-                           SignIn(),
-                     ));
-               },
-               child: Material(
-                 elevation: 0  ,
-                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                 color: HexColor("#354291"),
-                 child: SizedBox(
-                   width: 330,
-                   height: 50,
-                   child: Center(
-                     child: Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: Text("Sign In",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
-                     ),
-                   ),
-                 ),
-               ),
-             ),
-             SizedBox(height: 20,),
-             GestureDetector(   onTap: (){
-               Navigator.push(
-                   context,
-                   PageRouteBuilder(
-                     transitionDuration: Duration(seconds: 1),
-                     transitionsBuilder: (context, animation,
-                         secondaryAnimation, child) {
-                       var begin = Offset(0, 1.0);
-                       var end = Offset.zero;
-                       var curve = Curves.easeInOut;
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+                          pageBuilder: (context, animation,
+                              secondaryAnimation) =>
+                              SignIn(),
+                        ));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8),
+                    child: Material(
+                      elevation: 0  ,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      color: HexColor("#354291"),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width*.85,
+                        height :MediaQuery.of(context).size.height>600 ? 50 : MediaQuery.of(context).size.height<550? 35 :  40,
+                        child: Center(
+                          child: Text("Sign In",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10),
+                GestureDetector(   onTap: (){
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: Duration(seconds: 1),
+                        transitionsBuilder: (context, animation,
+                            secondaryAnimation, child) {
+                          var begin = Offset(0, 1.0);
+                          var end = Offset.zero;
+                          var curve = Curves.easeInOut;
 
-                       var tween = Tween(
-                           begin: begin, end: end)
-                           .chain(CurveTween(curve: curve));
+                          var tween = Tween(
+                              begin: begin, end: end)
+                              .chain(CurveTween(curve: curve));
 
-                       return SlideTransition(
-                         position: animation.drive(tween),
-                         child: child,
-                       );
-                     },
-                     pageBuilder: (context, animation,
-                         secondaryAnimation) =>
-                         SignUp(),
-                   ));
-             },child: Text("Sign Up",style:  GoogleFonts.poppins(color: HexColor('#8592E5'),fontSize: 12,fontWeight: FontWeight.w600),)),
+                          return SlideTransition(
+                            position: animation.drive(tween),
+                            child: child,
+                          );
+                        },
+                        pageBuilder: (context, animation,
+                            secondaryAnimation) =>
+                            SignUp(),
+                      ));
+                },child: Text("Sign Up",style:  GoogleFonts.poppins(color: HexColor('#8592E5'),fontSize: 12,fontWeight: FontWeight.w600),)),
 
 
-           ],
-         ),
-       ),
-     ),
-   ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
 
   }

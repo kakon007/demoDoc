@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:package_info/package_info.dart';
 class AppInfoRepository {
   Future<String> getAppVersion() async {
@@ -18,17 +20,29 @@ class AppInfoRepository {
 class AppVersionWidgetSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: FutureBuilder(
-        future: AppInfoRepository().getAppVersion(),
-        builder: (c,snapshot){
-          if(snapshot.hasData){
-            return Text("Version: ${snapshot.data}",style: TextStyle(color: Colors.grey),);
-          }
-          return SizedBox();
-        },
-      ),
+    return FutureBuilder(
+      future: AppInfoRepository().getAppVersion(),
+      builder: (c,snapshot){
+        if(snapshot.hasData){
+          return Text("Version: ${snapshot.data}",style: TextStyle(color: Colors.grey),);
+        }
+        return SizedBox();
+      },
+    );
+  }
+}
+
+class AppVersionWidgetSmallForSettings extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: AppInfoRepository().getAppVersion(),
+      builder: (c,snapshot){
+        if(snapshot.hasData){
+          return Text("Version:  ${snapshot.data}",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600));
+        }
+        return SizedBox();
+      },
     );
   }
 }

@@ -27,11 +27,11 @@ class HospitalLogoViewModel extends ChangeNotifier{
   }
 
   Future<void> getData({bool isFromOnPageLoad = false}) async {
-    if (isFromOnPageLoad) {
-      if (_lastFetchTime != null) if (_lastFetchTime
-          .difference(DateTime.now()) <
-          CommonServiceRule.onLoadPageReloadTime) return;
-    }
+    // if (isFromOnPageLoad) {
+    //   if (_lastFetchTime != null) if (_lastFetchTime
+    //       .difference(DateTime.now()) <
+    //       CommonServiceRule.onLoadPageReloadTime) return;
+    // }
 
     print("DATA fromLOGO List:::::");
     _isFetchingData = true;
@@ -48,6 +48,7 @@ class HospitalLogoViewModel extends ChangeNotifier{
       _isLoading= false;
       _isFetchingMoreData = false;
       _hospitalLogoList.addAll(r.dataList);
+      _hospitalLogoList.removeAt(0);
       notifyListeners();
       print("DATA fromLOGO List:::::" + _hospitalLogoList.last.companyLogo);
     });

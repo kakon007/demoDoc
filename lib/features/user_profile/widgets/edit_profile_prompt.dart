@@ -52,7 +52,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       labelText: "Name",
       isRequired: true,
       controller: _username,
-      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      margin: EdgeInsets.only(top: 2,),
       contentPadding: EdgeInsets.all(15),
       hintText:'Name',
     );
@@ -60,7 +60,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       labelText: "Email",
       isRequired: true,
       controller: _email,
-      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      margin: EdgeInsets.only(top: 2),
       contentPadding: EdgeInsets.all(15),
       hintText:'Email',
     );
@@ -68,7 +68,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       labelText: "Mobile",
       isRequired: true,
       controller: _mobile,
-      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      margin: EdgeInsets.only(top: 2),
       contentPadding: EdgeInsets.all(15),
       hintText:'Mobile',
     );
@@ -76,7 +76,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       labelText: "Address",
       isRequired: true,
       controller: _address,
-      margin: EdgeInsets.only(top: 8,bottom: 8,),
+      margin: EdgeInsets.only(top: 2),
       contentPadding: EdgeInsets.all(15),
       hintText:'Address',
     );
@@ -87,7 +87,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: Column(
             children: [
               Container(
-                  height: 20.0,
+                  height: 35.0,
                   width: MediaQuery.of(context).size.width*.4,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
@@ -105,7 +105,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.42,
+                width: 162,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
                     border: Border.all(color: HexColor(color)),
@@ -130,6 +130,74 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                   });
                                 },
                                 items: StringResources.genderList.map((gender) {
+                                  return DropdownMenuItem(
+                                    child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                                    value: gender,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 120.0, top: 5),
+                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#D2D2D2"),),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    var bloodGroup = Row(
+      children: [
+        GestureDetector(
+          child: Column(
+            children: [
+              Container(
+                  height: 35.0,
+                  width: MediaQuery.of(context).size.width*.4,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Row(
+                      children: [
+                        Text(StringResources.bloodGroup,
+                            style: GoogleFonts.roboto(fontSize: 12)),
+                      ],
+                    ),
+                  )),
+              Container(
+                height: 45.0,
+                width:162,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(color: HexColor(color)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            width: 145,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                iconSize: 0.0,
+                                hint: Text('Blood Group', style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                                value: _selectedGender,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedGender = newValue;
+                                  });
+                                },
+                                items: StringResources.bloodGroupList.map((gender) {
                                   return DropdownMenuItem(
                                     child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
                                     value: gender,
@@ -178,7 +246,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.38,
+                width: MediaQuery.of(context).size.width*.84,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
                     border: Border.all(color: HexColor(color)),
@@ -236,7 +304,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: Center(
             child: Container(
               padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.3),
+              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.7),
               child: Material(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -253,8 +321,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                             children: <Widget>[
                               Container(
                                 // padding: new EdgeInsets.all(10.0),
-                                decoration: new BoxDecoration(
-                                ),
                                 child: new Text(
                                   'Edit Personal Info',
                                   style: GoogleFonts.poppins(
@@ -277,10 +343,11 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                               email,
                               mobile,
                               address,
+                              dateOfBirth,
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  gender, dateOfBirth,
+                                  gender, bloodGroup,
 
                                 ],),
                               Padding(

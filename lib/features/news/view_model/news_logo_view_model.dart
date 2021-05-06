@@ -41,7 +41,7 @@ class NewsLogoViewModel extends ChangeNotifier{
       _newsLogoList.addAll(r.dataList);
       notifyListeners();
     });
-    print("hhhhhh:::::::"+_newsLogoList.first.title);
+    //print("hhhhhh:::::::"+_newsLogoList.first.title);
   }
 
   AppError get appError => _appError;

@@ -68,11 +68,14 @@ class AuthRepository{
     print(selectedGender);
     print(formatDate2);
     var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/online-appointment-api/fapi/registration/create-with-image'));
+    print("shakil"+ address);
     request.fields.addAll({
       'reqobj': '{"opdReg":{"salutation":$salutation,\n"fname":$name,\n"lname":"",\n"dob":$formatDate2,\n"gender":$selectedGender,\n"phoneMobile":$mobile,\n"email":$email,\n"address":$address,\n"companyNo":"1",\n"organizationNo":"1"\n},\n"opdRegOthers":{ }\n}\n'
 
     });
-
+    // request.fields.addAll({
+    //   'reqobj': '{\n   "opdReg":{\n      "id":"",\n      "personalId":"",\n      "salutation":"MR.",\n      "fname":"Rafi",\n      "lname":"",\n      "ageYy":31,\n      "ageDd":0,\n      "ageMm":0,\n      "dob":"1990-04-18T09:28:04.050Z",\n      "gender":"M",\n      "maritalStatus":"M",\n      "phoneMobile":"01844222356",\n      "email":"mr@rafi.com",\n      "address":"Bashundhra,R/A",\n      "fatherName":"Md. Ishak",\n      "motherName":"Halima Khatun",\n      "nationalId":"014788852369",\n      "religion":"ISLAM",\n      "bloodGroup":"O+",\n      "spouseName":"Rubina Hoque",\n      "passportNo":"111222333",\n      "hospitalNumber":"",\n      "regDate":"",\n      "patTypeNo":"1",\n      "regPoint":"1",\n      "ssCreator":"",\n      "ssCreatedOn":"",\n      "ssCreateSession":"",\n      "patientPhoto":null,\n      "file":{  },\n      "companyNo":"1",\n      "organizationNo":"1"\n   },\n   "opdRegOthers":{ }\n}\n'
+    // });
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {

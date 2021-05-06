@@ -418,7 +418,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     controller: _scrollControllerPagination,
     //physics: NeverScrollableScrollPhysics(),
     shrinkWrap: true,
-    itemCount:vm.doctorList.length,
+    itemCount:vm.doctorList.length-1,
     itemBuilder: (BuildContext context, int i) {
 
       if(i==vm.doctorList.length){

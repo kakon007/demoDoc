@@ -379,34 +379,34 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           child: Text(
                             widget.name,
                             style: GoogleFonts.poppins(
-                                fontSize: 13, fontWeight: FontWeight.w700),
+                                fontSize: 12, fontWeight: FontWeight.w700),
                           )),
                       SizedBox(
                         height: 1,
                       ),
-                      Container(
-                        width: 185,
-
-                        child: Row(
-                          children: [
-                            Text(
-                                widget.jobTitle == null
-                                    ? ""
-                                    : widget.jobTitle,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style:
-                                GoogleFonts.poppins(height: 0.7, fontSize: 11)),
-                            Text(
-                                widget.designation == null
-                                    ? ""
-                                    : widget.designation,
-                                maxLines: 1,
+                      Row(
+                        children: [
+                          // Container(
+                          //   width: 100,
+                          //   child: Text(
+                          //       widget.jobTitle == null
+                          //           ? ""
+                          //           : widget.jobTitle,
+                          //       maxLines: 1,
+                          //       overflow: TextOverflow.ellipsis,
+                          //       style:
+                          //       GoogleFonts.poppins(height: 0.7, fontSize: 11)),
+                          // ),
+                          Container(
+                            width: 185,
+                            child: Text(
+                                 widget.jobTitle==""? "" : ("${widget.jobTitle}, ") + widget.designation,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style:
                                 GoogleFonts.poppins(height: 1.2, fontSize: 11)),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 3,

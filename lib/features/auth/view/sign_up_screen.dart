@@ -308,6 +308,7 @@ class _SignUpState extends State<SignUp> {
       onTap: () async {
         //signUp(_name.text,_email.text, _mobile.text, _address.text, _selectedGender,_formatDate2);
         if (_formKey.currentState.validate()) {
+          print("shaki" + _address.text + "shaki");
           await vm.getSignUpInfo(_name.text, _email.text, _mobile.text,
               _address.text, _selectedGender, _formatDate2);
           if(vm.message=="Saved Successfully"){
@@ -542,12 +543,12 @@ class _SignUpState extends State<SignUp> {
           type: MaterialType.transparency,
           child: Padding(
             padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 2.5,
-                bottom: MediaQuery.of(context).size.height / 2.5,
+                top: MediaQuery.of(context).size.height / 2.8,
+                bottom: MediaQuery.of(context).size.height / 2.8,
                 right: 20,
                 left: 20),
             child: Container(
-                height: 100,
+                height: 140,
                 // child: SizedBox.expand(child: FlutterLogo()),
                 //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
                 decoration: BoxDecoration(

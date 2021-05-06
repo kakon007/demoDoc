@@ -23,11 +23,11 @@ class BLogLogoViewModel extends ChangeNotifier{
 
   Future<void> getData({bool isFromOnPageLoad = false}) async {
 
-    if (isFromOnPageLoad) {
-      if (_lastFetchTime != null) if (_lastFetchTime
-          .difference(DateTime.now()) <
-          CommonServiceRule.onLoadPageReloadTime) return;
-    }
+    // if (isFromOnPageLoad) {
+    //   if (_lastFetchTime != null) if (_lastFetchTime
+    //       .difference(DateTime.now()) <
+    //       CommonServiceRule.onLoadPageReloadTime) return;
+    // }
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
     var res = await BlogRepository().fetchBlogLogo();
@@ -42,7 +42,6 @@ class BLogLogoViewModel extends ChangeNotifier{
       _blogLogoList.addAll(r.dataList2);
       notifyListeners();
     });
-    print("hhhhhh:::::::"+_blogLogoList.first.title);
   }
 
   AppError get appError => _appError;

@@ -40,20 +40,18 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
   @override
   void afterFirstLayout(BuildContext context) {
     _scrollController = ScrollController();
-    var vm = Provider.of<HospitalListViewModel>(context, listen: false);
-    vm.getData();
-    print(vm.hospitalList.length);
-    var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
-    vm5.getData(isFromOnPageLoad: true);
-    var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
-    vm6.getImageData(isFromOnPageLoad: true);
-    Future.delayed(Duration.zero,()async{
+    Future.delayed(Duration.zero,() async{
       var vm = Provider.of<HospitalListViewModel>(context, listen: false);
+      vm.getData();
+      print(vm.hospitalList.length);
+      var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
+      vm5.getData(isFromOnPageLoad: true);
+      var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
+      vm6.getImageData(isFromOnPageLoad: true);
       await vm.getData();
       hospitalList = vm.hospitalList;
-      for(int i=1; i<=hospitalList.length;i++){
-        hospitalItems.add(hospitalList[i]);
-      }
+        hospitalItems.addAll(hospitalList);
+
     });
   }
 
@@ -63,8 +61,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
    hospitalList.forEach((element) {
      initialHospitalSearch.add(element);
    });
-   initialHospitalSearch.removeAt(0);
-    //print("shakil" + initialHospitalSearch.length.toString());
     if(query.isNotEmpty) {
       List<Item> initialHospitalSearchItems = List<Item>();
       initialHospitalSearch.forEach((item) {
@@ -80,9 +76,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     } else {
       setState(() {
         hospitalItems.clear();
-        for(int i=1; i<=hospitalList.length;i++){
-          hospitalItems.add(hospitalList[i]);
-        }
+        hospitalItems.addAll(hospitalList);
       });
     }
   }

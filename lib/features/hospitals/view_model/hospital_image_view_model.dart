@@ -29,11 +29,11 @@ class HospitalImageViewModel extends ChangeNotifier{
 
 
   Future<void> getImageData({bool isFromOnPageLoad = false}) async {
-    if (isFromOnPageLoad) {
-      if (_lastFetchTime != null) if (_lastFetchTime
-          .difference(DateTime.now()) <
-          CommonServiceRule.onLoadPageReloadTime) return;
-    }
+    // if (isFromOnPageLoad) {
+    //   if (_lastFetchTime != null) if (_lastFetchTime
+    //       .difference(DateTime.now()) <
+    //       CommonServiceRule.onLoadPageReloadTime) return;
+    // }
 
     print("DATA fromImage List:::::");
     _isFetchingData = true;
@@ -51,6 +51,7 @@ class HospitalImageViewModel extends ChangeNotifier{
       _isLoading= false;
       _isFetchingMoreData = false;
       _hospitalImageList.addAll(r.dataList2);
+      _hospitalImageList.removeAt(0);
       notifyListeners();
       print("DATA fromImage List:::::" + _hospitalImageList.last.id.toString());
     });

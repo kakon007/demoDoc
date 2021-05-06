@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
 import 'package:myhealthbd_app/features/setting/view/wedgets/about_us_screen.dart';
+import 'package:myhealthbd_app/features/setting/view/wedgets/change_password_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/app_version.dart';
@@ -35,6 +38,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<UserDetailsViewModel>(context);
+    Obj userDetails = vm.userDetailsList;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.appbarPrimary,
@@ -47,15 +52,20 @@ class _SettingScreenState extends State<SettingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child:
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Change Password",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
-                  Text('Choose a unique password',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
-                ],
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePasswordScreen(accessToken: widget.accessToken,id: userDetails.hospitalNumber,)));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child:
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Change Password",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
+                    Text('Choose a unique password',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
+                  ],
+                ),
               ),
             ),
             Divider(thickness: 1,),

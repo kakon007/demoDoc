@@ -195,7 +195,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         ],
                       ),
                       SizedBox(height: 5,),
-                      Text(userDetails.address==null?"Dhaka":userDetails.address, style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
+                      Text(userDetails.address==null?"Dhaka":userDetails?.address, style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
                       SizedBox(height: 8,),
                       Container(
                         width: 120,

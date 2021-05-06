@@ -52,10 +52,10 @@ class DoctorListViewModel extends ChangeNotifier{
     print("isFetchingData ${isFetchingData}");
     if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
       startIndex+=limit;
-     // _pageCount++;
+      _pageCount++;
       isFetchingMoreData = true;
       Either<AppError, DoctorListModel> result =
-      await DoctorListRepository().getDoctorList(orgNo:orgNo, companyNo:companyNo,deptItem:deptItem, specialSelectedItem:specialSelectedItem, doctorSearch:doctorSearch,startIndex: startIndex);
+      await DoctorListRepository().getDoctorList(pageCount:_pageCount ,orgNo:orgNo, companyNo:companyNo,deptItem:deptItem, specialSelectedItem:specialSelectedItem, doctorSearch:doctorSearch,startIndex: startIndex);
       return result.fold((l) {
         isFetchingMoreData= false;
         hasMoreData = false;

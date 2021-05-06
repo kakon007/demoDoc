@@ -445,7 +445,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                         ),
                         Spacer(),
                         Container(
-                            width: 100,
+    width: MediaQuery.of(context).size.width<=450 ? 70 : 100,
                             child: Image.asset(
                                 "assets/images/my_health_logo.png")),
                       ],
@@ -607,7 +607,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                         Text(
                           "MyHealthBD News",
                           style: GoogleFonts.poppins(
-                              fontSize: 16,
+    fontSize:  MediaQuery.of(context).size.width<=450 ? 14 : 16,
                               fontWeight: FontWeight.w600),
                         ),
                         Spacer(),
@@ -695,7 +695,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                         Text(
                           "MyHealthBD Blog",
                           style: GoogleFonts.poppins(
-                              fontSize: 16,
+                              fontSize:  MediaQuery.of(context).size.width<=450 ? 14 : 16,
                               fontWeight: FontWeight.w600),
                         ),
                         Spacer(),
@@ -763,7 +763,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                         Text(
                           "MyHealthBD Videos",
                           style: GoogleFonts.poppins(
-                              fontSize: 16,
+                              fontSize:  MediaQuery.of(context).size.width<=450 ? 14 : 16,
                               fontWeight: FontWeight.w600),
                         ),
                         Spacer(),

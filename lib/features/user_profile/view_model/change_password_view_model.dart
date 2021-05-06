@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:myhealthbd_app/features/user_profile/repositories/change_password_repository.dart';
+import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/util/validator.dart';
@@ -14,9 +16,12 @@ class PasswordChangeViewModel with ChangeNotifier {
   String _newPassword = "";
   String accessToken;
   String userId;
-
+  AppError _appError;
+  String _message;
   PasswordChangeViewModel({this.accessToken,this.userId});
-
+  bool _isFetchingMoreData = false;
+  bool _isFetchingData = false;
+  bool _isLoading = false;
   //String _confirmNewPassword = "";
 
   String _errorTextOldPassword;
@@ -45,8 +50,27 @@ class PasswordChangeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getPassword(String accessToken,String newPassword, String confirmPassword, String currentPassword) async {
+    print(accessToken);
+    print(currentPassword);
+    print(newPassword);
+    print(confirmPassword);
 
-
+     var res = await ChangePasswordRepository().fetchPassword(accessToken, newPassword, confirmPassword, currentPassword);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isFetchingMoreData = false;
+      _isLoading=false;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = false;
+      _message= r.message;
+      _isLoading=false;
+      notifyListeners();
+    });
+  }
+  String get message => _message;
   // bool get isObscurePasswordConfirm => _isObscurePasswordConfirm;
   //
   // set isObscurePasswordConfirm(bool value) {

@@ -699,7 +699,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                             },
                                             child: Container(
 
-                                              height: cardHeight*0.8,
+                                              height: 100,
                                               margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
@@ -741,38 +741,38 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                         Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
                                                         Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
                                                         SizedBox(height: 8,),
-                                                        Container(width:200,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
+                                                        Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
                                                         Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
                                                       ],
                                                     ),
 
-                                                  ),
-                                                  // Container(width:45,child: rx),
-                                                  // (controller.isSelecting)?
-                                                  // Padding(
-                                                  //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                  //   child: righticon,
-                                                  // ):
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right:18.0,),
-                                                    child: Stack(children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top:10.0),
-                                                        child: Container(width:45,child: rx),
-                                                      ),
-                                                      (controller.isSelected(index))?
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                        child: righticon,
-                                                      ): (controller.isSelecting)?Padding(
-                                                        padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                        child: greyright,
-                                                      ):Padding(
-                                                        padding: EdgeInsets.only(left: 38,top: 5),
-                                                        child: popup,
-                                                      ),
-                                                    ]),
-                                                  ),
+                                                    ),
+                                                    // Container(width:45,child: rx),
+                                                    // (controller.isSelecting)?
+                                                    // Padding(
+                                                    //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                    //   child: righticon,
+                                                    // ):
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right:0.0,),
+                                                      child: Stack(children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top:10.0),
+                                                          child: Container(width:45,child: rx),
+                                                        ),
+                                                        (controller.isSelected(index))?
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                          child: righticon,
+                                                        ): (controller.isSelecting)?Padding(
+                                                          padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                          child: greyright,
+                                                        ):Padding(
+                                                          padding: EdgeInsets.only(left: 38,top: 5),
+                                                          child: popup,
+                                                        ),
+                                                      ]),
+                                                    ),
 
 
                                                 ],

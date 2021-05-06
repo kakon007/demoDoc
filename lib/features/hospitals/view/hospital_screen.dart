@@ -50,16 +50,20 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     Future.delayed(Duration.zero,()async{
       var vm = Provider.of<HospitalListViewModel>(context, listen: false);
       await vm.getData();
-      //print(vm.hospitalList.length);
       hospitalList = vm.hospitalList;
-      hospitalItems.addAll(hospitalList);
+      for(int i=1; i<=hospitalList.length;i++){
+        hospitalItems.add(hospitalList[i]);
+      }
     });
   }
 
   void hospitalSearch(String query) {
     print(query);
     List<Item> initialHospitalSearch = List<Item>();
-    initialHospitalSearch.addAll(hospitalList);
+   hospitalList.forEach((element) {
+     initialHospitalSearch.add(element);
+   });
+   initialHospitalSearch.removeAt(0);
     //print("shakil" + initialHospitalSearch.length.toString());
     if(query.isNotEmpty) {
       List<Item> initialHospitalSearchItems = List<Item>();
@@ -76,7 +80,9 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     } else {
       setState(() {
         hospitalItems.clear();
-        hospitalItems.addAll(hospitalList);
+        for(int i=1; i<=hospitalList.length;i++){
+          hospitalItems.add(hospitalList[i]);
+        }
       });
     }
   }

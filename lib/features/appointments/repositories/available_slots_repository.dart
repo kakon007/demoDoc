@@ -140,12 +140,11 @@ class AvailableSlotsRepository {
     return Left(AppError.unknownError);
   }
 
-  Future<Either<AppError, FeeCheck>>   fetchFee( String companyNo, String conTypeNo, String doctorNo, String orgNo, String patTypeNo ) async {
+  Future<Either<AppError, FeeCheck>>   fetchFee( String companyNo, String conTypeNo, String doctorNo, String orgNo) async {
     print(companyNo);
     print(conTypeNo);
     print(doctorNo);
     print(orgNo);
-    print(patTypeNo);
     var url =
         "${Urls.buildUrl}online-appointment-api/fapi/appointment/getConsultationFee";
 
@@ -155,7 +154,7 @@ class AvailableSlotsRepository {
         "conTypeNo": conTypeNo,
         "doctorNo": doctorNo,
         "ogNo": orgNo,
-        "patTypeNo": patTypeNo
+        "patTypeNo": "2000002"
       }),);
       if (response.statusCode == 200) {
         print(response.body);

@@ -83,6 +83,12 @@ class StringResources {
   static List<String> relationList = [
    'Brother', 'Mother',  'Father', 'Sister',  'Aunt', 'Uncle',  'Friend',
   ];
+  static List<String> memberList = [
+   "Family Member", "Others"
+  ];
+  static List<String> memberNameList = [
+   "Feroz Alam", "Shakil", "Jahid","Monir","Akram"
+  ];
 
    //Book an appointment
   static List<String> patientType = [

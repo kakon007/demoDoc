@@ -636,7 +636,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           children:[
                                             InkWell(
                                               child: Container(
-                                                height: deviceWidth>650 ? 200 :188,
+                                                height: deviceWidth>650 ? 210 :200,
                                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                 decoration: BoxDecoration(
                                                   color:HexColor('#F0F2FF'),

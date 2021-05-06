@@ -344,20 +344,15 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   // ),
                                 ],
                               ))
-                          : GestureDetector(
-                        onTap: (){
-                          signOut();
-                        },
-                            child: CircleAvatar(
-                                radius: 17,
-                                backgroundColor: Colors.white,
-                                child: CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/images/dPro.png'),
-                                  radius: 15,
-                                ),
+                          : CircleAvatar(
+                              radius: 17,
+                              backgroundColor: Colors.white,
+                              child: CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/dPro.png'),
+                                radius: 15,
                               ),
-                          ),
+                            ),
                     )
                   ],
                   backgroundColor: Colors.transparent,

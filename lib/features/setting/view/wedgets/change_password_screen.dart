@@ -130,7 +130,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       appBar: AppBar(
         backgroundColor: AppTheme.appbarPrimary,
         title: Text(
-          'About us',
+          'Change Password',
           style: GoogleFonts.poppins(fontSize: 15),
         ),
       ),
@@ -189,9 +189,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 15.0, right: 11, top: 5),
+                                  left: 13.0, right: 10, top: 10),
                               child: SizedBox(
-                                width: width * 2.5,
+                                width: width * 2.6,
                                 height: width * .25,
                                 child: FlatButton(
                                   textColor: Colors.white,

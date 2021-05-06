@@ -22,6 +22,7 @@ class SignUpViewModel extends ChangeNotifier {
   Future<void> getSignUpInfo(String name, String email,String mobile, String address, String selectedGender,String formatDate2) async {
     _isLoading = true;
     var res = await AuthRepository().fetchSignUpInfo( name,  email, mobile,  address,  selectedGender, formatDate2);
+    print("Response from sign Up:::"+res);
     notifyListeners();
     _isLoading = false;
     SignUpModel data= signUpModelFromJson(res);

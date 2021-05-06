@@ -37,14 +37,7 @@ class AppointmentScreen extends StatefulWidget {
         this.orgNo,
         this.hospitalName,
       });
-      {this.name,
-      this.designation,
-      this.fee,
-      this.specialist,
-      this.companyNo,
-      this.doctorNo,
-      this.orgNo,
-      this.hospitalName});
+
 
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
@@ -393,12 +386,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       ),
                       Container(
                         width: 185,
-                        child: Text(
-                            widget.designation == null
-                                ? ""
-                                : widget.designation,
-                            style:
-                                GoogleFonts.poppins(height: 1.2, fontSize: 11)),
+
                         child: Row(
                           children: [
                             Text(
@@ -416,7 +404,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style:
-                                GoogleFonts.poppins(height: 0.7, fontSize: 11)),
+                                GoogleFonts.poppins(height: 1.2, fontSize: 11)),
                           ],
                         ),
                       ),

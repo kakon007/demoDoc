@@ -498,7 +498,7 @@ class _AddPatientState extends State<AddPatient> {
                 width: MediaQuery.of(context).size.width * .8,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: HexColor(patientBorderColor)),
+                    border: Border.all(color: HexColor("#EAEBED")),
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 15.0, top: 12),
@@ -722,7 +722,7 @@ class _AddPatientState extends State<AddPatient> {
       child: Container(
         height: 90.0,
         width: MediaQuery.of(context).size.width * .5,
-        child: vm.consultFee == null || selectedConsultationType == ""
+        child: vm.consultFee == null || selectedConsultationType == "" || (vm.addPatient==true && selectedPatientType=='')
             ? SizedBox()
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -769,13 +769,16 @@ class _AddPatientState extends State<AddPatient> {
               GestureDetector(
                 onTap: () async {
                   if (selectedConsultationType != "" ||
-                      (vm.forMe == false && selectedGender != "")) {
+                      (vm.forMe == false && selectedGender != "" ) || (vm.forMe==false && selectedPatientType!="")) {
                     setState(() {
                       if (selectedGender != "") {
                         genderBorderColor = "#EAEBED";
                       }
                       if (selectedConsultationType != "") {
                         consultBorderColor = "#EAEBED";
+                      }
+                      if (selectedPatientType != "") {
+                        patientBorderColor = "#EAEBED";
                       }
                     });
                     if (_formKey.currentState.validate()) {
@@ -839,8 +842,12 @@ class _AddPatientState extends State<AddPatient> {
                     }
                   } else {
                     setState(() {
+                      print(selectedPatientType.toLowerCase() + "shakil");
                       if (vm.forMe == false && selectedGender == "") {
                         genderBorderColor = "#FF0000";
+                      }
+                      if (vm.forMe == false && selectedPatientType == "") {
+                        patientBorderColor = "#FF0000";
                       }
                       if (selectedConsultationType == "") {
                         consultBorderColor = "#FF0000";

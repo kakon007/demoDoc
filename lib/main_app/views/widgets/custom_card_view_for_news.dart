@@ -35,7 +35,7 @@ class CustomCardNews extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.memory(image)),
+                  child: Image.memory(image,gaplessPlayback: true,)),
             ),
             Flexible(
               child: Padding(

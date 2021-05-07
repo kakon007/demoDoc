@@ -35,7 +35,7 @@ class _CustomBlogWidgetState extends State<CustomBlogWidget> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.memory(widget.logo)),
+                  child: Image.memory(widget.logo,gaplessPlayback: true,)),
             ),
             Flexible(
               child: Padding(

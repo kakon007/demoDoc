@@ -56,7 +56,7 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.memory(widget.image)):Container(
+                  child: Image.memory(widget.image,gaplessPlayback: true,)):Container(
           height: 110,
           width: 100,
           // decoration: BoxDecoration(

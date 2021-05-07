@@ -72,6 +72,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       fit: BoxFit.cover,
       width: 110,
       height: 160,
+      gaplessPlayback: true,
     );
   }
 
@@ -247,7 +248,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                         color: Colors.transparent,
                         height: 450.0,
                         width: double.infinity,
-                        child: FittedBox(child: Image.memory( widget.backgroundImage),fit: BoxFit.fill,),
+                        child: FittedBox(child: Image.memory( widget.backgroundImage,gaplessPlayback: true,),fit: BoxFit.fill,),
                       ),
                       Container(
                         height: 350.0,
@@ -280,7 +281,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                             child: SizedBox(
                                 height: 85,
                                 width: MediaQuery.of(context).size.width / 4.5,
-                                child:Image.memory( widget.image)),
+                                child:Image.memory( widget.image,gaplessPlayback: true,)),
                           ),
                         ),
                         SizedBox(

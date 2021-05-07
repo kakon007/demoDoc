@@ -82,7 +82,6 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
       }
 
     });
-    super.initState();
   }
 
   @override

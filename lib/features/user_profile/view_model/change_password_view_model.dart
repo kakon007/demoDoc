@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/change_password_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -8,17 +10,18 @@ import 'package:myhealthbd_app/main_app/util/validator.dart';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 
 class PasswordChangeViewModel with ChangeNotifier {
   //String _confirmPassword='';
   String _oldPassword = "";
   String _newPassword = "";
-  String accessToken;
+
   String userId;
   AppError _appError;
   String _message;
-  PasswordChangeViewModel({this.accessToken,this.userId});
+  PasswordChangeViewModel({this.userId});
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   bool _isLoading = false;
@@ -206,6 +209,7 @@ class PasswordChangeViewModel with ChangeNotifier {
         var url =
             "https://qa.myhealthbd.com:9096/auth-api/api/changePassword";
         var client = http.Client();
+        var accessToken= Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
         var res = await client.post(url,headers: {'Authorization': 'Bearer $accessToken',},body:body);
         print(res.statusCode);
         print(res.body);

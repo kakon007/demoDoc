@@ -1,9 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
+import 'package:provider/provider.dart';
 
 class UserDetailsViewModel extends ChangeNotifier{
   Obj _userDetailsList;
@@ -28,6 +31,7 @@ class UserDetailsViewModel extends ChangeNotifier{
     // }
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
+    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     var res = await UserDetailsRepository().fetchUserDetails(accessToken);
     notifyListeners();
     //_newsList.clear();

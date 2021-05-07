@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
 import 'package:myhealthbd_app/features/setting/view/wedgets/about_us_screen.dart';
 import 'package:myhealthbd_app/features/setting/view/wedgets/change_password_screen.dart';
@@ -24,17 +25,17 @@ class _SettingScreenState extends State<SettingScreen> {
 
 
 
-  Future<void> signOut() async {
-    var vm = Provider.of<SignOutViewModel>(context, listen: false);
-    await vm.getSignOutData(widget.accessToken);
-    if( vm.message=="User Revoke Successfull"){
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.remove("accessToken");
-      await preferences.remove("password");
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => HomeScreen()));
-    }
-  }
+  // Future<void> signOut() async {
+  //   var vm = Provider.of<SignOutViewModel>(context, listen: false);
+  //   await vm.getSignOutData(widget.accessToken);
+  //   if( vm.message=="User Revoke Successfull"){
+  //     SharedPreferences preferences = await SharedPreferences.getInstance();
+  //     await preferences.remove("accessToken");
+  //     await preferences.remove("password");
+  //     Navigator.of(context).pushReplacement(MaterialPageRoute(
+  //         builder: (BuildContext context) => HomeScreen()));
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +125,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   Spacer(),
                   GestureDetector(onTap: (){
-                    signOut();
+                    Provider.of<AccessTokenProvider>(context, listen: false).signOut();
                   },child: Icon(Icons.logout)),
                 ],
               ),

@@ -38,7 +38,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     isNewObSecure=true;
     isConfirmObSecure=true;
     super.initState();
-    PasswordChangeViewModel(accessToken: widget.accessToken, userId: widget.id);
+    PasswordChangeViewModel(userId: widget.id);
   }
   @override
   Widget build(BuildContext context) {

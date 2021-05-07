@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
@@ -61,8 +62,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen>
     with SingleTickerProviderStateMixin {
-  ScrollController _scrollController = ScrollController();
-  Uint8List _base64;
+
   File imageData;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = new GlobalKey<ScaffoldState>();
@@ -75,9 +75,6 @@ class _DashboardScreenState extends State<DashboardScreen>
   double yOffset = 0.0;
   double scaleFactor = 1;
 
-  ChannelInfoModel _videosList;
-  String _nextPageToken;
-  //ScrollController _scrollController;
 
   loadLogo(String image){
     Uint8List  _bytesImage = Base64Decoder().convert(image);
@@ -103,15 +100,12 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void initState() {
     // TODO: implement initState
-    VideoInfoRepository.getVideoInfo();
-    NewsRepository().fetchNewspdate();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData();
     var vm3 = Provider.of<VideoViewModel>(context, listen: false);
-    //vm3.getData(isFromOnPageLoad: true);
-    vm3.getMoreData('');
+    vm3.getData();
     var vm4 = Provider.of<BLogViewModel>(context, listen: false);
     vm4.getData();
     var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
@@ -124,35 +118,20 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
 
-    // _nextPageToken = '';
-    // _scrollController = ScrollController();
-    // _videosList = ChannelInfoModel();
-    // _videosList.i = List();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent) {
-        print("Scrolling:::::::");
-        if(vm3.videoList.length<=vm3.totalData){
-          vm3.getMoreData(vm3.nextPageToken);
-        }
-
-      }
-
-    });
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    //fetchHospitalList();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   //fetchHospitalList();
+  //   super.dispose();
+  // }
 
 
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<HospitalListViewModel>(context);
+    var vm = appNavigator.getProviderListener<HospitalListViewModel>();
     List<hos.Item> list = vm.hospitalList;
     var lengthofHospitalList;
     MediaQuery.of(context).size.width > 600
@@ -165,13 +144,17 @@ class _DashboardScreenState extends State<DashboardScreen>
 
     var vm3 = Provider.of<VideoViewModel>(context);
     List<video.Item> list3 = vm3.videoList;
-    var lengthofVideoList = list3.length;
+    var lengthofVideoList=list3.length;
+    // MediaQuery.of(context).size.width > 600
+    //     ? lengthofVideoList = list3.length < 5 ? list3.length : 6
+    //     : lengthofVideoList = list3.length < 5 ? list3.length : 5;
     print('VideoLength:::::'+lengthofVideoList.toString());
+
+
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
 
-    var vm4 = Provider.of<BLogViewModel>(context, listen: true);
-
+    var vm4 = Provider.of<BLogViewModel>(context);
     var vm5 = Provider.of<HospitalLogoViewModel>(context);
     var vm6 = Provider.of<HospitalImageViewModel>(context);
     var vm7 = Provider.of<NewsLogoViewModel>(context);
@@ -801,20 +784,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                     child: SizedBox(
                       height: 120,
                       child: ListView.builder(
-                        controller: _scrollController,
                         itemCount: lengthofVideoList,
                         itemBuilder:
                             (BuildeContext, index) {
                           //int i = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm4.newsList[index].blogNo);
-                          if (index == lengthofVideoList) {
-                            return vm3.isFetchingMoreData
-                                ? SizedBox(height: 60,
-                                child: Center(
-                                    child: CircularProgressIndicator()))
-                                : SizedBox();
-                            //return SizedBox(height: 15,);
-
-                          }
                           return CustomCardVideo(
                               list3[index]
                                   .snippet

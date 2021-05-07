@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +11,8 @@ import 'features/auth/view_model/auth_view_model.dart';
 import 'main_app/util/app_version.dart';
 
 class Root extends StatefulWidget {
-  String accessToken;
-  Root({this.accessToken});
+
+  Root();
   @override
   _RootState createState() => _RootState();
 }
@@ -29,24 +30,25 @@ class _RootState extends State<Root> {
   void initState() {
     getValue();
     Future.delayed(Duration.zero,()async{
-      var vm5= Provider.of<AuthViewModel>(context, listen: false);
-      await vm5.getAuthData(_username, _passWord);
-      SharedPreferences prefs =
-      await SharedPreferences.getInstance();
-      prefs.setString("accessToken", vm5.accessToken);
-      if(widget.accessToken!= null && vm5.accessToken!= widget.accessToken)
-        widget.accessToken= vm5.accessToken;
+      // var vm5= Provider.of<AuthViewModel>(context, listen: false);
+      // await vm5.getAuthData(_username, _passWord);
+      var accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
+      await Future.delayed(Duration(seconds: 3));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) =>
+          // DoctorHomeScreen(
+          HomeScreen(accessToken: accessToken
+
+          )));
+
+      // SharedPreferences prefs =
+      // await SharedPreferences.getInstance();
+      // prefs.setString("accessToken", vm5.accessToken);
+      // if(accessToken!= null && vm5.accessToken!= accessToken)
+      //   accessToken= vm5.accessToken;
     });
 
     super.initState();
-    Timer(
-        Duration(seconds: 3),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) =>
-               // DoctorHomeScreen(
-                HomeScreen(accessToken: widget.accessToken
-
-            ))));
   }
 
   @override

@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -14,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SignInModel signInData;
@@ -299,11 +302,10 @@ class _SignInState extends State<SignIn> {
                                               ),
                                         ),
                                             (Route<dynamic> route) => false);
-
+                                    //Provider.of<AccessTokenProvider>(context, listen: false).setToken(signInData.accessToken);
+                                    appNavigator.getProvider<AccessTokenProvider>().setToken(signInData.accessToken);
                                     SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
-                                    prefs.setString("accessToken",
-                                        signInData.accessToken);
                                     if(this.value== true){
                                       print(_username.text);
                                       prefs.setString(

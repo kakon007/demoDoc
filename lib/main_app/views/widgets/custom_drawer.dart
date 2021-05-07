@@ -95,33 +95,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
     );
   }
 
-
-  // Future<FindHospitalNumberModel> fetchUserDetails() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
-  //   var client = http.Client();
-  //   var response = await client.post(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     //print("Body"+jsonMap.toString());
-  //     //data = jsonMap["items"];
-  //     FindHospitalNumberModel data2 = findHospitalNumberModelFromJson(response.body) ;
-  //     //Obj odj=Obj.fromJson();
-  //     setState(() {
-  //       fName=data2?.obj?.fname;
-  //       phoneNumber=data2?.obj?.phoneMobile;
-  //       address=data2?.obj?.address;
-  //       dob=data2?.obj?.dob;
-  //     });
-  //     // print('Data:: ' + data2.obj.fname);
-  //     // print('DataList:: ' + fName.toString());
-  //     return data2;
-  //     //print(data[0]['companySlogan']);
-  //   }else {
-  //     return null;
-  //   }
-  // }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -132,6 +105,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
     vm.getData(widget.accessToken);
   }
+
+
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context);
@@ -181,7 +156,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                            Container(
                                   width: devicewidth*0.5,
                                   child: Text(
-                                    userDetails.fname,
+                                    userDetails?.fname??'',
                                       maxLines:1,overflow:TextOverflow.ellipsis,
                                     style: GoogleFonts.roboto(
                                         fontSize: 18,
@@ -195,7 +170,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         ],
                       ),
                       SizedBox(height: 5,),
-                      Text(userDetails.address==null?"Dhaka":userDetails?.address, style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
+                      Text(userDetails?.address??"Dhaka", style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
                       SizedBox(height: 8,),
                       Container(
                         width: 120,

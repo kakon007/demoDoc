@@ -41,7 +41,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
      isNewObSecure=true;
      isConfirmObSecure=true;
     super.initState();
-    PasswordChangeViewModel(accessToken: widget.accessToken, userId: widget.id);
+    PasswordChangeViewModel(userId: widget.id);
   }
 
   @override

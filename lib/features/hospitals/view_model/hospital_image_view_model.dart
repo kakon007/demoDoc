@@ -28,7 +28,7 @@ class HospitalImageViewModel extends ChangeNotifier{
   }
 
 
-  Future<void> getImageData({bool isFromOnPageLoad = false}) async {
+  Future<void> getImageData() async {
     // if (isFromOnPageLoad) {
     //   if (_lastFetchTime != null) if (_lastFetchTime
     //       .difference(DateTime.now()) <

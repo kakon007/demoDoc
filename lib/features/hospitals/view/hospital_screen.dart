@@ -45,9 +45,9 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       vm.getData();
       print(vm.hospitalList.length);
       var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
-      vm5.getData(isFromOnPageLoad: true);
+      vm5.getData();
       var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
-      vm6.getImageData(isFromOnPageLoad: true);
+      vm6.getImageData();
       await vm.getData();
       hospitalList = vm.hospitalList;
         hospitalItems.addAll(hospitalList);

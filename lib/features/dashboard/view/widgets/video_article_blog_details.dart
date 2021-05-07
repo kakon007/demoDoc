@@ -63,11 +63,11 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
     var vm = Provider.of<VideoViewModel>(context, listen: false);
     vm.getMoreData('');
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
-    vm2.getData(isFromOnPageLoad: true);
+    vm2.getData();
     var vm7 = Provider.of<NewsLogoViewModel>(context, listen: false);
-    vm7.getData(isFromOnPageLoad: true);
+    vm7.getData();
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
-    vm8.getData(isFromOnPageLoad: true);
+    vm8.getData();
     super.initState();
     // TODO: implement initState
 

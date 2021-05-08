@@ -379,8 +379,8 @@ class _DashboardScreenState extends State<DashboardScreen>
 
 
                   initialChildSize: 0.80,
-    maxChildSize: 1.0,
-    minChildSize: 0.80,
+                  maxChildSize: 1.0,
+                  minChildSize: 0.80,
     builder: (BuildContext context, ScrollController scrollController) {
       return Column(
         children: [

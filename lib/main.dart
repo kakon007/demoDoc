@@ -39,10 +39,6 @@ void main() async{
 }
 
 class MyHealthBdApp extends StatelessWidget {
-
-
-
-
   @override
   Widget build(BuildContext context) {
 

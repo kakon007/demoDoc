@@ -378,95 +378,98 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
         },
         body:
 
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     //       FlatButton(onPressed: (){
-        //     //         vm.getDoctor("7", "10");
-        //     //       },
-        //     // child: Text("Button"),
-        //     // ),
-        //     Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //       children: [
-        //         Container(
-        //             margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
-        //             child: Text('Doctors',
-        //                 style: GoogleFonts.poppins(
-        //                     fontSize: 15, fontWeight: FontWeight.w600))),
-        // isFiltered == false? Text(""):
-        // Container(
-        //     margin: EdgeInsets.only(top: 8, bottom: 3, right: 25),
-        //     child: Text('Showing Filtered result',
-        //         style: GoogleFonts.poppins(
-        //             fontSize: 13,)))
-        // // Container(
-        // //     margin: EdgeInsets.only(top: 15, bottom: 3, right: 25),
-        // //     child: Text("Showing Filtered result", style: GoogleFonts.poppins(),)),
-        //       ],
-        //     ),
-            vm.shouldShowPageLoader
-                ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          AppTheme.appbarPrimary),
-                    ),
-                  )
+        SingleChildScrollView(
+          controller: _scrollControllerPagination,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //       FlatButton(onPressed: (){
+              //         vm.getDoctor("7", "10");
+              //       },
+              // child: Text("Button"),
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
+                      child: Text('Doctors',
+                          style: GoogleFonts.poppins(
+                              fontSize: 15, fontWeight: FontWeight.w600))),
+          isFiltered == false? Text(""):
+          Container(
+              margin: EdgeInsets.only(top: 8, bottom: 3, right: 25),
+              child: Text('Showing Filtered result',
+                  style: GoogleFonts.poppins(
+                      fontSize: 13,)))
+          // Container(
+          //     margin: EdgeInsets.only(top: 15, bottom: 3, right: 25),
+          //     child: Text("Showing Filtered result", style: GoogleFonts.poppins(),)),
+                ],
+              ),
+              vm.shouldShowPageLoader
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            AppTheme.appbarPrimary),
+                      ),
+                    )
 
-                : vm.doctorList.length == 0
-                    ? Center(child: Text("No doctors found!"))
-                    :ListView.builder(
-    controller: _scrollControllerPagination,
+                  : vm.doctorList.length == 0
+                      ? Center(child: Text("No doctors found!"))
+                      :ListView.builder(
+
     //physics: NeverScrollableScrollPhysics(),
     shrinkWrap: true,
     itemCount:vm.doctorList.length+1,
     itemBuilder: (BuildContext context, int i) {
 
       if(i==vm.doctorList.length){
-        return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
-        //return SizedBox(height: 15,);
+          return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
+          //return SizedBox(height: 15,);
 
       }
       return CustomContainer(
-        vm.doctorList[i].jobtitle!=null?vm.doctorList[i].jobtitle:"",
-        vm.doctorList[i].photo!=null?loadLogo(vm.doctorList[i].photo):Image.asset(
-        "assets/icons/dct.png",
-        fit: BoxFit.cover,
-        width: 110,
-        height: 160,
-        ),
-        vm.doctorList[i]?.doctorName == null
-          ? ""
-          : vm.doctorList[i]?.doctorName,
-        vm.doctorList[i]?.specializationName == null
-          ? ""
-          : vm.doctorList[i]?.specializationName,
-        'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
-        "assets/images/doc.png",
-        vm.doctorList[i]?.consultationFee.toString() ==
-          null
-          ? ""
-          : vm.doctorList[i]?.consultationFee
-          .toString(),
-        vm.doctorList[i]?.docDegree == null
-          ? ""
-          : vm.doctorList[i]?.docDegree,
-        vm.doctorList[i]?.doctorNo.toString() == null
-          ? ""
-          : vm.doctorList[i]?.doctorNo.toString(),
-        vm.doctorList[i]?.companyNo.toString() == null
-          ? ""
-          : vm.doctorList[i]?.companyNo.toString(),
-        vm.doctorList[i]?.ogNo.toString() == null
-          ? ""
-          : vm.doctorList[i]?.ogNo.toString(),
-        widget.title,
+          vm.doctorList[i].jobtitle!=null?vm.doctorList[i].jobtitle:"",
+          vm.doctorList[i].photo!=null?loadLogo(vm.doctorList[i].photo):Image.asset(
+          "assets/icons/dct.png",
+          fit: BoxFit.cover,
+          width: 110,
+          height: 160,
+          ),
+          vm.doctorList[i]?.doctorName == null
+            ? ""
+            : vm.doctorList[i]?.doctorName,
+          vm.doctorList[i]?.specializationName == null
+            ? ""
+            : vm.doctorList[i]?.specializationName,
+          'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
+          "assets/images/doc.png",
+          vm.doctorList[i]?.consultationFee.toString() ==
+            null
+            ? ""
+            : vm.doctorList[i]?.consultationFee
+            .toString(),
+          vm.doctorList[i]?.docDegree == null
+            ? ""
+            : vm.doctorList[i]?.docDegree,
+          vm.doctorList[i]?.doctorNo.toString() == null
+            ? ""
+            : vm.doctorList[i]?.doctorNo.toString(),
+          vm.doctorList[i]?.companyNo.toString() == null
+            ? ""
+            : vm.doctorList[i]?.companyNo.toString(),
+          vm.doctorList[i]?.ogNo.toString() == null
+            ? ""
+            : vm.doctorList[i]?.ogNo.toString(),
+          widget.title,
       );
     }),
 
 
-        //   ],
-        // ),
+            ],
+          ),
+        ),
       ),
     );
   }

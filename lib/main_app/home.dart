@@ -61,68 +61,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   List<Widget> screenShots;
   Map<int,Widget> screens;
 
-  //Navigation screen
-  //
-  // Map<int,Widget> screens= {
-  //   0: DashboardScreen(isDrawerOpen: true,),
-  //   1: FindYourDoctorScreen('','','','','','',''),
-  //   2: PrescriptionListScreen(accessToken:"",),
-  //   3: GetAppointment(),
-  // };
-  //
-  // List<Widget> screenShots;
-  // List<Widget> finalStack(){
-  //   List<Widget> stackToReturn=[];
-  //   stackToReturn.add(DrawerScreen2(menuCallBack:(selectedIndex) {
-  //     setState(() {
-  //       //isSelected=true;
-  //       screenShots=screens.values.toList();
-  //     final selectedWidget=screenShots.removeAt(selectedIndex);
-  //     screenShots.insert(0, selectedWidget);
-  //     selectedIndex==0?"":
-  //     Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
-  //     });
-  //   },));
-  //   //stackToReturn.add(DashboardScreen());
-  //   screenShots.asMap().entries.map((e) => buildStackedScreen(e.key)).toList().reversed..forEach((element) {stackToReturn.add(element);});
-  //   return stackToReturn;
-  // }
-  //
-  // Widget buildStackedScreen(int position){
-  //   var deviceWidth=MediaQuery.of(context).size.width;
-  //   return AnimatedPositioned(
-  //     duration: duration,
-  //     top: 0,
-  //     left:isDrawerOpen?deviceWidth*0.50:0,
-  //     right:isDrawerOpen?deviceWidth*-0.45:0,
-  //     bottom: 0,
-  //     // transform: Matrix4.translationValues(xOffset, yOffset, 0)
-  //     //   ..scale(scaleFactor),
-  //     // duration: Duration(milliseconds: 200),
-  //     // decoration: BoxDecoration(
-  //     //     color: Colors.white,
-  //     //     borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
-  //     // height: double.infinity,
-  //     // width: double.infinity,
-  //     child: ScaleTransition(
-  //       scale: scaleAnimations[position],
-  //       child: GestureDetector(
-  //         onTap: (){
-  //           if(isDrawerOpen){
-  //             setState(() {
-  //               isDrawerOpen=false;
-  //               _animationController.reverse();
-  //             });
-  //           }
-  //         },
-  //         child:screenShots[position],
-  //       ),
-  //     ),
-  //   );
-  //   // return Scaffold(
-  //   //   body: screenShots[position],
-  //   // );
-  // }
+
 
   @override
   void initState() {

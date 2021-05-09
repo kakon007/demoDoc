@@ -59,6 +59,7 @@ dependencies:
   dartz: ^0.9.2
   get:
   provider:
+  sqflite:
   after_layout:
   youtube_player_flutter:
   cached_network_image:

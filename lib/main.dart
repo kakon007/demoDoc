@@ -61,7 +61,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<NewsLogoViewModel>(create: (context) =>  NewsLogoViewModel()),
       ChangeNotifierProvider<BLogLogoViewModel>(create: (context) =>  BLogLogoViewModel()),
       ChangeNotifierProvider<PasswordChangeViewModel>(create: (context) =>  PasswordChangeViewModel()),
-      //ChangeNotifierProvider< AuthViewModel>(create: (context) =>  AuthViewModel()),
+      ChangeNotifierProvider< AuthViewModel>(create: (context) =>  AuthViewModel()),
       ChangeNotifierProvider< BookAppointmentViewModel>(create: (context) =>  BookAppointmentViewModel()),
       ChangeNotifierProvider< SignOutViewModel>(create: (context) =>  SignOutViewModel()),
       ChangeNotifierProvider< SignUpViewModel>(create: (context) =>  SignUpViewModel()),

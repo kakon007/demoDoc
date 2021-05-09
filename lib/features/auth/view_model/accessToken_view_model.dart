@@ -34,6 +34,16 @@ class AccessTokenProvider extends ChangeNotifier{
                   builder: (BuildContext context) => HomeScreen()));
 
   }
+  Future<void> signOut2() async {
+    var vm = Provider.of<SignOutViewModel>(appNavigator.context, listen: false);
+    vm.getSignOutData(accessToken);
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove("accessToken");
+    await preferences.remove("password");
+    accessToken=null;
+    notifyListeners();
+  }
 
    setToken(String accessToken) async{
     SharedPreferences prefs =

@@ -22,14 +22,14 @@ class DoctorListViewModel extends ChangeNotifier{
   int limit=10;
   int startIndex=0;
 
-  Future<void> getDoctor({String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch}) async {
+  Future<void> getDoctor(String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch) async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
     var res = await DoctorListRepository().getDoctorList(orgNo:orgNo, companyNo:companyNo,deptItem:deptItem, specialSelectedItem:specialSelectedItem, doctorSearch:doctorSearch,startIndex: startIndex);
     notifyListeners();
-    _doctor.clear();
+  //  _doctor.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingData = false;
@@ -38,14 +38,14 @@ class DoctorListViewModel extends ChangeNotifier{
     }, (r) {
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
-      _doctor.addAll(r.doctorList);
+      _doctor=r.doctorList;
       print('Dataaaaaaa2222222:: ' + _doctor.toString());
       notifyListeners();
       return true;
     });
   }
 
-  getMoreData({String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch}) async {
+  getMoreData(String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch) async {
     print("Calling from getMoreData:::::");
     print("HasMoreData ${hasMoreData}");
     print("isFetchingMoreData ${isFetchingMoreData}");

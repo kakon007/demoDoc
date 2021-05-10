@@ -19,6 +19,7 @@ class AppointmentUpcomingRepository{
         return Right(
             Upcoming(
               dataList:data.items,
+              totalCount: data.obj.recordsTotal
             )
         );
       }
@@ -41,5 +42,6 @@ class AppointmentUpcomingRepository{
 
 class Upcoming{
   List<Item> dataList=new List();
-  Upcoming({this.dataList});
+  var totalCount;
+  Upcoming({this.dataList,this.totalCount});
 }

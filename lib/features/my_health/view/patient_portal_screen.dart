@@ -633,11 +633,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 //
                                 //     :
                                 (vm.prescriptionList.length == 0 &&
-                                    !vm.isFetchingData) ? Center(child: Center(
+                                    !vm.isFetchingData) ? Center(
                                   child: CircularProgressIndicator(  valueColor:
                                   AlwaysStoppedAnimation<Color>(
                                       AppTheme.appbarPrimary),),
-                                )): lengthofPrescriptionList == 0 ? Align(
+                                ): lengthofPrescriptionList == 0 ? Align(
                                   alignment: Alignment.center,
                                   child: Padding(
                                     padding: const EdgeInsets.only(top:200.0),

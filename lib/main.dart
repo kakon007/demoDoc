@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -65,6 +66,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider< BookAppointmentViewModel>(create: (context) =>  BookAppointmentViewModel()),
       ChangeNotifierProvider< SignOutViewModel>(create: (context) =>  SignOutViewModel()),
       ChangeNotifierProvider< SignUpViewModel>(create: (context) =>  SignUpViewModel()),
+      ChangeNotifierProvider<AppointmentUpcomingViewModel>(create: (context) =>  AppointmentUpcomingViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

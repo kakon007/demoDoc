@@ -156,7 +156,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                            Container(
                                   width: devicewidth*0.5,
                                   child: Text(
-                                    userDetails?.fname??'',
+                                    userDetails?.fname??'Jahid',
                                       maxLines:1,overflow:TextOverflow.ellipsis,
                                     style: GoogleFonts.roboto(
                                         fontSize: 18,

@@ -629,7 +629,6 @@ class _DashboardScreenState extends State<DashboardScreen>
                       const EdgeInsets.all(8.0),
                       child: Text(StringResources
                           .noNewsFound),
-                      key: Key('noJobsFound1'),
                     ),
                   )
                       : SingleChildScrollView(

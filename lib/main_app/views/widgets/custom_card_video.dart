@@ -66,8 +66,17 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
                     //     ),
                     //   ],
                     // ),
-                    SizedBox(height: 5,),
-                    Text(widget.title,maxLines:2,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
+                    Container(
+                      height: 50,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 5,),
+                          Text(widget.title,maxLines:2,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
+                        ],
+                      ),
+                    ),
+
                     SizedBox(height: 10,),
                     InkWell(
                       onTap: (){

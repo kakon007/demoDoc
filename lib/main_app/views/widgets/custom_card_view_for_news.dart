@@ -43,23 +43,28 @@ class CustomCardNews extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(titleText,style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: Colors.grey),textAlign:TextAlign.start),
-                        Spacer(),
+                    Container(
+                      height: 55,
+                      child: Column(children: [
                         Row(
                           children: [
-                            Icon(Icons.star,size: 8,color:HexColor('#F5D63C')),
-                            Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
-                            Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
-                            Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
-                            Icon(Icons.star,size: 8,color: HexColor('#D2D2D2')),
+                            Text(titleText,style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: Colors.grey),textAlign:TextAlign.start),
+                            Spacer(),
+                            Row(
+                              children: [
+                                Icon(Icons.star,size: 8,color:HexColor('#F5D63C')),
+                                Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
+                                Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
+                                Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
+                                Icon(Icons.star,size: 8,color: HexColor('#D2D2D2')),
+                              ],
+                            ),
                           ],
                         ),
-                      ],
+                        SizedBox(height: 5,),
+                        Text(subTitleText,style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
+                      ],),
                     ),
-                    SizedBox(height: 5,),
-                    Text(subTitleText,style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
                     SizedBox(height: 10,),
                     InkWell(
                       onTap: (){

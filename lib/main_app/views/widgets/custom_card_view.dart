@@ -47,22 +47,30 @@ class CustomCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
-                    SizedBox(height: 3,),
-                    Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 8),textAlign:TextAlign.start),
-                    SizedBox(height: 3,),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          minRadius: 3,
-                          backgroundColor: HexColor("#1EE573"),
-                        ),
-                        SizedBox(width: 3,),
-                        Text(countText,style:  GoogleFonts.poppins(fontSize: 8,),),
-
-                      ],
+                    Container(
+                      height: 70,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
+                          SizedBox(height: 3,),
+                          Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 8),textAlign:TextAlign.start),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 10,),
+                    // SizedBox(height: 3,),
+                    // Row(
+                    //   children: [
+                    //     CircleAvatar(
+                    //       minRadius: 3,
+                    //       backgroundColor: HexColor("#1EE573"),
+                    //     ),
+                    //     SizedBox(width: 3,),
+                    //     Text(countText,style:  GoogleFonts.poppins(fontSize: 8,),),
+                    //
+                    //   ],
+                    // ),
+                    SizedBox(height: 5,),
                     GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,backgroundImage,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));

@@ -15,11 +15,15 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.
 import 'package:provider/provider.dart';
 
 class GetAppointment extends StatefulWidget {
+  String accessToken;
+  GetAppointment({this.accessToken});
   @override
   _GetAppointmentState createState() => _GetAppointmentState();
 }
 
 class _GetAppointmentState extends State<GetAppointment> {
+  ScrollController _scrollController = ScrollController();
+  ScrollController _scrollController2 = ScrollController();
   bool checkedValue=false;
   DateTime pickBirthDate;
   Future<Null> selectBirthDate(BuildContext context) async {
@@ -48,41 +52,6 @@ class _GetAppointmentState extends State<GetAppointment> {
     }
   }
   String color = "#EAEBED";
-  // List<Upcoming> upComingList = [
-  //   Upcoming(
-  //       reportName: 'Dr. Md. Nazmul Hoque',
-  //       day: 'Gastroenterologist',
-  //       hosName: 'Apollo Hospital Bangladesh(Mirpur Branch)'
-  //   ),
-  //   Upcoming(
-  //       reportName: 'Dr. Md. Nazmul Hoque',
-  //       day: 'Gastroenterologist',
-  //       hosName: 'Apollo Hospital Bangladesh(Mirpur Branch)'),
-  //   Upcoming(
-  //       reportName: 'Dr. Md. Nazmul Hoque',
-  //       day: 'Gastroenterologist',
-  //       hosName: 'Apollo Hospital Bangladesh(Mirpur Branch)'),
-  //   Upcoming(
-  //       reportName: 'Dr. Md. Nazmul Hoque',
-  //       day: 'Gastroenterologist',
-  //       hosName: 'Apollo Hospital Bangladesh(Mirpur Branch)'),
-  //   Upcoming(
-  //       reportName: 'Dr. Md. Nazmul Hoque',
-  //       day: 'Gastroenterologist',
-  //       hosName: 'Apollo Hospital Bangladesh(Mirpur Branch)'),
-  //   Upcoming(
-  //       reportName: 'Dr. Md. Nazmul Hoque',
-  //       day: 'Gastroenterologist',
-  //       hosName: 'Apollo Hospital Bangladesh(Mirpur Branch)'),
-  //   Upcoming(
-  //       reportName: 'Dr. Md. Nazmul Hoque',
-  //       day: 'Gastroenterologist',
-  //       hosName: 'Apollo Hospital Bangladesh(Mirpur Branch)'),
-  //   Upcoming(
-  //       reportName: 'Dr. Md. Nazmul Hoque',
-  //       day: 'Gastroenterologist',
-  //       hosName: 'Apollo Hospital Bangladesh(Mirpur Branch)'),
-  // ];
 
 
   @override
@@ -93,6 +62,28 @@ class _GetAppointmentState extends State<GetAppointment> {
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context, listen: false);
     vm2.getData();
     super.initState();
+
+    _scrollController.addListener(() {
+
+
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent-500) {
+        print('scrolklinggtatg');
+        vm.getMoreData(widget.accessToken);
+      }
+
+    });
+
+    _scrollController2.addListener(() {
+
+
+      if (_scrollController2.position.pixels >=
+          _scrollController2.position.maxScrollExtent-500) {
+        print('scrolklinggtatg');
+        vm2.getMoreData(widget.accessToken);
+      }
+
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -476,10 +467,16 @@ class _GetAppointmentState extends State<GetAppointment> {
                                       AppTheme.appbarPrimary),),
                                 ),
                               ): ListView.builder(
+                                   controller: _scrollController,
                                    shrinkWrap: true,
                                    itemCount:vm.upComingAppointmentList.length,
                                    itemBuilder: (BuildContext context, int index) {
                                      //print("LIIIISSSYYSY:::" + list[index].consultationId);
+                                     if(index==vm.upComingAppointmentList.length){
+                                       return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
+                                       //return SizedBox(height: 15,);
+
+                                     }
                                      return  Stack(
                                            children:[
                                              InkWell(
@@ -509,7 +506,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                children: [
                                                                  SizedBox(height: deviceWidth >600? 8 : 3,),
                                                                  Text(vm.upComingAppointmentList[index].doctorName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#393939'),fontSize: 12),),
-                                                                 Text(vm.upComingAppointmentList[index].doctorSpecialtyName,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12,fontWeight: FontWeight.w500),),
+                                                                 Text(vm.upComingAppointmentList[index]?.doctorSpecialtyName??'',style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12,fontWeight: FontWeight.w500),),
                                                                  Container(
                                                                      width:MediaQuery.of(context).size.width*.65,child: Text(vm.upComingAppointmentList[index].companyName,maxLines: 2,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12))),
                                                                ],
@@ -919,10 +916,16 @@ class _GetAppointmentState extends State<GetAppointment> {
     AppTheme.appbarPrimary),),
     )):
                               ListView.builder(
+                                controller: _scrollController2,
                                   shrinkWrap: true,
                                   itemCount:vm2.previousAppointmentList.length,
                                   itemBuilder: (BuildContext context, int index) {
                                     //print("LIIIISSSYYSY:::" + list[index].consultationId);
+                                    if(index==vm2.previousAppointmentList.length){
+                                      return vm2.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
+                                      //return SizedBox(height: 15,);
+
+                                    }
                                     return  Stack(
                                         children:[
                                           InkWell(

@@ -50,7 +50,7 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
     _lastFetchTime = DateTime.now();
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     //var vm = Provider.of<UserDetailsViewModel>(appNavigator.context);
-    var res = await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken);
+    var res = await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query:searchQuery);
     notifyListeners();
     _upComingList.clear();
     res.fold((l) {
@@ -59,7 +59,7 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
       notifyListeners();
       return false;
     }, (r) {
-      //hasMoreData = r.totalCount-1>startIndex;
+      hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
       _upComingList.addAll(r.dataList);
       print('Dataaaaaaa2222222:: ' + _upComingList.toString());
@@ -68,34 +68,35 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
     });
   }
 
-  // getMoreData(String accessToken) async {
-  //   print("Calling from getMoreData:::::");
-  //   print("HasMoreData ${hasMoreData}");
-  //   print("fetch ${isFetchingMoreData}");
-  //   print("fetched ${isFetchingData}");
-  //   if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
-  //     startIndex+=limit;
-  //     _pageCount++;
-  //     isFetchingMoreData = true;
-  //     Either<AppError, Upcoming> result =
-  //     await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory();
-  //     return result.fold((l) {
-  //       isFetchingMoreData= false;
-  //       hasMoreData = false;
-  //       logger.i(l);
-  //       notifyListeners();
-  //       return false;
-  //     }, (r) {
-  //
-  //       //hasMoreData = r.totalCount-1>startIndex+limit;
-  //       isFetchingMoreData = false;
-  //       _upComingList.addAll(r.dataList);
-  //       //count = r.totalCount;
-  //       notifyListeners();
-  //       return true;
-  //     });
-  //   }
-  // }
+  getMoreData(String accessToken) async {
+    print("Calling from AppointmentgetMoreData:::::");
+    print("HasMoreData ${hasMoreData}");
+    print("fetch ${isFetchingMoreData}");
+    print("fetched ${isFetchingData}");
+    if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
+      startIndex+=limit;
+      _pageCount++;
+      isFetchingMoreData = true;
+      //var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+      Either<AppError, Upcoming> result =
+      await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query: searchQuery,startIndex: startIndex);
+      return result.fold((l) {
+        isFetchingMoreData= false;
+        hasMoreData = false;
+        logger.i(l);
+        notifyListeners();
+        return false;
+      }, (r) {
+
+        hasMoreData = r.totalCount-1>startIndex+limit;
+        isFetchingMoreData = false;
+        _upComingList.addAll(r.dataList);
+        count = r.totalCount;
+        notifyListeners();
+        return true;
+      });
+    }
+  }
 
 
   Future<bool> refresh(String accessToke) async {

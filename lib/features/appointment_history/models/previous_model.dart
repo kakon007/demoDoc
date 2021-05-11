@@ -236,13 +236,13 @@ class Obj {
 
   String draw;
   String recordsFiltered;
-  String recordsTotal;
+  int recordsTotal;
   List<Item> data;
 
   factory Obj.fromJson(Map<String, dynamic> json) => Obj(
     draw: json["draw"],
     recordsFiltered: json["recordsFiltered"],
-    recordsTotal: json["recordsTotal"],
+    recordsTotal: json["recordsTotal"]==null?0:int.parse(json["recordsTotal"]?.toString()??"0"),
     data: List<Item>.from(json["data"].map((x) => Item.fromJson(x))),
   );
 

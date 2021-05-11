@@ -284,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //       children: [
     //         widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
     //         DashboardScreen(accessToken: widget.accessToken,) ]),
-      widget.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      widget.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(accessToken: widget.accessToken,),
       HospitalScreen(),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(

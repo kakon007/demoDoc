@@ -48,29 +48,23 @@ class _CustomBlogWidgetState extends State<CustomBlogWidget> {
                         height: 40,
                         child: Text(widget.title,style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),textAlign:TextAlign.start)),
                     SizedBox(height: 10,),
-                    InkWell(
+                    GestureDetector(
                       onTap: (){
-
-                        },
-
-                      child: GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext){
-                            return BlogDetails(title: widget.title,details: widget.news,);
-                          }));
-                        },
-                        child: Material(
-                          elevation: 0  ,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          color: HexColor("#354291"),
-                          child: SizedBox(
-                            width: 130,
-                            height: 30,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("Read Blog",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
-                              ),
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext){
+                          return BlogDetails(title: widget.title,details: widget.news,);
+                        }));
+                      },
+                      child: Material(
+                        elevation: 0  ,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        color: HexColor("#354291"),
+                        child: SizedBox(
+                          width: 130,
+                          height: 30,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Read Blog",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
                             ),
                           ),
                         ),

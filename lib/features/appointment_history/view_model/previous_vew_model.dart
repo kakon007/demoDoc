@@ -1,5 +1,6 @@
 
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/features/appointment_history/models/previous_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/repositories/previous_repository.dart';
@@ -44,13 +45,14 @@ class AppointmentPreviousViewModel extends ChangeNotifier{
 
   Future<bool> getData() async {
     print("CalledfromPreviousList");
+   // print("HasMoreFromGetData ${hasMoreData}");
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     //var vm = Provider.of<UserDetailsViewModel>(appNavigator.context);
-    var res = await AppointmentPreviousRepository().fetchAppointmentPreviousHistory(pageCount: _pageCount,accessToken:accessToken);
+    var res = await AppointmentPreviousRepository().fetchAppointmentPreviousHistory(pageCount: _pageCount,accessToken:accessToken,query:searchQuery);
     notifyListeners();
     _previousList.clear();
     res.fold((l) {
@@ -59,7 +61,8 @@ class AppointmentPreviousViewModel extends ChangeNotifier{
       notifyListeners();
       return false;
     }, (r) {
-      //hasMoreData = r.totalCount-1>startIndex;
+      hasMoreData = r.totalCount-1>startIndex;
+      print("HasMoreFromGetData ${hasMoreData}");
       _isFetchingData = false;
       _previousList.addAll(r.dataList);
       print('Dataaaaaaa2222222:: ' + _previousList.toString());
@@ -68,34 +71,34 @@ class AppointmentPreviousViewModel extends ChangeNotifier{
     });
   }
 
-  // getMoreData(String accessToken) async {
-  //   print("Calling from getMoreData:::::");
-  //   print("HasMoreData ${hasMoreData}");
-  //   print("fetch ${isFetchingMoreData}");
-  //   print("fetched ${isFetchingData}");
-  //   if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
-  //     startIndex+=limit;
-  //     _pageCount++;
-  //     isFetchingMoreData = true;
-  //     Either<AppError, Upcoming> result =
-  //     await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory();
-  //     return result.fold((l) {
-  //       isFetchingMoreData= false;
-  //       hasMoreData = false;
-  //       logger.i(l);
-  //       notifyListeners();
-  //       return false;
-  //     }, (r) {
-  //
-  //       //hasMoreData = r.totalCount-1>startIndex+limit;
-  //       isFetchingMoreData = false;
-  //       _upComingList.addAll(r.dataList);
-  //       //count = r.totalCount;
-  //       notifyListeners();
-  //       return true;
-  //     });
-  //   }
-  // }
+  getMoreData(String accessToken) async {
+    print("Calling from PreviuosgetMoreData:::::");
+    print("HasMoreData ${hasMoreData}");
+    print("fetch ${isFetchingMoreData}");
+    print("fetched ${isFetchingData}");
+    if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
+      startIndex+=limit;
+      _pageCount++;
+      isFetchingMoreData = true;
+      Either<AppError, Previous> result =
+      await AppointmentPreviousRepository().fetchAppointmentPreviousHistory(pageCount: _pageCount,accessToken:accessToken,query: searchQuery,startIndex: startIndex);
+      return result.fold((l) {
+        isFetchingMoreData= false;
+        hasMoreData = false;
+        logger.i(l);
+        notifyListeners();
+        return false;
+      }, (r) {
+        hasMoreData = r.totalCount-1>startIndex+limit;
+        isFetchingMoreData = false;
+        _previousList.addAll(r.dataList);
+        print("ListLengthFromPreviousscreen:::: ${_previousList.length}");
+        count = r.totalCount;
+        notifyListeners();
+        return true;
+      });
+    }
+  }
 
 
   Future<bool> refresh(String accessToke) async {

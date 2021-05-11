@@ -62,40 +62,6 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
-  signUp(String name, String email, String mobile, String address,
-      String selectedGender, String formatDate2) async {
-    String salutation;
-    if (selectedGender == "Male") {
-      selectedGender = "M";
-      salutation = "Mr.";
-    }
-    if (selectedGender == "Female") {
-      selectedGender = "F";
-      salutation = "Mrs.";
-    }
-    print(name);
-    print(email);
-    print(mobile);
-    print(address);
-    print(selectedGender);
-    print(formatDate2);
-    var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-            'https://qa.myhealthbd.com:9096/online-appointment-api/fapi/registration/create-with-image'));
-    request.fields.addAll({
-      'reqobj':
-          '{"opdReg":{"salutation":$salutation,\n"fname":$name,\n"lname":"",\n"dob":$formatDate2,\n"gender":$selectedGender,\n"phoneMobile":$mobile,\n"email":$email,\n"address":$address,\n"companyNo":"1",\n"organizationNo":"1"\n},\n"opdRegOthers":{ }\n}\n'
-    });
-
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-    } else {
-      print(response.reasonPhrase);
-    }
-  }
 
   @override
   void initState() {
@@ -206,7 +172,7 @@ class _SignUpState extends State<SignUp> {
                       child: Container(
                           height: 18,
                           child:
-                              Image.asset("assets/images/calender_icon.png")),
+                          Image.asset("assets/images/calender_icon.png")),
                     ),
                   ],
                 ),
@@ -312,7 +278,7 @@ class _SignUpState extends State<SignUp> {
           await vm.getSignUpInfo(_name.text, _email.text, _mobile.text,
               _address.text, _selectedGender, _formatDate2);
           if(vm.message=="Saved Successfully"){
-           Navigator.pop(context);
+            Navigator.pop(context);
             showAlert(context);
           }
 
@@ -388,7 +354,7 @@ class _SignUpState extends State<SignUp> {
             Text(
               " and  ",
               style:
-                  GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 13),
+              GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 13),
             ),
             Text(
               StringResources.policy,
@@ -412,13 +378,14 @@ class _SignUpState extends State<SignUp> {
             backgroundColor: Colors.transparent,
             elevation: 0.0,
           ),
-          resizeToAvoidBottomInset: false,
+          //resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
           body: Form(
             key: _formKey,
             child: Padding(
               padding:
-                  EdgeInsets.only(top: MediaQuery.of(context).size.width * .04),
+              EdgeInsets.only(top: MediaQuery.of(context).size.width * .04),
               child: Column(
                 children: [
                   Expanded(
@@ -434,7 +401,7 @@ class _SignUpState extends State<SignUp> {
                               spreadRadius: 10,
                               blurRadius: 7,
                               offset:
-                                  Offset(0, 3), // changes position of shadow
+                              Offset(0, 3), // changes position of shadow
                             ),
                           ]),
                       child: SingleChildScrollView(
@@ -445,12 +412,12 @@ class _SignUpState extends State<SignUp> {
                               spaceBetween,
                               Center(
                                   child: Text(
-                                StringResources.createAccount,
-                                style: TextStyle(
-                                    color: HexColor("#0D1231"),
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w500),
-                              )),
+                                    StringResources.createAccount,
+                                    style: TextStyle(
+                                        color: HexColor("#0D1231"),
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w500),
+                                  )),
                               spaceBetween,
                               name,
                               email,
@@ -460,45 +427,57 @@ class _SignUpState extends State<SignUp> {
                               address,
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   gender,
                                   date,
                                 ],
                               ),
                               spaceBetween,
+                              Column(
+                                children: [
+                                  spaceBetween,
+                                  spaceBetween,
+                                  spaceBetween,
+                                  vm.isLoading==true ? Center(child: CircularProgressIndicator()) : signUpButton,
+                                  spaceBetween,
+                                  signIn,
+                                  spaceBetween,
+                                  termsPolicy
+                                ],
+                              )
                             ],
                           ),
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                      BoxShadow(
-                        color: HexColor("#0D1231").withOpacity(0.08),
-                        spreadRadius: 10,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ]),
-                    height: height >= 600 ? 200 : 150,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 15.0, left: 15),
-                      child: Column(
-                        children: [
-                          spaceBetween,
-                          spaceBetween,
-                          spaceBetween,
-                          vm.isLoading==true ? Center(child: CircularProgressIndicator()) : signUpButton,
-                          spaceBetween,
-                          signIn,
-                          spaceBetween,
-                          termsPolicy
-                        ],
-                      ),
-                    ),
-                  )
+                  // Container(
+                  //   decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  //     BoxShadow(
+                  //       color: HexColor("#0D1231").withOpacity(0.08),
+                  //       spreadRadius: 10,
+                  //       blurRadius: 7,
+                  //       offset: Offset(0, 3), // changes position of shadow
+                  //     ),
+                  //   ]),
+                  //   height: height >= 600 ? 200 : 150,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(right: 15.0, left: 15),
+                  //     child: Column(
+                  //       children: [
+                  //         spaceBetween,
+                  //         spaceBetween,
+                  //         spaceBetween,
+                  //         vm.isLoading==true ? Center(child: CircularProgressIndicator()) : signUpButton,
+                  //         spaceBetween,
+                  //         signIn,
+                  //         spaceBetween,
+                  //         termsPolicy
+                  //       ],
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             ),
@@ -559,9 +538,9 @@ class _SignUpState extends State<SignUp> {
                         0.2,
                         0.5,
                       ], colors: [
-                    HexColor("#D6DCFF"),
-                    HexColor("#FFFFFF"),
-                  ]),
+                        HexColor("#D6DCFF"),
+                        HexColor("#FFFFFF"),
+                      ]),
                   //borderRadius: 10,
                 ),
                 child: Padding(

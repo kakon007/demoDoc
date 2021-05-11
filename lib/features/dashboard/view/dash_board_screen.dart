@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
@@ -131,6 +132,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   Widget build(BuildContext context) {
+    var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
     var vm = appNavigator.getProviderListener<HospitalListViewModel>();
     List<hos.Item> list = vm.hospitalList;
     var lengthofHospitalList;
@@ -278,7 +280,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   actions: [
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: widget.accessToken == null
+                      child: vm9.accessToken == null
                           ? GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -475,7 +477,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   SizedBox(
                     height: 10,
                   ),
-                  widget.accessToken == null
+                  vm9.accessToken == null
                       ? Container()
                       : CustomCardPat(
                       "You have an upcoming appointment",

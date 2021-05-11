@@ -542,7 +542,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           border: new OutlineInputBorder(
               borderRadius: BorderRadius.circular(25),
               borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+          contentPadding: EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
         ));
     var searchSpeciality = TextFormField(
         onChanged: (value) {
@@ -567,7 +567,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           border: new OutlineInputBorder(
               borderRadius: BorderRadius.circular(25),
               borderSide: new BorderSide(color: Colors.teal)),
-          contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+          contentPadding: EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
         ));
     var modalSheetTitle = Padding(
       padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
@@ -652,15 +652,15 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
             showModalBottomSheet(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25))),
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20))),
                 context: context,
                 isScrollControlled: true,
                 builder: (context) {
                   return StatefulBuilder(
                       builder: (BuildContext context, StateSetter setState) {
                     return FractionallySizedBox(
-                      heightFactor: 0.85,
+                      heightFactor: .95,
                       child: Column(
                         children: [
                           modalSheetTitle,
@@ -671,7 +671,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                               child: Column(
                                 children: [
                                   Container(
-                                    height: height / 3.60,
+                                    height: height / 3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(25),
@@ -697,6 +697,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                         Container(
                                                       height: 35,
                                                       child: CheckboxListTile(
+                                                        dense: true,
                                                         activeColor: AppTheme
                                                             .signInSignUpColor,
                                                         controlAffinity:
@@ -711,6 +712,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                                   .substring(1)
                                                                   .toLowerCase(),
                                                           style: GoogleFonts.poppins(
+                                                            fontSize: 15,
                                                               fontWeight: item
                                                                           .isChecked ==
                                                                       true
@@ -735,9 +737,15 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             var stringList =
                                                                 _items3.join(
                                                                     "&buList%5B%5D=");
-                                                            deptSelectedItem =
-                                                                "&buList%5B%5D=" +
-                                                                    stringList;
+                                                            print(stringList);
+                                                            if(_items3.isEmpty){
+                                                              deptSelectedItem=null;
+                                                            }
+                                                           else {
+                                                              deptSelectedItem =
+                                                                  "&buList%5B%5D=" +
+                                                                      stringList;
+                                                            }
                                                           });
                                                         },
                                                       ),
@@ -746,18 +754,19 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                   .toList(),
                                             ),
                                           ),
-                                        )
+                                        ),
+                                       // SizedBox(height: 10,),
                                       ],
                                     ),
                                   ),
                                   horizontalSpace,
                                   horizontalSpace,
                                   Container(
-                                    height: height / 3.55,
+                                    height: height / 3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(25),
-                                          topRight: Radius.circular(25)),
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20)),
                                       border: Border.all(
                                         color: HexColor("#D6DCFF"),
                                         //                   <--- border color
@@ -779,6 +788,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                         Container(
                                                       height: 35,
                                                       child: CheckboxListTile(
+                                                        dense: true,
                                                         activeColor: AppTheme
                                                             .signInSignUpColor,
                                                         controlAffinity:
@@ -787,6 +797,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                         title: Text(
                                                           item.dtlName,
                                                           style: GoogleFonts.poppins(
+                                                            fontSize: 15,
                                                               fontWeight: item
                                                                           .isChecked ==
                                                                       true
@@ -809,9 +820,15 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             var stringList =
                                                                 _items4.join(
                                                                     "&specializationList%5B%5D=");
-                                                            specialSelectedItem =
-                                                                "&specializationList%5B%5D=" +
-                                                                    stringList;
+                                                            print(stringList);
+                                                            if(_items4.isEmpty){
+                                                              specialSelectedItem=null;
+                                                            }
+                                                            else{
+                                                              specialSelectedItem =
+                                                                  "&specializationList%5B%5D=" +
+                                                                      stringList;
+                                                            }
                                                           });
                                                         },
                                                       ),
@@ -820,7 +837,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                   .toList(),
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -909,6 +926,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           child: FlatButton(
                                             textColor: Colors.white,
                                             onPressed: () {
+                                              deptItems.sort((a, b) => b.isChecked? 1 : -1);
+                                              specialityItems.sort((a, b) => b.isChecked? 1 : -1);
                                               isFiltered = true;
                                               _items1 = List.from(_items3);
                                               _items2 = List.from(_items4);

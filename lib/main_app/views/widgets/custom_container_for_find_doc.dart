@@ -29,7 +29,7 @@ class CustomContainer extends StatelessWidget {
     var spaceBetween = SizedBox(
       height: height >= 600 ? 15.0 : 10.0,
     );
-    print( (cardHeight*.5).toString());
+   // print( (cardHeight*.5).toString());
     return Container(
 
       height: 162,

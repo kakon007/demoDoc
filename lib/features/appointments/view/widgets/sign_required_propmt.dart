@@ -37,17 +37,19 @@ class SignInRequired extends StatelessWidget {
                   child: Center(
                     child: Column(
                       children: [
-                        Text("To book appointment you need to Sign n!",
-                            style: TextStyle(
-                                fontSize: 18, color: Colors.black)),
-                        SizedBox(
-                          height: 5,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0,right: 20),
+                          child: Row(children: [
+                            Text("To book an appointment ",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black)),
+                            Text("Sign In required.",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500)),
+                          ],),
                         ),
-                        Text("Sign In required.",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500)),
                         SizedBox(
                           height: 30,
                         ),

@@ -288,23 +288,34 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                   "assets/images/swap.png")),
 
                                         onTap: () async {
-                                            await vm5.getAuthData(st.username,st.password);
-                                            if(vm5.accessToken!=null){
-                                              await vm.signOut2();
-                                              Navigator.of(context).pushAndRemoveUntil(
-                                                  MaterialPageRoute(
-                                                    builder: (BuildContext context) =>
-                                                        HomeScreen(
-                                                          accessToken:
-                                                          vm5.accessToken,
-                                                        ),
-                                                  ),
-                                                      (Route<dynamic> route) => false);
-                                                appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+                                          showDialog(context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text("Switch Account"),
+                                                  content: Text(
+                                                      "Do you really want to switch account?"),
+                                                  actions: <Widget>[
+                                                    FlatButton(onPressed: () async {
+                                                      await vm5.getAuthData(st.username,st.password);
+                                                      if(vm5.accessToken!=null){
+                                                        await vm.signOut();
+                                                        appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
 
-                                            }
+                                                      }
+                                                    }, child:
+                                                    Text("Yes", style: TextStyle(color: Colors.red),)
+                                                    ),
+                                                    FlatButton(onPressed: () {
+                                                      Navigator.of(context).pop(context);
+                                                    }, child:
+                                                    Text("No", style: TextStyle(color: Colors.green))
+                                                    )
+                                                  ],
 
 
+                                                );
+                                              }
+                                          );
                                         },
                                         ),
                                         // accounts[index].isLoggedIn == false

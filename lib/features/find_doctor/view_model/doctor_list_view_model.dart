@@ -23,6 +23,9 @@ class DoctorListViewModel extends ChangeNotifier{
   int startIndex=0;
 
   Future<void> getDoctor(String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch) async {
+
+   print(deptItem);
+   print(specialSelectedItem);
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;

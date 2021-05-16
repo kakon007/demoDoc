@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +14,11 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart' as pp;
 
 class GetAppointment extends StatefulWidget {
   String accessToken;
@@ -53,6 +59,53 @@ class _GetAppointmentState extends State<GetAppointment> {
   }
   String color = "#EAEBED";
 
+
+  Future fetchPDF(String prescriptionNo,String companyAlias) async {
+    try {
+      print("FETCHPDFDATAFromAppointmentHistory");
+      print('INDEX'+prescriptionNo);
+      var headers = {
+        'Authorization': 'Bearer ${widget.accessToken}'
+      };
+      var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription'));
+      request.fields.addAll({
+        'prescriptionId': prescriptionNo,
+        'pClient': companyAlias,
+        'pLayout': '1'
+      });
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var body = await response.stream.toBytes();
+        print("BODYOFSTRING:::"+body.toString());
+        return body;
+      }
+      else {
+        print("ERROROFSTRING::::"+response.reasonPhrase);
+        return null;
+      }
+    } on Exception catch (e) {
+      // TODO
+      print("PDFDATAERROR");
+      print(e.toString());
+      return null;
+    }
+
+  }
+
+  Future<File> _createPdfFileFromString(String prescriptionNo,String companyAlias) async {
+    // final encodedStr='''''';
+    // Uint8List bytes = base64.decode(encodedStr);
+    String dir = (await pp.getApplicationDocumentsDirectory()).path;
+    File file = File(
+        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+    await file.writeAsBytes(await fetchPDF(prescriptionNo,companyAlias),flush: true);
+    print("FILEEEEE"+file.toString());
+    return file;
+  }
 
   @override
   void initState() {
@@ -1046,15 +1099,25 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                           ),
                                                         ),
                                                         SizedBox(width: MediaQuery.of(context).size.width>650 ? 20 : 15,),
-                                                        Material(
-                                                          elevation: 0  ,
-                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                          color: HexColor("#354291"),
-                                                          child: SizedBox(
-                                                            width: deviceWidth*.4,
-                                                            height: MediaQuery.of(context).size.width>650 ? 35 : 28,
-                                                            child: Center(
-                                                              child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                                                        InkWell(
+                                                          onTap: () async{
+                                                            print('ButtonPredfromAppointmentscreen');
+                                                            final file=await _createPdfFileFromString(vm2.previousAppointmentList[index].prescriptionNo.toString(),vm2.previousAppointmentList[index].companyAlias.toString());
+                                                            Navigator.push(context, PageTransition(
+                                                              type: PageTransitionType.rightToLeft,
+                                                              child:PdfViewerScreen(file),
+                                                            ),);
+                                                          },
+                                                          child: Material(
+                                                            elevation: 0  ,
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                            color: HexColor("#354291"),
+                                                            child: SizedBox(
+                                                              width: deviceWidth*.4,
+                                                              height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                              child: Center(
+                                                                child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),

@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +11,7 @@ import 'package:myhealthbd_app/features/appointment_history/view_model/previous_
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/previous_appointment_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/upcoming_appointment_model.dart';
+import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -105,6 +108,18 @@ class _GetAppointmentState extends State<GetAppointment> {
     await file.writeAsBytes(await fetchPDF(prescriptionNo,companyAlias),flush: true);
     print("FILEEEEE"+file.toString());
     return file;
+  }
+
+  loadLogo(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+
+    return Image.memory(
+      _bytesImage,
+      fit: BoxFit.fill,
+      width: 80,
+      height: 60,
+      gaplessPlayback: true,
+    );
   }
 
   @override
@@ -547,9 +562,14 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                        Row(
                                                          children: [
                                                            Container(
-                                                             height: 60,
+                                                            // height: 60,
                                                              //width: 20,
-                                                             child: Image.asset('assets/images/aapoin.png'),
+                                                             child: vm.upComingAppointmentList[index].photo!=null?loadLogo(vm.upComingAppointmentList[index].photo):Image.asset(
+                                     "assets/icons/dct.png",
+                                     fit: BoxFit.fill,
+                                     width: 80,
+                                     height: 60,
+                                     ),
                                                            ),
                                                            SizedBox(width: 5,),
                                                            Padding(
@@ -998,7 +1018,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                         Container(
                                                           height: 60,
                                                           //width: 20,
-                                                          child: Image.asset('assets/images/aapoin.png'),
+                                                          child: vm2.previousAppointmentList[index].photo!=null?loadLogo(vm2.previousAppointmentList[index].photo):Image.asset(
+                                                            "assets/icons/dct.png",
+                                                            fit: BoxFit.fill,
+                                                            width: 80,
+                                                            height: 60,
+                                                          ),
                                                         ),
                                                         SizedBox(width: 5,),
                                                         Padding(
@@ -1086,15 +1111,24 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Material(
-                                                          elevation: 0  ,
-                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                          color: HexColor("#354291"),
-                                                          child: SizedBox(
-                                                            width: deviceWidth*.4,
-                                                            height: MediaQuery.of(context).size.width>650 ? 32 : 27,
-                                                            child: Center(
-                                                              child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                                                        InkWell(
+                                                          // onTap:(){
+                                                          //   Navigator.push(context,MaterialPageRoute(builder: (context){
+                                                          //     return AppointmentScreen(doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString() == null
+                                                          //         ? ""
+                                                          //         : vm2.previousAppointmentList[index]?.doctorNo.toString(),);
+                                                          //   }));
+                                                          // },
+                                                          child: Material(
+                                                            elevation: 0  ,
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                            color: HexColor("#354291"),
+                                                            child: SizedBox(
+                                                              width: deviceWidth*.4,
+                                                              height: MediaQuery.of(context).size.width>650 ? 32 : 27,
+                                                              child: Center(
+                                                                child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),

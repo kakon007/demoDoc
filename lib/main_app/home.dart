@@ -28,7 +28,7 @@ import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../get_appointment_screen.dart';
+import '../features/appointment_history/view/get_appointment_screen.dart';
 import 'views/widgets/default_screen.dart';
 
 class HomeScreen extends StatefulWidget {

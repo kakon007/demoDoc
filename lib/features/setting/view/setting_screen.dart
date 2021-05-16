@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/features/setting/view/wedgets/about_us_screen.dar
 import 'package:myhealthbd_app/features/setting/view/wedgets/change_password_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/app_version.dart';
@@ -39,6 +40,9 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String url1='https://qa.myhealthbd.com:9096/medicare-web-client-v2/#/myhealthbd/contact';
+    String url2='https://qa.myhealthbd.com:9096/medicare-web-client-v2/#/myhealthbd/policy';
+    String url3='https://qa.myhealthbd.com:9096/medicare-web-client-v2/#/myhealthbd/about';
     var vm = Provider.of<UserDetailsViewModel>(context);
     Obj userDetails = vm.userDetailsList;
     return Scaffold(
@@ -53,9 +57,29 @@ class _SettingScreenState extends State<SettingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // GestureDetector(
+            //   onTap: (){
+            //     Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePasswordScreen(accessToken: widget.accessToken,id: userDetails.hospitalNumber,)));
+            //   },
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(10.0),
+            //     child:
+            //     Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text("Change Password",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
+            //         Text('Choose a unique password',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Divider(thickness: 1,),
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePasswordScreen(accessToken: widget.accessToken,id: userDetails.hospitalNumber,)));
+                if (url1 != null) {
+                  if (url1.isNotEmpty)
+                    UrlLauncherHelper.launchUrl(url1);
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -63,40 +87,39 @@ class _SettingScreenState extends State<SettingScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Change Password",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
-                    Text('Choose a unique password',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
+                    Text("Contact Us",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
+                    Text('We are always happy to provide you any information \nregarding MyHealthBD',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
                   ],
                 ),
               ),
             ),
             Divider(thickness: 1,),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child:
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Contact Us",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
-                  Text('We are always happy to provide you any information \nregarding MyHealthBD',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
-                ],
-              ),
-            ),
-            Divider(thickness: 1,),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child:
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Privacy Policy",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
-                  Text('Read our Privacy Policy',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
-                ],
+            GestureDetector(
+              onTap: (){
+                if (url2 != null) {
+                  if (url2.isNotEmpty)
+                    UrlLauncherHelper.launchUrl(url2);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child:
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Privacy Policy",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
+                    Text('Read our Privacy Policy',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
+                  ],
+                ),
               ),
             ),
             Divider(thickness: 1,),
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutUsScreen()));
+                if (url3 != null) {
+                  if (url3.isNotEmpty)
+                    UrlLauncherHelper.launchUrl(url3);
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.all(10.0),

@@ -49,8 +49,8 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
    // var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
-    //var vm = Provider.of<UserDetailsViewModel>(appNavigator.context);
-    var res = await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query:searchQuery);
+    var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+    var res = await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query:searchQuery,userName: vm.userDetailsList.hospitalNumber);
     notifyListeners();
     _upComingList.clear();
     res.fold((l) {
@@ -71,15 +71,16 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
   getMoreData(String accessToken) async {
     print("Calling from AppointmentgetMoreData:::::");
     print("HasMoreData ${hasMoreData}");
-    print("fetch ${isFetchingMoreData}");
-    print("fetched ${isFetchingData}");
+    print("isFetchingMoreData ${isFetchingMoreData}");
+    print("isFetchingData ${isFetchingData}");
     if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
       startIndex+=limit;
       _pageCount++;
       isFetchingMoreData = true;
       //var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+      var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
       Either<AppError, Upcoming> result =
-      await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query: searchQuery,startIndex: startIndex);
+      await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query: searchQuery,startIndex: startIndex,userName: vm.userDetailsList.hospitalNumber);
       return result.fold((l) {
         isFetchingMoreData= false;
         hasMoreData = false;

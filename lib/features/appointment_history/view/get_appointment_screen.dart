@@ -637,7 +637,9 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   AlwaysStoppedAnimation<Color>(
                                       AppTheme.appbarPrimary),),
                                 ),
-                              ): ListView.builder(
+                              ):vm.upComingAppointmentList.length==0?Center(child: Center(
+                                child: Text('No Appointment History Found!'),
+                              ),): ListView.builder(
                                    controller: _scrollController,
                                    shrinkWrap: true,
                                    itemCount:vm.upComingAppointmentList.length,

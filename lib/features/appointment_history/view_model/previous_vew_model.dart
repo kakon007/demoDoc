@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/features/appointment_history/models/previous_mode
 import 'package:myhealthbd_app/features/appointment_history/repositories/previous_repository.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:provider/provider.dart';
 
@@ -51,8 +52,9 @@ class AppointmentPreviousViewModel extends ChangeNotifier{
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
     //var vm = Provider.of<UserDetailsViewModel>(appNavigator.context);
-    var res = await AppointmentPreviousRepository().fetchAppointmentPreviousHistory(pageCount: _pageCount,accessToken:accessToken,query:searchQuery);
+    var res = await AppointmentPreviousRepository().fetchAppointmentPreviousHistory(pageCount: _pageCount,accessToken:accessToken,query:searchQuery,userName: vm.userDetailsList.hospitalNumber);
     notifyListeners();
     _previousList.clear();
     res.fold((l) {
@@ -80,8 +82,9 @@ class AppointmentPreviousViewModel extends ChangeNotifier{
       startIndex+=limit;
       _pageCount++;
       isFetchingMoreData = true;
+      var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
       Either<AppError, Previous> result =
-      await AppointmentPreviousRepository().fetchAppointmentPreviousHistory(pageCount: _pageCount,accessToken:accessToken,query: searchQuery,startIndex: startIndex);
+      await AppointmentPreviousRepository().fetchAppointmentPreviousHistory(pageCount: _pageCount,accessToken:accessToken,query: searchQuery,startIndex: startIndex,userName: vm.userDetailsList.hospitalNumber);
       return result.fold((l) {
         isFetchingMoreData= false;
         hasMoreData = false;

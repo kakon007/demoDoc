@@ -78,6 +78,8 @@ class Item {
     this.companyName,
     this.companyAlias,
     this.prescriptionNo,
+    this.consultationNo,
+    this.consultationId,
     this.status,
     this.statusArr,
     this.photo,
@@ -103,6 +105,8 @@ class Item {
   String companyName;
   CompanyAlias companyAlias;
   dynamic prescriptionNo;
+  int consultationNo;
+  String consultationId;
   int status;
   dynamic statusArr;
   String photo;
@@ -112,13 +116,13 @@ class Item {
     appointId: json["appointId"],
     appointDate: json["appointDate"],
     doctorNo: json["doctorNo"],
-    doctorName: json["doctorName"],
+    doctorName:json["doctorName"],
     doctorImage: json["doctorImage"] == null ? null : json["doctorImage"],
     specialtyNo: json["specialtyNo"],
     doctorSpecialtyName: json["doctorSpecialtyName"],
     shiftNo: json["shiftNo"],
     consultTypeNo: json["consultTypeNo"],
-    consultTypeName:json["consultTypeName"],
+    consultTypeName: json["consultTypeName"],
     slotSl: json["slotSl"],
     startTime: json["startTime"],
     endTime: json["endTime"],
@@ -128,6 +132,8 @@ class Item {
     companyName: json["companyName"],
     companyAlias: companyAliasValues.map[json["companyAlias"]],
     prescriptionNo: json["prescriptionNo"],
+    consultationNo: json["consultationNo"] == null ? null : json["consultationNo"],
+    consultationId: json["consultationId"] == null ? null : json["consultationId"],
     status: json["status"],
     statusArr: json["statusArr"],
     photo: json["photo"] == null ? null : json["photo"],
@@ -154,6 +160,8 @@ class Item {
     "companyName": companyNameValues.reverse[companyName],
     "companyAlias": companyAliasValues.reverse[companyAlias],
     "prescriptionNo": prescriptionNo,
+    "consultationNo": consultationNo == null ? null : consultationNo,
+    "consultationId": consultationId == null ? null : consultationId,
     "status": status,
     "statusArr": statusArr,
     "photo": photo == null ? null : photo,
@@ -191,21 +199,21 @@ final doctorNameValues = EnumValues({
   "Dr. S. M Abul Fayez": DoctorName.DR_S_M_ABUL_FAYEZ
 });
 
-enum DoctorSpecialtyName { DENTAL_SURGEON, GYNAECOLOGIST, MEDICINE }
+enum DoctorSpecialtyName { DENTAL_SURGEON, GYNAECOLOGIST, CARDIOLOGIST }
 
 final doctorSpecialtyNameValues = EnumValues({
+  "Cardiologist": DoctorSpecialtyName.CARDIOLOGIST,
   "Dental Surgeon": DoctorSpecialtyName.DENTAL_SURGEON,
-  "Gynaecologist": DoctorSpecialtyName.GYNAECOLOGIST,
-  "Medicine": DoctorSpecialtyName.MEDICINE
+  "Gynaecologist": DoctorSpecialtyName.GYNAECOLOGIST
 });
 
-enum PatientName { MD_ZIA_UDDIN_ARMAN, PATIENT_NAME_MD_ZIA_UDDIN_ARMAN, ZIA_UDDIN_ARMAN, PATIENT_NAME_ZIA_UDDIN_ARMAN }
+enum PatientName { MD_ZIA_UDDIN_ARMAN, ZIA_UDDIN_ARMAN, PATIENT_NAME_MD_ZIA_UDDIN_ARMAN, PATIENT_NAME_ZIA_UDDIN_ARMAN }
 
 final patientNameValues = EnumValues({
-  "MD. Zia  Uddin Arman ": PatientName.MD_ZIA_UDDIN_ARMAN,
-  "MD. ZIA  UDDIN ARMAN ": PatientName.PATIENT_NAME_MD_ZIA_UDDIN_ARMAN,
-  "ZIA  UDDIN ARMAN": PatientName.PATIENT_NAME_ZIA_UDDIN_ARMAN,
-  "Zia  Uddin Arman ": PatientName.ZIA_UDDIN_ARMAN
+  "MD. ZIA  UDDIN ARMAN ": PatientName.MD_ZIA_UDDIN_ARMAN,
+  "MD. Zia  Uddin Arman ": PatientName.PATIENT_NAME_MD_ZIA_UDDIN_ARMAN,
+  "Zia  Uddin Arman ": PatientName.PATIENT_NAME_ZIA_UDDIN_ARMAN,
+  "ZIA  UDDIN ARMAN": PatientName.ZIA_UDDIN_ARMAN
 });
 
 enum RegId { MH22012014368 }

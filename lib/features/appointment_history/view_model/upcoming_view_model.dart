@@ -42,13 +42,13 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<bool> getData() async {
+  Future<bool> getData(String accessToken) async {
     print("CalledfromUpcomingList");
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
-    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+   // var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     //var vm = Provider.of<UserDetailsViewModel>(appNavigator.context);
     var res = await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query:searchQuery);
     notifyListeners();
@@ -62,7 +62,7 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
       _upComingList.addAll(r.dataList);
-      print('Dataaaaaaa2222222:: ' + _upComingList.toString());
+      print('DataaaaaaaFromUpcominglist:: ' + _upComingList.toString());
       notifyListeners();
       return true;
     });
@@ -99,18 +99,19 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
   }
 
 
-  Future<bool> refresh(String accessToke) async {
+  Future<bool> refresh(String accessToken) async {
     _pageCount = 1;
     notifyListeners();
-    return getData();
+    return getData(accessToken);
   }
   search(String query,String accessToken) {
     _upComingList.clear();
-    _pageCount = 1;
+   // _pageCount = 1;
     searchQuery = query;
     print("Searching for: $query");
-    getData();
+    getData(accessToken);
   }
+
 
   toggleIsInSearchMode(String accessToken) {
     _isInSearchMode = !_isInSearchMode;
@@ -118,7 +119,7 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
     resetPageCounter();
     if (!_isInSearchMode) {
       searchQuery = "";
-      getData();
+      getData(accessToken);
     }
     notifyListeners();
   }

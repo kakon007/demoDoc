@@ -4,15 +4,23 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/appointment_history/models/zoom_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
+import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/previous_appointment_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/upcoming_appointment_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
+import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
@@ -122,13 +130,55 @@ class _GetAppointmentState extends State<GetAppointment> {
     );
   }
 
+  TextEditingController _searchTextEditingController1 = TextEditingController();
+  var _searchFieldFocusNode = FocusNode();
+
+  TextEditingController _searchTextEditingController2 = TextEditingController();
+  var _searchFieldFocusNode2 = FocusNode();
+  String zoomLinkList;
+  String message;
+
+  // String fetchZoomLink({String accessToken, String consultationId}) async {
+  //   var url =
+  //       'https://qa.myhealthbd.com:9096/diagnostic-api/api/videoConference/getMeetingByConsultationID';
+  //   var headers = {
+  //     'Authorization': 'Bearer $accessToken',
+  //   };
+  //   // var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/videoConference/getMeetingByConsultationID'));
+  //   // request.body = '''{"consultationId":$consultationId}''';
+  //   // request.headers.addAll(headers);
+  //   final http.Response response = await http.post(url,headers:headers, body: jsonEncode(<String, String>{
+  //     "consultationId":consultationId
+  //   }),);
+  //   //http.StreamedResponse response = await request.send();
+  //
+  //   if (response.statusCode == 200) {
+  //    // print(await response.stream.bytesToString());
+  //     ZoomModel data2 = zoomModelFromJson(response.body) ;
+  //     zoomLinkList=data2.obj.joinUrl;
+  //     return zoomLinkList;
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
+  // }
+
+  Future<void> data({String con}){
+    var vm5 = Provider.of<ZoomViewModel>(context, listen: false);
+    vm5.getData(accessToken: widget.accessToken,consultationId: con);
+  }
   @override
   void initState() {
     // TODO: implement initState
     var vm = Provider.of<AppointmentUpcomingViewModel>(context, listen: false);
-    vm.getData();
+    vm.getData(widget.accessToken);
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context, listen: false);
     vm2.getData();
+    data();
+    //fetchZoomLink(accessToken: widget.accessToken);
+    // var vm4 = appNavigator.getProvider<HospitalListViewModel>();
+    // var vm3 = Provider.of<DoctorListViewModel>(context, listen: false);
+    // vm3.getDoctor(orgNo:widget.orgNo, companyNo:widget.companyNo, deptItem:null, specialSelectedItem:null, doctorSearch:"");
     super.initState();
 
     _scrollController.addListener(() {
@@ -164,6 +214,8 @@ class _GetAppointmentState extends State<GetAppointment> {
 
     var vm = Provider.of<AppointmentUpcomingViewModel>(context,listen: true);
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context,listen: true);
+    var vm3 = Provider.of<DoctorListViewModel>(context);
+    var vm5 = Provider.of<ZoomViewModel>(context);
 
     final Widget filtericon = SvgPicture.asset(
       "assets/icons/fliter.svg",
@@ -183,6 +235,104 @@ class _GetAppointmentState extends State<GetAppointment> {
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
+    );
+
+    var searchField=Padding(
+      padding: const EdgeInsets.only(left:12.0,right: 0,top:5,bottom: 3),
+      child: Container(
+        width: MediaQuery.of(context).size.width*.70,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: Colors.white,
+          border: Border.all(color: HexColor('#E1E1E1')),
+        ),
+        child:
+        Padding(
+          padding: const EdgeInsets.only(left:8.0),
+          child: TextField(
+            autofocus: false,
+            textInputAction: TextInputAction.search,
+            focusNode: _searchFieldFocusNode,
+            controller: _searchTextEditingController1,
+            cursorColor: HexColor('#C5CAE8'),
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Search here',
+                hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
+                //labelText: "Resevior Name",
+                fillColor: Colors.white,
+                // focusedBorder:UnderlineInputBorder(
+                //   borderSide:  BorderSide(color: HexColor('#354291').withOpacity(0.5), width: 1.5),
+                //   //borderRadius: BorderRadius.circular(25.0),
+                // ),
+                suffixIcon:IconButton(
+                  icon:Icon(Icons.search_sharp,color: Colors.grey,),
+                  onPressed: (){
+                    vm.search(_searchTextEditingController1.text,widget.accessToken);
+
+                  },
+                )
+            ),
+            // onChanged: (text) {
+            //   //value = text;
+            // },
+            onSubmitted: (v){
+              vm.search(_searchTextEditingController1.text,widget.accessToken);
+            },
+
+          ),
+        ),
+      ),
+    );
+
+    var searchField2=Padding(
+      padding: const EdgeInsets.only(left:12.0,right: 0,top:5,bottom: 3),
+      child: Container(
+        width: MediaQuery.of(context).size.width*.70,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: Colors.white,
+          border: Border.all(color: HexColor('#E1E1E1')),
+        ),
+        child:
+        Padding(
+          padding: const EdgeInsets.only(left:8.0),
+          child: TextField(
+            autofocus: false,
+            textInputAction: TextInputAction.search,
+            focusNode: _searchFieldFocusNode2,
+            controller: _searchTextEditingController2,
+            cursorColor: HexColor('#C5CAE8'),
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Search here',
+                hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
+                //labelText: "Resevior Name",
+                fillColor: Colors.white,
+                // focusedBorder:UnderlineInputBorder(
+                //   borderSide:  BorderSide(color: HexColor('#354291').withOpacity(0.5), width: 1.5),
+                //   //borderRadius: BorderRadius.circular(25.0),
+                // ),
+                suffixIcon:IconButton(
+                  icon:Icon(Icons.search_sharp,color: Colors.grey,),
+                  onPressed: (){
+                    vm2.search(_searchTextEditingController2.text,widget.accessToken);
+
+                  },
+                )
+            ),
+            // onChanged: (text) {
+            //   //value = text;
+            // },
+            onSubmitted: (v){
+              vm2.search(_searchTextEditingController2.text,widget.accessToken);
+            },
+
+          ),
+        ),
+      ),
     );
     return Scaffold(
       appBar: AppBar(
@@ -240,46 +390,23 @@ class _GetAppointmentState extends State<GetAppointment> {
                               height: 55,
                               child: Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:12.0,right: 0,top:5,bottom: 3),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width*.82,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
-                                        color: Colors.white,
-                                        border: Border.all(color: HexColor('#E1E1E1')),
-                                      ),
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: Row(
-                                          children: <Widget>[
-                                            SizedBox(
-                                              width: 8,
-                                            ),
-                                            Text(
-                                              "  Search here",
-                                              style: GoogleFonts.poppins(
-                                                color: Colors.grey.withOpacity(0.5),
-                                                fontSize: deviceWidth >= 650 ? 20 : 15,
-                                              ),
-                                            ),
-                                            Spacer(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 8.0),
-                                              child: Icon(
-                                                Icons.search,
-                                                color: Colors.grey,
-                                                size: 28,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                  Spacer(),
+                                  if (vm.isInSearchMode)searchField,
+                                  IconButton(
+                                    icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search,color: Colors.grey,),
+                                    onPressed: () {
+                                      _searchTextEditingController1?.clear();
+                                      vm.toggleIsInSearchMode(widget.accessToken);
+
+                                      if (vm.isInSearchMode) {
+                                        _searchFieldFocusNode.requestFocus();
+                                      } else {
+                                        _searchFieldFocusNode.unfocus();
+                                      }
+                                    },
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left:18.0),
+                                    padding: const EdgeInsets.only(right:15.0),
                                     child: GestureDetector(
                                         onTap: (){
                                           showModalBottomSheet(
@@ -655,15 +782,34 @@ class _GetAppointmentState extends State<GetAppointment> {
 
                                                        ),
                                                        SizedBox(height:  MediaQuery.of(context).size.width >600? 5 : 3,),
-                                                       Material(
-                                                         elevation: 2  ,
-                                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                         color: HexColor("#354291"),
-                                                         child: SizedBox(
-                                                           width: double.infinity,
-                                                           height:  MediaQuery.of(context).size.width >600? 35 : 28,
-                                                           child: Center(
-                                                             child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
+                                                       GestureDetector(
+                                                         onTap:(){
+                                                           data(con: vm.upComingAppointmentList[index].consultationId);
+                                                           if (vm.upComingAppointmentList[index].consultationId==null) {
+                                                             Fluttertoast.showToast(
+                                                                 msg: "No Zoom Meeting Link Found",
+                                                                 toastLength: Toast.LENGTH_SHORT,
+                                                                 gravity: ToastGravity.BOTTOM,
+                                                                 timeInSecForIosWeb: 1,
+                                                                 backgroundColor: Colors.black,
+                                                                 textColor: Colors.white,
+                                                                 fontSize: 16.0
+                                                             );
+                                                           }else{
+                                                             if (vm5.zoomDetailsList.joinUrl.isNotEmpty)
+                                                               UrlLauncherHelper.launchUrl(vm5.zoomDetailsList?.joinUrl??'');
+                                                           }
+                                                         },
+                                                         child: Material(
+                                                           elevation: 2  ,
+                                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                           color: HexColor("#354291"),
+                                                           child: SizedBox(
+                                                             width: double.infinity,
+                                                             height:  MediaQuery.of(context).size.width >600? 35 : 28,
+                                                             child: Center(
+                                                               child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
+                                                             ),
                                                            ),
                                                          ),
                                                        ),
@@ -694,46 +840,24 @@ class _GetAppointmentState extends State<GetAppointment> {
                               height: 55,
                               child: Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:12.0,right: 0,top:5,bottom: 3),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width*.82,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
-                                        color: Colors.white,
-                                        border: Border.all(color: HexColor('#E1E1E1')),
-                                      ),
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: Row(
-                                          children: <Widget>[
-                                            SizedBox(
-                                              width: 8,
-                                            ),
-                                            Text(
-                                              "  Search here",
-                                              style: GoogleFonts.poppins(
-                                                color: Colors.grey.withOpacity(0.5),
-                                                fontSize: deviceWidth >= 650 ? 20 : 15,
-                                              ),
-                                            ),
-                                            Spacer(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 8.0),
-                                              child: Icon(
-                                                Icons.search,
-                                                color: Colors.grey,
-                                                size: 28,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                  Spacer(),
+                                  if (vm2.isInSearchMode)searchField2,
+                                  IconButton(
+                                    key: Key('featuredJobSearchToggleButtonKey'),
+                                    icon: Icon(vm2.isInSearchMode ? Icons.close : Icons.search,color: Colors.grey,),
+                                    onPressed: () {
+                                      _searchTextEditingController2?.clear();
+                                      vm2.toggleIsInSearchMode(widget.accessToken);
+
+                                      if (vm2.isInSearchMode) {
+                                        _searchFieldFocusNode2.requestFocus();
+                                      } else {
+                                        _searchFieldFocusNode2.unfocus();
+                                      }
+                                    },
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left:18.0),
+                                    padding: const EdgeInsets.only(right:15.0),
                                     child: GestureDetector(
                                         onTap: (){
                                           showModalBottomSheet(
@@ -1116,7 +1240,30 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                           //   Navigator.push(context,MaterialPageRoute(builder: (context){
                                                           //     return AppointmentScreen(doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString() == null
                                                           //         ? ""
-                                                          //         : vm2.previousAppointmentList[index]?.doctorNo.toString(),);
+                                                          //         : vm2.previousAppointmentList[index]?.doctorNo.toString(),
+                                                          //     //
+                                                          //     //   logo:vm2.previousAppointmentList[index].photo!=null?loadLogo(vm2.previousAppointmentList[index].photo):Image.asset(
+                                                          //     //   "assets/icons/dct.png",
+                                                          //     //   fit: BoxFit.fill,
+                                                          //     //   width: 80,
+                                                          //     //   height: 60,
+                                                          //     // ),jobTitle:  vm3.doctorList[index].jobtitle!=null?vm3.doctorList[index].jobtitle:"",name: vm2.previousAppointmentList[index]?.doctorName == null
+                                                          //     //     ? ""
+                                                          //     //     : vm2.previousAppointmentList[index]?.doctorName,specialist: vm2.previousAppointmentList[index]?.doctorSpecialtyName == null
+                                                          //     //     ? ""
+                                                          //     //     : vm2.previousAppointmentList[index]?.doctorSpecialtyName,hospitalName: vm2.previousAppointmentList[index].companyName,designation: vm3.doctorList[index]?.docDegree == null
+                                                          //     //     ? ""
+                                                          //     //     : vm3.doctorList[index]?.docDegree,fee: vm3.doctorList[index]?.consultationFee.toString() ==
+                                                          //     //     null
+                                                          //     //     ? ""
+                                                          //     //     : vm3.doctorList[index]?.consultationFee
+                                                          //     //     .toString(),companyNo: vm3.doctorList[index]?.companyNo.toString() == null
+                                                          //     //     ? ""
+                                                          //     //     : vm3.doctorList[index]?.companyNo.toString(),orgNo: vm3.doctorList[index]?.ogNo.toString() == null
+                                                          //     //     ? ""
+                                                          //     //     : vm3.doctorList[index]?.ogNo.toString(),
+                                                          //
+                                                          //     );
                                                           //   }));
                                                           // },
                                                           child: Material(

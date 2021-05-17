@@ -138,32 +138,8 @@ class _GetAppointmentState extends State<GetAppointment> {
   String zoomLinkList;
   String message;
 
-  // String fetchZoomLink({String accessToken, String consultationId}) async {
-  //   var url =
-  //       'https://qa.myhealthbd.com:9096/diagnostic-api/api/videoConference/getMeetingByConsultationID';
-  //   var headers = {
-  //     'Authorization': 'Bearer $accessToken',
-  //   };
-  //   // var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/videoConference/getMeetingByConsultationID'));
-  //   // request.body = '''{"consultationId":$consultationId}''';
-  //   // request.headers.addAll(headers);
-  //   final http.Response response = await http.post(url,headers:headers, body: jsonEncode(<String, String>{
-  //     "consultationId":consultationId
-  //   }),);
-  //   //http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //    // print(await response.stream.bytesToString());
-  //     ZoomModel data2 = zoomModelFromJson(response.body) ;
-  //     zoomLinkList=data2.obj.joinUrl;
-  //     return zoomLinkList;
-  //   }
-  //   else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
 
-  Future<void> data({String con}){
+  Future<void> getZoomLink({String con}){
     var vm5 = Provider.of<ZoomViewModel>(context, listen: false);
     vm5.getData(accessToken: widget.accessToken,consultationId: con);
   }
@@ -174,7 +150,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     vm.getData(widget.accessToken);
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context, listen: false);
     vm2.getData();
-    data();
+    getZoomLink();
     //fetchZoomLink(accessToken: widget.accessToken);
     // var vm4 = appNavigator.getProvider<HospitalListViewModel>();
     // var vm3 = Provider.of<DoctorListViewModel>(context, listen: false);
@@ -784,7 +760,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                        SizedBox(height:  MediaQuery.of(context).size.width >600? 5 : 3,),
                                                        GestureDetector(
                                                          onTap:(){
-                                                           data(con: vm.upComingAppointmentList[index].consultationId);
+                                                           getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
                                                            if (vm.upComingAppointmentList[index].consultationId==null) {
                                                              Fluttertoast.showToast(
                                                                  msg: "No Zoom Meeting Link Found",

@@ -38,7 +38,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: child,
         );
       },
-      initialDate: DateTime(2003),
+      initialDate: pickBirthDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
@@ -75,6 +75,7 @@ Future<void> updateProfile(String userId, String name, String email, String numb
 
   if (response.statusCode == 200) {
   print(await response.stream.bytesToString());
+  Navigator.pop(context);
   }
   else {
   print(response.reasonPhrase);
@@ -84,8 +85,18 @@ Future<void> updateProfile(String userId, String name, String email, String numb
 @override
   void initState() {
   var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+  Future.delayed(Duration.zero,() async{
+  var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+  vm.getData();
   _username.text=vm.userDetailsList.fname;
-  pickBirthDate= DateTime.now();
+  _email.text=vm.userDetailsList.email;
+  _mobile.text=vm.userDetailsList.phoneMobile;
+  _address.text=vm.userDetailsList.address;
+  });
+  pickBirthDate= vm.userDetailsList.dob!=null? DateFormat("yyyy-MM-dd").parse(vm.userDetailsList.dob).add(Duration(days: 1)) : pickBirthDate;
+  _selectedBlood = vm.userDetailsList.bloodGroup!=null?vm.userDetailsList.bloodGroup: _selectedBlood;
+  _selectedGender = vm.userDetailsList.gender!=null?vm.userDetailsList.gender=="M"? "Male" : "Female" : _selectedBlood;
+ // _selectedGender= vm.userDetailsList.gender!=null? vm.userDetailsList.gender : _selectedGender;
     // TODO: implement initState
   super.initState();
   }

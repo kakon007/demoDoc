@@ -105,7 +105,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     super.initState();
 
     var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
-    vm.getData(vm2.accessToken);
+    vm.getData();
   }
 
 

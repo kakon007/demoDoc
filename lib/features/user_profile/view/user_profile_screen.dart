@@ -42,6 +42,13 @@ class _UserProfileState extends State<UserProfile> {
     topRight: Radius.circular(25.0),
   );
   @override
+  void initState() {
+    // TODO: implement initState
+    Provider.of<UserDetailsViewModel>(context, listen: false).getData();
+    print("abc");
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     return Scaffold(
@@ -402,7 +409,10 @@ class _UserProfileState extends State<UserProfile> {
         context: context,
         builder: (context) {
           return EditProfileAlert();
-        });
+        }).then((value) {
+      setState(() {
+      });
+    });
   }
 
 }

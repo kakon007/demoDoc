@@ -9,7 +9,17 @@ import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
-class ManageAccountPrompt extends StatelessWidget {
+class ManageAccountPrompt extends StatefulWidget {
+  @override
+  _ManageAccountPromptState createState() => _ManageAccountPromptState();
+}
+class _ManageAccountPromptState extends State<ManageAccountPrompt> {
+ @override
+  void initState() {
+   Provider.of<UserDetailsViewModel>(context, listen: false).getData();
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);

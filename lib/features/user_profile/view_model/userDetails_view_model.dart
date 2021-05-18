@@ -22,7 +22,7 @@ class UserDetailsViewModel extends ChangeNotifier{
   //   return getData();
   // }
 
-  Future<void> getData(String accessToken) async {
+  Future<void> getData() async {
 
     // if (isFromOnPageLoad) {
     //   if (_lastFetchTime != null) if (_lastFetchTime

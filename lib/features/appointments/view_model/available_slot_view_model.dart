@@ -176,7 +176,6 @@ class AvailableSlotsViewModel extends ChangeNotifier {
     _isLoading = true;
     var res = await AvailableSlotsRepository()
         .fetchDoctorInfo(companyNo, doctorNo, orgNo);
-    _slots.clear();
     notifyListeners();
     res.fold((l) {
       _appError = l;

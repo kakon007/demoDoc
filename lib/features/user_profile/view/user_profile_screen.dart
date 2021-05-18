@@ -305,7 +305,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Gender                  : ${vm.userDetailsList?.gender??""}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Gender                  : ${vm.userDetailsList?.gender=="M" ? "Male" : vm.userDetailsList?.gender=="F" ? "Female" : "" }",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(

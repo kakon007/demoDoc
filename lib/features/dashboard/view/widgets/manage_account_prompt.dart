@@ -45,7 +45,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                         BorderSide(width: 0.5, color: Colors.grey),
                       ),
                     ),
-                    height: MediaQuery.of(context).size.height / 4,
+                    height: 150,
                     child: Padding(
                       padding:
                       EdgeInsets.only(top: 15.0, left: 20, right: 20),

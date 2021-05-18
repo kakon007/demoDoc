@@ -77,7 +77,7 @@ class _SwitchAccountAlertState extends State<SwitchAccountAlert> {
         child: Center(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            constraints: BoxConstraints(maxWidth: 400, maxHeight:480),
+            constraints: BoxConstraints(maxWidth: 400, maxHeight:505),
             child: Material(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

@@ -35,12 +35,12 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       ),
       drawer: Drawer(),
       body: Padding(
-        padding: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
+        padding: const EdgeInsets.only(top: 0.0, left: 15, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 0.0, right: 10, top: 20),
+              padding: const EdgeInsets.only(left: 15.0, right: 15, top: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -63,13 +63,11 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                     children: [
                       Text(
                         "Hi",
-                        style:
-                            GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                       ),
                       Text(
                         "Dr. Ziaul Haque",
-                        style:
-                            GoogleFonts.poppins(fontWeight: FontWeight.w300),
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w300),
                       ),
                     ],
                   ),
@@ -80,7 +78,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
               height: 10,
             ),
             Container(
-              height: 140,
+              height: 120,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -88,22 +86,25 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   boxShadow: [
                     BoxShadow(
                       color: HexColor("#0D1231").withOpacity(0.08),
-                      spreadRadius: 3,
-                      blurRadius: 5,
+                      spreadRadius: 2,
+                      blurRadius: 3,
                       offset: Offset(0, 1), // changes position of shadow
                     ),
                   ]),
               child: Padding(
-                padding: const EdgeInsets.only(left: 15.0, right: 10, top: 20),
+                padding: const EdgeInsets.only(left: 15.0, right: 10, top: 11),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircularPercentIndicator(
-                      backgroundWidth: 1.5,
+                      rotateLinearGradient: true,
+                      reverse: true,
+                      backgroundWidth: 0.7,
                       radius: 100.0,
                       lineWidth: 7.0,
                       animation: true,
-                      percent: 0.5,
+                      startAngle: 1,
+                      percent: .5,
                       center: new Text(
                         "10",
                         style: GoogleFonts.poppins(
@@ -191,7 +192,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                               color: HexColor("#0D1231").withOpacity(0.08),
                               spreadRadius: 3,
                               blurRadius: 5,
-                              offset: Offset(0, 1), // changes position of shadow
+                              offset:
+                                  Offset(0, 1), // changes position of shadow
                             ),
                           ]),
                       child: Padding(
@@ -202,8 +204,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border(
-                                  right:
-                                      BorderSide(width: 0.5, color: Colors.grey),
+                                  right: BorderSide(
+                                      width: 0.5, color: Colors.grey),
                                 ),
                               ),
                               height: 140,
@@ -214,8 +216,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                                     padding: const EdgeInsets.only(top: 25.0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.transparent),
+                                        border: Border.all(
+                                            color: Colors.transparent),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       height: 40,
@@ -248,8 +250,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border(
-                                  right:
-                                      BorderSide(width: 0.5, color: Colors.grey),
+                                  right: BorderSide(
+                                      width: 0.5, color: Colors.grey),
                                 ),
                               ),
                               height: 140,
@@ -260,8 +262,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                                     padding: const EdgeInsets.only(top: 25.0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.transparent),
+                                        border: Border.all(
+                                            color: Colors.transparent),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       height: 40,
@@ -300,8 +302,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                                     padding: const EdgeInsets.only(top: 25.0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.transparent),
+                                        border: Border.all(
+                                            color: Colors.transparent),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       height: 40,
@@ -339,7 +341,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       height: 10,
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 3.0),
+                        padding: EdgeInsets.only(left: 3.0,bottom: 6),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -360,108 +362,127 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                             )
                           ],
                         )),
-                    Container(
-                      height: 140,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: HexColor("#FFFFFF"),
-                          boxShadow: [
-                            BoxShadow(
-                              color: HexColor("#0D1231").withOpacity(0.08),
-                              spreadRadius: 3,
-                              blurRadius: 5,
-                              offset: Offset(0, 1), // changes position of shadow
-                            ),
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 0.0, right: 10, top: 20),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.transparent),
-                                borderRadius: BorderRadius.circular(8),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                      return Container(
+                        height: 130,
+                        margin: EdgeInsets.only(bottom: 7),
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: HexColor("#FFFFFF"),
+                            boxShadow: [
+                              BoxShadow(
+                                color: HexColor("#0D1231").withOpacity(0.08),
+                                spreadRadius: 1,
+                                blurRadius: 2,
+                                offset:
+                                    Offset(0, 1), // changes position of shadow
                               ),
-                              height: 80,
-                              width: 80,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.asset(
-                                    "assets/images/doc.png",
-                                    fit: BoxFit.fill,
-                                  )),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Md. Arman",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 15, fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Consultation time : ",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 12,),
-                                      ),
-                                      Text(
-                                        "08:00 PM, 22/05/2021",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 12,color: Colors.green),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Shared Documents",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 11,),
-                                      ),
-                                      Text(
-                                        "2 Documents, 2 reports",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 11,color: Colors.green),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10, left: 125.0),
-                                    child: FlatButton(
-                                        onPressed: () {},
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(5)),
-                                        color: HexColor("#107B3E"),
-                                        child: Text(
-                                          "View Details",
-                                          style:
-                                          GoogleFonts.roboto(color: Colors.white),
-                                        )),
-                                  ),
-                                ],
-                              ),
-
-                            ),
-                          ],
+                            ]
                         ),
-                      ),
-                    ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 0.0, right: 10, top: 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.transparent),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                height: 80,
+                                width: 80,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.asset(
+                                      "assets/images/doc.png",
+                                      fit: BoxFit.fill,
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Md. Arman",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Consultation time : ",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        Text(
+                                          "08:00 PM, 22/05/2021",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 12,
+                                              color: Colors.green),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Shared Documents: ",
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                        Text(
+                                          "2 Documents,2 reports",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 11,
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10, left: 125.0),
+                                      child: FlatButton(
+                                          onPressed: () {},
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          color: HexColor("#107B3E"),
+                                          child: Text(
+                                            "View Details",
+                                            style: GoogleFonts.roboto(
+                                                color: Colors.white),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
                   ],
                 ),
               ),

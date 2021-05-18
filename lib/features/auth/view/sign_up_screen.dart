@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
-
-import '../../constant.dart';
-
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -127,7 +122,6 @@ class _SignUpState extends State<SignUp> {
     String _formatDate = DateFormat("dd/MM/yyyy").format(pickedDate);
     String _formatDate2 = DateFormat("yyyy-MM-dd").format(pickedDate);
     var date = Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           child: Column(
@@ -186,7 +180,6 @@ class _SignUpState extends State<SignUp> {
       ],
     );
     var gender = Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           child: Column(
@@ -233,7 +226,6 @@ class _SignUpState extends State<SignUp> {
                                   style: GoogleFonts.roboto(
                                       fontSize: 15, color: HexColor("#D2D2D2")),
                                 ),
-                                // Not necessary for Option 1
                                 value: _selectedGender,
                                 onChanged: (newValue) {
                                   setState(() {

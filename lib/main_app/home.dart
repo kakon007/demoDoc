@@ -70,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     print(widget.accessToken);
     // TODO: implement initState
     super.initState();
+    isDrawerOpen = false;
     _animationController=AnimationController(vsync: this,duration: duration);
     scaleAnimation=Tween<double>(begin: 1.0,end:0.7).animate(_animationController);
     scaleAnimations=[
@@ -86,13 +87,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     ];
     //_animationController.forward();
     //screenShots=screens.values.toList();
-  }
-
-  Future<void> signOut() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.clear();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => HomeScreen()));
   }
 
   @override
@@ -403,6 +397,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     ]);
 
     return MaterialApp(
+      title: "MyHealthBD",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: HexColor('#354291'),
@@ -411,7 +406,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       home: WillPopScope(child: Scaffold(
          bottomNavigationBar: bottomNavBar,
         body: pages[currentIndex],
-      ), onWillPop: null),
+      ), onWillPop: () async {
+        if (currentIndex == 0)
+          return true;
+        else {
+          _moveTo(0);
+          return false;
+        }
+      }),
     );
   }
 }

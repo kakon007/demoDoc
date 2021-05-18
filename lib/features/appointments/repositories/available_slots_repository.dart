@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/doctor_info_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/slot_status.dart';
@@ -25,7 +26,7 @@ class AvailableSlotsRepository {
       "doctorNo": doctorNo,
       "ogNo": orgNo
     }),);
-    //print(response.body);
+    print(response.body);
       try {
         if (response.statusCode == 200) {
           print("aaaaaaaaaaadsdsdsdsdsa");
@@ -48,6 +49,42 @@ class AvailableSlotsRepository {
        // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.unknownError);
       }
+
+
+
+  }
+  Future<Either<AppError, DoctorInfoModel>>   fetchDoctorInfo(String companyNo, String doctorNo, String orgNo ) async {
+
+    var url =
+        "${Urls.buildUrl}online-appointment-api/fapi/appointment/getDoctorInfo";
+    final http.Response response = await http.post(url,body: jsonEncode(<String, String>{
+      "companyNo": companyNo,
+      "doctorNo": doctorNo,
+      "ogNo": orgNo
+    }),);
+    print("Shakil" + response.body);
+    try {
+      if (response.statusCode == 200) {
+        print("aaaaaaaaaaadsdsdsdsdsa");
+        print(response.body);
+        DoctorInfoModel data = doctorInfoModelFromJson(response.body);
+        //print("shakil" + data.items[1].doctorNo.toString());
+        return Right(DoctorInfoModel(
+          obj: data.obj,
+        ));
+      } else {
+        BotToast.showText(text: StringResources.somethingIsWrong);
+        return Left(AppError.serverError);
+      }
+    } on SocketException catch (e) {
+      //logger.e(e);
+      BotToast.showText(text: StringResources.unableToReachServerMessage);
+      return Left(AppError.networkError);
+    } catch (e) {
+      //logger.e(e);
+      // BotToast.showText(text: StringResources.somethingIsWrong);
+      return Left(AppError.unknownError);
+    }
 
 
 

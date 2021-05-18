@@ -530,6 +530,22 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
             padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
             child: Icon(Icons.search),
           ),
+          suffixIcon: Padding(
+            padding: EdgeInsets.only(right: width / 8.64),
+            child: Container(
+              width: 20,
+              height: 15,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppTheme.appbarPrimary,),
+              child: GestureDetector(
+                  onTap: (){
+                    deptController.clear();
+                    departmentSearch('');
+                  },
+                  child: Icon(Icons.clear, size: 15,color: Colors.white,)),
+            ),
+          ),
           hintText: StringResources.searchDepartment,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
@@ -544,7 +560,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               borderSide: new BorderSide(color: Colors.teal)),
           contentPadding: EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
         ));
-    var searchSpeciality = TextFormField(
+    var searchSpeciality = TextField(
         onChanged: (value) {
           specializationSearch(value);
           // print(value);
@@ -554,6 +570,22 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           prefixIcon: Padding(
             padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
             child: Icon(Icons.search),
+          ),
+          suffixIcon: Padding(
+            padding: EdgeInsets.only(right: width / 8.64),
+            child: Container(
+              width: 20,
+              height: 15,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppTheme.appbarPrimary,),
+              child: GestureDetector(
+                  onTap: (){
+                    specialityController.clear();
+                    specializationSearch('');
+                  },
+                  child: Icon(Icons.clear, size: 15,color: Colors.white,)),
+            ),
           ),
           hintText: StringResources.searchSpeciality,
           focusedBorder: OutlineInputBorder(
@@ -678,7 +710,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           topRight: Radius.circular(25)),
                                       border: Border.all(
                                         color: HexColor("#D6DCFF"),
-                                        //                   <--- border color
                                         width: 1.0,
                                       ),
                                     ),

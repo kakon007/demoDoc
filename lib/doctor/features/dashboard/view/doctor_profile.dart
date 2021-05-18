@@ -17,7 +17,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
         ),
       ),
       title: Text(
-        "Track your Shipment",
+        "Profile",
       ),),);
   }
 }

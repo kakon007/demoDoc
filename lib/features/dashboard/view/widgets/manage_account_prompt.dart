@@ -100,7 +100,7 @@ class ManageAccountPrompt extends StatelessWidget {
                                   GestureDetector(
                                     onTap: (){
                                       Navigator.pop(context);
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: vm.userDetailsList.patientName,phoneNumber: vm.userDetailsList.phoneMobile,address: vm.userDetailsList.address,dob:  vm.userDetailsList.dob,id: vm.userDetailsList.hospitalNumber ,accessToken: vm2.accessToken,)));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: vm.userDetailsList?.patientName??"",phoneNumber: vm.userDetailsList.phoneMobile,address: vm.userDetailsList.address,dob:  vm.userDetailsList.dob,id: vm.userDetailsList.hospitalNumber ,accessToken: vm2.accessToken,)));
                                     },
                                     child: Container(
                                       width: 160,

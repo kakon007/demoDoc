@@ -24,6 +24,7 @@ class UserDetailsRepository{
       if (response.statusCode == 200) {
         UserDetailsModel data2 = userDetailsModelFromJson(response.body) ;
         print('User Details Data:: '+data2.obj.fname);
+        print(response.body);
         return Right(
             UserM(
               dataList: data2.obj,

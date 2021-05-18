@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 class EditProfileAlert extends StatefulWidget {
   @override
   _EditProfileAlertState createState() => _EditProfileAlertState();
@@ -17,7 +21,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   final _address = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
   DateTime pickBirthDate;
-  Future<Null> selectBirthDate(BuildContext context) async {
+  String abc = "#EAEBED";
+
+  Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
       builder: (BuildContext context, Widget child) {
@@ -31,11 +37,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: child,
         );
       },
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 6)),
+      initialDate: DateTime(2003),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
-
     if (date != null && date != pickBirthDate) {
       setState(() {
         pickBirthDate = date;
@@ -43,10 +48,50 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     }
   }
   String _selectedGender;
+  String _selectedBlood;
   String color = "#EAEBED";
+Future<void> updateProfile(String userId, String name, String email, String number,String address, String birthDate,String gender, String blood, String hospitalNumber, String regDate) async {
+  if(gender=="Male"){
+    gender="M";
+  }
+  if(gender=="Female"){
+    gender="F";
+  }
+  DateTime tempDate = new DateFormat("yyyy-MM-dd").parse(regDate);
+  String registrationDate = DateFormat("yyyy-MM-dd").format(tempDate);
+  var headers = {
+    'Authorization': 'Bearer d5a92298-48ef-4280-b134-26d52d5d0fdf'
+  };
+  var request = http.MultipartRequest('PUT', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-registration/update-with-image'));
+  request.fields.addAll({
+    'reqobj': ' {"opdReg":{"id":$userId,"fname":$name,"dob":$birthDate,"gender":$gender,"phoneMobile":$number,"email":$email,"address":$address,"bloodGroup":$blood,"hospitalNumber":$hospitalNumber,"regDate":$registrationDate,"organizationNo":1}}'
+  });
+  //request.files.add(await http.MultipartFile.fromPath('file', '/home/ishraak/Pictures/Screenshot from 2020-12-05 16-05-55.png'));
+  request.headers.addAll(headers);
 
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+  print(await response.stream.bytesToString());
+  }
+  else {
+  print(response.reasonPhrase);
+  }
+
+}
+@override
+  void initState() {
+  pickBirthDate= DateTime.now();
+    // TODO: implement initState
+  super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
+    var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
+    var userId= vm.userDetailsList.id;
+    var hospitalNumber= vm.userDetailsList.hospitalNumber;
+    var regDate= vm.userDetailsList.regDate;
     var width = MediaQuery.of(context).size.width * 0.44;
     var name = SignUpFormField(
       labelText: "Name",
@@ -191,10 +236,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                               child: DropdownButton(
                                 iconSize: 0.0,
                                 hint: Text('Blood Group', style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
-                                value: _selectedGender,
+                                value: _selectedBlood,
                                 onChanged: (newValue) {
                                   setState(() {
-                                    _selectedGender = newValue;
+                                    _selectedBlood = newValue;
                                   });
                                 },
                                 items: StringResources.bloodGroupList.map((gender) {
@@ -222,15 +267,14 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       ],
     );
     //String formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
-    var dateOfBirth = Row(
+    var dateOfBirth =Row(
       children: [
         GestureDetector(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                   height: 20.0,
-                  width: MediaQuery.of(context).size.width*.2,
+                  width: width,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -246,10 +290,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width*.84,
+                width: width,
                 decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(color: HexColor(color)),
+                    color: Colors.white,
+                    border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -259,7 +303,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                       child: Text(
                         pickBirthDate == DateTime.now()
                             ? "Date of birth"
-                            : "22/02/2021",
+                            : "$_formatDate",
                         style: TextStyle(fontSize: 13.0),
                       ),
                     ),
@@ -276,7 +320,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             ],
           ),
           onTap: () {
-            selectBirthDate(context);
+            selectDate(context);
           },
         ),
       ],
@@ -304,7 +348,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: Center(
             child: Container(
               padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              constraints: BoxConstraints(maxWidth: 400, maxHeight: width*3.7),
+              constraints: BoxConstraints(maxWidth: 400, maxHeight: 650),
               child: Material(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -383,7 +427,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                       height: width * .25,
                                       child: FlatButton(
                                         textColor: Colors.white,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          updateProfile(userId.toString(), _username.text,_email.text,_mobile.text,_address.text,_formatDate,_selectedGender,_selectedBlood, hospitalNumber, regDate);
+                                        },
                                         color:  AppTheme.appbarPrimary,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:

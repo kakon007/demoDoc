@@ -17,9 +17,12 @@ class UserProfile extends StatefulWidget {
   String dob;
   String id;
   String accessToken;
-  UserProfile({this.fName,this.phoneNumber,this.address,this.dob,this.id,this.accessToken});
+  String email;
+  String gender;
+  String bloodGroup;
+  UserProfile({this.fName,this.phoneNumber,this.address,this.dob,this.id,this.accessToken,this.email,this.gender,this.bloodGroup});
   @override
-  _UserProfileState createState() => _UserProfileState(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob);
+  _UserProfileState createState() => _UserProfileState(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob,email: email,gender: gender,bloodGroup: bloodGroup);
 }
 
 class _UserProfileState extends State<UserProfile> {
@@ -27,7 +30,10 @@ class _UserProfileState extends State<UserProfile> {
   String phoneNumber;
   String address;
   String dob;
-  _UserProfileState({this.fName,this.phoneNumber,this.address,this.dob});
+  String email;
+  String gender;
+  String bloodGroup;
+  _UserProfileState({this.fName,this.phoneNumber,this.address,this.dob,this.email,this.gender,this.bloodGroup});
 
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
@@ -253,7 +259,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Email address    : doe@gmail.com",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Email address    : $email",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -289,7 +295,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Gender                  : Male",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Gender                  : $gender",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -298,7 +304,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Blood Group         : O+",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Blood Group         : $bloodGroup",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      SizedBox(height:15,),

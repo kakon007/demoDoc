@@ -173,7 +173,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           selectedIndex==0?null:
           Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
         });
-      },));
+      },)
+      );
       //stackToReturn.add(DashboardScreen());
       screenShots.asMap().entries.map((e) => buildStackedScreen(e.key)).toList().reversed..forEach((element) {stackToReturn.add(element);});
       return stackToReturn;

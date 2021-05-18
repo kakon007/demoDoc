@@ -44,6 +44,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Sign Out",
   ];
 
+  List<String> menuItem2=[
+    "Dashboard",
+    "Appointments",
+    "Prescriptions",
+    "Reports",
+    "Documents",
+    "Notifications",
+    "Settings",
+  ];
 
   Widget buildMenuRow(int index){
     return InkWell(
@@ -69,7 +78,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left:3,right:3),
                   child: Text(
-                    menuItem[index],
+                   widget.accessToken==null?menuItem2[index]:menuItem[index],
                     style: GoogleFonts.roboto(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -79,7 +88,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
             ),),
               ):
         Text(
-          menuItem[index],
+          widget.accessToken==null?menuItem2[index]:menuItem[index],
           style: GoogleFonts.roboto(
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -194,7 +203,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top:40.0),
                   child: Column(
-                    children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
+                    children:widget.accessToken==null? menuItem2.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList():menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
                   ),
                 ),
               ),

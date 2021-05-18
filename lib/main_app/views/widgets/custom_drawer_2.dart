@@ -23,7 +23,7 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
   String address;
   String dob;
 
-  List<String> menuItem=[
+  List<String> menuItem2=[
     "Dashboard",
     "Appointments",
     "Prescriptions",
@@ -31,9 +31,6 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
     "Documents",
     "Notifications",
     "Settings",
-    "Family Members",
-    "Switch Account",
-    "Sign Out",
   ];
 
 
@@ -61,7 +58,7 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
                       child: Padding(
                         padding: const EdgeInsets.only(left:3,right:3),
                         child: Text(
-                          menuItem[index],
+                          menuItem2[index],
                           style: GoogleFonts.roboto(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -71,7 +68,7 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
                     ),),
                   ):
                   Text(
-                    menuItem[index],
+                    menuItem2[index],
                     style: GoogleFonts.roboto(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -89,37 +86,9 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
   }
 
 
-  // Future<FindHospitalNumberModel> fetchUserDetails() async {
-  //   var url =
-  //       "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
-  //   var client = http.Client();
-  //   var response = await client.post(url,headers: {'Authorization': 'Bearer ${signInData.accessToken}',});
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonMap = json.decode(response.body);
-  //     print("Body"+jsonMap.toString());
-  //     //data = jsonMap["items"];
-  //     FindHospitalNumberModel data2 = findHospitalNumberModelFromJson(response.body) ;
-  //     //Obj odj=Obj.fromJson();
-  //     setState(() {
-  //       fName=data2.obj.fname;
-  //       phoneNumber=data2.obj.phoneMobile;
-  //       address=data2.obj.address;
-  //       dob=data2.obj.dob;
-  //     });
-  //     print('Data:: ' + data2.obj.fname);
-  //     print('DataList:: ' + fName.toString());
-  //     return data2;
-  //     //print(data[0]['companySlogan']);
-  //   }else {
-  //     return null;
-  //   }
-  // }
-
   @override
   void initState() {
     // TODO: implement initState
-    //fetchUserDetails();
-
     super.initState();
   }
   @override
@@ -134,7 +103,7 @@ class _DrawerScreen2State extends State<DrawerScreen2> {
             Padding(
               padding: const EdgeInsets.only(top:50.0),
               child: Column(
-                children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
+                children: menuItem2.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
               ),
             ),
 

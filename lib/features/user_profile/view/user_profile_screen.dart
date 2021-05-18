@@ -6,9 +6,11 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 class UserProfile extends StatefulWidget {
   String fName;
@@ -41,6 +43,7 @@ class _UserProfileState extends State<UserProfile> {
   );
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),
@@ -237,7 +240,7 @@ class _UserProfileState extends State<UserProfile> {
                                  border: Border.all(color: HexColor('#354291')),
                                  borderRadius: BorderRadius.circular(5),
                                ),
-                               child: Center(child: Text("Edit info",style:  GoogleFonts.roboto(color: HexColor('#354291'),fontSize: 8),)),
+                               child: Center(child: Text("Edit Info",style:  GoogleFonts.roboto(color: HexColor('#354291'),fontSize: 8),)),
                              ),
                            )
                          ],
@@ -250,7 +253,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Full name            : $fName",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Full name            : ${vm.userDetailsList?.fname??""}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -259,7 +262,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Email address    : $email",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Email address    : ${vm.userDetailsList?.email??""}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -268,7 +271,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Mobile number   : $phoneNumber",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Mobile number   : ${vm.userDetailsList?.phoneMobile??""}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -277,7 +280,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Address               : $address",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Address               : ${vm.userDetailsList?.address??""}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -286,7 +289,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Date of birth        : ${DateUtil().formattedDate(DateTime.parse(dob).toLocal())}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Date of birth        : ${DateUtil().formattedDate(DateTime.parse(vm.userDetailsList?.dob??"").toLocal())}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -295,7 +298,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Gender                  : $gender",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Gender                  : ${vm.userDetailsList?.gender??""}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      Container(
@@ -304,7 +307,7 @@ class _UserProfileState extends State<UserProfile> {
                        width: double.infinity,
                        child:  Padding(
                          padding: const EdgeInsets.only(left:22.0,top:10),
-                         child: Text("Blood Group         : $bloodGroup",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
+                         child: Text("Blood Group         : ${vm.userDetailsList?.bloodGroup??""}",style:  GoogleFonts.roboto(color: HexColor('#141D53'),fontSize: 15),),
                        ),
                      ),
                      SizedBox(height:15,),

@@ -63,6 +63,7 @@ class PrescriptionListViewModel extends ChangeNotifier{
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
       _prescriptionList.addAll(r.dataListofPrescription);
+      count = r.totalCount;
       print('Dataaaaaaa2222222:: ' + _prescriptionList.toString());
       notifyListeners();
       return true;

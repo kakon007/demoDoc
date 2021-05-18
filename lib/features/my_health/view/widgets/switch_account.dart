@@ -31,93 +31,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
   SwitchAccounts _accounts;
   List<SwitchAccounts> accountList;
   int updateIndex;
-  List<AccountList> accounts = [
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: true,
-        whoseAccount: "Mine"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Brother"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Cousin"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Father"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Mother"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Cousin Brother"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Sister"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Uncle"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Rakib's"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Cousin"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Grandmother"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Grandfather"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Cousin"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Brother"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Sister"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Sister"),
-    AccountList(
-        name: "John Doe",
-        imageUrl: "assets/images/doctor.png",
-        isLoggedIn: false,
-        whoseAccount: "Brother"),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +133,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                           ),
                                           child: CircleAvatar(
                                             backgroundImage: AssetImage(
-                                                accounts[index].imageUrl),
+                                                "assets/images/familypic.png"),
                                             radius: 28.0,
                                           ),
                                         ),

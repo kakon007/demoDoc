@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 
 class AddFamilyMemberPrompt extends StatefulWidget {
@@ -49,6 +50,7 @@ class _AddFamilyMemberPromptState extends State<AddFamilyMemberPrompt> {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width * 0.44;
     var name = SignUpFormField(
+      validator: Validator().nullFieldValidate,
       labelText: "Name",
       isRequired: true,
       controller: _username,

@@ -13,21 +13,20 @@ class DoctorHomeScreen extends StatefulWidget {
   _DoctorHomeScreenState createState() => _DoctorHomeScreenState();
 }
 
-class _DoctorHomeScreenState extends State<DoctorHomeScreen> with SingleTickerProviderStateMixin{
+class _DoctorHomeScreenState extends State<DoctorHomeScreen>
+    with SingleTickerProviderStateMixin {
+  int currentIndex = 0;
 
-
-  int currentIndex=0;
-  _moveTo(int index){
-    currentIndex=index;
-    setState(() {
-
-    });
+  _moveTo(int index) {
+    currentIndex = index;
+    setState(() {});
   }
 
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
+
   //Navigation screen
 
   @override
@@ -40,7 +39,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    var deviceWidth=MediaQuery.of(context).size.width;
+    var deviceWidth = MediaQuery.of(context).size.width;
     final String dashboardIconImage = "assets/images/dashboard.svg";
     final Widget dashboardIcon = SvgPicture.asset(
       dashboardIconImage,
@@ -49,7 +48,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> with SingleTickerPr
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
+      color: currentIndex == 0 ? HexColor('#107B3E') : HexColor('#84BA9E'),
     );
     final String workListIconImage = "assets/images/work.svg";
     final Widget workListIcon = SvgPicture.asset(
@@ -59,7 +58,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> with SingleTickerPr
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
+      color: currentIndex == 1 ? HexColor('#107B3E') : HexColor('#84BA9E'),
     );
     final String prescriptionImage = "assets/images/prescription.svg";
     final Widget prescriptionIcon = SvgPicture.asset(
@@ -69,7 +68,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> with SingleTickerPr
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
+      color: currentIndex == 2 ? HexColor('#107B3E') : HexColor('#84BA9E'),
     );
     final String profileImage = "assets/images/profile.svg";
     final Widget profileIcon = SvgPicture.asset(
@@ -79,18 +78,18 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> with SingleTickerPr
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
+      color: currentIndex == 3 ? HexColor('#107B3E') : HexColor('#84BA9E'),
     );
 
     List pages = <Widget>[
       DoctorDashboard(),
       Worklist(),
       Module(),
-      DoctorProfile()];
-    var bottomNavBar=BottomNavigationBar(
-        onTap: (int index){
-          if(currentIndex !=index)
-          {
+      DoctorProfile()
+    ];
+    var bottomNavBar = BottomNavigationBar(
+        onTap: (int index) {
+          if (currentIndex != index) {
             _moveTo(index);
           }
         },
@@ -106,58 +105,76 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> with SingleTickerPr
         elevation: 20.0,
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Material(
-            color: Colors.transparent,
-            child: dashboardIcon,
+          BottomNavigationBarItem(
+              icon: Material(
+                color: Colors.transparent,
+                child: dashboardIcon,
 
-            // ignore: deprecated_member_use
-          ),title: Padding(
-            padding: const EdgeInsets.only(top:8.0),
-            child: Text(StringResources.dashboardNavBarText),
-          )),
-          BottomNavigationBarItem(icon: Material(
-            color: Colors.transparent,
-            child: workListIcon,
+                // ignore: deprecated_member_use
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(StringResources.dashboardNavBarText),
+              )),
+          BottomNavigationBarItem(
+              icon: Material(
+                color: Colors.transparent,
+                child: workListIcon,
 
-            // ignore: deprecated_member_use
-          ),title: Padding(
-            padding: const EdgeInsets.only(top:8.0),
-            child: Text("Worklists"),
-          )),
+                // ignore: deprecated_member_use
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text("Worklists"),
+              )),
           //hospitals
           // ignore: deprecated_member_use
-          BottomNavigationBarItem(icon:  Material(
-            color: Colors.transparent,
-            child:prescriptionIcon,
+          BottomNavigationBarItem(
+              icon: Material(
+                color: Colors.transparent,
+                child: prescriptionIcon,
 
-            // ignore: deprecated_member_use
-          ),title: Padding(
-            padding: const EdgeInsets.only(top:8.0),
-            child: Text("Prescriptions Module"),
-          )),
+                // ignore: deprecated_member_use
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text("Prescriptions Module"),
+              )),
           //my_health
           // ignore: deprecated_member_use
-          BottomNavigationBarItem(icon: Material(
-            color: Colors.transparent,
-            child: profileIcon,
+          BottomNavigationBarItem(
+              icon: Material(
+                color: Colors.transparent,
+                child: profileIcon,
 
-            // ignore: deprecated_member_use
-          ),title: Padding(
-            padding: const EdgeInsets.only(top:8.0),
-            child: Text("Profile"),
-          ))
+                // ignore: deprecated_member_use
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text("Profile"),
+              ))
         ]);
 
     return MaterialApp(
+      title: 'MyHealthBD',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: HexColor('#1DBF63'),
         unselectedWidgetColor: HexColor('#8592E5'),
       ),
-      home: WillPopScope(child: Scaffold(
-        bottomNavigationBar: bottomNavBar,
-        body: pages[currentIndex],
-      ), onWillPop: null),
+      home: WillPopScope(
+          child: Scaffold(
+            bottomNavigationBar: bottomNavBar,
+            body: pages[currentIndex],
+          ),
+          onWillPop: () async {
+            if (currentIndex == 0)
+              return true;
+            else {
+              _moveTo(0);
+              return false;
+            }
+          }),
     );
   }
 }

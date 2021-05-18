@@ -51,8 +51,8 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child:widget.image!=null? Container(
-                  height: 100,
-                  width: 90,
+                  height: 110,
+                  width: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),

@@ -48,7 +48,7 @@ class StringResources {
   static String loginToYourExistingAccount = "Sign in to your existing account";
   //Hospital List
   static String hospitalListAppbar= "Hospitals & Diagnostics";
-  static String searchBoxHint ="Type Hospitals / Diagnosis/ Doctor Chamber";
+  static String searchBoxHint ="Type Hospitals / Diagnosis";
   static String getAppointmentButton = "GET APPOINTMENT";
 
   //Doctors list

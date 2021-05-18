@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/NewFile.dart';
+import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
+import 'package:provider/provider.dart';
 
 class CustomContainer extends StatelessWidget {
   String jobTitle;
@@ -23,13 +25,14 @@ class CustomContainer extends StatelessWidget {
   CustomContainer(@required this.jobTitle,@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName);
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<DoctorListViewModel>(context);
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 15.0 : 10.0,
     );
-    print( (cardHeight*.5).toString());
+   // print( (cardHeight*.5).toString());
     return Container(
 
       height: 162,
@@ -86,7 +89,7 @@ class CustomContainer extends StatelessWidget {
 
                       Row(
                         children: [
-                          Text(consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
+                          Text("Tk. " + consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
                           SizedBox(width: height*.03,),
                           Container(
                             width: cardWidth*0.75,
@@ -103,7 +106,7 @@ class CustomContainer extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: (){
                                   Navigator.push(context,MaterialPageRoute(builder: (context){
-                                    return AppointmentScreen(jobTitle: jobTitle,logo: logo,name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
+                                    return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
                                   }));
                                 },
                                 child: Text(

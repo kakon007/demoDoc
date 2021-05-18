@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,24 +16,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentScreen extends StatefulWidget {
-  String jobTitle;
-  Image logo;
-  String specialist;
-  String name;
-  String designation;
-  String fee;
   String doctorNo;
   String companyNo;
   String orgNo;
   String hospitalName;
 
   AppointmentScreen(
-      {this.jobTitle,
-        this.logo,
-        this.name,
-        this.designation,
-        this.fee,
-        this.specialist,
+      {
         this.companyNo,
         this.doctorNo,
         this.orgNo,
@@ -113,7 +104,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     accessToken = prefs.getString('accessToken');
   }
+  loadLogo(String image) {
+    Uint8List _bytesImage = Base64Decoder().convert(image);
 
+    return Image.memory(
+      _bytesImage,
+      fit: BoxFit.cover,
+      width: 110,
+      height: 160,
+      gaplessPlayback: true,
+    );
+  }
   @override
   void initState() {
     accesstoken();
@@ -125,6 +126,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     pickedAppointDate2 = DateTime.now();
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+      vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
       vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
@@ -147,6 +149,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         _aspectRatio = MediaQuery.of(context).size.height > 650 ? .6:.5;
     var height = MediaQuery.of(context).size.height;
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: true);
+    var doctorDegree=  vm.doctorInfo?.docDegree == null
+        ? ""
+        : vm.doctorInfo?.docDegree;
+    var jobTitle=   vm.doctorInfo?.jobtitle??"";
+    var photo= vm.doctorInfo?.doctorPhoto??"";
+    //var jobTitle= vm.doctorInfo.jobtitle==null  || vm.doctorInfo.jobtitle==''? ""  : ("${vm.doctorInfo.jobtitle},");
     if (pickedAppointDate != pickedAppointDate2) {
       vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
@@ -236,7 +244,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           isStatusOk = true;
                           vm.getAppointInfo(
                             widget.doctorNo,
-                            widget.name,
+                            vm.doctorInfo.doctorName,
                             appointDate,
                             shiftdtlNo.toString(),
                             shift.toString(),
@@ -358,7 +366,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           bottomLeft: Radius.circular(10)),
-                      child: widget.logo,
+                      child:    photo!=""
+                          ? loadLogo(vm.doctorInfo.doctorPhoto)
+                          : Image.asset(
+                        "assets/icons/dct.png",
+                        fit: BoxFit.cover,
+                        width: 110,
+                        height: 160,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -368,7 +383,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.specialist,
+                        vm.doctorInfo?.specializationName??"",
                         style: GoogleFonts.poppins(
                             height: 1.5,
                             color: AppTheme.appbarPrimary,
@@ -377,7 +392,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       Container(
                           width: 185,
                           child: Text(
-                            widget.name,
+                            vm.doctorInfo?.doctorName??"",
                             style: GoogleFonts.poppins(
                                 fontSize: 12, fontWeight: FontWeight.w700),
                           )),
@@ -400,7 +415,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           Container(
                             width: 185,
                             child: Text(
-                                 widget.jobTitle==""? "" : ("${widget.jobTitle}, ") + widget.designation,
+                                jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style:
@@ -412,7 +427,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         height: 3,
                       ),
                       Text(
-                        widget.fee,
+                        "Tk. " + vm.doctorInfo?.consultationFee.toString()??"",
                         style: GoogleFonts.poppins(
                           color: AppTheme.appbarPrimary,
                         ),

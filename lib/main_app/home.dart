@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/after_sign_in.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
@@ -96,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    var vm9 = Provider.of<AccessTokenProvider>(context, listen: true);
     var deviceWidth=MediaQuery.of(context).size.width;
     //
     screens= {
@@ -105,13 +107,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           _animationController.forward();
           print("Heeoollo");
         });
-      },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,),
-      1: widget.accessToken==null?SignInPrompt("To access your Appointments,",'Appointments'):GetAppointment(),
-      2: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
-      3: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
-      4: widget.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: widget.accessToken,),
+      },isDrawerOpen: isDrawerOpen,accessToken: vm9.accessToken,),
+      1: vm9.accessToken==null?SignInPrompt("To access your Appointments,",'Appointments'):GetAppointment(),
+      2: vm9.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: vm9.accessToken,),
+      3: vm9.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: vm9.accessToken,),
+      4: vm9.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: vm9.accessToken,),
       5:NotificationScreen(),
-      6:SettingScreen(accessToken: widget.accessToken,),
+      6:SettingScreen(accessToken: vm9.accessToken,),
       7:FamilyMemberListScreen(),
       8:SwitchAccount(),
     };
@@ -161,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       //     Navigator.push(context, MaterialPageRoute(builder: (context)=>selectedWidget));
       //   });
       // },):
-          DrawerScreen(accessToken: widget.accessToken,menuCallBack:(selectedIndex) {
+          DrawerScreen(accessToken: vm9.accessToken,menuCallBack:(selectedIndex) {
         setState(() {
           //isSelected=true;
           screenShots=screens.values.toList();
@@ -238,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     Stack(
           children:[
-            widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
+            vm9.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: vm9.accessToken,),
 
     AnimatedPositioned(
     duration: duration,
@@ -271,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           _animationController.forward();
           print("Heeoollo");
         });
-      },isDrawerOpen: isDrawerOpen,accessToken: widget.accessToken,onTapFeaturedCompany: () {
+      },isDrawerOpen: isDrawerOpen,accessToken: vm9.accessToken,onTapFeaturedCompany: () {
         _moveTo(2);
         // _paeViewController.animateToPage(2,
         //     duration: const Duration(milliseconds: 400),
@@ -284,6 +286,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //       children: [
     //         widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
     //         DashboardScreen(accessToken: widget.accessToken,) ]),
+      vm9.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
       widget.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(accessToken: widget.accessToken,),
       HospitalScreen(),
       // isDrawerOpen?Stack(children:finalStack(),):
@@ -327,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       //         ),
       //       )]),
 
-      widget.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: widget.accessToken,),
+      vm9.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: vm9.accessToken,),
 
     ];
 
@@ -401,6 +404,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     ]);
 
     return MaterialApp(
+      title: "MyHealthBD",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: HexColor('#354291'),
@@ -409,7 +413,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       home: WillPopScope(child: Scaffold(
          bottomNavigationBar: bottomNavBar,
         body: pages[currentIndex],
-      ), onWillPop: null),
+      ), onWillPop: () async {
+        if (currentIndex == 0)
+          return true;
+        else {
+          _moveTo(0);
+          return false;
+        }
+      }),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
@@ -99,17 +100,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
   void initState() {
     // TODO: implement initState
     //fetchUserDetails();
-    UserDetailsRepository().fetchUserDetails(widget.accessToken);
+    var vm2 = Provider.of<AccessTokenProvider>(context, listen: false);
+    UserDetailsRepository().fetchUserDetails(vm2.accessToken);
     super.initState();
 
     var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
-    vm.getData(widget.accessToken);
+    vm.getData(vm2.accessToken);
   }
 
 
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context);
+    var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
     Obj userDetails = vm.userDetailsList;
     var devicewidth=MediaQuery.of(context).size.width;
     return Stack(
@@ -121,7 +124,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           widget.accessToken==null?SizedBox():InkWell(
+           vm9.accessToken==null?SizedBox():InkWell(
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: userDetails.patientName,phoneNumber: userDetails.phoneMobile,address: userDetails.address,dob: userDetails.dob,id:userDetails.hospitalNumber ,accessToken: widget.accessToken,)));
                 print("Presssss");

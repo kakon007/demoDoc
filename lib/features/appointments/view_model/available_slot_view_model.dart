@@ -46,12 +46,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/doctor_info_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 class AvailableSlotsViewModel extends ChangeNotifier {
   List<Items> _slots = [];
+  Obj _doctors;
   List<PatientItem> _patientItem = [];
   List<ConsultType> _consultItem = [];
   String slot;
@@ -169,7 +171,25 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-
+  Future<void> getDoctorInfo(String companyNo,
+      String doctorNo, String orgNo) async {
+    _isLoading = true;
+    var res = await AvailableSlotsRepository()
+        .fetchDoctorInfo(companyNo, doctorNo, orgNo);
+    _slots.clear();
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isLoading = false;
+      _isFetchingMoreData = false;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = false;
+      _doctors=r.obj;
+      _isLoading = false;
+      notifyListeners();
+    });
+  }
   Future<void> getSlotStatus(
       String slotNo, String companyNo, String orgNo) async {
     _isSlotStatusLoading = true;
@@ -263,6 +283,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   String get slotStatus => slot;
 
   String get consultationFee => consultFee;
+  Obj get doctorInfo => _doctors;
 
   List<PatientItem> get patientItem => _patientItem;
 

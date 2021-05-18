@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -57,10 +58,11 @@ Future<void> updateProfile(String userId, String name, String email, String numb
   if(gender=="Female"){
     gender="F";
   }
+
   DateTime tempDate = new DateFormat("yyyy-MM-dd").parse(regDate);
   String registrationDate = DateFormat("yyyy-MM-dd").format(tempDate);
   var headers = {
-    'Authorization': 'Bearer d5a92298-48ef-4280-b134-26d52d5d0fdf'
+    'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(context, listen: false).accessToken}'
   };
   var request = http.MultipartRequest('PUT', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-registration/update-with-image'));
   request.fields.addAll({
@@ -81,6 +83,8 @@ Future<void> updateProfile(String userId, String name, String email, String numb
 }
 @override
   void initState() {
+  var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+  _username.text=vm.userDetailsList.fname;
   pickBirthDate= DateTime.now();
     // TODO: implement initState
   super.initState();

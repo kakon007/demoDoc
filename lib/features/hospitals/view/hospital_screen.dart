@@ -141,46 +141,50 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            searchField,
-            vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Center(child: CircularProgressIndicator(  valueColor:
-            AlwaysStoppedAnimation<Color>(
-                AppTheme.appbarPrimary),)):  Expanded(
-              child: SingleChildScrollView(
-                physics: ScrollPhysics(),
-                  child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: hospitalItems.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
-                        int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
-                        return HospitalListCard(loadImage(vm5.hospitalLogoList[ind].photoLogo),
-                          vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
-                          hospitalItems[index].companyName,
-                          hospitalItems[index].companyAddress == null
-                              ? "Mirpur,Dahaka,Bangladesh"
-                              : hospitalItems[index].companyAddress,
-                          "60 Doctors",
-                          hospitalItems[index].companyPhone == null
-                              ? "+880 1962823007"
-                              : hospitalItems[index].companyPhone,
-                          hospitalItems[index].companyEmail == null
-                              ? "info@mysoftitd.com"
-                              : list[index].companyEmail,
-                          hospitalItems[index].companyLogo,
-                          hospitalItems[index].companyId,
-                          hospitalItems[index].ogNo.toString(),
-                          hospitalItems[index].id.toString(),
-                        );
-                      }),
+      body: RefreshIndicator(
+        onRefresh: (){
+          return Provider.of<HospitalListViewModel>(context, listen: false)
+              .refresh();
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              searchField,
+              vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Center(child: Center(
+                child: CircularProgressIndicator(  valueColor:
+                AlwaysStoppedAnimation<Color>(
+                    AppTheme.appbarPrimary),),
+              )):  Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: hospitalItems.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      return HospitalListCard(loadImage(vm5.hospitalLogoList[ind].photoLogo),
+                        vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                        hospitalItems[index].companyName,
+                        hospitalItems[index].companyAddress == null
+                            ? "Mirpur,Dahaka,Bangladesh"
+                            : hospitalItems[index].companyAddress,
+                        "60 Doctors",
+                        hospitalItems[index].companyPhone == null
+                            ? "+880 1962823007"
+                            : hospitalItems[index].companyPhone,
+                        hospitalItems[index].companyEmail == null
+                            ? "info@mysoftitd.com"
+                            : list[index].companyEmail,
+                        hospitalItems[index].companyLogo,
+                        hospitalItems[index].companyId,
+                        hospitalItems[index].ogNo.toString(),
+                        hospitalItems[index].id.toString(),
+                      );
+                    }),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

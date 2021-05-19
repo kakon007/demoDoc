@@ -21,12 +21,12 @@ class HospitalLogoViewModel extends ChangeNotifier{
   bool _isLoading;
 
   Future<void> refresh(){
-    _page = 0;
+    _page = 1;
     _hospitalLogoList.clear();
     return getData();
   }
 
-  Future<void> getData({bool isFromOnPageLoad = false}) async {
+  Future<void> getData() async {
     // if (isFromOnPageLoad) {
     //   if (_lastFetchTime != null) if (_lastFetchTime
     //       .difference(DateTime.now()) <

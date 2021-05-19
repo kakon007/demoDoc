@@ -287,7 +287,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //       children: [
     //         widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
     //         DashboardScreen(accessToken: widget.accessToken,) ]),
-      vm9.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(accessToken: widget.accessToken,),
+      vm9.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(accessToken: widget.accessToken,onTapFeaturedCompany: () {
+        _moveTo(2);
+        // _paeViewController.animateToPage(2,
+        //     duration: const Duration(milliseconds: 400),
+        //     curve: Curves.easeInOut);
+      }),
       HospitalScreen(),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(

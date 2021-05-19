@@ -33,7 +33,8 @@ import 'package:path_provider/path_provider.dart' as pp;
 
 class GetAppointment extends StatefulWidget {
   String accessToken;
-  GetAppointment({this.accessToken});
+  final Function onTapFeaturedCompany;
+  GetAppointment({this.accessToken,this.onTapFeaturedCompany});
   @override
   _GetAppointmentState createState() => _GetAppointmentState();
 }
@@ -214,7 +215,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     );
 
     var searchField=Padding(
-      padding: const EdgeInsets.only(left:12.0,right: 0,top:5,bottom: 3),
+      padding: const EdgeInsets.only(left:12.0,right: 0,top:8,bottom: 3),
       child: Container(
         width: MediaQuery.of(context).size.width*.70,
         height: 50,
@@ -225,7 +226,7 @@ class _GetAppointmentState extends State<GetAppointment> {
         ),
         child:
         Padding(
-          padding: const EdgeInsets.only(left:8.0),
+          padding: const EdgeInsets.only(left:15.0,bottom: 8),
           child: TextField(
             autofocus: false,
             textInputAction: TextInputAction.search,
@@ -263,7 +264,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     );
 
     var searchField2=Padding(
-      padding: const EdgeInsets.only(left:12.0,right: 0,top:5,bottom: 3),
+      padding: const EdgeInsets.only(left:12.0,right: 0,top:8,bottom: 3),
       child: Container(
         width: MediaQuery.of(context).size.width*.70,
         height: 50,
@@ -274,7 +275,7 @@ class _GetAppointmentState extends State<GetAppointment> {
         ),
         child:
         Padding(
-          padding: const EdgeInsets.only(left:8.0),
+          padding: const EdgeInsets.only(left:15.0,bottom: 8),
           child: TextField(
             autofocus: false,
             textInputAction: TextInputAction.search,
@@ -309,6 +310,16 @@ class _GetAppointmentState extends State<GetAppointment> {
           ),
         ),
       ),
+    );
+    final String assetName5="assets/icons/med.svg";
+    final Widget upComingBlank = SvgPicture.asset(
+      assetName5,
+      width: 80,
+      height: 100,
+      fit: BoxFit.fitWidth,
+      allowDrawingOutsideViewBox: true,
+      matchTextDirection: true,
+      //semanticsLabel: 'Acme Logo'
     );
     return Scaffold(
       appBar: AppBar(
@@ -366,8 +377,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                               height: 55,
                               child: Row(
                                 children: [
-                                  Spacer(),
-                                  if (vm.isInSearchMode)searchField,
                                   IconButton(
                                     icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search,color: Colors.grey,),
                                     onPressed: () {
@@ -381,6 +390,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                       }
                                     },
                                   ),
+                                  if (vm.isInSearchMode)searchField,
+                                  Spacer(),
                                   Padding(
                                     padding: const EdgeInsets.only(right:15.0),
                                     child: GestureDetector(
@@ -637,9 +648,38 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   AlwaysStoppedAnimation<Color>(
                                       AppTheme.appbarPrimary),),
                                 ),
-                              ):vm.upComingAppointmentList.length==0?Center(child: Center(
-                                child: Text('No Appointment History Found!'),
-                              ),): ListView.builder(
+                              ):vm.upComingAppointmentList.length==0?Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top:120.0),
+                                  child: Container(
+                                    child: Column(
+                                      children: [
+                                        Text('You have no upcoming \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
+                                        SizedBox(height: 30,),
+                                        upComingBlank,
+                                        SizedBox(height: 30,),
+                                        GestureDetector(
+                                          onTap: widget.onTapFeaturedCompany,
+                                          child: Material(
+                                            elevation: 2  ,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                            color: HexColor("#354291"),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width >600? 35 : 300,
+                                              height:  MediaQuery.of(context).size.width >600? 35 : 45,
+                                              child: Center(
+                                                child: Text("Get an appointment",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ): ListView.builder(
                                    controller: _scrollController,
                                    shrinkWrap: true,
                                    itemCount:vm.upComingAppointmentList.length,
@@ -818,8 +858,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                               height: 55,
                               child: Row(
                                 children: [
-                                  Spacer(),
-                                  if (vm2.isInSearchMode)searchField2,
                                   IconButton(
                                     key: Key('featuredJobSearchToggleButtonKey'),
                                     icon: Icon(vm2.isInSearchMode ? Icons.close : Icons.search,color: Colors.grey,),
@@ -834,6 +872,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                       }
                                     },
                                   ),
+                                  if (vm2.isInSearchMode)searchField2,
+                                  Spacer(),
                                   Padding(
                                     padding: const EdgeInsets.only(right:15.0),
                                     child: GestureDetector(
@@ -1084,12 +1124,44 @@ class _GetAppointmentState extends State<GetAppointment> {
                             ),
                             Expanded(
                               child:
-                                  vm2.shouldShowPageLoader?Center(
-    child: Center(
-    child: CircularProgressIndicator(  valueColor:
-    AlwaysStoppedAnimation<Color>(
-    AppTheme.appbarPrimary),),
-    )):
+                              vm2.shouldShowPageLoader?Center(
+                                child: Center(
+                                  child: CircularProgressIndicator(  valueColor:
+                                  AlwaysStoppedAnimation<Color>(
+                                      AppTheme.appbarPrimary),),
+                                ),
+                              ):vm2.previousAppointmentList.length==0?Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top:120.0),
+                                  child: Container(
+                                    child: Column(
+                                      children: [
+                                        Text('You have no previous \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
+                                        SizedBox(height: 30,),
+                                        upComingBlank,
+                                        SizedBox(height: 30,),
+                                        GestureDetector(
+                                          onTap: widget.onTapFeaturedCompany,
+                                          child: Material(
+                                            elevation: 2  ,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                            color: HexColor("#354291"),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width >600? 35 : 300,
+                                              height:  MediaQuery.of(context).size.width >600? 35 : 45,
+                                              child: Center(
+                                                child: Text("Get an appointment",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ):
                               ListView.builder(
                                 controller: _scrollController2,
                                   shrinkWrap: true,

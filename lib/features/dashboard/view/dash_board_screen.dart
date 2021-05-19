@@ -268,11 +268,11 @@ class _DashboardScreenState extends State<DashboardScreen>
                 resizeToAvoidBottomInset: false,
                 key: _scaffoldKey,
                 backgroundColor: Colors.transparent,
-                appBar: new AppBar(
+                appBar:  AppBar(
                   // leading: Container(
                   //     height: 10,
                   //     child: svg),
-                  title: new Text(
+                  title:  Text(
                     StringResources.dasboardAppBarText,
                     style: GoogleFonts.poppins(
                         fontSize: 15, fontWeight: FontWeight.w600),

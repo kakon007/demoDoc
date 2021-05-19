@@ -8,8 +8,10 @@ import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.d
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:provider/provider.dart';
 
 class EditProfileAlert extends StatefulWidget {
@@ -25,7 +27,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   final _formKey = new GlobalKey<FormState>();
   DateTime pickBirthDate;
   String abc = "#EAEBED";
-
+  double maxHeight=580;
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -53,7 +55,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
 
   String _selectedGender;
   String _selectedBlood;
-  String color = "#EAEBED";
+  String genderColor = "#EAEBED";
+  String bloodBorderColor = "#EAEBED";
 
   @override
   void initState() {
@@ -92,7 +95,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;
     var width = MediaQuery.of(context).size.width * 0.44;
-    var name = SignUpFormField(
+    var name = CustomTextFieldRounded(
+      validator: Validator().nullFieldValidate,
       labelText: "Name",
       isRequired: true,
       controller: _username,
@@ -102,7 +106,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Name',
     );
-    var email = SignUpFormField(
+    var email = CustomTextFieldRounded(
+      validator: Validator().validateEmail,
       labelText: "Email",
       isRequired: true,
       controller: _email,
@@ -110,7 +115,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Email',
     );
-    var mobile = SignUpFormField(
+    var mobile = CustomTextFieldRounded(
+      validator: Validator().validatePhoneNumber,
       labelText: "Mobile",
       isRequired: true,
       controller: _mobile,
@@ -118,7 +124,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Mobile',
     );
-    var address = SignUpFormField(
+    var address = CustomTextFieldRounded(
+      validator: Validator().nullFieldValidate,
       labelText: "Address",
       isRequired: true,
       controller: _address,
@@ -150,10 +157,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 45.0,
-                width: 162,
+                width: 135,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
-                    border: Border.all(color: HexColor(color)),
+                    border: Border.all(color: HexColor(genderColor)),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,7 +170,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Container(
-                            width: 145,
+                            width: 110,
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
@@ -193,7 +200,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 120.0, top: 5),
+                          padding: const EdgeInsets.only(left: 105.0, top: 5),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),
@@ -209,7 +216,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
         ),
       ],
     );
-
     var bloodGroup = Row(
       children: [
         GestureDetector(
@@ -229,10 +235,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 45.0,
-                width: 162,
+                width: 135,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
-                    border: Border.all(color: HexColor(color)),
+                    border: Border.all(color: HexColor(bloodBorderColor)),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,7 +248,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Container(
-                            width: 145,
+                            width: 110,
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
@@ -273,7 +279,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 120.0, top: 5),
+                          padding: const EdgeInsets.only(left: 105.0, top: 5),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),
@@ -284,6 +290,16 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   ],
                 ),
               ),
+              bloodBorderColor == "#FF0000"
+                  ? Padding(
+                padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
+                child: Text(
+                  "This Field Is Required",
+                  style: GoogleFonts.poppins(
+                      color: Colors.red, fontSize: 12),
+                ),
+              )
+                  : SizedBox()
             ],
           ),
         ),
@@ -326,7 +342,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                       child: Text(
                         pickBirthDate == DateTime.now()
                             ? "Date of birth"
-                            : "$_formatDate",
+                            : "${DateFormat("dd-MM-yyyy").format(pickBirthDate)}",
                         style: TextStyle(fontSize: 13.0),
                       ),
                     ),
@@ -348,130 +364,152 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
         ),
       ],
     );
-    return Center(
-        child: SingleChildScrollView(
+    return Form(
+      key: _formKey,
       child: Center(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          constraints: BoxConstraints(maxWidth: 400, maxHeight: 650),
-          child: Material(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 25.0, right: 25, bottom: 15),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            // padding: new EdgeInsets.all(10.0),
-                            child: new Text(
-                              'Edit Personal Info',
-                              style: GoogleFonts.poppins(
-                                  color: AppTheme.appbarPrimary,
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w500),
-                              textAlign: TextAlign.center,
+          child: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            constraints: BoxConstraints(maxWidth: 400, maxHeight: maxHeight),
+            child: Material(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 25.0, right: 25, bottom: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              // padding: new EdgeInsets.all(10.0),
+                              child: new Text(
+                                'Edit Personal Info',
+                                style: GoogleFonts.poppins(
+                                    color: AppTheme.appbarPrimary,
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          name,
-                          email,
-                          mobile,
-                          address,
-                          dateOfBirth,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              gender,
-                              bloodGroup,
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 2.0, top: 22),
-                            child: Row(
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            name,
+                            email,
+                            mobile,
+                            address,
+                            dateOfBirth,
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SizedBox(
-                                  width: width * .9,
-                                  height: width * .25,
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    textColor: AppTheme.appbarPrimary,
-                                    color: HexColor("#FFFFFF"),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        side: BorderSide(
-                                            color: AppTheme.appbarPrimary,
-                                            width: 1)),
-                                    child: Text(
-                                      StringResources.cancelText,
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: width * .9,
-                                  height: width * .25,
-                                  child: FlatButton(
-                                    textColor: Colors.white,
-                                    onPressed: () {
-                                      vm.updateProfile(
-                                          userId.toString(),
-                                          _username.text,
-                                          _email.text,
-                                          _mobile.text,
-                                          _address.text,
-                                          _formatDate,
-                                          _selectedGender,
-                                          _selectedBlood,
-                                          hospitalNumber,
-                                          regDate);
-                                      Fluttertoast.showToast(
-                                          msg: "Profile updated successfully!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor: Colors.green,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
-                                      Navigator.pop(context);
-                                    },
-                                    color: AppTheme.appbarPrimary,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      "Submit",
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ),
-                                )
+                                gender,
+                                bloodGroup,
                               ],
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0.0, top: 22),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width: width * .9,
+                                    height: width * .25,
+                                    child: FlatButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      textColor: AppTheme.appbarPrimary,
+                                      color: HexColor("#FFFFFF"),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                          side: BorderSide(
+                                              color: AppTheme.appbarPrimary,
+                                              width: 1)),
+                                      child: Text(
+                                        StringResources.cancelText,
+                                        style: GoogleFonts.poppins(),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: width * .9,
+                                    height: width * .25,
+                                    child: FlatButton(
+                                      textColor: Colors.white,
+                                      onPressed: () {
+                                        if (_formKey.currentState.validate() && _selectedBlood!=null) {
+                                          vm.updateProfile(
+                                              userId.toString(),
+                                              _username.text,
+                                              _email.text,
+                                              _mobile.text,
+                                              _address.text,
+                                              _formatDate,
+                                              _selectedGender,
+                                              _selectedBlood,
+                                              hospitalNumber,
+                                              regDate);
+                                          Fluttertoast.showToast(
+                                              msg: "Profile updated successfully!",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              backgroundColor: Colors.green,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                          Navigator.pop(context);
+
+                                        }
+                                        else{
+                                          maxHeight= 650;
+                                          if(_selectedBlood==null){
+                                            setState(() {
+                                              bloodBorderColor="FF0000";
+                                            });
+
+                                          }
+                                          if(_selectedBlood!=null)
+                                            {
+                                              setState(() {
+                                                bloodBorderColor="EAEBED";
+                                              });
+
+                                            }
+                                        }
+                                      },
+                                      color: AppTheme.appbarPrimary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        "Submit",
+                                        style: GoogleFonts.poppins(),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ]),
+                    ]),
+              ),
             ),
           ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

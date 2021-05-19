@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'doctor/features/dashboard/view/doctor_home_screen.dart';
+import 'features/auth/view_model/app_navigator.dart';
 import 'features/auth/view_model/auth_view_model.dart';
 import 'main_app/util/app_version.dart';
 
@@ -20,19 +21,21 @@ class Root extends StatefulWidget {
 class _RootState extends State<Root> {
   var _username;
   var _passWord;
-  getValue() async {
-    SharedPreferences prefs =
-    await SharedPreferences.getInstance();
-    _username= prefs.getString("username");
-    _passWord= prefs.getString("password");
-  }
   @override
   void initState() {
-    getValue();
+
     Future.delayed(Duration.zero,()async{
-      // var vm5= Provider.of<AuthViewModel>(context, listen: false);
-      // await vm5.getAuthData(_username, _passWord);
+      SharedPreferences prefs =
+      await SharedPreferences.getInstance();
+      _username= prefs.getString("username");
+      _passWord= prefs.getString("password");
+       var vm5= Provider.of<AuthViewModel>(context, listen: false);
+      await vm5.getAuthData(_username, _passWord);
       var accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
+      if(accessToken!= null && vm5.accessToken!= accessToken){
+         appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+         accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
+      }
       await Future.delayed(Duration(seconds: 3));
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) =>

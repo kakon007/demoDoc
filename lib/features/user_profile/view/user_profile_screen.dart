@@ -1,14 +1,20 @@
+import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -41,16 +47,41 @@ class _UserProfileState extends State<UserProfile> {
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
+  //Uint8List _bytesImage;
   @override
   void initState() {
     // TODO: implement initState
+    Future.delayed(Duration.zero,() async{
+      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+      // _bytesImage =  Base64Decoder().convert( Provider.of<UserImageViewModel>(context, listen: false).details.photo);
+      // print(_bytesImage);
+    });
     Provider.of<UserDetailsViewModel>(context, listen: false).getData();
+
+    //print(Provider.of<UserImageViewModel>(context, listen: false).image);
     print("abc");
     super.initState();
+  }
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery,maxWidth: 300, maxHeight: 300);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
+    var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
+    var photo= vm2.details?.photo??"";
+    print(photo);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),
@@ -62,9 +93,21 @@ class _UserProfileState extends State<UserProfile> {
           ],
         ),
         actions: [
+
           Padding(
             padding: const EdgeInsets.only(right:15.0),
-            child: Icon(Icons.notifications,size: 20,),
+            child: Row(
+              children: [
+                GestureDetector(
+                    child: Text("Save"),
+                onTap: (){
+                      vm2.updateImage(_image, vm.userDetailsList.hospitalNumber, vm.userDetailsList.id.toString());
+                },
+                ),
+                SizedBox(width: 10,),
+                Icon(Icons.notifications,size: 20,),
+              ],
+            ),
           )
         ],
       ),
@@ -379,14 +422,43 @@ class _UserProfileState extends State<UserProfile> {
               child: Padding(
                 padding: const EdgeInsets.only(top:30.0),
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
+                  height: 145,
+                  width: 145,
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppTheme.appbarPrimary),
+                          color: Colors.white,
+                        ),
+                        //color: Colors.white,
+                        height: 120,
+                        width: 135,
+                        child:photo!=""
+                            ? vm2.loadProfileImage(photo, 160,110)
+                            :Image.asset('assets/images/dPro.png'),
+                      ),
+                      Positioned(
+                        bottom: 10,
+                        left: 55,
+                        child: GestureDetector(
+                          onTap: (){
+                            getImage();
+                          },
+                          child: Container(
+                            height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                border: Border.all(color: AppTheme.appbarPrimary)
+                              ),
+                              child: Icon(Icons.edit,)),
+                        ),
+                      )
+                    ],
                   ),
-                  //color: Colors.white,
-                  height: 120,
-                  width: 120,
-                  child:Image.asset('assets/images/dPro.png'),
                 ),
               ),
             ),
@@ -419,7 +491,7 @@ class _UserProfileState extends State<UserProfile> {
 
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd';
+  static const DATE_FORMAT = 'dd-MM-yyyy';
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);

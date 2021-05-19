@@ -89,7 +89,7 @@ class CustomContainer extends StatelessWidget {
 
                       Row(
                         children: [
-                          Text("Tk. " + consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
+                          Text("TK. " + consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
                           SizedBox(width: height*.03,),
                           Container(
                             width: cardWidth*0.75,

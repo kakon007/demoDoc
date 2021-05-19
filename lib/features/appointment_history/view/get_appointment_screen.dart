@@ -648,7 +648,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   AlwaysStoppedAnimation<Color>(
                                       AppTheme.appbarPrimary),),
                                 ),
-                              ):vm.upComingAppointmentList.length==0?Align(
+                              ):vm.upComingAppointmentList.length==0&&!vm.isInSearchMode?Align(
                                 alignment: Alignment.center,
                                 child: Padding(
                                   padding: const EdgeInsets.only(top:120.0),
@@ -1130,7 +1130,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   AlwaysStoppedAnimation<Color>(
                                       AppTheme.appbarPrimary),),
                                 ),
-                              ):vm2.previousAppointmentList.length==0?Align(
+                              ):vm2.previousAppointmentList.length==0&&!vm2.isInSearchMode?Align(
                                 alignment: Alignment.center,
                                 child: Padding(
                                   padding: const EdgeInsets.only(top:120.0),

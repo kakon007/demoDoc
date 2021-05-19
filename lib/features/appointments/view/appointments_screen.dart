@@ -428,7 +428,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         height: 3,
                       ),
                       Text(
-                        "Tk. " + consultFee.toString(),
+                        "TK. " + consultFee.toString(),
                         style: GoogleFonts.poppins(
                           color: AppTheme.appbarPrimary,
                         ),

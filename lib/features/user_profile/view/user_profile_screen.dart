@@ -66,15 +66,18 @@ class _UserProfileState extends State<UserProfile> {
   final picker = ImagePicker();
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery,maxWidth: 300, maxHeight: 300);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
-    setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        print("ish ${await _image.length()}");
+        setState(() {
+
+        });
       } else {
         print('No image selected.');
       }
-    });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -101,7 +104,7 @@ class _UserProfileState extends State<UserProfile> {
                 GestureDetector(
                     child: Text("Save"),
                 onTap: (){
-                      vm2.updateImage(_image, vm.userDetailsList.hospitalNumber, vm.userDetailsList.id.toString());
+                      vm2.updateImage(_image, vm.userDetailsList.hospitalNumber, vm.userDetailsList.ssModifier.toString());
                 },
                 ),
                 SizedBox(width: 10,),

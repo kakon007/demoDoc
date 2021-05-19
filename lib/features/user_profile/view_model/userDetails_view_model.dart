@@ -38,10 +38,11 @@ class UserDetailsViewModel extends ChangeNotifier{
     };
     var request = http.MultipartRequest('PUT', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-registration/update-with-image'));
     request.fields.addAll({
-      'reqobj': ' {"opdReg":{"id":$userId,"fname":$name,"dob":$birthDate,"gender":$gender,"phoneMobile":$number,"email":$email,"address":$address,"bloodGroup":$blood,"hospitalNumber":$hospitalNumber,"regDate":$registrationDate,"organizationNo":1}}'
+      'reqobj':  json.encode({"opdReg":{"id":userId,"fname":name,"dob":birthDate,"gender":gender,"phoneMobile":number,"email":email,"address":address,"bloodGroup":blood,"hospitalNumber":hospitalNumber,"regDate":registrationDate,"organizationNo":1}})
     });
    request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
+   // print(await response.stream.bytesToString());
     if (response.statusCode == 200) {
       var res= await response.stream.bytesToString();
       UserDetailsModel data = userDetailsModelFromJson(res);

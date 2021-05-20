@@ -25,7 +25,7 @@ class HospitalListCard extends StatelessWidget {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
-    print(cardHeight*1.5);
+    print("Shakil ${cardWidth*1.3}");
     return Container(
       margin: EdgeInsets.all(6),
       width: MediaQuery.of(context).size.width,
@@ -38,8 +38,8 @@ class HospitalListCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  height: cardHeight,
-                  width:  cardWidth * 0.9,
+                  height: 93,
+                  width:  111.5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -52,13 +52,13 @@ class HospitalListCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        height: cardHeight*.4,
+                        height: 37,
                         child: Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: height <= 600 ? 12 : 14,fontWeight: FontWeight.bold,),textAlign:TextAlign.start)),
                     SizedBox(height: 2,),
                     Container(height: cardHeight*.12,child: Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: height <= 600 ? 9 : 10,),textAlign:TextAlign.start)),
                     SizedBox(height: 2,),
                     Container(
-                      height: cardHeight*.12,
+                      height: 11.5,
                       child: Row(
                         children: [
                           CircleAvatar(
@@ -81,9 +81,9 @@ class HospitalListCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                            width: height <= 600
-                               ? cardWidth * 1.2
-                                  : cardWidth * 1.3,
+                          width: height <= 600
+                              ?141.5
+                              : 161,
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),

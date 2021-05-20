@@ -66,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   void initState() {
-    print("shakil");
     print(widget.accessToken);
     // TODO: implement initState
     super.initState();

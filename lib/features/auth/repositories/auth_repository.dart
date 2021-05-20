@@ -68,9 +68,8 @@ class AuthRepository{
     print(selectedGender);
     print(formatDate2);
     var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/online-appointment-api/fapi/registration/create-with-image'));
-    print("shakil"+ address);
     request.fields.addAll({
-      'reqobj': '{"opdReg":{"salutation":$salutation,\n"fname":$name,\n"lname":"",\n"dob":$formatDate2,\n"gender":$selectedGender,\n"phoneMobile":$mobile,\n"email":$email,\n"address":$address,\n"companyNo":"1",\n"organizationNo":"1"\n},\n"opdRegOthers":{ }\n}\n'
+      'reqobj': json.encode({"opdReg":{"salutation":salutation,"fname":name,"lname":"","dob":formatDate2,"gender":selectedGender,"phoneMobile":mobile,"email":email,"address":address,"companyNo":"1","organizationNo":"1"},"opdRegOthers":{ }})
 
     });
     // request.fields.addAll({

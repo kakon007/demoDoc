@@ -1,68 +1,79 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/main_app/util/validator.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextFieldRounded extends StatelessWidget {
+  final FormFieldValidator<String> validator;
   final TextEditingController controller;
   final String labelText;
   final String hintText;
+  final String errorText;
   final TextInputType keyboardType;
   final int maxLines;
   final int minLines;
   final EdgeInsetsGeometry contentPadding;
+  final EdgeInsetsGeometry margin;
   final FocusNode focusNode;
   final bool autofocus;
+  final bool enabled;
   final bool autovalidate;
-  final bool obscureText;
-  final double height;
-  final double width;
+  final bool readOnly;
+  final bool isRequired;
   final TextInputAction textInputAction;
-  final ValueChanged<String> onSubmitted;
+  final ValueChanged<String> onFieldSubmitted;
   final Widget prefix;
+  final Function onChanged;
+  final int maxLength;
+  final GestureTapCallback onTap;
+  final Key textFieldKey;
   final Widget prefixIcon;
   final Widget suffixIcon;
-  final bool isRequired;
-  final Function onChanged;
-  final double fontSize;
-  final String errorText;
-  final Key textFieldKey;
-  final EdgeInsetsGeometry margin;
+  final double borderRadius;
+  final bool obSecure;
+  final double topPadding;
+
   const CustomTextFieldRounded({
-    this.margin,
-    this.textFieldKey,
-    this.errorText,
+    this.readOnly = false,
+    this.enabled = true,
+    this.maxLength,
+    this.validator,
     this.prefix,
-    this.width,
-    this.height,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.fontSize = 15,
+    this.errorText,
     this.onChanged,
-    this.isRequired = false,
     this.textInputAction,
     this.autovalidate = false,
     this.controller,
-    this.onSubmitted,
+    this.onFieldSubmitted,
     this.focusNode,
+    this.isRequired = false,
     this.autofocus = false,
     this.labelText,
     this.hintText,
     this.minLines,
+    this.prefixIcon,
+    this.obSecure = false,
+    this.suffixIcon,
+    this.borderRadius = 10,
+    this.onTap,
+    this.margin = const EdgeInsets.all(5),
     this.keyboardType,
-    this.contentPadding,
-    this.obscureText = false,
+    this.contentPadding =
+    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     this.maxLines = 1,
+    this.textFieldKey,
+    this.topPadding=25,
   });
 
   @override
   Widget build(BuildContext context) {
-    double circularRadius = 15;
-    bool hasError = errorText != null;
+    var width = MediaQuery.of(context).size.width;
+    FocusScopeNode currentFocus = FocusScope.of(context);
+
     return Container(
       margin: margin,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           if (labelText != null)
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
@@ -81,54 +92,61 @@ class CustomTextFieldRounded extends StatelessWidget {
               ),
             ),
           SizedBox(
-            height: 5,
+            height: 1,
           ),
-          Container(
-            height: MediaQuery.of(context).size.height*.075,
-            child: TextField(
-              key: textFieldKey,
-              minLines: minLines,
-              onChanged: onChanged,
-              onSubmitted: onSubmitted,
-              autofocus: autofocus,
-              focusNode: focusNode,
-              maxLines: maxLines,
-              keyboardType: keyboardType,
-              controller: controller,
-              textInputAction: textInputAction,
-              obscureText: obscureText,
-              decoration: InputDecoration(
-                suffixIcon: suffixIcon,
-                prefixIcon: prefixIcon,
-                prefix: prefix,
-                border: InputBorder.none,
-                hintText: hintText,
-                hintStyle:
-                TextStyle(fontSize: fontSize, color: HexColor("#D2D2D2")),
-                // contentPadding: contentPadding,
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                  BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                contentPadding: EdgeInsets.fromLTRB(15.0, 35.0, 40.0, 0.0),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                  BorderSide(color: HexColor("#EAEBED"), width: 1.0),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+          TextFormField(
+            obscureText: obSecure,
+            key: textFieldKey,
+            onTap: onTap,
+            readOnly: readOnly,
+            enabled: enabled,
+            maxLength: maxLength,
+            minLines: minLines,
+            onChanged: onChanged,
+            onFieldSubmitted: onFieldSubmitted,
+            autofocus: autofocus,
+            focusNode: focusNode,
+            maxLines: maxLines,
+            autovalidate: autovalidate,
+            keyboardType: keyboardType,
+            validator: validator,
+            controller: controller,
+            textInputAction: textInputAction,
+            decoration: new InputDecoration(
+              suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
+              prefix: prefix,
+              border: InputBorder.none,
+              hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderRadius: BorderRadius.circular(borderRadius),
               ),
+              contentPadding: EdgeInsets.fromLTRB(15.0, topPadding, 40.0, 0.0),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red, width: 1.0),
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              hintText: hintText,
             ),
           ),
           errorText == null
-              ? Text("")
+              ? SizedBox(height: 3,)
               : Padding(
-            padding: const EdgeInsets.only(left: 38, top: 8, right: 38),
+            padding: const EdgeInsets.only(left: 38, top: 0, right: 38),
             child: Text(
               errorText,
               style: TextStyle(color: Colors.red),
             ),
-          ),
+          )
         ],
       ),
     );

@@ -34,6 +34,7 @@ import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart'
     as video;
 import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart';
@@ -74,7 +75,6 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen>
     with SingleTickerProviderStateMixin {
-
   File imageData;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = new GlobalKey<ScaffoldState>();
@@ -87,19 +87,22 @@ class _DashboardScreenState extends State<DashboardScreen>
   double yOffset = 0.0;
   double scaleFactor = 1;
 
-
-  loadLogo(String image){
-    Uint8List  _bytesImage = Base64Decoder().convert(image);
+  loadLogo(String image) {
+    Uint8List _bytesImage = Base64Decoder().convert(image);
     return _bytesImage;
   }
 
-  loadImage(String image){
-    Uint8List  _bytesImage = Base64Decoder().convert(image);
+  loadImage(String image) {
+    Uint8List _bytesImage = Base64Decoder().convert(image);
     return _bytesImage;
   }
 
   @override
   void initState() {
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+    });
+
     // TODO: implement initState
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
@@ -129,7 +132,6 @@ class _DashboardScreenState extends State<DashboardScreen>
   //   super.dispose();
   // }
 
-
   @override
   Widget build(BuildContext context) {
     var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
@@ -141,17 +143,18 @@ class _DashboardScreenState extends State<DashboardScreen>
         : lengthofHospitalList = list.length < 5 ? list.length : 5;
 
     var vm2 = Provider.of<NewsViewModel>(context);
+    var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
+    var photo = vm10.details?.photo ?? "";
     List<news.Item> list2 = vm2.newsList;
     var lengthofNewsList = list2.length;
 
     var vm3 = Provider.of<VideoViewModel>(context);
     List<video.Item> list3 = vm3.videoList;
-    var lengthofVideoList=list3.length;
+    var lengthofVideoList = list3.length;
     // MediaQuery.of(context).size.width > 600
     //     ? lengthofVideoList = list3.length < 5 ? list3.length : 6
     //     : lengthofVideoList = list3.length < 5 ? list3.length : 5;
-    print('VideoLength:::::'+lengthofVideoList.toString());
-
+    print('VideoLength:::::' + lengthofVideoList.toString());
 
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
@@ -165,7 +168,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
 
-    var contrainerWidth=deviceWidth>=400?double.infinity:400.00;
+    var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
 
     final String assetName1 = "assets/icons/sign_in.svg";
     final Widget svg = SvgPicture.asset(
@@ -334,16 +337,33 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 showAlert(context);
                                 // showDialog(context: context, builder: (context) => carDialog);
                               },
-                              child:  Container(
+                              child: photo != ""
+                                  ? Container(
                                   decoration: BoxDecoration(
-                                    color: AppTheme.appbarPrimary,
+                                    border: Border.all(color: AppTheme.appbarPrimary),
+                                    //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height: 32,
-                                  width: 32,
-                                  child: Center(child: Image.asset('assets/images/dPro.png',height:22,width: 22,),)),
-
-                      ),
+                                  height: 35,
+                                  width: 35,
+                                  child: Center(
+                                      child: vm10.loadProfileImage(photo, 33.5, 35,50)
+                                  ))
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: 32,
+                                      width: 32,
+                                      child: Center(
+                                        child: Image.asset(
+                                          'assets/images/dPro.png',
+                                          height: 22,
+                                          width: 22,
+                                        ),
+                                      )),
+                            ),
                     )
                   ],
                   backgroundColor: Colors.transparent,
@@ -363,27 +383,27 @@ class _DashboardScreenState extends State<DashboardScreen>
                               })),
                 ),
                 body: DraggableScrollableSheet(
-                  // height: double.infinity,
-                  // // minHeight: deviceHeight>=600?480:250,
-                  // // maxHeight: 710,
-                  // // isDraggable: true,
-                  // // //backdropEnabled: true,
-                  // // borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
-                  // decoration: BoxDecoration(
-                  //     borderRadius: widget.isDrawerOpen
-                  //         ? BorderRadius.all(Radius.circular(25))
-                  //         : BorderRadius.only(
-                  //             topLeft: Radius.circular(25),
-                  //             topRight: Radius.circular(25)),
-                  //     color: HexColor("#FFFFFF"),
-                  //     boxShadow: [
-                  //       BoxShadow(
-                  //         color: HexColor("#0D1231").withOpacity(0.08),
-                  //         spreadRadius: 10,
-                  //         blurRadius: 7,
-                  //         offset: Offset(0, 3), // changes position of shadow
-                  //       ),
-                  //     ]),
+                    // height: double.infinity,
+                    // // minHeight: deviceHeight>=600?480:250,
+                    // // maxHeight: 710,
+                    // // isDraggable: true,
+                    // // //backdropEnabled: true,
+                    // // borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
+                    // decoration: BoxDecoration(
+                    //     borderRadius: widget.isDrawerOpen
+                    //         ? BorderRadius.all(Radius.circular(25))
+                    //         : BorderRadius.only(
+                    //             topLeft: Radius.circular(25),
+                    //             topRight: Radius.circular(25)),
+                    //     color: HexColor("#FFFFFF"),
+                    //     boxShadow: [
+                    //       BoxShadow(
+                    //         color: HexColor("#0D1231").withOpacity(0.08),
+                    //         spreadRadius: 10,
+                    //         blurRadius: 7,
+                    //         offset: Offset(0, 3), // changes position of shadow
+                    //       ),
+                    //     ]),
 
                     initialChildSize: 0.80,
                     maxChildSize: 1.0,
@@ -991,11 +1011,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
     showDialog(
         context: context,
-        builder: (context) => Material(
-          color: Colors.transparent,
-          child: ManageAccountPrompt()
-        )
-    );
+        builder: (context) =>
+            Material(color: Colors.transparent, child: ManageAccountPrompt()));
   }
 }
 

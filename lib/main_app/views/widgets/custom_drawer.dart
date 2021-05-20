@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.da
 import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -111,9 +112,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
     var vm2 = Provider.of<AccessTokenProvider>(context, listen: false);
     UserDetailsRepository().fetchUserDetails(vm2.accessToken);
     super.initState();
-
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+    });
     var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
-    vm.getData(vm2.accessToken);
+    vm.getData();
   }
 
 
@@ -121,6 +124,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context);
     var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
+    var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
+    var photo = vm10.details?.photo ?? "";
     Obj userDetails = vm.userDetailsList;
     var devicewidth=MediaQuery.of(context).size.width;
     return Stack(
@@ -141,7 +146,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
-                    child: CircleAvatar(
+                    child:   photo != ""
+                        ? Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white,width: 1.5),
+                          //color: AppTheme.appbarPrimary,
+                          shape: BoxShape.circle,
+                        ),
+                        height: 60,
+                        width: 60,
+                        child: Center(
+                            child: vm10.loadProfileImage(photo, 60, 60,50)
+                        ))
+                        : CircleAvatar(
                       radius: 30,
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
@@ -167,7 +184,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                            Container(
                                   width: devicewidth*0.5,
                                   child: Text(
-                                    userDetails?.fname??'Jahid',
+                                    userDetails?.fname??'',
                                       maxLines:1,overflow:TextOverflow.ellipsis,
                                     style: GoogleFonts.roboto(
                                         fontSize: 18,

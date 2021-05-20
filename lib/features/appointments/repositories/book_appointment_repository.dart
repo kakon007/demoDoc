@@ -47,10 +47,9 @@ class BookAppointmentRepository {
       String paymodeNo,
       ) async {
    var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/bookAppointment";
-   print("Shakil" + ssCreator);
+   print("Abir" + consultationType);
     try {
       final http.Response response = await http.post(url,body: jsonEncode(<String, dynamic>{
-
         "doctorNo": doctorNo,
         "doctorName": doctorName,
         "appointDate": appointDate,

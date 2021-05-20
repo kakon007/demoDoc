@@ -11,6 +11,8 @@ import 'package:myhealthbd_app/features/appointments/view/widgets/available_slot
 import 'package:myhealthbd_app/features/appointments/view/widgets/no_available_slots.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/sign_required_propmt.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -125,6 +127,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     pickedAppointDate = DateTime.now();
     pickedAppointDate2 = DateTime.now();
     Future.delayed(Duration.zero, () async {
+      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
       vm.getSlots(
@@ -149,6 +152,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         _aspectRatio = MediaQuery.of(context).size.height > 650 ? .6:.5;
     var height = MediaQuery.of(context).size.height;
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: true);
+
+    var accessTokenVM = Provider.of<AccessTokenProvider>(context, listen: false);
+    var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
+    var profileImage = userImageVm.details?.photo ?? "";
+
     var length= vm.slotList.length;
     var doctorDegree=  vm.doctorInfo?.docDegree == null
         ? ""
@@ -458,27 +466,35 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 color: Colors.white,
                 size: 20,
               ),
-              onPressed: () {
-                setState(() {
-                  isLoggedIn == true ? isLoggedIn = false : isLoggedIn = true;
-                });
-              },
             ),
-            isLoggedIn == false
-                ? Container(
-                    //margin: EdgeInsets.all(100.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                    ),
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/alok.png"),
-                      radius: 15.0,
-                    ),
-                  )
+            accessTokenVM.accessToken!=null?
+            Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  //color: AppTheme.appbarPrimary,
+                  shape: BoxShape.circle,
+                ),
+                height: 32,
+                width: 32,
+                child: Center(
+                    child: userImageVm.loadProfileImage(profileImage, 31.5, 32,50)
+                ))
                 : SizedBox(),
+            // isLoggedIn == false
+            //     ? Container(
+            //         //margin: EdgeInsets.all(100.0),
+            //         decoration: BoxDecoration(
+            //           shape: BoxShape.circle,
+            //           border: Border.all(
+            //             color: Colors.white,
+            //           ),
+            //         ),
+            //         child: CircleAvatar(
+            //           backgroundImage: AssetImage("assets/images/alok.png"),
+            //           radius: 15.0,
+            //         ),
+            //       )
+            //     : SizedBox(),
             SizedBox(
               width: 10,
             )

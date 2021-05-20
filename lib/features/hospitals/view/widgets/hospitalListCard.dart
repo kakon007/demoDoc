@@ -29,7 +29,7 @@ class HospitalListCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(6),
       width: MediaQuery.of(context).size.width,
-      height:  150,
+      height:  155,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -47,7 +47,7 @@ class HospitalListCard extends StatelessWidget {
             ),
             Flexible(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(7.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

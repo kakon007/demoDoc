@@ -2,6 +2,8 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -20,10 +22,6 @@ class UserDetailsViewModel extends ChangeNotifier{
   bool _isFetchingData = false;
   int _page = 1;
 
-  // Future<void> refresh(){
-  //  // _newsList.clear();
-  //   return getData();
-  // }
   Future<void> updateProfile(String userId, String name, String email, String number,String address, String birthDate,String gender, String blood, String hospitalNumber, String regDate) async {
     if(gender=="Male"){
       gender="M";
@@ -42,17 +40,27 @@ class UserDetailsViewModel extends ChangeNotifier{
     });
    request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-   // print(await response.stream.bytesToString());
-    if (response.statusCode == 200) {
-      var res= await response.stream.bytesToString();
-      UserDetailsModel data = userDetailsModelFromJson(res);
-      _userDetailsList= data.obj;
-      _message= data.message;
-      notifyListeners();
+    try{
+      if (response.statusCode == 200) {
+        var res= await response.stream.bytesToString();
+        UserDetailsModel data = userDetailsModelFromJson(res);
+        _userDetailsList= data.obj;
+        _message= data.message;
+        notifyListeners();
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+    }catch(e){
+      Fluttertoast.showToast(
+          msg: "Something went wrong!!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 12.0);
     }
-    else {
-      print(response.reasonPhrase);
-    }
+
 
   }
   Future<void> getData() async {

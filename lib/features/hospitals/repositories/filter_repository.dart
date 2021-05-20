@@ -40,10 +40,6 @@ class FilterRepository{
   }
 
   Future<Either<AppError,SpecialistListModel>> fetchSpeciality(String id, String orgNo) async {
-    //print("shakil");
-    //print(id);
-    //print("shakil");
-    //print(orgNo);
     var url ="${Urls.buildUrl}online-appointment-api/fapi/appointment/specializationList";
     try{
       final http.Response response = await http.post(url,body: jsonEncode(<String, String>{

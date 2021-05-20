@@ -145,7 +145,6 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm2 = Provider.of<NewsViewModel>(context);
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
     var photo = vm10.details?.photo ?? "";
-    print("shakil" + photo);
     List<news.Item> list2 = vm2.newsList;
     var lengthofNewsList = list2.length;
 
@@ -340,15 +339,16 @@ class _DashboardScreenState extends State<DashboardScreen>
                               },
                               child: photo != ""
                                   ? Container(
-                                      decoration: BoxDecoration(
-                                       border: Border.all(color: AppTheme.appbarPrimary),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      height: 35,
-                                      width: 35,
-                                      child: Center(
-                                        child:  vm10.loadProfileImage(photo, 25,25)
-                                      ))
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppTheme.appbarPrimary),
+                                    //color: AppTheme.appbarPrimary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  height: 35,
+                                  width: 35,
+                                  child: Center(
+                                      child: vm10.loadProfileImage(photo, 33.5, 35,50)
+                                  ))
                                   : Container(
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,

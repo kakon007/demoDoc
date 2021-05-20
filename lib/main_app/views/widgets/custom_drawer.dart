@@ -148,7 +148,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         height: 60,
                         width: 60,
                         child: Center(
-                            child: vm10.loadProfileImage(photo, 40, 40)
+                            child: vm10.loadProfileImage(photo, 60, 60,50)
                         ))
                         : CircleAvatar(
                       radius: 30,

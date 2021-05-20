@@ -220,7 +220,6 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                       textColor: Colors.white,
                                       onPressed: () async {
                                         if (_formKey.currentState.validate()) {
-                                          print("shakil");
                                           await changePassViewModel.getPassword(
                                               widget.accessToken,
                                               _newPassword.text,

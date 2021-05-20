@@ -91,6 +91,7 @@ class BookAppointmentViewModel extends ChangeNotifier {
       String email,
       String dob,
       String paymodeNo,) async {
+    print("shakil"+ ssCreator);
     _isLoading = true;
     var res = await BookAppointmentRepository().fetchAppointmentData(doctorNo, doctorName, appointDate, shiftdtlNo, shift, slotNo, slotSl, startTime, endTime, durationMin, extraSlot, slotSplited, ssCreatedOn, ssCreator, remarks, appointStatus, companyNo, ogNo, patientType, consultationType, opdConsultationFee, fname, phoneMobile, gender, address, email, dob, paymodeNo
      );

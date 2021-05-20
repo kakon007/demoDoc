@@ -801,7 +801,7 @@ class _AddPatientState extends State<AddPatient> {
                         vm.appointStatus,
                         vm.companyNo,
                         vm.ogNo,
-                        selectedPatientType,
+                        vm.forMe==true?  "2000002" : selectedPatientType,
                         selectedConsultationType,
                         vm.consultationFee,
                         vm.forMe == false
@@ -842,7 +842,7 @@ class _AddPatientState extends State<AddPatient> {
                     }
                   } else {
                     setState(() {
-                      print(selectedPatientType.toLowerCase() + "shakil");
+
                       if (vm.forMe == false && selectedGender == "") {
                         genderBorderColor = "#FF0000";
                       }

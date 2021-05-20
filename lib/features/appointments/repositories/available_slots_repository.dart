@@ -32,7 +32,6 @@ class AvailableSlotsRepository {
           print("aaaaaaaaaaadsdsdsdsdsa");
           print(response.body);
           AvailableSlotModel data = availableSlotModelFromJson(response.body);
-          //print("shakil" + data.items[1].doctorNo.toString());
           return Right(AvailableSlotListModel(
             slotList: data.items,
           ));
@@ -62,13 +61,11 @@ class AvailableSlotsRepository {
       "doctorNo": doctorNo,
       "ogNo": orgNo
     }),);
-    print("Shakil" + response.body);
     try {
       if (response.statusCode == 200) {
         print("aaaaaaaaaaadsdsdsdsdsa");
         print(response.body);
         DoctorInfoModel data = doctorInfoModelFromJson(response.body);
-        //print("shakil" + data.items[1].doctorNo.toString());
         return Right(DoctorInfoModel(
           obj: data.obj,
         ));

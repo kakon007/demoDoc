@@ -37,7 +37,6 @@ class PrescriptionRepository{
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     }catch (e) {
-      print("FromprescriptionRepo:::"+e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }

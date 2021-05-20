@@ -61,11 +61,12 @@ class BookAppointmentViewModel extends ChangeNotifier {
   bool _isFetchingData = false;
   AppError _appError;
 
+
   // Future<void> getAppointData(
   // {String doctorNo,
   //   String appointDate,
   //   String shiftdtlNo,
-  //   //regNo:
+  //   String regNo,
   //   String patientType,
   //   String fname,
   //   String phoneMobile,
@@ -89,7 +90,7 @@ class BookAppointmentViewModel extends ChangeNotifier {
   //      doctorNo : doctorNo,
   //     appointDate : appointDate,
   //     shiftdtlNo: shiftdtlNo,
-  //     // //regNo:
+  //     regNo: regNo,
   //     patientType: patientType,
   //     fname: fname,
   //     phoneMobile: phoneMobile,
@@ -151,10 +152,12 @@ class BookAppointmentViewModel extends ChangeNotifier {
       String address,
       String email,
       String dob,
-      String paymodeNo,) async {
+      String paymodeNo,
+      String regNo,
+      ) async {
     print("ssCreator"+ ssCreator);
     _isLoading = true;
-    var res = await BookAppointmentRepository().fetchAppointmentData(doctorNo, doctorName, appointDate, shiftdtlNo, shift, slotNo, slotSl, startTime, endTime, durationMin, extraSlot, slotSplited, ssCreatedOn, ssCreator, remarks, appointStatus, companyNo, ogNo, patientType, consultationType, opdConsultationFee, fname, phoneMobile, gender, address, email, dob, paymodeNo
+    var res = await BookAppointmentRepository().fetchAppointmentData(doctorNo, doctorName, appointDate, shiftdtlNo, shift, slotNo, slotSl, startTime, endTime, durationMin, extraSlot, slotSplited, ssCreatedOn, ssCreator, remarks, appointStatus, companyNo, ogNo, patientType, consultationType, opdConsultationFee, fname, phoneMobile, gender, address, email, dob, paymodeNo, regNo
      );
     notifyListeners();
     res.fold((l) {

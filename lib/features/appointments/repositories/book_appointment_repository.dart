@@ -19,12 +19,13 @@ import 'package:provider/provider.dart';
 
 class BookAppointmentRepository {
 
+//
 //   Future<Either<AppError, BookAppointmentModel>>  fetchAppointmentData(
 //   {
 //   String doctorNo,
 //   String appointDate,
 //   String shiftdtlNo,
-//   //regNo:
+//   String regNo,
 //   String patientType,
 //   String fname,
 //   String phoneMobile,
@@ -44,13 +45,13 @@ class BookAppointmentRepository {
 // }
 //       ) async {
 //     var url = "https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-appointments/create";
-//     print("Abir" + consultationType);
+//     print("Abir" + appointDate);
 //     try {
 //       final http.Response response = await http.post(url,headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',}, body: jsonEncode(<String, dynamic>{
 //         "doctorNo": doctorNo,
 //         "appointDate": appointDate,
 //         "shiftdtlNo": shiftdtlNo,
-//         //"regNo": 2210000086500,
+//         "regNo": regNo,
 //         "patientType": patientType,
 //         "fname":fname,
 //         "phoneMobile":phoneMobile,
@@ -91,6 +92,8 @@ class BookAppointmentRepository {
 //     }       BotToast.showText(text: StringResources.somethingIsWrong);
 //     return Left(AppError.unknownError);
 //   }
+
+
   Future<Either<AppError, BookAppointmentModel>>  fetchAppointmentData(
       String doctorNo,
       String doctorName,
@@ -120,12 +123,12 @@ class BookAppointmentRepository {
       String email,
       String dob,
       String paymodeNo,
+      String regNo,
       ) async {
    var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/bookAppointment";
-   print("Shakil" + ssCreator);
+   print("Shakil" + regNo);
     try {
       final http.Response response = await http.post(url,body: jsonEncode(<String, dynamic>{
-
         "doctorNo": doctorNo,
         "doctorName": doctorName,
         "appointDate": appointDate,
@@ -156,7 +159,8 @@ class BookAppointmentRepository {
         "dob": dob,
         "paymodeNo":paymodeNo ,
         "paymentArray": [],
-        "appointType": "Internet"
+        "appointType": "Internet",
+        "regNo": regNo,
       }),);
       if (response.statusCode == 200) {
         print(response.body);

@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 
 class BookAppointmentRepository {
 
+
 //
 //   Future<Either<AppError, BookAppointmentModel>>  fetchAppointmentData(
 //   {

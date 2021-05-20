@@ -10,12 +10,87 @@ import 'package:myhealthbd_app/features/appointments/models/consultation_type_mo
 import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/slot_status.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
+import 'package:provider/provider.dart';
 
 class BookAppointmentRepository {
 
+//   Future<Either<AppError, BookAppointmentModel>>  fetchAppointmentData(
+//   {
+//   String doctorNo,
+//   String appointDate,
+//   String shiftdtlNo,
+//   //regNo:
+//   String patientType,
+//   String fname,
+//   String phoneMobile,
+//   String email,
+//   String dob,
+//   String gender,
+//   String address,
+//   String consultationType,
+//   String appointType,
+//   String  appointStatus,
+//       String appFromFlag,
+//   String remarks,
+//       String slotNo,
+//   String slotSl,
+//       String startTime,
+//   String endTime,
+// }
+//       ) async {
+//     var url = "https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-appointments/create";
+//     print("Abir" + consultationType);
+//     try {
+//       final http.Response response = await http.post(url,headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',}, body: jsonEncode(<String, dynamic>{
+//         "doctorNo": doctorNo,
+//         "appointDate": appointDate,
+//         "shiftdtlNo": shiftdtlNo,
+//         //"regNo": 2210000086500,
+//         "patientType": patientType,
+//         "fname":fname,
+//         "phoneMobile":phoneMobile,
+//         "email":email,
+//         "dob":dob,
+//         "gender":gender,
+//         "address":address,
+//         "consultationType":consultationType,
+//         "appointType":appointType,
+//         "appointStatus":appointStatus,
+//         "appFromFlag":appFromFlag,
+//         "remarks":remarks,
+//         "slotNo":slotNo,
+//         "slotSl":slotSl,
+//         "startTime":startTime,
+//         "endTime":endTime
+//       }),);
+//       if (response.statusCode == 200) {
+//         print(response.body);
+//         BookAppointmentModel data = bookAppointmentModelFromJson(response.body);
+//         //BotToast.closeAllLoading();
+//         return Right(BookAppointmentModel(
+//           message: data.message,
+//         ));
+//       } else {
+//         // BotToast.closeAllLoading();
+//         BotToast.showText(text: StringResources.somethingIsWrong);
+//         return Left(AppError.serverError);
+//       }
+//     } on SocketException catch (e) {
+//       //BotToast.closeAllLoading();
+//       //logger.e(e);
+//       BotToast.showText(text: StringResources.unableToReachServerMessage);
+//       return Left(AppError.networkError);
+//     } catch (e) {
+//       // BotToast.closeAllLoading();
+//       //logger.e(e);
+//     }       BotToast.showText(text: StringResources.somethingIsWrong);
+//     return Left(AppError.unknownError);
+//   }
   Future<Either<AppError, BookAppointmentModel>>  fetchAppointmentData(
       String doctorNo,
       String doctorName,
@@ -47,9 +122,10 @@ class BookAppointmentRepository {
       String paymodeNo,
       ) async {
    var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/bookAppointment";
-   print("Abir" + consultationType);
+   print("Shakil" + ssCreator);
     try {
       final http.Response response = await http.post(url,body: jsonEncode(<String, dynamic>{
+
         "doctorNo": doctorNo,
         "doctorName": doctorName,
         "appointDate": appointDate,

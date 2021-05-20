@@ -243,16 +243,16 @@ class _AddPatientState extends State<AddPatient> {
               ),
               genderBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
-                child: Text(
-                  "This Field Is Required",
-                  style: GoogleFonts.poppins(
-                      color: Colors.red, fontSize: 12),
-                ),
-              )
+                      padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      ),
+                    )
             ],
           ),
         ),
@@ -306,19 +306,19 @@ class _AddPatientState extends State<AddPatient> {
                       child: Container(
                           height: 18,
                           child:
-                          Image.asset("assets/images/calender_icon.png")),
+                              Image.asset("assets/images/calender_icon.png")),
                     ),
                   ],
                 ),
               ),
               genderBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
-                child: Text(""),
-              )
+                      padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
+                      child: Text(""),
+                    )
             ],
           ),
           onTap: () {
@@ -327,7 +327,7 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
-    var membersList =  Row(
+    var membersList = Row(
       children: [
         GestureDetector(
           child: Column(
@@ -392,22 +392,22 @@ class _AddPatientState extends State<AddPatient> {
               ),
               patientBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                  padding:
-                  const EdgeInsets.only(left: 16, top: 8, right: 38),
-                  child: Text(
-                    "This Field Is Required",
-                    style: GoogleFonts.poppins(
-                        color: Colors.red, fontSize: 12),
-                  )),
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 8, right: 38),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      )),
             ],
           ),
         ),
       ],
     );
-    var membersNameList =  Row(
+    var membersNameList = Row(
       children: [
         GestureDetector(
           child: Column(
@@ -442,10 +442,12 @@ class _AddPatientState extends State<AddPatient> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     _selectedName = newValue;
+
                                     /// selectedMemberType = newValue;
                                   });
                                 },
-                                items: StringResources.memberNameList.map((patNo) {
+                                items:
+                                    StringResources.memberNameList.map((patNo) {
                                   return DropdownMenuItem(
                                     child: Text(
                                       patNo,
@@ -472,16 +474,16 @@ class _AddPatientState extends State<AddPatient> {
               ),
               patientBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                  padding:
-                  const EdgeInsets.only(left: 16, top: 8, right: 38),
-                  child: Text(
-                    "This Field Is Required",
-                    style: GoogleFonts.poppins(
-                        color: Colors.red, fontSize: 12),
-                  )),
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 8, right: 38),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      )),
             ],
           ),
         ),
@@ -584,15 +586,17 @@ class _AddPatientState extends State<AddPatient> {
                 ),
               ),
               patientBorderColor != "#FF0000"
-                  ? SizedBox(width: 2,)
+                  ? SizedBox(
+                      width: 2,
+                    )
                   : Padding(
-                  padding:
-                  const EdgeInsets.only(left: 16, top: 8, right: 38),
-                  child: Text(
-                    "This Field Is Required",
-                    style: GoogleFonts.poppins(
-                        color: Colors.red, fontSize: 12),
-                  )),
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 8, right: 38),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      )),
             ],
           ),
         ),
@@ -698,17 +702,17 @@ class _AddPatientState extends State<AddPatient> {
               ),
               consultBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                padding:
-                const EdgeInsets.only(left: 16, top: 8, right: 38),
-                child: Text(
-                  "This Field Is Required",
-                  style: GoogleFonts.poppins(
-                      color: Colors.red, fontSize: 12),
-                ),
-              )
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 8, right: 38),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      ),
+                    )
             ],
           ),
         ),
@@ -722,160 +726,204 @@ class _AddPatientState extends State<AddPatient> {
       child: Container(
         height: 90.0,
         width: MediaQuery.of(context).size.width * .5,
-        child: vm.consultFee == null || selectedConsultationType == "" || (vm.addPatient==true && selectedPatientType=='')
+        child: vm.consultFee == null ||
+                selectedConsultationType == "" ||
+                (vm.addPatient == true && selectedPatientType == '')
             ? SizedBox()
             : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  vm.consultationFee,
-                  style: GoogleFonts.poppins(
-                      color: AppTheme.appbarPrimary,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600),
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("BDT",
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        vm.consultationFee,
                         style: GoogleFonts.poppins(
                             color: AppTheme.appbarPrimary,
-                            fontWeight: FontWeight.w500))
-                  ],
-                )
-              ],
-            ),
-            Text("Consultation Fee",
-                style: GoogleFonts.poppins(
-                    color: AppTheme.appbarPrimary,
-                    fontWeight: FontWeight.w500))
-          ],
-        ),
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("BDT",
+                              style: GoogleFonts.poppins(
+                                  color: AppTheme.appbarPrimary,
+                                  fontWeight: FontWeight.w500))
+                        ],
+                      )
+                    ],
+                  ),
+                  Text("Consultation Fee",
+                      style: GoogleFonts.poppins(
+                          color: AppTheme.appbarPrimary,
+                          fontWeight: FontWeight.w500))
+                ],
+              ),
       ),
     );
     var confirmBooking = vm2.isLoading == true
         ? CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
-    )
+            valueColor: AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
+          )
         : Column(
-      children: [
-        spaceBetween,
-        GestureDetector(
-          onTap: () async {
-            if (selectedConsultationType != "" ||
-                (vm.forMe == false && selectedGender != "" ) || (vm.forMe==false && selectedPatientType!="")) {
-              setState(() {
-                if (selectedGender != "") {
-                  genderBorderColor = "#EAEBED";
-                }
-                if (selectedConsultationType != "") {
-                  consultBorderColor = "#EAEBED";
-                }
-                if (selectedPatientType != "") {
-                  patientBorderColor = "#EAEBED";
-                }
-              });
-              if (_formKey.currentState.validate()) {
-                await vm2.getAppointData(
-                  widget.doctorNo,
-                  vm.doctorName,
-                  vm.appointDate,
-                  vm.shiftdtlNo,
-                  vm.shift,
-                  vm.slotNo,
-                  vm.slotSl,
-                  vm.startTime,
-                  vm.endTime,
-                  vm.durationMin,
-                  vm.extraSlot,
-                  vm.slotSplited,
-                  vm3.userDetailsList.ssCreatedOn,
-                  vm3.userDetailsList.ssCreator.toString(),
-                  vm.remarks,
-                  vm.appointStatus,
-                  vm.companyNo,
-                  vm.ogNo,
-                  vm.forMe==true?  "2000002" : selectedPatientType,
-                  selectedConsultationType,
-                  vm.consultationFee,
-                  vm.forMe == false
-                      ? _name.text
-                      : vm3.userDetailsList.fname,
-                  vm.forMe == false
-                      ? _mobile.text
-                      : vm3.userDetailsList.phoneMobile,
-                  vm.forMe == false
-                      ? _selectedGender == "Male"
-                      ? "M"
-                      : _selectedGender == "Female"
-                      ? "F"
-                      : "O"
-                      : vm3.userDetailsList.gender,
-                  vm.forMe == false
-                      ? _address.text
-                      : vm3.userDetailsList.address,
-                  vm.forMe == false ? _email.text : vm3.userDetailsList.email==null? "ish@ish.com" : vm3.userDetailsList.email,
-                  vm.forMe == false ? birthDate : vm3.userDetailsList.dob,
-                  "0",
-                );
-                Future.delayed(Duration.zero, () async {
-                  setState(() {
-                    if (vm2.message == null) {
-                      _showAlert(context);
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HomeScreen(
-                                    accessToken: accessToken,
-                                  )));
-                    } else {
-                      //isClicked = false;
-                    }
-                  });
-                });
-              }
-            } else {
-              setState(() {
+            children: [
+              spaceBetween,
+              GestureDetector(
+                onTap: () async {
+                  if (selectedConsultationType != "" ||
+                      (vm.forMe == false && selectedGender != "") ||
+                      (vm.forMe == false && selectedPatientType != "")) {
+                    setState(() {
+                      if (selectedGender != "") {
+                        genderBorderColor = "#EAEBED";
+                      }
+                      if (selectedConsultationType != "") {
+                        consultBorderColor = "#EAEBED";
+                      }
+                      if (selectedPatientType != "") {
+                        patientBorderColor = "#EAEBED";
+                      }
+                    });
+                    if (_formKey.currentState.validate()) {
+                      // await vm2.getAppointData(
+                      //   doctorNo: widget.doctorNo,
+                      //   appointDate: vm.appointDate,
+                      //   shiftdtlNo: vm.shiftdtlNo,
+                      //   //regNo:
+                      //   patientType:
+                      //       vm.forMe == true ? "2000002" : selectedPatientType,
+                      //   fname: vm.forMe == false
+                      //       ? _name.text
+                      //       : vm3.userDetailsList.fname,
+                      //   phoneMobile: vm.forMe == false
+                      //       ? _mobile.text
+                      //       : vm3.userDetailsList.phoneMobile,
+                      //   email: vm.forMe == false
+                      //       ? _email.text
+                      //       : vm3.userDetailsList.email == null
+                      //           ? "ish@ish.com"
+                      //           : vm3.userDetailsList.email,
+                      //   dob: vm.forMe == false
+                      //       ? birthDate
+                      //       : vm3.userDetailsList.dob,
+                      //   gender: vm.forMe == false
+                      //       ? _selectedGender == "Male"
+                      //           ? "M"
+                      //           : _selectedGender == "Female"
+                      //               ? "F"
+                      //               : "O"
+                      //       : vm3.userDetailsList.gender,
+                      //   address: vm.forMe == false
+                      //       ? _address.text
+                      //       : vm3.userDetailsList.address,
+                      //   consultationType: selectedConsultationType,
+                      //   appointType: "Internet",
+                      //     appointStatus : "1",
+                      //   appFromFlag : null,
+                      //   remarks: vm.remarks,
+                      //   slotNo: vm.slotNo,
+                      //   slotSl: vm.slotSl,
+                      //   startTime: vm.startTime,
+                      //   endTime: vm.endTime,
+                      // );
 
-                if (vm.forMe == false && selectedGender == "") {
-                  genderBorderColor = "#FF0000";
-                }
-                if (vm.forMe == false && selectedPatientType == "") {
-                  patientBorderColor = "#FF0000";
-                }
-                if (selectedConsultationType == "") {
-                  consultBorderColor = "#FF0000";
-                }
-              });
-            }
-          },
-          child: Container(
-            child: Material(
-              child: Container(
-                child: Center(
-                    child: Text(
-                      "Confirm Booking",
-                      style: GoogleFonts.poppins(color: Colors.white),
-                    )),
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .89,
-                decoration: BoxDecoration(
-                    color: AppTheme.appbarPrimary,
-                    border: Border.all(color: HexColor("#354391")),
-                    borderRadius: BorderRadius.circular(10)),
+                      await vm2.getAppointData(
+                        widget.doctorNo,
+                        vm.doctorName,
+                        vm.appointDate,
+                        vm.shiftdtlNo,
+                        vm.shift,
+                        vm.slotNo,
+                        vm.slotSl,
+                        vm.startTime,
+                        vm.endTime,
+                        vm.durationMin,
+                        vm.extraSlot,
+                        vm.slotSplited,
+                        vm3.userDetailsList.ssCreatedOn,
+                        vm3.userDetailsList.ssCreator.toString(),
+                        vm.remarks,
+                        vm.appointStatus,
+                        vm.companyNo,
+                        vm.ogNo,
+                        vm.forMe==true?  "2000002" : selectedPatientType,
+                        selectedConsultationType,
+                        vm.consultationFee,
+                        vm.forMe == false
+                            ? _name.text
+                            : vm3.userDetailsList.fname,
+                        vm.forMe == false
+                            ? _mobile.text
+                            : vm3.userDetailsList.phoneMobile,
+                        vm.forMe == false
+                            ? _selectedGender == "Male"
+                            ? "M"
+                            : _selectedGender == "Female"
+                            ? "F"
+                            : "O"
+                            : vm3.userDetailsList.gender,
+                        vm.forMe == false
+                            ? _address.text
+                            : vm3.userDetailsList.address,
+                        vm.forMe == false ? _email.text : vm3.userDetailsList.email==null? "ish@ish.com" : vm3.userDetailsList.email,
+                        vm.forMe == false ? birthDate : vm3.userDetailsList.dob,
+                        "0",
+                      );
+                      Future.delayed(Duration.zero, () async {
+                        setState(() {
+                          if (vm2.message == null) {
+                            _showAlert(context);
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomeScreen(
+                                          accessToken: accessToken,
+                                        )));
+                          } else {
+                            //isClicked = false;
+                          }
+                        });
+                      });
+                    }
+                  } else {
+                    setState(() {
+                      if (vm.forMe == false && selectedGender == "") {
+                        genderBorderColor = "#FF0000";
+                      }
+                      if (vm.forMe == false && selectedPatientType == "") {
+                        patientBorderColor = "#FF0000";
+                      }
+                      if (selectedConsultationType == "") {
+                        consultBorderColor = "#FF0000";
+                      }
+                    });
+                  }
+                },
+                child: Container(
+                  child: Material(
+                    child: Container(
+                      child: Center(
+                          child: Text(
+                        "Confirm Booking",
+                        style: GoogleFonts.poppins(color: Colors.white),
+                      )),
+                      height: 45.0,
+                      width: MediaQuery.of(context).size.width * .89,
+                      decoration: BoxDecoration(
+                          color: AppTheme.appbarPrimary,
+                          border: Border.all(color: HexColor("#354391")),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-        spaceBetween,
-      ],
-    );
+              spaceBetween,
+            ],
+          );
     return Expanded(
       child: Form(
         key: _formKey,
@@ -891,31 +939,31 @@ class _AddPatientState extends State<AddPatient> {
                       child: Column(
                         children: [
                           spaceBetween,
-                          vm.forMe==true? patientType : patientType3,
+                          vm.forMe == true ? patientType : patientType3,
                           spaceBetween,
                           consultationType,
                           spaceBetween,
                           vm.forMe == false
                               ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              name,
-                              email,
-                              mobile,
-                              //password,
-                              //confirmPassword,
-                              address,
-                              spaceBetween,
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  gender,
-                                  dateOfBirth,
-                                ],
-                              ),
-                            ],
-                          )
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    name,
+                                    email,
+                                    mobile,
+                                    //password,
+                                    //confirmPassword,
+                                    address,
+                                    spaceBetween,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        gender,
+                                        dateOfBirth,
+                                      ],
+                                    ),
+                                  ],
+                                )
                               : SizedBox(),
                           spaceBetween,
                           spaceBetween,
@@ -1004,9 +1052,9 @@ class _AddPatientState extends State<AddPatient> {
                             0.2,
                             0.5,
                           ], colors: [
-                            HexColor("#D6DCFF"),
-                            HexColor("#FFFFFF"),
-                          ]),
+                        HexColor("#D6DCFF"),
+                        HexColor("#FFFFFF"),
+                      ]),
                       //borderRadius: 10,
                     ),
                     child: Column(
@@ -1051,7 +1099,7 @@ class _AddPatientState extends State<AddPatient> {
                                     Text(
                                       DateFormat("dd/MM/yyyy").format(
                                           DateTime.parse(
-                                              vm.appointDate.toString())
+                                                  vm.appointDate.toString())
                                               .toLocal()),
                                       style: GoogleFonts.poppins(),
                                     ),
@@ -1066,7 +1114,7 @@ class _AddPatientState extends State<AddPatient> {
                                     Text(
                                       DateFormat("hh:mm a").format(
                                           DateTime.parse(
-                                              vm.startTime.toString())
+                                                  vm.startTime.toString())
                                               .toLocal()),
                                       style: GoogleFonts.poppins(),
                                     ),
@@ -1114,7 +1162,7 @@ class _AddPatientState extends State<AddPatient> {
                                 child: Text(
                                   "OK",
                                   style:
-                                  GoogleFonts.poppins(color: Colors.white),
+                                      GoogleFonts.poppins(color: Colors.white),
                                 ))
                           ],
                         )
@@ -1127,9 +1175,9 @@ class _AddPatientState extends State<AddPatient> {
                 top: MediaQuery.of(context).size.height > 700
                     ? MediaQuery.of(context).size.height / 3.4
                     : MediaQuery.of(context).size.height > 450 &&
-                    MediaQuery.of(context).size.height <= 600
-                    ? MediaQuery.of(context).size.height / 6.1
-                    : MediaQuery.of(context).size.height / 3.3,
+                            MediaQuery.of(context).size.height <= 600
+                        ? MediaQuery.of(context).size.height / 6.1
+                        : MediaQuery.of(context).size.height / 3.3,
                 left: MediaQuery.of(context).size.height / 4.6,
                 right: MediaQuery.of(context).size.height / 4.6,
                 child: CircleAvatar(

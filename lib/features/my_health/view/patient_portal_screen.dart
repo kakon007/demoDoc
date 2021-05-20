@@ -726,7 +726,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       radius: 30,
                                                       backgroundColor: Colors.white,
                                                       child: CircleAvatar(
-                                                        backgroundImage: AssetImage('assets/images/proimg.png'),
+                                                        backgroundColor: Colors.white,
+                                                        backgroundImage: AssetImage("assets/icons/dct.png"),
                                                         radius: 28,
                                                       ),
                                                     ),

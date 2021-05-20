@@ -789,11 +789,12 @@ class _AddPatientState extends State<AddPatient> {
                       }
                     });
                     if (_formKey.currentState.validate()) {
+
                       // await vm2.getAppointData(
                       //   doctorNo: widget.doctorNo,
                       //   appointDate: vm.appointDate,
                       //   shiftdtlNo: vm.shiftdtlNo,
-                      //   //regNo:
+                      //   regNo: vm3.userDetailsList.id.toString(),
                       //   patientType:
                       //       vm.forMe == true ? "2000002" : selectedPatientType,
                       //   fname: vm.forMe == false
@@ -872,6 +873,7 @@ class _AddPatientState extends State<AddPatient> {
                         vm.forMe == false ? _email.text : vm3.userDetailsList.email==null? "ish@ish.com" : vm3.userDetailsList.email,
                         vm.forMe == false ? birthDate : vm3.userDetailsList.dob,
                         "0",
+                        vm3.userDetailsList.id.toString(),
                       );
                       Future.delayed(Duration.zero, () async {
                         setState(() {

@@ -498,7 +498,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  " Type hospital / Diagnosis / Doctor Chamber",
+                                                  StringResources.searchBoxHint,
                                                   style: TextStyle(
                                                     color: Colors.grey[400],
                                                     fontSize: deviceWidth >= 400
@@ -506,10 +506,13 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                         : 14,
                                                   ),
                                                 ),
-                                                SizedBox(width: 10),
-                                                Icon(
-                                                  Icons.search_sharp,
-                                                  color: Colors.grey[400],
+                                                Spacer(),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right:12.0),
+                                                  child: Icon(
+                                                    Icons.search_sharp,
+                                                    color: Colors.grey[400],
+                                                  ),
                                                 ),
                                               ],
                                             ),

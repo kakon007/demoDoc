@@ -355,11 +355,11 @@ class _GetAppointmentState extends State<GetAppointment> {
                     Container(
                       height: 40,
                       //width: 10.0,
-                      child:Center(child: Text('Upcoming',style: GoogleFonts.roboto(color: HexColor('#354291',),fontWeight: FontWeight.w500),)),
+                      child:Center(child: Text('Not Completed',style: GoogleFonts.roboto(color: HexColor('#354291',),fontWeight: FontWeight.w500),)),
                     ),
                     Container(
                       height: 40,
-                      child: Center(child: Text('Previous',style: GoogleFonts.roboto(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
+                      child: Center(child: Text('Completed',style: GoogleFonts.roboto(color: HexColor('#354291'),fontWeight: FontWeight.w500),)),
                     ),
                   ],
                 ),
@@ -658,7 +658,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                     child: Container(
                                       child: Column(
                                         children: [
-                                          Text('You have no upcoming \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
+                                          Text('You have no pending or waiting \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
                                           SizedBox(height: 30,),
                                           upComingBlank,
                                           SizedBox(height: 30,),
@@ -1133,7 +1133,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                     child: Container(
                                       child: Column(
                                         children: [
-                                          Text('You have no previous \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
+                                          Text('You have no completed \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
                                           SizedBox(height: 30,),
                                           upComingBlank,
                                           SizedBox(height: 30,),

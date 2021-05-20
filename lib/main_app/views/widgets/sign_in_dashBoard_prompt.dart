@@ -71,7 +71,7 @@ print( MediaQuery.of(context).size.height);
                 SizedBox(height: 10,),
                 appoinIcon,
                 SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10,),
-                Text('Want to access and view your appointments \n anytime?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize:MediaQuery.of(context).size.height<=600 ? 13 : 16,fontWeight: FontWeight.w500),),
+                Text('Want to manage your appointments?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize:MediaQuery.of(context).size.height<=600 ? 13 : 16,fontWeight: FontWeight.w500),),
                 SizedBox(height:MediaQuery.of(context).size.height>600 ? 20 :10,),
                 GestureDetector(
                   onTap: (){

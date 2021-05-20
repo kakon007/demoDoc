@@ -61,6 +61,67 @@ class BookAppointmentViewModel extends ChangeNotifier {
   bool _isFetchingData = false;
   AppError _appError;
 
+  // Future<void> getAppointData(
+  // {String doctorNo,
+  //   String appointDate,
+  //   String shiftdtlNo,
+  //   //regNo:
+  //   String patientType,
+  //   String fname,
+  //   String phoneMobile,
+  //   String email,
+  //   String dob,
+  //   String gender,
+  //   String address,
+  //   String consultationType,
+  //   String  appointType,
+  //   String appointStatus,
+  //   String appFromFlag,
+  //   String remarks,
+  //   String slotNo,
+  //   String slotSl,
+  //   String startTime,
+  //   String endTime,
+  // }) async {
+  //   print("ssCreator"+ email);
+  //   _isLoading = true;
+  //   var res = await BookAppointmentRepository().fetchAppointmentData(
+  //      doctorNo : doctorNo,
+  //     appointDate : appointDate,
+  //     shiftdtlNo: shiftdtlNo,
+  //     // //regNo:
+  //     patientType: patientType,
+  //     fname: fname,
+  //     phoneMobile: phoneMobile,
+  //     email: email,
+  //      dob:dob,
+  //     gender:gender,
+  //     address: address,
+  //     consultationType:consultationType,
+  //     appointType: appointType,
+  //    appointStatus: appointStatus,
+  //    appFromFlag: appFromFlag,
+  //     remarks: remarks,
+  //     slotNo: slotNo,
+  //     slotSl: slotSl,
+  //     startTime: startTime,
+  //     endTime: endTime,
+  //     //
+  //   );
+  //   notifyListeners();
+  //   res.fold((l) {
+  //     _appError = l;
+  //     _isLoading = false;
+  //     _isFetchingMoreData = false;
+  //     _isLoading= false;
+  //     notifyListeners();
+  //   }, (r) {
+  //     _isFetchingMoreData = false;
+  //     _message= r.message;
+  //     _isLoading = false;
+  //     notifyListeners();
+  //   });
+  // }
 
   Future<void> getAppointData(
       String doctorNo,
@@ -91,7 +152,7 @@ class BookAppointmentViewModel extends ChangeNotifier {
       String email,
       String dob,
       String paymodeNo,) async {
-    print("shakil"+ ssCreator);
+    print("ssCreator"+ ssCreator);
     _isLoading = true;
     var res = await BookAppointmentRepository().fetchAppointmentData(doctorNo, doctorName, appointDate, shiftdtlNo, shift, slotNo, slotSl, startTime, endTime, durationMin, extraSlot, slotSplited, ssCreatedOn, ssCreator, remarks, appointStatus, companyNo, ogNo, patientType, consultationType, opdConsultationFee, fname, phoneMobile, gender, address, email, dob, paymodeNo
      );

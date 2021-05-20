@@ -1,6 +1,7 @@
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
@@ -148,22 +149,22 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              st.name,
+                                              st.username,
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#0D1231"),
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w400),
                                             ),
-                                            Text(
-                                              st.username,
-                                              style: GoogleFonts.poppins(
-                                                  color: HexColor("#B8C2F8")),
-                                            ),
-                                            Text(
-                                              st.relation,
-                                              style: GoogleFonts.poppins(
-                                                  color: HexColor("#B8C2F8")),
-                                            ),
+                                            // Text(
+                                            //   st.username,
+                                            //   style: GoogleFonts.poppins(
+                                            //       color: HexColor("#B8C2F8")),
+                                            // ),
+                                            // Text(
+                                            //   st.relation,
+                                            //   style: GoogleFonts.poppins(
+                                            //       color: HexColor("#B8C2F8")),
+                                            // ),
                                             // accounts[index].isLoggedIn == false
                                             //     ? Text(
                                             //         st.username,
@@ -196,8 +197,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                         GestureDetector(
                                           child: Container(
                                               height: 16,
-                                              child: Image.asset(
-                                                  "assets/images/swap.png")),
+                                              child: SvgPicture.asset("assets/images/switch.svg", color: AppTheme.appbarPrimary,)),
                                           onTap: () async {
                                             showDialog(
                                                 context: context,
@@ -467,7 +467,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                         //     : SizedBox(),
                                         GestureDetector(
                                           child: Icon(Icons.delete_sweep,
-                                              color: HexColor("#D6DCFF")),
+                                              color: AppTheme.appbarPrimary),
                                           onTap: () {
                                             showGeneralDialog(
                                               barrierLabel: "Label",

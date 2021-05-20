@@ -32,8 +32,7 @@ class CustomCardPat extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child:Stack(
                   children:[ Container(
-                    // width: 80,
-                      child: Image.asset("assets/images/clocknew.png")
+                      child: Image.asset("assets/images/clocknew.png"),
                   ),
                     Padding(
                       padding: const EdgeInsets.only(top:35.0,left: 14,bottom:20),
@@ -65,7 +64,7 @@ class CustomCardPat extends StatelessWidget {
                             color: HexColor("#354291"),
 
                           ),
-                          SizedBox(width: 3,),
+                          SizedBox(width: 2,),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -83,7 +82,7 @@ class CustomCardPat extends StatelessWidget {
                               height: 30,
                               child: Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(0.0),
                                   child: Text("View All Appointment",style: TextStyle(color: Colors.white,fontSize: 11),),
                                 ),
                               ),

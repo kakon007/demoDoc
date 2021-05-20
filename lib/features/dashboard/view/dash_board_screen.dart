@@ -506,7 +506,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                         : 14,
                                                   ),
                                                 ),
-                                                SizedBox(width: 20),
+                                                SizedBox(width: 10),
                                                 Icon(
                                                   Icons.search_sharp,
                                                   color: Colors.grey[400],

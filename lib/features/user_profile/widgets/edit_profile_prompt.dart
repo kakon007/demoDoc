@@ -27,7 +27,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   final _formKey = new GlobalKey<FormState>();
   DateTime pickBirthDate;
   String abc = "#EAEBED";
-  double maxHeight=580;
+  double maxHeight=588;
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -310,6 +310,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       children: [
         GestureDetector(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                   height: 20.0,
@@ -328,10 +329,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                     ),
                   )),
               Container(
-                height: 45.0,
-                width: width,
+                height: 48.0,
+                width: MediaQuery.of(context).size.width * 0.84,
                 decoration: BoxDecoration(
-                    color: Colors.white,
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(

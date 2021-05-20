@@ -134,51 +134,51 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
             Divider(thickness: 1,),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child:
-              GestureDetector(
-                onTap: (){
-                  showDialog(context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text("Sign Out"),
-                          content: Text(
-                              "Do you really want to sign out?"),
-                          actions: <Widget>[
-                            FlatButton(onPressed: () {
-                              Provider.of<AccessTokenProvider>(context, listen: false).signOut();
-                            }, child:
-                            Text("Yes", style: TextStyle(color: Colors.red),)
-                            ),
-                            FlatButton(onPressed: () {
-                              Navigator.of(context).pop(context);
-                            }, child:
-                            Text("No", style: TextStyle(color: Colors.green))
-                            )
-                          ],
-
-
-                        );
-                      }
-                  );
-                },
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Sign out",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
-                        Text('Sign out from app',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
-                      ],
-                    ),
-                    Spacer(),
-                    Icon(Icons.logout),
-                  ],
-                ),
-              ),
-            ),
-            Divider(thickness: 1,),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child:
+            //   GestureDetector(
+            //     onTap: (){
+            //       showDialog(context: context,
+            //           builder: (context) {
+            //             return AlertDialog(
+            //               title: Text("Sign Out"),
+            //               content: Text(
+            //                   "Do you really want to sign out?"),
+            //               actions: <Widget>[
+            //                 FlatButton(onPressed: () {
+            //                   Provider.of<AccessTokenProvider>(context, listen: false).signOut();
+            //                 }, child:
+            //                 Text("Yes", style: TextStyle(color: Colors.red),)
+            //                 ),
+            //                 FlatButton(onPressed: () {
+            //                   Navigator.of(context).pop(context);
+            //                 }, child:
+            //                 Text("No", style: TextStyle(color: Colors.green))
+            //                 )
+            //               ],
+            //
+            //
+            //             );
+            //           }
+            //       );
+            //     },
+            //     child: Row(
+            //       children: [
+            //         Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text("Sign out",style: GoogleFonts.poppins(color: HexColor("#333132"),fontSize: 15,fontWeight: FontWeight.w600)),
+            //             Text('Sign out from app',style: GoogleFonts.poppins(color: HexColor("#D2D2D2"),fontSize: 11)),
+            //           ],
+            //         ),
+            //         Spacer(),
+            //         Icon(Icons.logout),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Divider(thickness: 1,),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child:
@@ -192,9 +192,6 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
             Divider(thickness: 1,),
-
-
-
           ],
         ),
       ),

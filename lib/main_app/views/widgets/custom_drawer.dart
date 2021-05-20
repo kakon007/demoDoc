@@ -41,7 +41,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Settings",
     "Family Members",
     "Switch Account",
-    "Sign Out",
   ];
 
   List<String> menuItem2=[

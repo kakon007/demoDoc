@@ -39,7 +39,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Reports",
     "Documents",
     "Notifications",
-    "Settings",
+    "More",
     "Family Members",
     "Switch Account",
   ];
@@ -51,7 +51,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Reports",
     "Documents",
     "Notifications",
-    "Settings",
+    "More",
   ];
 
   Widget buildMenuRow(int index){

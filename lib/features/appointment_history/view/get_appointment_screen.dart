@@ -752,7 +752,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                    Row(
                                                                      children: [
                                                                        Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                       Text(vm.upComingAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                       Text(vm.upComingAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#141D53'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
 
                                                                      ],
                                                                    ),
@@ -1223,7 +1223,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                 Row(
                                                                   children: [
                                                                     Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                    Text(vm2.previousAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                    Text(vm2.previousAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#141D53'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
 
                                                                   ],
                                                                 ),

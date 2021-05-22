@@ -116,14 +116,6 @@ class _SwitchAccountState extends State<SwitchAccount> {
                     future: dbmManager.getAccountList(),
                     builder: (context, snapshot) {
                       accountList = snapshot.data;
-                      accountList.forEach((element) {
-                        accountList.sort((a, b) {
-                          print(accountList);
-                          print("shakil");
-                          return a.username.compareTo(username);
-
-                        });
-                      });
                       return ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,

@@ -752,6 +752,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                              children: [
                                                                SizedBox(height: 3,),
                                                                Row(
+                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                  children: [
                                                                    Row(
                                                                      children: [
@@ -779,6 +780,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                ),
                                                                SizedBox(height: MediaQuery.of(context).size.width >600? 10 :5,),
                                                                Row(
+                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                  children: [
                                                                    Row(
                                                                      children: [
@@ -1227,6 +1229,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                           children: [
                                                             SizedBox(height: 3,),
                                                             Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
                                                                 Row(
                                                                   children: [
@@ -1254,6 +1257,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             ),
                                                             SizedBox(height: MediaQuery.of(context).size.width>650 ?10:5,),
                                                             Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
                                                                 Row(
                                                                   children: [

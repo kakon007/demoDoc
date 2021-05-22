@@ -25,6 +25,7 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -645,13 +646,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                 ),
                               ),
                               Expanded(
-                                child: vm.shouldShowPageLoader?Center(
-                                  child: Center(
-                                    child: CircularProgressIndicator(  valueColor:
-                                    AlwaysStoppedAnimation<Color>(
-                                        AppTheme.appbarPrimary),),
-                                  ),
-                                ):vm.upComingAppointmentList.length==0&&!vm.isInSearchMode?Align(
+                                child: vm.shouldShowPageLoader?Loader():vm.upComingAppointmentList.length==0&&!vm.isInSearchMode?Align(
                                   alignment: Alignment.center,
                                   child: Padding(
                                     padding: const EdgeInsets.only(top:120.0),
@@ -1122,13 +1117,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                               ),
                               Expanded(
                                 child:
-                                vm2.shouldShowPageLoader?Center(
-                                  child: Center(
-                                    child: CircularProgressIndicator(  valueColor:
-                                    AlwaysStoppedAnimation<Color>(
-                                        AppTheme.appbarPrimary),),
-                                  ),
-                                ):vm2.previousAppointmentList.length==0&&!vm2.isInSearchMode?Align(
+                                vm2.shouldShowPageLoader?Loader():vm2.previousAppointmentList.length==0&&!vm2.isInSearchMode?Align(
                                   alignment: Alignment.center,
                                   child: Padding(
                                     padding: const EdgeInsets.only(top:120.0),

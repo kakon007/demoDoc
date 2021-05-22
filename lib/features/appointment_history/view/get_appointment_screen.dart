@@ -4,27 +4,15 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:myhealthbd_app/features/appointment_history/models/zoom_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
-import 'package:myhealthbd_app/features/appointments/models/previous_appointment_model.dart';
-import 'package:myhealthbd_app/features/appointments/models/upcoming_appointment_model.dart';
-import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
-import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
-import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
-import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
 import 'package:page_transition/page_transition.dart';
@@ -110,8 +98,6 @@ class _GetAppointmentState extends State<GetAppointment> {
   }
 
   Future<File> _createPdfFileFromString(String prescriptionNo,String companyAlias) async {
-    // final encodedStr='''''';
-    // Uint8List bytes = base64.decode(encodedStr);
     String dir = (await pp.getApplicationDocumentsDirectory()).path;
     File file = File(
         "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
@@ -153,7 +139,6 @@ class _GetAppointmentState extends State<GetAppointment> {
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context, listen: false);
     vm2.getData();
     getZoomLink();
-    //fetchZoomLink(accessToken: widget.accessToken);
     // var vm4 = appNavigator.getProvider<HospitalListViewModel>();
     // var vm3 = Provider.of<DoctorListViewModel>(context, listen: false);
     // vm3.getDoctor(orgNo:widget.orgNo, companyNo:widget.companyNo, deptItem:null, specialSelectedItem:null, doctorSearch:"");
@@ -184,15 +169,15 @@ class _GetAppointmentState extends State<GetAppointment> {
   @override
   Widget build(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;
-    var cardWidth = MediaQuery.of(context).size.width * 0.3435;
+    //var cardWidth = MediaQuery.of(context).size.width * 0.3435;
     double bottomTextSize=  MediaQuery.of(context).size.width >600? 12 :11;
     var deviceWidth = MediaQuery.of(context).size.width;
-    var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
+    //var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     var width = MediaQuery.of(context).size.width * 0.44;
 
     var vm = Provider.of<AppointmentUpcomingViewModel>(context,listen: true);
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context,listen: true);
-    var vm3 = Provider.of<DoctorListViewModel>(context);
+    //var vm3 = Provider.of<DoctorListViewModel>(context);
     var vm5 = Provider.of<ZoomViewModel>(context);
 
     final Widget filtericon = SvgPicture.asset(
@@ -238,12 +223,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                 border: InputBorder.none,
                 hintText: 'Search here',
                 hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
-                //labelText: "Resevior Name",
                 fillColor: Colors.white,
-                // focusedBorder:UnderlineInputBorder(
-                //   borderSide:  BorderSide(color: HexColor('#354291').withOpacity(0.5), width: 1.5),
-                //   //borderRadius: BorderRadius.circular(25.0),
-                // ),
                 suffixIcon:IconButton(
                   icon:Icon(Icons.search_sharp,color: Colors.grey,),
                   onPressed: (){
@@ -252,9 +232,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                   },
                 )
             ),
-            // onChanged: (text) {
-            //   //value = text;
-            // },
             onSubmitted: (v){
               vm.search(_searchTextEditingController1.text,widget.accessToken);
             },
@@ -287,12 +264,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                 border: InputBorder.none,
                 hintText: 'Search here',
                 hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
-                //labelText: "Resevior Name",
                 fillColor: Colors.white,
-                // focusedBorder:UnderlineInputBorder(
-                //   borderSide:  BorderSide(color: HexColor('#354291').withOpacity(0.5), width: 1.5),
-                //   //borderRadius: BorderRadius.circular(25.0),
-                // ),
                 suffixIcon:IconButton(
                   icon:Icon(Icons.search_sharp,color: Colors.grey,),
                   onPressed: (){
@@ -301,9 +273,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                   },
                 )
             ),
-            // onChanged: (text) {
-            //   //value = text;
-            // },
             onSubmitted: (v){
               vm2.search(_searchTextEditingController2.text,widget.accessToken);
             },

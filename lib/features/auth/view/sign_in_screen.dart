@@ -41,9 +41,11 @@ class _SignInState extends State<SignIn> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     user= prefs.getString("username");
     pass= prefs.getString("password");
-    var abc= prefs.getBool("value");
-    _username.text = user;
-    _password.text = pass;
+    var rememberMe= prefs.getBool("value");
+    if(rememberMe==true){
+      _username.text = user;
+      _password.text = pass;
+    }
   }
   @override
   void initState() {
@@ -87,7 +89,7 @@ class _SignInState extends State<SignIn> {
       suffixIcon: IconButton(
         icon: isObSecure == true
             ? Icon(
-          Icons.visibility_off,
+            Icons.visibility_off,
             color: AppTheme.appbarPrimary
         )
             : Icon(
@@ -306,17 +308,17 @@ class _SignInState extends State<SignIn> {
                                     appNavigator.getProvider<AccessTokenProvider>().setToken(signInData.accessToken);
                                     SharedPreferences prefs =
                                     await SharedPreferences.getInstance();
+                                    prefs.setString(
+                                        "username", _username.text);
+                                    prefs.setString(
+                                        "password", _password.text);
                                     if(this.value== true){
-                                      print(_username.text);
-                                      prefs.setString(
-                                          "username", _username.text);
-                                      prefs.setString(
-                                          "password", _password.text);
+                                      //print(_username.text);
                                       prefs.setBool("value", true);
                                     }
                                     else{
-                                      prefs.remove("username");
-                                      prefs.remove("password");
+                                      // prefs.remove("username");
+                                      // prefs.remove("password");
                                       prefs.setBool("value", false);
                                     }
                                   }
@@ -324,18 +326,18 @@ class _SignInState extends State<SignIn> {
 
                                   SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
+                                  prefs.setString(
+                                      "username", _username.text);
+                                  prefs.setString(
+                                      "password", _password.text);
                                   if(this.value== true){
                                     print(_username.text);
-                                    prefs.setString(
-                                        "username", _username.text);
-                                    prefs.setString(
-                                        "password", _password.text);
                                     prefs.setBool("value", true);
                                   }
                                   else{
-                                    print(_password.text);
-                                    prefs.remove("username");
-                                    prefs.remove("password");
+                                    // print(_password.text);
+                                    // prefs.remove("username");
+                                    // prefs.remove("password");
                                     prefs.setBool("value", false);
                                   }
                                   setState(() {
@@ -357,7 +359,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         spaceBetween,
                         // socialSignIn,
-                         spaceBetween,
+                        spaceBetween,
                         signUp
                       ],
                     ),

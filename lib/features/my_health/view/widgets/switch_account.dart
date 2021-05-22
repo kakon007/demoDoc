@@ -11,6 +11,8 @@ import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -37,6 +39,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
   Future<void> getUSerDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     username = prefs.getString("username");
+      print(accountList.toString());
   }
 
   @override
@@ -113,6 +116,14 @@ class _SwitchAccountState extends State<SwitchAccount> {
                     future: dbmManager.getAccountList(),
                     builder: (context, snapshot) {
                       accountList = snapshot.data;
+                      accountList.forEach((element) {
+                        accountList.sort((a, b) {
+                          print(accountList);
+                          print("shakil");
+                          return a.username.compareTo(username);
+
+                        });
+                      });
                       return ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -120,6 +131,8 @@ class _SwitchAccountState extends State<SwitchAccount> {
                           accountList == null ? 0 : accountList.length,
                           itemBuilder: (BuildContext context, int index) {
                             SwitchAccounts st = accountList[index];
+                            var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
+                            var profileImage = accountList[index]?.relation ?? "";
                             return Container(
                                 decoration: BoxDecoration(
                                   color: index % 2 == 0
@@ -145,13 +158,13 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                             ),
                                             height: 60,
                                             width: 60,
-                                            child: Center(
+                                            child: profileImage=="" ? Center(
                                               child: Image.asset(
                                                 'assets/images/dPro.png',
                                                 height: 35,
                                                 width: 35,
                                               ),
-                                            )),
+                                            ): userImageVm.loadProfileImage(profileImage, 34, 34, 50)),
                                         SizedBox(
                                           width: 20,
                                         ),
@@ -162,17 +175,17 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                           MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              st.username,
+                                              st.name,
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#0D1231"),
-                                                  fontSize: 16,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.w400),
                                             ),
-                                            // Text(
-                                            //   st.username,
-                                            //   style: GoogleFonts.poppins(
-                                            //       color: HexColor("#B8C2F8")),
-                                            // ),
+                                            Text(
+                                              st.username,
+                                              style: GoogleFonts.poppins(
+                                                  color: HexColor("#B8C2F8")),
+                                            ),
                                             // Text(
                                             //   st.relation,
                                             //   style: GoogleFonts.poppins(
@@ -360,7 +373,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                                         children: [
                                                                           Text("Remove ", style: GoogleFonts.poppins()),
-                                                                          //Text(accountList[index].name, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                                                          Text(accountList[index].name, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
                                                                           Text(" from", style: GoogleFonts.poppins())
                                                                         ],
                                                                       ),

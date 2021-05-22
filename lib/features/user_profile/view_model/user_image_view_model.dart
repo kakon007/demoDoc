@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 class UserImageViewModel extends ChangeNotifier {
   String _image;
   Obj _details;
+  Obj _switchDetails;
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
@@ -115,7 +116,36 @@ class UserImageViewModel extends ChangeNotifier {
           fontSize: 12.0);
     }
   }
+  Future<void> switchImage(var accessToken) async {
+    var headers = {
+      'Authorization':
+      'Bearer $accessToken'
+    };
 
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            'https://qa.myhealthbd.com:9096/auth-api/api/coreUser/user-details'));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    try {
+      if (response.statusCode == 200) {
+        var res = await response.stream.bytesToString();
+        print(res);
+        UserImageModel data = userImageModelFromJson(res);
+        _switchDetails = data.obj;
+        notifyListeners();
+      } else {}
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "Something went wrong!!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 12.0);
+    }
+  }
   AppError get appError => _appError;
 
   bool get isFetchingData => _isFetchingData;
@@ -123,6 +153,7 @@ class UserImageViewModel extends ChangeNotifier {
   bool get isFetchingMoreData => _isFetchingMoreData;
 
   Obj get details => _details;
+  Obj get switchDetails => _switchDetails;
 
   String get resStatusCode => _resStatusCode;
 }

@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 class UserDetailsViewModel extends ChangeNotifier{
   Obj _userDetailsList;
+  Obj _userSwitchDetailsList;
   String _message;
   AppError _appError;
   DateTime _lastFetchTime;
@@ -79,7 +80,21 @@ class UserDetailsViewModel extends ChangeNotifier{
       notifyListeners();
     });
   }
-
+  Future<void> getSwitchData(var accessToken) async {
+    _isFetchingData = true;
+    //var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    var res = await UserDetailsRepository().fetchUserDetails(accessToken);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isFetchingMoreData = false;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = false;
+      _userSwitchDetailsList=r.dataList;
+      notifyListeners();
+    });
+  }
   AppError get appError => _appError;
 
 
@@ -94,4 +109,5 @@ class UserDetailsViewModel extends ChangeNotifier{
   String get message => _message;
 
   Obj get userDetailsList => _userDetailsList;
+  Obj get userSwitchDetailsList => _userSwitchDetailsList;
 }

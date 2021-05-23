@@ -55,6 +55,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   List<Items> _slots = [];
   Obj _doctors;
   List<PatientItem> _patientItem = [];
+  String _patNo;
   List<ConsultType> _consultItem = [];
   String slot;
   AppError _appError;
@@ -222,6 +223,11 @@ class AvailableSlotsViewModel extends ChangeNotifier {
     }, (r) {
       _isFetchingMoreData = false;
       _patientItem.addAll(r.patType);
+      for(int i= 0; i<=_patientItem.length; i++)
+        {
+          _patNo= _patientItem.reversed.first.patientTypeNo.toString();
+        }
+      print("abc" + _patNo);
       _isLoading = false;
       notifyListeners();
     });
@@ -249,10 +255,14 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   }
 
   Future<void> getFee(String companyNo, String conTypeNo, String doctorNo,
-      String orgNo) async {
+      String orgNo, String patNo) async {
     _isLoading = true;
+    print("company $companyNo");
+    print("con $conTypeNo");
+    print("doc $doctorNo");
+    print("orgNo $orgNo");
     var res = await AvailableSlotsRepository()
-        .fetchFee(companyNo, conTypeNo, doctorNo, orgNo);
+        .fetchFee(companyNo, conTypeNo, doctorNo, orgNo, patNo);
     notifyListeners();
     res.fold((l) {
       _appError = l;
@@ -283,9 +293,8 @@ class AvailableSlotsViewModel extends ChangeNotifier {
 
   String get consultationFee => consultFee;
   Obj get doctorInfo => _doctors;
-
   List<PatientItem> get patientItem => _patientItem;
-
+String get patNo => _patNo;
   List<Items> get slotList => _slots;
 
   List<ConsultType> get consultType => _consultItem;

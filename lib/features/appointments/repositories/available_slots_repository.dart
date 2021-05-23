@@ -174,7 +174,7 @@ class AvailableSlotsRepository {
     return Left(AppError.unknownError);
   }
 
-  Future<Either<AppError, FeeCheck>>   fetchFee( String companyNo, String conTypeNo, String doctorNo, String orgNo) async {
+  Future<Either<AppError, FeeCheck>>   fetchFee( String companyNo, String conTypeNo, String doctorNo, String orgNo, String patNo) async {
     print(companyNo);
     print(conTypeNo);
     print(doctorNo);
@@ -188,7 +188,7 @@ class AvailableSlotsRepository {
         "conTypeNo": conTypeNo,
         "doctorNo": doctorNo,
         "ogNo": orgNo,
-        "patTypeNo": "2000002"
+        "patTypeNo": patNo
       }),);
       if (response.statusCode == 200) {
         print(response.body);

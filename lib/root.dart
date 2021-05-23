@@ -36,7 +36,7 @@ class _RootState extends State<Root> {
          appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
          accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
       }
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(microseconds: 500));
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) =>
           // DoctorHomeScreen(

@@ -93,8 +93,8 @@ class _AddPatientState extends State<AddPatient> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-      vm.getPatType(widget.doctorNo);
-      vm.getConType(widget.doctorNo, "2000002", widget.companyNo, widget.orgNo);
+      await vm.getPatType(widget.doctorNo);
+      await vm.getConType(widget.doctorNo, vm.patNo, widget.companyNo, widget.orgNo);
       accesstoken();
     });
     isClicked = false;
@@ -551,8 +551,12 @@ class _AddPatientState extends State<AddPatient> {
                                 value: _selectedType,
                                 onChanged: (newValue) {
                                   setState(() {
-                                    _selectedType = newValue;
                                     selectedPatientType = newValue;
+                                    if(selectedPatientType!= _selectedType){
+                                      _selectedType = newValue;
+                                      _selectedConsultation=null;
+                                      selectedConsultationType='';
+                                    }
                                     vm.getConType(
                                         widget.doctorNo,
                                         _selectedType,
@@ -672,6 +676,7 @@ class _AddPatientState extends State<AddPatient> {
                                       _selectedConsultation,
                                       widget.doctorNo,
                                       widget.orgNo,
+                                      vm.forMe==true? vm.patNo : selectedPatientType,
                                     );
                                   });
                                 },
@@ -851,7 +856,7 @@ class _AddPatientState extends State<AddPatient> {
                         vm.appointStatus,
                         vm.companyNo,
                         vm.ogNo,
-                        vm.forMe==true?  "2000002" : selectedPatientType,
+                        vm.forMe==true?  vm.patNo : selectedPatientType,
                         selectedConsultationType,
                         vm.consultationFee,
                         vm.forMe == false

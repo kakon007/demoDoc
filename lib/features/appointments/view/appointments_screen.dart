@@ -129,8 +129,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     Future.delayed(Duration.zero, () async {
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-      vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
-      vm.getSlots(
+      await vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
+      await vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
       vm.getAppointType(true, false);
@@ -168,7 +168,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       pickedAppointDate2 = pickedAppointDate;
-      startTimer();
+      //startTimer();
       selectedCard = -1;
       isSelected = false;
     }

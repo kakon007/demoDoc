@@ -737,7 +737,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                    Row(
                                                                      children: [
                                                                        Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                       Text(TimeUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].appointDate).toUtc()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                       Text(TimeUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].startTime).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
                                                                      ],
                                                                    ),
                                                                  ],
@@ -1208,7 +1208,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                 Row(
                                                                   children: [
                                                                     Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                    Text(TimeUtil().formattedDate(DateTime.parse(vm2.previousAppointmentList[index].appointDate).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                    Text(TimeUtil().formattedDate(DateTime.parse(vm2.previousAppointmentList[index].endTime).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
                                                                   ],
                                                                 ),
                                                               ],

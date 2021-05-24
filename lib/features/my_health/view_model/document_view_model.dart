@@ -42,7 +42,7 @@ class DocumentViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<bool> getData() async {
+  Future<bool> getDataforDoc() async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
@@ -55,14 +55,15 @@ class DocumentViewModel extends ChangeNotifier{
     res.fold((l) {
       _appError = l;
       _isFetchingData = false;
+      print('DataaaaaaafromDocumenterror:: ' );
       notifyListeners();
       return false;
     }, (r) {
-      hasMoreData = r.totalCount-1>startIndex;
+      //hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
-      _documentList.addAll(r.dataListofReport);
-      count = r.totalCount;
-      print('Dataaaaaaa2222222:: ' + _documentList.toString());
+      _documentList.addAll(r.dataListOfDocuments);
+      //count = r.totalCount;
+      print('DataaaaaaafromDocument:: ' + _documentList.length.toString());
       notifyListeners();
       return true;
     });
@@ -88,10 +89,10 @@ class DocumentViewModel extends ChangeNotifier{
         return false;
       }, (r) {
 
-        hasMoreData = r.totalCount-1>startIndex+limit;
+        //hasMoreData = r.totalCount-1>startIndex+limit;
         isFetchingMoreData = false;
-        _documentList.addAll(r.dataListofReport);
-        count = r.totalCount;
+        _documentList.addAll(r.dataListOfDocuments);
+        //count = r.totalCount;
         notifyListeners();
         return true;
       });
@@ -102,14 +103,14 @@ class DocumentViewModel extends ChangeNotifier{
   Future<bool> refresh() async {
     _pageCount = 1;
     notifyListeners();
-    return getData();
+    return getDataforDoc();
   }
   search(String query,String accessToken) {
     _documentList.clear();
     _pageCount = 1;
     searchQuery = query;
     print("Searching for: $query");
-    getData();
+    getDataforDoc();
   }
 
   toggleIsInSearchMode(String accessToken) {
@@ -118,7 +119,7 @@ class DocumentViewModel extends ChangeNotifier{
     resetPageCounter();
     if (!_isInSearchMode) {
       searchQuery = "";
-      getData();
+      getDataforDoc();
     }
     notifyListeners();
   }
@@ -154,5 +155,5 @@ class DocumentViewModel extends ChangeNotifier{
       _isFetchingData && _documentList.length == 0;
 
 
-  List<Item> get reportList => _documentList;
+  List<Item> get documentList => _documentList;
 }

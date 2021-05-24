@@ -16,6 +16,8 @@ import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dar
 import 'package:myhealthbd_app/features/my_health/view/widgets/share_document_widget.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account_alert_dialog.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/upload_document_screen.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/document_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/report_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
@@ -194,6 +196,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     vm.getData(widget.accessToken);
     var vm2 = Provider.of<ReportViewModel>(context, listen: false);
     vm2.getData();
+    var vm3 = Provider.of<DocumentViewModel>(context, listen: false);
+    vm3.getDataforDoc();
     //startTimer();
     print("jaaaaahhhhhhiiiiddddddd");
     controller.disableEditingWhenNoneSelected = true;
@@ -250,6 +254,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     List<Datum> list = vm.prescriptionList;
     var lengthofPrescriptionList = list.length;
     var vm2= Provider.of<ReportViewModel>(context,listen: true);
+    var vm3= Provider.of<DocumentViewModel>(context,listen: true);
+    print("lltt::: ${vm3.documentList.length}");
     var childButtons = List<UnicornButton>();
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
@@ -332,19 +338,19 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     );
 
 
-    childButtons.add(UnicornButton(
-        hasLabel: true,
-        labelText: "Capture Documents",
-        labelColor: HexColor("#354291") ,
-        labelBackgroundColor: HexColor("#E9ECFE"),
-        labelFontSize: 10,
-        currentButton: FloatingActionButton(
-          heroTag: "train",
-          backgroundColor: HexColor("#354291"),
-          mini: true,
-          child: cm,
-          onPressed: () {},
-        )));
+    // childButtons.add(UnicornButton(
+    //     hasLabel: true,
+    //     labelText: "Capture Documents",
+    //     labelColor: HexColor("#354291") ,
+    //     labelBackgroundColor: HexColor("#E9ECFE"),
+    //     labelFontSize: 10,
+    //     currentButton: FloatingActionButton(
+    //       heroTag: "train",
+    //       backgroundColor: HexColor("#354291"),
+    //       mini: true,
+    //       child: cm,
+    //       onPressed: () {},
+    //     )));
 
     childButtons.add(UnicornButton(
         hasLabel: true,
@@ -353,6 +359,12 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         labelBackgroundColor: HexColor("#E9ECFE"),
         labelFontSize: 10,
         currentButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.push(context, PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child:UploadDocumentScreen(),
+            ),);
+          },
             heroTag: "airplane",
             backgroundColor: HexColor("#354291"),
             mini: true,
@@ -990,155 +1002,167 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                   ),
 
                   //Documentation Screen
-                  Scaffold(
-                    floatingActionButton: Padding(
-                      padding: const EdgeInsets.only(bottom:10.0,right: 10),
-                      child: UnicornDialer(
-                          backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
-                          parentButtonBackground: HexColor('#8592E5'),
-                          orientation: UnicornOrientation.VERTICAL,
-                          parentButton: Icon(Icons.add),
-                          childButtons: childButtons),
-                    ),
+                  WillPopScope(
+                    onWillPop: () async {
+                      //block app from quitting when selecting
+                      var before = !controller3.isSelecting;
+                      setState(() {
+                        controller3.deselectAll();
+                      });
+                      return before;
+                    },
+                    child: Scaffold(
+                      floatingActionButton: Padding(
+                        padding: const EdgeInsets.only(bottom:10.0,right: 10),
+                        child: UnicornDialer(
+                            backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
+                            parentButtonBackground: HexColor('#8592E5'),
+                            orientation: UnicornOrientation.VERTICAL,
+                            parentButton: Icon(Icons.add),
+                            childButtons: childButtons),
+                      ),
 
-                    // body: Align(
-                    //   alignment: Alignment.center,
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(top:200.0),
-                    //     child: Container(
-                    //       child: Column(
-                    //         children: [
-                    //           pp,
-                    //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                    //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                      // body: Align(
+                      //   alignment: Alignment.center,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.only(top:200.0),
+                      //     child: Container(
+                      //       child: Column(
+                      //         children: [
+                      //           pp,
+                      //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                      //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
 
-                    body:   Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left:12.0,bottom: 20),
-                              child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
-                            ),
-                            Spacer(),
-                            searchField,
-                          ],
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                              physics: ScrollPhysics(),
-                              child: Column(
-                                children: [
-                                  ListView.builder( physics: NeverScrollableScrollPhysics(),
-                                      itemCount:docList.length,
-                                      shrinkWrap: true,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return MultiSelectItem(
-                                          isSelecting: controller3.isSelecting,
-                                          onSelected: () {
-                                            setState(() {
-                                              controller3.toggle(index);
-                                            });
-                                          },
-                                          child: Stack(
-                                              children:[
-                                                InkWell(
-                                                  onLongPress: (){
-                                                    setState(() {
-                                                      controller3.toggle(index);
-                                                    });
-                                                    print("tapped");},
-                                                  onTap: (){
-
-                                                    if(controller3.isSelecting){
+                      body:   Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                child: Text("13 Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                              ),
+                              Spacer(),
+                              searchField,
+                            ],
+                          ),
+                          Expanded(
+                            child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                physics: ScrollPhysics(),
+                                child: Column(
+                                  children: [
+                                    ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount:vm3.documentList.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return MultiSelectItem(
+                                            isSelecting: controller3.isSelecting,
+                                            onSelected: () {
+                                              setState(() {
+                                                controller3.toggle(index);
+                                              });
+                                            },
+                                            child: Stack(
+                                                children:[
+                                                  InkWell(
+                                                    onLongPress: (){
                                                       setState(() {
                                                         controller3.toggle(index);
                                                       });
-                                                    }
-                                                    print("tappeddd");
-                                                  },
-                                                  child: Container(
-                                                    height: cardHeight*0.6,
-                                                    margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                                    decoration: BoxDecoration(
-                                                      gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                        1.0,
-                                                      ], colors: [
-                                                        //HexColor('#C5CAE8'),
-                                                        HexColor('#E9ECFE'),
+                                                      print("tapped");},
+                                                    onTap: (){
 
-                                                      ]),
-                                                      //color: Colors.white,
-                                                      // border: Border.all(
-                                                      //   color: HexColor("#E9ECFE"),
-                                                      //   width: 1,
-                                                      // ),
-                                                      borderRadius: BorderRadius.circular(15),
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        SizedBox(width: 10,),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              SizedBox(height: 10,),
-                                                              Text(docList[index].fileName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                              SizedBox(height: 5,),
-                                                              Text(docList[index].day,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                              SizedBox(height: 5,),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Spacer(),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(right:18.0),
-                                                        //   child: Stack(children: [
-                                                        //     Container(width:45,child: dx),
-                                                        //     Padding(
-                                                        //       padding: const EdgeInsets.only(left:30.0),
-                                                        //       child: righticon,
-                                                        //     ),
-                                                        //   ]),
+                                                      if(controller3.isSelecting){
+                                                        setState(() {
+                                                          controller3.toggle(index);
+                                                        });
+                                                      }
+                                                      print("tappeddd");
+                                                    },
+                                                    child: Container(
+                                                      height: cardHeight*0.6,
+                                                      margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                      decoration: BoxDecoration(
+                                                        gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                          1.0,
+                                                        ], colors: [
+                                                          //HexColor('#C5CAE8'),
+                                                          HexColor('#E9ECFE'),
+
+                                                        ]),
+                                                        //color: Colors.white,
+                                                        // border: Border.all(
+                                                        //   color: HexColor("#E9ECFE"),
+                                                        //   width: 1,
                                                         // ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right:18.0),
-                                                          child: Stack(children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top:3.0,right: 5),
-                                                              child: Container(width:45,child: jp),
+                                                        borderRadius: BorderRadius.circular(15),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(width: 10,),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                SizedBox(height: 10,),
+                                                                Text(vm3.documentList[index].attachmentName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                                SizedBox(height: 5,),
+                                                                Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                SizedBox(height: 5,),
+                                                              ],
                                                             ),
-                                                            (controller2.isSelected(index))?
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                              child: righticon,
-                                                            ): (controller2.isSelecting)?Padding(
-                                                              padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                              child: greyright,
-                                                            ):Padding(
-                                                              padding: EdgeInsets.only(left: 38),
-                                                              child: popup,
-                                                            ),
-                                                          ]),
-                                                        ),
-                                                      ],
+                                                          ),
+                                                          Spacer(),
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(right:18.0),
+                                                          //   child: Stack(children: [
+                                                          //     Container(width:45,child: dx),
+                                                          //     Padding(
+                                                          //       padding: const EdgeInsets.only(left:30.0),
+                                                          //       child: righticon,
+                                                          //     ),
+                                                          //   ]),
+                                                          // ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(right:18.0),
+                                                            child: Stack(children: [
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top:3.0,right: 5),
+                                                                child: Container(width:45,child: jp),
+                                                              ),
+                                                              (controller2.isSelected(index))?
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                child: righticon,
+                                                              ): (controller2.isSelecting)?Padding(
+                                                                padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                child: greyright,
+                                                              ):Padding(
+                                                                padding: EdgeInsets.only(left: 38),
+                                                                child: popup,
+                                                              ),
+                                                            ]),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ]
-                                          ),
-                                        );
-                                      })
-                                ],
-                              )),
-                        ),
-                      ],
+                                                ]
+                                            ),
+                                          );
+                                        })
+                                  ],
+                                )),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -7,6 +7,10 @@ import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -18,7 +22,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 SignInModel signInData;
 
 class SignIn extends StatefulWidget {
@@ -29,6 +33,8 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   bool value= true;
+  final DbManager dbmManager = new DbManager();
+  SwitchAccounts accounts;
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
@@ -42,11 +48,14 @@ class _SignInState extends State<SignIn> {
     user= prefs.getString("username");
     pass= prefs.getString("password");
     var rememberMe= prefs.getBool("value");
+    accounts=null;
     if(rememberMe==true){
       _username.text = user;
       _password.text = pass;
     }
   }
+  List<SwitchAccounts> accountsList;
+  String addAccountValue;
   @override
   void initState() {
     // TODO: implement initState
@@ -54,13 +63,11 @@ class _SignInState extends State<SignIn> {
     validUser = true;
     isClicked = false;
     getUSerDetails();
-
-    print(pass);
-
+    Future.delayed(Duration.zero, () async {
+      accountsList = await dbmManager.getAccountList();
+    });
     super.initState();
   }
-
-
   final FocusNode _emailFocus = FocusNode();
 
   @override
@@ -277,41 +284,52 @@ class _SignInState extends State<SignIn> {
                                 setState(() {
                                   isClicked = true;
                                 });
-                                String username = 'telemedCareIdPassword';
-                                String password = 'secret';
-                                String basicAuth = 'Basic ' +
-                                    base64Encode(
-                                        utf8.encode('$username:$password'));
-                                String url =
-                                    "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
-                                var response = await http.post(url,
-                                    headers: <String, String>{
-                                      'authorization': basicAuth
+                                SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                                prefs.setString(
+                                    "username", _username.text);
+                                prefs.setString(
+                                    "password", _password.text);
+                                var vm5 = Provider.of<AuthViewModel>(context, listen: false);
+                                await vm5.getAuthData(_username.text, _password.text);
+                                if(vm5.accessToken!=null){
+                                  accountsList.forEach((item) {
+                                    if(item.username.contains(_username.text)) {
+                                      addAccountValue = _username.text;
+                                    }
+                                  });
+                                  if(addAccountValue==null){
+                                    var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
+                                    var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
+                                    await vm4.getSwitchData(vm5.accessToken);
+                                    await vm3.switchImage(vm5.accessToken);
+                                    print("abcd");
+                                    SwitchAccounts switchAccounts = new SwitchAccounts(
+                                      name: vm4.userSwitchDetailsList.fname,
+                                      relation: vm3.switchDetails.photo,
+                                      username: _username.text,
+                                      password: _password.text,
+                                    );
+                                    dbmManager.insertStudent(switchAccounts).then((id) => {
+                                      print("name" + vm4.userSwitchDetailsList.fname),
+                                      print("photo" + vm3.switchDetails.photo),
                                     });
-                                if (response.statusCode == 200) {
-                                  //print(response.body);
-                                  signInData =
-                                      signInModelFromJson(response.body);
-                                  if (signInData != null) {
-                                    print(signInData.accessToken);
-                                    print(signInData.expiresIn);
+                                  }
+                                  else{
+                                    print("prity");
+                                  }
+                                }
+                                if (vm5.accessToken!=null) {
+                                    appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                           builder: (BuildContext context) =>
                                               HomeScreen(
                                                 accessToken:
-                                                signInData.accessToken,
+                                                vm5.accessToken,
                                               ),
                                         ),
                                             (Route<dynamic> route) => false);
-                                    //Provider.of<AccessTokenProvider>(context, listen: false).setToken(signInData.accessToken);
-                                    appNavigator.getProvider<AccessTokenProvider>().setToken(signInData.accessToken);
-                                    SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                    prefs.setString(
-                                        "username", _username.text);
-                                    prefs.setString(
-                                        "password", _password.text);
                                     if(this.value== true){
                                       //print(_username.text);
                                       prefs.setBool("value", true);
@@ -321,23 +339,16 @@ class _SignInState extends State<SignIn> {
                                       // prefs.remove("password");
                                       prefs.setBool("value", false);
                                     }
-                                  }
+
                                 } else {
 
                                   SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                                  prefs.setString(
-                                      "username", _username.text);
-                                  prefs.setString(
-                                      "password", _password.text);
                                   if(this.value== true){
                                     print(_username.text);
                                     prefs.setBool("value", true);
                                   }
                                   else{
-                                    // print(_password.text);
-                                    // prefs.remove("username");
-                                    // prefs.remove("password");
                                     prefs.setBool("value", false);
                                   }
                                   setState(() {

@@ -61,7 +61,7 @@ class SwitchAccounts {
   String password;
   String name;
   String relation;
-  SwitchAccounts({@required this.username,@required this.relation, @required this.password,@required this.name, this.id});
+  SwitchAccounts({this.username,this.relation, this.password,this.name, this.id});
   Map<String, dynamic> toMap() {
     return {'name': username, 'course': password, 'course2' : name, 'relation' : relation};
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/search_family_member.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/add_family_member_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/edit_member_list_prompt.dart';
@@ -124,7 +125,10 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
               },
               child: GestureDetector(
                 onTap: (){
-                  _showAlertDialogForAddMember(context);
+
+                 Navigator.push(context, MaterialPageRoute(builder: (context){
+                   return SearchFamilyMember();
+                 }));
                 },
                 child: DashedContainer(
                   dashColor: AppTheme.appbarPrimary,

@@ -87,13 +87,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //screenShots=screens.values.toList();
   }
 
-  Future<void> signOut() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.clear();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => HomeScreen()));
-  }
-
   @override
   Widget build(BuildContext context) {
     var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: true);

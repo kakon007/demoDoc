@@ -175,10 +175,6 @@ class AvailableSlotsRepository {
   }
 
   Future<Either<AppError, FeeCheck>>   fetchFee( String companyNo, String conTypeNo, String doctorNo, String orgNo, String patNo) async {
-    print(companyNo);
-    print(conTypeNo);
-    print(doctorNo);
-    print(orgNo);
     var url =
         "${Urls.buildUrl}online-appointment-api/fapi/appointment/getConsultationFee";
 

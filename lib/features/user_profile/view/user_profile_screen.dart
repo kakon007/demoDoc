@@ -661,7 +661,7 @@ class _UserProfileState extends State<UserProfile> {
                                 border:
                                     Border.all(color: AppTheme.appbarPrimary)),
                             child: Icon(
-                              Icons.edit,
+                              Icons.edit, color: AppTheme.appbarPrimary,
                             )),
                       ),
                     )

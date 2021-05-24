@@ -4,19 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
-import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
-import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
-import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
-import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_zefyr_rich_text_from_field.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,17 +29,31 @@ class _SwitchAccountState extends State<SwitchAccount> {
   List<SwitchAccounts> accountList;
   int updateIndex;
   var username;
+  SwitchAccounts switchAccounts;
 
   Future<void> getUSerDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     username = prefs.getString("username");
-      print(accountList.toString());
   }
 
+  // Future<List<SwitchAccounts>> getAccountList() async {
+  //   dbmManager.getAccountList().then((value) => {
+  //     accountList.addAll(value),
+  //   });
+  //   accountList.sort((a, b) {
+  //     return a.username.compareTo(username);
+  //   });
+  //
+  //   return accountList;
+  // }
   @override
   void initState() {
     // TODO: implement initState
-    getUSerDetails();
+
+    Future.delayed(Duration.zero, () async {
+     // getAccountList();
+      getUSerDetails();
+    });
     super.initState();
   }
 
@@ -249,6 +257,22 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                             await vm5.getAuthData(
                                                                 st.username,
                                                                 st.password);
+                                                            if(vm5.accessToken!=null){
+                                                              var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
+                                                              var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
+                                                              await vm4.getSwitchData(vm5.accessToken);
+                                                              await vm3.switchImage(vm5.accessToken);
+                                                              switchAccounts=st;
+                                                              updateIndex = index;
+                                                              switchAccounts.username = st.username;
+                                                              switchAccounts.password = st.password;
+                                                              switchAccounts.name =vm4.userSwitchDetailsList.fname;
+                                                              switchAccounts.relation =vm3.switchDetails.photo;
+                                                              dbmManager.updateStudent(switchAccounts).then((value) => {
+                                                                setState((){
+                                                                }),
+                                                              });
+                                                            }
                                                             if (vm5.accessToken !=
                                                                 null) {
                                                               await vm

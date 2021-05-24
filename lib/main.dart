@@ -28,6 +28,7 @@ import 'features/auth/view_model/sign_out_view_model.dart';
 import 'features/auth/view_model/sign_up_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'features/hospitals/models/company_logo_model.dart';
+import 'features/user_profile/view_model/relationship_view_model.dart';
 import 'features/user_profile/view_model/user_image_view_model.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,6 +74,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<AppointmentPreviousViewModel>(create: (context) =>  AppointmentPreviousViewModel()),
       ChangeNotifierProvider<ZoomViewModel>(create: (context) =>  ZoomViewModel()),
       ChangeNotifierProvider<UserImageViewModel>(create: (context) =>  UserImageViewModel()),
+      ChangeNotifierProvider<RelationShipViewModel>(create: (context) =>  RelationShipViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

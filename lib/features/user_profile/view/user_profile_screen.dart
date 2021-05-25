@@ -106,7 +106,20 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
+    var userId = vm.userDetailsList.id;
+    var hospitalNumber = vm.userDetailsList.hospitalNumber;
+    var regDate = vm.userDetailsList.regDate;
     var photo = vm2.details?.photo ?? "";
+    var pickBirthDate = DateFormat("yyyy-MM-dd")
+        .parse(vm.userDetailsList.dob)
+        .add(Duration(days: 1));
+    String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
+    var _selectedBlood = vm.userDetailsList.bloodGroup != null
+        ? vm.userDetailsList.bloodGroup
+        : null;
+    var _selectedGender = vm.userDetailsList.gender == "M"
+        ? "Male"
+        : "Female";
     print(photo);
     return Scaffold(
       appBar: AppBar(
@@ -135,6 +148,19 @@ class _UserProfileState extends State<UserProfile> {
                               _image,
                               vm.userDetailsList.hospitalNumber,
                               vm2.details.userId.toString());
+                          await vm2.updateProfile2(
+                              _image,
+                              userId.toString(),
+                              vm.userDetailsList.fname,
+                             vm.userDetailsList.email,
+                              vm.userDetailsList.phoneMobile,
+                              vm.userDetailsList.address,
+                              _formatDate,
+                              _selectedGender,
+                              _selectedBlood,
+                              hospitalNumber,
+                              regDate
+                          );
                           response= vm2.resStatusCode;
                           setState(() {
                             if(response=="200"){

@@ -28,7 +28,14 @@ class AddPatient extends StatefulWidget {
   String hospitalName;
 
   AddPatient({this.doctorNo, this.companyNo, this.orgNo, this.hospitalName});
-
+   capitalizeTheFirstLetterOfEachWord(words) {
+    var separateWord = words.toLowerCase().split(' ');
+    for (var i = 0; i < separateWord.length; i++) {
+      separateWord[i] = separateWord[i].charAt(0).toUpperCase() +
+          separateWord[i].substring(1);
+    }
+    return separateWord.join(' ');
+  }
   @override
   _AddPatientState createState() => _AddPatientState();
 }
@@ -96,7 +103,8 @@ class _AddPatientState extends State<AddPatient> {
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       await vm.getPatType(widget.doctorNo);
-      await vm.getConTypeForMe(widget.doctorNo, vm.patNo, widget.companyNo, widget.orgNo);
+      await vm.getConTypeForMe(
+          widget.doctorNo, vm.patNo, widget.companyNo, widget.orgNo);
       accesstoken();
     });
     isClicked = false;
@@ -111,6 +119,7 @@ class _AddPatientState extends State<AddPatient> {
   String _selectedMemberType;
   String _selectedConsultation;
   String _selectedConsultationForMe;
+
   @override
   Widget build(BuildContext context) {
     print(MediaQuery.of(context).size.height);
@@ -559,10 +568,10 @@ class _AddPatientState extends State<AddPatient> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     selectedPatientType = newValue;
-                                    if(selectedPatientType!= _selectedType){
+                                    if (selectedPatientType != _selectedType) {
                                       _selectedType = newValue;
-                                      _selectedConsultation=null;
-                                      selectedConsultationType='';
+                                      _selectedConsultation = null;
+                                      selectedConsultationType = '';
                                     }
                                     vm.getConType(
                                         widget.doctorNo,
@@ -691,8 +700,7 @@ class _AddPatientState extends State<AddPatient> {
                                 items: vm.consultType.map((consNo) {
                                   return DropdownMenuItem(
                                     child: new Text(
-                                      consNo.name,
-                                      style: GoogleFonts.roboto(fontSize: 14),
+                                      Validator().capitalizeTheFirstLetterOfEachWord(consNo.name), style: GoogleFonts.roboto(fontSize: 14),
                                     ),
                                     value: consNo.no,
                                   );
@@ -742,7 +750,8 @@ class _AddPatientState extends State<AddPatient> {
                 width: MediaQuery.of(context).size.width * .8,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: HexColor(consultBorderColorForMe)),
+                    border:
+                        Border.all(color: HexColor(consultBorderColorForMe)),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -781,8 +790,7 @@ class _AddPatientState extends State<AddPatient> {
                                 items: vm.consultType2.map((consNo) {
                                   return DropdownMenuItem(
                                     child: new Text(
-                                      consNo.name,
-                                      style: GoogleFonts.roboto(fontSize: 14),
+                                      Validator().capitalizeTheFirstLetterOfEachWord(consNo.name), style: GoogleFonts.roboto(fontSize: 14),
                                     ),
                                     value: consNo.no,
                                   );
@@ -805,17 +813,17 @@ class _AddPatientState extends State<AddPatient> {
               ),
               consultBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                padding:
-                const EdgeInsets.only(left: 16, top: 8, right: 38),
-                child: Text(
-                  "This Field Is Required",
-                  style: GoogleFonts.poppins(
-                      color: Colors.red, fontSize: 12),
-                ),
-              )
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 8, right: 38),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      ),
+                    )
             ],
           ),
         ),
@@ -877,41 +885,41 @@ class _AddPatientState extends State<AddPatient> {
         height: 90.0,
         width: MediaQuery.of(context).size.width * .5,
         child: vm.consultationFeeForMe == null ||
-            selectedConsultationTypeForMe == ""
+                selectedConsultationTypeForMe == ""
             ? SizedBox()
             : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  vm.consultationFeeForMe,
-                  style: GoogleFonts.poppins(
-                      color: AppTheme.appbarPrimary,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600),
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("BDT",
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        vm.consultationFeeForMe,
                         style: GoogleFonts.poppins(
                             color: AppTheme.appbarPrimary,
-                            fontWeight: FontWeight.w500))
-                  ],
-                )
-              ],
-            ),
-            Text("Consultation Fee",
-                style: GoogleFonts.poppins(
-                    color: AppTheme.appbarPrimary,
-                    fontWeight: FontWeight.w500))
-          ],
-        ),
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("BDT",
+                              style: GoogleFonts.poppins(
+                                  color: AppTheme.appbarPrimary,
+                                  fontWeight: FontWeight.w500))
+                        ],
+                      )
+                    ],
+                  ),
+                  Text("Consultation Fee",
+                      style: GoogleFonts.poppins(
+                          color: AppTheme.appbarPrimary,
+                          fontWeight: FontWeight.w500))
+                ],
+              ),
       ),
     );
     var confirmBooking = vm2.isLoading == true
@@ -923,7 +931,8 @@ class _AddPatientState extends State<AddPatient> {
               spaceBetween,
               GestureDetector(
                 onTap: () async {
-                  if (selectedConsultationType != "" || selectedConsultationTypeForMe != "" ||
+                  if (selectedConsultationType != "" ||
+                      selectedConsultationTypeForMe != "" ||
                       (vm.forMe == false && selectedGender != "") ||
                       (vm.forMe == false && selectedPatientType != "")) {
                     setState(() {
@@ -938,7 +947,6 @@ class _AddPatientState extends State<AddPatient> {
                       }
                     });
                     if (_formKey.currentState.validate()) {
-
                       // await vm2.getAppointData(
                       //   doctorNo: widget.doctorNo,
                       //   appointDate: vm.appointDate,
@@ -1000,8 +1008,10 @@ class _AddPatientState extends State<AddPatient> {
                         vm.appointStatus,
                         vm.companyNo,
                         vm.ogNo,
-                        vm.forMe ?  vm.patNo : selectedPatientType,
-                        vm.forMe ? selectedConsultationTypeForMe : selectedConsultationType,
+                        vm.forMe ? vm.patNo : selectedPatientType,
+                        vm.forMe
+                            ? selectedConsultationTypeForMe
+                            : selectedConsultationType,
                         vm.forMe ? vm.consultFeeForMe : vm.consultationFee,
                         vm.forMe == false
                             ? _name.text
@@ -1011,15 +1021,19 @@ class _AddPatientState extends State<AddPatient> {
                             : vm3.userDetailsList.phoneMobile,
                         vm.forMe == false
                             ? _selectedGender == "Male"
-                            ? "M"
-                            : _selectedGender == "Female"
-                            ? "F"
-                            : "O"
+                                ? "M"
+                                : _selectedGender == "Female"
+                                    ? "F"
+                                    : "O"
                             : vm3.userDetailsList.gender,
                         vm.forMe == false
                             ? _address.text
                             : vm3.userDetailsList.address,
-                        vm.forMe == false ? _email.text : vm3.userDetailsList.email==null? "ish@ish.com" : vm3.userDetailsList.email,
+                        vm.forMe == false
+                            ? _email.text
+                            : vm3.userDetailsList.email == null
+                                ? "ish@ish.com"
+                                : vm3.userDetailsList.email,
                         vm.forMe == false ? birthDate : vm3.userDetailsList.dob,
                         "0",
                         vm3.userDetailsList.id.toString(),
@@ -1090,9 +1104,11 @@ class _AddPatientState extends State<AddPatient> {
                       child: Column(
                         children: [
                           spaceBetween,
-                          vm.forMe? patientTypeForMe : patientTypeAdd,
+                          vm.forMe ? patientTypeForMe : patientTypeAdd,
                           spaceBetween,
-                          vm.forMe? consultationTypeForMe : consultationTypeAdd ,
+                          vm.forMe
+                              ? consultationTypeForMe
+                              : consultationTypeAdd,
                           spaceBetween,
                           vm.forMe == false
                               ? Column(
@@ -1118,7 +1134,7 @@ class _AddPatientState extends State<AddPatient> {
                               : SizedBox(),
                           spaceBetween,
                           spaceBetween,
-                          vm.forMe? consultFeeForMe : consultFee,
+                          vm.forMe ? consultFeeForMe : consultFee,
                           spaceBetween,
 
                           // vm.forMe== false ? membersList : SizedBox(),

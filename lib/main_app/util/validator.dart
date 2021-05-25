@@ -5,9 +5,14 @@ class Validator {
   String nullFieldValidate(String value) =>
       value.isEmptyOrNull ? StringResources.thisFieldIsRequired : null;
 
-
-
-
+  String capitalizeTheFirstLetterOfEachWord(String str) {
+    var separateWord = str.toLowerCase().split(' ');
+    for (var i = 0; i < separateWord.length; i++) {
+      separateWord[i] = separateWord[i].substring(0,1).toUpperCase() +
+          separateWord[i].substring(1);
+    }
+    return separateWord.join(' ');
+  }
 
   String validateEmail(String value) {
     Pattern pattern =

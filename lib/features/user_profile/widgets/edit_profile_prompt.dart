@@ -1,10 +1,10 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -58,7 +58,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   String _selectedBlood;
   String genderColor = "#EAEBED";
   String bloodBorderColor = "#EAEBED";
-
   @override
   void initState() {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
@@ -87,7 +86,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     // TODO: implement initState
     super.initState();
   }
-
+  //File _image;
   @override
   Widget build(BuildContext context) {
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/after_sign_in.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
@@ -34,8 +35,8 @@ import 'views/widgets/default_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   String accessToken;
-  String userName;
-  HomeScreen({this.accessToken, this.userName});
+  bool connection;
+  HomeScreen({this.accessToken, this.connection});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -66,9 +67,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   void initState() {
-    print(widget.accessToken);
     // TODO: implement initState
     super.initState();
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      if(widget.connection==false){
+        Fluttertoast.showToast(
+            msg: "Please Check Internet Connection!!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 12.0);
+      }
+    });
     _animationController=AnimationController(vsync: this,duration: duration);
     scaleAnimation=Tween<double>(begin: 1.0,end:0.7).animate(_animationController);
     scaleAnimations=[
@@ -91,7 +102,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: true);
     var deviceWidth=MediaQuery.of(context).size.width;
-    //
     screens= {
       0: DashboardScreen(menuCallBack: (){
         setState(() {

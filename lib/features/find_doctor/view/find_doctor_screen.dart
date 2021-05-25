@@ -14,6 +14,7 @@ import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.d
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
 import 'package:provider/provider.dart';
 
@@ -735,13 +736,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             ListTileControlAffinity
                                                                 .leading,
                                                         title: Text(
-                                                          item.buName
-                                                                  .substring(
-                                                                      0, 1)
-                                                                  .toUpperCase() +
-                                                              item.buName
-                                                                  .substring(1)
-                                                                  .toLowerCase(),
+                                                          Validator().capitalizeTheFirstLetterOfEachWord(item.buName),
                                                           style: GoogleFonts.poppins(
                                                             fontSize: 15,
                                                               fontWeight: item

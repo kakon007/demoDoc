@@ -20,7 +20,7 @@ import 'package:myhealthbd_app/features/auth/repositories/auth_repository.dart';
     Future<void> getAuthData(String user, String pass) async {
       _accessToken=null;
       _isLoading = true;
-      var res = await AuthRepository().fetchFee(user, pass);
+      var res = await AuthRepository().fetchAuthData(user, pass);
       notifyListeners();
       res.fold((l) {
         _appError = l;

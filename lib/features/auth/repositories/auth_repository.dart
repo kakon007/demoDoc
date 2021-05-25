@@ -11,7 +11,7 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class AuthRepository{
 
-  Future<Either<AppError, SignInModel>>   fetchFee(String user, String pass ) async {
+  Future<Either<AppError, SignInModel>>   fetchAuthData(String user, String pass ) async {
     String username = 'telemedCareIdPassword';
     String password = 'secret';
     String basicAuth = 'Basic ' +
@@ -23,6 +23,7 @@ class AuthRepository{
         headers: <String, String>{
           'authorization': basicAuth
         });
+    try{
       if (response.statusCode == 200) {
         print(response.body);
         SignInModel data = signInModelFromJson(response.body);
@@ -33,6 +34,9 @@ class AuthRepository{
         // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
+    }catch(e){
+    }
+
     }
 
   Future<Either<AppError, SignOutModel>>   fetchSignOutInfo(String accessToken) async {

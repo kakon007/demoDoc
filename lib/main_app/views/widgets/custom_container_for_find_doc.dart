@@ -101,18 +101,14 @@ class CustomContainer extends StatelessWidget {
                               elevation: 0,
                               //color: AppTheme.appbarPrimary,
                               onPressed: () {
+                                Navigator.push(context,MaterialPageRoute(builder: (context){
+                                  return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
+                                }));
                               },
                               textColor: Colors.white,
-                              child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context,MaterialPageRoute(builder: (context){
-                                    return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
-                                  }));
-                                },
-                                child: Text(
-                                  "Book Now",
-                                  style: GoogleFonts.poppins(fontSize: 10,color: Colors.white, fontWeight: FontWeight.w600),
-                                ),
+                              child: Text(
+                                "Book Now",
+                                style: GoogleFonts.poppins(fontSize: 10,color: Colors.white, fontWeight: FontWeight.w600),
                               ),
                             ),
                           )

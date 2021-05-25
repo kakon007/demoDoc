@@ -26,6 +26,8 @@ import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 SignInModel signInData;
 
 class SignIn extends StatefulWidget {
+  bool isBook;
+  SignIn({this.isBook});
   @override
   _SignInState createState() => _SignInState();
 }
@@ -321,7 +323,7 @@ class _SignInState extends State<SignIn> {
                                 }
                                 if (vm5.accessToken!=null) {
                                     appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
-                                    Navigator.of(context).pushAndRemoveUntil(
+                                   Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                           builder: (BuildContext context) =>
                                               HomeScreen(

@@ -93,7 +93,18 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   String _appointStatus;
   String _companyNo;
   String _ogNo;
-
+  String _docNo;
+  String _orgNo;
+  String _comNo;
+  getInfo(
+      String doctorNo,
+      String companyNo,
+      String orgNo
+      ){
+    _docNo= doctorNo;
+    _comNo= companyNo;
+    _orgNo= orgNo;
+  }
   getAppointInfo(
       String doctorNo,
       String doctorName,
@@ -396,4 +407,8 @@ String get patNo => _patNo;
   String get companyNo => _companyNo;
 
   String get ogNo => _ogNo;
+
+  String get orgNo => _orgNo;
+  String get comNo => _comNo;
+  String get docNo => _docNo;
 }

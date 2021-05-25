@@ -16,6 +16,7 @@ import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dar
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/registered_member_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
@@ -28,6 +29,7 @@ import 'features/auth/view_model/sign_out_view_model.dart';
 import 'features/auth/view_model/sign_up_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'features/hospitals/models/company_logo_model.dart';
+import 'features/user_profile/view_model/add_member_view_model.dart';
 import 'features/user_profile/view_model/relationship_view_model.dart';
 import 'features/user_profile/view_model/user_image_view_model.dart';
 void main() async{
@@ -75,6 +77,9 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<ZoomViewModel>(create: (context) =>  ZoomViewModel()),
       ChangeNotifierProvider<UserImageViewModel>(create: (context) =>  UserImageViewModel()),
       ChangeNotifierProvider<RelationShipViewModel>(create: (context) =>  RelationShipViewModel()),
+      ChangeNotifierProvider<RegisteredMemberViewModel>(create: (context) =>  RegisteredMemberViewModel()),
+      ChangeNotifierProvider<AddFamilyMemberViewModel>(create: (context) =>  AddFamilyMemberViewModel()),
+
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

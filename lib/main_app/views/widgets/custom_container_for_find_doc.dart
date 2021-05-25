@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/NewFile.dart';
+import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,7 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<DoctorListViewModel>(context);
+    var vm2 = Provider.of<AvailableSlotsViewModel>(context, listen: true);
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
@@ -101,6 +103,7 @@ class CustomContainer extends StatelessWidget {
                               elevation: 0,
                               //color: AppTheme.appbarPrimary,
                               onPressed: () {
+                                vm2.getInfo(doctorNo, companyNo, orgNo);
                                 Navigator.push(context,MaterialPageRoute(builder: (context){
                                   return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
                                 }));

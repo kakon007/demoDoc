@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/add_member_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/registered_member_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/relationship_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -29,6 +32,9 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<RelationShipViewModel>(context, listen: true);
+    var regMemberVm = Provider.of<RegisteredMemberViewModel>(context, listen: true);
+    var addMemberVm = Provider.of<AddFamilyMemberViewModel>(context, listen: true);
+    var imageVm = Provider.of<UserImageViewModel>(appNavigator.context,listen: true);
     var relationshipList = Row(
       children: [
         GestureDetector(
@@ -36,7 +42,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
             children: [
               Container(
                 height: 50.0,
-                width: MediaQuery.of(context).size.width*.85,
+                width: MediaQuery.of(context).size.width*.845,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#8592E5")),
@@ -124,18 +130,9 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                           width: 10,
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white,
-                            ),
-                          ),
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage(
-                              "assets/images/familypic.png",
-                            ),
-                            radius: 28.0,
-                          ),
+                          height: 45,
+                          width: 45,
+                          child: imageVm.loadProfileImage(regMemberVm.image, 40, 40, 50),
                         ),
                         SizedBox(
                           width: 20,
@@ -145,14 +142,14 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Name",
+                              regMemberVm.name,
                               style: GoogleFonts.poppins(
                                   color: HexColor("#0D1231"),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
-                              "Username: MH2201201438",
+                              "Username: ${regMemberVm.regId}",
                               style: GoogleFonts.poppins(
                                   color: HexColor("#B8C2F8")),
                             )
@@ -200,7 +197,9 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                       width: MediaQuery.of(context).size.width,
                       height: 45,
                       child: FlatButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            addMemberVm.addFamilyMember(regMemberVm.regId, regMemberVm.regNo, _selectedRelation, regMemberVm.relatedRegNo);
+                          },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           textColor: Colors.white,

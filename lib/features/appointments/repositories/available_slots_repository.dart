@@ -48,9 +48,6 @@ class AvailableSlotsRepository {
        // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.unknownError);
       }
-
-
-
   }
   Future<Either<AppError, DoctorInfoModel>>   fetchDoctorInfo(String companyNo, String doctorNo, String orgNo ) async {
 

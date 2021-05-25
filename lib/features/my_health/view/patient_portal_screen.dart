@@ -1112,7 +1112,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
                                                                 SizedBox(height: 10,),
-                                                                Text(vm3.documentList[index].attachmentName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                                Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
                                                                 SizedBox(height: 5,),
                                                                 Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
                                                                 SizedBox(height: 5,),
@@ -1137,11 +1137,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 padding: const EdgeInsets.only(top:3.0,right: 5),
                                                                 child: Container(width:45,child: jp),
                                                               ),
-                                                              (controller2.isSelected(index))?
+                                                              (controller3.isSelected(index))?
                                                               Padding(
                                                                 padding: const EdgeInsets.only(left:38.0,top: 10),
                                                                 child: righticon,
-                                                              ): (controller2.isSelecting)?Padding(
+                                                              ): (controller3.isSelecting)?Padding(
                                                                 padding: const EdgeInsets.only(left:38.0,top: 10),
                                                                 child: greyright,
                                                               ):Padding(

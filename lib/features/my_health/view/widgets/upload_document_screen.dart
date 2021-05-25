@@ -1,11 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/file_type_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
-import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:provider/provider.dart';
+import 'package:file_picker/file_picker.dart';
 
 class UploadDocumentScreen extends StatefulWidget {
   const UploadDocumentScreen({Key key}) : super(key: key);
@@ -18,18 +28,51 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
   DateTime pickBirthDate;
   TextEditingController _searchTextEditingController2 = TextEditingController();
   var _searchFieldFocusNode2 = FocusNode();
+  File file;
+  int filesize;
+
+  String _selectedDocumentType;
   @override
   void initState() {
     // TODO: implement initState
     pickBirthDate=DateTime.now();
+    _selectedDocumentType=null;
+    var vm= Provider.of<FileTypeViewModel>(context,listen: false);
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<UploadDocumentsViewModel>(context, listen: false).uploadDocuments();
+    });
+    vm.getData();
     super.initState();
   }
+
+
+  File _image;
+  final picker = ImagePicker();
+  bool isEdit = false;
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      print("ish ${await _image.length()}");
+      setState(() {
+        isEdit = true;
+      });
+    } else {
+      print('No image selected.');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
+    var vm= Provider.of<FileTypeViewModel>(context,listen: true);
+    var vm2 = Provider.of<UploadDocumentsViewModel>(context, listen: true);
+
+    //print('FileTYpe::: ${vm.fileTypeList.first.typeName}');
 
 
-    String _selectedDocumentType;
     String color = "#8592E5";
     var docType = Row(
       children: [
@@ -68,12 +111,16 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     _selectedDocumentType = newValue;
+                                    print('SelectValue::::: $_selectedDocumentType');
                                   });
                                 },
-                                items: StringResources.relationList.map((gender) {
+                                items: vm.fileTypeList.map((fileType) {
                                   return DropdownMenuItem(
-                                    child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
-                                    value: gender,
+                                    child: new Text(
+                                      fileType.typeName,
+                                      style: GoogleFonts.roboto(fontSize: 14),
+                                    ),
+                                    value: fileType.typeNo.toString(),
                                   );
                                 }).toList(),
                               ),
@@ -96,7 +143,6 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     );
 
 
-    var width = MediaQuery.of(context).size.width * 0.44;
 
     String abc = "#8592E5";
 
@@ -123,6 +169,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
           pickBirthDate = date;
         });
       }
+      print('Dattedd::::: ${pickBirthDate.toString()}');
     }
 
 
@@ -264,66 +311,86 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               children: [
                 Row(
                   children: [
-                    Container(
-                      height: cardHeight*0.9,
-                      width: 160,
-                      margin: EdgeInsets.only(top: 8,bottom: 5,right: 12,left: 12),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                          1.0,
-                        ], colors: [
-                          //HexColor('#C5CAE8'),
-                          HexColor('#8592E5'),
+                    InkWell(
+                      onTap: (){
+                        getImage();
+                      },
+                      child: Container(
+                        height: cardHeight*0.9,
+                        width: 160,
+                        margin: EdgeInsets.only(top: 8,bottom: 5,right: 12,left: 12),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                            1.0,
+                          ], colors: [
+                            //HexColor('#C5CAE8'),
+                            HexColor('#8592E5'),
 
-                        ]),
-                        //color: Colors.white,
-                        // border: Border.all(
-                        //   color: HexColor("#E9ECFE"),
-                        //   width: 1,
-                        // ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top:30.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            upCam,
-                            SizedBox(height: 5,),
-                            Text("Capture Document",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),),
-                          ],
+                          ]),
+                          //color: Colors.white,
+                          // border: Border.all(
+                          //   color: HexColor("#E9ECFE"),
+                          //   width: 1,
+                          // ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top:30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              upCam,
+                              SizedBox(height: 5,),
+                              Text("Capture Document",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     Spacer(),
-                    Container(
-                      height: cardHeight*0.9,
-                      width: 160,
-                      margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                          1.0,
-                        ], colors: [
-                          //HexColor('#C5CAE8'),
-                          HexColor('#8592E5'),
+                    InkWell(
+                      onTap: () async{
+                        FilePickerResult result =
+                            await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['pdf', 'zip', 'doc', 'docx'],
+                        );
+                        if (result != null) {
+                          file = File(result.files.single.path);
+                          filesize = file.lengthSync();
+                          setState(() {});
+                        }
+                        print('FileTapped:::');
+                      },
+                      child: Container(
+                        height: cardHeight*0.9,
+                        width: 160,
+                        margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                            1.0,
+                          ], colors: [
+                            //HexColor('#C5CAE8'),
+                            HexColor('#8592E5'),
 
-                        ]),
-                        //color: Colors.white,
-                        // border: Border.all(
-                        //   color: HexColor("#E9ECFE"),
-                        //   width: 1,
-                        // ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top:25.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            fileUp,
-                            SizedBox(height: 5,),
-                            Text("Upload Document\n(JPG,PNG,PDF only)",style: GoogleFonts.poppins(fontWeight: FontWeight.w600,color: Colors.white,fontSize: 12),),
-                          ],
+                          ]),
+                          //color: Colors.white,
+                          // border: Border.all(
+                          //   color: HexColor("#E9ECFE"),
+                          //   width: 1,
+                          // ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top:25.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              fileUp,
+                              SizedBox(height: 5,),
+                              Text("Upload Document\n(JPG,PNG,PDF only)",style: GoogleFonts.poppins(fontWeight: FontWeight.w600,color: Colors.white,fontSize: 12),),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -351,15 +418,30 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
 
                 Padding(
                   padding: const EdgeInsets.only(top:15.0,left:10,right:10),
-                  child: Material(
-                    elevation: 2  ,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                    color:HexColor("#B8C2F8"),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height:  MediaQuery.of(context).size.width >600? 35 : 40,
-                      child: Center(
-                        child: Text("Upload Document",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
+                  child: InkWell(
+                    onTap: () async{
+                      var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+                      var details = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+                     await vm2.uploadDocuments(file: file==null?_image:file,accessToken: accessToken,attachmentTypeNo: _selectedDocumentType,pickBirthDate: pickBirthDate,regID: details.userDetailsList.id,username: details.userDetailsList.hospitalNumber);
+                      print("Upload Doc tapped");
+                      // await Future.delayed(Duration(seconds: 3));
+                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      //     builder: (BuildContext context) =>
+                      //     // DoctorHomeScreen(
+                      //     PrescriptionListScreen(accessToken: accessToken
+                      //
+                      //     )));
+                    },
+                    child: Material(
+                      elevation: 2  ,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      color:file==null||_selectedDocumentType==null&&_image==null||_selectedDocumentType ==null?HexColor("#B8C2F8"):HexColor("#354291"),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height:  MediaQuery.of(context).size.width >600? 35 : 40,
+                        child: Center(
+                          child: Text("Upload Document",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
+                        ),
                       ),
                     ),
                   ),
@@ -370,5 +452,14 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         ),
       ),
     );
+  }
+}
+
+class DateUtil {
+  //DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(pickBirthDate)
+  static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

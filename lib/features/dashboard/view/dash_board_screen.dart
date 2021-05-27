@@ -235,60 +235,60 @@ class _DashboardScreenState extends State<DashboardScreen>
               widget.isDrawerOpen
                   ? this._backgroundImage()
                   : this._backgroundImage2(),
-              Padding(
-                padding: const EdgeInsets.only(top: 80.0, left: 70),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "20 Health tips",
-                      style: GoogleFonts.poppins(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 1,
-                    ),
-                    Text(
-                      "to help you start off towards \nhealthy living in 2021",
-                      style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      width: 90,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10.0, left: 10),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Read More",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.white, fontSize: 8),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward,
-                              size: 10,
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 80.0, left: 70),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         "20 Health tips",
+              //         style: GoogleFonts.poppins(
+              //             fontSize: 25,
+              //             color: Colors.white,
+              //             fontWeight: FontWeight.bold),
+              //       ),
+              //       SizedBox(
+              //         height: 1,
+              //       ),
+              //       Text(
+              //         "to help you start off towards \nhealthy living in 2021",
+              //         style: GoogleFonts.poppins(
+              //             fontSize: 10,
+              //             color: Colors.white,
+              //             fontWeight: FontWeight.w500),
+              //       ),
+              //       SizedBox(
+              //         height: 8,
+              //       ),
+              //       Container(
+              //         width: 90,
+              //         height: 20,
+              //         decoration: BoxDecoration(
+              //           border: Border.all(color: Colors.white),
+              //           borderRadius: BorderRadius.circular(30),
+              //         ),
+              //         child: Padding(
+              //           padding: const EdgeInsets.only(right: 10.0, left: 10),
+              //           child: Row(
+              //             children: [
+              //               Text(
+              //                 "Read More",
+              //                 style: GoogleFonts.poppins(
+              //                     color: Colors.white, fontSize: 8),
+              //               ),
+              //               Spacer(),
+              //               Icon(
+              //                 Icons.arrow_forward,
+              //                 size: 10,
+              //                 color: Colors.white,
+              //               )
+              //             ],
+              //           ),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
               Scaffold(
                 resizeToAvoidBottomInset: false,
                 key: _scaffoldKey,
@@ -427,9 +427,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     //       ),
                     //     ]),
 
-                    initialChildSize: 0.83,
+                    initialChildSize: 0.79,
                     maxChildSize: 1.0,
-                    minChildSize: 0.83,
+                    minChildSize: 0.79,
                     builder: (BuildContext context,
                         ScrollController scrollController) {
                       return Column(
@@ -1084,10 +1084,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
-            image: AssetImage("assets/images/dashboard_back.png"),
+            image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: 418.0,
+      height: 250.0,
       //width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
@@ -1107,10 +1107,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         color: Colors.white,
         //borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
-            image: AssetImage("assets/images/dashboard_back.png"),
+            image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: 300.0,
+      height: 250.0,
       // width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,

@@ -1291,7 +1291,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                           final file=await _createPdfFileFromString(vm2.previousAppointmentList[index].prescriptionNo.toString(),vm2.previousAppointmentList[index].companyAlias.toString());
                                                           Navigator.push(context, PageTransition(
                                                             type: PageTransitionType.rightToLeft,
-                                                            child:PdfViewerScreen(file),
+                                                            child:PdfFileViewerScreen(file),
                                                           ),);
                                                         },
                                                         child: Material(

@@ -189,38 +189,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   }
 
-  Future docFile(String filePath) async{
-    try {
-      var headers = {
-        'Authorization': 'Bearer 1052f7a2-ba79-4ed1-bc28-c348372d86af',
-        'Content-Type': 'text/plain'
-      };
-      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
-      request.body =json.encode({"attachmentPath" : filePath});
-      print("Fillleeee:::: $filePath");
-      request.headers.addAll(headers);
 
-      http.StreamedResponse response = await request.send();
-
-      if (response.statusCode == 200) {
-        var body=await response.stream.bytesToString();
-        ViewDocumentModel data = viewDocumentModelFromJson(body) ;
-        String obj=data.obj;
-        print('fileOBJ::::: $obj');
-        return obj;
-
-    }
-    else {
-    print(response.reasonPhrase);
-    }
-
-    } on Exception catch (e) {
-      // TODO
-      print("PDFDATAERROR");
-      print(e.toString());
-      return null;
-    }
-  }
 
   Future<File> _createPdfFileFromString(String index) async {
     // final encodedStr='''''';
@@ -233,13 +202,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     return file;
   }
 
-  Future<File> _createPdfFileFrombase(String filePath) async {
-    Uint8List bytes = base64.decode(await docFile(filePath));
-    print('objjjjj:::: $bytes');
-    newFile= File.fromRawPath(bytes);
-    print('objjjjjbb:::: $newFile');
-    return newFile;
-  }
+
 
   // createPdf() async {
   //   var bytes = base64Decode(widget.base64String.replaceAll('\n', ''));
@@ -1092,7 +1055,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
                                                 Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
-                                                  child:PdfViewerScreen(file),
+                                                  child:PdfFileViewerScreen(file),
                                                 ),);
                                               }
                                               print("tappeddd");
@@ -1510,11 +1473,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                   controller3.toggle(index);
                                                 });
                                               }else{
-                                                //await vm4.getData(filePath:vm3.documentList[index].attachmentPath);
-                                                final filee=await _createPdfFileFrombase(vm3.documentList[index].attachmentPath);
                                                 Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
-                                                  child:PdfViewerScreen(filee),
+                                                  child:PdfbyteViewerScreen(vm3.documentList[index].attachmentPath),
                                                 ),);
 
                                                 print('PDFPRESSEDFrom DOc');
@@ -1522,7 +1483,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                               print("tappeddd from Doc");
                                             },
                                             child: Container(
-                                              height: cardHeight*0.6,
+                                              // height: cardHeight*0.7,
                                               margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
@@ -1548,9 +1509,18 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         SizedBox(height: 10,),
-                                                        Container(width: 200,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                                        Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
                                                         SizedBox(height: 5,),
-                                                        Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                        Row(
+                                                          children: [
+                                                            Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                            SizedBox(width: 40,),
+                                                            Container(width: 100,child: Text(vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 5,),
+                                                        vm3.documentList[index].description==null?SizedBox():
+                                                        Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
                                                         SizedBox(height: 5,),
                                                       ],
                                                     ),
@@ -1567,10 +1537,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                   //   ]),
                                                   // ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(left:25.0),
+                                                    padding: const EdgeInsets.only(left: 10),
                                                     child: Stack(children: [
                                                       Padding(
-                                                        padding: const EdgeInsets.only(top:5.0,right: 10),
+                                                        padding: const EdgeInsets.only(top:5.0,left: 30),
                                                         child: Container(width:45,child: jp),
                                                       ),
                                                       // (controller3.isSelected(index))?
@@ -1589,10 +1559,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       // //   },child: Icon(Icons.delete)),
                                                       // // ),
                                                       Padding(
-                                                        padding: EdgeInsets.only(left: 70,top: 10),
+                                                        padding: EdgeInsets.only(left: 90,top: 40),
                                                         child: InkWell(onTap: () async{
                                                           vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                          _showAlertDialogForEditProfile(context);
+                                                          _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
 
                                                         },child: Icon(Icons.edit,color: HexColor('#354291'),)),
                                                       ),
@@ -1620,11 +1590,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     );
 
   }
-  void _showAlertDialogForEditProfile(BuildContext context) {
+  void _showAlertDialogForEditProfile(BuildContext context,String docName) {
     showDialog(
         context: context,
         builder: (context) {
-          return EditDocAlert();
+          return EditDocAlert(docName: docName,);
         }).then((value) {
       setState(() {});
     });
@@ -1633,7 +1603,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+  static const DATE_FORMAT = 'yyyy-MM-dd';
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);

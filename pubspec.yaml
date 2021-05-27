@@ -66,7 +66,7 @@ dependencies:
   page_transition: ^1.1.7+6
   path:
   open_file:
-  flutter_pdfview:
+  flutter_pdfview: ^1.0.4
   fluttertoast: ^7.1.8
   carousel_slider: ^3.0.0
   flutter_html: ^1.0.2

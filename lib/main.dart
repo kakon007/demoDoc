@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
@@ -88,6 +89,8 @@ class MyHealthBdApp extends StatelessWidget {
       child: MultiProvider(
         providers: providers,
         child: MaterialApp(
+          builder: BotToastInit(),
+             navigatorObservers: [BotToastNavigatorObserver()],
              navigatorKey: appNavigator.navigatorKey,
             debugShowCheckedModeBanner: false,
             home: Root()),

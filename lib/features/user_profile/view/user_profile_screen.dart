@@ -111,7 +111,7 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
-    var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
+    var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: true);
     var userId = vm.userDetailsList.id;
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;
@@ -290,168 +290,227 @@ class _UserProfileState extends State<UserProfile> {
                     SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, left: 10),
-                      child: Row(
-                        children: [
-                          // Container(
-                          //   color: HexColor('#F7F8FF'),
-                          //   height: 55.0,
-                          //   width: 102,
-                          //   child: Row(
-                          //     children: [
-                          //       CircleAvatar(
-                          //         radius: 22,
-                          //         backgroundColor:
-                          //             HexColor('#354291').withOpacity(0.2),
-                          //         child: CircleAvatar(
-                          //           radius: 21,
-                          //           backgroundColor: Colors.white,
-                          //           child: CircleAvatar(
-                          //             backgroundImage:
-                          //                 AssetImage('assets/images/f1.png'),
-                          //             radius: 20,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       SizedBox(
-                          //         width: 10,
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.only(top: 10.0),
-                          //         child: Column(
-                          //           crossAxisAlignment:
-                          //               CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text(
-                          //               "Nahid Doe",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#0D1231'),
-                          //                   fontSize: 10),
-                          //             ),
-                          //             SizedBox(
-                          //               height: 5,
-                          //             ),
-                          //             Text(
-                          //               "Brother",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#B8C2F8'),
-                          //                   fontSize: 8),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   width: 9,
-                          // ),
-                          // Container(
-                          //   color: HexColor('#F7F8FF'),
-                          //   height: 55.0,
-                          //   width: 110,
-                          //   child: Row(
-                          //     children: [
-                          //       CircleAvatar(
-                          //         radius: 22,
-                          //         backgroundColor:
-                          //             HexColor('#354291').withOpacity(0.2),
-                          //         child: CircleAvatar(
-                          //           radius: 21,
-                          //           backgroundColor: Colors.white,
-                          //           child: CircleAvatar(
-                          //             backgroundImage:
-                          //                 AssetImage('assets/images/f2.png'),
-                          //             radius: 20,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       SizedBox(
-                          //         width: 10,
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.only(top: 10.0),
-                          //         child: Column(
-                          //           crossAxisAlignment:
-                          //               CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text(
-                          //               "Nahid Doe",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#0D1231'),
-                          //                   fontSize: 10),
-                          //             ),
-                          //             SizedBox(
-                          //               height: 5,
-                          //             ),
-                          //             Text(
-                          //               "Brother",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#B8C2F8'),
-                          //                   fontSize: 8),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   width: 9,
-                          // ),
-                          // Container(
-                          //   color: HexColor('#F7F8FF'),
-                          //   height: 55.0,
-                          //   width: 110,
-                          //   child: Row(
-                          //     children: [
-                          //       CircleAvatar(
-                          //         radius: 22,
-                          //         backgroundColor:
-                          //             HexColor('#354291').withOpacity(0.2),
-                          //         child: CircleAvatar(
-                          //           radius: 21,
-                          //           backgroundColor: Colors.white,
-                          //           child: CircleAvatar(
-                          //             backgroundImage:
-                          //                 AssetImage('assets/images/f3.png'),
-                          //             radius: 20,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       SizedBox(
-                          //         width: 10,
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.only(top: 10.0),
-                          //         child: Column(
-                          //           crossAxisAlignment:
-                          //               CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text(
-                          //               "Nahid Doe",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#0D1231'),
-                          //                   fontSize: 10),
-                          //             ),
-                          //             SizedBox(
-                          //               height: 5,
-                          //             ),
-                          //             Text(
-                          //               "Brother",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#B8C2F8'),
-                          //                   fontSize: 8),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                        ],
-                      ),
+                    // Expanded(
+                    //   child: ListView.builder(
+                    //       physics: NeverScrollableScrollPhysics(),
+                    //       shrinkWrap: true,
+                    //       scrollDirection: Axis.horizontal,
+                    //       itemCount: 3,
+                    //       itemBuilder: (BuildContext context, int index) {
+                    //         var photo = familyVm.familyMembersList[index]?.photo ?? "";
+                    //         print("photo $photo");
+                    //         return Container(
+                    //           color: HexColor('#F7F8FF'),
+                    //           height: 50.0,
+                    //           width: 102,
+                    //           child: Row(
+                    //             children: [
+                    //               CircleAvatar(
+                    //                 radius: 22,
+                    //                 backgroundColor:
+                    //                     HexColor('#354291').withOpacity(0.2),
+                    //                 child: CircleAvatar(
+                    //                   radius: 21,
+                    //                   backgroundColor: Colors.white,
+                    //                   child: CircleAvatar(
+                    //                     backgroundImage:
+                    //                         AssetImage('assets/images/f1.png'),
+                    //                     radius: 20,
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //               SizedBox(
+                    //                 width: 10,
+                    //               ),
+                    //               Padding(
+                    //                 padding: const EdgeInsets.only(top: 10.0),
+                    //                 child: Column(
+                    //                   crossAxisAlignment:
+                    //                       CrossAxisAlignment.start,
+                    //                   children: [
+                    //                     Text(
+                    //                       familyVm.familyMembersList[index].fmName,
+                    //                       style: GoogleFonts.roboto(
+                    //                           color: HexColor('#0D1231'),
+                    //                           fontSize: 10),
+                    //                     ),
+                    //                     SizedBox(
+                    //                       height: 5,
+                    //                     ),
+                    //                     Text(
+                    //                       familyVm.familyMembersList[index].relationName,
+                    //                       style: GoogleFonts.roboto(
+                    //                           color: HexColor('#B8C2F8'),
+                    //                           fontSize: 8),
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               )
+                    //             ],
+                    //           ),
+                    //         );
+                    //       }),
+                    // ),
+                    Row(
+                      children: [
+
+                        // Container(
+                        //   color: HexColor('#F7F8FF'),
+                        //   height: 55.0,
+                        //   width: 102,
+                        //   child: Row(
+                        //     children: [
+                        //       CircleAvatar(
+                        //         radius: 22,
+                        //         backgroundColor:
+                        //             HexColor('#354291').withOpacity(0.2),
+                        //         child: CircleAvatar(
+                        //           radius: 21,
+                        //           backgroundColor: Colors.white,
+                        //           child: CircleAvatar(
+                        //             backgroundImage:
+                        //                 AssetImage('assets/images/f1.png'),
+                        //             radius: 20,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(top: 10.0),
+                        //         child: Column(
+                        //           crossAxisAlignment:
+                        //               CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Nahid Doe",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#0D1231'),
+                        //                   fontSize: 10),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 5,
+                        //             ),
+                        //             Text(
+                        //               "Brother",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#B8C2F8'),
+                        //                   fontSize: 8),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   width: 9,
+                        // ),
+                        // Container(
+                        //   color: HexColor('#F7F8FF'),
+                        //   height: 55.0,
+                        //   width: 110,
+                        //   child: Row(
+                        //     children: [
+                        //       CircleAvatar(
+                        //         radius: 22,
+                        //         backgroundColor:
+                        //             HexColor('#354291').withOpacity(0.2),
+                        //         child: CircleAvatar(
+                        //           radius: 21,
+                        //           backgroundColor: Colors.white,
+                        //           child: CircleAvatar(
+                        //             backgroundImage:
+                        //                 AssetImage('assets/images/f2.png'),
+                        //             radius: 20,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(top: 10.0),
+                        //         child: Column(
+                        //           crossAxisAlignment:
+                        //               CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Nahid Doe",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#0D1231'),
+                        //                   fontSize: 10),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 5,
+                        //             ),
+                        //             Text(
+                        //               "Brother",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#B8C2F8'),
+                        //                   fontSize: 8),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   width: 9,
+                        // ),
+                        // Container(
+                        //   color: HexColor('#F7F8FF'),
+                        //   height: 55.0,
+                        //   width: 110,
+                        //   child: Row(
+                        //     children: [
+                        //       CircleAvatar(
+                        //         radius: 22,
+                        //         backgroundColor:
+                        //             HexColor('#354291').withOpacity(0.2),
+                        //         child: CircleAvatar(
+                        //           radius: 21,
+                        //           backgroundColor: Colors.white,
+                        //           child: CircleAvatar(
+                        //             backgroundImage:
+                        //                 AssetImage('assets/images/f3.png'),
+                        //             radius: 20,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(top: 10.0),
+                        //         child: Column(
+                        //           crossAxisAlignment:
+                        //               CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Nahid Doe",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#0D1231'),
+                        //                   fontSize: 10),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 5,
+                        //             ),
+                        //             Text(
+                        //               "Brother",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#B8C2F8'),
+                        //                   fontSize: 8),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                      ],
                     ),
                     SizedBox(
                       height: 10,

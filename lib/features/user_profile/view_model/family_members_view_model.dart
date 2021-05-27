@@ -44,6 +44,8 @@
 // }
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myhealthbd_app/features/user_profile/models/get_family_member_model.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/add_family_member_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/family_members_list_repository.dart';
@@ -131,6 +133,13 @@ class FamilyMembersListViewModel extends ChangeNotifier {
     var res = await AddFamilyMemberRepository().addFamilyMember(regId, regNo, relation, relatedRegNo);
     notifyListeners();
     res.fold((l) {
+      Fluttertoast.showToast(
+          msg: "Something went wrong!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
       _appError = l;
       _isLoading = false;
       _isFetchingMoreData = false;

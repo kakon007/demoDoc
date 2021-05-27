@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.da
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:provider/provider.dart';
 
 
@@ -19,7 +20,7 @@ import 'package:provider/provider.dart';
 class RelationshipRepository{
   Future<Either<AppError,RelationshipModel>> fetchRelationship(String accessToken) async {
     var url =
-        "https://qa.myhealthbd.com:9096/diagnostic-api/api/relations/list";
+        "${Urls.buildUrl}diagnostic-api/api/relations/list";
     try{
       var client = http.Client();
       var response = await client.get(url,headers: {'Authorization': 'Bearer $accessToken',});

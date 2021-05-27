@@ -9,13 +9,14 @@ import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.da
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 
 
 class UserDetailsRepository{
   Future<Either<AppError,UserM>> fetchUserDetails(String accessToken) async {
     var url =
-        "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
+        "${Urls.buildUrl}diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
     // List<Item> dataList = new List<Item>();
 
     try{

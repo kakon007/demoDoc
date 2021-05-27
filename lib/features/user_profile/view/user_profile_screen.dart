@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
@@ -80,6 +81,10 @@ class _UserProfileState extends State<UserProfile> {
     // TODO: implement initState
     Future.delayed(Duration.zero, () async {
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+      var userVm = Provider.of<UserDetailsViewModel>(context,listen: false);
+      await userVm.getData();
+      var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
+      familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
     });
     Provider.of<UserDetailsViewModel>(context, listen: false).getData();
     super.initState();
@@ -106,6 +111,7 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
+    var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
     var userId = vm.userDetailsList.id;
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;

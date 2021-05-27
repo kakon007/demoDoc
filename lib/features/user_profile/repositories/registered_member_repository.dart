@@ -27,7 +27,6 @@ class RegisteredMembersRepository{
       "regId":regId,
       "patientName":patName
     }),);
-    print("sssssssssssssssssssssssssssssssssssssssssssssssss"+response.body);
     try {
       if (response.statusCode == 200) {
         print(response.body);

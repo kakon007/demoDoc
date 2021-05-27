@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -57,12 +58,15 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+
 
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
   String accessToken;
   final Function onTapFeaturedCompany;
+
 
   DashboardScreen(
       {this.menuCallBack,
@@ -83,7 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
-
+  //CountdownTimerController controller;
   double xOffset = 0.0;
   double yOffset = 0.0;
   double scaleFactor = 1;
@@ -96,6 +100,19 @@ class _DashboardScreenState extends State<DashboardScreen>
   loadImage(String image) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
     return _bytesImage;
+  }
+
+  var lasTtimerr;
+
+  lastTme() async{
+
+    SharedPreferences lastTimer=await SharedPreferences.getInstance();
+
+    if(lastTimer.containsKey('lastBookingTime')){
+      lasTtimerr=lastTimer.getInt('lastBookingTime');
+      print('lasttttt'+lasTtimerr.toString());
+    }
+
   }
 
   @override
@@ -122,6 +139,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     vm7.getData();
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
+    lastTme();
+   // controller = CountdownTimerController(endTime: lasTtimerr!=null?lasTtimerr:DateTime.now().millisecondsSinceEpoch);
 
     super.initState();
   }
@@ -130,6 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   // void dispose() {
   //   // TODO: implement dispose
   //   //fetchHospitalList();
+  //   controller.dispose();
   //   super.dispose();
   // }
 
@@ -165,6 +185,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm6 = Provider.of<HospitalImageViewModel>(context);
     var vm7 = Provider.of<NewsLogoViewModel>(context);
     var vm8 = Provider.of<BLogLogoViewModel>(context);
+
 
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
@@ -521,16 +542,19 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    vm9.accessToken == null
-                                        ? Container()
-                                        : CustomCardPat(
-                                            "You have an upcoming appointment",
-                                            "22-02-2021 Monday 08:30pm \nSerial-12",
-                                            "Dr. Jahid Hasan",
-                                            "Alok hospital"),
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    // vm9.accessToken == null || lasTtimerr==null
+                                    //     ? Container()
+                                    //     : CustomCardPat(
+                                    //         "You have an upcoming appointment",
+                                    //         "22-02-2021 Monday 08:30pm \nSerial-12",
+                                    //         "Dr. Jahid Hasan",
+                                    //         "Alok hospital",
+                                    //     lasTtimerr,
+                                    //   //controller
+                                    // ),
                                     SizedBox(
                                       height: 10,
                                     ),

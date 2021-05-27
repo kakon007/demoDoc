@@ -38,7 +38,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Prescriptions",
     "Reports",
     "Documents",
-    "Notifications",
     "More",
     "Family Members",
     "Switch Account",
@@ -50,7 +49,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Prescriptions",
     "Reports",
     "Documents",
-    "Notifications",
     "More",
   ];
 

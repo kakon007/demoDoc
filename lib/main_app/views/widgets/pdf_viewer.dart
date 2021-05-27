@@ -16,6 +16,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('File ${widget.file}');
     final name=basename(widget.file.path);
     return Scaffold(
       backgroundColor: Colors.grey,

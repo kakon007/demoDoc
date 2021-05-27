@@ -111,10 +111,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       2: vm9.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: vm9.accessToken,),
       3: vm9.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: vm9.accessToken,),
       4: vm9.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: vm9.accessToken,),
-      5:NotificationScreen(),
-      6:SettingScreen(accessToken: vm9.accessToken,),
-      7:FamilyMemberListScreen(),
-      8:SwitchAccount(),
+      5:SettingScreen(accessToken: vm9.accessToken,),
+      6:FamilyMemberListScreen(),
+      7:SwitchAccount(),
     };
 
     screenShots=screens.values.toList();

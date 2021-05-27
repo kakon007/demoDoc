@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_vi
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -26,7 +28,7 @@ class UploadDocumentScreen extends StatefulWidget {
 
 class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
   DateTime pickBirthDate;
-  TextEditingController _searchTextEditingController2 = TextEditingController();
+  TextEditingController _descriptionTextEditingController = TextEditingController();
   var _searchFieldFocusNode2 = FocusNode();
   File file;
   int filesize;
@@ -69,6 +71,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var vm= Provider.of<FileTypeViewModel>(context,listen: true);
     var vm2 = Provider.of<UploadDocumentsViewModel>(context, listen: true);
+    String _reportDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
 
     //print('FileTYpe::: ${vm.fileTypeList.first.typeName}');
 
@@ -170,6 +173,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         });
       }
       print('Dattedd::::: ${pickBirthDate.toString()}');
+      print('Dattedddd::::: ${DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(pickBirthDate).toString()}');
     }
 
 
@@ -239,7 +243,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
           autofocus: false,
           textInputAction: TextInputAction.search,
           focusNode: _searchFieldFocusNode2,
-          controller: _searchTextEditingController2,
+          controller: _descriptionTextEditingController,
           cursorColor: HexColor('#C5CAE8'),
           decoration: InputDecoration(
               border: InputBorder.none,
@@ -422,20 +426,24 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                     onTap: () async{
                       var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
                       var details = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
-                     await vm2.uploadDocuments(file: file==null?_image:file,accessToken: accessToken,attachmentTypeNo: _selectedDocumentType,pickBirthDate: pickBirthDate,regID: details.userDetailsList.id,username: details.userDetailsList.hospitalNumber);
+                     await vm2.uploadDocuments(file: file==null?_image:file,accessToken: accessToken,attachmentTypeNo: _selectedDocumentType,pickDate:_reportDate,regID: details.userDetailsList.id,username: details.userDetailsList.hospitalNumber,description: _descriptionTextEditingController.text);
                       print("Upload Doc tapped");
                       // await Future.delayed(Duration(seconds: 3));
-                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      //     builder: (BuildContext context) =>
-                      //     // DoctorHomeScreen(
-                      //     PrescriptionListScreen(accessToken: accessToken
-                      //
-                      //     )));
+    Future.delayed(Duration.zero, () async {
+      file==null?Loader():
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) =>
+          // DoctorHomeScreen(
+          PrescriptionListScreen(accessToken: accessToken
+
+          )));
+    });
+
                     },
                     child: Material(
                       elevation: 2  ,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                      color:file==null||_selectedDocumentType==null&&_image==null||_selectedDocumentType ==null?HexColor("#B8C2F8"):HexColor("#354291"),
+                      color:file==null && _image==null||_selectedDocumentType==null?HexColor("#B8C2F8"):HexColor("#354291"),
                       child: SizedBox(
                         width: double.infinity,
                         height:  MediaQuery.of(context).size.width >600? 35 : 40,
@@ -456,7 +464,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
 }
 
 class DateUtil {
-  //DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(pickBirthDate)
+
   static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');

@@ -20,7 +20,7 @@ class FamilyMembersList {
     var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
     var url =
         "${Urls.buildUrl}diagnostic-api/api/familyMember/gridList?draw=1&columns[0][data]=fmName&columns[0][name]=fmName&columns[0][searchable]=true&columns[0][orderable]=true&columns[0][search][value]&columns[0][search][regex]=false&columns[1][data]=fmRegId&columns[1][name]=fmRegId&columns[1][searchable]=true&columns[1][orderable]=true&columns[1][search][value]&columns[1][search][regex]=false&columns[2][data]=relationName&columns[2][name]=relationName&columns[2][searchable]=true&columns[2][orderable]=true&columns[2][search][value]&columns[2][search][regex]=false&columns[3][data]=fmAge&columns[3][name]&columns[3][searchable]=true&columns[3][orderable]=true&columns[3][search][value]&columns[3][search][regex]=false&columns[4][data]=fmAddress&columns[4][name]=fmAddress&columns[4][searchable]=true&columns[4][orderable]=true&columns[4][search][value]&columns[4][search][regex]=false&order[0][column]=0&order[0][dir]=asc&start=0&length=30&search[value]&search[regex]=false&regId=$regId&_=1621949211472";
-    final http.Response response = await http.get(url,headers: {'Authorization': 'Bearer $accessToken',},);
+    final http.Response response = await http.get(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',},);
     print(response.body);
     try {
       if (response.statusCode == 200) {
@@ -48,7 +48,7 @@ class FamilyMembersList {
     var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
     var url =
         "${Urls.buildUrl}diagnostic-api/api/familyMember/update";
-    final http.Response response = await http.put(url,headers: {'Authorization': 'Bearer $accessToken',},body: jsonEncode(<String, dynamic>{
+    final http.Response response = await http.put(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',},body: jsonEncode(<String, dynamic>{
       "id":id,
       "relation":relation
     }));
@@ -75,7 +75,7 @@ class FamilyMembersList {
     var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
     var url =
         "${Urls.buildUrl}diagnostic-api/api/familyMember/delete?id=$id";
-    final http.Response response = await http.delete(url,headers: {'Authorization': 'Bearer $accessToken',});
+    final http.Response response = await http.delete(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',});
 
     print(response.body);
     try {

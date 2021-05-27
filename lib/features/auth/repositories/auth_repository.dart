@@ -10,7 +10,7 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class AuthRepository {
-  Future<Either<AppError, SignInModel>> fetchFee(String user, String pass) async {
+  Future<Either<AppError, SignInModel>> fetchAuthData(String user, String pass) async {
     String username = 'telemedCareIdPassword';
     String password = 'secret';
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));

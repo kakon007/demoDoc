@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
-import 'package:myhealthbd_app/features/user_profile/view_model/add_member_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/registered_member_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/relationship_view_model.dart';

@@ -28,8 +28,6 @@ import 'features/auth/view_model/auth_view_model.dart';
 import 'features/auth/view_model/sign_out_view_model.dart';
 import 'features/auth/view_model/sign_up_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
-import 'features/hospitals/models/company_logo_model.dart';
-import 'features/user_profile/view_model/add_member_view_model.dart';
 import 'features/user_profile/view_model/family_members_view_model.dart';
 import 'features/user_profile/view_model/relationship_view_model.dart';
 import 'features/user_profile/view_model/user_image_view_model.dart';
@@ -79,8 +77,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<UserImageViewModel>(create: (context) =>  UserImageViewModel()),
       ChangeNotifierProvider<RelationShipViewModel>(create: (context) =>  RelationShipViewModel()),
       ChangeNotifierProvider<RegisteredMemberViewModel>(create: (context) =>  RegisteredMemberViewModel()),
-      ChangeNotifierProvider<AddFamilyMemberViewModel>(create: (context) =>  AddFamilyMemberViewModel()),
-      ChangeNotifierProvider<FamilyMembersListViewModel>(create: (context) =>  FamilyMembersListViewModel()),
+       ChangeNotifierProvider<FamilyMembersListViewModel>(create: (context) =>  FamilyMembersListViewModel()),
 
     ];
     return  AuthViewWrapper(

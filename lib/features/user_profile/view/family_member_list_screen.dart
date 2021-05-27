@@ -1,12 +1,20 @@
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/features/user_profile/models/get_family_member_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/search_family_member.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/registered_member_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/add_family_member_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/edit_member_list_prompt.dart';
+import 'package:provider/provider.dart';
 
 class FamilyMemberListScreen extends StatefulWidget {
   @override
@@ -14,71 +22,29 @@ class FamilyMemberListScreen extends StatefulWidget {
 }
 
 class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
-  List<MemberList> members = [
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-    MemberList(
-        name: "John Doe",
-        imageUrl: "assets/images/familypic.png",
-        isLoggedIn: true,
-        relation: "Brother"),
-
-
-  ];
+  List<Item> familyMembers=[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.delayed(Duration.zero, () async {
+      var userVm = Provider.of<UserDetailsViewModel>(context,listen: false);
+      await userVm.getData();
+      var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
+       familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: true);
+    var vm = Provider.of<UserDetailsViewModel>(context,listen: true);
     var spaceBetween = SizedBox(
       height: 10,
     );
+    var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
+
+    print("lenthhhhhhhhhhhhhhhhhhh::::: ${familyVm.familyMembersList.length}");
     return Scaffold(
       appBar: AppBar(
         //leading: Icon(Icons.notes),
@@ -125,7 +91,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
               },
               child: GestureDetector(
                 onTap: (){
-
+                  familyVm.userRegId(vm.userDetailsList.hospitalNumber);
                  Navigator.push(context, MaterialPageRoute(builder: (context){
                    return SearchFamilyMember();
                  }));
@@ -158,14 +124,23 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
             ),
             spaceBetween,
             spaceBetween,
-            Expanded(
+            // Expanded(child: ListView.builder(
+            //     itemCount: familyVm.familyMembersList.length,
+            //     itemBuilder: (BuildContext, index){
+            //   return Text(familyVm.familyMembersList[index].fmName);
+            // }),)
+            familyVm.isLoading==true? Center(child: CircularProgressIndicator(valueColor:
+            AlwaysStoppedAnimation<Color>(
+                AppTheme.appbarPrimary),)) : Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: members.length,
+                    itemCount: familyVm.familyMembersList.length,
                     itemBuilder: (BuildContext context, int index) {
+                      var photo = familyVm.familyMembersList[index]?.photo ?? "";
+                      print("photo $photo");
                       return Container(
                           decoration: BoxDecoration(
                             color: index % 2 == 0
@@ -183,19 +158,32 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors.white,
+                                  photo != ""
+                                      ? Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: AppTheme.appbarPrimary),
+                                        //color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
                                       ),
-                                    ),
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                      AssetImage(members[index].imageUrl),
-                                      radius: 28.0,
-                                    ),
-                                  ),
+                                      height: 50,
+                                      width: 50,
+                                      child: Center(
+                                          child: imageVm.loadProfileImage(photo, 45, 45,50)
+                                      ))
+                                      : Container(
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: 50,
+                                      width: 50,
+                                      child: Center(
+                                        child: Image.asset(
+                                          'assets/images/dPro.png',
+                                          height: 40,
+                                          width: 40,
+                                        ),
+                                      )),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -204,15 +192,18 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                     CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        members[index].name,
-                                        style: GoogleFonts.poppins(
-                                            color: HexColor("#0D1231"),
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
+                                      Container(
+                                        width: 160,
+                                        child: Text(
+                                          familyVm.familyMembersList[index].fmName,
+                                          style: GoogleFonts.poppins(
+                                              color: HexColor("#0D1231"),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                        ),
                                       ),
                                        Text(
-                                        members[index].relation,
+                                         familyVm.familyMembersList[index].relationName,
                                         style: GoogleFonts.poppins(
                                             color: HexColor("#B8C2F8")),
                                       )
@@ -227,19 +218,20 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                    GestureDetector(
                                      onTap:(){
                                        _showAlertDialogForEditMemberList(context);
+                                       familyVm.getSelectedUserImage(relationId: familyVm.familyMembersList[index].relation.toString(),regId: familyVm.familyMembersList[index].regId,id: familyVm.familyMembersList[index].id.toString(),name: familyVm.familyMembersList[index].fmName,image: familyVm.familyMembersList[index].photo,userId: familyVm.familyMembersList[index].fmRegId,relationName: familyVm.familyMembersList[index].relationName);
                                      },
                                      child: Container(
                                         height: 16,
-                                        child: Image.asset(
-                                            "assets/images/edit.png")),
+                                        child: Icon(Icons.edit, color: AppTheme.appbarPrimary,size: 18,)),
                                    ),
                                   SizedBox(
-                                    width: 20,
+                                    width: 16,
                                   ),
                                  GestureDetector(
                                     child: Icon(Icons.delete_sweep,
-                                        color: HexColor("#D6DCFF")),
+                                        color: AppTheme.appbarPrimary),
                                     onTap: () {
+                                      familyVm.getSelectedUserImage(relationId: familyVm.familyMembersList[index].relation.toString(),regId: familyVm.familyMembersList[index].regId,id: familyVm.familyMembersList[index].id.toString(),name: familyVm.familyMembersList[index].fmName,image: familyVm.familyMembersList[index].photo,userId: familyVm.familyMembersList[index].fmRegId,relationName: familyVm.familyMembersList[index].relationName);
                                       showGeneralDialog(
                                         barrierLabel: "Label",
                                         barrierDismissible: true,
@@ -290,101 +282,84 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                                       const EdgeInsets
                                                           .only(
                                                           top: 60.0),
-                                                      child: Center(
-                                                        child: Column(
-                                                          children: [
-                                                            Column(
-                                                              children: [
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  children: [
-                                                                    Text("Remove ", style: GoogleFonts.poppins()),
-                                                                    Text(members[index].name,style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                                                                    Text(" from", style: GoogleFonts.poppins())
-                                                                  ],
-                                                                ),
-                                                                Text("your members list.", style: GoogleFonts.poppins())
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            SizedBox(
-                                                              height: 20,
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets
-                                                                  .only(
-                                                                  left:
-                                                                  25.0),
-                                                              child: Row(
+                                                      child: Column(
+                                                        children: [
+                                                          Column(
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
                                                                 children: [
-                                                                  GestureDetector(
-                                                                    onTap:
-                                                                        () {
-                                                                      Navigator.pop(context);
-                                                                    },
-                                                                    child:
-                                                                    Material(
-                                                                      elevation:
-                                                                      0,
-                                                                      shape:
-                                                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: HexColor('#354291'))),
-                                                                      color:
-                                                                      Colors.white,
-                                                                      child:
-                                                                      SizedBox(
-                                                                        height: 50,
-                                                                        width: 150,
-                                                                        child: Center(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.all(8.0),
-                                                                            child: Text(
-                                                                              "Cancel",
-                                                                              style: TextStyle(color: HexColor('#354291'), fontWeight: FontWeight.w500, fontSize: 15),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width:
-                                                                    15,
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap:
-                                                                        () {
-                                                                    },
-                                                                    child:
-                                                                    Material(
-                                                                      elevation:
-                                                                      0,
-                                                                      shape:
-                                                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                                                      color:
-                                                                      HexColor('#354291'),
-                                                                      child:
-                                                                      SizedBox(
-                                                                        height: 50,
-                                                                        width: 150,
-                                                                        child: Center(
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.all(8.0),
-                                                                            child: Text(
-                                                                              "Remove",
-                                                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
+                                                                  Text("Remove ", style: GoogleFonts.poppins()),
+                                                                  Text(familyVm.familyMembersList[index].fmName,style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                                                  Text(" from", style: GoogleFonts.poppins())
                                                                 ],
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
+                                                              Text("your members list.", style: GoogleFonts.poppins())
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          Padding(
+                                                            padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.08, right: MediaQuery.of(context).size.width*0.08),
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                              children: [
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 0.0, right: 0),
+                                                                  child: Container(
+                                                                    width: MediaQuery.of(context).size.width/3,
+                                                                    decoration: BoxDecoration(),
+                                                                    height: 45,
+                                                                    child: FlatButton(
+                                                                        onPressed: (){
+                                                                          Navigator.pop(context);
+                                                                        },
+                                                                        shape: RoundedRectangleBorder(
+                                                                            side: BorderSide(
+                                                                                color: AppTheme.appbarPrimary
+                                                                                ,width: 1),
+                                                                            borderRadius: BorderRadius.circular(10)),
+                                                                        textColor: AppTheme.appbarPrimary ,
+                                                                        color: Colors.white ,child: Text("Cancel",  style: GoogleFonts.poppins())),
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets.only(left: 0.0, right: 0),
+                                                                  child: Container(
+                                                                    width: MediaQuery.of(context).size.width/3,
+                                                                    height: 45,
+                                                                    child: FlatButton(
+                                                                        onPressed: (){
+                                                                          Future.delayed(Duration.zero, () async {
+                                                                            await familyVm.deleteMember();
+                                                                            if(familyVm.deleteMessage=="Delete Successfully"){
+                                                                              Fluttertoast.showToast(
+                                                                                  msg: familyVm.deleteMessage,
+                                                                                  toastLength: Toast.LENGTH_SHORT,
+                                                                                  gravity: ToastGravity.BOTTOM,
+                                                                                  backgroundColor: Colors.green,
+                                                                                  textColor: Colors.white,
+                                                                                  fontSize: 12.0);
+                                                                              Navigator.pop(context);
+                                                                            }
+                                                                          });
+
+
+                                                                        },
+                                                                        shape: RoundedRectangleBorder(
+                                                                            borderRadius: BorderRadius.circular(10)),
+                                                                        textColor: Colors.white,
+                                                                        color: AppTheme.appbarPrimary ,child: Text("Remove",  style: GoogleFonts.poppins())),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
                                                     ),
                                                   ),

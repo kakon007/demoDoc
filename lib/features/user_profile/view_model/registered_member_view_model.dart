@@ -22,6 +22,7 @@ class RegisteredMemberViewModel extends ChangeNotifier{
   get logger => null;
   int limit=10;
   int startIndex=0;
+  String _relatedRegId;
 
 
   addFamilyMemberInfo({
@@ -30,6 +31,7 @@ class RegisteredMemberViewModel extends ChangeNotifier{
     String relatedRegNo,
     String name,
     String image,
+    String relatedRegId
   }){
     print("regId $regId");
     print("regNo $regNo");
@@ -39,6 +41,7 @@ class RegisteredMemberViewModel extends ChangeNotifier{
     _relatedRegNo= relatedRegNo;
     _name= name;
     _image= image;
+    _relatedRegId= relatedRegId;
   }
 
   Future<void> getMembers(String regId, String patName) async {
@@ -86,5 +89,6 @@ class RegisteredMemberViewModel extends ChangeNotifier{
   String get relatedRegNo =>_relatedRegNo;
   String get name =>_name;
   String get image => _image;
+  String get relatedRegId =>_relatedRegId;
 
 }

@@ -59,24 +59,9 @@ class AddFamilyMemberViewModel extends ChangeNotifier {
   AppError _appError;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
+  String _message;
 
 
-  Future<void> addFamilyMember(String regId, String regNo,
-      String relation, String relatedRegNo) async {
-    _isLoading = true;
-    var res = await AddFamilyMemberRepository().addFamilyMember(regId, regNo, relation, relatedRegNo);
-    notifyListeners();
-    res.fold((l) {
-      _appError = l;
-      _isLoading = false;
-      _isFetchingMoreData = false;
-      notifyListeners();
-    }, (r) {
-      _isFetchingMoreData = false;
-      _isLoading = false;
-      notifyListeners();
-    });
-  }
 
 
 
@@ -88,6 +73,7 @@ class AddFamilyMemberViewModel extends ChangeNotifier {
 
 
   bool get isLoading => _isLoading;
+  String get message => _message;
 
 
 }

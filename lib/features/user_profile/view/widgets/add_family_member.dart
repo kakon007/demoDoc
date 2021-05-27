@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/add_member_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/registered_member_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/relationship_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
@@ -12,8 +14,8 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:provider/provider.dart';
 
 class AddFamilyMember extends StatefulWidget {
-  const AddFamilyMember({Key key}) : super(key: key);
-
+  String photo;
+  AddFamilyMember({this.photo});
   @override
   _AddFamilyMemberState createState() => _AddFamilyMemberState();
 }
@@ -33,8 +35,10 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
   Widget build(BuildContext context) {
     var vm = Provider.of<RelationShipViewModel>(context, listen: true);
     var regMemberVm = Provider.of<RegisteredMemberViewModel>(context, listen: true);
-    var addMemberVm = Provider.of<AddFamilyMemberViewModel>(context, listen: true);
+    var familyVm = Provider.of<FamilyMembersListViewModel>(context, listen: true);
     var imageVm = Provider.of<UserImageViewModel>(appNavigator.context,listen: true);
+    //var photo = regMemberVm?.image ?? "";
+    //print("pppppppppppppppppp $photo");
     var relationshipList = Row(
       children: [
         GestureDetector(
@@ -129,11 +133,32 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                         SizedBox(
                           width: 10,
                         ),
-                        Container(
-                          height: 45,
-                          width: 45,
-                          child: imageVm.loadProfileImage(regMemberVm.image, 40, 40, 50),
-                        ),
+                        regMemberVm.image != ""
+                            ? Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppTheme.appbarPrimary),
+                              //color: AppTheme.appbarPrimary,
+                              shape: BoxShape.circle,
+                            ),
+                            height: 50,
+                            width: 50,
+                            child: Center(
+                                child: imageVm.loadProfileImage(regMemberVm.image, 45, 45,50)
+                            ))
+                            : Container(
+                            decoration: BoxDecoration(
+                              color: AppTheme.appbarPrimary,
+                              shape: BoxShape.circle,
+                            ),
+                            height: 50,
+                            width: 50,
+                            child: Center(
+                              child: Image.asset(
+                                'assets/images/dPro.png',
+                                height: 40,
+                                width: 40,
+                              ),
+                            )),
                         SizedBox(
                           width: 20,
                         ),
@@ -149,7 +174,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
-                              "Username: ${regMemberVm.regId}",
+                              "Username: ${regMemberVm.relatedRegId}",
                               style: GoogleFonts.poppins(
                                   color: HexColor("#B8C2F8")),
                             )
@@ -198,8 +223,23 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                       height: 45,
                       child: FlatButton(
                           onPressed: (){
-                            addMemberVm.addFamilyMember(regMemberVm.regId, regMemberVm.regNo, _selectedRelation, regMemberVm.relatedRegNo);
-                          },
+                            Future.delayed(Duration.zero, () async {
+                              await familyVm.addFamilyMember(regMemberVm.regId, regMemberVm.regNo, _selectedRelation, regMemberVm.relatedRegNo);
+
+                                if(familyVm.saveMessage=="Saved Successfully"){
+                                  Fluttertoast.showToast(
+                                      msg: "Saved Successfully",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: Colors.green,
+                                      textColor: Colors.white,
+                                      fontSize: 12.0);
+                                  Navigator.pop(context);
+                                }
+
+                            });
+
+                            },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           textColor: Colors.white,

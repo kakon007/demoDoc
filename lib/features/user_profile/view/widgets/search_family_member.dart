@@ -35,112 +35,56 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
 
   super.initState();
   }
-  // Future<void> membersSearch(String query) async {
-  // print(query);
-  //   var vm = Provider.of<RegisteredMemberViewModel>(context, listen: false);
-  //   var regId= query;
-  //   var patName= query;
-  //   await vm.getMembers(regId, patName);
-  //   if(vm.message=="Data Empty "){
-  //     print("aaaaaaaaaaaaaaa");
-  //     familyMembers=[];
-  //   }
-  //   else{
-  //     familyMembers.clear();
-  //     familyMembers=vm.members;
-  //   }
-  // }
+  Future<void> membersSearch(String query) async {
+  print(query);
+    var vm = Provider.of<RegisteredMemberViewModel>(context, listen: false);
+    var regId= query;
+    var patName= query;
+    await vm.getMembers(regId, patName);
+    if(vm.message=="Data Empty "){
+      familyMembers=[];
+    }
+    else{
+      familyMembers.clear();
+      familyMembers=vm.members;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<RegisteredMemberViewModel>(context, listen: true);
     var userVm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: true);
     var imageVm = Provider.of<UserImageViewModel>(appNavigator.context,listen: true);
-    List<MemberList> members = [
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-      MemberList(
-          name: "John Doe",
-          imageUrl: "assets/images/familypic.png",
-          isLoggedIn: true,
-          relation: "Username: Brother"),
-    ];
     var searchField =Theme(
         data: Theme.of(context).copyWith(
           primaryColor: HexColor("#8592E5"),
         ),
         child: Container(
-          width: MediaQuery.of(context).size.width*.75,
+          width: MediaQuery.of(context).size.width*.91,
           height: 50,
           child: TextField(
-              // onChanged: (value) {
-              //   membersSearch(value);
-              // },
+              onSubmitted: (value) {
+                membersSearch(value);
+              },
               controller: memberSearch,
               decoration: new InputDecoration(
-                // suffixIcon: Icon(
-                //   Icons.search,
-                //   //color: HexColor("#8592E5"),
-                // ),
-                hintText: "Search",
+                suffixIcon: Icon(
+                  Icons.search,
+                  //color: HexColor("#8592E5"),
+                ),
+                hintText: "Name or Username",
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#8592E5"), width: 1.0),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      bottomLeft: Radius.circular(25)),
+                  // borderRadius: BorderRadius.only(
+                  //     topLeft: Radius.circular(25),
+                  //     bottomLeft: Radius.circular(25)),
+                    borderRadius: BorderRadius.circular(25),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#C7C8CF"), width: 1.0),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      bottomLeft: Radius.circular(25)),
+                  borderRadius: BorderRadius.circular(25),
+                  // borderRadius: BorderRadius.only(
+                  //     topLeft: Radius.circular(25),
+                  //     bottomLeft: Radius.circular(25)),
                 ),
                 contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 30.0, 3.0),
               )),
@@ -160,39 +104,41 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
             Row(
               children: [
                 searchField,
-                GestureDetector(
-                  onTap: (){
-                    Future.delayed(Duration.zero, () async {
-                      var vm = Provider.of<RegisteredMemberViewModel>(context, listen: false);
-                      var regId= memberSearch.text;
-                      var patName=  memberSearch.text;
-                      await vm.getMembers(regId, patName);
-                      if(vm.message=="Data Empty "){
-                        print("aaaaaaaaaaaaaaa");
-                        familyMembers=[];
-                      }
-                      else{
-                        familyMembers.clear();
-                        familyMembers=vm.members;
-                      }
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 2.4),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                bottomRight: Radius.circular(25)),
-                            border: Border.all(color: HexColor("#8592E5")),
-                            color: HexColor("#8592E5")),
-                      width: 60,height: 48,child: Icon(Icons.search,color: HexColor("#FFFFFF"),),),
-                  ),
-                )
+                // GestureDetector(
+                //   onTap: (){
+                //     Future.delayed(Duration.zero, () async {
+                //       var vm = Provider.of<RegisteredMemberViewModel>(context, listen: false);
+                //       var regId= memberSearch.text;
+                //       var patName=  memberSearch.text;
+                //       await vm.getMembers(regId, patName);
+                //       if(vm.message=="Data Empty "){
+                //         print("aaaaaaaaaaaaaaa");
+                //         familyMembers=[];
+                //       }
+                //       else{
+                //         familyMembers.clear();
+                //         familyMembers=vm.members;
+                //       }
+                //     });
+                //   },
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(bottom: 2.4),
+                //     child: Container(
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.only(
+                //                 topRight: Radius.circular(25),
+                //                 bottomRight: Radius.circular(25)),
+                //             border: Border.all(color: HexColor("#8592E5")),
+                //             color: HexColor("#8592E5")),
+                //       width: 60,height: 48,child: Icon(Icons.search,color: HexColor("#FFFFFF"),),),
+                //   ),
+                // )
               ],
             ),
             SizedBox(height: 10,),
-            vm.isLoading? Center(child: CircularProgressIndicator()) : Expanded(
+            vm.isLoading? Center(child: CircularProgressIndicator(valueColor:
+            AlwaysStoppedAnimation<Color>(
+                AppTheme.appbarPrimary),)) : Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: ListView.builder(
@@ -200,6 +146,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                     shrinkWrap: true,
                     itemCount: familyMembers.length,
                     itemBuilder: (BuildContext context, int index) {
+                      var photo = familyMembers[index]?.photo ?? "";
                       return Container(
                           decoration: BoxDecoration(
                             color: HexColor("#F0F2FF"),
@@ -216,11 +163,32 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                     width: 10,
                                   ),
 
-                                  Container(
-                                    height: 45,
-                                    width: 45,
-                                    child: imageVm.loadProfileImage(familyMembers[index].photo, 40, 40, 50),
-                                  ),
+                                  photo != ""
+                                      ? Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: AppTheme.appbarPrimary),
+                                        //color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: 50,
+                                      width: 50,
+                                      child: Center(
+                                          child: imageVm.loadProfileImage(photo, 45, 45,50)
+                                      ))
+                                      : Container(
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: 50,
+                                      width: 50,
+                                      child: Center(
+                                        child: Image.asset(
+                                          'assets/images/dPro.png',
+                                          height: 40,
+                                          width: 40,
+                                        ),
+                                      )),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -247,10 +215,10 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  vm.addFamilyMemberInfo(name: vm.members[index].fname, regId: vm.members[index].hospitalNumber.toString(), regNo: userVm.userDetailsList.id.toString(), relatedRegNo:vm.members[index].id.toString(),image:vm.members[index].photo.toString() );
-                                  Navigator.push(context,
+                                  vm.addFamilyMemberInfo(name: vm.members[index].fname, regId: userVm.userDetailsList.hospitalNumber.toString(), regNo: userVm.userDetailsList.id.toString(), relatedRegNo:vm.members[index].id.toString(),image:photo,relatedRegId: familyMembers[index].hospitalNumber);
+                                  Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return AddFamilyMember();
+                                    return AddFamilyMember(photo: photo,);
                                   }));
                                 },
                                 child: Container(

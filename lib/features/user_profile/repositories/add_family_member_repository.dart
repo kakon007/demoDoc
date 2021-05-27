@@ -35,11 +35,11 @@ class AddFamilyMemberRepository {
     print(response.body);
     try {
       if (response.statusCode == 200) {
-        print("aaaaaaaaaaadsdsdsdsdsa");
+        print("bbbbbbbbbbbbbbbbbbbbb");
         print(response.body);
-        AvailableSlotModel data = availableSlotModelFromJson(response.body);
+        AddFamilyMemberModel data = addFamilyMemberModelFromJson(response.body);
         return Right(AddFamilyMemberModel(
-          //slotList: data.items,
+          message: data.message
         ));
       } else {
         BotToast.showText(text: StringResources.somethingIsWrong);

@@ -43,7 +43,7 @@ class VideoViewModel extends ChangeNotifier {
       _videoList.addAll(r.dataList);
       notifyListeners();
     });
-    print("VideoTileFromVM:::::::" + _videoList.first.snippet.title);
+    print("VideoTileFromVM:::::::" + _videoList?.first?.snippet?.title);
   }
 
   // getMoreData() async {

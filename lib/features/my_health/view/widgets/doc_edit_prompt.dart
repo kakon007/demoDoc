@@ -17,6 +17,8 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.
 import 'package:provider/provider.dart';
 
 class EditDocAlert extends StatefulWidget {
+  String docName;
+  EditDocAlert({this.docName});
   @override
   _EditDocAlertState createState() => _EditDocAlertState();
 }
@@ -66,7 +68,7 @@ class _EditDocAlertState extends State<EditDocAlert> {
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
       vm.getData();
-      // _username.text = vm.userDetailsList.fname;
+       _username.text =widget.docName;
       _email.text = vm.userDetailsList.email;
       _mobile.text = vm.userDetailsList.phoneMobile;
       _address.text = vm.userDetailsList.address;

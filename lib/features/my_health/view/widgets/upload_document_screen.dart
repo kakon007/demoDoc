@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -240,6 +241,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       Padding(
         padding: const EdgeInsets.only(left:15.0,bottom: 8),
         child: TextField(
+
+          maxLength: 10,
+          maxLengthEnforced: true,
           autofocus: false,
           textInputAction: TextInputAction.search,
           focusNode: _searchFieldFocusNode2,
@@ -262,6 +266,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
             //vm2.search(_searchTextEditingController2.text,widget.accessToken);
           },
 
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(10),
+            ]
         ),
       ),
     );
@@ -357,7 +364,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                         FilePickerResult result =
                             await FilePicker.platform.pickFiles(
                           type: FileType.custom,
-                          allowedExtensions: ['pdf', 'zip', 'doc', 'docx'],
+                          allowedExtensions: ['pdf', 'png', 'jpeg','jpg'],
                         );
                         if (result != null) {
                           file = File(result.files.single.path);
@@ -443,7 +450,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                     child: Material(
                       elevation: 2  ,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                      color:file==null && _image==null||_selectedDocumentType==null?HexColor("#B8C2F8"):HexColor("#354291"),
+                      color:file==null && _image==null||_selectedDocumentType==null||_reportDate==null?HexColor("#B8C2F8"):HexColor("#354291"),
                       child: SizedBox(
                         width: double.infinity,
                         height:  MediaQuery.of(context).size.width >600? 35 : 40,

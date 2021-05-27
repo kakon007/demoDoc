@@ -261,7 +261,7 @@ class _UserProfileState extends State<UserProfile> {
                             borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: 350,
+                          width: MediaQuery.of(context).size.width*.9,
                           height: 40,
                           child: Center(
                             child: Row(

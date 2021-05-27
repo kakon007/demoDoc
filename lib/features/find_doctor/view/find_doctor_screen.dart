@@ -215,18 +215,18 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                   )),
                             ),
                             Spacer(),
-                            IconButton(
-                              icon: Icon(
-                                Icons.notifications,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        NotificationScreen()));
-                              },
-                            )
+                            // IconButton(
+                            //   icon: Icon(
+                            //     Icons.notifications,
+                            //     color: Colors.white,
+                            //     size: 20,
+                            //   ),
+                            //   onPressed: () {
+                            //     Navigator.of(context).push(MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             NotificationScreen()));
+                            //   },
+                            // )
                           ],
                         ),
                       ),
@@ -384,7 +384,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       ? Text("")
                       : Container(
                           margin: EdgeInsets.only(top: 8, bottom: 3, right: 25),
-                          child: Text('Showing Filtered result',
+                          child: Text('Showing Filtered Result',
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                               )))
@@ -1006,7 +1006,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               fit: BoxFit.fitWidth,
               allowDrawingOutsideViewBox: true,
               matchTextDirection: true,
-              color: isFiltered == true ? Colors.blue : Colors.grey,
+              color: isFiltered == true ?AppTheme.appbarPrimary : Colors.grey,
               //semanticsLabel: 'Acme Logo'
             ),
           ),

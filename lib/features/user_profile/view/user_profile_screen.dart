@@ -203,11 +203,11 @@ class _UserProfileState extends State<UserProfile> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 22.0, left: 22),
+                      padding: const EdgeInsets.only(right: 28.0, left: 22),
                       child: Row(
                         children: [
                           Text(
-                            "Family members",
+                            "Family Members",
                             style: GoogleFonts.roboto(
                                 color: HexColor('#354291'),
                                 fontSize: 16,
@@ -224,10 +224,20 @@ class _UserProfileState extends State<UserProfile> {
                                   ),
                                 );
                               },
-                              child: Text(
-                                "View All",
-                                style: GoogleFonts.roboto(
-                                    color: HexColor('#8592E5'), fontSize: 10),
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(color: AppTheme.appbarPrimary),
+                                ),
+                                height: 20,
+                                width: 60,
+
+                                child: Center(
+                                  child: Text(
+                                    "View All",
+                                    style: GoogleFonts.roboto(
+                                        color: AppTheme.appbarPrimary, fontSize: 10),
+                                  ),
+                                ),
                               )),
                         ],
                       ),
@@ -463,18 +473,30 @@ class _UserProfileState extends State<UserProfile> {
                               _showAlertDialogForEditProfile(context);
                             },
                             child: Container(
-                              width: 55,
+                              width: 60,
                               height: 20,
                               decoration: BoxDecoration(
                                 border: Border.all(color: HexColor('#354291')),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Center(
-                                  child: Text(
-                                "Edit Info",
-                                style: GoogleFonts.roboto(
-                                    color: HexColor('#354291'), fontSize: 8),
-                              )),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(),
+                                     Row(children: [
+                                       Icon(
+                                         Icons.edit, color: AppTheme.appbarPrimary,size: 13,
+                                       ),
+                                       Text(
+                                         "Edit Info",
+                                         style: GoogleFonts.roboto(
+                                             color: HexColor('#354291'), fontSize: 10),
+                                       ),
+                                     ],),
+                                      SizedBox(),
+                                    ],
+                                  )),
                             ),
                           )
                         ],
@@ -490,7 +512,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 22.0, top: 10),
                         child: Text(
-                          "Full name            : ${vm.userDetailsList?.fname ?? ""}",
+                          "Full Name            : ${vm.userDetailsList?.fname ?? ""}",
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'), fontSize: 15),
                         ),
@@ -503,7 +525,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 22.0, top: 10),
                         child: Text(
-                          "Email address    : ${vm.userDetailsList?.email ?? ""}",
+                          "Email Address    : ${vm.userDetailsList?.email ?? ""}",
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'), fontSize: 15),
                         ),
@@ -516,7 +538,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 22.0, top: 10),
                         child: Text(
-                          "Mobile number   : ${vm.userDetailsList?.phoneMobile ?? ""}",
+                          "Mobile Number   : ${vm.userDetailsList?.phoneMobile ?? ""}",
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'), fontSize: 15),
                         ),
@@ -542,7 +564,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 22.0, top: 10),
                         child: Text(
-                          "Date of birth        : ${DateUtil().formattedDate(DateTime.parse(vm.userDetailsList?.dob ?? "").toLocal())}",
+                          "Date of Birth        : ${DateUtil().formattedDate(DateTime.parse(vm.userDetailsList?.dob ?? "").toLocal())}",
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'), fontSize: 15),
                         ),
@@ -693,7 +715,7 @@ class _UserProfileState extends State<UserProfile> {
                                 border:
                                     Border.all(color: AppTheme.appbarPrimary)),
                             child: Icon(
-                              Icons.edit, color: AppTheme.appbarPrimary,
+                              Icons.camera_alt, color: AppTheme.appbarPrimary,size: 18,
                             )),
                       ),
                     )

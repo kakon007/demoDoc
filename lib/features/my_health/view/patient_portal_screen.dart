@@ -909,16 +909,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         // ]
         //     :
         <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
-            },
-          )
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.notifications,
+          //     color: Colors.white,
+          //     size: 20,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
+          //   },
+          // )
         ],
         // leading: new IconButton(
         //     icon: new Icon(Icons.notes),

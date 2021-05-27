@@ -132,14 +132,14 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           SizedBox(
             width: 10,
           ),
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () {},
-          )
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.notifications,
+          //     color: Colors.white,
+          //     size: 20,
+          //   ),
+          //   onPressed: () {},
+          // )
         ],
       ),
       body: RefreshIndicator(

@@ -50,41 +50,41 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
         //leading: Icon(Icons.notes),
         backgroundColor: HexColor('#354291'),
         title: Text(
-          "Members",
+          "Family Members",
           style: GoogleFonts.poppins(fontSize: 15),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right:10.0),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: (){},
-                  child: Container(
-                      width: 18,
-                      height: 18,
-                      child:Image.asset('assets/icons/slt.png')),
-                ),
-                SizedBox(width: 10,),
-                Icon(Icons.notifications)
-              ],
-            ),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right:10.0),
+        //     child: Row(
+        //       children: [
+        //         GestureDetector(
+        //           onTap: (){},
+        //           child: Container(
+        //               width: 18,
+        //               height: 18,
+        //               child:Image.asset('assets/icons/slt.png')),
+        //         ),
+        //         SizedBox(width: 10,),
+        //         Icon(Icons.notifications)
+        //       ],
+        //     ),
+        //   )
+        // ],
       ),
       body: Padding(
         padding: EdgeInsets.only(left: 15, right: 15, top: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Family members",
-              style: GoogleFonts.poppins(
-                  fontSize: 15,
-                  color: HexColor("#354291"),
-                  fontWeight: FontWeight.w500),
-            ),
-            spaceBetween,
+            // Text(
+            //   "Family members",
+            //   style: GoogleFonts.poppins(
+            //       fontSize: 15,
+            //       color: HexColor("#354291"),
+            //       fontWeight: FontWeight.w500),
+            // ),
+            // spaceBetween,
             GestureDetector(
               onTap: (){
                 //_showAlert(context);
@@ -114,7 +114,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                         SizedBox(
                           width: 10,
                         ),
-                        Text("Add family members",
+                        Text("Add Family Members",
                             style: GoogleFonts.roboto(color: HexColor("#354291"),fontSize: 15)),
                       ],
                     ),
@@ -205,7 +205,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                        Text(
                                          familyVm.familyMembersList[index].relationName,
                                         style: GoogleFonts.poppins(
-                                            color: HexColor("#B8C2F8")),
+                                          color: AppTheme.appbarPrimary,),
                                       )
                                     ],
                                   ),

@@ -67,7 +67,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                                 hint: Text(
                                   "Select here",
                                   style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
+                                      fontSize: 15, color: AppTheme.appbarPrimary,),
                                 ),
                                 value: _selectedRelation,
                                 onChanged: (newValue) {
@@ -92,7 +92,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                           padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.75, top: 12),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
+                              color: AppTheme.appbarPrimary,
                           ),
                         ),
                       ],
@@ -175,7 +175,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                             Text(
                               "Username: ${regMemberVm.relatedRegId}",
                               style: GoogleFonts.poppins(
-                                  color: HexColor("#B8C2F8")),
+                                color: AppTheme.appbarPrimary,),
                             )
                           ],
                         ),

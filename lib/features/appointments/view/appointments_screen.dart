@@ -460,13 +460,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             style: GoogleFonts.poppins(fontSize: 15),
           ),
           actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.notifications,
-                color: Colors.white,
-                size: 20,
-              ),
-            ),
+            // IconButton(
+            //   icon: Icon(
+            //     Icons.notifications,
+            //     color: Colors.white,
+            //     size: 20,
+            //   ),
+            // ),
             accessTokenVM.accessToken!=null?
             Container(
                 decoration: BoxDecoration(

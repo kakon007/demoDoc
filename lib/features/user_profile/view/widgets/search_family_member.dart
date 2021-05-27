@@ -207,7 +207,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                       Text(
                                         familyMembers[index].hospitalNumber,
                                         style: GoogleFonts.poppins(
-                                            color: HexColor("#B8C2F8")),
+                                          color: AppTheme.appbarPrimary,),
                                       )
                                     ],
                                   ),

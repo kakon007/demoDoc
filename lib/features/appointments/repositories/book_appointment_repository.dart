@@ -18,7 +18,6 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:provider/provider.dart';
 
 class BookAppointmentRepository {
-
 //
 //   Future<Either<AppError, BookAppointmentModel>>  fetchAppointmentData(
 //   {
@@ -47,7 +46,7 @@ class BookAppointmentRepository {
 //     var url = "https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-appointments/create";
 //     print("Abir" + appointDate);
 //     try {
-//       final http.Response response = await http.post(url,headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',}, body: jsonEncode(<String, dynamic>{
+//       final http.Response response = await http.post(Uri.parse(url),headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',}, body: jsonEncode(<String, dynamic>{
 //         "doctorNo": doctorNo,
 //         "appointDate": appointDate,
 //         "shiftdtlNo": shiftdtlNo,
@@ -93,75 +92,77 @@ class BookAppointmentRepository {
 //     return Left(AppError.unknownError);
 //   }
 
-
-  Future<Either<AppError, BookAppointmentModel>>  fetchAppointmentData(
-      String doctorNo,
-      String doctorName,
-      String appointDate,
-      String shiftdtlNo,
-      String shift,
-      String slotNo,
-      String slotSl,
-      String startTime,
-      String endTime,
-      String durationMin,
-      String extraSlot,
-      String slotSplited,
-      String ssCreatedOn,
-      String ssCreator,
-      String remarks,
-      String appointStatus,
-      String companyNo,
-      String ogNo,
-      String patientType,
-      String consultationType,
-      String opdConsultationFee,
-      String fname,
-      String phoneMobile,
-      String gender,
-      String address,
-      String email,
-      String dob,
-      String paymodeNo,
-      String regNo,
-      ) async {
-   var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/bookAppointment";
-   print("Shakil" + regNo);
+  Future<Either<AppError, BookAppointmentModel>> fetchAppointmentData(
+    String doctorNo,
+    String doctorName,
+    String appointDate,
+    String shiftdtlNo,
+    String shift,
+    String slotNo,
+    String slotSl,
+    String startTime,
+    String endTime,
+    String durationMin,
+    String extraSlot,
+    String slotSplited,
+    String ssCreatedOn,
+    String ssCreator,
+    String remarks,
+    String appointStatus,
+    String companyNo,
+    String ogNo,
+    String patientType,
+    String consultationType,
+    String opdConsultationFee,
+    String fname,
+    String phoneMobile,
+    String gender,
+    String address,
+    String email,
+    String dob,
+    String paymodeNo,
+    String regNo,
+  ) async {
+    var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/bookAppointment";
+    print("Shakil" + regNo);
     try {
-      final http.Response response = await http.post(url,body: jsonEncode(<String, dynamic>{
-        "doctorNo": doctorNo,
-        "doctorName": doctorName,
-        "appointDate": appointDate,
-        "shiftdtlNo": shiftdtlNo,
-        "shift":shift,
-        "slotNo": slotNo,
-        "slotSl": slotSl,
-        "startTime" : startTime,
-        "endTime": endTime,
-        "durationMin": durationMin,
-        "extraSlot": extraSlot,
-        "slotSplited": slotSplited,
-        "ssCreatedOn": ssCreatedOn,
-        "ssCreator": ssCreator,
-        "remarks": remarks,
-        "appointStatus": appointStatus,
-        "companyNo": companyNo,
-        "ogNo": ogNo,
-        "patientType": patientType,
-        "consultationType": consultationType,
-        "opdConsultationFee":opdConsultationFee,
-        "fname": fname,
-        //"ageYy": "30",
-        "phoneMobile":phoneMobile,
-        "gender": gender,
-        "address":address,
-        "email":email,
-        "dob": dob,
-        "paymodeNo":paymodeNo ,
-        "paymentArray": [],
-        "appointType": "Internet",
-        "regNo": regNo,
-      }),);
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        body: jsonEncode(<String, dynamic>{
+          "doctorNo": doctorNo,
+          "doctorName": doctorName,
+          "appointDate": appointDate,
+          "shiftdtlNo": shiftdtlNo,
+          "shift": shift,
+          "slotNo": slotNo,
+          "slotSl": slotSl,
+          "startTime": startTime,
+          "endTime": endTime,
+          "durationMin": durationMin,
+          "extraSlot": extraSlot,
+          "slotSplited": slotSplited,
+          "ssCreatedOn": ssCreatedOn,
+          "ssCreator": ssCreator,
+          "remarks": remarks,
+          "appointStatus": appointStatus,
+          "companyNo": companyNo,
+          "ogNo": ogNo,
+          "patientType": patientType,
+          "consultationType": consultationType,
+          "opdConsultationFee": opdConsultationFee,
+          "fname": fname,
+          //"ageYy": "30",
+          "phoneMobile": phoneMobile,
+          "gender": gender,
+          "address": address,
+          "email": email,
+          "dob": dob,
+          "paymodeNo": paymodeNo,
+          "paymentArray": [],
+          "appointType": "Internet",
+          "regNo": regNo,
+        }),
+      );
       if (response.statusCode == 200) {
         print(response.body);
         BookAppointmentModel data = bookAppointmentModelFromJson(response.body);
@@ -170,20 +171,20 @@ class BookAppointmentRepository {
           message: data.message,
         ));
       } else {
-       // BotToast.closeAllLoading();
-         BotToast.showText(text: StringResources.somethingIsWrong);
+        // BotToast.closeAllLoading();
+        BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
       //BotToast.closeAllLoading();
       //logger.e(e);
-       BotToast.showText(text: StringResources.unableToReachServerMessage);
+      BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-     // BotToast.closeAllLoading();
+      // BotToast.closeAllLoading();
       //logger.e(e);
-    }       BotToast.showText(text: StringResources.somethingIsWrong);
+    }
+    BotToast.showText(text: StringResources.somethingIsWrong);
     return Left(AppError.unknownError);
   }
-
 }

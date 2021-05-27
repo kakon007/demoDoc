@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -12,7 +11,6 @@ import 'features/auth/view_model/auth_view_model.dart';
 import 'main_app/util/app_version.dart';
 
 class Root extends StatefulWidget {
-
   Root();
   @override
   _RootState createState() => _RootState();
@@ -23,26 +21,22 @@ class _RootState extends State<Root> {
   var _passWord;
   @override
   void initState() {
-
-    Future.delayed(Duration.zero,()async{
-      SharedPreferences prefs =
-      await SharedPreferences.getInstance();
-      _username= prefs.getString("username");
-      _passWord= prefs.getString("password");
-       var vm5= Provider.of<AuthViewModel>(context, listen: false);
+    Future.delayed(Duration.zero, () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      _username = prefs.getString("username");
+      _passWord = prefs.getString("password");
+      var vm5 = Provider.of<AuthViewModel>(context, listen: false);
       await vm5.getAuthData(_username, _passWord);
-      var accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
-      if(accessToken!= null && vm5.accessToken!= accessToken){
-         appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
-         accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
+      var accessToken = await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
+      if (accessToken != null && vm5.accessToken != accessToken) {
+        appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+        accessToken = await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
       }
       await Future.delayed(Duration(seconds: 3));
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) =>
-          // DoctorHomeScreen(
-          HomeScreen(accessToken: accessToken
-
-          )));
+              // DoctorHomeScreen(
+              HomeScreen(accessToken: accessToken)));
 
       // SharedPreferences prefs =
       // await SharedPreferences.getInstance();
@@ -56,7 +50,6 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-
     var myHealthLogo = Image.asset(
       kMyHealthLogo,
       fit: BoxFit.cover,
@@ -65,7 +58,7 @@ class _RootState extends State<Root> {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: HexColor('#F1F9FF'),
+      backgroundColor: Color(0xffF1F9FF),
       body: Center(
         child: Container(
           height: height,
@@ -80,13 +73,14 @@ class _RootState extends State<Root> {
               SizedBox(),
               Container(
                   child: Center(
-                  child: Container(
-                    height: 420,
-                    child: Image.asset(kMyHealthLogo,
-                      fit: BoxFit.cover,
-                    ),
+                child: Container(
+                  height: 420,
+                  child: Image.asset(
+                    kMyHealthLogo,
+                    fit: BoxFit.cover,
                   ),
-                    )),
+                ),
+              )),
               //  appLogoText,
               SizedBox(),
 

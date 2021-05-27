@@ -182,10 +182,10 @@ class _UserProfileState extends State<UserProfile> {
                 SizedBox(
                   width: 20,
                 ),
-                Icon(
-                  Icons.notifications,
-                  size: 20,
-                ),
+                // Icon(
+                //   Icons.notifications,
+                //   size: 20,
+                // ),
               ],
             ),
           )

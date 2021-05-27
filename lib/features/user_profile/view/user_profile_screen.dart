@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
@@ -80,6 +81,10 @@ class _UserProfileState extends State<UserProfile> {
     // TODO: implement initState
     Future.delayed(Duration.zero, () async {
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+      var userVm = Provider.of<UserDetailsViewModel>(context,listen: false);
+      await userVm.getData();
+      var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
+      familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
     });
     Provider.of<UserDetailsViewModel>(context, listen: false).getData();
     super.initState();
@@ -106,7 +111,21 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
+    var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: true);
+    var userId = vm.userDetailsList.id;
+    var hospitalNumber = vm.userDetailsList.hospitalNumber;
+    var regDate = vm.userDetailsList.regDate;
     var photo = vm2.details?.photo ?? "";
+    var pickBirthDate = DateFormat("yyyy-MM-dd")
+        .parse(vm.userDetailsList.dob)
+        .add(Duration(days: 1));
+    String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
+    var _selectedBlood = vm.userDetailsList.bloodGroup != null
+        ? vm.userDetailsList.bloodGroup
+        : null;
+    var _selectedGender = vm.userDetailsList.gender == "M"
+        ? "Male"
+        : "Female";
     print(photo);
     return Scaffold(
       appBar: AppBar(
@@ -135,6 +154,19 @@ class _UserProfileState extends State<UserProfile> {
                               _image,
                               vm.userDetailsList.hospitalNumber,
                               vm2.details.userId.toString());
+                          await vm2.updateProfile2(
+                              _image,
+                              userId.toString(),
+                              vm.userDetailsList.fname,
+                             vm.userDetailsList.email,
+                              vm.userDetailsList.phoneMobile,
+                              vm.userDetailsList.address,
+                              _formatDate,
+                              _selectedGender,
+                              _selectedBlood,
+                              hospitalNumber,
+                              regDate
+                          );
                           response= vm2.resStatusCode;
                           setState(() {
                             if(response=="200"){
@@ -150,10 +182,10 @@ class _UserProfileState extends State<UserProfile> {
                 SizedBox(
                   width: 20,
                 ),
-                Icon(
-                  Icons.notifications,
-                  size: 20,
-                ),
+                // Icon(
+                //   Icons.notifications,
+                //   size: 20,
+                // ),
               ],
             ),
           )
@@ -171,11 +203,11 @@ class _UserProfileState extends State<UserProfile> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 22.0, left: 22),
+                      padding: const EdgeInsets.only(right: 28.0, left: 22),
                       child: Row(
                         children: [
                           Text(
-                            "Family members",
+                            "Family Members",
                             style: GoogleFonts.roboto(
                                 color: HexColor('#354291'),
                                 fontSize: 16,
@@ -192,10 +224,20 @@ class _UserProfileState extends State<UserProfile> {
                                   ),
                                 );
                               },
-                              child: Text(
-                                "View All",
-                                style: GoogleFonts.roboto(
-                                    color: HexColor('#8592E5'), fontSize: 10),
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(color: AppTheme.appbarPrimary),
+                                ),
+                                height: 20,
+                                width: 60,
+
+                                child: Center(
+                                  child: Text(
+                                    "View All",
+                                    style: GoogleFonts.roboto(
+                                        color: AppTheme.appbarPrimary, fontSize: 10),
+                                  ),
+                                ),
                               )),
                         ],
                       ),
@@ -219,7 +261,7 @@ class _UserProfileState extends State<UserProfile> {
                             borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: 350,
+                          width: MediaQuery.of(context).size.width*.9,
                           height: 40,
                           child: Center(
                             child: Row(
@@ -248,168 +290,227 @@ class _UserProfileState extends State<UserProfile> {
                     SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, left: 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            color: HexColor('#F7F8FF'),
-                            height: 55.0,
-                            width: 102,
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 22,
-                                  backgroundColor:
-                                      HexColor('#354291').withOpacity(0.2),
-                                  child: CircleAvatar(
-                                    radius: 21,
-                                    backgroundColor: Colors.white,
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage('assets/images/f1.png'),
-                                      radius: 20,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Nahid Doe",
-                                        style: GoogleFonts.roboto(
-                                            color: HexColor('#0D1231'),
-                                            fontSize: 10),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Brother",
-                                        style: GoogleFonts.roboto(
-                                            color: HexColor('#B8C2F8'),
-                                            fontSize: 8),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 9,
-                          ),
-                          Container(
-                            color: HexColor('#F7F8FF'),
-                            height: 55.0,
-                            width: 110,
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 22,
-                                  backgroundColor:
-                                      HexColor('#354291').withOpacity(0.2),
-                                  child: CircleAvatar(
-                                    radius: 21,
-                                    backgroundColor: Colors.white,
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage('assets/images/f2.png'),
-                                      radius: 20,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Nahid Doe",
-                                        style: GoogleFonts.roboto(
-                                            color: HexColor('#0D1231'),
-                                            fontSize: 10),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Brother",
-                                        style: GoogleFonts.roboto(
-                                            color: HexColor('#B8C2F8'),
-                                            fontSize: 8),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 9,
-                          ),
-                          Container(
-                            color: HexColor('#F7F8FF'),
-                            height: 55.0,
-                            width: 110,
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 22,
-                                  backgroundColor:
-                                      HexColor('#354291').withOpacity(0.2),
-                                  child: CircleAvatar(
-                                    radius: 21,
-                                    backgroundColor: Colors.white,
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage('assets/images/f3.png'),
-                                      radius: 20,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Nahid Doe",
-                                        style: GoogleFonts.roboto(
-                                            color: HexColor('#0D1231'),
-                                            fontSize: 10),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Brother",
-                                        style: GoogleFonts.roboto(
-                                            color: HexColor('#B8C2F8'),
-                                            fontSize: 8),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    // Expanded(
+                    //   child: ListView.builder(
+                    //       physics: NeverScrollableScrollPhysics(),
+                    //       shrinkWrap: true,
+                    //       scrollDirection: Axis.horizontal,
+                    //       itemCount: 3,
+                    //       itemBuilder: (BuildContext context, int index) {
+                    //         var photo = familyVm.familyMembersList[index]?.photo ?? "";
+                    //         print("photo $photo");
+                    //         return Container(
+                    //           color: HexColor('#F7F8FF'),
+                    //           height: 50.0,
+                    //           width: 102,
+                    //           child: Row(
+                    //             children: [
+                    //               CircleAvatar(
+                    //                 radius: 22,
+                    //                 backgroundColor:
+                    //                     HexColor('#354291').withOpacity(0.2),
+                    //                 child: CircleAvatar(
+                    //                   radius: 21,
+                    //                   backgroundColor: Colors.white,
+                    //                   child: CircleAvatar(
+                    //                     backgroundImage:
+                    //                         AssetImage('assets/images/f1.png'),
+                    //                     radius: 20,
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //               SizedBox(
+                    //                 width: 10,
+                    //               ),
+                    //               Padding(
+                    //                 padding: const EdgeInsets.only(top: 10.0),
+                    //                 child: Column(
+                    //                   crossAxisAlignment:
+                    //                       CrossAxisAlignment.start,
+                    //                   children: [
+                    //                     Text(
+                    //                       familyVm.familyMembersList[index].fmName,
+                    //                       style: GoogleFonts.roboto(
+                    //                           color: HexColor('#0D1231'),
+                    //                           fontSize: 10),
+                    //                     ),
+                    //                     SizedBox(
+                    //                       height: 5,
+                    //                     ),
+                    //                     Text(
+                    //                       familyVm.familyMembersList[index].relationName,
+                    //                       style: GoogleFonts.roboto(
+                    //                           color: HexColor('#B8C2F8'),
+                    //                           fontSize: 8),
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               )
+                    //             ],
+                    //           ),
+                    //         );
+                    //       }),
+                    // ),
+                    Row(
+                      children: [
+
+                        // Container(
+                        //   color: HexColor('#F7F8FF'),
+                        //   height: 55.0,
+                        //   width: 102,
+                        //   child: Row(
+                        //     children: [
+                        //       CircleAvatar(
+                        //         radius: 22,
+                        //         backgroundColor:
+                        //             HexColor('#354291').withOpacity(0.2),
+                        //         child: CircleAvatar(
+                        //           radius: 21,
+                        //           backgroundColor: Colors.white,
+                        //           child: CircleAvatar(
+                        //             backgroundImage:
+                        //                 AssetImage('assets/images/f1.png'),
+                        //             radius: 20,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(top: 10.0),
+                        //         child: Column(
+                        //           crossAxisAlignment:
+                        //               CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Nahid Doe",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#0D1231'),
+                        //                   fontSize: 10),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 5,
+                        //             ),
+                        //             Text(
+                        //               "Brother",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#B8C2F8'),
+                        //                   fontSize: 8),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   width: 9,
+                        // ),
+                        // Container(
+                        //   color: HexColor('#F7F8FF'),
+                        //   height: 55.0,
+                        //   width: 110,
+                        //   child: Row(
+                        //     children: [
+                        //       CircleAvatar(
+                        //         radius: 22,
+                        //         backgroundColor:
+                        //             HexColor('#354291').withOpacity(0.2),
+                        //         child: CircleAvatar(
+                        //           radius: 21,
+                        //           backgroundColor: Colors.white,
+                        //           child: CircleAvatar(
+                        //             backgroundImage:
+                        //                 AssetImage('assets/images/f2.png'),
+                        //             radius: 20,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(top: 10.0),
+                        //         child: Column(
+                        //           crossAxisAlignment:
+                        //               CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Nahid Doe",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#0D1231'),
+                        //                   fontSize: 10),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 5,
+                        //             ),
+                        //             Text(
+                        //               "Brother",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#B8C2F8'),
+                        //                   fontSize: 8),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   width: 9,
+                        // ),
+                        // Container(
+                        //   color: HexColor('#F7F8FF'),
+                        //   height: 55.0,
+                        //   width: 110,
+                        //   child: Row(
+                        //     children: [
+                        //       CircleAvatar(
+                        //         radius: 22,
+                        //         backgroundColor:
+                        //             HexColor('#354291').withOpacity(0.2),
+                        //         child: CircleAvatar(
+                        //           radius: 21,
+                        //           backgroundColor: Colors.white,
+                        //           child: CircleAvatar(
+                        //             backgroundImage:
+                        //                 AssetImage('assets/images/f3.png'),
+                        //             radius: 20,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Padding(
+                        //         padding: const EdgeInsets.only(top: 10.0),
+                        //         child: Column(
+                        //           crossAxisAlignment:
+                        //               CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Nahid Doe",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#0D1231'),
+                        //                   fontSize: 10),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 5,
+                        //             ),
+                        //             Text(
+                        //               "Brother",
+                        //               style: GoogleFonts.roboto(
+                        //                   color: HexColor('#B8C2F8'),
+                        //                   fontSize: 8),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                      ],
                     ),
                     SizedBox(
                       height: 10,
@@ -431,18 +532,30 @@ class _UserProfileState extends State<UserProfile> {
                               _showAlertDialogForEditProfile(context);
                             },
                             child: Container(
-                              width: 55,
+                              width: 60,
                               height: 20,
                               decoration: BoxDecoration(
                                 border: Border.all(color: HexColor('#354291')),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Center(
-                                  child: Text(
-                                "Edit Info",
-                                style: GoogleFonts.roboto(
-                                    color: HexColor('#354291'), fontSize: 8),
-                              )),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(),
+                                     Row(children: [
+                                       Icon(
+                                         Icons.edit, color: AppTheme.appbarPrimary,size: 13,
+                                       ),
+                                       Text(
+                                         "Edit Info",
+                                         style: GoogleFonts.roboto(
+                                             color: HexColor('#354291'), fontSize: 10),
+                                       ),
+                                     ],),
+                                      SizedBox(),
+                                    ],
+                                  )),
                             ),
                           )
                         ],
@@ -458,7 +571,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 22.0, top: 10),
                         child: Text(
-                          "Full name            : ${vm.userDetailsList?.fname ?? ""}",
+                          "Full Name            : ${vm.userDetailsList?.fname ?? ""}",
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'), fontSize: 15),
                         ),
@@ -471,7 +584,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 22.0, top: 10),
                         child: Text(
-                          "Email address    : ${vm.userDetailsList?.email ?? ""}",
+                          "Email Address    : ${vm.userDetailsList?.email ?? ""}",
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'), fontSize: 15),
                         ),
@@ -484,7 +597,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 22.0, top: 10),
                         child: Text(
-                          "Mobile number   : ${vm.userDetailsList?.phoneMobile ?? ""}",
+                          "Mobile Number   : ${vm.userDetailsList?.phoneMobile ?? ""}",
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'), fontSize: 15),
                         ),
@@ -510,7 +623,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 22.0, top: 10),
                         child: Text(
-                          "Date of birth        : ${DateUtil().formattedDate(DateTime.parse(vm.userDetailsList?.dob ?? "").toLocal())}",
+                          "Date of Birth        : ${DateUtil().formattedDate(DateTime.parse(vm.userDetailsList?.dob ?? "").toLocal())}",
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'), fontSize: 15),
                         ),
@@ -661,7 +774,7 @@ class _UserProfileState extends State<UserProfile> {
                                 border:
                                     Border.all(color: AppTheme.appbarPrimary)),
                             child: Icon(
-                              Icons.edit,
+                              Icons.camera_alt, color: AppTheme.appbarPrimary,size: 18,
                             )),
                       ),
                     )

@@ -297,16 +297,16 @@ class _GetAppointmentState extends State<GetAppointment> {
         backgroundColor: HexColor('#354291'),
         title: Text('Appointments',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
-            },
-          )
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.notifications,
+          //     color: Colors.white,
+          //     size: 20,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
+          //   },
+          // )
         ],
       ),
       body:
@@ -366,251 +366,251 @@ class _GetAppointmentState extends State<GetAppointment> {
                                     ),
                                     if (vm.isInSearchMode)searchField,
                                     Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right:15.0),
-                                      child: GestureDetector(
-                                          onTap: (){
-                                            showModalBottomSheet(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.only(
-                                                        topLeft: Radius.circular(25),
-                                                        topRight: Radius.circular(25))),
-                                                context: context,
-                                                isScrollControlled: true,
-                                                builder: (context) {
-
-                                                  return Container(
-                                                    height: 480,
-                                                    child: Column(
-                                                      children: [
-                                                        SizedBox(height: 20,),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            SizedBox(),
-                                                            Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
-                                                            // SizedBox(width: 100,),
-                                                            GestureDetector(onTap: (){
-                                                              Navigator.pop(context);
-                                                            },child: Icon(Icons.close,size: 30,)),
-                                                          ],
-                                                        ),
-                                                        SingleChildScrollView(
-                                                          child:
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:15.0,left: 10),
-                                                                child: Text(
-                                                                  'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
-                                                                ),
-                                                              ),
-                                                              SizedBox(height: 10,),
-                                                              GestureDetector(
-                                                                onTap: (){
-                                                                  selectBirthDate(context);
-                                                                },
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(left: 10.0),
-                                                                  child: Container(
-                                                                    height: 50.0,
-                                                                    width: MediaQuery.of(context).size.width*0.88,
-                                                                    decoration: BoxDecoration(
-                                                                        color: Colors.transparent,
-                                                                        border: Border.all(color: HexColor(color)),
-                                                                        borderRadius: BorderRadius.circular(10)),
-                                                                    child: Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 20.0),
-                                                                          child: Text(
-                                                                              pickBirthDate == DateTime.now()
-                                                                                  ? "Select Date"
-                                                                                  : "From: 22/02/2021",
-                                                                              style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(right: 8.0),
-                                                                          child: Container(
-                                                                            height: 18,
-                                                                            child:
-                                                                            calenderIcon,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(height: 10,),
-                                                              GestureDetector(
-                                                                onTap: (){
-                                                                  selectBirthDate(context);
-                                                                },
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets.only(left: 10.0),
-                                                                  child: Container(
-                                                                    height: 50.0,
-                                                                    width: MediaQuery.of(context).size.width*0.88,
-                                                                    decoration: BoxDecoration(
-                                                                        color: Colors.transparent,
-                                                                        border: Border.all(color: HexColor(color)),
-                                                                        borderRadius: BorderRadius.circular(10)),
-                                                                    child: Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(left: 15.0),
-                                                                          child: Text(
-                                                                              pickBirthDate == DateTime.now()
-                                                                                  ? "Select Date"
-                                                                                  : "To:",
-                                                                              style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(right: 8.0),
-                                                                          child: Container(
-                                                                            height: 18,
-                                                                            child:
-                                                                            calenderIcon,
-                                                                          ),
-                                                                        ),
-
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(top:15.0,left: 10),
-                                                                child: Text(
-                                                                  'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
-                                                                ),
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex:2,
-                                                                    child: CheckboxListTile(
-                                                                      title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                                      value: checkedValue,
-                                                                      onChanged: (newValue) {
-                                                                        setState(() {
-                                                                          checkedValue = newValue;
-                                                                        });
-                                                                      },
-                                                                      controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                                                    ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    flex:2,
-                                                                    child: CheckboxListTile(
-                                                                      title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                                      value: checkedValue,
-                                                                      onChanged: (newValue) {
-                                                                        setState(() {
-                                                                          checkedValue = newValue;
-                                                                        });
-                                                                      },
-                                                                      controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    flex:2,
-                                                                    child: CheckboxListTile(
-                                                                      title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                                      value: checkedValue,
-                                                                      onChanged: (newValue) {
-                                                                        setState(() {
-                                                                          checkedValue = newValue;
-                                                                        });
-                                                                      },
-                                                                      controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                                                    ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    flex:2,
-                                                                    child: CheckboxListTile(
-                                                                      title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                                      value: checkedValue,
-                                                                      onChanged: (newValue) {
-                                                                        setState(() {
-                                                                          checkedValue = newValue;
-                                                                        });
-                                                                      },
-                                                                      controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                                                    ),
-                                                                  ),
-
-                                                                ],
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width: width * .9,
-                                                                      height: width * .25,
-                                                                      child: FlatButton(
-                                                                        onPressed: () {
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                        textColor:  AppTheme.appbarPrimary,
-                                                                        color: HexColor("#FFFFFF"),
-                                                                        shape: RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                            BorderRadius.circular(8),
-                                                                            side: BorderSide(
-                                                                                color: AppTheme
-                                                                                    .appbarPrimary,
-                                                                                width: 1)),
-                                                                        child: Text(
-                                                                          "Clear Filter",
-                                                                          style: GoogleFonts.poppins(),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: width * .9,
-                                                                      height: width * .25,
-                                                                      child: FlatButton(
-                                                                        textColor: Colors.white,
-                                                                        onPressed: () {},
-                                                                        color:  AppTheme.appbarPrimary,
-                                                                        shape: RoundedRectangleBorder(
-                                                                          borderRadius:
-                                                                          BorderRadius.circular(8),
-                                                                        ),
-                                                                        child: Text(
-                                                                          "Apply Filter",
-                                                                          style: GoogleFonts.poppins(),
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )
-                                                          ,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-                                                });
-                                          },
-                                          child: filtericon),
-                                    )
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(right:15.0),
+                                    //   child: GestureDetector(
+                                    //       onTap: (){
+                                    //         showModalBottomSheet(
+                                    //             shape: RoundedRectangleBorder(
+                                    //                 borderRadius: BorderRadius.only(
+                                    //                     topLeft: Radius.circular(25),
+                                    //                     topRight: Radius.circular(25))),
+                                    //             context: context,
+                                    //             isScrollControlled: true,
+                                    //             builder: (context) {
+                                    //
+                                    //               return Container(
+                                    //                 height: 480,
+                                    //                 child: Column(
+                                    //                   children: [
+                                    //                     SizedBox(height: 20,),
+                                    //                     Row(
+                                    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                       children: [
+                                    //                         SizedBox(),
+                                    //                         Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
+                                    //                         // SizedBox(width: 100,),
+                                    //                         GestureDetector(onTap: (){
+                                    //                           Navigator.pop(context);
+                                    //                         },child: Icon(Icons.close,size: 30,)),
+                                    //                       ],
+                                    //                     ),
+                                    //                     SingleChildScrollView(
+                                    //                       child:
+                                    //                       Column(
+                                    //                         crossAxisAlignment: CrossAxisAlignment.start,
+                                    //                         children: [
+                                    //                           Padding(
+                                    //                             padding: const EdgeInsets.only(top:15.0,left: 10),
+                                    //                             child: Text(
+                                    //                               'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
+                                    //                             ),
+                                    //                           ),
+                                    //                           SizedBox(height: 10,),
+                                    //                           GestureDetector(
+                                    //                             onTap: (){
+                                    //                               selectBirthDate(context);
+                                    //                             },
+                                    //                             child: Padding(
+                                    //                               padding: const EdgeInsets.only(left: 10.0),
+                                    //                               child: Container(
+                                    //                                 height: 50.0,
+                                    //                                 width: MediaQuery.of(context).size.width*0.88,
+                                    //                                 decoration: BoxDecoration(
+                                    //                                     color: Colors.transparent,
+                                    //                                     border: Border.all(color: HexColor(color)),
+                                    //                                     borderRadius: BorderRadius.circular(10)),
+                                    //                                 child: Row(
+                                    //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                                   children: [
+                                    //                                     Padding(
+                                    //                                       padding: const EdgeInsets.only(left: 20.0),
+                                    //                                       child: Text(
+                                    //                                           pickBirthDate == DateTime.now()
+                                    //                                               ? "Select Date"
+                                    //                                               : "From: 22/02/2021",
+                                    //                                           style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                     Padding(
+                                    //                                       padding: const EdgeInsets.only(right: 8.0),
+                                    //                                       child: Container(
+                                    //                                         height: 18,
+                                    //                                         child:
+                                    //                                         calenderIcon,
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                   ],
+                                    //                                 ),
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                           SizedBox(height: 10,),
+                                    //                           GestureDetector(
+                                    //                             onTap: (){
+                                    //                               selectBirthDate(context);
+                                    //                             },
+                                    //                             child: Padding(
+                                    //                               padding: const EdgeInsets.only(left: 10.0),
+                                    //                               child: Container(
+                                    //                                 height: 50.0,
+                                    //                                 width: MediaQuery.of(context).size.width*0.88,
+                                    //                                 decoration: BoxDecoration(
+                                    //                                     color: Colors.transparent,
+                                    //                                     border: Border.all(color: HexColor(color)),
+                                    //                                     borderRadius: BorderRadius.circular(10)),
+                                    //                                 child: Row(
+                                    //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                                   children: [
+                                    //                                     Padding(
+                                    //                                       padding: const EdgeInsets.only(left: 15.0),
+                                    //                                       child: Text(
+                                    //                                           pickBirthDate == DateTime.now()
+                                    //                                               ? "Select Date"
+                                    //                                               : "To:",
+                                    //                                           style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                     Padding(
+                                    //                                       padding: const EdgeInsets.only(right: 8.0),
+                                    //                                       child: Container(
+                                    //                                         height: 18,
+                                    //                                         child:
+                                    //                                         calenderIcon,
+                                    //                                       ),
+                                    //                                     ),
+                                    //
+                                    //                                   ],
+                                    //                                 ),
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                           Padding(
+                                    //                             padding: const EdgeInsets.only(top:15.0,left: 10),
+                                    //                             child: Text(
+                                    //                               'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
+                                    //                             ),
+                                    //                           ),
+                                    //                           Row(
+                                    //                             children: [
+                                    //                               Expanded(
+                                    //                                 flex:2,
+                                    //                                 child: CheckboxListTile(
+                                    //                                   title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                   value: checkedValue,
+                                    //                                   onChanged: (newValue) {
+                                    //                                     setState(() {
+                                    //                                       checkedValue = newValue;
+                                    //                                     });
+                                    //                                   },
+                                    //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                                 ),
+                                    //                               ),
+                                    //                               Expanded(
+                                    //                                 flex:2,
+                                    //                                 child: CheckboxListTile(
+                                    //                                   title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                   value: checkedValue,
+                                    //                                   onChanged: (newValue) {
+                                    //                                     setState(() {
+                                    //                                       checkedValue = newValue;
+                                    //                                     });
+                                    //                                   },
+                                    //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                                 ),
+                                    //                               ),
+                                    //                             ],
+                                    //                           ),
+                                    //                           Row(
+                                    //                             children: [
+                                    //                               Expanded(
+                                    //                                 flex:2,
+                                    //                                 child: CheckboxListTile(
+                                    //                                   title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                   value: checkedValue,
+                                    //                                   onChanged: (newValue) {
+                                    //                                     setState(() {
+                                    //                                       checkedValue = newValue;
+                                    //                                     });
+                                    //                                   },
+                                    //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                                 ),
+                                    //                               ),
+                                    //                               Expanded(
+                                    //                                 flex:2,
+                                    //                                 child: CheckboxListTile(
+                                    //                                   title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                   value: checkedValue,
+                                    //                                   onChanged: (newValue) {
+                                    //                                     setState(() {
+                                    //                                       checkedValue = newValue;
+                                    //                                     });
+                                    //                                   },
+                                    //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                                 ),
+                                    //                               ),
+                                    //
+                                    //                             ],
+                                    //                           ),
+                                    //                           Padding(
+                                    //                             padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
+                                    //                             child: Row(
+                                    //                               mainAxisAlignment:
+                                    //                               MainAxisAlignment.spaceBetween,
+                                    //                               children: [
+                                    //                                 SizedBox(
+                                    //                                   width: width * .9,
+                                    //                                   height: width * .25,
+                                    //                                   child: FlatButton(
+                                    //                                     onPressed: () {
+                                    //                                       Navigator.pop(context);
+                                    //                                     },
+                                    //                                     textColor:  AppTheme.appbarPrimary,
+                                    //                                     color: HexColor("#FFFFFF"),
+                                    //                                     shape: RoundedRectangleBorder(
+                                    //                                         borderRadius:
+                                    //                                         BorderRadius.circular(8),
+                                    //                                         side: BorderSide(
+                                    //                                             color: AppTheme
+                                    //                                                 .appbarPrimary,
+                                    //                                             width: 1)),
+                                    //                                     child: Text(
+                                    //                                       "Clear Filter",
+                                    //                                       style: GoogleFonts.poppins(),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                                 SizedBox(
+                                    //                                   width: width * .9,
+                                    //                                   height: width * .25,
+                                    //                                   child: FlatButton(
+                                    //                                     textColor: Colors.white,
+                                    //                                     onPressed: () {},
+                                    //                                     color:  AppTheme.appbarPrimary,
+                                    //                                     shape: RoundedRectangleBorder(
+                                    //                                       borderRadius:
+                                    //                                       BorderRadius.circular(8),
+                                    //                                     ),
+                                    //                                     child: Text(
+                                    //                                       "Apply Filter",
+                                    //                                       style: GoogleFonts.poppins(),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 )
+                                    //                               ],
+                                    //                             ),
+                                    //                           ),
+                                    //                         ],
+                                    //                       )
+                                    //                       ,
+                                    //                     )
+                                    //                   ],
+                                    //                 ),
+                                    //               );
+                                    //             });
+                                    //       },
+                                    //       child: filtericon),
+                                    // )
                                   ],
                                 ),
                               ),
@@ -836,251 +836,251 @@ class _GetAppointmentState extends State<GetAppointment> {
                                     ),
                                     if (vm2.isInSearchMode)searchField2,
                                     Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right:15.0),
-                                      child: GestureDetector(
-                                          onTap: (){
-                                            showModalBottomSheet(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.only(
-                                                        topLeft: Radius.circular(25),
-                                                        topRight: Radius.circular(25))),
-                                                context: context,
-                                                isScrollControlled: true,
-                                                builder: (context) {
-
-                                                  return Container(
-                                                    height: 480,
-                                                    child: Column(
-                                                      children: [
-                                                        SizedBox(height: 20,),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            SizedBox(),
-                                                            Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
-                                                           // SizedBox(width: 100,),
-                                                            GestureDetector(onTap: (){
-                                                              Navigator.pop(context);
-                                                            },child: Icon(Icons.close,size: 30,)),
-                                                          ],
-                                                        ),
-                                                      SingleChildScrollView(
-                                                        child:
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top:15.0,left: 10),
-                                                              child: Text(
-                                                                'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
-                                                              ),
-                                                            ),
-                                                            SizedBox(height: 10,),
-                                                            GestureDetector(
-                                                              onTap: (){
-                                                                selectBirthDate(context);
-                                                              },
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(left: 10.0),
-                                                                child: Container(
-                                                                  height: 50.0,
-                                                                  width: MediaQuery.of(context).size.width*0.88,
-                                                                  decoration: BoxDecoration(
-                                                                      color: Colors.transparent,
-                                                                      border: Border.all(color: HexColor(color)),
-                                                                      borderRadius: BorderRadius.circular(10)),
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(left: 20.0),
-                                                                        child: Text(
-                                                                          pickBirthDate == DateTime.now()
-                                                                              ? "Select Date"
-                                                                              : "From: 22/02/2021",
-                                                                          style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(right: 8.0),
-                                                                        child: Container(
-                                                                            height: 18,
-                                                                            child:
-                                                                            calenderIcon,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(height: 10,),
-                                                            GestureDetector(
-                                                              onTap: (){
-                                                                selectBirthDate(context);
-                                                              },
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(left: 10.0),
-                                                                child: Container(
-                                                                  height: 50.0,
-                                                                  width: MediaQuery.of(context).size.width*0.88,
-                                                                  decoration: BoxDecoration(
-                                                                      color: Colors.transparent,
-                                                                      border: Border.all(color: HexColor(color)),
-                                                                      borderRadius: BorderRadius.circular(10)),
-                                                                  child: Row(
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(left: 15.0),
-                                                                        child: Text(
-                                                                          pickBirthDate == DateTime.now()
-                                                                              ? "Select Date"
-                                                                              : "To:",
-                                                                            style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.only(right: 8.0),
-                                                                        child: Container(
-                                                                            height: 18,
-                                                                            child:
-                                                                            calenderIcon,
-                                                                        ),
-                                                                      ),
-
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(top:15.0,left: 10),
-                                                              child: Text(
-                                                                  'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
-                                                              ),
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Expanded(
-                                                                  flex:2,
-                                                                  child: CheckboxListTile(
-                                                                    title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                                    value: checkedValue,
-                                                                    onChanged: (newValue) {
-                                                                      setState(() {
-                                                                        checkedValue = newValue;
-                                                                      });
-                                                                    },
-                                                                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                                                  ),
-                                                                ),
-                                                                Expanded(
-                                                                  flex:2,
-                                                                  child: CheckboxListTile(
-                                                                    title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                                    value: checkedValue,
-                                                                    onChanged: (newValue) {
-                                                                      setState(() {
-                                                                        checkedValue = newValue;
-                                                                      });
-                                                                    },
-                                                                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              children: [
-                                                                Expanded(
-                                                                  flex:2,
-                                                                  child: CheckboxListTile(
-                                                                    title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                                    value: checkedValue,
-                                                                    onChanged: (newValue) {
-                                                                      setState(() {
-                                                                        checkedValue = newValue;
-                                                                      });
-                                                                    },
-                                                                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                                                  ),
-                                                                ),
-                                                                Expanded(
-                                                                  flex:2,
-                                                                  child: CheckboxListTile(
-                                                                    title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                                                    value: checkedValue,
-                                                                    onChanged: (newValue) {
-                                                                      setState(() {
-                                                                        checkedValue = newValue;
-                                                                      });
-                                                                    },
-                                                                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                                                  ),
-                                                                ),
-
-                                                              ],
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment.spaceBetween,
-                                                                children: [
-                                                                  SizedBox(
-                                                                    width: width * .9,
-                                                                    height: width * .25,
-                                                                    child: FlatButton(
-                                                                      onPressed: () {
-                                                                        Navigator.pop(context);
-                                                                      },
-                                                                      textColor:  AppTheme.appbarPrimary,
-                                                                      color: HexColor("#FFFFFF"),
-                                                                      shape: RoundedRectangleBorder(
-                                                                          borderRadius:
-                                                                          BorderRadius.circular(8),
-                                                                          side: BorderSide(
-                                                                              color: AppTheme
-                                                                                  .appbarPrimary,
-                                                                              width: 1)),
-                                                                      child: Text(
-                                                                        "Clear Filter",
-                                                                        style: GoogleFonts.poppins(),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: width * .9,
-                                                                    height: width * .25,
-                                                                    child: FlatButton(
-                                                                      textColor: Colors.white,
-                                                                      onPressed: () {},
-                                                                      color:  AppTheme.appbarPrimary,
-                                                                      shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                        BorderRadius.circular(8),
-                                                                      ),
-                                                                      child: Text(
-                                                                        "Apply Filter",
-                                                                        style: GoogleFonts.poppins(),
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
-                                                        ,
-                                                      )
-                                                      ],
-                                                    ),
-                                                  );
-                                                });
-                                          },
-                                          child: filtericon),
-                                    )
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(right:15.0),
+                                    //   child: GestureDetector(
+                                    //       onTap: (){
+                                    //         showModalBottomSheet(
+                                    //             shape: RoundedRectangleBorder(
+                                    //                 borderRadius: BorderRadius.only(
+                                    //                     topLeft: Radius.circular(25),
+                                    //                     topRight: Radius.circular(25))),
+                                    //             context: context,
+                                    //             isScrollControlled: true,
+                                    //             builder: (context) {
+                                    //
+                                    //               return Container(
+                                    //                 height: 480,
+                                    //                 child: Column(
+                                    //                   children: [
+                                    //                     SizedBox(height: 20,),
+                                    //                     Row(
+                                    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                       children: [
+                                    //                         SizedBox(),
+                                    //                         Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
+                                    //                        // SizedBox(width: 100,),
+                                    //                         GestureDetector(onTap: (){
+                                    //                           Navigator.pop(context);
+                                    //                         },child: Icon(Icons.close,size: 30,)),
+                                    //                       ],
+                                    //                     ),
+                                    //                   SingleChildScrollView(
+                                    //                     child:
+                                    //                     Column(
+                                    //                       crossAxisAlignment: CrossAxisAlignment.start,
+                                    //                       children: [
+                                    //                         Padding(
+                                    //                           padding: const EdgeInsets.only(top:15.0,left: 10),
+                                    //                           child: Text(
+                                    //                             'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
+                                    //                           ),
+                                    //                         ),
+                                    //                         SizedBox(height: 10,),
+                                    //                         GestureDetector(
+                                    //                           onTap: (){
+                                    //                             selectBirthDate(context);
+                                    //                           },
+                                    //                           child: Padding(
+                                    //                             padding: const EdgeInsets.only(left: 10.0),
+                                    //                             child: Container(
+                                    //                               height: 50.0,
+                                    //                               width: MediaQuery.of(context).size.width*0.88,
+                                    //                               decoration: BoxDecoration(
+                                    //                                   color: Colors.transparent,
+                                    //                                   border: Border.all(color: HexColor(color)),
+                                    //                                   borderRadius: BorderRadius.circular(10)),
+                                    //                               child: Row(
+                                    //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                                 children: [
+                                    //                                   Padding(
+                                    //                                     padding: const EdgeInsets.only(left: 20.0),
+                                    //                                     child: Text(
+                                    //                                       pickBirthDate == DateTime.now()
+                                    //                                           ? "Select Date"
+                                    //                                           : "From: 22/02/2021",
+                                    //                                       style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                   Padding(
+                                    //                                     padding: const EdgeInsets.only(right: 8.0),
+                                    //                                     child: Container(
+                                    //                                         height: 18,
+                                    //                                         child:
+                                    //                                         calenderIcon,
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 ],
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                         ),
+                                    //                         SizedBox(height: 10,),
+                                    //                         GestureDetector(
+                                    //                           onTap: (){
+                                    //                             selectBirthDate(context);
+                                    //                           },
+                                    //                           child: Padding(
+                                    //                             padding: const EdgeInsets.only(left: 10.0),
+                                    //                             child: Container(
+                                    //                               height: 50.0,
+                                    //                               width: MediaQuery.of(context).size.width*0.88,
+                                    //                               decoration: BoxDecoration(
+                                    //                                   color: Colors.transparent,
+                                    //                                   border: Border.all(color: HexColor(color)),
+                                    //                                   borderRadius: BorderRadius.circular(10)),
+                                    //                               child: Row(
+                                    //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                                 children: [
+                                    //                                   Padding(
+                                    //                                     padding: const EdgeInsets.only(left: 15.0),
+                                    //                                     child: Text(
+                                    //                                       pickBirthDate == DateTime.now()
+                                    //                                           ? "Select Date"
+                                    //                                           : "To:",
+                                    //                                         style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                   Padding(
+                                    //                                     padding: const EdgeInsets.only(right: 8.0),
+                                    //                                     child: Container(
+                                    //                                         height: 18,
+                                    //                                         child:
+                                    //                                         calenderIcon,
+                                    //                                     ),
+                                    //                                   ),
+                                    //
+                                    //                                 ],
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                         ),
+                                    //                         Padding(
+                                    //                           padding: const EdgeInsets.only(top:15.0,left: 10),
+                                    //                           child: Text(
+                                    //                               'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
+                                    //                           ),
+                                    //                         ),
+                                    //                         Row(
+                                    //                           children: [
+                                    //                             Expanded(
+                                    //                               flex:2,
+                                    //                               child: CheckboxListTile(
+                                    //                                 title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                 value: checkedValue,
+                                    //                                 onChanged: (newValue) {
+                                    //                                   setState(() {
+                                    //                                     checkedValue = newValue;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                               ),
+                                    //                             ),
+                                    //                             Expanded(
+                                    //                               flex:2,
+                                    //                               child: CheckboxListTile(
+                                    //                                 title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                 value: checkedValue,
+                                    //                                 onChanged: (newValue) {
+                                    //                                   setState(() {
+                                    //                                     checkedValue = newValue;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                               ),
+                                    //                             ),
+                                    //                           ],
+                                    //                         ),
+                                    //                         Row(
+                                    //                           children: [
+                                    //                             Expanded(
+                                    //                               flex:2,
+                                    //                               child: CheckboxListTile(
+                                    //                                 title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                 value: checkedValue,
+                                    //                                 onChanged: (newValue) {
+                                    //                                   setState(() {
+                                    //                                     checkedValue = newValue;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                               ),
+                                    //                             ),
+                                    //                             Expanded(
+                                    //                               flex:2,
+                                    //                               child: CheckboxListTile(
+                                    //                                 title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                 value: checkedValue,
+                                    //                                 onChanged: (newValue) {
+                                    //                                   setState(() {
+                                    //                                     checkedValue = newValue;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                               ),
+                                    //                             ),
+                                    //
+                                    //                           ],
+                                    //                         ),
+                                    //                         Padding(
+                                    //                           padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
+                                    //                           child: Row(
+                                    //                             mainAxisAlignment:
+                                    //                             MainAxisAlignment.spaceBetween,
+                                    //                             children: [
+                                    //                               SizedBox(
+                                    //                                 width: width * .9,
+                                    //                                 height: width * .25,
+                                    //                                 child: FlatButton(
+                                    //                                   onPressed: () {
+                                    //                                     Navigator.pop(context);
+                                    //                                   },
+                                    //                                   textColor:  AppTheme.appbarPrimary,
+                                    //                                   color: HexColor("#FFFFFF"),
+                                    //                                   shape: RoundedRectangleBorder(
+                                    //                                       borderRadius:
+                                    //                                       BorderRadius.circular(8),
+                                    //                                       side: BorderSide(
+                                    //                                           color: AppTheme
+                                    //                                               .appbarPrimary,
+                                    //                                           width: 1)),
+                                    //                                   child: Text(
+                                    //                                     "Clear Filter",
+                                    //                                     style: GoogleFonts.poppins(),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                               ),
+                                    //                               SizedBox(
+                                    //                                 width: width * .9,
+                                    //                                 height: width * .25,
+                                    //                                 child: FlatButton(
+                                    //                                   textColor: Colors.white,
+                                    //                                   onPressed: () {},
+                                    //                                   color:  AppTheme.appbarPrimary,
+                                    //                                   shape: RoundedRectangleBorder(
+                                    //                                     borderRadius:
+                                    //                                     BorderRadius.circular(8),
+                                    //                                   ),
+                                    //                                   child: Text(
+                                    //                                     "Apply Filter",
+                                    //                                     style: GoogleFonts.poppins(),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                               )
+                                    //                             ],
+                                    //                           ),
+                                    //                         ),
+                                    //                       ],
+                                    //                     )
+                                    //                     ,
+                                    //                   )
+                                    //                   ],
+                                    //                 ),
+                                    //               );
+                                    //             });
+                                    //       },
+                                    //       child: filtericon),
+                                    // )
                                   ],
                                 ),
                               ),

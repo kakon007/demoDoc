@@ -86,6 +86,7 @@ class SignInRequired extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
@@ -112,7 +113,7 @@ class SignInRequired extends StatelessWidget {
                                     },
                                     pageBuilder: (context, animation,
                                         secondaryAnimation) =>
-                                        SignIn(),
+                                        SignIn(isBook: true),
                                   ));
                             },
                             child: Material(

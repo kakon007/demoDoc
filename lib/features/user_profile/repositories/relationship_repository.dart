@@ -3,33 +3,34 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/features/user_profile/models/relationship_model.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
+import 'package:provider/provider.dart';
 
 
 
-class UserDetailsRepository{
-  Future<Either<AppError,UserM>> fetchUserDetails(String accessToken) async {
+class RelationshipRepository{
+  Future<Either<AppError,RelationshipModel>> fetchRelationship(String accessToken) async {
     var url =
-        "${Urls.buildUrl}diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
-    // List<Item> dataList = new List<Item>();
-
+        "${Urls.buildUrl}diagnostic-api/api/relations/list";
     try{
       var client = http.Client();
-      var response = await client.post(url,headers: {'Authorization': 'Bearer $accessToken',});
+      var response = await client.get(url,headers: {'Authorization': 'Bearer $accessToken',});
       if (response.statusCode == 200) {
-        UserDetailsModel data2 = userDetailsModelFromJson(response.body) ;
-        print('User Details Data:: '+data2.obj.fname);
+        RelationshipModel data = relationshipModelFromJson(response.body) ;
         print("shakil" + response.body);
         return Right(
-            UserM(
-              dataList: data2.obj,
-            )
+          RelationshipModel(
+            items: data.items
+          )
 
         );
       }else {
@@ -37,19 +38,13 @@ class UserDetailsRepository{
         return Left(AppError.serverError);
       }
     }on SocketException catch (e){
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     }catch (e) {
-      //logger.e(e);
+
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
 
   }
-}
-
-class UserM{
-  Obj dataList = new Obj();
-  UserM({this.dataList});
 }

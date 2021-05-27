@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/sign_required_propmt.dart';
@@ -126,6 +127,7 @@ class _AddPatientState extends State<AddPatient> {
     var vm2 = Provider.of<BookAppointmentViewModel>(context, listen: false);
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
     var vm3 = Provider.of<UserDetailsViewModel>(context);
+    var vm4 = Provider.of<AppointmentUpcomingViewModel>(context,listen: true);
     var height = MediaQuery.of(context).size.height;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,

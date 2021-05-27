@@ -350,8 +350,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           }
         },
         currentIndex: currentIndex,
-        selectedItemColor: HexColor('#8592E5'),
-        unselectedItemColor: Colors.grey[800],
+        selectedItemColor: HexColor('#354291'),
+        unselectedItemColor: HexColor('#969EC8'),
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         unselectedLabelStyle: TextStyle(
           fontWeight: FontWeight.w600,

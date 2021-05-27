@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="57" height="57.001" viewBox="0 0 57 57.001">
+  <g id="upload_icon" data-name="upload icon" transform="translate(0.5 0.5)">
+    <path id="Path_704" data-name="Path 704" d="M51.333,18.333v9.333A2.333,2.333,0,0,1,49,30H7a2.333,2.333,0,0,1-2.333-2.333V18.333A2.333,2.333,0,0,0,2.333,16h0A2.333,2.333,0,0,0,0,18.333v9.333a7,7,0,0,0,7,7H49a7,7,0,0,0,7-7V18.333A2.333,2.333,0,0,0,53.667,16h0A2.333,2.333,0,0,0,51.333,18.333Z" transform="translate(0 21.334)" fill="#fff" stroke="#fff" stroke-width="1"/>
+    <path id="Path_705" data-name="Path 705" d="M36.983,12.745l-10.7-10.7a7.016,7.016,0,0,0-9.9,0l-10.7,10.7a2.333,2.333,0,1,0,3.3,3.3L19,6.03V42a2.333,2.333,0,1,0,4.667,0V6.028L33.684,16.045a2.333,2.333,0,1,0,3.3-3.3Z" transform="translate(6.667 0)" fill="#fff" stroke="#fff" stroke-width="1"/>
+  </g>
+</svg>

@@ -71,7 +71,7 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
                 SizedBox(height: 10,),
                 appoinIcon,
                 SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10,),
-                Text('Want to manage your Prescriptions, Reports and \n Documents from anywhere?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize:MediaQuery.of(context).size.height<=600 ? 13 : 16,fontWeight: FontWeight.w500),),
+                Text('Want to access your Prescriptions?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize:MediaQuery.of(context).size.height<=600 ? 13 : 16,fontWeight: FontWeight.w500),),
                 SizedBox(height:MediaQuery.of(context).size.height>600 ? 20 :10,),
                 GestureDetector(
                   onTap: (){

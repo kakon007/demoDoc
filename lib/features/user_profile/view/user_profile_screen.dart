@@ -611,7 +611,7 @@ class _UserProfileState extends State<UserProfile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "CLICK HERE TO CHANGE",
+                                  "Change Password",
                                   style: GoogleFonts.roboto(
                                       color: Colors.white,
                                       fontSize: 15,

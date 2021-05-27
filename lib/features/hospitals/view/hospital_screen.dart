@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 
@@ -152,11 +153,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               searchField,
-              vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Center(child: Center(
-                child: CircularProgressIndicator(  valueColor:
-                AlwaysStoppedAnimation<Color>(
-                    AppTheme.appbarPrimary),),
-              )):  Expanded(
+              vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Loader():  Expanded(
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: hospitalItems.length,

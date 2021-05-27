@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -56,12 +57,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+
 
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
   String accessToken;
   final Function onTapFeaturedCompany;
+
 
   DashboardScreen(
       {this.menuCallBack,
@@ -82,7 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
-
+  //CountdownTimerController controller;
   double xOffset = 0.0;
   double yOffset = 0.0;
   double scaleFactor = 1;
@@ -95,6 +100,19 @@ class _DashboardScreenState extends State<DashboardScreen>
   loadImage(String image) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
     return _bytesImage;
+  }
+
+  var lasTtimerr;
+
+  lastTme() async{
+
+    SharedPreferences lastTimer=await SharedPreferences.getInstance();
+
+    if(lastTimer.containsKey('lastBookingTime')){
+      lasTtimerr=lastTimer.getInt('lastBookingTime');
+      print('lasttttt'+lasTtimerr.toString());
+    }
+
   }
 
   @override
@@ -121,6 +139,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     vm7.getData();
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
+    lastTme();
+   // controller = CountdownTimerController(endTime: lasTtimerr!=null?lasTtimerr:DateTime.now().millisecondsSinceEpoch);
 
     super.initState();
   }
@@ -129,6 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   // void dispose() {
   //   // TODO: implement dispose
   //   //fetchHospitalList();
+  //   controller.dispose();
   //   super.dispose();
   // }
 
@@ -164,6 +185,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm6 = Provider.of<HospitalImageViewModel>(context);
     var vm7 = Provider.of<NewsLogoViewModel>(context);
     var vm8 = Provider.of<BLogLogoViewModel>(context);
+
 
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
@@ -405,9 +427,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     //       ),
                     //     ]),
 
-                    initialChildSize: 0.80,
+                    initialChildSize: 0.83,
                     maxChildSize: 1.0,
-                    minChildSize: 0.80,
+                    minChildSize: 0.83,
                     builder: (BuildContext context,
                         ScrollController scrollController) {
                       return Column(
@@ -498,7 +520,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  " Type hospital / Diagnosis / Doctor Chamber",
+                                                  StringResources.searchBoxHint,
                                                   style: TextStyle(
                                                     color: Colors.grey[400],
                                                     fontSize: deviceWidth >= 400
@@ -506,10 +528,13 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                         : 14,
                                                   ),
                                                 ),
-                                                SizedBox(width: 10),
-                                                Icon(
-                                                  Icons.search_sharp,
-                                                  color: Colors.grey[400],
+                                                Spacer(),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right:12.0),
+                                                  child: Icon(
+                                                    Icons.search_sharp,
+                                                    color: Colors.grey[400],
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -517,16 +542,19 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    vm9.accessToken == null
-                                        ? Container()
-                                        : CustomCardPat(
-                                            "You have an upcoming appointment",
-                                            "22-02-2021 Monday 08:30pm \nSerial-12",
-                                            "Dr. Jahid Hasan",
-                                            "Alok hospital"),
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    // vm9.accessToken == null || lasTtimerr==null
+                                    //     ? Container()
+                                    //     : CustomCardPat(
+                                    //         "You have an upcoming appointment",
+                                    //         "22-02-2021 Monday 08:30pm \nSerial-12",
+                                    //         "Dr. Jahid Hasan",
+                                    //         "Alok hospital",
+                                    //     lasTtimerr,
+                                    //   //controller
+                                    // ),
                                     SizedBox(
                                       height: 10,
                                     ),
@@ -568,14 +596,35 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     vm.shouldShowPageLoader ||
                                             vm5.shouldShowPageLoader ||
                                             vm6.shouldShowPageLoaderForImage
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      AppTheme.appbarPrimary),
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 18.0,
                                             ),
-                                          )
-                                        : SingleChildScrollView(
+                                            child: Container(
+                                              width: 1510,
+                                              height:  120.0,
+                                              child: Shimmer.fromColors(
+                                                baseColor: Colors.grey[300],
+                                                highlightColor: Colors.white,
+                                                child: Row(
+                                                    children: List.generate(
+                                                        5,
+                                                            (index) => Expanded(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Material(
+                                                              color: Colors.grey,
+                                                              borderRadius: BorderRadius.circular(5),
+                                                              child: Center(),
+                                                            ),
+                                                          ),
+                                                        ))),
+                                              ),
+                                            ),
+                                          ),
+                                        ) : SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Padding(
                                               padding: const EdgeInsets.only(
@@ -691,13 +740,35 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     // ):
                                     vm2.shouldShowPageLoader ||
                                             vm7.shouldShowPageLoader
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      AppTheme.appbarPrimary),
-                                            ),
-                                          )
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Container(
+                                          width: 1510,
+                                          height:  120.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.white,
+                                            child: Row(
+                                                children: List.generate(
+                                                    5,
+                                                        (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ),
+                                        ),
+                                      ),
+                                    )
                                         : vm2.shouldShowNoNewsFound
                                             ? Center(
                                                 child: Padding(
@@ -794,14 +865,35 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     ),
                                     vm4.shouldShowPageLoader ||
                                             vm8.shouldShowPageLoader
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      AppTheme.appbarPrimary),
-                                            ),
-                                          )
-                                        : Padding(
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Container(
+                                          width: 1510,
+                                          height:  120.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.white,
+                                            child: Row(
+                                                children: List.generate(
+                                                    5,
+                                                        (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ),
+                                        ),
+                                      ),
+                                    ) : Padding(
                                             padding: const EdgeInsets.only(
                                               left: 18.0,
                                             ),
@@ -875,14 +967,35 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       height: 10,
                                     ),
                                     vm3.shouldShowPageLoader
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      AppTheme.appbarPrimary),
-                                            ),
-                                          )
-                                        : Padding(
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Container(
+                                          width: 1510,
+                                          height:  120.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.white,
+                                            child: Row(
+                                                children: List.generate(
+                                                    5,
+                                                        (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ),
+                                        ),
+                                      ),
+                                    ) : Padding(
                                             padding: const EdgeInsets.only(
                                               left: 18.0,
                                             ),

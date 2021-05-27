@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
-
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 class CustomCardPat extends StatelessWidget {
   String titleText;
   String subTitleText;
   String countText;
    String name;
-  CustomCardPat(@required this.titleText,@required this.subTitleText,@required this.countText,@required this.name);
+   int lastTime;
+  //CountdownTimerController controller;
+  CustomCardPat(@required this.titleText,@required this.subTitleText,@required this.countText,@required this.name,this.lastTime);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,20 +33,26 @@ class CustomCardPat extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child:Stack(
-                  children:[ Container(
-                      child: Image.asset("assets/images/clocknew.png"),
-                  ),
-                    Padding(
-                      padding: const EdgeInsets.only(top:35.0,left: 14,bottom:20),
-                      child: Column(
-                        children: [
-                          Text("20:10:33",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                          Text("Hours Left",style: TextStyle(fontSize: 10),)
-                        ],
-                      ),
-                    )
-                  ]
+                child:
+                // Stack(
+                //   children:[ Container(
+                //       child: Image.asset("assets/images/clocknew.png"),
+                //   ),
+                //     Padding(
+                //       padding: const EdgeInsets.only(top:35.0,left: 14,bottom:20),
+                //       child: Column(
+                //         children: [
+                //           Text("20:10:33",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                //           Text("Hours Left",style: TextStyle(fontSize: 10),)
+                //         ],
+                //       ),
+                //     )
+                //   ]
+                // ),
+
+                CountdownTimer(
+                  //controller: controller,
+                  endTime: lastTime!=null?lastTime:DateTime.now().millisecondsSinceEpoch,
                 ),
               ),
               Flexible(

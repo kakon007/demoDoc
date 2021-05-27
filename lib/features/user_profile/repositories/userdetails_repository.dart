@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -9,47 +8,42 @@ import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.da
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
-
-
-class UserDetailsRepository{
-  Future<Either<AppError,UserM>> fetchUserDetails(String accessToken) async {
+class UserDetailsRepository {
+  Future<Either<AppError, UserM>> fetchUserDetails(String accessToken) async {
     var url =
-        "${Urls.buildUrl}diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
+        "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
     // List<Item> dataList = new List<Item>();
 
-    try{
+    try {
       var client = http.Client();
-      var response = await client.post(url,headers: {'Authorization': 'Bearer $accessToken',});
+      var response = await client.post(Uri.parse(url), headers: {
+        'Authorization': 'Bearer $accessToken',
+      });
       if (response.statusCode == 200) {
-        UserDetailsModel data2 = userDetailsModelFromJson(response.body) ;
-        print('User Details Data:: '+data2.obj.fname);
-        print("shakil" + response.body);
-        return Right(
-            UserM(
-              dataList: data2.obj,
-            )
-
-        );
-      }else {
+        UserDetailsModel data2 = userDetailsModelFromJson(response.body);
+        print('User Details Data:: ' + data2.obj.fname);
+        print(response.body);
+        return Right(UserM(
+          dataList: data2.obj,
+        ));
+      } else {
         BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
-    }on SocketException catch (e){
+    } on SocketException catch (e) {
       //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
-    }catch (e) {
+    } catch (e) {
       //logger.e(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
-
   }
 }
 
-class UserM{
+class UserM {
   Obj dataList = new Obj();
   UserM({this.dataList});
 }

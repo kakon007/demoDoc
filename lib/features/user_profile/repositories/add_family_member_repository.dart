@@ -25,7 +25,7 @@ class AddFamilyMemberRepository {
     var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
     var url =
         "${Urls.buildUrl}diagnostic-api/api/familyMember/create";
-    final http.Response response = await http.post(url,headers: {'Authorization': 'Bearer $accessToken',},body: jsonEncode(<String, String>{
+    final http.Response response = await http.post(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',},body: jsonEncode(<String, String>{
       "regId":regId,
       "regNo":regNo,
       "relation":relation,

@@ -23,7 +23,7 @@ class RelationshipRepository{
         "${Urls.buildUrl}diagnostic-api/api/relations/list";
     try{
       var client = http.Client();
-      var response = await client.get(url,headers: {'Authorization': 'Bearer $accessToken',});
+      var response = await client.get(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',});
       if (response.statusCode == 200) {
         RelationshipModel data = relationshipModelFromJson(response.body) ;
         print("shakil" + response.body);

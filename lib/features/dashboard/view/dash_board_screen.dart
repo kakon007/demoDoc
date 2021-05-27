@@ -427,9 +427,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     //       ),
                     //     ]),
 
-                    initialChildSize: 0.83,
+                    initialChildSize: 0.79,
                     maxChildSize: 1.0,
-                    minChildSize: 0.83,
+                    minChildSize: 0.79,
                     builder: (BuildContext context,
                         ScrollController scrollController) {
                       return Column(
@@ -582,7 +582,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               child: Text(
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
-                                                    color: AppTheme.appbarPrimary,
+                                                    color: HexColor("#8592E5"),
                                                     fontSize: 11,
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -723,7 +723,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               child: Text(
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
-                                                    color: AppTheme.appbarPrimary,
+                                                    color: HexColor("#8592E5"),
                                                     fontSize: 11,
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -852,7 +852,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               child: Text(
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
-                                                    color: AppTheme.appbarPrimary,
+                                                    color: HexColor("#8592E5"),
                                                     fontSize: 11,
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -955,7 +955,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             child: Text(
                                               StringResources.viewAllText,
                                               style: GoogleFonts.poppins(
-                                                  color: AppTheme.appbarPrimary,
+                                                  color: HexColor("#8592E5"),
                                                   fontSize: 11,
                                                   fontWeight: FontWeight.w600),
                                             ),
@@ -1084,10 +1084,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
-            image: AssetImage("assets/images/dashboardImg.png"),
+            image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: 418.0,
+      height: 250.0,
       //width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
@@ -1107,10 +1107,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         color: Colors.white,
         //borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
-            image: AssetImage("assets/images/dashboardImg.png"),
+            image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: 300.0,
+      height: 250.0,
       // width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,

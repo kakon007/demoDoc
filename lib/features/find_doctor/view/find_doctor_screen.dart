@@ -15,6 +15,7 @@ import 'package:myhealthbd_app/features/notification/view/notification_screen.da
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
 class FindYourDoctorScreen extends StatefulWidget {
@@ -238,7 +239,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                         height: 450.0,
                         width: double.infinity,
                         child: FittedBox(
-                          child: Image.memory(
+                          child:widget.backgroundImage==null?Loader():Image.memory(
                             widget.backgroundImage,
                             gaplessPlayback: true,
                           ),

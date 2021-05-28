@@ -33,7 +33,7 @@ class VideoViewModel extends ChangeNotifier{
     //       CommonServiceRule.onLoadPageReloadTime) return;
     // }
     _isFetchingData = true;
-    _lastFetchTime = DateTime.now();
+   // _lastFetchTime = DateTime.now();
     var res = await VideoInfoRepository.getVideoInfo();
     notifyListeners();
     _videoList.clear();
@@ -41,10 +41,13 @@ class VideoViewModel extends ChangeNotifier{
       _appError = l;
       _isFetchingData = false;
       notifyListeners();
+      print("VideoTileVMError:::::::  $l");
+      return false;
     }, (r) {
       _isFetchingData = false;
       _videoList.addAll(r.dataList);
       notifyListeners();
+      return true;
     });
     print("VideoTileFromVM:::::::"+_videoList.first.snippet.title);
   }

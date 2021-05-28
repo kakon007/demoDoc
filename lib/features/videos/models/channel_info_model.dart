@@ -79,16 +79,16 @@ class ContentDetails {
   });
 
   String videoId;
-  String videoPublishedAt;
+  DateTime videoPublishedAt;
 
   factory ContentDetails.fromJson(Map<String, dynamic> json) => ContentDetails(
     videoId: json["videoId"],
-    videoPublishedAt: json["videoPublishedAt"],
+    videoPublishedAt: DateTime.parse(json["videoPublishedAt"]),
   );
 
   Map<String, dynamic> toJson() => {
     "videoId": videoId,
-    "videoPublishedAt": videoPublishedAt,
+    "videoPublishedAt": videoPublishedAt.toIso8601String(),
   };
 }
 
@@ -107,7 +107,7 @@ class Snippet {
     this.videoOwnerChannelId,
   });
 
-  String publishedAt;
+  DateTime publishedAt;
   String channelId;
   String title;
   String description;
@@ -120,7 +120,7 @@ class Snippet {
   String videoOwnerChannelId;
 
   factory Snippet.fromJson(Map<String, dynamic> json) => Snippet(
-    publishedAt: json["publishedAt"],
+    publishedAt: DateTime.parse(json["publishedAt"]),
     channelId: json["channelId"],
     title: json["title"],
     description: json["description"],
@@ -134,7 +134,7 @@ class Snippet {
   );
 
   Map<String, dynamic> toJson() => {
-    "publishedAt": publishedAt,
+    "publishedAt": publishedAt.toIso8601String(),
     "channelId": channelId,
     "title": title,
     "description": description,
@@ -187,16 +187,16 @@ class Thumbnails {
     thumbnailsDefault: Default.fromJson(json["default"]),
     medium: Default.fromJson(json["medium"]),
     high: Default.fromJson(json["high"]),
-    standard: Default.fromJson(json["standard"]),
-    maxres: Default.fromJson(json["maxres"]),
+    standard: json["standard"] == null ? null : Default.fromJson(json["standard"]),
+    maxres: json["maxres"] == null ? null : Default.fromJson(json["maxres"]),
   );
 
   Map<String, dynamic> toJson() => {
     "default": thumbnailsDefault.toJson(),
     "medium": medium.toJson(),
     "high": high.toJson(),
-    "standard": standard.toJson(),
-    "maxres": maxres.toJson(),
+    "standard": standard == null ? null : standard.toJson(),
+    "maxres": maxres == null ? null : maxres.toJson(),
   };
 }
 

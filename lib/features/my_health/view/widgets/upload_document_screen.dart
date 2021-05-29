@@ -41,9 +41,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     pickBirthDate=DateTime.now();
     _selectedDocumentType=null;
     var vm= Provider.of<FileTypeViewModel>(context,listen: false);
-    Future.delayed(Duration.zero, () async {
-      await Provider.of<UploadDocumentsViewModel>(context, listen: false).uploadDocuments();
-    });
+    // Future.delayed(Duration.zero, () async {
+    //   await Provider.of<UploadDocumentsViewModel>(context, listen: false).uploadDocuments();
+    // });
     vm.getData();
     super.initState();
   }
@@ -239,7 +239,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       ),
       child:
       Padding(
-        padding: const EdgeInsets.only(left:15.0,bottom: 8),
+        padding: const EdgeInsets.only(left:15.0,right: 15),
         child: TextField(
 
           maxLength: 10,
@@ -368,6 +368,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                         );
                         if (result != null) {
                           file = File(result.files.single.path);
+                          print('File Path Name::::'+file.path.split('.').last);
                           filesize = file.lengthSync();
                           setState(() {});
                         }
@@ -437,7 +438,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       print("Upload Doc tapped");
                       // await Future.delayed(Duration(seconds: 3));
     Future.delayed(Duration.zero, () async {
-      file==null?Loader():
+      // file==null && _image==null?Loader():
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) =>
           // DoctorHomeScreen(

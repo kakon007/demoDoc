@@ -75,6 +75,8 @@ dependencies:
   file_picker: ^2.1.7
   get: ^3.26.0
   url_launcher: ^5.7.10
+  flutter_svprogresshud:
+  photo_view: ^0.9.2
 
 
 

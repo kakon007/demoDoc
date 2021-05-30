@@ -56,6 +56,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
@@ -405,9 +406,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     //       ),
                     //     ]),
 
-                    initialChildSize: 0.80,
+                    initialChildSize: 0.83,
                     maxChildSize: 1.0,
-                    minChildSize: 0.80,
+                    minChildSize: 0.83,
                     builder: (BuildContext context,
                         ScrollController scrollController) {
                       return Column(
@@ -571,14 +572,35 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     vm.shouldShowPageLoader ||
                                             vm5.shouldShowPageLoader ||
                                             vm6.shouldShowPageLoaderForImage
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      AppTheme.appbarPrimary),
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 18.0,
                                             ),
-                                          )
-                                        : SingleChildScrollView(
+                                            child: Container(
+                                              width: 1510,
+                                              height:  120.0,
+                                              child: Shimmer.fromColors(
+                                                baseColor: Colors.grey[300],
+                                                highlightColor: Colors.white,
+                                                child: Row(
+                                                    children: List.generate(
+                                                        5,
+                                                            (index) => Expanded(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Material(
+                                                              color: Colors.grey,
+                                                              borderRadius: BorderRadius.circular(5),
+                                                              child: Center(),
+                                                            ),
+                                                          ),
+                                                        ))),
+                                              ),
+                                            ),
+                                          ),
+                                        ) : SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Padding(
                                               padding: const EdgeInsets.only(
@@ -694,13 +716,35 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     // ):
                                     vm2.shouldShowPageLoader ||
                                             vm7.shouldShowPageLoader
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      AppTheme.appbarPrimary),
-                                            ),
-                                          )
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Container(
+                                          width: 1510,
+                                          height:  120.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.white,
+                                            child: Row(
+                                                children: List.generate(
+                                                    5,
+                                                        (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ),
+                                        ),
+                                      ),
+                                    )
                                         : vm2.shouldShowNoNewsFound
                                             ? Center(
                                                 child: Padding(
@@ -797,14 +841,35 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     ),
                                     vm4.shouldShowPageLoader ||
                                             vm8.shouldShowPageLoader
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      AppTheme.appbarPrimary),
-                                            ),
-                                          )
-                                        : Padding(
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Container(
+                                          width: 1510,
+                                          height:  120.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.white,
+                                            child: Row(
+                                                children: List.generate(
+                                                    5,
+                                                        (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ),
+                                        ),
+                                      ),
+                                    ) : Padding(
                                             padding: const EdgeInsets.only(
                                               left: 18.0,
                                             ),
@@ -878,14 +943,35 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       height: 10,
                                     ),
                                     vm3.shouldShowPageLoader
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      AppTheme.appbarPrimary),
-                                            ),
-                                          )
-                                        : Padding(
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Container(
+                                          width: 1510,
+                                          height:  120.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.white,
+                                            child: Row(
+                                                children: List.generate(
+                                                    5,
+                                                        (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ),
+                                        ),
+                                      ),
+                                    ) : Padding(
                                             padding: const EdgeInsets.only(
                                               left: 18.0,
                                             ),

@@ -15,6 +15,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/file_type_view_mode
 import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
@@ -438,13 +439,16 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       print("Upload Doc tapped");
                       // await Future.delayed(Duration(seconds: 3));
     Future.delayed(Duration.zero, () async {
-      // file==null && _image==null?Loader():
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) =>
-          // DoctorHomeScreen(
-          PrescriptionListScreen(accessToken: accessToken
+      setState(() {
+        // file==null && _image==null?Loader():
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) =>
+            // DoctorHomeScreen(
+            HomeScreen(
+              accessToken: accessToken,
+            )));
+      });
 
-          )));
     });
 
                     },

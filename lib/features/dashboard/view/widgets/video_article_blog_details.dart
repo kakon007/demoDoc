@@ -256,6 +256,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                                 vm.videoList[index].snippet.description,
                             title: vm.videoList[index].snippet.title,
                       logo: vm.videoList[index].snippet
+                          .thumbnails.standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png':vm.videoList[index].snippet
                           .thumbnails.standard.url,
                           )
                         : itemIndex == 1

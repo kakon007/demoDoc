@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 
 class UploadDocumentsViewModel extends ChangeNotifier{
 
@@ -12,6 +13,9 @@ class UploadDocumentsViewModel extends ChangeNotifier{
   int _id;
   String _filed;
   Future<void> uploadDocuments({File file,String accessToken, attachmentTypeNo,String description,int regID,String username,String pickDate}) async {
+    SVProgressHUD.show(
+      status: 'Uploading'
+    );
     var headers = {
       'Authorization': 'Bearer $accessToken'
     };
@@ -53,6 +57,7 @@ class UploadDocumentsViewModel extends ChangeNotifier{
           textColor: Colors.white,
           fontSize: 12.0);
     }
+    SVProgressHUD.dismiss();
   }
 
 

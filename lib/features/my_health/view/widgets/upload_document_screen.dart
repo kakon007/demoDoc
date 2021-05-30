@@ -15,6 +15,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/file_type_view_mode
 import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_view_model.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
@@ -41,9 +42,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     pickBirthDate=DateTime.now();
     _selectedDocumentType=null;
     var vm= Provider.of<FileTypeViewModel>(context,listen: false);
-    Future.delayed(Duration.zero, () async {
-      await Provider.of<UploadDocumentsViewModel>(context, listen: false).uploadDocuments();
-    });
+    // Future.delayed(Duration.zero, () async {
+    //   await Provider.of<UploadDocumentsViewModel>(context, listen: false).uploadDocuments();
+    // });
     vm.getData();
     super.initState();
   }
@@ -231,7 +232,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
 
     var writeDetailsField=Container(
       width: MediaQuery.of(context).size.width*.89,
-      height: 200,
+      height: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         //color: Colors.white,
@@ -239,13 +240,14 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       ),
       child:
       Padding(
-        padding: const EdgeInsets.only(left:15.0,bottom: 8),
+        padding: const EdgeInsets.only(left:15.0,right: 15),
         child: TextField(
-
-          maxLength: 10,
-          maxLengthEnforced: true,
+            maxLines: null,
+          keyboardType: TextInputType.multiline,
+          maxLength: 20,
+          maxLengthEnforced: false,
           autofocus: false,
-          textInputAction: TextInputAction.search,
+          textInputAction: TextInputAction.newline,
           focusNode: _searchFieldFocusNode2,
           controller: _descriptionTextEditingController,
           cursorColor: HexColor('#C5CAE8'),
@@ -254,20 +256,14 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
              // hintText: 'Search here',
               hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
               fillColor: Colors.white,
-              // suffixIcon:IconButton(
-              //   icon:Icon(Icons.search_sharp,color: Colors.grey,),
-              //   onPressed: (){
-              //     vm2.search(_searchTextEditingController2.text,widget.accessToken);
-              //
-              //   },
-              // )
+
           ),
           onSubmitted: (v){
             //vm2.search(_searchTextEditingController2.text,widget.accessToken);
           },
 
             inputFormatters: [
-              LengthLimitingTextInputFormatter(10),
+              LengthLimitingTextInputFormatter(20),
             ]
         ),
       ),
@@ -368,6 +364,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                         );
                         if (result != null) {
                           file = File(result.files.single.path);
+                          print('File Path Name::::'+file.path.split('.').last);
                           filesize = file.lengthSync();
                           setState(() {});
                         }
@@ -437,13 +434,16 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       print("Upload Doc tapped");
                       // await Future.delayed(Duration(seconds: 3));
     Future.delayed(Duration.zero, () async {
-      file==null?Loader():
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) =>
-          // DoctorHomeScreen(
-          PrescriptionListScreen(accessToken: accessToken
+      setState(() {
+        // file==null && _image==null?Loader():
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) =>
+            // DoctorHomeScreen(
+            HomeScreen(
+              accessToken: accessToken,
+            )));
+      });
 
-          )));
     });
 
                     },

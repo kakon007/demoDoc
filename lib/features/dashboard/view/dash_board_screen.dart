@@ -1010,8 +1010,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                       list3[index]
                                                           .snippet
                                                           .thumbnails
-                                                          .standard
-                                                          .url,
+                                                          .standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png': list3[index]
+                                                          .snippet
+                                                          .thumbnails
+                                                          .standard.url,
                                                       list3[index]
                                                           .snippet
                                                           .title,

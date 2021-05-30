@@ -1473,9 +1473,12 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                   controller3.toggle(index);
                                                 });
                                               }else{
+                                                String fileExt=vm3.documentList[index].attachmentPath.split('.').last;
                                                 Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
-                                                  child:PdfbyteViewerScreen(vm3.documentList[index].attachmentPath),
+                                                  child:
+                                                  fileExt=='pdf'?
+                                                  PdfbyteViewerScreen(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName):ImagebyteViewerScreen(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName),
                                                 ),);
 
                                                 print('PDFPRESSEDFrom DOc');

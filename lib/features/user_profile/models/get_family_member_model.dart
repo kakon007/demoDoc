@@ -88,7 +88,7 @@ class Item {
   String fmRegId;
   String fmName;
   String fmDob;
-  FmAddress fmAddress;
+  String fmAddress;
   String fmImage;
   int activeStat;
   int ssCreator;
@@ -109,7 +109,7 @@ class Item {
     fmRegId: json["fmRegId"],
     fmName: json["fmName"],
     fmDob: json["fmDob"],
-    fmAddress: fmAddressValues.map[json["fmAddress"]],
+    fmAddress: json["fmAddress"],
     fmImage: json["fmImage"] == null ? null : json["fmImage"],
     activeStat: json["activeStat"],
     ssCreator: json["ssCreator"],

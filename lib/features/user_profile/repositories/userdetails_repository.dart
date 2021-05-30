@@ -41,7 +41,39 @@ class UserDetailsRepository {
       return Left(AppError.unknownError);
     }
   }
+  Future<Either<AppError, UserM>> fetchPatInfo(String accessToken, String hospitalNumber) async {
+    var url =
+        "https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-registration/findByHospitalNumber?hospitalNumber=$hospitalNumber";
+
+    try {
+      var client = http.Client();
+      var response = await client.get(Uri.parse(url),headers: {
+        'Authorization': 'Bearer $accessToken',
+      });
+      print(response.body);
+      if (response.statusCode == 200) {
+        UserDetailsModel data2 = userDetailsModelFromJson(response.body);
+        print('User Details Data:: ' + data2.obj.fname);
+        print(response.body);
+        return Right(UserM(
+          dataList: data2.obj,
+        ));
+      } else {
+        BotToast.showText(text: StringResources.somethingIsWrong);
+        return Left(AppError.serverError);
+      }
+    } on SocketException catch (e) {
+      //logger.e(e);
+      BotToast.showText(text: StringResources.unableToReachServerMessage);
+      return Left(AppError.networkError);
+    } catch (e) {
+      //logger.e(e);
+      BotToast.showText(text: StringResources.somethingIsWrong);
+      return Left(AppError.unknownError);
+    }
+  }
 }
+
 
 class UserM {
   Obj dataList = new Obj();

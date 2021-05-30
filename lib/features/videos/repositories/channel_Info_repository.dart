@@ -25,10 +25,14 @@ class VideoInfoRepository{
     try{
       var client = http.Client();
       var response = await client.get(uri);
+      print('YoutubeAPI response::: ${response.statusCode}');
+      print('YoutubeAPI response body::: ${response.body}');
       if (response.statusCode == 200) {
+        print('Enter 200');
         ChannelInfoModel data = channelInfoModelFromJson(response.body) ;
-        print('Dataaaaaaa::::::: ' + data.items[1].snippet.title);
-        // return data;
+        print('Enter data::: ${data.items.first.snippet.title}');
+
+        //print('DataFromYoutubeAPI::::::: ' + data.items[1].snippet.title);
 
         return Right(
             VideoListM(
@@ -38,9 +42,9 @@ class VideoInfoRepository{
             )
 
         );
-        //print(data[0]['companySlogan']);
       }else {
         BotToast.showText(text: StringResources.somethingIsWrong);
+        print('DataaaaaaafromAPIError::::::: ' );
         return Left(AppError.serverError);
       }
     }on SocketException catch (e){
@@ -49,6 +53,7 @@ class VideoInfoRepository{
       return Left(AppError.networkError);
     }catch (e) {
       //logger.e(e);
+      print('DataaaaaaafromAPIcatch::::::: $e' );
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }

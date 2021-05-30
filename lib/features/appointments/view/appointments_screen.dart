@@ -1,36 +1,36 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/add_patient.dart';
-import 'package:myhealthbd_app/features/appointments/view/widgets/book_appoint_for_me.dart';
+import 'package:myhealthbd_app/features/appointments/view/widgets/available_slots.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/no_available_slots.dart';
+import 'package:myhealthbd_app/features/appointments/view/widgets/sign_required_propmt.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentScreen extends StatefulWidget {
-  String specialist;
-  String name;
-  String designation;
-  String fee;
   String doctorNo;
   String companyNo;
   String orgNo;
-  bool ok = false;
+  String hospitalName;
 
   AppointmentScreen(
-      {this.name,
-      this.designation,
-      this.fee,
-      this.specialist,
-      this.companyNo,
-      this.doctorNo,
-      this.orgNo,
-      this.ok});
+      {
+        this.companyNo,
+        this.doctorNo,
+        this.orgNo,
+        this.hospitalName,
+      });
+
 
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
@@ -40,6 +40,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   DateTime pickedAppointDate;
   DateTime pickedAppointDate2;
   bool isClicked;
+  String status;
 
   Future<Null> selectAppointDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
@@ -69,9 +70,23 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   int selectedCard = -1;
   bool isSelected;
   var slotNo;
+  var slotSl;
+  var appointDate;
+  var shiftdtlNo;
+  var shift;
+  var startTime;
+  var endTime;
+  var durationMin;
+  var extraSlot;
+  var slotSplited;
+  var ssCreatedOn;
+  var ssCreator;
+  var remarks;
+  var appointStatus;
   bool isLoading = false;
-  bool isOk;
-  double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
+  bool isStatusOk;
+
+  //double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
 
   AvailableSlotModel slotItem;
   var selectedPatientType = "";
@@ -85,54 +100,79 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     });
   }
 
+  var accessToken;
+
+  Future<void> accesstoken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    accessToken = prefs.getString('accessToken');
+  }
+  loadLogo(String image) {
+    Uint8List _bytesImage = Base64Decoder().convert(image);
+
+    return Image.memory(
+      _bytesImage,
+      fit: BoxFit.cover,
+      width: 110,
+      height: 160,
+      gaplessPlayback: true,
+    );
+  }
   @override
   void initState() {
+    accesstoken();
+    status = "Not Ok";
     isClicked = false;
-    isOk = false;
+    isStatusOk = false;
     isSelected = false;
-    forMeBackColor = "#141D53";
-    forMeTextColor = "#FFFFFF";
-    forMe = true;
-    addPatient = false;
-    addPatientBackColor = "#00FFFFFF";
-    addPatientTextColor = "#8389A9";
     pickedAppointDate = DateTime.now();
     pickedAppointDate2 = DateTime.now();
-    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-    vm.getSlots(
-        pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-    print("Shakil" + vm.slotList.length.toString());
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+      var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+      await vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
+      await vm.getSlots(
+          pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
+      vm.getAppointType(true, false);
+    });
   }
 
   BorderRadiusGeometry radius = BorderRadius.only(
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool isLoggedIn = false;
-  String forMeBackColor = "#141D53";
-  String forMeTextColor = "#FFFFFF";
-  String addPatientBackColor = "#00FFFFFF";
-  String addPatientTextColor = "#8389A9";
-  bool forMe = true;
-  bool addPatient = false;
 
   @override
   Widget build(BuildContext context) {
-    int _crossAxisCount = MediaQuery.of(context).size.height >= 700 ? 4 : 3;
-    print("babababababababbabaababbababbabaa" + widget.ok.toString());
+    print(MediaQuery.of(context).size.height);
+    int _crossAxisCount = MediaQuery.of(context).size.height > 650 ? 4 :MediaQuery.of(context).size.height > 550 ? 3 : 2;
+    double _crossAxisSpacing =MediaQuery.of(context).size.height > 550? 8 : 3,
+        _mainAxisSpacing =MediaQuery.of(context).size.height > 550? 8 : 3,
+        _aspectRatio = MediaQuery.of(context).size.height > 650 ? .6:.5;
     var height = MediaQuery.of(context).size.height;
-    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: true);
+
+    var accessTokenVM = Provider.of<AccessTokenProvider>(context, listen: false);
+    var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
+    var profileImage = userImageVm.details?.photo ?? "";
+
+    var length= vm.slotList.length;
+    var doctorDegree=  vm.doctorInfo?.docDegree == null
+        ? ""
+        : vm.doctorInfo?.docDegree;
+    var jobTitle=   vm.doctorInfo?.jobtitle??"";
+    var photo= vm.doctorInfo?.doctorPhoto??"";
+    var consultFee= vm.doctorInfo?.consultationFee??'';
     if (pickedAppointDate != pickedAppointDate2) {
       vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       pickedAppointDate2 = pickedAppointDate;
-      startTimer();
+      //startTimer();
       selectedCard = -1;
       isSelected = false;
     }
     List<Items> list = vm.slotList;
-    print("Shakil" + vm.slotList.length.toString());
     var spaceBetween = SizedBox(
       height: 10,
     );
@@ -196,44 +236,58 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             height: 45,
             child: AbsorbPointer(
               absorbing: isSelected == false ? true : false,
-              child: isClicked == true
-                  ? Center(child: CircularProgressIndicator(  valueColor:
-              AlwaysStoppedAnimation<Color>(
-                  AppTheme.appbarPrimary),))
-                  : FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      color: isSelected == false
-                          ? HexColor("#969EC8")
-                          : AppTheme.appbarPrimary,
-                      onPressed: () {
-                        vm.getSlotStatus(
-                            slotNo.toString(), widget.companyNo, widget.orgNo);
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                color: isSelected == false
+                    ? HexColor("#969EC8")
+                    : AppTheme.appbarPrimary,
+                onPressed: () async {
+                  if (accessToken != null) {
+                    await vm.getSlotStatus(
+                        slotNo.toString(), widget.companyNo, widget.orgNo);
+                    setState(() {
+                      isClicked = true;
+                      if (vm.slotStatus == "OK")
                         setState(() {
-                          isClicked = true;
-                          Timer.periodic(const Duration(milliseconds: 2000),
-                              (t) {
-                            if (vm.slotStatus == "OK")
-                              setState(() {
-                                isOk = false; //set loading to false
-                              });
-                            t.cancel();
-                            isOk = true; //stops the timer
-                          });
+                          isStatusOk = true;
+                          vm.getAppointInfo(
+                            widget.doctorNo,
+                            vm.doctorInfo.doctorName,
+                            appointDate,
+                            shiftdtlNo.toString(),
+                            shift.toString(),
+                            slotNo.toString(),
+                            slotSl.toString(),
+                            startTime,
+                            endTime,
+                            durationMin.toString(),
+                            extraSlot.toString(),
+                            slotSplited.toString(),
+                            ssCreatedOn,
+                            ssCreator.toString(),
+                            remarks,
+                            appointStatus.toString(),
+                            widget.companyNo,
+                            widget.orgNo,
+                          );
                         });
-                      },
-                      textColor: Colors.white,
-                      child: Text(
-                        "Proceed",
-                        style: GoogleFonts.poppins(
-                            fontSize: height <= 600 ? 15 : 15,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
+                    });
+                  } else {
+                    signInRequired(context);
+                  }
+                },
+                textColor: Colors.white,
+                child: Text(
+                  "Proceed",
+                  style: GoogleFonts.poppins(
+                      fontSize: height <= 600 ? 15 : 15,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
             ),
           );
-
     var selectType = Container(
       height: 65.0,
       width: MediaQuery.of(context).size.width,
@@ -247,37 +301,29 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             InkWell(
               child: Container(
                 decoration: BoxDecoration(
-                    color: HexColor(forMeBackColor),
+                    color: HexColor(vm.forMeBackColor),
                     borderRadius: BorderRadius.circular(10)),
                 height: MediaQuery.of(context).size.height * 0.06,
                 width: MediaQuery.of(context).size.width * .4,
                 child: Center(
                     child: Text(
                   "For Me",
-                  style: GoogleFonts.poppins(color: HexColor(forMeTextColor)),
+                  style:
+                      GoogleFonts.poppins(color: HexColor(vm.forMeTextColor)),
                 )),
               ),
               onTap: () {
-                setState(() {
-                  if (addPatient == true) {
-                    forMe = true;
-                    addPatient = false;
-                  } else {
-                    forMe = true;
-                  }
-                  if (addPatient == false) {
-                    addPatientBackColor = "#00FFFFFF";
-                    addPatientTextColor = "#8389A9";
-                    forMeBackColor = "#141D53";
-                    forMeTextColor = "#FFFFFF";
-                  }
-                });
+                vm.getAppointType(true, false);
+                if (vm.addPatient == false) {
+                  vm.getButtonColor(
+                      "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
+                }
               },
             ),
             InkWell(
               child: Container(
                   decoration: BoxDecoration(
-                      color: HexColor(addPatientBackColor),
+                      color: HexColor(vm.addPatientBackColor),
                       borderRadius: BorderRadius.circular(10)),
                   height: MediaQuery.of(context).size.height * 0.06,
                   width: MediaQuery.of(context).size.width * .4,
@@ -285,23 +331,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       child: Text(
                     "Add patient",
                     style: GoogleFonts.poppins(
-                        color: HexColor(addPatientTextColor)),
+                        color: HexColor(vm.addPatientTextColor)),
                   ))),
               onTap: () {
-                setState(() {
-                  if (forMe == true) {
-                    forMe = false;
-                    addPatient = true;
-                  } else {
-                    addPatient = true;
-                  }
-                  if (forMe == false) {
-                    forMeBackColor = "#00FFFFFF";
-                    forMeTextColor = "#8389A9";
-                    addPatientBackColor = "#141D53";
-                    addPatientTextColor = "#FFFFFF";
-                  }
-                });
+                vm.getAppointType(false, true);
+                if (vm.forMe == false) {
+                  vm.getButtonColor(
+                      "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");
+                }
               },
             )
           ],
@@ -315,7 +352,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
         child: Container(
-          height: 100,
+          height: 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -332,15 +369,19 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               Row(
                 children: [
                   Container(
-                    height: 100,
+                    height: 120,
                     width: 108,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           bottomLeft: Radius.circular(10)),
-                      child: Image.asset(
-                        "assets/images/doctor.png",
-                        fit: BoxFit.fill,
+                      child:    photo!=""
+                          ? loadLogo(vm.doctorInfo.doctorPhoto)
+                          : Image.asset(
+                        "assets/icons/dct.png",
+                        fit: BoxFit.cover,
+                        width: 110,
+                        height: 160,
                       ),
                     ),
                   ),
@@ -351,7 +392,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.specialist,
+                        vm.doctorInfo?.specializationName??"",
                         style: GoogleFonts.poppins(
                             height: 1.5,
                             color: AppTheme.appbarPrimary,
@@ -360,27 +401,42 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       Container(
                           width: 185,
                           child: Text(
-                            widget.name,
+                            vm.doctorInfo?.doctorName??"",
                             style: GoogleFonts.poppins(
-                                fontSize: 13, fontWeight: FontWeight.w700),
+                                fontSize: 12, fontWeight: FontWeight.w700),
                           )),
                       SizedBox(
                         height: 1,
                       ),
-                      Container(
-                        width: 185,
-                        child: Text(
-                            widget.designation == null
-                                ? ""
-                                : widget.designation,
-                            style:
-                                GoogleFonts.poppins(height: 0.7, fontSize: 11)),
+                      Row(
+                        children: [
+                          // Container(
+                          //   width: 100,
+                          //   child: Text(
+                          //       widget.jobTitle == null
+                          //           ? ""
+                          //           : widget.jobTitle,
+                          //       maxLines: 1,
+                          //       overflow: TextOverflow.ellipsis,
+                          //       style:
+                          //       GoogleFonts.poppins(height: 0.7, fontSize: 11)),
+                          // ),
+                          Container(
+                            width: 185,
+                            child: Text(
+                                jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                GoogleFonts.poppins(height: 1.2, fontSize: 11)),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 3,
                       ),
                       Text(
-                        widget.fee,
+                        "TK. " + consultFee.toString(),
                         style: GoogleFonts.poppins(
                           color: AppTheme.appbarPrimary,
                         ),
@@ -399,46 +455,55 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         resizeToAvoidBottomInset: false,
         //key: _scaffoldKey,
         appBar: new AppBar(
-            title: new Text(
-              "Book your appointment",
-              style: GoogleFonts.poppins(fontSize: 15),
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.notifications,
-                  color: Colors.white,
-                  size: 20,
+          title: new Text(
+            "Book your appointment",
+            style: GoogleFonts.poppins(fontSize: 15),
+          ),
+          actions: <Widget>[
+            // IconButton(
+            //   icon: Icon(
+            //     Icons.notifications,
+            //     color: Colors.white,
+            //     size: 20,
+            //   ),
+            // ),
+            accessTokenVM.accessToken!=null?
+            Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  //color: AppTheme.appbarPrimary,
+                  shape: BoxShape.circle,
                 ),
-                onPressed: () {
-                  setState(() {
-                    isLoggedIn == true ? isLoggedIn = false : isLoggedIn = true;
-                  });
-                },
-              ),
-              isLoggedIn == false
-                  ? Container(
-                      //margin: EdgeInsets.all(100.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                      ),
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/alok.png"),
-                        radius: 15.0,
-                      ),
-                    )
-                  : SizedBox(),
-              SizedBox(
-                width: 10,
-              )
-            ],
-            leading: IconButton(
-                icon: Icon(Icons.notes),
-                onPressed: () => _scaffoldKey.currentState.openDrawer())),
-        drawer: Drawer(),
+                height: 32,
+                width: 32,
+                child: Center(
+                    child: userImageVm.loadProfileImage(profileImage, 31.5, 32,50)
+                ))
+                : SizedBox(),
+            // isLoggedIn == false
+            //     ? Container(
+            //         //margin: EdgeInsets.all(100.0),
+            //         decoration: BoxDecoration(
+            //           shape: BoxShape.circle,
+            //           border: Border.all(
+            //             color: Colors.white,
+            //           ),
+            //         ),
+            //         child: CircleAvatar(
+            //           backgroundImage: AssetImage("assets/images/alok.png"),
+            //           radius: 15.0,
+            //         ),
+            //       )
+            //     : SizedBox(),
+            SizedBox(
+              width: 10,
+            )
+          ],
+          // leading: IconButton(
+          //     icon: Icon(Icons.notes),
+          //     onPressed: () => _scaffoldKey.currentState.openDrawer())
+        ),
+        //drawer: Drawer(),
         body: Stack(
           children: <Widget>[
             Positioned(
@@ -462,14 +527,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       ]),
                   child: Padding(
                       padding: EdgeInsets.only(left: 20.0, right: 20, top: 60),
-                      child: isOk == true
+                      child: isStatusOk == true
                           ? Column(
                               children: [
                                 selectType,
-                                forMe == true
-                                    ? BookAppointForMe(orgNo: widget.orgNo,companyNo: widget.companyNo,doctorNo: widget.doctorNo)
-                                    : AddPatient(doctorNo: widget.doctorNo,companyNo: widget.companyNo, orgNo: widget.orgNo,),
-                                // confirmBooking
+                                AddPatient(
+                                    doctorNo: widget.doctorNo,
+                                    companyNo: widget.companyNo,
+                                    orgNo: widget.orgNo,
+                                    hospitalName: widget.hospitalName),
                               ],
                             )
                           : Column(
@@ -481,6 +547,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                     style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600)),
+
+
                                 spaceBetween,
                                 vm.isLoading == true
                                     ? Center(
@@ -490,7 +558,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                 AppTheme.appbarPrimary),
                                       ))
                                     : Expanded(
-                                        child: vm.slotList.length == 0
+                                        child: length == 0
                                             ? NoAvailableSlots()
                                             : GridView.builder(
                                                 scrollDirection:
@@ -505,116 +573,154 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                       slotNo = vm
                                                           .slotList[index]
                                                           .slotNo;
+                                                      print(slotNo);
+                                                      slotSl = vm
+                                                          .slotList[index]
+                                                          .slotSl;
+                                                      appointDate = DateFormat(
+                                                              "yyyy-MM-dd")
+                                                          .format(DateTime.parse(vm
+                                                                  .slotList[
+                                                                      index]
+                                                                  .appointDate
+                                                                  .toString())
+                                                              .toLocal());
+                                                      shiftdtlNo = vm
+                                                          .slotList[index]
+                                                          .shiftdtlNo;
+                                                      shift = vm.slotList[index]
+                                                          .shift;
+                                                      startTime = vm
+                                                          .slotList[index]
+                                                          .startTime;
+                                                      endTime = vm
+                                                          .slotList[index]
+                                                          .endTime;
+                                                      durationMin = vm
+                                                          .slotList[index]
+                                                          .durationMin;
+                                                      extraSlot = vm
+                                                          .slotList[index]
+                                                          .extraSlot;
+                                                      slotSplited = vm
+                                                          .slotList[index]
+                                                          .slotSplited;
+                                                      ssCreatedOn = DateFormat(
+                                                              "yyyy-MM-dd")
+                                                          .format(DateTime.parse(vm
+                                                                  .slotList[
+                                                                      index]
+                                                                  .ssCreatedOn
+                                                                  .toString())
+                                                              .toLocal());
+                                                      ssCreator = vm
+                                                          .slotList[index]
+                                                          .ssCreator;
+                                                      remarks = vm
+                                                          .slotList[index]
+                                                          .remarks;
+                                                      appointStatus = vm
+                                                          .slotList[index]
+                                                          .appointStatus;
                                                     });
                                                   },
-                                                  child: Stack(
-                                                    children: [
-                                                      Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          gradient: LinearGradient(
-                                                              begin: Alignment
-                                                                  .bottomRight,
-                                                              stops: [
-                                                                1.0,
-                                                                1.0
-                                                              ],
-                                                              colors: [
-                                                                selectedCard ==
-                                                                        index
-                                                                    ? HexColor(
-                                                                        "#8592E5")
-                                                                    : HexColor(
-                                                                        "#C1C8F1"),
-                                                                selectedCard ==
-                                                                        index
-                                                                    ? HexColor(
-                                                                        "#F6F8FB")
-                                                                    : HexColor(
-                                                                        "#FAFBFC"),
-                                                              ]),
-                                                          border: Border.all(
-                                                            color: selectedCard ==
+                                                  child: Container(
+                                                    decoration:
+                                                        BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment
+                                                              .bottomRight,
+                                                          stops: [
+                                                            1.0,
+                                                            1.0
+                                                          ],
+                                                          colors: [
+                                                           isSelected== false ? HexColor(
+                                                               "#8592E5") : selectedCard ==
                                                                     index
                                                                 ? HexColor(
-                                                                    "#8592E5")
+                                                               "#8592E5")
                                                                 : HexColor(
-                                                                    "#C1C8F1"),
-                                                            width: 1,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
-                                                        ),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  top: height <= 800
-                                                                      ? height /
-                                                                          110
-                                                                      : height /
-                                                                          65.09),
-                                                              child: Center(
-                                                                  child: Text(
-                                                                "Serial - " +
-                                                                    list[index]
-                                                                        .slotSl
-                                                                        .toString(),
-                                                                style: GoogleFonts.poppins(
-                                                                    fontSize:
-                                                                        MediaQuery.of(context).size.height >= 700
-                                                                            ? 14
-                                                                            : 12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    color: selectedCard ==
-                                                                            index
-                                                                        ? HexColor(
-                                                                            "#354291")
-                                                                        : HexColor(
-                                                                            "#999FC7")),
-                                                              )),
-                                                            ),
-                                                            SizedBox(
-                                                                height: MediaQuery.of(context)
-                                                                            .size
-                                                                            .height >=
-                                                                        700
-                                                                    ? 10
-                                                                    : 5),
-                                                            Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  top: height <= 800
-                                                                      ? height /
-                                                                          100
-                                                                      : height /
-                                                                          80),
-                                                              child: Center(
-                                                                  child: Text(
-                                                                "Time : " +
-                                                                    DateFormat("hh:mm:ss").format(DateTime.parse(list[index]
-                                                                            .startTime
-                                                                            .toString())
-                                                                        .toLocal()),
-                                                                style: GoogleFonts.poppins(
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    color: Colors
-                                                                        .white),
-                                                              )),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                               "#C1C8F1"),
+                                                            isSelected== false ? HexColor(
+                                                                "#F6F8FB") : selectedCard ==
+                                                                    index
+                                                                ? HexColor(
+                                                                "#F6F8FB")
+                                                                : HexColor(
+                                                                "#FAFBFC"),
+                                                          ]),
+                                                      border: Border.all(
+                                                        color: isSelected== false ? HexColor(
+                                                            "#8592E5") : selectedCard ==
+                                                                index
+                                                            ? HexColor(
+                                                            "#8592E5" )
+                                                            : HexColor(
+                                                            "#C1C8F1"),
+                                                        width: 1,
                                                       ),
-                                                    ],
+                                                      borderRadius:
+                                                          BorderRadius
+                                                              .circular(15),
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Container(
+                                                            alignment: Alignment.center,
+                                                            child: Text(
+                                                              "Serial - " +
+                                                              list[index]
+                                                                  .slotSl
+                                                                  .toString(),
+                                                              style: GoogleFonts.poppins(
+                                                              fontSize:
+                                                                  MediaQuery.of(context).size.height > 650
+                                                                      ? 14 :
+                                                                  MediaQuery.of(context).size.height > 550 ? 12: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color:  isSelected== false ?  HexColor(
+                                                                  "#354291" ) : selectedCard ==
+                                                                      index
+                                                                  ? HexColor(
+                                                                  "#354291"    )
+                                                                  : HexColor(
+                                                                  "#999FC7" )),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Container(
+                                                            alignment: Alignment.center,
+                                                            child: Text(
+                                                              "Time : " +
+                                                              DateFormat("hh:mm a").format(DateTime.parse(list[index]
+                                                                      .startTime
+                                                                      .toString())
+                                                                  .toLocal()),
+                                                              style: GoogleFonts.poppins(
+                                                              fontSize:
+                                                              MediaQuery.of(context).size.height > 650
+                                                                  ? 14 :
+                                                              MediaQuery.of(context).size.height > 550 ? 12: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: Colors
+                                                                  .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                                 gridDelegate:
@@ -644,331 +750,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           ],
         ));
   }
-}
 
-//
-// import 'dart:convert';
-//
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:hexcolor/hexcolor.dart';
-// import 'package:myhealthbd_app/features/appointments/view/widgets/add_patient.dart';
-// import 'package:myhealthbd_app/features/appointments/view/widgets/book_appoint_for_me.dart';
-// import 'package:myhealthbd_app/features/appointments/view/widgets/select_appointment_widget.dart';
-// import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
-// import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
-// import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
-// import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
-// import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
-// import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
-// import 'package:myhealthbd_app/features/my_health/view/doctor_filters.dart';
-// import 'package:myhealthbd_app/main_app/resource/colors.dart';
-// import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-// import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-// import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
-// import 'package:http/http.dart' as http;
-// import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
-// import 'package:provider/provider.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// class AppointmentScreen extends StatefulWidget {
-//   String specialist;
-//   String name;
-//   String designation;
-//   String fee;
-//   String doctorNo;
-//   String companyNo;
-//   String orgNo;
-//   bool ok=false;
-//   AppointmentScreen({this.name, this.designation, this.fee, this.specialist, this.companyNo, this.doctorNo, this.orgNo, this.ok});
-//   @override
-//   _AppointmentScreenState createState() => _AppointmentScreenState();
-// }
-// class _AppointmentScreenState extends State<AppointmentScreen> {
-//   @override
-//   void initState() {
-//     forMeBackColor = "#141D53";
-//     forMeTextColor = "#FFFFFF";
-//     forMe = true;
-//     addPatient = false;
-//     addPatientBackColor = "#00FFFFFF";
-//     addPatientTextColor = "#8389A9";
-//     print(widget.ok);
-//   }
-//
-//   BorderRadiusGeometry radius = BorderRadius.only(
-//     topLeft: Radius.circular(25.0),
-//     topRight: Radius.circular(25.0),
-//   );
-//   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-//   bool isLoggedIn = false;
-//   String forMeBackColor = "#141D53";
-//   String forMeTextColor = "#FFFFFF";
-//   String addPatientBackColor = "#00FFFFFF";
-//   String addPatientTextColor = "#8389A9";
-//   bool forMe = true;
-//   bool addPatient = false;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     print("babababababababbabaababbababbabaa" + widget.ok.toString());
-//     var height = MediaQuery
-//         .of(context)
-//         .size
-//         .height;
-//     var spaceBetween = SizedBox(
-//       height: height >= 600 ? 10.0 : 5.0,
-//     );
-//     var selectType = Container(
-//       height: 65.0,
-//       width: MediaQuery
-//           .of(context)
-//           .size
-//           .width,
-//       decoration: BoxDecoration(
-//           color: HexColor("#E9ECFE"), borderRadius: BorderRadius.circular(13)),
-//       child: Padding(
-//         padding: const EdgeInsets.only(left: 10.0, right: 10),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             InkWell(
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                     color: HexColor(forMeBackColor),
-//                     borderRadius: BorderRadius.circular(10)),
-//                 height: MediaQuery
-//                     .of(context)
-//                     .size
-//                     .height * 0.06,
-//                 width: MediaQuery
-//                     .of(context)
-//                     .size
-//                     .width * .4,
-//                 child: Center(
-//                     child: Text(
-//                       "For Me",
-//                       style: GoogleFonts.poppins(
-//                           color: HexColor(forMeTextColor)),
-//                     )),
-//               ),
-//               onTap: () {
-//                 setState(() {
-//                   if (addPatient == true) {
-//                     forMe = true;
-//                     addPatient = false;
-//                   } else {
-//                     forMe = true;
-//                   }
-//                   if (addPatient == false) {
-//                     addPatientBackColor = "#00FFFFFF";
-//                     addPatientTextColor = "#8389A9";
-//                     forMeBackColor = "#141D53";
-//                     forMeTextColor = "#FFFFFF";
-//                   }
-//                 });
-//               },
-//             ),
-//             InkWell(
-//               child: Container(
-//                   decoration: BoxDecoration(
-//                       color: HexColor(addPatientBackColor),
-//                       borderRadius: BorderRadius.circular(10)),
-//                   height: MediaQuery
-//                       .of(context)
-//                       .size
-//                       .height * 0.06,
-//                   width: MediaQuery
-//                       .of(context)
-//                       .size
-//                       .width * .4,
-//                   child: Center(
-//                       child: Text(
-//                         "Add patient",
-//                         style: GoogleFonts.poppins(
-//                             color: HexColor(addPatientTextColor)),
-//                       ))),
-//               onTap: () {
-//                 setState(() {
-//                   if (forMe == true) {
-//                     forMe = false;
-//                     addPatient = true;
-//                   } else {
-//                     addPatient = true;
-//                   }
-//                   if (forMe == false) {
-//                     forMeBackColor = "#00FFFFFF";
-//                     forMeTextColor = "#8389A9";
-//                     addPatientBackColor = "#141D53";
-//                     addPatientTextColor = "#FFFFFF";
-//                   }
-//                 });
-//               },
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//     var doctorCard = Positioned(
-//       top: 10,
-//       left: 0,
-//       right: 0,
-//       child: Padding(
-//         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
-//         child: Container(
-//           height: 100,
-//           decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(10),
-//               color: HexColor("#FFFFFF"),
-//               boxShadow: [
-//                 BoxShadow(
-//                   color: HexColor("#0D1231").withOpacity(0.08),
-//                   spreadRadius: 10,
-//                   blurRadius: 15,
-//                   offset: Offset(0, 1), // changes position of shadow
-//                 ),
-//               ]),
-//           child: Column(
-//             children: [
-//               Row(
-//                 children: [
-//                   Container(
-//                     height: 100,
-//                     width: 120,
-//                     child: ClipRRect(
-//                       borderRadius: BorderRadius.only(
-//                           topLeft: Radius.circular(10),
-//                           bottomLeft: Radius.circular(10)),
-//                       child: Image.asset(
-//                         "assets/images/doctor.png",
-//                         fit: BoxFit.fill,
-//                       ),
-//                     ),
-//                   ),
-//                   SizedBox(width: 20,),
-//                   Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Text(
-//                         widget.specialist,
-//                         style: GoogleFonts.poppins(height: 1.5,
-//                             color: AppTheme.appbarPrimary,
-//                             fontWeight: FontWeight.w600),
-//                       ),
-//                       Text(
-//                         widget.name, overflow: TextOverflow.clip, maxLines: 3,
-//                         style: GoogleFonts.poppins(
-//                             fontWeight: FontWeight.bold, fontSize: 12),
-//                       ),
-//                       Text(widget.designation == null ? "" : widget.designation,
-//                           style: GoogleFonts.poppins(height: 0.7, fontSize: 13)
-//                       ),
-//                       SizedBox(
-//                         height: 3,
-//                       ),
-//                       Text(
-//                         widget.fee,
-//                         style: GoogleFonts.poppins(
-//                           color: AppTheme.appbarPrimary,
-//                         ),
-//                       ),
-//                     ],
-//                   )
-//                 ],
-//               )
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-//     return Scaffold(
-//         resizeToAvoidBottomInset: false,
-//         //key: _scaffoldKey,
-//         appBar: new AppBar(
-//             title: new Text(
-//               "Book your appointment",
-//               style: GoogleFonts.poppins(fontSize: 15),
-//             ),
-//             actions: <Widget>[
-//               IconButton(
-//                 icon: Icon(
-//                   Icons.notifications,
-//                   color: Colors.white,
-//                   size: 20,
-//                 ),
-//                 onPressed: () {
-//                   setState(() {
-//                     isLoggedIn == true ? isLoggedIn = false : isLoggedIn = true;
-//                   });
-//                 },
-//               ),
-//               isLoggedIn == false ? Container(
-//                 //margin: EdgeInsets.all(100.0),
-//                 decoration: BoxDecoration(
-//                   shape: BoxShape.circle,
-//                   border: Border.all(
-//                     color: Colors.white,
-//                   ),
-//                 ),
-//                 child: CircleAvatar(
-//                   backgroundImage: AssetImage("assets/images/alok.png"),
-//                   radius: 15.0,),
-//               ) : SizedBox(),
-//               SizedBox(width: 10,)
-//             ],
-//             leading: IconButton(
-//                 icon: Icon(Icons.notes),
-//                 onPressed: () => _scaffoldKey.currentState.openDrawer())),
-//         drawer: Drawer(),
-//         body: Stack(
-//           children: <Widget>[
-//             Positioned(
-//               child: Padding(
-//                 padding: const EdgeInsets.only(top: 90.0),
-//                 child: Container(
-//                   width: MediaQuery
-//                       .of(context)
-//                       .size
-//                       .width,
-//                   height: MediaQuery
-//                       .of(context)
-//                       .size
-//                       .height,
-//                   decoration: BoxDecoration(
-//                       borderRadius: BorderRadius.only(
-//                           topLeft: Radius.circular(25),
-//                           topRight: Radius.circular(25)),
-//                       color: HexColor("#FFFFFF"),
-//                       boxShadow: [
-//                         BoxShadow(
-//                           color: HexColor("#0D1231").withOpacity(0.08),
-//                           spreadRadius: 10,
-//                           blurRadius: 7,
-//                           offset: Offset(0, 3), // changes position of shadow
-//                         ),
-//                       ]),
-//                   child: Padding(
-//                     padding:
-//                     EdgeInsets.only(left: 20.0, right: 20, top: 60),
-//                     child: isLoggedIn == true ?
-//                     Column(
-//                       children: [
-//                         selectType,
-//                         forMe == true ? BookAppointForMe() : AddPatient(),
-//                         // confirmBooking
-//                       ],
-//                     ) : SelectAppointTime(orgNo: widget.orgNo,
-//                       doctorNo: widget.doctorNo,
-//                       companyNo: widget.companyNo,),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             doctorCard,
-//           ],
-//         )
-//     );
-//   }
-// }
-//
-//
+  void signInRequired(BuildContext context) {
+    showGeneralDialog(
+      barrierLabel: "Label",
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 700),
+      context: context,
+      pageBuilder: (context, anim1, anim2) {
+        return SignInRequired();
+      },
+    );
+  }
+}

@@ -31,6 +31,8 @@ class SignUpFormField extends StatelessWidget {
   final Widget suffixIcon;
   final double borderRadius;
   final bool obSecure;
+  final double topPadding;
+
   const SignUpFormField({
     this.readOnly = false,
     this.enabled = true,
@@ -54,12 +56,13 @@ class SignUpFormField extends StatelessWidget {
     this.suffixIcon,
     this.borderRadius = 10,
     this.onTap,
-    this.margin = const EdgeInsets.all(8),
+    this.margin = const EdgeInsets.all(5),
     this.keyboardType,
     this.contentPadding =
         const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     this.maxLines = 1,
     this.textFieldKey,
+    this.topPadding=25,
   });
 
   @override
@@ -89,7 +92,7 @@ class SignUpFormField extends StatelessWidget {
               ),
             ),
           SizedBox(
-            height: 5,
+            height: 1,
           ),
           TextFormField(
             obscureText: obSecure,
@@ -116,29 +119,34 @@ class SignUpFormField extends StatelessWidget {
               border: InputBorder.none,
               hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
               focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
-              contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+              contentPadding: EdgeInsets.fromLTRB(15.0, topPadding, 40.0, 0.0),
               enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: Colors.red, width: 1.0),
+                borderSide: BorderSide(color: Colors.red, width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               hintText: hintText,
             ),
           ),
+          errorText == null
+              ? Text("")
+              : Padding(
+                  padding: const EdgeInsets.only(left: 38, top: 0, right: 38),
+                  child: Text(
+                    errorText,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
         ],
       ),
     );

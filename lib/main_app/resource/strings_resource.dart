@@ -48,7 +48,7 @@ class StringResources {
   static String loginToYourExistingAccount = "Sign in to your existing account";
   //Hospital List
   static String hospitalListAppbar= "Hospitals & Diagnostics";
-  static String searchBoxHint ="Type Hospitals / Diagnosis/ Doctor Chamber";
+  static String searchBoxHint =" Search Hospitals or Diagnostics";
   static String getAppointmentButton = "GET APPOINTMENT";
 
   //Doctors list
@@ -65,6 +65,8 @@ class StringResources {
   static String confirmPassword= "Confirm password";
   static String address= "Type your address";
   static String gender ="Gender";
+  static String bloodGroup ="Blood Group";
+  static String relation ="Relation";
   static String signUpButton= "SIGN UP";
   static String dateOfBirth= "Birth Date";
   static String createAccount= "Create an Account";
@@ -74,6 +76,18 @@ class StringResources {
  static String policy = "Privacy Policy";
   static List<String> genderList = [
  "Male", "Female", "Other"
+  ];
+  static List<String> bloodGroupList = [
+  'A+', 'A-',  'B+', 'B-',  'O+', 'O-',  'AB+', 'AB-'
+  ];
+  static List<String> relationList = [
+   'Brother', 'Mother',  'Father', 'Sister',  'Aunt', 'Uncle',  'Friend',
+  ];
+  static List<String> memberList = [
+   "Family Member", "Others"
+  ];
+  static List<String> memberNameList = [
+   "Feroz Alam", "Shakil", "Jahid","Monir","Akram"
   ];
 
    //Book an appointment
@@ -628,7 +642,7 @@ class StringResources {
   static const String successfulText = "Successful!";
   static const String savedText = "Saved";
   static const String typeToSearch = "Type to search";
-  static const String noJobsFound = "No jobs found";
+  static const String noNewsFound = "No news found";
   static const String noSimilarJobsFound = "No Similar Job(s) Found.";
   static const String noOpenJobsFound = "No Open Job(s) Found.";
   static const String noFavouriteJobsFound = "No favourite jobs found";

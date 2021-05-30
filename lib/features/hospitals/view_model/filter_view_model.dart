@@ -11,6 +11,7 @@ class FilterViewModel extends ChangeNotifier{
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
+  bool _isLoading= false;
 
   // Future<void> refresh(String companyNo){
   //   _departments.clear();
@@ -33,13 +34,16 @@ class FilterViewModel extends ChangeNotifier{
   }
   Future<void> getSpecialist(String id, String orgNo) async {
     var res = await FilterRepository().fetchSpeciality(id, orgNo);
+    _isLoading= true;
     notifyListeners();
     _specialist.clear();
     res.fold((l) {
+      _isLoading= false;
       _appError = l;
       _isFetchingMoreData = false;
       notifyListeners();
     }, (r) {
+      _isLoading= false;
       _isFetchingMoreData = false;
       _specialist.addAll(r.specialList);
       notifyListeners();
@@ -55,6 +59,7 @@ class FilterViewModel extends ChangeNotifier{
 
   bool get shouldShowPageLoader =>
       _isFetchingData && _departments.length == 0;
+  bool get isLoading => _isLoading;
 
   List<SpecializationItem> get specialList => _specialist;
 

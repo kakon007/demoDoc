@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 
 class Loader extends StatelessWidget {
   final double size;
@@ -8,10 +9,10 @@ class Loader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CupertinoActivityIndicator(
-        radius: size ?? 10,
-      ),
-    );
+    return Center(child: Center(
+      child: CircularProgressIndicator(  valueColor:
+      AlwaysStoppedAnimation<Color>(
+          AppTheme.appbarPrimary),),
+    ));
   }
 }

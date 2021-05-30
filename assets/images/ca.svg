@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="33.802" height="33.465" viewBox="0 0 33.802 33.465">
+  <g id="calender_" data-name="calender " transform="translate(1 1)">
+    <g id="Date">
+      <rect id="Rectangle" width="31.41" height="7.552" transform="translate(0 3.776)" fill="none" stroke="#8592e5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+      <path id="Path" d="M.479,0V3.776" transform="translate(8.682)" fill="none" stroke="#8592e5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+      <path id="Path-2" data-name="Path" d="M.479,0V3.776" transform="translate(21.77)" fill="none" stroke="#8592e5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+      <path id="Path-3" data-name="Path" d="M31.41,0H0V20.138H25.913l1.178-1.133A14.019,14.019,0,0,0,31.41,8.936Z" transform="translate(0 11.327)" fill="none" stroke="#8592e5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+      <path id="Path-4" data-name="Path" d="M0,11.328V5.034H0A7.371,7.371,0,0,0,5.235,1.888L6.544,0" transform="translate(24.866 20.138)" fill="none" stroke="#8592e5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

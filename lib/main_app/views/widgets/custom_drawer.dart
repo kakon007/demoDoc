@@ -4,9 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
-import 'package:myhealthbd_app/features/dashboard/model/user_details_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
+import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -32,14 +38,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Prescriptions",
     "Reports",
     "Documents",
-    "Messages",
-    "Notifications",
-    "Settings",
+    "More",
     "Family Members",
     "Switch Account",
-    "Sign Out",
   ];
 
+  List<String> menuItem2=[
+    "Dashboard",
+    "Appointments",
+    "Prescriptions",
+    "Reports",
+    "Documents",
+    "More",
+  ];
 
   Widget buildMenuRow(int index){
     return InkWell(
@@ -65,7 +76,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left:3,right:3),
                   child: Text(
-                    menuItem[index],
+                   widget.accessToken==null?menuItem2[index]:menuItem[index],
                     style: GoogleFonts.roboto(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -75,7 +86,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
             ),),
               ):
         Text(
-          menuItem[index],
+          widget.accessToken==null?menuItem2[index]:menuItem[index],
           style: GoogleFonts.roboto(
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -92,41 +103,29 @@ class _DrawerScreenState extends State<DrawerScreen> {
     );
   }
 
-
-  Future<FindHospitalNumberModel> fetchUserDetails() async {
-    var url =
-        "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
-    var client = http.Client();
-    var response = await client.post(url,headers: {'Authorization': 'Bearer ${widget.accessToken}',});
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonMap = json.decode(response.body);
-      //print("Body"+jsonMap.toString());
-      //data = jsonMap["items"];
-      FindHospitalNumberModel data2 = findHospitalNumberModelFromJson(response.body) ;
-      //Obj odj=Obj.fromJson();
-      setState(() {
-        fName=data2?.obj?.fname;
-        phoneNumber=data2?.obj?.phoneMobile;
-        address=data2?.obj?.address;
-        dob=data2?.obj?.dob;
-      });
-      // print('Data:: ' + data2.obj.fname);
-      // print('DataList:: ' + fName.toString());
-      return data2;
-      //print(data[0]['companySlogan']);
-    }else {
-      return null;
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
-    fetchUserDetails();
+    //fetchUserDetails();
+    var vm2 = Provider.of<AccessTokenProvider>(context, listen: false);
+    UserDetailsRepository().fetchUserDetails(vm2.accessToken);
     super.initState();
+    Future.delayed(Duration.zero, () async {
+      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+    });
+    var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+    vm.getData();
   }
+
+
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<UserDetailsViewModel>(context);
+    var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
+    var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
+    var photo = vm10.details?.photo ?? "";
+    Obj userDetails = vm.userDetailsList;
+    var devicewidth=MediaQuery.of(context).size.width;
     return Stack(
       children:[
 
@@ -136,21 +135,33 @@ class _DrawerScreenState extends State<DrawerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           widget.accessToken==null?SizedBox():InkWell(
+           vm9.accessToken==null?SizedBox():InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: fName,phoneNumber: phoneNumber,address: address,dob: dob,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile(fName: userDetails.patientName,phoneNumber: userDetails.phoneMobile,address: userDetails.address,dob: userDetails.dob,id:userDetails.hospitalNumber ,accessToken: widget.accessToken,email: userDetails.email,gender: userDetails.gender,bloodGroup: userDetails.bloodGroup,)));
                 print("Presssss");
               },
               child: Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
-                    child: CircleAvatar(
-                      radius: 33,
+                    child:   photo != ""
+                        ? Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white,width: 1.5),
+                          //color: AppTheme.appbarPrimary,
+                          shape: BoxShape.circle,
+                        ),
+                        height: 60,
+                        width: 60,
+                        child: Center(
+                            child: vm10.loadProfileImage(photo, 60, 60,50)
+                        ))
+                        : CircleAvatar(
+                      radius: 30,
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/proimg.png'),
-                        radius: 30,
+                        backgroundImage: AssetImage('assets/images/dPro.png'),
+                        radius: 27,
                       ),
                     ),
                   ),
@@ -162,29 +173,30 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     children: [
                       Row(
                         children: [
-                          FutureBuilder(
-                            future: fetchUserDetails(),
-                            builder: (c,snapshot){
-                              if(snapshot.hasData){
-                                return Text(
-                                  fName,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white),
-                                );
-                              }else{
-                                return CircularProgressIndicator();
-                              }
+                          vm.shouldShowPageLoader
+                              ? Center(
+                            child: CircularProgressIndicator(  valueColor:
+                            AlwaysStoppedAnimation<Color>(
+                                AppTheme.appbarPrimary),),
+                          ):
+                           Container(
+                                  width: devicewidth*0.5,
+                                  child: Text(
+                                    userDetails?.fname??'',
+                                      maxLines:1,overflow:TextOverflow.ellipsis,
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  ),
+                                ),
 
-                            },
-                          ),
                           SizedBox(width: 80,),
                           //Icon(Icons.close,color: Colors.white,size: 18,)
                         ],
                       ),
                       SizedBox(height: 5,),
-                      Text("Mirpur,Dhaka", style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
+                      Text(userDetails?.address??"Dhaka", style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
                       SizedBox(height: 8,),
                       Container(
                         width: 120,
@@ -205,7 +217,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top:40.0),
                   child: Column(
-                    children: menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
+                    children:widget.accessToken==null? menuItem2.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList():menuItem.asMap().entries.map((mapEntry) => buildMenuRow(mapEntry.key)).toList(),
                   ),
                 ),
               ),

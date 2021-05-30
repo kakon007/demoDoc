@@ -1,11 +1,17 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 
@@ -18,17 +24,72 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
   var accessToken;
   ScrollController _scrollController;
 
+  loadImage(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+    return _bytesImage;
+
+  }
+
+  loadLogo(String image){
+    Uint8List  _bytesImage = Base64Decoder().convert(image);
+    return _bytesImage;
+  }
+
+  TextEditingController hospitalController = TextEditingController();
+  List<Item> hospitalList;
+  var hospitalItems = List<Item>();
   @override
   void afterFirstLayout(BuildContext context) {
     _scrollController = ScrollController();
-    var vm = Provider.of<HospitalListViewModel>(context, listen: false);
-    vm.getData();
-    print(vm.hospitalList.length);
+    Future.delayed(Duration.zero,() async{
+      var vm = Provider.of<HospitalListViewModel>(context, listen: false);
+      vm.getData();
+      print(vm.hospitalList.length);
+      var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
+      vm5.getData();
+      var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
+      vm6.getImageData();
+      await vm.getData();
+      hospitalList = vm.hospitalList;
+        hospitalItems.addAll(hospitalList);
+
+    });
+  }
+
+  void hospitalSearch(String query) {
+    print(query);
+    List<Item> initialHospitalSearch = List<Item>();
+   hospitalList.forEach((element) {
+     initialHospitalSearch.add(element);
+   });
+    if(query.isNotEmpty) {
+      List<Item> initialHospitalSearchItems = List<Item>();
+      initialHospitalSearch.forEach((item) {
+        if(item.companyName.contains(query)) {
+          initialHospitalSearchItems.add(item);
+        }
+      });
+      setState(() {
+        hospitalItems.clear();
+        hospitalItems.addAll(initialHospitalSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        hospitalItems.clear();
+        hospitalItems.addAll(hospitalList);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     var searchField = SignUpFormField(
+      onChanged: (value) {
+        hospitalSearch(value);
+        // print(value);
+      },
+      controller: hospitalController,
       borderRadius: 30,
       hintText: StringResources.searchBoxHint,
       suffixIcon: Padding(
@@ -40,6 +101,8 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       ),
     );
     var vm = Provider.of<HospitalListViewModel>(context);
+    var vm5 = Provider.of<HospitalLogoViewModel>(context);
+    var vm6 = Provider.of<HospitalImageViewModel>(context);
     List<Item> list = vm.hospitalList;
     var length = list.length;
     return Scaffold(
@@ -69,51 +132,56 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           SizedBox(
             width: 10,
           ),
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () {},
-          )
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.notifications,
+          //     color: Colors.white,
+          //     size: 20,
+          //   ),
+          //   onPressed: () {},
+          // )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            searchField,
-            vm.isLoading== true? Center(child: CircularProgressIndicator()):  Expanded(
-              child: SingleChildScrollView(
-                physics: ScrollPhysics(),
+      body: RefreshIndicator(
+        onRefresh: (){
+          return Provider.of<HospitalListViewModel>(context, listen: false)
+              .refresh();
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              searchField,
+              vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Loader():  Expanded(
                 child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: length,
+                    itemCount: hospitalItems.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return HospitalListCard(
-                        list[index].companyName,
-                        list[index].companyAddress == null
+                      int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      return HospitalListCard(loadImage(vm5.hospitalLogoList[ind].photoLogo),
+                        vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                        hospitalItems[index].companyName,
+                        hospitalItems[index].companyAddress == null
                             ? "Mirpur,Dahaka,Bangladesh"
-                            : list[index].companyAddress,
+                            : hospitalItems[index].companyAddress,
                         "60 Doctors",
-                        list[index].companyPhone == null
+                        hospitalItems[index].companyPhone == null
                             ? "+880 1962823007"
-                            : list[index].companyPhone,
-                        list[index].companyEmail == null
+                            : hospitalItems[index].companyPhone,
+                        hospitalItems[index].companyEmail == null
                             ? "info@mysoftitd.com"
                             : list[index].companyEmail,
-                        list[index].companyLogo,
-                        list[index].companyId,
-                        list[index].ogNo.toString(),
-                        list[index].id.toString(),
+                        hospitalItems[index].companyLogo,
+                        hospitalItems[index].companyId,
+                        hospitalItems[index].ogNo.toString(),
+                        hospitalItems[index].id.toString(),
                       );
                     }),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

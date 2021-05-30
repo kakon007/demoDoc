@@ -8,40 +8,6 @@ import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
 import 'package:provider/provider.dart';
 
 
-// class HospitalListViewModel extends GetxController{
-//   var appError = AppError.none.obs;
-//   var jobListApplied = <HospitalListModel>[].obs;
-//   var isFetchingData = false.obs;
-//   var isFetchingMoreData = false.obs;
-//   void onClose() {
-//     appError.close();
-//     jobListApplied.close();
-//     isFetchingData.close();
-//     isFetchingData.close();
-//     isFetchingMoreData.close();
-//     super.onClose();
-//   }
-//
-//   Future<bool> getJobList() async {
-//    // _page = 1;
-//     isFetchingData.value = true;
-//
-//     Either<AppError, HospiitalListM> result =
-//     await HospitalListRepositry().fetchHospitalList();
-//     return result.fold((l) {
-//       isFetchingData.value = false;
-//       //logger.i(l);
-//       return false;
-//     }, (r) {
-//       //hasMoreData = r.hasMoreData;
-//       isFetchingData.value = false;
-//       jobListApplied.value = r.dataList;
-//       return true;
-//     });
-//   }
-//
-// }
-
 class HospitalListViewModel extends ChangeNotifier{
   List<Item> _hospitalList =[];
 
@@ -58,12 +24,8 @@ class HospitalListViewModel extends ChangeNotifier{
     return getData();
   }
 
-  Future<void> getData({bool isFromOnPageLoad = false}) async {
-    if (isFromOnPageLoad) {
-      if (_lastFetchTime != null) if (_lastFetchTime
-          .difference(DateTime.now()) <
-          CommonServiceRule.onLoadPageReloadTime) return;
-    }
+  Future<void> getData() async {
+
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
     _isLoading = true;
@@ -78,6 +40,7 @@ class HospitalListViewModel extends ChangeNotifier{
       _isLoading= false;
       _isFetchingMoreData = false;
       _hospitalList.addAll(r.dataList);
+      _hospitalList.removeAt(0);
       notifyListeners();
     });
   }

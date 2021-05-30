@@ -1,11 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/NewFile.dart';
+import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
+import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
+import 'package:provider/provider.dart';
 
 class CustomContainer extends StatelessWidget {
+  String jobTitle;
+  Image logo;
   String titleText;
   String subTitleText;
   String undersubtitle;
@@ -15,16 +22,19 @@ class CustomContainer extends StatelessWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
-  CustomContainer(@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo);
+  String hospitalName;
+  CustomContainer(@required this.jobTitle,@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName);
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<DoctorListViewModel>(context);
+    var vm2 = Provider.of<AvailableSlotsViewModel>(context, listen: true);
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 15.0 : 10.0,
     );
-    print( (cardHeight*.5).toString());
+   // print( (cardHeight*.5).toString());
     return Container(
 
       height: 162,
@@ -48,19 +58,14 @@ class CustomContainer extends StatelessWidget {
               // ),
               ClipRRect(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
-                  child: Image.asset(
-                      images,
-                      fit: BoxFit.cover,
-                    width: cardWidth*0.9,
-                    height: 160,
-                    ),
+                  child: logo,
 
               ),
               SizedBox(
-                width: cardHeight *0.2,
+                width: MediaQuery.of(context).size.height >650 ? cardHeight *0.2 : cardHeight *0.1,
               ),
               Container(
-                width: cardWidth * 1.6,
+                width: MediaQuery.of(context).size.height >650 ? cardWidth * 1.6 : cardWidth * 1.55,
                 height: 140,
                 decoration: BoxDecoration(
                   color: HexColor("#FFFFFF"),
@@ -78,7 +83,7 @@ class CustomContainer extends StatelessWidget {
                           height: 39,
                           child: Text(titleText, style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w700),)),
                       Container(height: 18,child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.bold ),)),
-                      Container(height: 30,child: Text(undersubtitle, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),)),
+                      Container(height: 30,child: Text(designation, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),)),
 
                       SizedBox(
                         height: cardHeight/10,
@@ -86,10 +91,10 @@ class CustomContainer extends StatelessWidget {
 
                       Row(
                         children: [
-                          Text(consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
+                          Text("TK. " + consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
                           SizedBox(width: height*.03,),
                           Container(
-                            width: cardWidth*0.7,
+                            width: cardWidth*0.75,
                             height: 30,
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(
@@ -98,18 +103,15 @@ class CustomContainer extends StatelessWidget {
                               elevation: 0,
                               //color: AppTheme.appbarPrimary,
                               onPressed: () {
+                                vm2.getInfo(doctorNo, companyNo, orgNo);
+                                Navigator.push(context,MaterialPageRoute(builder: (context){
+                                  return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
+                                }));
                               },
                               textColor: Colors.white,
-                              child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context,MaterialPageRoute(builder: (context){
-                                    return AppointmentScreen(name: titleText, specialist:subTitleText , fee: consultationFee,designation: designation,  companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo,);
-                                  }));
-                                },
-                                child: Text(
-                                  "Book Now",
-                                  style: GoogleFonts.poppins(fontSize: 10,color: Colors.white, fontWeight: FontWeight.w600),
-                                ),
+                              child: Text(
+                                "Book Now",
+                                style: GoogleFonts.poppins(fontSize: 10,color: Colors.white, fontWeight: FontWeight.w600),
                               ),
                             ),
                           )

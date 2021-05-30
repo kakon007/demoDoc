@@ -5,46 +5,71 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/main_app/util/validator.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 SignInModel signInData;
 
 class SignIn extends StatefulWidget {
+  bool isBook;
+  SignIn({this.isBook});
   @override
   _SignInState createState() => _SignInState();
 }
 
+
 class _SignInState extends State<SignIn> {
-  bool value = false;
+  bool value= true;
+  final DbManager dbmManager = new DbManager();
+  SwitchAccounts accounts;
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
   bool isObSecure;
   bool validUser;
   bool isClicked;
-
+  var user;
+  var pass;
+  Future<void> getUSerDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    user= prefs.getString("username");
+    pass= prefs.getString("password");
+    var rememberMe= prefs.getBool("value");
+    accounts=null;
+    if(rememberMe==true){
+      _username.text = user;
+      _password.text = pass;
+    }
+  }
+  List<SwitchAccounts> accountsList;
+  String addAccountValue;
   @override
   void initState() {
     // TODO: implement initState
     isObSecure = true;
     validUser = true;
     isClicked = false;
+    getUSerDetails();
+    Future.delayed(Duration.zero, () async {
+      accountsList = await dbmManager.getAccountList();
+    });
     super.initState();
   }
-
-  Future<void> getUSerDetails() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("username", _username.text);
-    prefs.setString("password", _password.text);
-  }
-
   final FocusNode _emailFocus = FocusNode();
 
   @override
@@ -55,13 +80,15 @@ class _SignInState extends State<SignIn> {
     var spaceBetween = SizedBox(
       height: height >= 700 ? 10.0 : 5.0,
     );
-    var userName = CustomTextFieldRounded(
+    var userName = SignUpFormField(
+      validator: Validator().nullFieldValidate,
       controller: _username,
-      margin: EdgeInsets.only(top: 8, left: 8, right: 8),
+      margin: EdgeInsets.only(top: 3, left: 8, right: 8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
-    var password = CustomTextFieldRounded(
+    var password = SignUpFormField(
+      validator: Validator().nullFieldValidate,
       // validator: (value) {
       //   if (value == null || value.isEmpty) {
       //     return 'Please enter password';
@@ -71,18 +98,20 @@ class _SignInState extends State<SignIn> {
       suffixIcon: IconButton(
         icon: isObSecure == true
             ? Icon(
-                Icons.visibility_off,
-              )
+            Icons.visibility_off,
+            color: AppTheme.appbarPrimary
+        )
             : Icon(
-                Icons.visibility,
-              ),
+          Icons.visibility,
+          color: AppTheme.appbarPrimary,
+        ),
         onPressed: () {
           setState(() {
             isObSecure == true ? isObSecure = false : isObSecure = true;
           });
         },
       ),
-      obscureText: isObSecure,
+      obSecure: isObSecure,
       controller: _password,
       margin: EdgeInsets.only(left: 8, right: 8),
       contentPadding: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -207,10 +236,9 @@ class _SignInState extends State<SignIn> {
             child: Form(
               key: _formKey,
               child: Padding(
-                padding:  EdgeInsets.only(top: height>=700 ? height*.45: height*.41),
-
+                padding:  EdgeInsets.only(top: height>=700 ? height*.52: height*.41),
                 child: new Container(
-                  height:  height>=700 ? MediaQuery.of(context).size.height * .55 : MediaQuery.of(context).size.height * .6,
+                  height:  height>=700 ? MediaQuery.of(context).size.height * .48 : MediaQuery.of(context).size.height * .6,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(25),
@@ -234,83 +262,116 @@ class _SignInState extends State<SignIn> {
                         ),
                         Center(
                             child: Text(
-                          StringResources.welcomeBack,
-                          style: GoogleFonts.roboto(
-                              color: HexColor("#0D1231"),
-                              fontSize: height*.03,
-                              fontWeight: FontWeight.w600),
-                        )),
+                              StringResources.welcomeBack,
+                              style: GoogleFonts.roboto(
+                                  color: HexColor("#0D1231"),
+                                  fontSize: height*.03,
+                                  fontWeight: FontWeight.w600),
+                            )),
                         userName,
                         password,
                         validUser == false
                             ? Container(
-                                color: Colors.red[100],
-                                child: Text(
-                                  "Invalid Credential",
-                                  style: GoogleFonts.poppins(color: Colors.red),
-                                ))
+                            color: Colors.red[100],
+                            child: Text(
+                              "Invalid Credential",
+                              style: GoogleFonts.poppins(color: Colors.red),
+                            ))
                             : SizedBox(),
                         rememberMe,
                         isClicked == false
                             ? GestureDetector(
-                                onTap: () async {
-                                  setState(() {
-                                    isClicked = true;
-                                  });
-                                  String username = 'telemedCareIdPassword';
-                                  String password = 'secret';
-                                  String basicAuth = 'Basic ' +
-                                      base64Encode(
-                                          utf8.encode('$username:$password'));
-                                  String url =
-                                      "${Urls.buildUrl}auth-api/oauth/token?username=${_username.text}&password=${_password.text}&grant_type=password";
-                                  var response = await http.post(url,
-                                      headers: <String, String>{
-                                        'authorization': basicAuth
-                                      });
-                                  if (response.statusCode == 200) {
-                                    print(response.body);
-                                    signInData =
-                                        signInModelFromJson(response.body);
-                                    if (signInData != null) {
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                HomeScreen(
-                                              accessToken:
-                                                  signInData.accessToken,
-                                            ),
-                                          ),
-                                          (Route<dynamic> route) => false);
-
-                                      SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-                                      prefs.setString("accessToken",
-                                          signInData.accessToken);
-                                      prefs.setString(
-                                          "username", _username.text);
-                                      prefs.setString(
-                                          "password", _password.text);
+                            onTap: () async {
+                              if (_formKey.currentState.validate()){
+                                setState(() {
+                                  isClicked = true;
+                                });
+                                SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                                prefs.setString(
+                                    "username", _username.text);
+                                prefs.setString(
+                                    "password", _password.text);
+                                var vm5 = Provider.of<AuthViewModel>(context, listen: false);
+                                await vm5.getAuthData(_username.text, _password.text);
+                                if(vm5.accessToken!=null){
+                                  accountsList.forEach((item) {
+                                    if(item.username.contains(_username.text)) {
+                                      addAccountValue = _username.text;
                                     }
-                                  } else {
-                                    setState(() {
-                                      if (validUser == true) {
-                                        validUser = false;
-                                      }
-                                      if (isClicked == true) {
-                                        isClicked = false;
-                                      }
+                                  });
+                                  if(addAccountValue==null){
+                                    var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
+                                    var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
+                                    await vm4.getSwitchData(vm5.accessToken);
+                                    await vm3.switchImage(vm5.accessToken);
+                                    print("abcd");
+                                    SwitchAccounts switchAccounts = new SwitchAccounts(
+                                      name: vm4.userSwitchDetailsList.fname,
+                                      relation: vm3.switchDetails.photo,
+                                      username: _username.text,
+                                      password: _password.text,
+                                    );
+                                    dbmManager.insertStudent(switchAccounts).then((id) => {
+                                      print("name" + vm4.userSwitchDetailsList.fname),
+                                      print("photo" + vm3.switchDetails.photo),
                                     });
                                   }
-                                },
-                                child: signInButton)
+                                  else{
+                                    print("prity");
+                                  }
+                                }
+                                if (vm5.accessToken!=null) {
+                                    appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+                                   Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              HomeScreen(
+                                                accessToken:
+                                                vm5.accessToken,
+                                              ),
+                                        ),
+                                            (Route<dynamic> route) => false);
+                                    if(this.value== true){
+                                      //print(_username.text);
+                                      prefs.setBool("value", true);
+                                    }
+                                    else{
+                                      // prefs.remove("username");
+                                      // prefs.remove("password");
+                                      prefs.setBool("value", false);
+                                    }
+
+                                } else {
+
+                                  SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                                  if(this.value== true){
+                                    print(_username.text);
+                                    prefs.setBool("value", true);
+                                  }
+                                  else{
+                                    prefs.setBool("value", false);
+                                  }
+                                  setState(() {
+                                    if (validUser == true) {
+                                      validUser = false;
+                                    }
+                                    if (isClicked == true) {
+                                      isClicked = false;
+                                    }
+                                  });
+                                }
+                              }
+
+                            },
+                            child: signInButton)
                             : CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.green),
-                                backgroundColor: Colors.red,
-                              ),
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
+                        ),
                         spaceBetween,
-                        socialSignIn,
+                        // socialSignIn,
                         spaceBetween,
                         signUp
                       ],

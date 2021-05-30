@@ -5,9 +5,14 @@ class Validator {
   String nullFieldValidate(String value) =>
       value.isEmptyOrNull ? StringResources.thisFieldIsRequired : null;
 
-
-
-
+  String capitalizeTheFirstLetterOfEachWord(String str) {
+    var separateWord = str.toLowerCase().split(' ');
+    for (var i = 0; i < separateWord.length; i++) {
+      separateWord[i] = separateWord[i].substring(0,1).toUpperCase() +
+          separateWord[i].substring(1);
+    }
+    return separateWord.join(' ');
+  }
 
   String validateEmail(String value) {
     Pattern pattern =
@@ -58,7 +63,7 @@ class Validator {
     Pattern pattern = r'\+?(88)?0?1[3456789][0-9]{8}\b';
     RegExp regex = new RegExp(pattern);
     if(value == ''){
-      return null;
+      return StringResources.enterValidPhoneNumber;
     }else if(value.length > 11){
       return StringResources.enterValidPhoneNumber;
     }else if (!regex.hasMatch(value))

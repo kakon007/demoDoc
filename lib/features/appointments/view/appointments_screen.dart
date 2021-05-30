@@ -85,30 +85,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   var appointStatus;
   bool isLoading = false;
   bool isStatusOk;
-
-  //double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
-
   AvailableSlotModel slotItem;
   var selectedPatientType = "";
   var selectedConsultationType = "";
   String color = "#EAEBED";
-
-  startTimer() {
-    Timer.periodic(const Duration(milliseconds: 2000), (t) {
-      if (mounted) setState(() {});
-      t.cancel();
-    });
-  }
-
-  var accessToken;
-
-  Future<void> accesstoken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    accessToken = prefs.getString('accessToken');
-  }
+  // var accessToken;
+  // Future<void> accesstoken() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   accessToken = prefs.getString('accessToken');
+  // }
   loadLogo(String image) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
-
     return Image.memory(
       _bytesImage,
       fit: BoxFit.cover,
@@ -119,7 +106,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
   @override
   void initState() {
-    accesstoken();
     status = "Not Ok";
     isClicked = false;
     isStatusOk = false;
@@ -156,7 +142,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var accessTokenVM = Provider.of<AccessTokenProvider>(context, listen: false);
     var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var profileImage = userImageVm.details?.photo ?? "";
-
     var length= vm.slotList.length;
     var doctorDegree=  vm.doctorInfo?.docDegree == null
         ? ""
@@ -243,7 +228,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     ? HexColor("#969EC8")
                     : AppTheme.appbarPrimary,
                 onPressed: () async {
-                  if (accessToken != null) {
+                  if (accessTokenVM.accessToken != null) {
                     await vm.getSlotStatus(
                         slotNo.toString(), widget.companyNo, widget.orgNo);
                     setState(() {

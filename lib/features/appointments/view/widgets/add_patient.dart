@@ -123,7 +123,7 @@ class _AddPatientState extends State<AddPatient> {
     selectedGender = "";
   }
 
-  String _selectedName;
+  String _selectedMemType;
   Item _familyMembers;
   String _selectedType;
   String _selectedMemberType;
@@ -375,7 +375,15 @@ class _AddPatientState extends State<AddPatient> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     _selectedMemberType = newValue;
-                                    selectedMemberType = newValue;
+                                    if(_selectedMemberType!= selectedMemberType){
+                                      selectedMemberType = newValue;
+                                      _selectedConsultation=null;
+                                      Future.delayed(Duration.zero, () async {
+                                        await vm.getConType(
+                                            widget.doctorNo, selectedMemberType=="Family Member" ? vm.patNo : vm.patOther, widget.companyNo, widget.orgNo);
+                                      });
+                                    }
+
                                   });
                                 },
                                 items: StringResources.memberList.map((patNo) {
@@ -649,15 +657,14 @@ class _AddPatientState extends State<AddPatient> {
                                       _selectedConsultation,
                                       widget.doctorNo,
                                       widget.orgNo,
-                                      (_selectedMemberType == "Family Member" &&
-                                                  vm.addPatient == true) ||
-                                              vm.forMe == true
+                                      (selectedMemberType == "Family Member" &&
+                                                  vm.addPatient == true)
                                           ? vm.patNo
                                           : vm.patOther,
                                     );
                                   });
                                 },
-                                items: vm.consultType2.map((consNo) {
+                                items: vm.consultType.map((consNo) {
                                   return DropdownMenuItem(
                                     child: new Text(
                                       Validator()

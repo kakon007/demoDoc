@@ -15,6 +15,7 @@ import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart
 import 'package:myhealthbd_app/features/dashboard/view/widgets/manage_account_prompt.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/nearest_appointment_card_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/custom_blog_widget.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
@@ -117,8 +118,13 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   void initState() {
+
     Future.delayed(Duration.zero, () async {
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+      var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+      await vm19.getData();
+      var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
+     await vm9.getData(vm19.userDetailsList.hospitalNumber);
     });
 
     // TODO: implement initState
@@ -139,6 +145,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     vm7.getData();
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
+
+
     lastTme();
    // controller = CountdownTimerController(endTime: lasTtimerr!=null?lasTtimerr:DateTime.now().millisecondsSinceEpoch);
 
@@ -165,6 +173,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 
     var vm2 = Provider.of<NewsViewModel>(context);
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
+    var vm15 = Provider.of<NearestAppointmentViewModel>(context, listen: true);
     var photo = vm10.details?.photo ?? "";
     List<news.Item> list2 = vm2.newsList;
     var lengthofNewsList = list2.length;
@@ -542,19 +551,20 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         ),
                                       ),
                                     ),
-                                    // SizedBox(
-                                    //   height: 10,
-                                    // ),
-                                    // vm9.accessToken == null || lasTtimerr==null
-                                    //     ? Container()
-                                    //     : CustomCardPat(
-                                    //         "You have an upcoming appointment",
-                                    //         "22-02-2021 Monday 08:30pm \nSerial-12",
-                                    //         "Dr. Jahid Hasan",
-                                    //         "Alok hospital",
-                                    //     lasTtimerr,
-                                    //   //controller
-                                    // ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    vm9.accessToken == null
+                                        ? Container()
+                                        : CustomCardPat(
+                                      titleText: "You have an upcoming appointment",
+                                      subTitleText:  vm15.nearestAppointmentDetails==null?'Loading':DateUtil().formattedDate(DateTime.parse(vm15.nearestAppointmentDetails.startTime).toLocal()),
+                                      serial: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.slotSl.toString(),
+                                      countText: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.doctorName,
+                                      name:   vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.companyName,
+                                     lastTime:vm15.nearestAppointmentDetails==null?DateTime.now().millisecondsSinceEpoch:DateTime.parse(vm15.nearestAppointmentDetails.startTime).millisecondsSinceEpoch,
+                                      //controller
+                                    ),
                                     SizedBox(
                                       height: 10,
                                     ),
@@ -1132,10 +1142,18 @@ class _DashboardScreenState extends State<DashboardScreen>
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd';
+  static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 
   String formattedDate(DateTime dateTime) {
     //print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }
+
+// class TimeUtil {
+//   static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+//   String formattedDate(DateTime dateTime) {
+//     print('dateTime ($dateTime)');
+//     return DateFormat(DATE_FORMAT).format(dateTime);
+//   }
+// }

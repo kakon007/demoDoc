@@ -3,14 +3,17 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+
+import 'loader.dart';
 class CustomCardPat extends StatelessWidget {
   String titleText;
   String subTitleText;
+  String serial;
   String countText;
    String name;
    int lastTime;
   //CountdownTimerController controller;
-  CustomCardPat(@required this.titleText,@required this.subTitleText,@required this.countText,@required this.name,this.lastTime);
+  CustomCardPat({ this.titleText, this.subTitleText, this.countText, this.name,this.lastTime,this.serial});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,26 +37,32 @@ class CustomCardPat extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child:
-                // Stack(
-                //   children:[ Container(
-                //       child: Image.asset("assets/images/clocknew.png"),
-                //   ),
-                //     Padding(
-                //       padding: const EdgeInsets.only(top:35.0,left: 14,bottom:20),
-                //       child: Column(
-                //         children: [
-                //           Text("20:10:33",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                //           Text("Hours Left",style: TextStyle(fontSize: 10),)
-                //         ],
-                //       ),
-                //     )
-                //   ]
-                // ),
+                Stack(
+                  children:[ Container(
+                      child: Image.asset("assets/images/clocknew.png"),
+                  ),
+                    lastTime!=null? Padding(
+                      padding: const EdgeInsets.only(top:35.0,left: 14,bottom:20),
+                      child: Column(
+                        children: [
+                          // Text("20:10:33",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                          // Text("Hours Left",style: TextStyle(fontSize: 10),)
 
-                CountdownTimer(
-                  //controller: controller,
-                  endTime: lastTime!=null?lastTime:DateTime.now().millisecondsSinceEpoch,
+                          CountdownTimer(
+                            endWidget: Padding(
+                              padding: const EdgeInsets.only(left:10.0),
+                              child: Center(child: Text('Loading'),),
+                            ),
+                            //controller: controller,
+                            endTime: lastTime,
+                          ),
+                        ],
+                      ),
+                    ):Loader(),
+                  ]
                 ),
+
+
               ),
               Flexible(
                 child: Padding(
@@ -61,9 +70,10 @@ class CustomCardPat extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(titleText,style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: Colors.black54),textAlign:TextAlign.start),
+                      Text(titleText,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: Colors.black54),textAlign:TextAlign.start),
                       SizedBox(height: 8,),
                       Text(subTitleText,style: TextStyle(fontSize: 12,color: HexColor('#354291')),textAlign:TextAlign.start,),
+                      Text("serial- $serial",style: TextStyle(fontSize: 12,color: HexColor('#354291')),textAlign:TextAlign.start,),
                       SizedBox(height: 12,),
                       Row(
                         children: [
@@ -77,8 +87,8 @@ class CustomCardPat extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(countText,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: HexColor('#354291')),),
-                              Text(name,style: TextStyle(fontSize: 8),),
+                              Container(width: 70,child: Text(countText,maxLines: 1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: HexColor('#354291')),)),
+                              Container(width: 70,child: Text(name,maxLines: 1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 8),)),
                             ],
                           ),
                           SizedBox(width: 8,),
@@ -92,7 +102,7 @@ class CustomCardPat extends StatelessWidget {
                               child: Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(0.0),
-                                  child: Text("View All Appointment",style: TextStyle(color: Colors.white,fontSize: 11),),
+                                  child: Text("View All Appointments",style: TextStyle(color: Colors.white,fontSize: 11),),
                                 ),
                               ),
                             ),

@@ -223,8 +223,7 @@ class _ImagebyteViewerScreenState extends State<ImagebyteViewerScreen> {
       appBar: AppBar(
         title: Text(name),
       ),
-      body:byteArray==null?Loader(): Padding(
-        padding: const EdgeInsets.all(8.0),
+      body:byteArray==null?Loader(): Center(
         child: Container(
           child: byteArray,
           // PhotoView(

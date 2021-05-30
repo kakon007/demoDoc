@@ -232,7 +232,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
 
     var writeDetailsField=Container(
       width: MediaQuery.of(context).size.width*.89,
-      height: 200,
+      height: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         //color: Colors.white,
@@ -242,11 +242,12 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       Padding(
         padding: const EdgeInsets.only(left:15.0,right: 15),
         child: TextField(
-
-          maxLength: 10,
-          maxLengthEnforced: true,
+            maxLines: null,
+          keyboardType: TextInputType.multiline,
+          maxLength: 20,
+          maxLengthEnforced: false,
           autofocus: false,
-          textInputAction: TextInputAction.search,
+          textInputAction: TextInputAction.newline,
           focusNode: _searchFieldFocusNode2,
           controller: _descriptionTextEditingController,
           cursorColor: HexColor('#C5CAE8'),
@@ -255,20 +256,14 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
              // hintText: 'Search here',
               hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
               fillColor: Colors.white,
-              // suffixIcon:IconButton(
-              //   icon:Icon(Icons.search_sharp,color: Colors.grey,),
-              //   onPressed: (){
-              //     vm2.search(_searchTextEditingController2.text,widget.accessToken);
-              //
-              //   },
-              // )
+
           ),
           onSubmitted: (v){
             //vm2.search(_searchTextEditingController2.text,widget.accessToken);
           },
 
             inputFormatters: [
-              LengthLimitingTextInputFormatter(10),
+              LengthLimitingTextInputFormatter(20),
             ]
         ),
       ),

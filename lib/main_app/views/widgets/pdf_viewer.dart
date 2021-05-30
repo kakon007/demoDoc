@@ -53,7 +53,8 @@ class _PdfFileViewerScreenState extends State<PdfFileViewerScreen> {
 class PdfbyteViewerScreen extends StatefulWidget {
 
   String attachmentUrl;
-  PdfbyteViewerScreen(this.attachmentUrl);
+  String attachmentName;
+  PdfbyteViewerScreen(this.attachmentUrl,this.attachmentName);
   @override
   _PdfbyteViewerScreenState createState() => _PdfbyteViewerScreenState();
 }
@@ -122,7 +123,7 @@ class _PdfbyteViewerScreenState extends State<PdfbyteViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final name='';
+    final name=widget.attachmentName;
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: AppBar(
@@ -145,7 +146,8 @@ class _PdfbyteViewerScreenState extends State<PdfbyteViewerScreen> {
 class ImagebyteViewerScreen extends StatefulWidget {
 
   String attachmentUrl;
-  ImagebyteViewerScreen(this.attachmentUrl);
+  String attachmentName;
+  ImagebyteViewerScreen(this.attachmentUrl,this.attachmentName);
   @override
   _ImagebyteViewerScreenState createState() => _ImagebyteViewerScreenState();
 }
@@ -215,7 +217,7 @@ class _ImagebyteViewerScreenState extends State<ImagebyteViewerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final name='';
+    final name=widget.attachmentName;
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: AppBar(

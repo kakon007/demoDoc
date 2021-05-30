@@ -1478,7 +1478,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                   type: PageTransitionType.rightToLeft,
                                                   child:
                                                   fileExt=='pdf'?
-                                                  PdfbyteViewerScreen(vm3.documentList[index].attachmentPath):ImagebyteViewerScreen(vm3.documentList[index].attachmentPath),
+                                                  PdfbyteViewerScreen(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName):ImagebyteViewerScreen(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName),
                                                 ),);
 
                                                 print('PDFPRESSEDFrom DOc');

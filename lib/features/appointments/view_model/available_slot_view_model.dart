@@ -56,6 +56,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   Obj _doctors;
   List<PatientItem> _patientItem = [];
   String _patNo;
+  String _patOther;
   List<ConsultType> _consultItem = [];
   List<ConsultType> _consultItem2 = [];
   String slot;
@@ -239,6 +240,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       for(int i= 0; i<=_patientItem.length; i++)
         {
           _patNo= _patientItem.reversed.first.patientTypeNo.toString();
+          _patOther= _patientItem.first.patientTypeNo.toString();
         }
       print("abc" + _patNo);
       _isLoading = false;
@@ -411,4 +413,5 @@ String get patNo => _patNo;
   String get orgNo => _orgNo;
   String get comNo => _comNo;
   String get docNo => _docNo;
+  String get patOther => _patOther;
 }

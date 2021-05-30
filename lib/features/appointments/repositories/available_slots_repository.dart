@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/slot_status.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
@@ -84,6 +85,7 @@ class AvailableSlotsRepository {
 
   Future<Either<AppError, SlotCheckModel>> fetchStatus(
       String slotNo, String companyNo, String orgNo) async {
+    BotToast.showLoading(allowClick: false,);
     var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/checkSlotStatus";
     final http.Response response = await http.post(
       Uri.parse(url),
@@ -92,18 +94,20 @@ class AvailableSlotsRepository {
     print(response.body);
     try {
       if (response.statusCode == 200) {
+        BotToast.closeAllLoading();
         SlotStatusModel data = slotStatusModelFromJson(response.body);
         return Right(SlotCheckModel(slotStatus: data.model.status));
       } else {
+        BotToast.closeAllLoading();
         BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
+      BotToast.closeAllLoading();
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
+      BotToast.closeAllLoading();
     } // BotToast.showText(text: StringResources.somethingIsWrong);
     return Left(AppError.unknownError);
   }

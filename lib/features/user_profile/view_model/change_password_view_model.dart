@@ -12,7 +12,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-
 class PasswordChangeViewModel with ChangeNotifier {
   //String _confirmPassword='';
   String _oldPassword = "";
@@ -29,13 +28,12 @@ class PasswordChangeViewModel with ChangeNotifier {
 
   String _errorTextOldPassword;
   String _errorTextNewPassword;
- // String _errorTextConfirmPassword;
+  // String _errorTextConfirmPassword;
 //  String _errorTextConfirmPassword;
   bool _isBusy = false;
   bool _isObscurePasswordOld = true;
   bool _isObscurePasswordNew = true;
   //bool _isObscurePasswordConfirm = true;
-
 
   bool get isObscurePasswordOld => _isObscurePasswordOld;
 
@@ -44,8 +42,6 @@ class PasswordChangeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-
-
   bool get isObscurePasswordNew => _isObscurePasswordNew;
 
   set isObscurePasswordNew(bool value) {
@@ -53,26 +49,29 @@ class PasswordChangeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getPassword(String accessToken,String newPassword, String confirmPassword, String currentPassword) async {
+  Future<void> getPassword(String accessToken, String newPassword, String confirmPassword,
+      String currentPassword) async {
     print(accessToken);
     print(currentPassword);
     print(newPassword);
     print(confirmPassword);
 
-     var res = await ChangePasswordRepository().fetchPassword(accessToken, newPassword, confirmPassword, currentPassword);
+    var res = await ChangePasswordRepository()
+        .fetchPassword(accessToken, newPassword, confirmPassword, currentPassword);
     notifyListeners();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
-      _isLoading=false;
+      _isLoading = false;
       notifyListeners();
     }, (r) {
       _isFetchingMoreData = false;
-      _message= r.message;
-      _isLoading=false;
+      _message = r.message;
+      _isLoading = false;
       notifyListeners();
     });
   }
+
   String get message => _message;
   // bool get isObscurePasswordConfirm => _isObscurePasswordConfirm;
   //
@@ -113,14 +112,11 @@ class PasswordChangeViewModel with ChangeNotifier {
 //  }
 
   bool get allowSubmitButton {
-    bool isNoErrors =
-        _errorTextNewPassword == null &&
-            _errorTextOldPassword == null;
+    bool isNoErrors = _errorTextNewPassword == null && _errorTextOldPassword == null;
 
-            // &&_errorTextConfirmPassword==null;
+    // &&_errorTextConfirmPassword==null;
 
-    bool isNoEmptyFields =_newPassword.isNotEmpty &&
-        _oldPassword.isNotEmpty;
+    bool isNoEmptyFields = _newPassword.isNotEmpty && _oldPassword.isNotEmpty;
 //        &&
 //        _confirmNewPassword.isNotEmptyOrNotNull;
 
@@ -136,9 +132,9 @@ class PasswordChangeViewModel with ChangeNotifier {
 
     return _errorTextNewPassword == null &&
 //        _errorTextConfirmPassword == null &&
-        _errorTextOldPassword == null ;
+        _errorTextOldPassword == null;
 
-        // && _errorTextConfirmPassword==null;
+    // && _errorTextConfirmPassword==null;
   }
 
   // onConfirmPassword(String pass,String confirmPass) {
@@ -147,7 +143,6 @@ class PasswordChangeViewModel with ChangeNotifier {
   //   _errorTextConfirmPassword = Validator().validateConfirmPassword(pass,confirmPass);
   //   notifyListeners();
   // }
-
 
   onChangeOldPassword(String val) {
     _oldPassword = val;
@@ -173,8 +168,7 @@ class PasswordChangeViewModel with ChangeNotifier {
 //    notifyListeners();
 //  }
 
-
-  resetState(){
+  resetState() {
     _isObscurePasswordOld = true;
     _isObscurePasswordNew = true;
     // _isObscurePasswordConfirm = true;
@@ -198,19 +192,21 @@ class PasswordChangeViewModel with ChangeNotifier {
 
       var body = {
         "userName": userId,
-        "newPassword": _newPassword ,
+        "newPassword": _newPassword,
         "confirmPassword": '123456',
         "currentPassword": _oldPassword,
       };
 
-
-
       try {
-        var url =
-            "https://qa.myhealthbd.com:9096/auth-api/api/changePassword";
+        var url = "https://qa.myhealthbd.com:9096/auth-api/api/changePassword";
         var client = http.Client();
-        var accessToken= Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
-        var res = await client.post(url,headers: {'Authorization': 'Bearer $accessToken',},body:body);
+        var accessToken =
+            Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
+        var res = await client.post(Uri.parse(url),
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+            },
+            body: body);
         print(res.statusCode);
         print(res.body);
         isBusy = false;

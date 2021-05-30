@@ -10,11 +10,14 @@ import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 class UserDetailsViewModel extends ChangeNotifier{
   Obj _userDetailsList;
+  Obj _patDetails;
+  Obj _userSwitchDetailsList;
   String _message;
   AppError _appError;
   DateTime _lastFetchTime;
@@ -34,7 +37,7 @@ class UserDetailsViewModel extends ChangeNotifier{
     var headers = {
       'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
-    var request = http.MultipartRequest('PUT', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-registration/update-with-image'));
+    var request = http.MultipartRequest('PUT', Uri.parse('${Urls.buildUrl}diagnostic-api/api/opd-registration/update-with-image'));
     request.fields.addAll({
       'reqobj':  json.encode({"opdReg":{"id":userId,"fname":name,"dob":birthDate,"gender":gender,"phoneMobile":number,"email":email,"address":address,"bloodGroup":blood,"hospitalNumber":hospitalNumber,"regDate":registrationDate,"organizationNo":1}})
     });
@@ -63,6 +66,22 @@ class UserDetailsViewModel extends ChangeNotifier{
 
 
   }
+  Future<void> getPatData(String hospitalNumber) async {
+    _isFetchingData = true;
+    _lastFetchTime = DateTime.now();
+    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    var res = await UserDetailsRepository().fetchPatInfo(accessToken,hospitalNumber);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isFetchingMoreData = false;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = false;
+      _patDetails=r.dataList;
+      notifyListeners();
+    });
+  }
   Future<void> getData() async {
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
@@ -79,7 +98,21 @@ class UserDetailsViewModel extends ChangeNotifier{
       notifyListeners();
     });
   }
-
+  Future<void> getSwitchData(var accessToken) async {
+    _isFetchingData = true;
+    //var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    var res = await UserDetailsRepository().fetchUserDetails(accessToken);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isFetchingMoreData = false;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = false;
+      _userSwitchDetailsList=r.dataList;
+      notifyListeners();
+    });
+  }
   AppError get appError => _appError;
 
 
@@ -94,4 +127,6 @@ class UserDetailsViewModel extends ChangeNotifier{
   String get message => _message;
 
   Obj get userDetailsList => _userDetailsList;
+  Obj get userSwitchDetailsList => _userSwitchDetailsList;
+  Obj get patDetails => _patDetails;
 }

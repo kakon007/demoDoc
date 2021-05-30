@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/features/videos/models/channel_info_model.dart';
@@ -6,27 +5,25 @@ import 'package:myhealthbd_app/features/videos/repositories/channel_Info_reposit
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
 
-class VideoViewModel extends ChangeNotifier{
-  List<Item> _videoList =[];
+class VideoViewModel extends ChangeNotifier {
+  List<Item> _videoList = [];
 
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   bool _hasMoreData = false;
-  get logger => null;
-  String nextPageToken='';
-  int totalData=0;
+  String nextPageToken = '';
+  int totalData = 0;
 
   int _page = 1;
 
-  Future<void> refresh(){
+  Future<void> refresh() {
     _videoList.clear();
     return getData();
   }
 
   Future<void> getData() async {
-
     // if (isFromOnPageLoad) {
     //   if (_lastFetchTime != null) if (_lastFetchTime
     //       .difference(DateTime.now()) <
@@ -49,9 +46,8 @@ class VideoViewModel extends ChangeNotifier{
       notifyListeners();
       return true;
     });
-    print("VideoTileFromVM:::::::"+_videoList.first.snippet.title);
+    print("VideoTileFromVM:::::::" + _videoList?.first?.snippet?.title);
   }
-
 
   // getMoreData() async {
   //   print("Calling from Video getMoreData:::::");
@@ -80,35 +76,32 @@ class VideoViewModel extends ChangeNotifier{
   //   }
   // }
 
- // String _nextPageToken;
+  // String _nextPageToken;
   getMoreData(String pagrToken) async {
-    Either<AppError, VideoListM> result =
-        await VideoInfoRepository.getVideoInfo(pageToken:pagrToken==''?nextPageToken:pagrToken);
+    Either<AppError, VideoListM> result = await VideoInfoRepository.getVideoInfo(
+        pageToken: pagrToken == '' ? nextPageToken : pagrToken);
 
     //_nextPageToken = res.nextPageToken;
     //_videoList.clear();
     return result.fold((l) {
-      isFetchingMoreData= false;
+      isFetchingMoreData = false;
       hasMoreData = false;
-      logger.i(l);
+      print(l);
       notifyListeners();
       return false;
     }, (r) {
-      totalData=r.maxData;
-      nextPageToken=r.moreData;
+      totalData = r.maxData;
+      nextPageToken = r.moreData;
       _videoList.addAll(r.dataList);
-      print("MoreVideoList From Youtube:::"+_videoList.toString());
-      print("MoreVideoList From Youtube Lenth:::"+_videoList.length.toString());
-      print("MoreVideoList From Youtube Token:::"+r.moreData);
+      print("MoreVideoList From Youtube:::" + _videoList.toString());
+      print("MoreVideoList From Youtube Lenth:::" + _videoList.length.toString());
+      print("MoreVideoList From Youtube Token:::" + r.moreData);
       notifyListeners();
       return true;
     });
   }
 
-
   AppError get appError => _appError;
-
-
 
   bool get isFetchingData => _isFetchingData;
 
@@ -119,8 +112,6 @@ class VideoViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-
-
   bool get hasMoreData => _hasMoreData;
 
   set hasMoreData(bool value) {
@@ -128,11 +119,7 @@ class VideoViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-
-
-  bool get shouldShowPageLoader =>
-      _isFetchingData && _videoList.length == 0;
-
+  bool get shouldShowPageLoader => _isFetchingData && _videoList.length == 0;
 
   List<Item> get videoList => _videoList;
 }

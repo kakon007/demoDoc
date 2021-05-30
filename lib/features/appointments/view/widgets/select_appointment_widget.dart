@@ -46,7 +46,7 @@
 //     pickedAppointDate2=pickedAppointDate;
 //     var url =
 //         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/getAvailableSlot";
-//     final http.Response response = await http.post(url,body: jsonEncode(<String, String>{
+//     final http.Response response = await http.post(Uri.parse(url),body: jsonEncode(<String, String>{
 //       "appointDate": DateFormat("yyyy-MM-dd").format(pickedAppointDate).toString(),
 //       "companyNo": widget.companyNo,
 //       "doctorNo": widget.doctorNo,
@@ -268,6 +268,7 @@ import 'package:provider/provider.dart';
 
 import '../appointments_screen.dart';
 import 'NewFile.dart';
+
 class SelectAppointTime extends StatefulWidget {
   String doctorNo;
   String companyNo;
@@ -278,7 +279,6 @@ class SelectAppointTime extends StatefulWidget {
 }
 
 class _SelectAppointTimeState extends State<SelectAppointTime> {
-
   DateTime pickedAppointDate;
   DateTime pickedAppointDate2;
   Future<Null> selectAppointDate(BuildContext context) async {
@@ -294,12 +294,13 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
       });
     }
   }
+
   int selectedCard = -1;
   var slotNo;
   bool isLoading = false;
   double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
   int _crossAxisCount = 4;
- // AvailableSlotModel slotItem;
+  // AvailableSlotModel slotItem;
   @override
   void initState() {
     super.initState();
@@ -308,19 +309,21 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
     pickedAppointDate2 = DateTime.now();
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
     vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-    AvailableSlotsRepository().fetchSlotInfo(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-
+    AvailableSlotsRepository()
+        .fetchSlotInfo(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
   }
 
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-    if(pickedAppointDate!=pickedAppointDate2){
+    if (pickedAppointDate != pickedAppointDate2) {
       vm.getSlots(pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       pickedAppointDate2 = pickedAppointDate;
     }
     List<Items> list = vm.slotList;
-    var spaceBetween= SizedBox(height: 10,);
+    var spaceBetween = SizedBox(
+      height: 10,
+    );
     print("abcd");
     print(vm.slotList.length);
     var height = MediaQuery.of(context).size.height;
@@ -339,8 +342,7 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
                   child: Row(
                     children: [
                       Text("Select Date",
-                          style: GoogleFonts.poppins(
-                              fontSize: 14, fontWeight: FontWeight.w600)),
+                          style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600)),
                     ],
                   )),
               spaceBetween,
@@ -358,8 +360,8 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
                     children: [
                       Text(
                         "$_formatDate",
-                        style: GoogleFonts.poppins(
-                            color: AppTheme.signInSignUpColor, fontSize: 13.0),
+                        style:
+                            GoogleFonts.poppins(color: AppTheme.signInSignUpColor, fontSize: 13.0),
                       ),
                       Container(
                           height: 18,
@@ -379,30 +381,30 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
         ),
       ],
     );
-    var proceedButton=      vm.isSlotStatusLoading== true ? SizedBox() :    Container(
-      width: MediaQuery.of(context).size.width,
-      height: 45,
-      child: FlatButton(
-
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8)),
-        color: AppTheme.appbarPrimary,
-        onPressed: () {
-          vm.getSlotStatus(slotNo.toString(), widget.companyNo, widget.orgNo);
-          // vm.slotStatus=="OK" ? Navigator.push(context, MaterialPageRoute(builder: (context){
-          //   return  MyGridView();
-          // }));
-        },
-        textColor: Colors.white,
-        child: Text(
-          "Proceed",
-          style: GoogleFonts.poppins(
-              fontSize: height <= 600 ? 8 : 15,
-              color: Colors.white,
-              fontWeight: FontWeight.w600),
-        ),
-      ),
-    );
+    var proceedButton = vm.isSlotStatusLoading == true
+        ? SizedBox()
+        : Container(
+            width: MediaQuery.of(context).size.width,
+            height: 45,
+            child: FlatButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              color: AppTheme.appbarPrimary,
+              onPressed: () {
+                vm.getSlotStatus(slotNo.toString(), widget.companyNo, widget.orgNo);
+                // vm.slotStatus=="OK" ? Navigator.push(context, MaterialPageRoute(builder: (context){
+                //   return  MyGridView();
+                // }));
+              },
+              textColor: Colors.white,
+              child: Text(
+                "Proceed",
+                style: GoogleFonts.poppins(
+                    fontSize: height <= 600 ? 8 : 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+          );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,95 +412,91 @@ class _SelectAppointTimeState extends State<SelectAppointTime> {
         appointmentDate,
         spaceBetween,
         Text("Available Slots",
-            style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w600)),
+            style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600)),
         spaceBetween,
-        vm.isLoading== true ? Center(child: CircularProgressIndicator(  valueColor:
-        AlwaysStoppedAnimation<Color>(
-            AppTheme.appbarPrimary),)) : Expanded(
-            child: GridView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: list.length,
-              itemBuilder: (context, index) => GestureDetector(
-
-                onTap: () {
-                  setState(() {
-                    // ontap of each card, set the defined int to the grid view index
-                    selectedCard = index;
-                    slotNo = vm.slotList[index].slotNo;
-                  });
-                },
-                child: Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.bottomRight,
-                            stops: [
-                              1.0,
-                              1.0
-                            ],
-                            colors: [
-                              selectedCard == index ?   HexColor("#8592E5") : HexColor("#C1C8F1"),
-                              selectedCard == index ? HexColor("#F6F8FB") : HexColor("#FAFBFC"),
-                            ]),
-                        border: Border.all(
-                          color: selectedCard == index ? HexColor("#8592E5") :  HexColor("#C1C8F1"),
-                          width: 1,
+        vm.isLoading == true
+            ? Center(
+                child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
+              ))
+            : Expanded(
+                child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: list.length,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      // ontap of each card, set the defined int to the grid view index
+                      selectedCard = index;
+                      slotNo = vm.slotList[index].slotNo;
+                    });
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                            1.0,
+                            1.0
+                          ], colors: [
+                            selectedCard == index ? HexColor("#8592E5") : HexColor("#C1C8F1"),
+                            selectedCard == index ? HexColor("#F6F8FB") : HexColor("#FAFBFC"),
+                          ]),
+                          border: Border.all(
+                            color:
+                                selectedCard == index ? HexColor("#8592E5") : HexColor("#C1C8F1"),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        borderRadius: BorderRadius.circular(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: height <= 800 ? height / 110 : height / 65.09),
+                              child: Center(
+                                  child: Text(
+                                "Serial - " + list[index].slotSl.toString(),
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: selectedCard == index
+                                        ? HexColor("#354291")
+                                        : HexColor("#999FC7")),
+                              )),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: height <= 800 ? height / 100 : height / 80),
+                              child: Center(
+                                  child: Text(
+                                "Time : " +
+                                    DateFormat("hh:mm:ss").format(
+                                        DateTime.parse(list[index].startTime.toString()).toLocal()),
+                                style: GoogleFonts.poppins(
+                                    fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white),
+                              )),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: height <= 800
-                                    ? height / 110
-                                    : height / 65.09),
-                            child: Center(
-                                child: Text(
-                                  "Serial - " + list[index].slotSl.toString(),
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: selectedCard == index ? HexColor("#354291") :  HexColor("#999FC7")),
-                                )),
-                          ),
-                          SizedBox(height: 10,),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: height <= 800
-                                    ? height / 100
-                                    : height / 80),
-                            child: Center(
-                                child: Text(
-                                  "Time : " + DateFormat("hh:mm:ss").format(DateTime.parse(list[index].startTime.toString()).toLocal()),
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white),
-                                )),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: _crossAxisCount,
-                crossAxisSpacing: _crossAxisSpacing,
-                mainAxisSpacing: _mainAxisSpacing,
-                childAspectRatio: _aspectRatio,
-              ),
-            )),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _crossAxisCount,
+                  crossAxisSpacing: _crossAxisSpacing,
+                  mainAxisSpacing: _mainAxisSpacing,
+                  childAspectRatio: _aspectRatio,
+                ),
+              )),
         //  AvailableSlots(selectDate: _formatDate,doctorNo: widget.doctorNo, orgNo: widget.orgNo,companyNo: widget.companyNo,),
         spaceBetween,
-        vm.slotList.length==0? SizedBox() : proceedButton,
+        vm.slotList.length == 0 ? SizedBox() : proceedButton,
         spaceBetween,
       ],
     );

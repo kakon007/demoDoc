@@ -14,6 +14,7 @@ import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.d
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
@@ -215,18 +216,18 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                   )),
                             ),
                             Spacer(),
-                            IconButton(
-                              icon: Icon(
-                                Icons.notifications,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        NotificationScreen()));
-                              },
-                            )
+                            // IconButton(
+                            //   icon: Icon(
+                            //     Icons.notifications,
+                            //     color: Colors.white,
+                            //     size: 20,
+                            //   ),
+                            //   onPressed: () {
+                            //     Navigator.of(context).push(MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             NotificationScreen()));
+                            //   },
+                            // )
                           ],
                         ),
                       ),
@@ -384,7 +385,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       ? Text("")
                       : Container(
                           margin: EdgeInsets.only(top: 8, bottom: 3, right: 25),
-                          child: Text('Showing Filtered result',
+                          child: Text('Showing Filtered Result',
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                               )))
@@ -736,13 +737,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             ListTileControlAffinity
                                                                 .leading,
                                                         title: Text(
-                                                          item.buName
-                                                                  .substring(
-                                                                      0, 1)
-                                                                  .toUpperCase() +
-                                                              item.buName
-                                                                  .substring(1)
-                                                                  .toLowerCase(),
+                                                          Validator().capitalizeTheFirstLetterOfEachWord(item.buName),
                                                           style: GoogleFonts.poppins(
                                                             fontSize: 15,
                                                               fontWeight: item
@@ -1012,7 +1007,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               fit: BoxFit.fitWidth,
               allowDrawingOutsideViewBox: true,
               matchTextDirection: true,
-              color: isFiltered == true ? Colors.blue : Colors.grey,
+              color: isFiltered == true ?AppTheme.appbarPrimary : Colors.grey,
               //semanticsLabel: 'Acme Logo'
             ),
           ),

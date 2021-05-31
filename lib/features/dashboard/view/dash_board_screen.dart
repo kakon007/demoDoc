@@ -554,7 +554,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    vm9.accessToken == null
+                                    vm9.accessToken == null || vm15.nearestAppointmentDetails==null
                                         ? Container()
                                         : CustomCardPat(
                                       titleText: "You have an upcoming appointment",

@@ -67,13 +67,16 @@ class DashboardScreen extends StatefulWidget {
   bool isDrawerOpen;
   String accessToken;
   final Function onTapFeaturedCompany;
+  final Function onTapFeaturedAppointment;
 
 
   DashboardScreen(
       {this.menuCallBack,
       this.isDrawerOpen,
       this.accessToken,
-      this.onTapFeaturedCompany});
+      this.onTapFeaturedCompany,
+      this.onTapFeaturedAppointment
+      });
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -557,12 +560,13 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     vm9.accessToken == null || vm15.nearestAppointmentDetails==null
                                         ? Container()
                                         : CustomCardPat(
-                                      titleText: "You have an upcoming appointment",
+                                      titleText: "You have an \nupcoming appointment.",
                                       subTitleText:  vm15.nearestAppointmentDetails==null?'Loading':DateUtil().formattedDate(DateTime.parse(vm15.nearestAppointmentDetails.startTime).toLocal()),
                                       serial: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.slotSl.toString(),
                                       countText: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.doctorName,
                                       name:   vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.companyName,
                                      lastTime:vm15.nearestAppointmentDetails==null?DateTime.now().millisecondsSinceEpoch:DateTime.parse(vm15.nearestAppointmentDetails.startTime).millisecondsSinceEpoch,
+                                      onTapFeaturedAppointment: widget.onTapFeaturedAppointment,
                                       //controller
                                     ),
                                     SizedBox(

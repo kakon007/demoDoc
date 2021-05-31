@@ -12,8 +12,9 @@ class CustomCardPat extends StatelessWidget {
   String countText;
    String name;
    int lastTime;
+  final Function onTapFeaturedAppointment;
   //CountdownTimerController controller;
-  CustomCardPat({ this.titleText, this.subTitleText, this.countText, this.name,this.lastTime,this.serial});
+  CustomCardPat({ this.titleText, this.subTitleText, this.countText, this.name,this.lastTime,this.serial,this.onTapFeaturedAppointment});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,7 +23,7 @@ class CustomCardPat extends StatelessWidget {
 
         //height: 40,
         width: double.infinity,
-        height: 125,
+        height: 140,
         child: Card(
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -34,47 +35,60 @@ class CustomCardPat extends StatelessWidget {
                 color: HexColor("#8592E5"),
 
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child:
-                Stack(
-                  children:[ Container(
-                      child: Image.asset("assets/images/clocknew.png"),
-                  ),
-                    lastTime!=null? Padding(
-                      padding: const EdgeInsets.only(top:35.0,left: 14,bottom:20),
-                      child: Column(
-                        children: [
-                          // Text("20:10:33",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                          // Text("Hours Left",style: TextStyle(fontSize: 10),)
-
-                          CountdownTimer(
-                            endWidget: Padding(
-                              padding: const EdgeInsets.only(left:10.0),
-                              child: Center(child: Text('Loading'),),
-                            ),
-                            //controller: controller,
-                            endTime: lastTime,
-                          ),
-                        ],
-                      ),
-                    ):Loader(),
-                  ]
-                ),
-
-
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child:
+              //   Stack(
+              //     children:[ Container(
+              //         child: Image.asset("assets/images/clocknew.png"),
+              //     ),
+              //       lastTime!=null? Padding(
+              //         padding: const EdgeInsets.only(top:35.0,left: 14,bottom:20),
+              //         child: Column(
+              //           children: [
+              //             // Text("20:10:33",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+              //             // Text("Hours Left",style: TextStyle(fontSize: 10),)
+              //
+              //             CountdownTimer(
+              //               endWidget: Padding(
+              //                 padding: const EdgeInsets.only(left:10.0),
+              //                 child: Center(child: Text('Loading'),),
+              //               ),
+              //               //controller: controller,
+              //               endTime: lastTime,
+              //             ),
+              //           ],
+              //         ),
+              //       ):Loader(),
+              //     ]
+              //   ),
+              //
+              //
+              // ),
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
+                  padding: const EdgeInsets.only(top:8.0,bottom: 8,left: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(titleText,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: Colors.black54),textAlign:TextAlign.start),
-                      SizedBox(height: 8,),
+                      Row(
+                        children: [
+                          Text(titleText,style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold,color: Colors.black),textAlign:TextAlign.start),
+                          SizedBox(width: 60,),
+                          Padding(
+                            padding: const EdgeInsets.only(top:8.0),
+                            child: Column(
+                              children: [
+                                Text("Your Serial No.",style: TextStyle(fontSize: 15,color: HexColor('#354291')),textAlign:TextAlign.center,),
+                                SizedBox(height: 5,),
+                                Text("$serial",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: HexColor('#354291')),textAlign:TextAlign.center,),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                       Text(subTitleText,style: TextStyle(fontSize: 12,color: HexColor('#354291')),textAlign:TextAlign.start,),
-                      Text("serial- $serial",style: TextStyle(fontSize: 12,color: HexColor('#354291')),textAlign:TextAlign.start,),
-                      SizedBox(height: 12,),
+                      SizedBox(height: 10,),
                       Row(
                         children: [
                           Container(
@@ -87,29 +101,33 @@ class CustomCardPat extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(width: 70,child: Text(countText,maxLines: 1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: HexColor('#354291')),)),
-                              Container(width: 70,child: Text(name,maxLines: 1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 8),)),
+                              Container(width: 180,child: Text(countText,maxLines: 1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: HexColor('#354291')),)),
+                              Container(width: 180,child: Text(name,maxLines: 1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 8),)),
                             ],
                           ),
-                          SizedBox(width: 8,),
-                          Material(
-                            elevation: 2  ,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                            color: HexColor("#354291"),
-                            child: SizedBox(
-                              width: 130,
-                              height: 30,
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Text("View All Appointments",style: TextStyle(color: Colors.white,fontSize: 11),),
+                          // SizedBox(width: 8,),
+                          GestureDetector(
+                            onTap: onTapFeaturedAppointment,
+                            child: Material(
+                              elevation: 2  ,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              color: HexColor("#354291"),
+                              child: SizedBox(
+                                width: 130,
+                                height: 30,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: Text("View All Appointments",style: TextStyle(color: Colors.white,fontSize: 11),),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 10,),
+                     // SizedBox(height: 8,),
+
                       // Material(
                       //   elevation: 2  ,
                       //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

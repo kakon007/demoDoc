@@ -135,7 +135,7 @@ class _GetAppointmentState extends State<GetAppointment> {
   void initState() {
     // TODO: implement initState
     var vm = Provider.of<AppointmentUpcomingViewModel>(context, listen: false);
-    vm.getData(widget.accessToken);
+    vm.getData();
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context, listen: false);
     vm2.getData();
     getZoomLink();
@@ -150,7 +150,7 @@ class _GetAppointmentState extends State<GetAppointment> {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent-500) {
         print('scrolklinggtatg');
-        vm.getMoreData(widget.accessToken);
+        vm.getMoreData();
       }
 
     });

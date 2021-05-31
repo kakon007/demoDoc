@@ -649,7 +649,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                 ): ListView.builder(
                                      controller: _scrollController,
                                      shrinkWrap: true,
-                                     itemCount:vm.upComingAppointmentList.length,
+                                     itemCount:vm.upComingAppointmentList.length+1,
                                      itemBuilder: (BuildContext context, int index) {
                                        //print("LIIIISSSYYSY:::" + list[index].consultationId);
                                        if(index==vm.upComingAppointmentList.length){
@@ -1121,7 +1121,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                 ListView.builder(
                                   controller: _scrollController2,
                                     shrinkWrap: true,
-                                    itemCount:vm2.previousAppointmentList.length,
+                                    itemCount:vm2.previousAppointmentList.length+1,
                                     itemBuilder: (BuildContext context, int index) {
                                       //print("LIIIISSSYYSY:::" + list[index].consultationId);
                                       if(index==vm2.previousAppointmentList.length){

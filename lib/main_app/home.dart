@@ -281,7 +281,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     // _paeViewController.animateToPage(2,
                     //     duration: const Duration(milliseconds: 400),
                     //     curve: Curves.easeInOut);
-                  }),
+                  },onTapFeaturedAppointment: () {
+                    _moveTo(1);
+                    // _paeViewController.animateToPage(2,
+                    //     duration: const Duration(milliseconds: 400),
+                    //     curve: Curves.easeInOut);
+                  },),
                 ),
               ),
             )]),

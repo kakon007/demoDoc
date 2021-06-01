@@ -100,7 +100,7 @@ class _AddPatientState extends State<AddPatient> {
     // TODO: implement initState
     super.initState();
     var familyVm =
-    Provider.of<FamilyMembersListViewModel>(context, listen: false);
+        Provider.of<FamilyMembersListViewModel>(context, listen: false);
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       await vm.getPatType(widget.doctorNo);
@@ -371,7 +371,8 @@ class _AddPatientState extends State<AddPatient> {
                         height: 50,
                         width: 50,
                         child: Center(
-                            child: imageVm.loadProfileImage( familyVm.imageMem, 45, 45, 50)))
+                            child: imageVm.loadProfileImage(
+                                familyVm.imageMem, 45, 45, 50)))
                     : Container(
                         decoration: BoxDecoration(
                           color: AppTheme.appbarPrimary,
@@ -418,7 +419,8 @@ class _AddPatientState extends State<AddPatient> {
                 GestureDetector(
                     onTap: () {
                       setState(() {
-                       familyVm.memberDetail(-1, false, "", "", "", "", "", "", "", "", "");
+                        familyVm.memberDetail(
+                            -1, false, "", "", "", "", "", "", "", "", "");
                       });
                     },
                     child: Icon(
@@ -714,16 +716,16 @@ class _AddPatientState extends State<AddPatient> {
               ),
               memberBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, top: 8, right: 38),
-                  child: Text(
-                    "This Field Is Required",
-                    style: GoogleFonts.poppins(
-                        color: Colors.red, fontSize: 12),
-                  )),
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 8, right: 38),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      )),
             ],
           ),
         ),
@@ -1137,7 +1139,8 @@ class _AddPatientState extends State<AddPatient> {
                   if (selectedConsultationTypeForMe != "" ||
                       (vm.forMe == false && selectedGender != "") ||
                       (selectedConsultationType != "" &&
-                          (vm.forMe == false && selectedMemberType != "") && familyVm.familyMemName!='')) {
+                          (vm.forMe == false && selectedMemberType != "") &&
+                          familyVm.familyMemName != '')) {
                     setState(() {
                       if (selectedGender != "") {
                         genderBorderColor = "#EAEBED";

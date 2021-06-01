@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/sign_out.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
@@ -85,15 +86,16 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                           photo != ""
                               ? Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: AppTheme.appbarPrimary),
+                                    border: Border.all(
+                                        color: AppTheme.appbarPrimary),
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
                                   height: 60,
                                   width: 60,
                                   child: Center(
-                                    child: vm10.loadProfileImage(photo, 60, 60,50)
-                                  ))
+                                      child: vm10.loadProfileImage(
+                                          photo, 60, 60, 50)))
                               : Container(
                                   decoration: BoxDecoration(
                                     color: AppTheme.appbarPrimary,
@@ -245,28 +247,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return AlertDialog(
-                        title: Text("Sign Out"),
-                        content: Text("Do you really want to sign out?"),
-                        actions: <Widget>[
-                          FlatButton(
-                              onPressed: () {
-                                Provider.of<AccessTokenProvider>(context,
-                                        listen: false)
-                                    .signOut();
-                              },
-                              child: Text(
-                                "Yes",
-                                style: TextStyle(color: Colors.red),
-                              )),
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(context);
-                              },
-                              child: Text("No",
-                                  style: TextStyle(color: Colors.green)))
-                        ],
-                      );
+                      return SignOut();
                     });
               },
               child: Container(

@@ -1,11 +1,5 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/features/auth/repositories/auth_repository.dart';
-import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
-import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/repositories/filter_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 class SignOutViewModel extends ChangeNotifier {
@@ -27,7 +21,7 @@ class SignOutViewModel extends ChangeNotifier {
       notifyListeners();
     }, (r) {
       _isFetchingMoreData = false;
-      _message= r.message;
+      _message = r.message;
       _isLoading = false;
       notifyListeners();
     });
@@ -38,7 +32,6 @@ class SignOutViewModel extends ChangeNotifier {
   bool get isFetchingData => _isFetchingData;
 
   bool get isFetchingMoreData => _isFetchingMoreData;
-
 
   bool get isLoading => _isLoading;
 

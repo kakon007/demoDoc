@@ -14,12 +14,12 @@ import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
-class SwitchAccountAlert extends StatefulWidget {
+class AddAccountAlert extends StatefulWidget {
   @override
-  _SwitchAccountAlertState createState() => _SwitchAccountAlertState();
+  _AddAccountAlertState createState() => _AddAccountAlertState();
 }
 
-class _SwitchAccountAlertState extends State<SwitchAccountAlert> {
+class _AddAccountAlertState extends State<AddAccountAlert> {
   final DbManager dbmManager = new DbManager();
   final _nameController = TextEditingController();
   final _relationController = TextEditingController();

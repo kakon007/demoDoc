@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:http/http.dart' as http;
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
@@ -16,15 +17,18 @@ class AuthRepository {
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url =
         "${Urls.buildUrl}auth-api/oauth/token?username=$user&password=$pass&grant_type=password";
+    //BotToast.showLoading();
     var response =
         await http.post(Uri.parse(url), headers: <String, String>{'authorization': basicAuth});
     if (response.statusCode == 200) {
       print(response.body);
       SignInModel data = signInModelFromJson(response.body);
+      //BotToast.closeAllLoading();
       return Right(SignInModel(
         accessToken: data.accessToken.toString(),
       ));
     } else {
+      //BotToast.closeAllLoading();
       // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }

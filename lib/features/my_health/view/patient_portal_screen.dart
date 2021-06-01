@@ -20,7 +20,7 @@ import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart'
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/share_document_widget.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account_alert_dialog.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/add_switch_account_alert_dialog.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/upload_document_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/document_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';

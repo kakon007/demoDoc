@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,8 @@ import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../constant.dart';
-import 'switch_account_alert_dialog.dart';
+import 'add_switch_account_alert_dialog.dart';
 
 class SwitchAccount extends StatefulWidget {
   @override
@@ -35,23 +35,9 @@ class _SwitchAccountState extends State<SwitchAccount> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     username = prefs.getString("username");
   }
-
-  // Future<List<SwitchAccounts>> getAccountList() async {
-  //   dbmManager.getAccountList().then((value) => {
-  //     accountList.addAll(value),
-  //   });
-  //   accountList.sort((a, b) {
-  //     return a.username.compareTo(username);
-  //   });
-  //
-  //   return accountList;
-  // }
   @override
   void initState() {
-    // TODO: implement initState
-
     Future.delayed(Duration.zero, () async {
-     // getAccountList();
       getUSerDetails();
     });
     super.initState();
@@ -109,7 +95,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                       ),
                       Text("Add New Account",
                           style:
-                          GoogleFonts.poppins(color: HexColor("#354291"))),
+                              GoogleFonts.poppins(color: HexColor("#354291"))),
                     ],
                   ),
                 ),
@@ -128,11 +114,14 @@ class _SwitchAccountState extends State<SwitchAccount> {
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount:
-                          accountList == null ? 0 : accountList.length,
+                              accountList == null ? 0 : accountList.length,
                           itemBuilder: (BuildContext context, int index) {
                             SwitchAccounts st = accountList[index];
-                            var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
-                            var profileImage = accountList[index]?.relation ?? "";
+                            var userImageVm = Provider.of<UserImageViewModel>(
+                                context,
+                                listen: true);
+                            var profileImage =
+                                accountList[index]?.relation ?? "";
                             return Container(
                                 decoration: BoxDecoration(
                                   color: index % 2 == 0
@@ -144,7 +133,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                 height: 80,
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -158,21 +147,24 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                             ),
                                             height: 60,
                                             width: 60,
-                                            child: profileImage=="" ? Center(
-                                              child: Image.asset(
-                                                'assets/images/dPro.png',
-                                                height: 35,
-                                                width: 35,
-                                              ),
-                                            ): userImageVm.loadProfileImage(profileImage, 34, 34, 50)),
+                                            child: profileImage == ""
+                                                ? Center(
+                                                    child: Image.asset(
+                                                      'assets/images/dPro.png',
+                                                      height: 35,
+                                                      width: 35,
+                                                    ),
+                                                  )
+                                                : userImageVm.loadProfileImage(
+                                                    profileImage, 34, 34, 50)),
                                         SizedBox(
                                           width: 20,
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                              MainAxisAlignment.center,
                                           children: [
                                             Text(
                                               st.name,
@@ -186,342 +178,423 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#B8C2F8")),
                                             ),
-                                            // Text(
-                                            //   st.relation,
-                                            //   style: GoogleFonts.poppins(
-                                            //       color: HexColor("#B8C2F8")),
-                                            // ),
-                                            // accounts[index].isLoggedIn == false
-                                            //     ? Text(
-                                            //         st.username,
-                                            //         style: GoogleFonts.poppins(
-                                            //             color: HexColor(
-                                            //                 "#B8C2F8")),
-                                            //       )
-                                            //     : Row(
-                                            //         children: [
-                                            //           Text(
-                                            //             "Signed In",
-                                            //             style:
-                                            //                 GoogleFonts.poppins(
-                                            //                     color: HexColor(
-                                            //                         "#B8C2F8")),
-                                            //           ),
-                                            //           Icon(Icons.check,
-                                            //               color: HexColor(
-                                            //                   "#D6DCFF"))
-                                            //         ],
-                                            //       )
                                           ],
                                         ),
                                       ],
                                     ),
                                     st.username == username
                                         ? Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Icon(Icons.check, color: AppTheme.appbarPrimary,),
-                                          Text("Signed In",style: GoogleFonts.poppins(color: AppTheme.appbarPrimary,fontWeight: FontWeight.w400),),
-                                        ],),
-                                        SizedBox(width: 20,),
-
-                                      ],
-                                    )
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.check,
+                                                    color:
+                                                        AppTheme.appbarPrimary,
+                                                  ),
+                                                  Text(
+                                                    "Signed In",
+                                                    style: GoogleFonts.poppins(
+                                                        color: AppTheme
+                                                            .appbarPrimary,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                            ],
+                                          )
                                         : Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        GestureDetector(
-                                          child: Container(
-                                              height: 16,
-                                              child: SvgPicture.asset(
-                                                "assets/images/switch.svg",
-                                                color: AppTheme
-                                                    .appbarPrimary,
-                                              )),
-                                          onTap: () async {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    title: Text(
-                                                        "Switch Account"),
-                                                    content: Text(
-                                                        "Do you really want to switch account?"),
-                                                    actions: <Widget>[
-                                                      FlatButton(
-                                                          onPressed:
-                                                              () async {
-                                                            await vm5.getAuthData(
-                                                                st.username,
-                                                                st.password);
-                                                            if(vm5.accessToken!=null){
-                                                              var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
-                                                              var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
-                                                              await vm4.getSwitchData(vm5.accessToken);
-                                                              await vm3.switchImage(vm5.accessToken);
-                                                              switchAccounts=st;
-                                                              updateIndex = index;
-                                                              switchAccounts.username = st.username;
-                                                              switchAccounts.password = st.password;
-                                                              switchAccounts.name =vm4.userSwitchDetailsList.fname;
-                                                              switchAccounts.relation =vm3.switchDetails.photo;
-                                                              dbmManager.updateStudent(switchAccounts).then((value) => {
-                                                                setState((){
-                                                                }),
-                                                              });
-                                                            }
-                                                            if (vm5.accessToken !=
-                                                                null) {
-                                                              await vm
-                                                                  .signOut();
-                                                              appNavigator
-                                                                  .getProvider<
-                                                                  AccessTokenProvider>()
-                                                                  .setToken(
-                                                                  vm5.accessToken);
-                                                              SharedPreferences
-                                                              prefs =
-                                                              await SharedPreferences
-                                                                  .getInstance();
-                                                              prefs.setString(
-                                                                  "username",
-                                                                  st.username);
-                                                              prefs.setString(
-                                                                  "password",
-                                                                  st.password);
-                                                            }
-                                                          },
-                                                          child: Text(
-                                                            "Yes",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .red),
-                                                          )),
-                                                      FlatButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                context)
-                                                                .pop(
-                                                                context);
-                                                          },
-                                                          child: Text(
-                                                              "No",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .green)))
-                                                    ],
-                                                  );
-                                                });
-                                          },
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        GestureDetector(
-                                          child: Icon(Icons.delete_sweep,
-                                              color:
-                                              AppTheme.appbarPrimary),
-                                          onTap: () {
-                                            showGeneralDialog(
-                                              barrierLabel: "Label",
-                                              barrierDismissible: true,
-                                              barrierColor: Colors.black
-                                                  .withOpacity(0.5),
-                                              transitionDuration:
-                                              Duration(
-                                                  milliseconds: 700),
-                                              context: context,
-                                              pageBuilder: (context,
-                                                  anim1, anim2) {
-                                                return Stack(
-                                                  children: [
-                                                    Align(
-                                                      // alignment: Alignment.bottomCenter,
-                                                      child: Material(
-                                                        type: MaterialType
-                                                            .transparency,
-                                                        child: Container(
-                                                          height: 200,
-                                                          margin: EdgeInsets
-                                                              .only(
-                                                              left:
-                                                              10,
-                                                              right:
-                                                              0),
-                                                          decoration:
-                                                          BoxDecoration(
-                                                            gradient:
-                                                            LinearGradient(
-                                                              begin: Alignment
-                                                                  .topCenter,
-                                                              end: Alignment
-                                                                  .bottomCenter,
-                                                              colors: [
-                                                                HexColor(
-                                                                    '#fdf0f2'),
-                                                                HexColor(
-                                                                    '#FFFFFF')
-                                                              ],
-                                                              tileMode:
-                                                              TileMode
-                                                                  .repeated,
-                                                            ),
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                20),
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets
-                                                                .only(
-                                                                top:
-                                                                60.0),
-                                                            child: Center(
-                                                              child:
-                                                              Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              GestureDetector(
+                                                child: Container(
+                                                    height: 16,
+                                                    child: SvgPicture.asset(
+                                                      "assets/images/switch.svg",
+                                                      color: AppTheme
+                                                          .appbarPrimary,
+                                                    )),
+                                                onTap: () async {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return Material(
+                                                          type: MaterialType
+                                                              .transparency,
+                                                          child: Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Material(
+                                                              type: MaterialType
+                                                                  .transparency,
+                                                              child: Stack(
                                                                 children: [
-                                                                  Column(
-                                                                    children: [
-                                                                      Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                                        children: [
-                                                                          Text("Remove ", style: GoogleFonts.poppins()),
-                                                                          Text(accountList[index].name, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                                                                          Text(" from", style: GoogleFonts.poppins())
-                                                                        ],
-                                                                      ),
-                                                                      Text("your account list.",
-                                                                          style: GoogleFonts.poppins())
-                                                                    ],
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height:
-                                                                    5,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height:
-                                                                    20,
-                                                                  ),
-                                                                  Padding(
-                                                                    padding:
-                                                                    const EdgeInsets.only(left: 25.0),
+                                                                  Container(
+                                                                    height: 300,
+                                                                    width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                    //color: Colors.red,
                                                                     child:
-                                                                    Row(
-                                                                      children: [
-                                                                        GestureDetector(
-                                                                          onTap: () {
-                                                                            Navigator.pop(context);
-                                                                          },
-                                                                          child: Material(
-                                                                            elevation: 0,
-                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: HexColor('#354291'))),
-                                                                            color: Colors.white,
-                                                                            child: SizedBox(
-                                                                              height: 50,
-                                                                              width: 150,
-                                                                              child: Center(
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.all(8.0),
-                                                                                  child: Text(
-                                                                                    "Cancel",
-                                                                                    style: TextStyle(color: HexColor('#354291'), fontWeight: FontWeight.w500, fontSize: 15),
-                                                                                  ),
-                                                                                ),
+                                                                        Center(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: EdgeInsets.only(
+                                                                            bottom:
+                                                                                0,
+                                                                            left:
+                                                                                20,
+                                                                            right:
+                                                                                20),
+                                                                        child:
+                                                                            Container(
+                                                                          height:
+                                                                              180,
+                                                                          decoration: BoxDecoration(
+                                                                              //color: HexColor('#f9f2f3'),
+                                                                              gradient: LinearGradient(
+                                                                                begin: Alignment.topCenter,
+                                                                                end: Alignment.bottomCenter,
+                                                                                colors: [
+                                                                                  HexColor('#fdf0f2'),
+                                                                                  HexColor('#FFFFFF')
+                                                                                ],
+                                                                                tileMode: TileMode.repeated,
                                                                               ),
+                                                                              borderRadius: BorderRadius.circular(25)),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(top: 50.0),
+                                                                            child:
+                                                                                Column(
+                                                                              children: [
+                                                                                Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                  children: [
+                                                                                    Text("Do you really want to switch account?", style: TextStyle(fontSize: 16, color: Colors.black)),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(
+                                                                                  height: 30,
+                                                                                ),
+                                                                                Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                  children: [
+                                                                                    GestureDetector(
+                                                                                      onTap: () {
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                      child: Material(
+                                                                                        elevation: 0,
+                                                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: HexColor('#354291'))),
+                                                                                        color: Colors.white,
+                                                                                        child: SizedBox(
+                                                                                          height: 50,
+                                                                                          width: 120,
+                                                                                          child: Center(
+                                                                                            child: Text(
+                                                                                              "No",
+                                                                                              style: TextStyle(color: HexColor('#354291'), fontWeight: FontWeight.w500, fontSize: 15),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      width: 15,
+                                                                                    ),
+                                                                                    GestureDetector(
+                                                                                      onTap: () async {
+                                                                                        await vm5.getAuthData(st.username, st.password);
+                                                                                        if (vm5.accessToken != null) {
+                                                                                          BotToast.showLoading();
+                                                                                          var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
+                                                                                          var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
+                                                                                          await vm4.getSwitchData(vm5.accessToken);
+                                                                                          await vm3.switchImage(vm5.accessToken);
+                                                                                          switchAccounts = st;
+                                                                                          updateIndex = index;
+                                                                                          switchAccounts.username = st.username;
+                                                                                          switchAccounts.password = st.password;
+                                                                                          switchAccounts.name = vm4.userSwitchDetailsList.fname;
+                                                                                          switchAccounts.relation = vm3.switchDetails.photo;
+                                                                                          dbmManager.updateStudent(switchAccounts).then((value) => {
+                                                                                                setState(() {}),
+                                                                                              });
+                                                                                        }
+                                                                                        //BotToast.closeAllLoading();
+                                                                                        if (vm5.accessToken != null) {
+                                                                                          //BotToast.showLoading();
+                                                                                          await vm.signOut();
+                                                                                          BotToast.closeAllLoading();
+                                                                                          appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+                                                                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                                                          prefs.setString("username", st.username);
+                                                                                          prefs.setString("password", st.password);
+                                                                                        } else {
+                                                                                          BotToast.closeAllLoading();
+                                                                                        }
+                                                                                      },
+                                                                                      child: Material(
+                                                                                        elevation: 0,
+                                                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                                                                        color: HexColor('#354291'),
+                                                                                        child: SizedBox(
+                                                                                          height: 50,
+                                                                                          width: 120,
+                                                                                          child: Center(
+                                                                                            child: Text(
+                                                                                              "Yes",
+                                                                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )
+                                                                              ],
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                        SizedBox(
-                                                                          width: 15,
-                                                                        ),
-                                                                        GestureDetector(
-                                                                          onTap: () {
-                                                                            dbmManager.deleteStudent(st.id);
-
-                                                                            setState(() {
-                                                                              accountList.removeAt(index);
-                                                                            });
-                                                                            Navigator.of(context).pop(context);
-                                                                          },
-                                                                          child: Material(
-                                                                            elevation: 0,
-                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                                                            color: HexColor('#354291'),
-                                                                            child: SizedBox(
-                                                                              height: 50,
-                                                                              width: 150,
-                                                                              child: Center(
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.all(8.0),
-                                                                                  child: Text(
-                                                                                    "Remove",
-                                                                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
+                                                                      ),
                                                                     ),
-                                                                  )
+                                                                  ),
+                                                                  Positioned(
+                                                                    bottom: 175,
+                                                                    //top: MediaQuery.of(context).size.height / 1.8,
+                                                                    left: 100,
+                                                                    right: 100,
+                                                                    child:
+                                                                        CircleAvatar(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      radius: Constants
+                                                                          .avatarRadius,
+                                                                      child: ClipRRect(
+                                                                          borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                                                                          child: Image.asset(
+                                                                            "assets/icons/sign_in_prompt.png",
+                                                                            height:
+                                                                                90,
+                                                                            width:
+                                                                                90,
+                                                                          )),
+                                                                    ),
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),
                                                           ),
+                                                        );
+                                                      });
+                                                },
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              GestureDetector(
+                                                child: Icon(Icons.delete_sweep,
+                                                    color:
+                                                        AppTheme.appbarPrimary),
+                                                onTap: () {
+                                                  showGeneralDialog(
+                                                    barrierLabel: "Label",
+                                                    barrierDismissible: true,
+                                                    barrierColor: Colors.black
+                                                        .withOpacity(0.5),
+                                                    transitionDuration:
+                                                        Duration(
+                                                            milliseconds: 700),
+                                                    context: context,
+                                                    pageBuilder: (context,
+                                                        anim1, anim2) {
+                                                      return Material(
+                                                        type: MaterialType
+                                                            .transparency,
+                                                        child: Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Material(
+                                                            type: MaterialType
+                                                                .transparency,
+                                                            child: Stack(
+                                                              children: [
+                                                                Container(
+                                                                  height: 300,
+                                                                  width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                                  //color: Colors.red,
+                                                                  child: Center(
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          bottom:
+                                                                              0,
+                                                                          left:
+                                                                              20,
+                                                                          right:
+                                                                              20),
+                                                                      child:
+                                                                          Container(
+                                                                        height:
+                                                                            180,
+                                                                        decoration: BoxDecoration(
+                                                                            //color: HexColor('#f9f2f3'),
+                                                                            gradient: LinearGradient(
+                                                                              begin: Alignment.topCenter,
+                                                                              end: Alignment.bottomCenter,
+                                                                              colors: [
+                                                                                HexColor('#fdf0f2'),
+                                                                                HexColor('#FFFFFF')
+                                                                              ],
+                                                                              tileMode: TileMode.repeated,
+                                                                            ),
+                                                                            borderRadius: BorderRadius.circular(25)),
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(top: 50.0),
+                                                                          child:
+                                                                              Column(
+                                                                            children: [
+                                                                              Column(
+                                                                                children: [
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                    children: [
+                                                                                      Text("Remove ", style: GoogleFonts.poppins()),
+                                                                                      Text(accountList[index].name, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                                                                      Text(" from your account list.", maxLines: 2,style: GoogleFonts.poppins())
+                                                                                    ],
+                                                                                  ),
+                                                                                  Text("", style: GoogleFonts.poppins())
+                                                                                ],
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 20,
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  GestureDetector(
+                                                                                    onTap: () {
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                    child: Material(
+                                                                                      elevation: 0,
+                                                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: HexColor('#354291'))),
+                                                                                      color: Colors.white,
+                                                                                      child: SizedBox(
+                                                                                        height: 50,
+                                                                                        width: 120,
+                                                                                        child: Center(
+                                                                                          child: Text(
+                                                                                            "Cancel",
+                                                                                            style: TextStyle(color: HexColor('#354291'), fontWeight: FontWeight.w500, fontSize: 15),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    width: 15,
+                                                                                  ),
+                                                                                  GestureDetector(
+                                                                                    onTap: () async {
+                                                                                      dbmManager.deleteStudent(st.id);
+
+                                                                                      setState(() {
+                                                                                        accountList.removeAt(index);
+                                                                                      });
+                                                                                      Navigator.of(context).pop(context);
+                                                                                    },
+                                                                                    child: Material(
+                                                                                      elevation: 0,
+                                                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                                                                      color: HexColor('#354291'),
+                                                                                      child: SizedBox(
+                                                                                        height: 50,
+                                                                                        width: 120,
+                                                                                        child: Center(
+                                                                                          child: Text(
+                                                                                            "Remove",
+                                                                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Positioned(
+                                                                  bottom: 210,
+                                                                  left: 100,
+                                                                  right: 100,
+                                                                  child:
+                                                                      Container(
+                                                                        width: 55,
+                                                                        height: 55,
+                                                                        decoration: BoxDecoration(
+                                                                          color: Colors.white,
+                                                                          shape: BoxShape.circle,
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                color: HexColor("#0D1231").withOpacity(0.08),
+                                                                                spreadRadius: 3,
+                                                                                blurRadius: 5,
+                                                                                offset:
+                                                                                Offset(0, 1), // changes position of shadow
+                                                                              ),
+                                                                            ]),
+                                                                        child: Icon(Icons.delete_outline,size: 30, color: HexColor("#FF92A1"),),
+                                                                      ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      top: MediaQuery.of(
-                                                          context)
-                                                          .size
-                                                          .height /
-                                                          3.35,
-                                                      left: 100,
-                                                      right: 100,
-                                                      child: CircleAvatar(
-                                                        backgroundColor:
-                                                        Colors
-                                                            .transparent,
-                                                        radius: Constants
-                                                            .avatarRadius,
-                                                        child: ClipRRect(
-                                                            borderRadius: BorderRadius.all(
-                                                                Radius.circular(
-                                                                    Constants
-                                                                        .avatarRadius)),
-                                                            child: Image
-                                                                .asset(
-                                                                "assets/images/warning.png")),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                              transitionBuilder: (context,
-                                                  anim1, anim2, child) {
-                                                return SlideTransition(
-                                                  position: Tween(
-                                                      begin: Offset(
-                                                          0, 2),
-                                                      end: Offset(
-                                                          0, 0))
-                                                      .animate(anim1),
-                                                  child: child,
-                                                );
-                                              },
-                                            );
-                                          },
-                                        ),
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                      ],
-                                    ),
+                                                      );
+                                                    },
+                                                    transitionBuilder: (context,
+                                                        anim1, anim2, child) {
+                                                      return SlideTransition(
+                                                        position: Tween(
+                                                                begin: Offset(
+                                                                    0, 2),
+                                                                end: Offset(
+                                                                    0, 0))
+                                                            .animate(anim1),
+                                                        child: child,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                              SizedBox(
+                                                width: 30,
+                                              ),
+                                            ],
+                                          ),
                                   ],
                                 ));
                           });
@@ -539,18 +612,9 @@ class _SwitchAccountState extends State<SwitchAccount> {
     showDialog(
         context: context,
         builder: (context) {
-          return SwitchAccountAlert();
+          return AddAccountAlert();
         }).then((value) {
       setState(() {});
     });
   }
-}
-
-class AccountList {
-  String name;
-  String imageUrl;
-  bool isLoggedIn;
-  String whoseAccount;
-
-  AccountList({this.isLoggedIn, this.imageUrl, this.name, this.whoseAccount});
 }

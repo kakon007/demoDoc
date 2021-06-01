@@ -36,20 +36,10 @@ class _FamilyMembersState extends State<FamilyMembers> {
       var userVm = Provider.of<UserDetailsViewModel>(context, listen: false);
       await userVm.getData();
       familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
-      selectedCard = familyVm.selectedCard;
-      print("slect $selectedCard");
-      isSelected = false;
-      familyMemName = '';
-      familyMemEmail = '';
-      familyMemMobile = '';
-      familyMemAddress = '';
-      familyMemGender = '';
-      familyMemDob = '';
-      familyMemRegNo = '';
-      image = '';
-      relation = '';
     });
     super.initState();
+    selectedCard= familyVm.selectedCard;
+    print("sssss $selectedCard");
   }
 
   @override
@@ -112,7 +102,6 @@ class _FamilyMembersState extends State<FamilyMembers> {
                               familyMemMobile =
                                   vm3.patDetails.phoneMobile;
                               familyMemGender = vm3.patDetails.gender;
-                              // _familyMembers = value;
                               familyMemName = familyVm
                                   .familyMembersList[index].fmName;
                               familyMemAddress = familyVm

@@ -1,48 +1,3 @@
-// import 'package:flutter/cupertino.dart';
-// import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
-// import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
-// import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-// import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
-// import 'package:myhealthbd_app/main_app/failure/app_error.dart';
-//
-// class AvailableSlotsViewModel extends ChangeNotifier{
-//   List<Items> _slots =[];
-//   AppError _appError;
-//   DateTime _lastFetchTime;
-//   bool _isFetchingMoreData = false;
-//   bool _isFetchingData = false;
-//
-//
-//   Future<void> getSlots(DateTime pickedAppointDate, String companyNo, String doctorNo, String orgNo) async {
-//     var res = await AvailableSlotsRepository().fetchSpecializationList(pickedAppointDate, companyNo, doctorNo, orgNo);
-//     notifyListeners();
-//     _slots.clear();
-//     res.fold((l) {
-//       _appError = l;
-//       _isFetchingMoreData = false;
-//       notifyListeners();
-//     }, (r) {
-//       _isFetchingMoreData = false;
-//       _slots.addAll(r.slotList);
-//       notifyListeners();
-//     });
-//   }
-//
-//
-//   AppError get appError => _appError;
-//
-//   bool get isFetchingData => _isFetchingData;
-//
-//   bool get isFetchingMoreData => _isFetchingMoreData;
-//
-//
-//   bool get shouldShowPageLoader =>
-//       _isFetchingData && _slots.length == 0;
-//
-//   List<Items> get slotList => _slots;
-//
-// }
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -68,7 +23,6 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   String _deleteMessage;
   String _updateMessage;
   String _saveMessage;
-  int selectedCard = -1;
   bool _isSelected = false;
   String _familyMemName = '';
   String _familyMemEmail = '';
@@ -79,6 +33,7 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   String _familyMemRegNo = '';
   String _imageMem = '';
   String _relation = '';
+  int _selectedCard=-1;
 
   memberDetail(
     int selectedCard,
@@ -93,6 +48,7 @@ class FamilyMembersListViewModel extends ChangeNotifier {
     String imageMem,
     String relation,
   ) {
+    _selectedCard=selectedCard;
     _isSelected = isSelected;
     _familyMemName = familyMemName;
     _familyMemEmail = familyMemEmail;
@@ -129,7 +85,6 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   }
 
   Future<void> deleteMember() async {
-    //print("regIddddd : $regId");
     _isLoading = true;
     var res = await FamilyMembersList().deleteMember(_id);
     notifyListeners();
@@ -170,27 +125,15 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   Future<void> addFamilyMember(
       String regId, String regNo, String relation, String relatedRegNo) async {
     _isLoading = true;
-    print("regId: $regId");
-    print("regNo: $regNo");
-    print("relation: $relation");
-    print("related:$relatedRegNo");
     var res = await AddFamilyMemberRepository()
         .addFamilyMember(regId, regNo, relation, relatedRegNo);
     notifyListeners();
     res.fold((l) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
       _appError = l;
       _isLoading = false;
       _isFetchingMoreData = false;
       notifyListeners();
     }, (r) {
-      print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       familyMembers(_regId);
       _saveMessage = r.message;
       _isFetchingMoreData = false;
@@ -200,18 +143,17 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   }
 
   Future<void> familyMembers(String regId) async {
-    print("regIddddd : $regId");
-    _isLoading = true;
     var res = await FamilyMembersList().fetchFamilyMembersList(regId);
     notifyListeners();
+    _isLoading = true;
+    _familyMembersList.clear();
     res.fold((l) {
       _appError = l;
       _isLoading = false;
       _isFetchingMoreData = false;
       notifyListeners();
     }, (r) {
-      _familyMembersList = r.items;
-      print("itemsssssssssssssssssssss: $_familyMembersList");
+      _familyMembersList.addAll(r.items);
       _isFetchingMoreData = false;
       _isLoading = false;
       notifyListeners();
@@ -265,4 +207,6 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   String get imageMem => _imageMem;
 
   String get relation => _relation;
+
+  int get selectedCard => _selectedCard;
 }

@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/features/appointments/view_model/available_slot_v
 import 'package:myhealthbd_app/features/appointments/view_model/book_appointment_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/models/get_family_member_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/appointment_success.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
@@ -116,22 +117,7 @@ class _AddPatientState extends State<AddPatient> {
     pickBirthDate = DateTime.now();
     selectedConsultationType = "";
     selectedGender = "";
-    // selectedCard = -1;
-    // isSelected = false;
-    // familyMemName = '';
-    // familyMemEmail = '';
-    // familyMemMobile = '';
-    // familyMemAddress = '';
-    // familyMemGender = '';
-    // familyMemDob = '';
-    // familyMemRegNo = '';
-    // image = '';
-    // relation = '';
   }
-
-  String _selectedMemType;
-  Item _familyMembers;
-  String _selectedType;
   String _selectedMemberType;
   String _selectedConsultation;
   String _selectedConsultationForMe;
@@ -471,8 +457,15 @@ class _AddPatientState extends State<AddPatient> {
                                     _selectedMemberType = newValue;
                                     if (_selectedMemberType !=
                                         selectedMemberType) {
+                                      if(_selectedMemberType=="Family Member"){
+                                        memberList= true;
+                                      }
+                                      else{
+                                        memberList= false;
+                                      }
                                       selectedMemberType = newValue;
                                       _selectedConsultation = null;
+                                      selectedConsultationType="";
                                       Future.delayed(Duration.zero, () async {
                                         await vm.getConType(
                                             widget.doctorNo,
@@ -535,131 +528,6 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
-
-    // var membersNameList = Row(
-    //   children: [
-    //     GestureDetector(
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Container(
-    //             height: 45.0,
-    //             width: MediaQuery.of(context).size.width * .8,
-    //             decoration: BoxDecoration(
-    //                 color: Colors.white,
-    //                 border: Border.all(color: HexColor(patientBorderColor)),
-    //                 borderRadius: BorderRadius.circular(10)),
-    //             child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               children: [
-    //                 Stack(
-    //                   children: [
-    //                     Padding(
-    //                       padding: const EdgeInsets.only(left: 15.0),
-    //                       child: Container(
-    //                         width: MediaQuery.of(context).size.width * .72,
-    //                         child: DropdownButtonHideUnderline(
-    //                           child: DropdownButton<Item>(
-    //                             iconSize: 0.0,
-    //                             hint: Text(
-    //                               "Select Family member",
-    //                               style: GoogleFonts.roboto(
-    //                                   fontSize: 15, color: HexColor("#D2D2D2")),
-    //                             ),
-    //                             // Not necessary for Option 1
-    //                             value: _familyMembers,
-    //                             onChanged: (value) {
-    //                               setState(() {
-    //                                 Future.delayed(Duration.zero, () async {
-    //                                   await vm3.getPatData(value.fmRegId);
-    //                                   familyMemEmail = vm3.patDetails.email;
-    //                                   familyMemMobile =
-    //                                       vm3.patDetails.phoneMobile;
-    //                                   familyMemGender = vm3.patDetails.gender;
-    //                                   _familyMembers = value;
-    //                                   familyMemName = value.fmName;
-    //                                   familyMemAddress = value.fmAddress;
-    //                                   familyMemDob = value.fmDob;
-    //                                   familyMemRegNo = value.fmRegNo.toString();
-    //                                 });
-    //                               });
-    //                             },
-    //                             items: familyVm.familyMembersList
-    //                                 .map((memberName) {
-    //                               return DropdownMenuItem(
-    //                                 child: Row(
-    //                                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                                   children: [
-    //                                     memberName.photo !=null
-    //                                         ? Container(
-    //                                         decoration: BoxDecoration(
-    //                                           border: Border.all(color: AppTheme.appbarPrimary),
-    //                                           //color: AppTheme.appbarPrimary,
-    //                                           shape: BoxShape.circle,
-    //                                         ),
-    //                                         height: 35,
-    //                                         width: 35,
-    //                                         child: Center(
-    //                                             child: imageVm.loadProfileImage(memberName.photo, 33.5, 35,50)
-    //                                         ))
-    //                                         : Container(
-    //                                         decoration: BoxDecoration(
-    //                                           color: AppTheme.appbarPrimary,
-    //                                           shape: BoxShape.circle,
-    //                                         ),
-    //                                         height: 32,
-    //                                         width: 32,
-    //                                         child: Center(
-    //                                           child: Image.asset(
-    //                                             'assets/images/dPro.png',
-    //                                             height: 22,
-    //                                             width: 22,
-    //                                           ),
-    //                                         )),
-    //                                     SizedBox(width: 15,),
-    //                                     Text(
-    //                                       memberName.fmName,
-    //                                       style:
-    //                                           GoogleFonts.roboto(fontSize: 14),
-    //                                     ),
-    //                                   ],
-    //                                 ),
-    //                                 value: memberName,
-    //                               );
-    //                             }).toList(),
-    //                           ),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     Padding(
-    //                       padding: const EdgeInsets.only(left: 260.0, top: 5),
-    //                       child: Icon(
-    //                         Icons.keyboard_arrow_down_sharp,
-    //                         color: HexColor("#D2D2D2"),
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //           patientBorderColor != "#FF0000"
-    //               ? SizedBox(
-    //                   width: 2,
-    //                 )
-    //               : Padding(
-    //                   padding:
-    //                       const EdgeInsets.only(left: 16, top: 8, right: 38),
-    //                   child: Text(
-    //                     "This Field Is Required",
-    //                     style: GoogleFonts.poppins(
-    //                         color: Colors.red, fontSize: 12),
-    //                   )),
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
     var membersNameList = Row(
       children: [
         GestureDetector(
@@ -731,61 +599,6 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
-    //
-    //
-    //
-    // Row(
-    //   children: [
-    //     GestureDetector(
-    //       onTap: (){
-    //         setState(() {
-    //           memberList? memberList= false : memberList= true;
-    //           Navigator.push(context, MaterialPageRoute(builder: (BuildContext){
-    //             return FamilyMembers();
-    //           }));
-    //         });
-    //       },
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Container(
-    //             height: 45.0,
-    //             width: MediaQuery.of(context).size.width * .8,
-    //             decoration: BoxDecoration(
-    //                 color: memberList? AppTheme.appbarPrimary : Colors.white,
-    //                 border: Border.all(color: HexColor("#EAEBED")),
-    //                 borderRadius: BorderRadius.circular(10)),
-    //             child: Center(
-    //               child: Padding(
-    //                 padding: const EdgeInsets.only(left: 15.0, top: 0),
-    //                 child: Row(
-    //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                   children: [
-    //                     Text(
-    //                       "Select your family member",
-    //                       style: GoogleFonts.roboto(
-    //                         color: memberList? Colors.white : Colors.black,
-    //                         fontSize: 15,
-    //                       ),
-    //                     ),
-    //                     Padding(
-    //                       padding: EdgeInsets.only(left: 68.0, top: 0, right: 15),
-    //                       child: Icon(
-    //                         memberList ? Icons.keyboard_arrow_right_outlined : Icons.keyboard_arrow_down_sharp,
-    //                         color: HexColor("#D2D2D2"),
-    //                       ),
-    //                     ),
-    //
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
     var patientTypeForMe = Row(
       children: [
         GestureDetector(
@@ -1313,7 +1126,7 @@ class _AddPatientState extends State<AddPatient> {
                           spaceBetween,
                           //vm.forMe== false ? membersList : SizedBox(),
                           vm.forMe ? patientTypeForMe : membersTypeList,
-                          spaceBetween,
+                          selectedMemberType == "Family Member" || vm.forMe || (vm.addPatient && selectedMemberType=="") || (vm.addPatient && selectedMemberType=="Others")? spaceBetween : SizedBox(),
                           vm.forMe == false &&
                                   selectedMemberType == "Family Member"
                               ? membersNameList
@@ -1396,168 +1209,7 @@ class _AddPatientState extends State<AddPatient> {
       pageBuilder: (context, anim1, anim2) {
         return Material(
           type: MaterialType.transparency,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height / 4,
-                      bottom: MediaQuery.of(context).size.height / 4,
-                      right: 20,
-                      left: 20),
-                  child: Container(
-                    height: 300,
-                    // child: SizedBox.expand(child: FlutterLogo()),
-                    //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      gradient: LinearGradient(begin: Alignment.topRight,
-                          // end: Alignment.topCenter,
-                          stops: [
-                            0.2,
-                            0.5,
-                          ], colors: [
-                        HexColor("#D6DCFF"),
-                        HexColor("#FFFFFF"),
-                      ]),
-                      //borderRadius: 10,
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 50.0, left: 50),
-                          child: Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Booked Successfully!",
-                                  style: GoogleFonts.poppins(
-                                      color: HexColor("#037BB7"),
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Serial No ",
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Text(
-                                      "#" + vm.slotSl.toString(),
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w600,
-                                          color: HexColor("#037BB7")),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Date : ",
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                    Text(
-                                      DateFormat("dd/MM/yyyy").format(
-                                          DateTime.parse(
-                                                  vm.appointDate.toString())
-                                              .toLocal()),
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Time : ",
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                    Text(
-                                      DateFormat("hh:mm a").format(
-                                          DateTime.parse(
-                                                  vm.startTime.toString())
-                                              .toLocal()),
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  vm.doctorName,
-                                  style: GoogleFonts.poppins(
-                                      color: HexColor("#037BB7"), fontSize: 13),
-                                ),
-                                Text(
-                                  widget.hospitalName,
-                                  style: GoogleFonts.poppins(
-                                      color: HexColor("#037BB7"), fontSize: 13),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  " * Please proceed with the payment",
-                                  style: GoogleFonts.poppins(fontSize: 13),
-                                ),
-                                Text(
-                                  "    confirm this appointment",
-                                  style: GoogleFonts.poppins(fontSize: 13),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                minWidth: 120,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                                color: AppTheme.appbarPrimary,
-                                child: Text(
-                                  "OK",
-                                  style:
-                                      GoogleFonts.poppins(color: Colors.white),
-                                ))
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: MediaQuery.of(context).size.height > 700
-                    ? MediaQuery.of(context).size.height / 3.4
-                    : MediaQuery.of(context).size.height > 450 &&
-                            MediaQuery.of(context).size.height <= 600
-                        ? MediaQuery.of(context).size.height / 6.1
-                        : MediaQuery.of(context).size.height / 3.3,
-                left: MediaQuery.of(context).size.height / 4.6,
-                right: MediaQuery.of(context).size.height / 4.6,
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: Constants.avatarRadius,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(Constants.avatarRadius)),
-                      child: Image.asset("assets/images/confirm.png")),
-                ),
-              ),
-            ],
-          ),
-        );
+          child: AppointSuccess(appointDate: vm.appointDate,doctorName: vm.doctorName, hospitalName: widget.hospitalName,slotSl: vm.slotSl,startTime: vm.startTime.toString(),));
       },
     );
   }

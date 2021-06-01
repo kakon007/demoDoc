@@ -1149,7 +1149,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+  static const DATE_FORMAT = 'yyyy-MM-dd   hh:mm a';
 
   String formattedDate(DateTime dateTime) {
     //print('dateTime ($dateTime)');

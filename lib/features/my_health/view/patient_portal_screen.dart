@@ -312,7 +312,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     var vm4= Provider.of<ViewDocumentViewModel>(context,listen: true);
     var vm6 = Provider.of<UploadDocumentsViewModel>(context, listen: true);
     print("lltt::: ${vm3.documentList.length}");
-    var childButtons = List<UnicornButton>();
+    //var childButtons = List<UnicornButton>();
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
 
@@ -598,23 +598,23 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       );
     }
 
-    childButtons.add(UnicornButton(
-        hasLabel: true,
-        labelText: " Upload Documents\n(JPG,PNG,PDF only)",
-        labelColor: HexColor("#354291") ,
-        labelBackgroundColor: HexColor("#E9ECFE"),
-        labelFontSize: 10,
-        currentButton: FloatingActionButton(
-          onPressed: (){
-            Navigator.push(context, PageTransition(
-              type: PageTransitionType.rightToLeft,
-              child:UploadDocumentScreen(),
-            ),);
-          },
-            heroTag: "airplane",
-            backgroundColor: HexColor("#354291"),
-            mini: true,
-            child: uploadIcon)));
+    // childButtons.add(UnicornButton(
+    //     hasLabel: true,
+    //     labelText: " Upload Documents\n(JPG,PNG,PDF only)",
+    //     labelColor: HexColor("#354291") ,
+    //     labelBackgroundColor: HexColor("#E9ECFE"),
+    //     labelFontSize: 10,
+    //     currentButton: FloatingActionButton(
+    //       onPressed: (){
+    //         Navigator.push(context, PageTransition(
+    //           type: PageTransitionType.rightToLeft,
+    //           child:UploadDocumentScreen(),
+    //         ),);
+    //       },
+    //         heroTag: "airplane",
+    //         backgroundColor: HexColor("#354291"),
+    //         mini: true,
+    //         child: uploadIcon)));
 
     void handleClick(String value) {
       switch (value) {
@@ -1442,12 +1442,23 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                     child: Scaffold(
                       floatingActionButton: Padding(
                         padding: const EdgeInsets.only(bottom:10.0,right: 10),
-                        child: UnicornDialer(
-                            backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
-                            parentButtonBackground: HexColor('#8592E5'),
-                            orientation: UnicornOrientation.VERTICAL,
-                            parentButton: Icon(Icons.add),
-                            childButtons: childButtons),
+                        child:
+                        // UnicornDialer(
+                        //     backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
+                        //     parentButtonBackground: HexColor('#8592E5'),
+                        //     orientation: UnicornOrientation.VERTICAL,
+                        //     parentButton: Icon(Icons.add),
+                        //     childButtons: childButtons),
+
+                        FloatingActionButton(
+                          backgroundColor: HexColor('#8592E5'),
+                          child: Icon(Icons.add),
+                          onPressed: () {
+                            Navigator.push(context, PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child:UploadDocumentScreen(),
+                            ),);
+                          },),
                       ),
 
                       // body:

@@ -73,6 +73,7 @@ dependencies:
   flutter_svprogresshud:
   photo_view: ^0.9.2
   data_connection_checker: ^0.3.4
+  expandable:
 
 dev_dependencies:
   multi_select_item: ^1.0.3

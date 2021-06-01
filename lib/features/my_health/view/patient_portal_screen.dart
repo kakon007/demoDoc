@@ -41,6 +41,7 @@ import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart' as pp;
+import 'package:expandable/expandable.dart';
 
 class PrescriptionListScreen extends StatefulWidget {
   // final Function menuCallBack;
@@ -298,6 +299,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     });
   }
 
+  bool descTextShowFlag = false;
 
 
   @override
@@ -1560,95 +1562,266 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                               }
                                               print("tappeddd from Doc");
                                             },
-                                            child: Container(
-                                              // height: cardHeight*0.7,
-                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                  1.0,
-                                                ], colors: [
-                                                  //HexColor('#C5CAE8'),
-                                                  HexColor('#E9ECFE'),
+                                            child:
 
-                                                ]),
-                                                //color: Colors.white,
-                                                // border: Border.all(
-                                                //   color: HexColor("#E9ECFE"),
-                                                //   width: 1,
-                                                // ),
-                                                borderRadius: BorderRadius.circular(15),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(width: 10,),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                            // Container(
+                                            //   // height: cardHeight*0.7,
+                                            //   margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                            //   decoration: BoxDecoration(
+                                            //     gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                            //       1.0,
+                                            //     ], colors: [
+                                            //       //HexColor('#C5CAE8'),
+                                            //       HexColor('#E9ECFE'),
+                                            //
+                                            //     ]),
+                                            //     //color: Colors.white,
+                                            //     // border: Border.all(
+                                            //     //   color: HexColor("#E9ECFE"),
+                                            //     //   width: 1,
+                                            //     // ),
+                                            //     borderRadius: BorderRadius.circular(15),
+                                            //   ),
+                                            //   child: Row(
+                                            //     children: [
+                                            //       SizedBox(width: 10,),
+                                            //       Padding(
+                                            //         padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                            //         child: Column(
+                                            //           crossAxisAlignment: CrossAxisAlignment.start,
+                                            //           children: [
+                                            //             SizedBox(height: 10,),
+                                            //             Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                            //             SizedBox(height: 5,),
+                                            //             Row(
+                                            //               children: [
+                                            //                 Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                            //                 SizedBox(width: 40,),
+                                            //                 Container(width: 100,child: Text(vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+                                            //               ],
+                                            //             ),
+                                            //             SizedBox(height: 5,),
+                                            //             InkWell(onTap: (){
+                                            //               setState(() {
+                                            //                 descTextShowFlag =!descTextShowFlag;
+                                            //               });
+                                            //               print('Taab $descTextShowFlag');
+                                            //             },child: Text('Description')),
+                                            //             vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                            //             Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+                                            //
+                                            //             SizedBox(height: 5,),
+                                            //           ],
+                                            //         ),
+                                            //       ),
+                                            //
+                                            //       // Padding(
+                                            //       //   padding: const EdgeInsets.only(right:18.0),
+                                            //       //   child: Stack(children: [
+                                            //       //     Container(width:45,child: dx),
+                                            //       //     Padding(
+                                            //       //       padding: const EdgeInsets.only(left:30.0),
+                                            //       //       child: righticon,
+                                            //       //     ),
+                                            //       //   ]),
+                                            //       // ),
+                                            //       Padding(
+                                            //         padding: const EdgeInsets.only(left: 10),
+                                            //         child: Stack(children: [
+                                            //           Padding(
+                                            //             padding: const EdgeInsets.only(top:5.0,left: 30),
+                                            //             child: Container(width:45,child: jp),
+                                            //           ),
+                                            //           // (controller3.isSelected(index))?
+                                            //           // Padding(
+                                            //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                            //           //   child: righticon,
+                                            //           // ): (controller3.isSelecting)?
+                                            //           // Padding(
+                                            //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                            //           //   child: greyright,
+                                            //           // ):
+                                            //           // // Padding(
+                                            //           // //   padding: EdgeInsets.only(left: 40,top: 10),
+                                            //           // //   child: InkWell(onTap: () async{
+                                            //           // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
+                                            //           // //   },child: Icon(Icons.delete)),
+                                            //           // // ),
+                                            //           Padding(
+                                            //             padding: EdgeInsets.only(left: 90,top: 40),
+                                            //             child: InkWell(onTap: () async{
+                                            //               vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                            //               _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                            //
+                                            //             },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                            //           ),
+                                            //         ]),
+                                            //       ),
+                                            //     ],
+                                            //   ),
+                                            // ),
+                                            ExpandableNotifier(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    // height: cardHeight*1.3,
+
+                                                    decoration: BoxDecoration(
+                                                      gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                        1.0,
+                                                      ], colors: [
+                                                        //HexColor('#C5CAE8'),
+                                                        HexColor('#E9ECFE'),
+
+                                                      ]),
+                                                      //color: Colors.white,
+                                                      // border: Border.all(
+                                                      //   color: HexColor("#E9ECFE"),
+                                                      //   width: 1,
+                                                      // ),
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
+                                                    clipBehavior: Clip.antiAlias,
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(height: 10,),
-                                                        Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
-                                                        SizedBox(height: 5,),
-                                                        Row(
-                                                          children: [
-                                                            Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                            SizedBox(width: 40,),
-                                                            Container(width: 100,child: Text(vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-                                                          ],
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: 79,
+                                                          child: Row(
+                                                            children: [
+                                                              SizedBox(width: 10,),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 0),
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    SizedBox(height: 10,),
+                                                                    Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                                                    SizedBox(height: 5,),
+                                                                    Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Text('Documentation Type: ${vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName}',maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                        Text('Report Date: ${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                        //SizedBox(width: 5,),
+                                                                      ],
+                                                                    ),
+                                                                    //SizedBox(height: 5,),
+                                                                    // InkWell(onTap: (){
+                                                                    //   setState(() {
+                                                                    //     descTextShowFlag =!descTextShowFlag;
+                                                                    //   });
+                                                                    //   print('Taab $descTextShowFlag');
+                                                                    // },child: Text('Description')),
+                                                                    // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                                                    // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+
+                                                                    // SizedBox(height: 5,),
+                                                                  ],
+                                                                ),
+                                                              ),
+
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.only(right:18.0),
+                                                              //   child: Stack(children: [
+                                                              //     Container(width:45,child: dx),
+                                                              //     Padding(
+                                                              //       padding: const EdgeInsets.only(left:30.0),
+                                                              //       child: righticon,
+                                                              //     ),
+                                                              //   ]),
+                                                              // ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 10),
+                                                                child: Stack(children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top:5.0,left: 30),
+                                                                    child: Container(width:45,child: jp),
+                                                                  ),
+                                                                  // (controller3.isSelected(index))?
+                                                                  // Padding(
+                                                                  //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                  //   child: righticon,
+                                                                  // ): (controller3.isSelecting)?
+                                                                  // Padding(
+                                                                  //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                  //   child: greyright,
+                                                                  // ):
+                                                                  // // Padding(
+                                                                  // //   padding: EdgeInsets.only(left: 40,top: 10),
+                                                                  // //   child: InkWell(onTap: () async{
+                                                                  // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
+                                                                  // //   },child: Icon(Icons.delete)),
+                                                                  // // ),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(left: 90,top: 20),
+                                                                    child: InkWell(onTap: () async{
+                                                                      vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                      _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+
+                                                                    },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                                                  ),
+                                                                ]),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                        SizedBox(height: 5,),
-                                                        vm3.documentList[index].description==null?SizedBox():
-                                                        Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-                                                        SizedBox(height: 5,),
+                                                        ScrollOnExpand(
+                                                          scrollOnExpand: true,
+                                                          scrollOnCollapse: false,
+                                                          child: ExpandablePanel(
+                                                            theme:  ExpandableThemeData(
+                                                              headerAlignment: ExpandablePanelHeaderAlignment.center,
+                                                              tapBodyToCollapse: true,
+                                                            ),
+                                                            header: Padding(
+                                                                padding: EdgeInsets.all(10),
+                                                                child: Text(
+                                                                  "Descriptions",
+                                                                    style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),
+                                                                )),
+                                                            // collapsed: Text(
+                                                            //   vm3.documentList[index].description==null?"":vm3.documentList[index].description,
+                                                            //   softWrap: true,
+                                                            //   maxLines: 2,
+                                                            //   overflow: TextOverflow.ellipsis,
+                                                            // ),
+                                                            expanded: Container(
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                borderRadius: BorderRadius.circular(15),
+                                                              ),
+                                                              width: double.infinity,
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: <Widget>[
+                                                                    //for (var _ in Iterable.generate(5))
+                                                                      Text(
+                                                                        vm3.documentList[index].description==null?"":vm3.documentList[index].description,
+                                                                        softWrap: true,
+                                                                        overflow: TextOverflow.fade,
+                                                                      ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            builder: (_, collapsed, expanded) {
+                                                              return Padding(
+                                                                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                                                                child: Expandable(
+                                                                  collapsed: collapsed,
+                                                                  expanded: expanded,
+                                                                  theme: const ExpandableThemeData(crossFadePoint: 0),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
-
-                                                  // Padding(
-                                                  //   padding: const EdgeInsets.only(right:18.0),
-                                                  //   child: Stack(children: [
-                                                  //     Container(width:45,child: dx),
-                                                  //     Padding(
-                                                  //       padding: const EdgeInsets.only(left:30.0),
-                                                  //       child: righticon,
-                                                  //     ),
-                                                  //   ]),
-                                                  // ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 10),
-                                                    child: Stack(children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top:5.0,left: 30),
-                                                        child: Container(width:45,child: jp),
-                                                      ),
-                                                      // (controller3.isSelected(index))?
-                                                      // Padding(
-                                                      //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                      //   child: righticon,
-                                                      // ): (controller3.isSelecting)?
-                                                      // Padding(
-                                                      //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                      //   child: greyright,
-                                                      // ):
-                                                      // // Padding(
-                                                      // //   padding: EdgeInsets.only(left: 40,top: 10),
-                                                      // //   child: InkWell(onTap: () async{
-                                                      // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
-                                                      // //   },child: Icon(Icons.delete)),
-                                                      // // ),
-                                                      Padding(
-                                                        padding: EdgeInsets.only(left: 90,top: 40),
-                                                        child: InkWell(onTap: () async{
-                                                          vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                          _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-
-                                                        },child: Icon(Icons.edit,color: HexColor('#354291'),)),
-                                                      ),
-                                                    ]),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                                )),
                                           ),
                                         ]
                                     ),

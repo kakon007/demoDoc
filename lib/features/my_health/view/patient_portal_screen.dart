@@ -65,6 +65,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   TextEditingController _searchTextEditingController = TextEditingController();
   var _searchFieldFocusNode = FocusNode();
 
+  TextEditingController _searchTextEditingController2 = TextEditingController();
+  var _searchFieldFocusNode2 = FocusNode();
+
   TextEditingController _searchTextEditingController3 = TextEditingController();
   var _searchFieldFocusNode3 = FocusNode();
 
@@ -148,7 +151,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   MultiSelectController controller3 = new MultiSelectController();
 
   ScrollController _scrollController = ScrollController();
-  //ScrollController _scrollController3 = ScrollController();
+ // ScrollController _scrollController3 = ScrollController();
 
   Future<PrescriptionListModel> fetchedData;
 
@@ -252,6 +255,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       }
 
     });
+    // if (vm3.isInSearchMode) {
+    //   _searchFieldFocusNode.requestFocus();
+    // }
 
     // _scrollController3.addListener(() {
     //
@@ -799,7 +805,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
             controller: _searchTextEditingController3,
             cursorColor: HexColor('#C5CAE8'),
             decoration: InputDecoration(
-                hintText: 'Search prescriptions',
+                hintText: 'Search documentations',
                 hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
                 //labelText: "Resevior Name",
                 fillColor: Colors.white,
@@ -827,6 +833,54 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           // ),
         )
     );
+
+    var searchFieldforReport=
+    Container(
+      //height: 40,
+        width: 200,
+        height: 60,
+        child:Padding(
+          padding: const EdgeInsets.only(bottom:20.0,right: 12),
+          child:
+          // Stack(
+          //     children:[
+          //Align(alignment: Alignment.topRight,child: IconButton(icon: Icon(Icons.search_outlined,size: 25,), onPressed: null)),
+          TextField(
+            autofocus: false,
+            textInputAction: TextInputAction.search,
+            focusNode: _searchFieldFocusNode2,
+            controller: _searchTextEditingController2,
+            cursorColor: HexColor('#C5CAE8'),
+            decoration: InputDecoration(
+                hintText: 'Search reports',
+                hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
+                //labelText: "Resevior Name",
+                fillColor: Colors.white,
+                focusedBorder:UnderlineInputBorder(
+                  borderSide:  BorderSide(color: HexColor('#354291').withOpacity(0.5), width: 1.5),
+                  //borderRadius: BorderRadius.circular(25.0),
+                ),
+                suffixIcon:IconButton(
+                  icon:Icon(Icons.search_sharp),
+                  onPressed: (){
+                    vm3.search(_searchTextEditingController2.text,widget.accessToken);
+
+                  },
+                )
+            ),
+            // onChanged: (text) {
+            //   //value = text;
+            // },
+            onSubmitted: (v){
+              vm3.search(_searchTextEditingController2.text,widget.accessToken);
+            },
+
+          ),
+          //     ]
+          // ),
+        )
+    );
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -1195,8 +1249,22 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   padding: const EdgeInsets.only(left:12.0,bottom: 20,top:10),
                                   child: Text("${vm2.totalCount.toString()} Report(s) found",style: GoogleFonts.poppins(fontSize: 10),),
                                 ),
-                                // Spacer(),
-                                // searchField,
+                                Spacer(),
+                                if (vm2.isInSearchMode)searchFieldforReport,
+                                IconButton(
+                                  key: Key('featuredJButonKey'),
+                                  icon: Icon(vm2.isInSearchMode ? Icons.close : Icons.search),
+                                  onPressed: () {
+                                    _searchTextEditingController2?.clear();
+                                    vm2.toggleIsInSearchMode(widget.accessToken);
+
+                                    if (vm2.isInSearchMode) {
+                                      _searchFieldFocusNode2.requestFocus();
+                                    } else {
+                                      _searchFieldFocusNode2.unfocus();
+                                    }
+                                  },
+                                ),
                               ],
                             ),
                             Expanded(
@@ -1250,6 +1318,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                           setState(() {
                                                             controller2.toggle(index);
                                                           });
+                                                        }else{
+                                                          Navigator.push(context, PageTransition(
+                                                            type: PageTransitionType.rightToLeft,
+                                                            child:
+
+                                                            PdfbyteViewerScreen(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName),
+                                                          ),);
                                                         }
                                                         print("tappeddd");
                                                       },

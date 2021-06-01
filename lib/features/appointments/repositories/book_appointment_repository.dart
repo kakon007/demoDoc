@@ -144,7 +144,7 @@ class BookAppointmentRepository {
           "ssCreatedOn": ssCreatedOn,
           "ssCreator": ssCreator,
           "remarks": remarks,
-          "appointStatus": appointStatus,
+          "appointStatus": "1",
           "companyNo": companyNo,
           "ogNo": ogNo,
           "patientType": patientType,

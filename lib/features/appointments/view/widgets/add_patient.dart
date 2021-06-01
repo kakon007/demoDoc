@@ -24,6 +24,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constant.dart';
+import 'family_members.dart';
 
 class AddPatient extends StatefulWidget {
   String doctorNo;
@@ -99,6 +100,7 @@ class _AddPatientState extends State<AddPatient> {
   TextEditingController _email = TextEditingController();
   TextEditingController _mobile = TextEditingController();
   TextEditingController _address = TextEditingController();
+  bool memberList = false;
 
   @override
   void initState() {
@@ -404,7 +406,7 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 260.0, top: 5),
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.7, top: 10),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),
@@ -432,6 +434,7 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
+
     var membersNameList = Row(
       children: [
         GestureDetector(
@@ -556,6 +559,58 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
+    // var membersNameList = Row(
+    //   children: [
+    //     GestureDetector(
+    //       onTap: (){
+    //         setState(() {
+    //           memberList? memberList= false : memberList= true;
+    //           Navigator.push(context, MaterialPageRoute(builder: (BuildContext){
+    //             return FamilyMembers();
+    //           }));
+    //         });
+    //       },
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           Container(
+    //             height: 45.0,
+    //             width: MediaQuery.of(context).size.width * .8,
+    //             decoration: BoxDecoration(
+    //                 color: memberList? AppTheme.appbarPrimary : Colors.white,
+    //                 border: Border.all(color: HexColor("#EAEBED")),
+    //                 borderRadius: BorderRadius.circular(10)),
+    //             child: Center(
+    //               child: Padding(
+    //                 padding: const EdgeInsets.only(left: 15.0, top: 0),
+    //                 child: Row(
+    //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                   children: [
+    //                     Text(
+    //                       "Select your family member",
+    //                       style: GoogleFonts.roboto(
+    //                         color: memberList? Colors.white : Colors.black,
+    //                         fontSize: 15,
+    //                       ),
+    //                     ),
+    //                     Padding(
+    //                       padding: EdgeInsets.only(left: 68.0, top: 0, right: 15),
+    //                       child: Icon(
+    //                         memberList ?Icons.keyboard_arrow_right_outlined : Icons.keyboard_arrow_down_sharp,
+    //                         color: HexColor("#D2D2D2"),
+    //                       ),
+    //                     ),
+    //
+    //                   ],
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ],
+    // );
     var patientTypeForMe = Row(
       children: [
         GestureDetector(
@@ -680,7 +735,7 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 260.0, top: 5),
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.7, top: 10),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),
@@ -773,7 +828,7 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 260.0, top: 5),
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.7, top: 10),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),

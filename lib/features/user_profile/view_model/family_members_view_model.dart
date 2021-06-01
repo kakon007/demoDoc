@@ -52,8 +52,8 @@ import 'package:myhealthbd_app/features/user_profile/repositories/family_members
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 class FamilyMembersListViewModel extends ChangeNotifier {
-  List<Item> _familyMembersList=[];
-  bool _isLoading= false;
+  List<Item> _familyMembersList = [];
+  bool _isLoading = false;
   String slot;
   AppError _appError;
   bool _isFetchingMoreData = false;
@@ -68,22 +68,66 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   String _deleteMessage;
   String _updateMessage;
   String _saveMessage;
+  int selectedCard = -1;
+  bool _isSelected = false;
+  String _familyMemName = '';
+  String _familyMemEmail = '';
+  String _familyMemMobile = '';
+  String _familyMemAddress = '';
+  String _familyMemGender = '';
+  String _familyMemDob = '';
+  String _familyMemRegNo = '';
+  String _imageMem = '';
+  String _relation = '';
 
-
-  userRegId(String regId){
- _regId=regId;
- notifyListeners();
+  memberDetail(
+    int selectedCard,
+    bool isSelected,
+    String familyMemName,
+    String familyMemEmail,
+    String familyMemMobile,
+    String familyMemAddress,
+    String familyMemGender,
+    String familyMemDob,
+    String familyMemRegNo,
+    String imageMem,
+    String relation,
+  ) {
+    _isSelected = isSelected;
+    _familyMemName = familyMemName;
+    _familyMemEmail = familyMemEmail;
+    _familyMemMobile = familyMemMobile;
+    _familyMemAddress = familyMemAddress;
+    _familyMemGender = familyMemGender;
+    _familyMemDob = familyMemDob;
+    _familyMemRegNo = familyMemRegNo;
+    _imageMem = imageMem;
+    _relation = relation;
   }
-  getSelectedUserImage({String regId,String id, String name, String userId, String image, String relationName, String relationId}){
-    _regId=regId;
-    _id= id;
-    _image=image;
-    _name=name;
-    _userId=userId;
-    _relationName=relationName;
-    _relationId= relationId;
+
+  userRegId(String regId) {
+    _regId = regId;
     notifyListeners();
   }
+
+  getSelectedUserImage(
+      {String regId,
+      String id,
+      String name,
+      String userId,
+      String image,
+      String relationName,
+      String relationId}) {
+    _regId = regId;
+    _id = id;
+    _image = image;
+    _name = name;
+    _userId = userId;
+    _relationName = relationName;
+    _relationId = relationId;
+    notifyListeners();
+  }
+
   Future<void> deleteMember() async {
     //print("regIddddd : $regId");
     _isLoading = true;
@@ -95,14 +139,14 @@ class FamilyMembersListViewModel extends ChangeNotifier {
       _isFetchingMoreData = false;
       notifyListeners();
     }, (r) {
-
-      _deleteMessage= r.message;
+      _deleteMessage = r.message;
       familyMembers(_regId);
       _isFetchingMoreData = false;
       _isLoading = false;
       notifyListeners();
     });
   }
+
   Future<void> updateMember(String relationId) async {
     //print("regIddddd : $regId");
     _isLoading = true;
@@ -114,7 +158,7 @@ class FamilyMembersListViewModel extends ChangeNotifier {
       _isFetchingMoreData = false;
       notifyListeners();
     }, (r) {
-      _updateMessage= r.message;
+      _updateMessage = r.message;
       //_familyMembersList=r.items;
       familyMembers(_regId);
       _isFetchingMoreData = false;
@@ -123,14 +167,15 @@ class FamilyMembersListViewModel extends ChangeNotifier {
     });
   }
 
-  Future<void> addFamilyMember(String regId, String regNo,
-      String relation, String relatedRegNo) async {
+  Future<void> addFamilyMember(
+      String regId, String regNo, String relation, String relatedRegNo) async {
     _isLoading = true;
     print("regId: $regId");
     print("regNo: $regNo");
     print("relation: $relation");
     print("related:$relatedRegNo");
-    var res = await AddFamilyMemberRepository().addFamilyMember(regId, regNo, relation, relatedRegNo);
+    var res = await AddFamilyMemberRepository()
+        .addFamilyMember(regId, regNo, relation, relatedRegNo);
     notifyListeners();
     res.fold((l) {
       Fluttertoast.showToast(
@@ -147,7 +192,7 @@ class FamilyMembersListViewModel extends ChangeNotifier {
     }, (r) {
       print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       familyMembers(_regId);
-      _saveMessage= r.message;
+      _saveMessage = r.message;
       _isFetchingMoreData = false;
       _isLoading = false;
       notifyListeners();
@@ -165,8 +210,7 @@ class FamilyMembersListViewModel extends ChangeNotifier {
       _isFetchingMoreData = false;
       notifyListeners();
     }, (r) {
-
-      _familyMembersList=r.items;
+      _familyMembersList = r.items;
       print("itemsssssssssssssssssssss: $_familyMembersList");
       _isFetchingMoreData = false;
       _isLoading = false;
@@ -174,24 +218,51 @@ class FamilyMembersListViewModel extends ChangeNotifier {
     });
   }
 
-
-
   AppError get appError => _appError;
 
   bool get isFetchingData => _isFetchingData;
 
   bool get isFetchingMoreData => _isFetchingMoreData;
+
   List<Item> get familyMembersList => _familyMembersList;
 
   bool get isLoading => _isLoading;
-String get image => _image;
-String get name=> _name;
-String get userId => _userId;
-String get relationName => _relationName;
-String get id => _id;
-String get relationId => _relationId;
-String get deleteMessage=> _deleteMessage;
-String get updateMessage => _updateMessage;
-String get saveMessage => _saveMessage;
 
+  String get image => _image;
+
+  String get name => _name;
+
+  String get userId => _userId;
+
+  String get relationName => _relationName;
+
+  String get id => _id;
+
+  String get relationId => _relationId;
+
+  String get deleteMessage => _deleteMessage;
+
+  String get updateMessage => _updateMessage;
+
+  String get saveMessage => _saveMessage;
+
+  bool get isSelected => _isSelected;
+
+  String get familyMemName => _familyMemName;
+
+  String get familyMemEmail => _familyMemEmail;
+
+  String get familyMemMobile => _familyMemMobile;
+
+  String get familyMemAddress => _familyMemAddress;
+
+  String get familyMemGender => _familyMemGender;
+
+  String get familyMemDob => _familyMemDob;
+
+  String get familyMemRegNo => _familyMemRegNo;
+
+  String get imageMem => _imageMem;
+
+  String get relation => _relation;
 }

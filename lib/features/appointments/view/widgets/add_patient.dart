@@ -81,20 +81,13 @@ class _AddPatientState extends State<AddPatient> {
   String _selectedGender;
   String color = "#EAEBED";
   var genderBorderColor = "#EAEBED";
+  var memberBorderColor = "#EAEBED";
   var patientBorderColor = "#EAEBED";
   var consultBorderColor = "#EAEBED";
   var consultBorderColorForMe = "#EAEBED";
-  var selectedPatientType = "";
   var selectedMemberType = "";
   var selectedConsultationType = "";
   var selectedConsultationTypeForMe = "";
-  String familyMemName = '';
-  String familyMemEmail = '';
-  String familyMemMobile = '';
-  String familyMemAddress = '';
-  String familyMemGender = '';
-  String familyMemDob = '';
-  String familyMemRegNo = '';
   String selectedGender = "";
   TextEditingController _name = TextEditingController();
   TextEditingController _email = TextEditingController();
@@ -106,6 +99,8 @@ class _AddPatientState extends State<AddPatient> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    var familyVm =
+    Provider.of<FamilyMembersListViewModel>(context, listen: false);
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       await vm.getPatType(widget.doctorNo);
@@ -114,15 +109,24 @@ class _AddPatientState extends State<AddPatient> {
       accesstoken();
       var userVm = Provider.of<UserDetailsViewModel>(context, listen: false);
       await userVm.getData();
-      var familyVm =
-          Provider.of<FamilyMembersListViewModel>(context, listen: false);
       familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
     });
+    familyVm.memberDetail(-1, false, "", "", "", "", "", "", "", "", "");
     isClicked = false;
     pickBirthDate = DateTime.now();
-    selectedPatientType = "";
     selectedConsultationType = "";
     selectedGender = "";
+    // selectedCard = -1;
+    // isSelected = false;
+    // familyMemName = '';
+    // familyMemEmail = '';
+    // familyMemMobile = '';
+    // familyMemAddress = '';
+    // familyMemGender = '';
+    // familyMemDob = '';
+    // familyMemRegNo = '';
+    // image = '';
+    // relation = '';
   }
 
   String _selectedMemType;
@@ -342,6 +346,92 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
+    var memberDetail = Container(
+        decoration: BoxDecoration(
+          color: HexColor("#F0F2FF"),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        margin: EdgeInsets.only(bottom: 2),
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                familyVm.imageMem != ""
+                    ? Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppTheme.appbarPrimary),
+                          //color: AppTheme.appbarPrimary,
+                          shape: BoxShape.circle,
+                        ),
+                        height: 50,
+                        width: 50,
+                        child: Center(
+                            child: imageVm.loadProfileImage( familyVm.imageMem, 45, 45, 50)))
+                    : Container(
+                        decoration: BoxDecoration(
+                          color: AppTheme.appbarPrimary,
+                          shape: BoxShape.circle,
+                        ),
+                        height: 50,
+                        width: 50,
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/dPro.png',
+                            height: 40,
+                            width: 40,
+                          ),
+                        )),
+                SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 160,
+                      child: Text(
+                        familyVm.familyMemName,
+                        style: GoogleFonts.poppins(
+                            color: HexColor("#0D1231"),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Text(
+                      familyVm.relation,
+                      style: GoogleFonts.poppins(
+                        color: AppTheme.appbarPrimary,
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                       familyVm.memberDetail(-1, false, "", "", "", "", "", "", "", "", "");
+                      });
+                    },
+                    child: Icon(
+                      Icons.clear,
+                      color: AppTheme.appbarPrimary,
+                    )),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+          ],
+        ));
     var membersTypeList = Row(
       children: [
         GestureDetector(
@@ -377,15 +467,21 @@ class _AddPatientState extends State<AddPatient> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     _selectedMemberType = newValue;
-                                    if(_selectedMemberType!= selectedMemberType){
+                                    if (_selectedMemberType !=
+                                        selectedMemberType) {
                                       selectedMemberType = newValue;
-                                      _selectedConsultation=null;
+                                      _selectedConsultation = null;
                                       Future.delayed(Duration.zero, () async {
                                         await vm.getConType(
-                                            widget.doctorNo, selectedMemberType=="Family Member" ? vm.patNo : vm.patOther, widget.companyNo, widget.orgNo);
+                                            widget.doctorNo,
+                                            selectedMemberType ==
+                                                    "Family Member"
+                                                ? vm.patNo
+                                                : vm.patOther,
+                                            widget.companyNo,
+                                            widget.orgNo);
                                       });
                                     }
-
                                   });
                                 },
                                 items: StringResources.memberList.map((patNo) {
@@ -394,7 +490,8 @@ class _AddPatientState extends State<AddPatient> {
                                       children: [
                                         Text(
                                           patNo,
-                                          style: GoogleFonts.roboto(fontSize: 14),
+                                          style:
+                                              GoogleFonts.roboto(fontSize: 14),
                                         ),
                                       ],
                                     ),
@@ -406,7 +503,9 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.7, top: 10),
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * .7,
+                              top: 10),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),
@@ -435,9 +534,142 @@ class _AddPatientState extends State<AddPatient> {
       ],
     );
 
+    // var membersNameList = Row(
+    //   children: [
+    //     GestureDetector(
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           Container(
+    //             height: 45.0,
+    //             width: MediaQuery.of(context).size.width * .8,
+    //             decoration: BoxDecoration(
+    //                 color: Colors.white,
+    //                 border: Border.all(color: HexColor(patientBorderColor)),
+    //                 borderRadius: BorderRadius.circular(10)),
+    //             child: Row(
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               children: [
+    //                 Stack(
+    //                   children: [
+    //                     Padding(
+    //                       padding: const EdgeInsets.only(left: 15.0),
+    //                       child: Container(
+    //                         width: MediaQuery.of(context).size.width * .72,
+    //                         child: DropdownButtonHideUnderline(
+    //                           child: DropdownButton<Item>(
+    //                             iconSize: 0.0,
+    //                             hint: Text(
+    //                               "Select Family member",
+    //                               style: GoogleFonts.roboto(
+    //                                   fontSize: 15, color: HexColor("#D2D2D2")),
+    //                             ),
+    //                             // Not necessary for Option 1
+    //                             value: _familyMembers,
+    //                             onChanged: (value) {
+    //                               setState(() {
+    //                                 Future.delayed(Duration.zero, () async {
+    //                                   await vm3.getPatData(value.fmRegId);
+    //                                   familyMemEmail = vm3.patDetails.email;
+    //                                   familyMemMobile =
+    //                                       vm3.patDetails.phoneMobile;
+    //                                   familyMemGender = vm3.patDetails.gender;
+    //                                   _familyMembers = value;
+    //                                   familyMemName = value.fmName;
+    //                                   familyMemAddress = value.fmAddress;
+    //                                   familyMemDob = value.fmDob;
+    //                                   familyMemRegNo = value.fmRegNo.toString();
+    //                                 });
+    //                               });
+    //                             },
+    //                             items: familyVm.familyMembersList
+    //                                 .map((memberName) {
+    //                               return DropdownMenuItem(
+    //                                 child: Row(
+    //                                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                                   children: [
+    //                                     memberName.photo !=null
+    //                                         ? Container(
+    //                                         decoration: BoxDecoration(
+    //                                           border: Border.all(color: AppTheme.appbarPrimary),
+    //                                           //color: AppTheme.appbarPrimary,
+    //                                           shape: BoxShape.circle,
+    //                                         ),
+    //                                         height: 35,
+    //                                         width: 35,
+    //                                         child: Center(
+    //                                             child: imageVm.loadProfileImage(memberName.photo, 33.5, 35,50)
+    //                                         ))
+    //                                         : Container(
+    //                                         decoration: BoxDecoration(
+    //                                           color: AppTheme.appbarPrimary,
+    //                                           shape: BoxShape.circle,
+    //                                         ),
+    //                                         height: 32,
+    //                                         width: 32,
+    //                                         child: Center(
+    //                                           child: Image.asset(
+    //                                             'assets/images/dPro.png',
+    //                                             height: 22,
+    //                                             width: 22,
+    //                                           ),
+    //                                         )),
+    //                                     SizedBox(width: 15,),
+    //                                     Text(
+    //                                       memberName.fmName,
+    //                                       style:
+    //                                           GoogleFonts.roboto(fontSize: 14),
+    //                                     ),
+    //                                   ],
+    //                                 ),
+    //                                 value: memberName,
+    //                               );
+    //                             }).toList(),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                     Padding(
+    //                       padding: const EdgeInsets.only(left: 260.0, top: 5),
+    //                       child: Icon(
+    //                         Icons.keyboard_arrow_down_sharp,
+    //                         color: HexColor("#D2D2D2"),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //           patientBorderColor != "#FF0000"
+    //               ? SizedBox(
+    //                   width: 2,
+    //                 )
+    //               : Padding(
+    //                   padding:
+    //                       const EdgeInsets.only(left: 16, top: 8, right: 38),
+    //                   child: Text(
+    //                     "This Field Is Required",
+    //                     style: GoogleFonts.poppins(
+    //                         color: Colors.red, fontSize: 12),
+    //                   )),
+    //         ],
+    //       ),
+    //     ),
+    //   ],
+    // );
     var membersNameList = Row(
       children: [
         GestureDetector(
+          onTap: () {
+            setState(() {
+              memberList = true;
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext) {
+                return FamilyMembers();
+              }));
+            });
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -445,121 +677,62 @@ class _AddPatientState extends State<AddPatient> {
                 height: 45.0,
                 width: MediaQuery.of(context).size.width * .8,
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: HexColor(patientBorderColor)),
+                    color: familyVm.isSelected && memberList
+                        ? AppTheme.appbarPrimary
+                        : Colors.white,
+                    border: Border.all(color: HexColor(memberBorderColor)),
                     borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
                   children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .72,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<Item>(
-                                iconSize: 0.0,
-                                hint: Text(
-                                  "Select Family member",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                // Not necessary for Option 1
-                                value: _familyMembers,
-                                onChanged: (value) {
-                                  setState(() {
-                                    Future.delayed(Duration.zero, () async {
-                                      await vm3.getPatData(value.fmRegId);
-                                      familyMemEmail = vm3.patDetails.email;
-                                      familyMemMobile =
-                                          vm3.patDetails.phoneMobile;
-                                      familyMemGender = vm3.patDetails.gender;
-                                      _familyMembers = value;
-                                      familyMemName = value.fmName;
-                                      familyMemAddress = value.fmAddress;
-                                      familyMemDob = value.fmDob;
-                                      familyMemRegNo = value.fmRegNo.toString();
-                                    });
-                                  });
-                                },
-                                items: familyVm.familyMembersList
-                                    .map((memberName) {
-                                  return DropdownMenuItem(
-                                    child: Row(
-                                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        memberName.photo !=null
-                                            ? Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(color: AppTheme.appbarPrimary),
-                                              //color: AppTheme.appbarPrimary,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            height: 35,
-                                            width: 35,
-                                            child: Center(
-                                                child: imageVm.loadProfileImage(memberName.photo, 33.5, 35,50)
-                                            ))
-                                            : Container(
-                                            decoration: BoxDecoration(
-                                              color: AppTheme.appbarPrimary,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            height: 32,
-                                            width: 32,
-                                            child: Center(
-                                              child: Image.asset(
-                                                'assets/images/dPro.png',
-                                                height: 22,
-                                                width: 22,
-                                              ),
-                                            )),
-                                        SizedBox(width: 15,),
-                                        Text(
-                                          memberName.fmName,
-                                          style:
-                                              GoogleFonts.roboto(fontSize: 14),
-                                        ),
-                                      ],
-                                    ),
-                                    value: memberName,
-                                  );
-                                }).toList(),
-                              ),
-                            ),
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .72,
+                        child: Text(
+                          "Select your family member",
+                          style: GoogleFonts.roboto(
+                            color: familyVm.isSelected && memberList
+                                ? Colors.white
+                                : Colors.black,
+                            fontSize: 15,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 260.0, top: 5),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
-                    )
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * .7,
+                          top: 10),
+                      child: Icon(
+                        familyVm.isSelected && memberList
+                            ? Icons.keyboard_arrow_right_outlined
+                            : Icons.keyboard_arrow_down_sharp,
+                        color: HexColor("#D2D2D2"),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              patientBorderColor != "#FF0000"
+              memberBorderColor != "#FF0000"
                   ? SizedBox(
-                      width: 2,
-                    )
+                width: 2,
+              )
                   : Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, top: 8, right: 38),
-                      child: Text(
-                        "This Field Is Required",
-                        style: GoogleFonts.poppins(
-                            color: Colors.red, fontSize: 12),
-                      )),
+                  padding: const EdgeInsets.only(
+                      left: 16, top: 8, right: 38),
+                  child: Text(
+                    "This Field Is Required",
+                    style: GoogleFonts.poppins(
+                        color: Colors.red, fontSize: 12),
+                  )),
             ],
           ),
         ),
       ],
     );
-    // var membersNameList = Row(
+    //
+    //
+    //
+    // Row(
     //   children: [
     //     GestureDetector(
     //       onTap: (){
@@ -596,7 +769,7 @@ class _AddPatientState extends State<AddPatient> {
     //                     Padding(
     //                       padding: EdgeInsets.only(left: 68.0, top: 0, right: 15),
     //                       child: Icon(
-    //                         memberList ?Icons.keyboard_arrow_right_outlined : Icons.keyboard_arrow_down_sharp,
+    //                         memberList ? Icons.keyboard_arrow_right_outlined : Icons.keyboard_arrow_down_sharp,
     //                         color: HexColor("#D2D2D2"),
     //                       ),
     //                     ),
@@ -713,7 +886,7 @@ class _AddPatientState extends State<AddPatient> {
                                       widget.doctorNo,
                                       widget.orgNo,
                                       (selectedMemberType == "Family Member" &&
-                                                  vm.addPatient == true)
+                                              vm.addPatient == true)
                                           ? vm.patNo
                                           : vm.patOther,
                                     );
@@ -735,7 +908,9 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.7, top: 10),
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * .7,
+                              top: 10),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),
@@ -828,7 +1003,9 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.7, top: 10),
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * .7,
+                              top: 10),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: HexColor("#D2D2D2"),
@@ -957,13 +1134,16 @@ class _AddPatientState extends State<AddPatient> {
               spaceBetween,
               GestureDetector(
                 onTap: () async {
-                  if (selectedConsultationType != "" ||
-                      selectedConsultationTypeForMe != "" ||
+                  if (selectedConsultationTypeForMe != "" ||
                       (vm.forMe == false && selectedGender != "") ||
-                      (vm.forMe == false && selectedPatientType != "")) {
+                      (selectedConsultationType != "" &&
+                          (vm.forMe == false && selectedMemberType != "") && familyVm.familyMemName!='')) {
                     setState(() {
                       if (selectedGender != "") {
                         genderBorderColor = "#EAEBED";
+                      }
+                      if (familyVm.familyMemName != "") {
+                        memberBorderColor = "#EAEBED";
                       }
                       if (selectedConsultationType != "" && vm.addPatient) {
                         consultBorderColor = "#EAEBED";
@@ -971,7 +1151,7 @@ class _AddPatientState extends State<AddPatient> {
                       if (selectedConsultationTypeForMe != "" && vm.forMe) {
                         consultBorderColorForMe = "#EAEBED";
                       }
-                      if (selectedPatientType != "") {
+                      if (selectedMemberType != "") {
                         patientBorderColor = "#EAEBED";
                       }
                     });
@@ -1008,17 +1188,17 @@ class _AddPatientState extends State<AddPatient> {
                             ? _name.text
                             : vm.forMe == false &&
                                     selectedMemberType == "Family Member"
-                                ? familyMemName
+                                ? familyVm.familyMemName
                                 : vm3.userDetailsList.fname,
                         vm.forMe == false && selectedMemberType == "Others"
                             ? _mobile.text
                             : vm.forMe == false &&
                                     selectedMemberType == "Family Member"
-                                ? familyMemMobile
+                                ? familyVm.familyMemMobile
                                 : vm3.userDetailsList.phoneMobile,
                         vm.forMe == false &&
                                 selectedMemberType == "Family Member"
-                            ? familyMemGender
+                            ? familyVm.familyMemGender
                             : vm.forMe == false &&
                                     selectedMemberType == "Others"
                                 ? _selectedGender == "Male"
@@ -1029,14 +1209,14 @@ class _AddPatientState extends State<AddPatient> {
                                 : vm3.userDetailsList.gender,
                         vm.forMe == false &&
                                 selectedMemberType == "Family Member"
-                            ? familyMemAddress
+                            ? familyVm.familyMemAddress
                             : vm.forMe == false &&
                                     selectedMemberType == "Others"
                                 ? _address.text
                                 : vm3.userDetailsList.address,
                         vm.forMe == false &&
                                 selectedMemberType == "Family Member"
-                            ? familyMemEmail
+                            ? familyVm.familyMemEmail
                             : vm.forMe == false &&
                                     selectedMemberType == "Others"
                                 ? _email.text
@@ -1045,7 +1225,7 @@ class _AddPatientState extends State<AddPatient> {
                                     : vm3.userDetailsList.email,
                         vm.forMe == false &&
                                 selectedMemberType == "Family Member"
-                            ? familyMemDob
+                            ? familyVm.familyMemDob
                             : vm.forMe == false &&
                                     selectedMemberType == "Others"
                                 ? birthDate
@@ -1053,7 +1233,7 @@ class _AddPatientState extends State<AddPatient> {
                         "0",
                         vm.forMe == false &&
                                 selectedMemberType == "Family Member"
-                            ? familyMemRegNo
+                            ? familyVm.familyMemRegNo
                             : vm3.userDetailsList.id.toString(),
                       );
                       Future.delayed(Duration.zero, () async {
@@ -1077,8 +1257,11 @@ class _AddPatientState extends State<AddPatient> {
                       if (vm.forMe == false && selectedGender == "") {
                         genderBorderColor = "#FF0000";
                       }
-                      if (vm.forMe == false && selectedPatientType == "") {
+                      if (vm.forMe == false && selectedMemberType == "") {
                         patientBorderColor = "#FF0000";
+                      }
+                      if (vm.forMe == false && familyVm.familyMemName == "") {
+                        memberBorderColor = "#FF0000";
                       }
                       if (selectedConsultationType == "" && vm.addPatient) {
                         consultBorderColor = "#FF0000";
@@ -1131,6 +1314,12 @@ class _AddPatientState extends State<AddPatient> {
                           vm.forMe == false &&
                                   selectedMemberType == "Family Member"
                               ? membersNameList
+                              : SizedBox(),
+                          familyVm.isSelected && vm.addPatient
+                              ? spaceBetween
+                              : SizedBox(),
+                          familyVm.isSelected && vm.addPatient && memberList
+                              ? memberDetail
                               : SizedBox(),
                           selectedMemberType == ""
                               ? SizedBox()
@@ -1370,3 +1559,246 @@ class _AddPatientState extends State<AddPatient> {
     );
   }
 }
+
+// class FamilyMembers extends StatefulWidget {
+//   @override
+//   _FamilyMembersState createState() => _FamilyMembersState();
+// }
+//
+// class _FamilyMembersState extends State<FamilyMembers> {
+//   List<Item> familyMembers = [];
+//
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     Future.delayed(Duration.zero, () async {
+//       var userVm = Provider.of<UserDetailsViewModel>(context, listen: false);
+//       await userVm.getData();
+//       var familyVm =
+//           Provider.of<FamilyMembersListViewModel>(context, listen: false);
+//       familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
+//     });
+//     super.initState();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     var familyVm =
+//         Provider.of<FamilyMembersListViewModel>(context, listen: true);
+//     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
+//     var spaceBetween = SizedBox(
+//       height: 10,
+//     );
+//     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
+//
+//     print("lenthhhhhhhhhhhhhhhhhhh::::: ${familyVm.familyMembersList.length}");
+//     return Scaffold(
+//       appBar: AppBar(
+//         //leading: Icon(Icons.notes),
+//         backgroundColor: HexColor('#354291'),
+//         title: Text(
+//           "Family Members",
+//           style: GoogleFonts.poppins(fontSize: 15),
+//         ),
+//       ),
+//       body: Padding(
+//         padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             familyVm.isLoading == true
+//                 ? Center(
+//                     child: CircularProgressIndicator(
+//                     valueColor:
+//                         AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
+//                   ))
+//                 : Expanded(
+//                     child: SingleChildScrollView(
+//                       physics: ScrollPhysics(),
+//                       child: ListView.builder(
+//                           physics: NeverScrollableScrollPhysics(),
+//                           shrinkWrap: true,
+//                           itemCount: familyVm.familyMembersList.length,
+//                           itemBuilder: (BuildContext context, int index) {
+//                             var photo =
+//                                 familyVm.familyMembersList[index]?.photo ?? "";
+//                             print("photo $photo");
+//                             return GestureDetector(
+//                               onTap: () {
+//                                 setState(() {
+//                                   selectedCard = index;
+//                                   isSelected = true;
+//                                   Future.delayed(Duration.zero, () async {
+//                                     var vm3 = Provider.of<UserDetailsViewModel>(
+//                                         context,
+//                                         listen: false);
+//                                     var familyVm = Provider.of<FamilyMembersListViewModel>(
+//                                         context,
+//                                         listen: false);
+//                                     await vm3.getPatData(familyVm
+//                                         .familyMembersList[index].fmRegId);
+//                                      familyMemEmail = vm3.patDetails.email;
+//                                     familyMemMobile =
+//                                         vm3.patDetails.phoneMobile;
+//                                     familyMemGender = vm3.patDetails.gender;
+//                                     // _familyMembers = value;
+//                                     familyMemName = familyVm
+//                                         .familyMembersList[index].fmName;
+//                                     familyMemAddress = familyVm
+//                                         .familyMembersList[index].fmAddress;
+//                                     familyMemDob =
+//                                         familyVm.familyMembersList[index].fmDob;
+//                                     familyMemRegNo = familyVm
+//                                         .familyMembersList[index].fmRegNo
+//                                         .toString();
+//                                     image = familyVm
+//                                             .familyMembersList[index]?.photo ??
+//                                         "";
+//                                     relation = familyVm
+//                                         .familyMembersList[index].relationName
+//                                         .toString();
+//                                     familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+//                                     Navigator.pop(context);
+//                                   });
+//                                 });
+//                               },
+//                               child: Container(
+//                                   decoration: BoxDecoration(
+//                                     color: index % 2 == 0
+//                                         ? HexColor("#F0F2FF")
+//                                         : Colors.white,
+//                                     borderRadius: BorderRadius.circular(10),
+//                                   ),
+//                                   margin: EdgeInsets.only(bottom: 2),
+//                                   height: 70,
+//                                   child: Row(
+//                                     mainAxisAlignment:
+//                                         MainAxisAlignment.spaceBetween,
+//                                     children: [
+//                                       Row(
+//                                         children: [
+//                                           SizedBox(
+//                                             width: 10,
+//                                           ),
+//                                           photo != ""
+//                                               ? Container(
+//                                                   decoration: BoxDecoration(
+//                                                     border: Border.all(
+//                                                         color: AppTheme
+//                                                             .appbarPrimary),
+//                                                     //color: AppTheme.appbarPrimary,
+//                                                     shape: BoxShape.circle,
+//                                                   ),
+//                                                   height: 50,
+//                                                   width: 50,
+//                                                   child: Center(
+//                                                       child: imageVm
+//                                                           .loadProfileImage(
+//                                                               photo,
+//                                                               45,
+//                                                               45,
+//                                                               50)))
+//                                               : Container(
+//                                                   decoration: BoxDecoration(
+//                                                     color:
+//                                                         AppTheme.appbarPrimary,
+//                                                     shape: BoxShape.circle,
+//                                                   ),
+//                                                   height: 50,
+//                                                   width: 50,
+//                                                   child: Center(
+//                                                     child: Image.asset(
+//                                                       'assets/images/dPro.png',
+//                                                       height: 40,
+//                                                       width: 40,
+//                                                     ),
+//                                                   )),
+//                                           SizedBox(
+//                                             width: 20,
+//                                           ),
+//                                           Column(
+//                                             crossAxisAlignment:
+//                                                 CrossAxisAlignment.start,
+//                                             mainAxisAlignment:
+//                                                 MainAxisAlignment.center,
+//                                             children: [
+//                                               Container(
+//                                                 width: 160,
+//                                                 child: Text(
+//                                                   familyVm
+//                                                       .familyMembersList[index]
+//                                                       .fmName,
+//                                                   style: GoogleFonts.poppins(
+//                                                       color:
+//                                                           HexColor("#0D1231"),
+//                                                       fontSize: 14,
+//                                                       fontWeight:
+//                                                           FontWeight.w500),
+//                                                 ),
+//                                               ),
+//                                               Text(
+//                                                 familyVm
+//                                                     .familyMembersList[index]
+//                                                     .relationName,
+//                                                 style: GoogleFonts.poppins(
+//                                                   color: AppTheme.appbarPrimary,
+//                                                 ),
+//                                               )
+//                                             ],
+//                                           ),
+//                                         ],
+//                                       ),
+//                                       Padding(
+//                                         padding: const EdgeInsets.only(right: 10.0),
+//                                         child: Container(
+//                                           height: 20,
+//                                           width: 20,
+//                                           decoration: BoxDecoration(
+//                                             borderRadius:
+//                                                 BorderRadius.circular(50),
+//                                             border: Border.all(
+//                                               width: 2,
+//                                               color: AppTheme.appbarPrimary,
+//                                               style: BorderStyle.solid,
+//                                             ),
+//                                           ),
+//                                           child: Padding(
+//                                             padding: const EdgeInsets.all(2.0),
+//                                             child: Container(
+//                                               height: 10,
+//                                               width: 10,
+//                                               decoration: BoxDecoration(
+//                                                   borderRadius:
+//                                                       BorderRadius.circular(50),
+//                                                   color: selectedCard == index
+//                                                       ? AppTheme.appbarPrimary
+//                                                       : Colors.white),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ],
+//                                   )),
+//                             );
+//                           }),
+//                     ),
+//                   ),
+//             spaceBetween,
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// int selectedCard = -1;
+// bool isSelected = false;
+// String familyMemName = '';
+// String familyMemEmail = '';
+// String familyMemMobile = '';
+// String familyMemAddress = '';
+// String familyMemGender = '';
+// String familyMemDob = '';
+// String familyMemRegNo = '';
+// String image = '';
+// String relation = '';

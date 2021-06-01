@@ -1685,12 +1685,12 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                     child: Column(
                                                       children: <Widget>[
                                                         SizedBox(
-                                                          height: 79,
+                                                          height: 75,
                                                           child: Row(
                                                             children: [
                                                               SizedBox(width: 10,),
                                                               Padding(
-                                                                padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 0),
+                                                                padding: const EdgeInsets.only(right: 8,bottom: 8,left: 0),
                                                                 child: Column(
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [

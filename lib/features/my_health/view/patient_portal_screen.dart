@@ -1765,6 +1765,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                             ],
                                                           ),
                                                         ),
+                                                        vm3.documentList[index].description==null?SizedBox():
                                                         ScrollOnExpand(
                                                           scrollOnExpand: true,
                                                           scrollOnCollapse: false,

@@ -184,6 +184,9 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm3 = Provider.of<VideoViewModel>(context);
     List<video.Item> list3 = vm3.videoList;
     var lengthofVideoList = list3.length;
+
+
+    var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
     // MediaQuery.of(context).size.width > 600
     //     ? lengthofVideoList = list3.length < 5 ? list3.length : 6
     //     : lengthofVideoList = list3.length < 5 ? list3.length : 5;
@@ -310,7 +313,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   //     height: 10,
                   //     child: svg),
                   title:  Text(
-                    StringResources.dasboardAppBarText,
+                   vm19.userDetailsList==null?StringResources.dasboardAppBarText:'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
                     style: GoogleFonts.poppins(
                         fontSize: 15, fontWeight: FontWeight.w600),
                   ),

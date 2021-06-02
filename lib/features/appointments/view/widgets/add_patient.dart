@@ -339,6 +339,7 @@ class _AddPatientState extends State<AddPatient> {
         ),
         margin: EdgeInsets.only(bottom: 2),
         height: 70,
+      //width: MediaQuery.of(context).size.width * .78,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -428,7 +429,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .8,
+                //width: MediaQuery.of(context).size.width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(patientBorderColor)),
@@ -545,7 +546,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .8,
+                width: MediaQuery.of(context).size.width * .775,
                 decoration: BoxDecoration(
                     color: familyVm.isSelected && memberList
                         ? AppTheme.appbarPrimary
@@ -557,13 +558,16 @@ class _AddPatientState extends State<AddPatient> {
                     Center(
                       child: Container(
                         width: MediaQuery.of(context).size.width * .72,
-                        child: Text(
-                          "Select your family member",
-                          style: GoogleFonts.roboto(
-                            color: familyVm.isSelected && memberList
-                                ? Colors.white
-                                : Colors.black,
-                            fontSize: 15,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 2.0),
+                          child: Text(
+                            "Select your family member",
+                            style: GoogleFonts.roboto(
+                              color: familyVm.isSelected && memberList
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ),
@@ -607,7 +611,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .8,
+                width: MediaQuery.of(context).size.width * .78,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
@@ -635,7 +639,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .8,
+                width: MediaQuery.of(context).size.width * .78,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
@@ -665,7 +669,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .8,
+                //width: MediaQuery.of(context).size.width * .8,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(consultBorderColor)),
@@ -762,7 +766,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .8,
+                //width: MediaQuery.of(context).size.width * .8,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border:
@@ -1117,6 +1121,8 @@ class _AddPatientState extends State<AddPatient> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     spaceBetween,
                     Padding(

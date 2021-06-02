@@ -24,18 +24,15 @@ class CustomContainer extends StatelessWidget {
   CustomContainer(@required this.jobTitle,@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName);
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<DoctorListViewModel>(context);
     var vm2 = Provider.of<AvailableSlotsViewModel>(context, listen: true);
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
-    var spaceBetween = SizedBox(
-      height: height >= 600 ? 15.0 : 10.0,
-    );
-   // print( (cardHeight*.5).toString());
+    var width = MediaQuery.of(context).size.width;
+   print("height ${MediaQuery.of(context).size.width}");
     return Container(
 
-      height: 162,
+      height: width<350 ? 120 : 162,
       margin: EdgeInsets.only(top: 6,bottom: 6,right: 14,left: 14),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -63,8 +60,8 @@ class CustomContainer extends StatelessWidget {
                 width: MediaQuery.of(context).size.height >650 ? cardHeight *0.2 : cardHeight *0.1,
               ),
               Container(
-                width: MediaQuery.of(context).size.height >650 ? cardWidth * 1.6 : cardWidth * 1.55,
-                height: 140,
+                width:width<350 ?cardWidth*1.73:  cardWidth*1.62,
+                height: width <350 ? 118 : 140,
                 decoration: BoxDecoration(
                   color: HexColor("#FFFFFF"),
                   borderRadius: BorderRadius.only(
@@ -79,39 +76,39 @@ class CustomContainer extends StatelessWidget {
                     children: [
                       Container(
                           height: 39,
-                          child: Text(titleText, style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w700),)),
-                      Container(height: 18,child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.bold ),)),
-                      Container(height: 30,child: Text(designation, style: GoogleFonts.poppins(fontSize: 10, color: HexColor('#757577')),)),
-
-                      SizedBox(
-                        height: cardHeight/10,
-                      ),
+                          child: Text(titleText, style: GoogleFonts.poppins(fontSize: width <350 ? 10 : 13, fontWeight: FontWeight.w700),)),
+                      Container(height: 18,child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: width <350 ? 8 : 10,fontWeight: FontWeight.bold ),)),
+                      Container(height: 30,child: Text(designation, style: GoogleFonts.poppins(fontSize:  width <350 ? 8 :10, color: HexColor('#757577')),)),
 
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("TK. " + consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
-                          SizedBox(width: height*.05,),
-                          Container(
-                            width: cardWidth*0.8,
-                            height: 30,
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              color:  HexColor("#354291"),
-                              elevation: 0,
-                              //color: AppTheme.appbarPrimary,
-                              onPressed: () {
-                                vm2.getInfo(doctorNo, companyNo, orgNo);
-                                Navigator.push(context,MaterialPageRoute(builder: (context){
-                                  return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
-                                }));
-                              },
-                              textColor: Colors.white,
-                              child: Text(
-                                "Book Now",
-                                style: GoogleFonts.poppins(fontSize: 10,color: Colors.white, fontWeight: FontWeight.w600),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: (){
+                                  vm2.getInfo(doctorNo, companyNo, orgNo);
+                                  Navigator.push(context,MaterialPageRoute(builder: (context){
+                                    return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
+                                  }));
+                                },
+                                child: Container(
+                                  width:  width <350 ? 60 :cardWidth*0.8,
+                                  height:  width <350 ? 20 :30,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+                                  color: HexColor("#354291")
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Book Now",
+                                      style: GoogleFonts.poppins(fontSize: width <350 ? 8 : 10,color: Colors.white, fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              SizedBox(width: 20,)
+                            ],
                           )
                         ],
                       )

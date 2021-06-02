@@ -24,12 +24,12 @@ class HospitalListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
     var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
-    print("Shakil ${cardWidth*1.3}");
     return Container(
-      margin: EdgeInsets.all(6),
+      margin: EdgeInsets.all(width<330 ? 3 :6),
       width: MediaQuery.of(context).size.width,
-      height:  150,
+      height:  width< 330 ? 118 : 135,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -38,7 +38,7 @@ class HospitalListCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  height: 93,
+                  height: width<330 ? 80 :93,
                   width:  111.5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
@@ -53,25 +53,25 @@ class HospitalListCard extends StatelessWidget {
                   children: [
                     Container(
                         height: 37,
-                        child: Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: height <= 600 ? 12 : 14,fontWeight: FontWeight.bold,),textAlign:TextAlign.start)),
-                    SizedBox(height: 2,),
+                        child: Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<330 ? 10 : 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start)),
+                    SizedBox(height:width<330 ? 1 :  2,),
                     Container(height: cardHeight*.12,child: Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: height <= 600 ? 9 : 10,),textAlign:TextAlign.start)),
-                    SizedBox(height: 2,),
-                    Container(
-                      height: 11.5,
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            minRadius: 3,
-                            backgroundColor: HexColor("#1EE573"),
-                          ),
-                          SizedBox(width: 3,),
-                          Text(countText,style:  GoogleFonts.poppins(fontSize: height <= 600 ? 9 : 10,),),
-
-                        ],
-                      ),
-                    ),
                     SizedBox(height: 10,),
+                    // Container(
+                    //   height: 11.5,
+                    //   child: Row(
+                    //     children: [
+                    //       CircleAvatar(
+                    //         minRadius: 3,
+                    //         backgroundColor: HexColor("#1EE573"),
+                    //       ),
+                    //       SizedBox(width: width<330 ? 2 : 3,),
+                    //       Text(countText,style:  GoogleFonts.poppins(fontSize: height <= 600 ? 9 : 10,),),
+                    //
+                    //     ],
+                    //   ),
+                    // ),
+                    SizedBox(height: width<330 ? 5 : 10,),
                     GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,backgroundImage,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
@@ -81,15 +81,11 @@ class HospitalListCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: height <= 600
-                              ?141.5
+                          width: width<330
+                              ?135
                               : 161,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
-                            ),
-                          ),
+                          height: width<330 ? 25 : 35,
+                          child: Center(child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),)),
                         ),
                       ),
                     ),

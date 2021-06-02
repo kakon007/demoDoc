@@ -311,7 +311,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     var vm6 = Provider.of<UploadDocumentsViewModel>(context, listen: true);
     print("lltt::: ${vm3.documentList.length}");
     var childButtons = List<UnicornButton>();
-    var width = MediaQuery.of(context).size.width * 0.44;
+    var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
 
@@ -1584,7 +1584,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         SizedBox(height: 10,),
-                                                        Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                                        Container(width: width<350? 160 : 200,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
                                                         SizedBox(height: 5,),
                                                         Row(
                                                           children: [
@@ -1595,7 +1595,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                         ),
                                                         SizedBox(height: 5,),
                                                         vm3.documentList[index].description==null?SizedBox():
-                                                        Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+                                                        Container(width:width<350? 160 :  200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
                                                         SizedBox(height: 5,),
                                                       ],
                                                     ),
@@ -1612,10 +1612,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                   //   ]),
                                                   // ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(left: 10),
+                                                    padding:  EdgeInsets.only(left:width<350 ? 0:  0),
                                                     child: Stack(children: [
                                                       Padding(
-                                                        padding: const EdgeInsets.only(top:5.0,left: 30),
+                                                        padding:  EdgeInsets.only(top:5.0,left: width<350 ? 30: 30),
                                                         child: Container(width:45,child: jp),
                                                       ),
                                                       // (controller3.isSelected(index))?
@@ -1634,7 +1634,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       // //   },child: Icon(Icons.delete)),
                                                       // // ),
                                                       Padding(
-                                                        padding: EdgeInsets.only(left: 90,top: 40),
+                                                        padding: EdgeInsets.only(left: width<330 ? 80: 80,top: 40),
                                                         child: InkWell(onTap: () async{
                                                           vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
                                                           _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);

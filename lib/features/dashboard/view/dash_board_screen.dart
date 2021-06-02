@@ -482,7 +482,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             StringResources
                                                 .esayDoctorAppointmentText,
                                             style: GoogleFonts.poppins(
-                                                fontSize: 17,
+                                                fontSize: deviceWidth<330 ?  16 : 17,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Spacer(),
@@ -490,9 +490,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               width: MediaQuery.of(context)
                                                           .size
                                                           .width <=
-                                                      450
-                                                  ? 70
-                                                  : 100,
+                                                      330
+                                                  ? 60
+                                                  : 85,
                                               child: Image.asset(
                                                   "assets/images/my_health_logo.png")),
                                         ],

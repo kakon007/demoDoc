@@ -33,6 +33,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm2 = Provider.of<AccessTokenProvider>(context, listen: true);
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
+    var width= MediaQuery.of(context).size.width;
     var photo = vm10.details?.photo ?? "";
     return Center(
         child: Container(
@@ -41,8 +42,8 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
           borderRadius: BorderRadius.circular(
             20,
           )),
-      width: 320.0,
-      height: 300.0,
+      width: width < 330 ? 300 : 320.0,
+      height: width < 330 ? 280 : 300.0,
       child: Stack(
         children: [
           Column(
@@ -66,7 +67,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                           Text(
                             "Accounts",
                             style: GoogleFonts.poppins(
-                                fontSize: 18,
+                                fontSize: width < 330 ? 16 : 18,
                                 color: AppTheme.appbarPrimary,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -91,23 +92,23 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height: 60,
-                                  width: 60,
+                                  height:  width < 330 ? 50 : 60,
+                                  width:  width < 330 ? 50 : 60,
                                   child: Center(
                                       child: vm10.loadProfileImage(
-                                          photo, 60, 60, 50)))
+                                          photo, width < 330 ? 50 : 60,  width < 330 ? 50 : 60, 50)))
                               : Container(
                                   decoration: BoxDecoration(
                                     color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height: 60,
-                                  width: 60,
+                                  height:  width < 330 ? 50 : 60,
+                                  width:  width < 330 ? 50 : 60,
                                   child: Center(
                                     child: Image.asset(
                                       'assets/images/dPro.png',
-                                      height: 35,
-                                      width: 35,
+                                      height:  width < 330 ? 30 : 35,
+                                      width: width < 330 ? 30 : 35,
                                     ),
                                   )),
                           SizedBox(
@@ -120,7 +121,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                 vm.userDetailsList?.fname ?? '',
                                 style: GoogleFonts.poppins(
                                     color: AppTheme.appbarPrimary,
-                                    fontSize: 18,
+                                    fontSize: width < 330 ? 16 : 18,
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
@@ -129,7 +130,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                     color: HexColor("#8592E5"), fontSize: 13),
                               ),
                               SizedBox(
-                                height: 8,
+                                height: width < 330 ? 5 : 8,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -152,7 +153,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                               )));
                                 },
                                 child: Container(
-                                  width: 160,
+                                  width: width<330 ? 150 : 160,
                                   height: 26,
                                   decoration: BoxDecoration(
                                     border: Border.all(
@@ -196,7 +197,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                               width: 25,
                               child: Image.asset('assets/images/switch.png')),
                           SizedBox(
-                            width: 10,
+                            width: width < 330 ?  5 : 10,
                           ),
                           Text(
                             "Switch to another account",
@@ -207,7 +208,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: width < 330 ? 15 : 20,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -251,14 +252,14 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                     });
               },
               child: Container(
-                width: MediaQuery.of(context).size.width / 1.125,
+                width: width < 330 ? 300 : 320.0,
                 decoration: BoxDecoration(
                   color: AppTheme.appbarPrimary,
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(20),
                       bottomLeft: Radius.circular(20)),
                 ),
-                height: 45,
+                height: width < 330 ? 35 : 45,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

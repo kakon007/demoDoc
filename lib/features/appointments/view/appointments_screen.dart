@@ -149,6 +149,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var jobTitle=   vm.doctorInfo?.jobtitle??"";
     var photo= vm.doctorInfo?.doctorPhoto??"";
     var consultFee= vm.doctorInfo?.consultationFee??'';
+    var width = MediaQuery.of(context).size.width;
     if (pickedAppointDate != pickedAppointDate2) {
       vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
@@ -355,7 +356,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 children: [
                   Container(
                     height: 120,
-                    width: 108,
+                    width: width<330 ? 90 : 108,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
@@ -371,7 +372,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     ),
                   ),
                   SizedBox(
-                    width: 20,
+                    width: width < 350 ? 15 : 20,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -381,14 +382,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         style: GoogleFonts.poppins(
                             height: 1.5,
                             color: AppTheme.appbarPrimary,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w600, fontSize: width < 330 ? 13 : 15 ),
                       ),
                       Container(
-                          width: 185,
+                          width: width< 330 ? width*.54 : width*.5,
                           child: Text(
                             vm.doctorInfo?.doctorName??"",
                             style: GoogleFonts.poppins(
-                                fontSize: 12, fontWeight: FontWeight.w700),
+                                fontSize: width< 330 ? 11 : 12, fontWeight: FontWeight.w700),
                           )),
                       SizedBox(
                         height: 1,
@@ -407,7 +408,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           //       GoogleFonts.poppins(height: 0.7, fontSize: 11)),
                           // ),
                           Container(
-                            width: 185,
+                            width: width < 330 ? 170 : 185,
                             child: Text(
                                 jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
                                 maxLines: 2,
@@ -423,6 +424,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       Text(
                         "TK. " + consultFee.toString(),
                         style: GoogleFonts.poppins(
+                          fontSize: width<330 ? 13 : 15,
                           color: AppTheme.appbarPrimary,
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -5,35 +6,45 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 import 'loader.dart';
+
 class CustomCardPat extends StatelessWidget {
   String titleText;
   String subTitleText;
   String serial;
   String countText;
-   String name;
-   int lastTime;
+  String name;
+  int lastTime;
   final Function onTapFeaturedAppointment;
+
   //CountdownTimerController controller;
-  CustomCardPat({ this.titleText, this.subTitleText, this.countText, this.name,this.lastTime,this.serial,this.onTapFeaturedAppointment});
+  CustomCardPat(
+      {this.titleText,
+      this.subTitleText,
+      this.countText,
+      this.name,
+      this.lastTime,
+      this.serial,
+      this.onTapFeaturedAppointment});
+
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    print("width $width");
     return Padding(
-      padding: const EdgeInsets.only(left:15.0,right: 15),
+      padding: const EdgeInsets.only(left: 10.0, right: 10),
       child: Container(
-
         //height: 40,
         width: double.infinity,
         height: 140,
         child: Card(
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          child:Row(
+          child: Row(
             children: [
               Container(
                 width: 8,
                 height: double.infinity,
                 color: HexColor("#8592E5"),
-
               ),
               // Padding(
               //   padding: const EdgeInsets.all(8.0),
@@ -67,66 +78,127 @@ class CustomCardPat extends StatelessWidget {
               // ),
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.only(top:8.0,bottom: 8,left: 15),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          Text(titleText,style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold,color: Colors.black),textAlign:TextAlign.start),
-                          SizedBox(width: 60,),
+                          Text(titleText,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              textAlign: TextAlign.start),
+                          SizedBox(
+                            width: width < 330 ? 40 : 60,
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(top:8.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
                               children: [
-                                Text("Your Serial No.",style: TextStyle(fontSize: 15,color: HexColor('#354291')),textAlign:TextAlign.center,),
-                                SizedBox(height: 5,),
-                                Text("$serial",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: HexColor('#354291')),textAlign:TextAlign.center,),
+                                Text(
+                                  "Your Serial No.",
+                                  style: TextStyle(
+                                      fontSize: width < 330 ? 12 : 15,
+                                      color: HexColor('#354291')),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "$serial",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: HexColor('#354291')),
+                                  textAlign: TextAlign.center,
+                                ),
                               ],
                             ),
                           ),
                         ],
                       ),
-                      Text(subTitleText,style: TextStyle(fontSize: 12,color: HexColor('#354291')),textAlign:TextAlign.start,),
-                      SizedBox(height: 10,),
+                      Text(
+                        subTitleText,
+                        style:
+                            TextStyle(fontSize: 12, color: HexColor('#354291')),
+                        textAlign: TextAlign.start,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: 3,
-                            height: 20,
-                            color: HexColor("#354291"),
-
-                          ),
-                          SizedBox(width: 2,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Container(width: 180,child: Text(countText,maxLines: 1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: HexColor('#354291')),)),
-                              Container(width: 180,child: Text(name,maxLines: 1,overflow:TextOverflow.ellipsis,style: TextStyle(fontSize: 8),)),
+                              Container(
+                                width: 3,
+                                height: 20,
+                                color: HexColor("#354291"),
+                              ),
+                              SizedBox(
+                                width: 1,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      width: width <= 360 ? 155 : 180,
+                                      child: Text(
+                                        countText,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            color: HexColor('#354291')),
+                                      )),
+                                  Container(
+                                      width: width <= 360 ? 155 : 180,
+                                      child: Text(
+                                        name,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 8),
+                                      )),
+                                ],
+                              ),
                             ],
                           ),
                           // SizedBox(width: 8,),
                           GestureDetector(
                             onTap: onTapFeaturedAppointment,
                             child: Material(
-                              elevation: 2  ,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
                               color: HexColor("#354291"),
                               child: SizedBox(
-                                width: 130,
+                                width: width < 330 ? 105 : 130,
                                 height: 30,
                                 child: Center(
                                   child: Padding(
                                     padding: const EdgeInsets.all(0.0),
-                                    child: Text("View All Appointments",style: TextStyle(color: Colors.white,fontSize: 11),),
+                                    child: Text(
+                                      "View All Appointments",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: width < 330 ? 8 : 11),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
+                          SizedBox(
+                            width: 5,
+                          ),
                         ],
                       ),
-                     // SizedBox(height: 8,),
+                      // SizedBox(height: 8,),
 
                       // Material(
                       //   elevation: 2  ,
@@ -149,15 +221,14 @@ class CustomCardPat extends StatelessWidget {
               ),
             ],
           ),
-          elevation:1,
+          elevation: 1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
             side: BorderSide(
-              color:  HexColor("#8592E5").withOpacity(0.3),
+              color: HexColor("#8592E5").withOpacity(0.3),
               width: 1,
             ),
           ),
-
           shadowColor: HexColor("#354291").withOpacity(0.5),
         ),
       ),

@@ -73,15 +73,15 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   List<SpecializationItem> specialistList;
   var items = List<SpecializationItem>();
   ScrollController _scrollControllerPagination = ScrollController();
-
+  var width;
   loadLogo(String image) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
 
     return Image.memory(
       _bytesImage,
-      fit: BoxFit.fill,
-      width: 120,
-      height: 160,
+      fit: BoxFit.cover,
+      width: width <350  ? 90 : 120,
+      height: width <350 ? 118 : 160,
       gaplessPlayback: true,
     );
   }
@@ -138,6 +138,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    width= MediaQuery.of(context).size.width;
     var vm = Provider.of<DoctorListViewModel>(context);
     final String assetName1 = "assets/icons/phone.svg";
     final String assetName2 = "assets/icons/mail.svg";
@@ -145,7 +146,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     final Widget phoneimg = SvgPicture.asset(
       assetName1,
       width: 10,
-      height: 18,
+      height: width <350  ? 15 :18,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -154,7 +155,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     final Widget mailimg = SvgPicture.asset(
       assetName2,
       width: 10,
-      height: 18,
+      height: width <350  ? 12 :18,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -162,7 +163,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     final Widget mapimg = SvgPicture.asset(
       assetName3,
       width: 10,
-      height: 18,
+      height: width <350  ? 15 :18,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -215,7 +216,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                 width: 3,
                               ),
                               Container(
-                                width: 175,
+                                width: width<350 ?  140 :175,
                                 child: Text(widget.title,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -246,7 +247,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       Stack(children: <Widget>[
                         Container(
                           color: Colors.transparent,
-                          height: 450.0,
+                          height: width<350? 300 :450.0,
                           width: double.infinity,
                           child: FittedBox(
                             child: widget.backgroundImage == null
@@ -287,9 +288,9 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: SizedBox(
-                                  height: 85,
+                                  height: width <350  ? 50 : 85,
                                   width:
-                                      MediaQuery.of(context).size.width / 5.4,
+                                  width <350  ? MediaQuery.of(context).size.width / 7.3: MediaQuery.of(context).size.width / 5.4,
                                   child: Image.memory(
                                     widget.image,
                                     gaplessPlayback: true,
@@ -303,15 +304,15 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 75.0),
+                                padding:  EdgeInsets.only(top:width<350 ? 85 : 75.0),
                                 child: Container(
-                                    width: 260,
+                                    width: width <350  ? 190 :260,
                                     child: Text(
                                       widget.title,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.poppins(
-                                          fontSize: 18,
+                                          fontSize: width <350  ? 12 : 18,
                                           fontWeight: FontWeight.w600,
                                           color: HexColor('#141D53')),
                                     )),
@@ -332,7 +333,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                             text: widget.phoneText,
                                             style: GoogleFonts.poppins(
                                                 color: HexColor('#141D53'),
-                                                fontSize: 11),
+                                                fontSize: width <350  ? 9 : 11),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 launch(
@@ -357,7 +358,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                               text: widget.emailText,
                                               style: GoogleFonts.poppins(
                                                 color: HexColor('#141D53'),
-                                                fontSize: 11,
+                                                fontSize: width <350  ? 9 :11,
                                               ),
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () {
@@ -384,13 +385,13 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     width: 5,
                                   ),
                                   Container(
-                                      width: 200,
+                                      width: width <350  ? 180 :200,
                                       child: Text(widget.addressText,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                             color: HexColor('#141D53'),
-                                            fontSize: 11,
+                                            fontSize: width <350  ? 9 :11,
                                           ))),
                                 ],
                               )
@@ -457,8 +458,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     : Image.asset(
                                         "assets/icons/dct.png",
                                         fit: BoxFit.fill,
-                                        width: 110,
-                                        height: 160,
+                                  width: width <350  ? 90 : 120,
+                                  height: width <350 ? 118 : 160,
                                       ),
                                 vm.doctorList[i]?.doctorName == null
                                     ? ""
@@ -675,7 +676,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
         ],
       ),
     );
-    //var list = ['one', 'two', 'three'];
     var vm = Provider.of<DoctorListViewModel>(context, listen: false);
     var deviceWidth = MediaQuery.of(context).size.width;
     return SliverAppBar(
@@ -686,7 +686,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       floating: false,
       forceElevated: true,
       shadowColor: Colors.blue.withOpacity(0.3),
-      elevation: 5,
+      elevation: 2,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
       pinned: true,
@@ -711,6 +711,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                   child: Icon(Icons.search),
                 ),
                 hintText: "Find your doctor",
+                hintStyle: GoogleFonts.poppins(fontSize: width<350? 12 : 15.0,),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
                   borderRadius: BorderRadius.circular(25),
@@ -722,7 +723,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                 border: new OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
                     borderSide: new BorderSide(color: Colors.teal)),
-                contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
+                contentPadding:width<350?  EdgeInsets.fromLTRB(15.0, 0.0, 40.0, 0.0) :  EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
               )),
         ),
       ),

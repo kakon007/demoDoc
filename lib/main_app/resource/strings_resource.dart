@@ -35,7 +35,7 @@ class StringResources {
 
   static String passwordChangeSuccessful =
       "Your password has been changed successfully";
-  static String appName = "JobXprss";
+  static String appName = "MyHealthBD";
   static String appNameDev = "$appName Dev";
   static String appNameBeta = "$appName Beta";
   static String appNameQA = "$appName  QA";

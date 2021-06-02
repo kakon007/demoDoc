@@ -4,17 +4,24 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
 import 'package:myhealthbd_app/features/my_health/models/view_document_model.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/prescription_repository.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/doc_edit_prompt.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/local_notification.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dart';
@@ -206,18 +213,98 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     return file;
   }
 
+  showNotification(String path) async {
+    var android = new AndroidNotificationDetails(
+        'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
+        priority: Priority.high,importance: Importance.max
+    );
+    var iOS = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android:android, iOS:iOS);
+    await flutterLocalNotificationsPlugin.show(
+        0, 'Downloaded', path, platform,
+        payload: path);
+  }
+
+  Future<File> _downloadPdfFileFromString(String index,String conId) async {
+    // final encodedStr='''''';
+    // Uint8List bytes = base64.decode(encodedStr);
+    SVProgressHUD.show(
+      status: 'Downloading'
+    );
+    String filePath = '';
+    String dir = (await pp.getExternalStorageDirectory()).path;
+    filePath = "$dir/" + conId + ".pdf";
+    File file = File(filePath);
+    await file.writeAsBytes(await fetchPDF(index));
+    print("FILEEEEE"+file.toString());
+    SVProgressHUD.dismiss();
+    showNotification(filePath);
+    //return file;
+  }
+
+///////////////////////////////////////
+
+  Future<String> fetchDocFile(String filePath) async{
+    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    try {
+      var headers = {
+        'Authorization': 'Bearer $accessToken',
+        'Content-Type': 'text/plain'
+      };
+      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+      request.body =json.encode({"attachmentPath" : filePath});
+      print("Fillleeee:::: $filePath");
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
 
 
-  // createPdf() async {
-  //   var bytes = base64Decode(widget.base64String.replaceAll('\n', ''));
-  //   final output = await pp.getTemporaryDirectory();
-  //   final file = File("${output.path}/example.pdf");
-  //   await file.writeAsBytes(bytes.buffer.asUint8List());
-  //
-  //   print("${output.path}/example.pdf");
-  //   await OpenFile.open("${output.path}/example.pdf");
-  //   setState(() {});
-  // }
+      print('resssskj ${response.statusCode}');
+      if (response.statusCode == 200) {
+        var body=await response.stream.bytesToString();
+        ViewDocumentModel data = viewDocumentModelFromJson(body) ;
+        String obj=data.obj;
+        print('fileOBJ::::: $obj');
+        return obj;
+
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+    } on Exception catch (e) {
+      // TODO
+      print("PDFDATAERROR");
+      print(e.toString());
+      return null;
+    }
+    return null;
+  }
+
+
+  downloadDocumentations(String filePath,String fileName) async {
+    SVProgressHUD.show(
+        status: 'Downloading'
+    );
+    String docFilee= await fetchDocFile(filePath);
+    Uint8List bytes = base64.decode(docFilee);
+    // final output = await pp.getTemporaryDirectory();
+    // final file = File("${output.path}/example.pdf");
+    String filePat = '';
+    String dir = (await pp.getExternalStorageDirectory()).path;
+    filePat = "$dir/" + fileName;
+    File file = File(filePat);
+    await file.writeAsBytes(bytes.buffer.asUint8List());
+
+    //print("${output.path}/example.pdf");
+    print("Documentationnnn:::: $filePat");
+    SVProgressHUD.dismiss();
+    showNotification(filePat);
+    //await OpenFile.open("${output.path}/example.pdf");
+    // setState(() {});
+  }
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   @override
   void initState() {
@@ -270,6 +357,25 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     //   }
     //
     // });
+
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android:android, iOS:iOS);
+    flutterLocalNotificationsPlugin.initialize(initSetttings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payload) {
+    debugPrint("payload : $payload");
+    // showDialog(
+    //   context: context,
+    //   builder: (_) => new AlertDialog(
+    //     title: new Text('Notification'),
+    //     content: new Text('$payload'),
+    //   ),
+    // );
+    OpenFile.open(payload);
   }
 
   void delete() {
@@ -1176,10 +1282,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                     Padding(
                                                       padding: const EdgeInsets.only(right:0.0,),
                                                       child: Stack(children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top:10.0),
-                                                          child: Container(width:45,child: rx),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding: const EdgeInsets.only(top:10.0),
+                                                        //   child: Container(width:45,child: rx),
+                                                        // ),
                                                         // (controller.isSelected(index))?
                                                         // Padding(
                                                         //   padding: const EdgeInsets.only(left:38.0,top: 5),
@@ -1187,10 +1293,19 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                         // ): (controller.isSelecting)?Padding(
                                                         //   padding: const EdgeInsets.only(left:38.0,top: 5),
                                                         //   child: greyright,
-                                                        // ):Padding(
-                                                        //   padding: EdgeInsets.only(left: 38,top: 5),
-                                                        //   child: popup,
-                                                        // ),
+                                                        // ):
+                                                        Padding(
+                                                          padding: EdgeInsets.only(left: 38,top: 5),
+                                                          child: GestureDetector(
+                                                              onTap: () async{
+                                                            vm.prescriptionList[index].prescriptionNo==null?
+                                                            Fluttertoast.showToast(msg: 'No PDF Found')
+                                                                :
+                                                          await  _downloadPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString(),vm.prescriptionList[index].consultationId);
+                                                          },
+                                                             // onTap: showNotification,
+                                                              child: Icon(Icons.download_rounded)),
+                                                        ),
                                                       ]),
                                                     ),
 
@@ -1404,7 +1519,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 // ): (controller2.isSelecting)?Padding(
                                                                 //   padding: const EdgeInsets.only(left:38.0,top: 10),
                                                                 //   child: greyright,
-                                                                // ):Padding(
+                                                                // ):
+                                                                // Padding(
                                                                 //   padding: EdgeInsets.only(left: 38),
                                                                 //   child: popup,
                                                                 // ),
@@ -1763,14 +1879,23 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
                                                                   // //   },child: Icon(Icons.delete)),
                                                                   // // ),
+                                                                  // Padding(
+                                                                  //   padding: EdgeInsets.only(left: 90,top: 20),
+                                                                  //   child: InkWell(onTap: () async{
+                                                                  //     vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                  //     _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                                                  //
+                                                                  //   },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                                                  // ),
+
                                                                   Padding(
                                                                     padding: EdgeInsets.only(left: 90,top: 20),
                                                                     child: InkWell(onTap: () async{
-                                                                      vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                                      _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                                                   await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
-                                                                    },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                                                    },child: Icon(Icons.download_rounded,color: HexColor('#354291'),)),
                                                                   ),
+
                                                                 ]),
                                                               ),
                                                             ],
@@ -1866,6 +1991,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       setState(() {});
     });
   }
+
+
 }
 
 

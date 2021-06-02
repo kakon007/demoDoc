@@ -617,33 +617,32 @@ class _GetAppointmentState extends State<GetAppointment> {
                               Expanded(
                                 child: vm.shouldShowPageLoader?Loader():vm.upComingAppointmentList.length==0&&!vm.isInSearchMode?Align(
                                   alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top:120.0),
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Text('You have no pending or waiting \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
-                                          SizedBox(height: 30,),
-                                          upComingBlank,
-                                          SizedBox(height: 30,),
-                                          GestureDetector(
-                                            onTap: widget.onTapFeaturedCompany,
-                                            child: Material(
-                                              elevation: 2  ,
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                              color: HexColor("#354291"),
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context).size.width >600? 35 : 300,
-                                                height:  MediaQuery.of(context).size.width >600? 35 : 45,
-                                                child: Center(
-                                                  child: Text("Get an appointment",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
-                                                ),
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text('You have no pending or waiting \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
+                                        SizedBox(height: 30,),
+                                        upComingBlank,
+                                        SizedBox(height: 30,),
+                                        GestureDetector(
+                                          onTap: widget.onTapFeaturedCompany,
+                                          child: Material(
+                                            elevation: 2  ,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                            color: HexColor("#354291"),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width >600? 35 : 300,
+                                              height:  MediaQuery.of(context).size.width >600? 35 : 45,
+                                              child: Center(
+                                                child: Text("Get an appointment",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
                                               ),
                                             ),
                                           ),
+                                        ),
 
-                                        ],
-                                      ),
+                                      ],
                                     ),
                                   ),
                                 ): ListView.builder(
@@ -1088,33 +1087,32 @@ class _GetAppointmentState extends State<GetAppointment> {
                                 child:
                                 vm2.shouldShowPageLoader?Loader():vm2.previousAppointmentList.length==0&&!vm2.isInSearchMode?Align(
                                   alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top:120.0),
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Text('You have no completed \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
-                                          SizedBox(height: 30,),
-                                          upComingBlank,
-                                          SizedBox(height: 30,),
-                                          GestureDetector(
-                                            onTap: widget.onTapFeaturedCompany,
-                                            child: Material(
-                                              elevation: 2  ,
-                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                              color: HexColor("#354291"),
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context).size.width >600? 35 : 300,
-                                                height:  MediaQuery.of(context).size.width >600? 35 : 45,
-                                                child: Center(
-                                                  child: Text("Get an appointment",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
-                                                ),
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text('You have no completed \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
+                                        SizedBox(height: 30,),
+                                        upComingBlank,
+                                        SizedBox(height: 30,),
+                                        GestureDetector(
+                                          onTap: widget.onTapFeaturedCompany,
+                                          child: Material(
+                                            elevation: 2  ,
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                            color: HexColor("#354291"),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width >600? 35 : 300,
+                                              height:  MediaQuery.of(context).size.width >600? 35 : 45,
+                                              child: Center(
+                                                child: Text("Get an appointment",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
                                               ),
                                             ),
                                           ),
+                                        ),
 
-                                        ],
-                                      ),
+                                      ],
                                     ),
                                   ),
                                 ):

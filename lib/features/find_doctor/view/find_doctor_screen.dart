@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:async/async.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +19,7 @@ import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FindYourDoctorScreen extends StatefulWidget {
   Uint8List image;
@@ -77,8 +79,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
 
     return Image.memory(
       _bytesImage,
-      fit: BoxFit.cover,
-      width: 110,
+      fit: BoxFit.fill,
+      width: 120,
       height: 160,
       gaplessPlayback: true,
     );
@@ -168,292 +170,326 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
 
     var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              leading: Padding(
-                padding: const EdgeInsets.only(top: 19.0, left: 5),
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_back_outlined,
-                      color: HexColor('#354291'),
-                    )),
-              ),
-              backgroundColor: HexColor('#354291'),
-              expandedHeight: 150.0,
-              floating: false,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                  titlePadding: EdgeInsetsDirectional.only(
-                      start: 15.0, bottom: 4.0, top: 31),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(Icons.arrow_back_outlined,
-                                    color: Colors.white)),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            Container(
-                              width: 175,
-                              child: Text(widget.title,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
-                                  )),
-                            ),
-                            Spacer(),
-                            // IconButton(
-                            //   icon: Icon(
-                            //     Icons.notifications,
-                            //     color: Colors.white,
-                            //     size: 20,
-                            //   ),
-                            //   onPressed: () {
-                            //     Navigator.of(context).push(MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             NotificationScreen()));
-                            //   },
-                            // )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  background: Stack(children: [
-                    Stack(children: <Widget>[
-                      Container(
-                        color: Colors.transparent,
-                        height: 450.0,
-                        width: double.infinity,
-                        child: FittedBox(
-                          child:widget.backgroundImage==null?Loader():Image.memory(
-                            widget.backgroundImage,
-                            gaplessPlayback: true,
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Container(
-                        height: 350.0,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                                begin: FractionalOffset.topCenter,
-                                end: FractionalOffset.bottomCenter,
-                                colors: [
-                                  HexColor('#D6DCFF').withOpacity(0.9),
-                                  HexColor('#FFFFFF').withOpacity(0.8),
-                                ],
-                                stops: [
-                                  0.0,
-                                  1.0
-                                ])),
-                      )
-                    ]),
-                    Row(
+      body: Theme(
+        data: ThemeData.light().copyWith(
+          primaryColor: AppTheme.appbarPrimary,
+          accentColor: AppTheme.appbarPrimary,
+          colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        ),
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                leading: Padding(
+                  padding: const EdgeInsets.only(top: 19.0, left: 5),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back_outlined,
+                        color: HexColor('#354291'),
+                      )),
+                ),
+                backgroundColor: HexColor('#354291'),
+                expandedHeight: 150.0,
+                floating: false,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: EdgeInsetsDirectional.only(
+                        start: 15.0, bottom: 4.0, top: 31),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 70.0, left: 25),
-                          child: Card(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: HexColor('#D6DCFF'), width: 1),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: SizedBox(
-                                height: 85,
-                                width: MediaQuery.of(context).size.width / 4.5,
-                                child: Image.memory(
-                                  widget.image,
-                                  gaplessPlayback: true,
-                                )),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 75.0),
-                              child: Container(
-                                  width: 260,
-                                  child: Text(
-                                    widget.title,
+                        Container(
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Icon(Icons.arrow_back_outlined,
+                                      color: Colors.white)),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Container(
+                                width: 175,
+                                child: Text(widget.title,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        color: HexColor('#141D53')),
-                                  )),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                phoneimg,
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(widget.phoneText,
-                                    style: GoogleFonts.poppins(
-                                        color: HexColor('#141D53'),
-                                        fontSize: 11)),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                mailimg,
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Container(
-                                    width: 105,
-                                    child: Text(widget.emailText,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.poppins(
-                                          color: HexColor('#141D53'),
-                                          fontSize: 11,
-                                        ))),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10.0, top: 10),
-                                  child: mapimg,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Container(
-                                    width: 200,
-                                    child: Text(widget.addressText,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.poppins(
-                                          color: HexColor('#141D53'),
-                                          fontSize: 11,
-                                        ))),
-                              ],
-                            )
-                          ],
-                        )
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                    )),
+                              ),
+                              Spacer(),
+                              // IconButton(
+                              //   icon: Icon(
+                              //     Icons.notifications,
+                              //     color: Colors.white,
+                              //     size: 20,
+                              //   ),
+                              //   onPressed: () {
+                              //     Navigator.of(context).push(MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             NotificationScreen()));
+                              //   },
+                              // )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ])),
-            ),
-            createSilverAppBar2(),
-          ];
-        },
-        body: SingleChildScrollView(
-          controller: _scrollControllerPagination,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                      margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
-                      child: Text('Doctors',
-                          style: GoogleFonts.poppins(
-                              fontSize: 15, fontWeight: FontWeight.w600))),
-                  isFiltered == false
-                      ? Text("")
-                      : Container(
-                          margin: EdgeInsets.only(top: 8, bottom: 3, right: 25),
-                          child: Text('Showing Filtered Result',
-                              style: GoogleFonts.poppins(
-                                fontSize: 13,
-                              )))
-                ],
-              ),
-              vm.shouldShowPageLoader
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            AppTheme.appbarPrimary),
-                      ),
-                    )
-                  : vm.doctorList.length == 0
-                      ? Center(child: Text("No doctors found!"))
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: vm.doctorList.length + 1,
-                          itemBuilder: (BuildContext context, int i) {
-                            if (i == vm.doctorList.length) {
-                              return vm.isFetchingMoreData
-                                  ? SizedBox(
-                                      height: 60,
-                                      child: Center(
-                                          child: CircularProgressIndicator()))
-                                  : SizedBox();
-
-                            }
-                            return CustomContainer(
-                              vm.doctorList[i].jobtitle != null
-                                  ? vm.doctorList[i].jobtitle
-                                  : "",
-                              vm.doctorList[i].photo != null
-                                  ? loadLogo(vm.doctorList[i].photo)
-                                  : Image.asset(
-                                      "assets/icons/dct.png",
-                                      fit: BoxFit.cover,
-                                      width: 110,
-                                      height: 160,
+                    background: Stack(children: [
+                      Stack(children: <Widget>[
+                        Container(
+                          color: Colors.transparent,
+                          height: 450.0,
+                          width: double.infinity,
+                          child: FittedBox(
+                            child: widget.backgroundImage == null
+                                ? Loader()
+                                : Image.memory(
+                                    widget.backgroundImage,
+                                    gaplessPlayback: true,
+                                  ),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Container(
+                          height: 350.0,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              gradient: LinearGradient(
+                                  begin: FractionalOffset.topCenter,
+                                  end: FractionalOffset.bottomCenter,
+                                  colors: [
+                                    HexColor('#D6DCFF').withOpacity(0.9),
+                                    HexColor('#FFFFFF').withOpacity(0.8),
+                                  ],
+                                  stops: [
+                                    0.0,
+                                    1.0
+                                  ])),
+                        )
+                      ]),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 70.0, left: 20),
+                            child: Card(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: HexColor('#D6DCFF'), width: 1),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: SizedBox(
+                                  height: 85,
+                                  width:
+                                      MediaQuery.of(context).size.width / 5.4,
+                                  child: Image.memory(
+                                    widget.image,
+                                    gaplessPlayback: true,
+                                  )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 75.0),
+                                child: Container(
+                                    width: 260,
+                                    child: Text(
+                                      widget.title,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: HexColor('#141D53')),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  phoneimg,
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  SelectableText.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                            text: widget.phoneText,
+                                            style: GoogleFonts.poppins(
+                                                color: HexColor('#141D53'),
+                                                fontSize: 11),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                launch(
+                                                    ('tel://${widget.phoneText}'));
+                                              }),
+                                      ],
                                     ),
-                              vm.doctorList[i]?.doctorName == null
-                                  ? ""
-                                  : vm.doctorList[i]?.doctorName,
-                              vm.doctorList[i]?.specializationName == null
-                                  ? ""
-                                  : vm.doctorList[i]?.specializationName,
-                              'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
-                              "assets/images/doc.png",
-                              vm.doctorList[i]?.consultationFee.toString() ==
-                                      null
-                                  ? ""
-                                  : vm.doctorList[i]?.consultationFee
-                                      .toString(),
-                              vm.doctorList[i]?.docDegree == null
-                                  ? ""
-                                  : vm.doctorList[i]?.docDegree,
-                              vm.doctorList[i]?.doctorNo.toString() == null
-                                  ? ""
-                                  : vm.doctorList[i]?.doctorNo.toString(),
-                              vm.doctorList[i]?.companyNo.toString() == null
-                                  ? ""
-                                  : vm.doctorList[i]?.companyNo.toString(),
-                              vm.doctorList[i]?.ogNo.toString() == null
-                                  ? ""
-                                  : vm.doctorList[i]?.ogNo.toString(),
-                              widget.title,
-                            );
-                          }),
-            ],
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  mailimg,
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                    //width: 105,
+                                    child: SelectableText.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                              text: widget.emailText,
+                                              style: GoogleFonts.poppins(
+                                                color: HexColor('#141D53'),
+                                                fontSize: 11,
+                                              ),
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  launch(
+                                                      ('mailto://${widget.emailText}'));
+                                                }),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10.0, top: 10),
+                                    child: mapimg,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Container(
+                                      width: 200,
+                                      child: Text(widget.addressText,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.poppins(
+                                            color: HexColor('#141D53'),
+                                            fontSize: 11,
+                                          ))),
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ])),
+              ),
+              createSilverAppBar2(),
+            ];
+          },
+          body: SingleChildScrollView(
+            controller: _scrollControllerPagination,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
+                        child: Text('Doctors',
+                            style: GoogleFonts.poppins(
+                                fontSize: 15, fontWeight: FontWeight.w600))),
+                    isFiltered == false
+                        ? Text("")
+                        : Container(
+                            margin:
+                                EdgeInsets.only(top: 8, bottom: 3, right: 25),
+                            child: Text('Showing Filtered Result',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                )))
+                  ],
+                ),
+                vm.shouldShowPageLoader
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              AppTheme.appbarPrimary),
+                        ),
+                      )
+                    : vm.doctorList.length == 0
+                        ? Center(child: Text("No doctors found!"))
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: vm.doctorList.length + 1,
+                            itemBuilder: (BuildContext context, int i) {
+                              if (i == vm.doctorList.length) {
+                                return vm.isFetchingMoreData
+                                    ? SizedBox(
+                                        height: 60,
+                                        child: Center(
+                                            child: CircularProgressIndicator()))
+                                    : SizedBox();
+                              }
+                              return CustomContainer(
+                                vm.doctorList[i].jobtitle != null
+                                    ? vm.doctorList[i].jobtitle
+                                    : "",
+                                vm.doctorList[i].photo != null
+                                    ? loadLogo(vm.doctorList[i].photo)
+                                    : Image.asset(
+                                        "assets/icons/dct.png",
+                                        fit: BoxFit.fill,
+                                        width: 110,
+                                        height: 160,
+                                      ),
+                                vm.doctorList[i]?.doctorName == null
+                                    ? ""
+                                    : vm.doctorList[i]?.doctorName,
+                                vm.doctorList[i]?.specializationName == null
+                                    ? ""
+                                    : vm.doctorList[i]?.specializationName,
+                                'MBBS,Ex.Associate Prof & Head Department of BIRDEM,Aalok Hospital',
+                                "assets/images/doc.png",
+                                vm.doctorList[i]?.consultationFee.toString() ==
+                                        null
+                                    ? ""
+                                    : vm.doctorList[i]?.consultationFee
+                                        .toString(),
+                                vm.doctorList[i]?.docDegree == null
+                                    ? ""
+                                    : vm.doctorList[i]?.docDegree,
+                                vm.doctorList[i]?.doctorNo.toString() == null
+                                    ? ""
+                                    : vm.doctorList[i]?.doctorNo.toString(),
+                                vm.doctorList[i]?.companyNo.toString() == null
+                                    ? ""
+                                    : vm.doctorList[i]?.companyNo.toString(),
+                                vm.doctorList[i]?.ogNo.toString() == null
+                                    ? ""
+                                    : vm.doctorList[i]?.ogNo.toString(),
+                                widget.title,
+                              );
+                            }),
+              ],
+            ),
           ),
         ),
       ),
@@ -538,14 +574,19 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               width: 20,
               height: 15,
               decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppTheme.appbarPrimary,),
+                shape: BoxShape.circle,
+                color: AppTheme.appbarPrimary,
+              ),
               child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     deptController.clear();
                     departmentSearch('');
                   },
-                  child: Icon(Icons.clear, size: 15,color: Colors.white,)),
+                  child: Icon(
+                    Icons.clear,
+                    size: 15,
+                    color: Colors.white,
+                  )),
             ),
           ),
           hintText: StringResources.searchDepartment,
@@ -580,13 +621,18 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               height: 15,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppTheme.appbarPrimary,),
+                color: AppTheme.appbarPrimary,
+              ),
               child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     specialityController.clear();
                     specializationSearch('');
                   },
-                  child: Icon(Icons.clear, size: 15,color: Colors.white,)),
+                  child: Icon(
+                    Icons.clear,
+                    size: 15,
+                    color: Colors.white,
+                  )),
             ),
           ),
           hintText: StringResources.searchSpeciality,
@@ -737,9 +783,11 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             ListTileControlAffinity
                                                                 .leading,
                                                         title: Text(
-                                                          Validator().capitalizeTheFirstLetterOfEachWord(item.buName),
+                                                          Validator()
+                                                              .capitalizeTheFirstLetterOfEachWord(
+                                                                  item.buName),
                                                           style: GoogleFonts.poppins(
-                                                            fontSize: 15,
+                                                              fontSize: 15,
                                                               fontWeight: item
                                                                           .isChecked ==
                                                                       true
@@ -765,10 +813,11 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                                 _items3.join(
                                                                     "&buList%5B%5D=");
                                                             print(stringList);
-                                                            if(_items3.isEmpty){
-                                                              deptSelectedItem=null;
-                                                            }
-                                                           else {
+                                                            if (_items3
+                                                                .isEmpty) {
+                                                              deptSelectedItem =
+                                                                  null;
+                                                            } else {
                                                               deptSelectedItem =
                                                                   "&buList%5B%5D=" +
                                                                       stringList;
@@ -782,7 +831,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                             ),
                                           ),
                                         ),
-                                       // SizedBox(height: 10,),
+                                        // SizedBox(height: 10,),
                                       ],
                                     ),
                                   ),
@@ -824,7 +873,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                         title: Text(
                                                           item.dtlName,
                                                           style: GoogleFonts.poppins(
-                                                            fontSize: 15,
+                                                              fontSize: 15,
                                                               fontWeight: item
                                                                           .isChecked ==
                                                                       true
@@ -848,10 +897,11 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                                 _items4.join(
                                                                     "&specializationList%5B%5D=");
                                                             print(stringList);
-                                                            if(_items4.isEmpty){
-                                                              specialSelectedItem=null;
-                                                            }
-                                                            else{
+                                                            if (_items4
+                                                                .isEmpty) {
+                                                              specialSelectedItem =
+                                                                  null;
+                                                            } else {
                                                               specialSelectedItem =
                                                                   "&specializationList%5B%5D=" +
                                                                       stringList;
@@ -899,8 +949,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                               departmentSearch('');
                                               specialityController.clear();
                                               specializationSearch('');
-                                              deptSelectedItem=null;
-                                              specialSelectedItem=null;
+                                              deptSelectedItem = null;
+                                              specialSelectedItem = null;
                                               _items3.clear();
                                               _items4.clear();
                                               _items1.clear();
@@ -953,8 +1003,10 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           child: FlatButton(
                                             textColor: Colors.white,
                                             onPressed: () {
-                                              deptItems.sort((a, b) => b.isChecked? 1 : -1);
-                                              specialityItems.sort((a, b) => b.isChecked? 1 : -1);
+                                              deptItems.sort((a, b) =>
+                                                  b.isChecked ? 1 : -1);
+                                              specialityItems.sort((a, b) =>
+                                                  b.isChecked ? 1 : -1);
                                               isFiltered = true;
                                               _items1 = List.from(_items3);
                                               _items2 = List.from(_items4);
@@ -1007,7 +1059,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               fit: BoxFit.fitWidth,
               allowDrawingOutsideViewBox: true,
               matchTextDirection: true,
-              color: isFiltered == true ?AppTheme.appbarPrimary : Colors.grey,
+              color: isFiltered == true ? AppTheme.appbarPrimary : Colors.grey,
               //semanticsLabel: 'Acme Logo'
             ),
           ),

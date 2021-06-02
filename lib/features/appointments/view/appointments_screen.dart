@@ -98,9 +98,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     Uint8List _bytesImage = Base64Decoder().convert(image);
     return Image.memory(
       _bytesImage,
-      fit: BoxFit.cover,
+      fit: BoxFit.fill,
       width: 110,
-      height: 160,
+      height: 120,
       gaplessPlayback: true,
     );
   }

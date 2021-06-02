@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:provider/provider.dart';
-
 import '../../../constant.dart';
 
-class SignOut extends StatelessWidget {
+class SignOutPrompt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(

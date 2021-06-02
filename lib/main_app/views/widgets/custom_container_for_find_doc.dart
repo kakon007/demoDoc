@@ -90,9 +90,9 @@ class CustomContainer extends StatelessWidget {
                       Row(
                         children: [
                           Text("TK. " + consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: 10,fontWeight: FontWeight.w600 ),),
-                          SizedBox(width: height*.03,),
+                          SizedBox(width: height*.05,),
                           Container(
-                            width: cardWidth*0.75,
+                            width: cardWidth*0.8,
                             height: 30,
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(

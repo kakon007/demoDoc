@@ -1056,17 +1056,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                       AppTheme.appbarPrimary),),
                                 ): lengthofPrescriptionList == 0 ? Align(
                                   alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top:200.0),
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          pp,
-                                          SizedBox(height: 10,),
-                                          Text('You have no prescription available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        pp,
+                                        SizedBox(height: 10,),
+                                        Text('You have no prescription available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
 
-                                        ],
-                                      ),
+                                      ],
                                     ),
                                   ),
                                 ) :
@@ -1274,17 +1273,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               vm2.reportList.length == 0 ?
                               Align(
                                 alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top:200.0),
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        pp,
-                                        SizedBox(height: 10,),
-                                        Text('You have no report available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                                child: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      pp,
+                                      SizedBox(height: 10,),
+                                      Text('You have no report available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
 
-                                      ],
-                                    ),
+                                    ],
                                   ),
                                 ),
                               )
@@ -1502,16 +1500,15 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                             vm3.documentList.length ==0 ?
                             Align(
                               alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top:200.0),
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      pp,
-                                      Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                                      Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
-                                    ],
-                                  ),
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    pp,
+                                    Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                                    Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
+                                  ],
                                 ),
                               ),
                             )

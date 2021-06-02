@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
-import 'package:myhealthbd_app/features/dashboard/view/widgets/sign_out.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/sign_out_prompt.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
@@ -247,7 +247,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return SignOut();
+                      return SignOutPrompt();
                     });
               },
               child: Container(

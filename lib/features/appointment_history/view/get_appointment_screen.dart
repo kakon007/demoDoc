@@ -203,7 +203,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField=Padding(
       padding: const EdgeInsets.only(left:12.0,right: 0,top:8,bottom: 3),
       child: Container(
-        width: MediaQuery.of(context).size.width*.70,
+        width: MediaQuery.of(context).size.width*.48,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -244,7 +244,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField2=Padding(
       padding: const EdgeInsets.only(left:12.0,right: 0,top:8,bottom: 3),
       child: Container(
-        width: MediaQuery.of(context).size.width*.70,
+        width: MediaQuery.of(context).size.width*.49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -348,9 +348,15 @@ class _GetAppointmentState extends State<GetAppointment> {
                           Column(
                             children: [
                               Container(
-                                height: 55,
+                                height: 50,
                                 child: Row(
                                   children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                      child: Text("${vm.totalCount.toString()} Appointment(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                    ),
+                                    Spacer(),
+                                    if (vm.isInSearchMode)searchField,
                                     IconButton(
                                       icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search,color: Colors.grey,),
                                       onPressed: () {
@@ -364,8 +370,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                         }
                                       },
                                     ),
-                                    if (vm.isInSearchMode)searchField,
-                                    Spacer(),
+
+                                    //Spacer(),
                                     // Padding(
                                     //   padding: const EdgeInsets.only(right:15.0),
                                     //   child: GestureDetector(
@@ -817,9 +823,15 @@ class _GetAppointmentState extends State<GetAppointment> {
                           Column(
                             children: [
                               Container(
-                                height: 55,
+                                height: 50,
                                 child: Row(
                                   children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                      child: Text("${vm2.totalCount.toString()} Appointment(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                    ),
+                                    Spacer(),
+                                    if (vm2.isInSearchMode)searchField2,
                                     IconButton(
                                       key: Key('featuredJobSearchToggleButtonKey'),
                                       icon: Icon(vm2.isInSearchMode ? Icons.close : Icons.search,color: Colors.grey,),
@@ -834,8 +846,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                         }
                                       },
                                     ),
-                                    if (vm2.isInSearchMode)searchField2,
-                                    Spacer(),
+
+                                    //Spacer(),
                                     // Padding(
                                     //   padding: const EdgeInsets.only(right:15.0),
                                     //   child: GestureDetector(
@@ -1345,7 +1357,7 @@ class DateUtil {
 }
 
 class TimeUtil {
-  static const DATE_FORMAT = 'HH:mm:ss';
+  static const DATE_FORMAT = 'HH:mm a';
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);

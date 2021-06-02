@@ -62,6 +62,7 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
       _upComingList.addAll(r.dataList);
+      count=r.totalCount;
       print('DataaaaaaaFromUpcominglist:: ' + _upComingList.toString());
       notifyListeners();
       return true;
@@ -116,7 +117,7 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
 
   toggleIsInSearchMode(String accessToken) {
     _isInSearchMode = !_isInSearchMode;
-    count = 0;
+    //count = 0;
     resetPageCounter();
     if (!_isInSearchMode) {
       searchQuery = "";

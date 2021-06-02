@@ -67,6 +67,7 @@ class AppointmentPreviousViewModel extends ChangeNotifier{
       print("HasMoreFromGetData ${hasMoreData}");
       _isFetchingData = false;
       _previousList.addAll(r.dataList);
+      count=r.totalCount;
       print('Dataaaaaaa2222222:: ' + _previousList.toString());
       notifyListeners();
       return true;
@@ -119,7 +120,7 @@ class AppointmentPreviousViewModel extends ChangeNotifier{
 
   toggleIsInSearchMode(String accessToken) {
     _isInSearchMode = !_isInSearchMode;
-    count = 0;
+    //count = 0;
     resetPageCounter();
     if (!_isInSearchMode) {
       searchQuery = "";

@@ -1160,7 +1160,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           return Stack(children: [
                                             InkWell(
                                               child: Container(
-                                                height: 200,
+                                                height: 190,
                                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                 decoration: BoxDecoration(
                                                   color: HexColor('#F0F2FF'),

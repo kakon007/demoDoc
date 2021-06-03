@@ -860,7 +860,7 @@ var accessTokenVm;
                       //borderRadius: BorderRadius.circular(25.0),
                     ),
                     suffixIcon:IconButton(
-                      icon:Icon(Icons.search_sharp),
+                      icon:Icon(Icons.search_sharp, color: Colors.black),
                       onPressed: (){
                         vm.search(_searchTextEditingController.text,accessTokenVm.accessToken);
 
@@ -907,7 +907,7 @@ var accessTokenVm;
                   //borderRadius: BorderRadius.circular(25.0),
                 ),
                 suffixIcon:IconButton(
-                  icon:Icon(Icons.search_sharp),
+                  icon:Icon(Icons.search_sharp, color: Colors.black,),
                   onPressed: (){
                     vm3.search(_searchTextEditingController3.text,accessTokenVm.accessToken);
 
@@ -954,7 +954,7 @@ var accessTokenVm;
                   //borderRadius: BorderRadius.circular(25.0),
                 ),
                 suffixIcon:IconButton(
-                  icon:Icon(Icons.search_sharp),
+                  icon:Icon(Icons.search_sharp, color: Colors.black,),
                   onPressed: (){
                     vm3.search(_searchTextEditingController2.text,accessTokenVm.accessToken);
 
@@ -1117,7 +1117,7 @@ var accessTokenVm;
                                   if (vm.isInSearchMode)searchField,
                                   IconButton(
                                     key: Key('featuredJobSearchToggleButtonKey'),
-                                    icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search),
+                                    icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search, color: Colors.grey),
                                     onPressed: () {
                                       _searchTextEditingController?.clear();
                                       vm.toggleIsInSearchMode(accessTokenVm.accessToken);
@@ -1378,7 +1378,7 @@ var accessTokenVm;
                                 if (vm2.isInSearchMode)searchFieldforReport,
                                 IconButton(
                                   key: Key('featuredJButonKey'),
-                                  icon: Icon(vm2.isInSearchMode ? Icons.close : Icons.search),
+                                  icon: Icon(vm2.isInSearchMode ? Icons.close : Icons.search, color: Colors.grey,),
                                   onPressed: () {
                                     _searchTextEditingController2?.clear();
                                     vm2.toggleIsInSearchMode(accessTokenVm.accessToken);
@@ -1616,7 +1616,7 @@ var accessTokenVm;
                               if (vm3.isInSearchMode)searchFieldforDoc,
                               IconButton(
                                 key: Key('featuredJButonKey'),
-                                icon: Icon(vm3.isInSearchMode ? Icons.close : Icons.search),
+                                icon: Icon(vm3.isInSearchMode ? Icons.close : Icons.search, color: Colors.grey,),
                                 onPressed: () {
                                   _searchTextEditingController3?.clear();
                                   vm3.toggleIsInSearchMode(accessTokenVm.accessToken);
@@ -1917,7 +1917,7 @@ var accessTokenVm;
                                                             header: Padding(
                                                                 padding: EdgeInsets.all(10),
                                                                 child: Text(
-                                                                  "Descriptions",
+                                                                  "Description",
                                                                     style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),
                                                                 )),
                                                             // collapsed: Text(

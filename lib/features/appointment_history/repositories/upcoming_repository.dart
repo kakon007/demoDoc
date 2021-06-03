@@ -27,7 +27,7 @@ class AppointmentUpcomingRepository {
         AppointmentUpcomingModel data = appointmentUpcomingModelFromJson(response.body);
         return Right(Upcoming(dataList: data.obj.data, totalCount: data.obj.recordsTotal));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
@@ -36,7 +36,7 @@ class AppointmentUpcomingRepository {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
-      BotToast.showText(text: StringResources.somethingIsWrong);
+      //BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

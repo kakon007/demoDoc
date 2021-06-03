@@ -90,7 +90,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   width: MediaQuery.of(context).size.width*.6,
                   child: Padding(
                     padding: const EdgeInsets.only(top:8.0,left:5,right:10),
-                    child: Text("Select Document Type",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#333132'),fontSize: 12),),
+                    child: Text("Document Type",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#333132'),fontSize: 12),),
                   )),
               Container(
                 height: 45.0,
@@ -111,7 +111,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
-                                hint: Text('Document Type', style:  GoogleFonts.roboto(fontSize: 13, color: HexColor("#333132")),), // Not necessary for Option 1
+                                hint: Text('Select Document Type', style:  GoogleFonts.roboto(fontSize: 13, color: HexColor("#333132")),), // Not necessary for Option 1
                                 value: _selectedDocumentType,
                                 onChanged: (newValue) {
                                   setState(() {
@@ -409,7 +409,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top:8.0,left:15,right:10),
-                  child: Text("Attachment Description",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#333132'),fontSize: 12),),
+                  child: Text("Description",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#333132'),fontSize: 12),),
                 ),
 
                 Padding(

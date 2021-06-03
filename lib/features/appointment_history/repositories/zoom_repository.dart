@@ -31,7 +31,7 @@ class ZoomRepository {
           message: data2.success,
         ));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {

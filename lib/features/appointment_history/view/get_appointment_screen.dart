@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
+import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -667,14 +668,14 @@ class _GetAppointmentState extends State<GetAppointment> {
                                              children:[
                                                InkWell(
                                                  child: Container(
-                                                   height: MediaQuery.of(context).size.width >600? 200 : 185,
+                                                   height: MediaQuery.of(context).size.width >600? 190 : 190,
                                                    margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                    decoration: BoxDecoration(
                                                      color:HexColor('#F0F2FF'),
                                                      borderRadius: BorderRadius.circular(15),
                                                    ),
                                                    child: Padding(
-                                                     padding: EdgeInsets.only(left:10.0,right:10),
+                                                     padding: EdgeInsets.only(left:10.0,right:10,top: 10),
                                                      child: Column(
                                                        children: [
                                                          Row(
@@ -774,7 +775,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                            ),
 
                                                          ),
-                                                         SizedBox(height:  MediaQuery.of(context).size.width >600? 5 : 3,),
+                                                         SizedBox(height:  MediaQuery.of(context).size.width >600? 5 : 10,),
                                                          GestureDetector(
                                                            onTap:(){
                                                              getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
@@ -787,7 +788,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                              color:vm.upComingAppointmentList[index].consultationId==null?HexColor("#99A0C8"):HexColor("#354291"),
                                                              child: SizedBox(
                                                                width: double.infinity,
-                                                               height:  MediaQuery.of(context).size.width >600? 35 : 28,
+                                                               height:  MediaQuery.of(context).size.width>650 ? 35 : 28,
                                                                child: Center(
                                                                  child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
                                                                ),
@@ -1145,7 +1146,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           children:[
                                             InkWell(
                                               child: Container(
-                                                height: deviceWidth>650 ? 210 :200,
+                                                height: deviceWidth>650 ? 210 :190,
                                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                 decoration: BoxDecoration(
                                                   color:HexColor('#F0F2FF'),
@@ -1252,73 +1253,78 @@ class _GetAppointmentState extends State<GetAppointment> {
 
                                                       ),
                                                       SizedBox(height: 5,),
-                                                      // InkWell(
-                                                      //   // onTap:(){
-                                                      //   //   Navigator.push(context,MaterialPageRoute(builder: (context){
-                                                      //   //     return AppointmentScreen(doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString() == null
-                                                      //   //         ? ""
-                                                      //   //         : vm2.previousAppointmentList[index]?.doctorNo.toString(),
-                                                      //   //     //
-                                                      //   //     //   logo:vm2.previousAppointmentList[index].photo!=null?loadLogo(vm2.previousAppointmentList[index].photo):Image.asset(
-                                                      //   //     //   "assets/icons/dct.png",
-                                                      //   //     //   fit: BoxFit.fill,
-                                                      //   //     //   width: 80,
-                                                      //   //     //   height: 60,
-                                                      //   //     // ),jobTitle:  vm3.doctorList[index].jobtitle!=null?vm3.doctorList[index].jobtitle:"",name: vm2.previousAppointmentList[index]?.doctorName == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm2.previousAppointmentList[index]?.doctorName,specialist: vm2.previousAppointmentList[index]?.doctorSpecialtyName == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm2.previousAppointmentList[index]?.doctorSpecialtyName,hospitalName: vm2.previousAppointmentList[index].companyName,designation: vm3.doctorList[index]?.docDegree == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm3.doctorList[index]?.docDegree,fee: vm3.doctorList[index]?.consultationFee.toString() ==
-                                                      //   //     //     null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm3.doctorList[index]?.consultationFee
-                                                      //   //     //     .toString(),companyNo: vm3.doctorList[index]?.companyNo.toString() == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm3.doctorList[index]?.companyNo.toString(),orgNo: vm3.doctorList[index]?.ogNo.toString() == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm3.doctorList[index]?.ogNo.toString(),
-                                                      //   //
-                                                      //   //     );
-                                                      //   //   }));
-                                                      //   // },
-                                                      //   child: Material(
-                                                      //     elevation: 0  ,
-                                                      //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                      //     color: HexColor("#354291"),
-                                                      //     child: SizedBox(
-                                                      //       width: deviceWidth*.4,
-                                                      //       height: MediaQuery.of(context).size.width>650 ? 32 : 27,
-                                                      //       child: Center(
-                                                      //         child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
-                                                      //       ),
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
-                                                      // SizedBox(width: MediaQuery.of(context).size.width>650 ? 20 : 15,),
-                                                      InkWell(
-                                                        onTap: () async{
-                                                          print('ButtonPredfromAppointmentscreen');
-                                                          final file=await _createPdfFileFromString(vm2.previousAppointmentList[index].prescriptionNo.toString(),vm2.previousAppointmentList[index].companyAlias.toString());
-                                                          Navigator.push(context, PageTransition(
-                                                            type: PageTransitionType.rightToLeft,
-                                                            child:PdfFileViewerScreen(file),
-                                                          ),);
-                                                        },
-                                                        child: Material(
-                                                          elevation: 0  ,
-                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                          color:vm2.previousAppointmentList[index].prescriptionNo==null || vm2.previousAppointmentList[index].companyAlias==null? HexColor("#99A0C8"):HexColor("#354291"),
-                                                          child: SizedBox(
-                                                            width: double.infinity,
-                                                            height: MediaQuery.of(context).size.width>650 ? 35 : 28,
-                                                            child: Center(
-                                                              child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                                                      Row(children: [
+                                                        SizedBox(width: 6,),
+                                                        InkWell(
+                                                          onTap:(){
+                                                            Navigator.push(context,MaterialPageRoute(builder: (context){
+                                                            return AppointmentScreen(
+                                                                   doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString(),companyNo:vm2.previousAppointmentList[index]?.companyNo.toString() ,orgNo:vm2.previousAppointmentList[index]?.organizationNo.toString() ,hospitalName:vm2.previousAppointmentList[index]?.companyName.toString() ,
+                                                            //   doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString() == null
+                                                            //     ? ""
+                                                            //     : vm2.previousAppointmentList[index]?.doctorNo.toString(),
+                                                            //
+                                                            //   logo:vm2.previousAppointmentList[index].photo!=null?loadLogo(vm2.previousAppointmentList[index].photo):Image.asset(
+                                                            //   "assets/icons/dct.png",
+                                                            //   fit: BoxFit.fill,
+                                                            //   width: 80,
+                                                            //   height: 60,
+                                                            // ),jobTitle:  vm3.doctorList[index].jobtitle!=null?vm3.doctorList[index].jobtitle:"",name: vm2.previousAppointmentList[index]?.doctorName == null
+                                                            //     ? ""
+                                                            //     : vm2.previousAppointmentList[index]?.doctorName,specialist: vm2.previousAppointmentList[index]?.doctorSpecialtyName == null
+                                                            //     ? ""
+                                                            //     : vm2.previousAppointmentList[index]?.doctorSpecialtyName,hospitalName: vm2.previousAppointmentList[index].companyName,designation: vm3.doctorList[index]?.docDegree == null
+                                                            //     ? ""
+                                                            //     : vm3.doctorList[index]?.docDegree,fee: vm3.doctorList[index]?.consultationFee.toString() ==
+                                                            //     null
+                                                            //     ? ""
+                                                            //     : vm3.doctorList[index]?.consultationFee
+                                                            //     .toString(),companyNo: vm3.doctorList[index]?.companyNo.toString() == null
+                                                            //     ? ""
+                                                            //     : vm3.doctorList[index]?.companyNo.toString(),orgNo: vm3.doctorList[index]?.ogNo.toString() == null
+                                                            //     ? ""
+                                                            //     : vm3.doctorList[index]?.ogNo.toString(),
+
+                                                            );
+                                                            }));
+                                                          },
+                                                          child: Material(
+                                                            elevation: 0  ,
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                            color: HexColor("#354291"),
+                                                            child: SizedBox(
+                                                              width: deviceWidth*.4,
+                                                              height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                              child: Center(
+                                                                child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
+                                                        SizedBox(width: MediaQuery.of(context).size.width>650 ? 20 : 25,),
+                                                        InkWell(
+                                                          onTap: () async{
+                                                            print('ButtonPredfromAppointmentscreen');
+                                                            final file=await _createPdfFileFromString(vm2.previousAppointmentList[index].prescriptionNo.toString(),vm2.previousAppointmentList[index].companyAlias.toString());
+                                                            Navigator.push(context, PageTransition(
+                                                              type: PageTransitionType.rightToLeft,
+                                                              child:PdfFileViewerScreen(file),
+                                                            ),);
+                                                          },
+                                                          child: Material(
+                                                            elevation: 0  ,
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                            color:vm2.previousAppointmentList[index].prescriptionNo==null || vm2.previousAppointmentList[index].companyAlias==null? HexColor("#99A0C8"):HexColor("#354291"),
+                                                            child: SizedBox(
+                                                              width: deviceWidth*.4,
+                                                              height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                              child: Center(
+                                                                child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],),
                                                     ],
                                                   ),
                                                 ),

@@ -1887,15 +1887,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
                                                                   // //   },child: Icon(Icons.delete)),
                                                                   // // ),
-                                                                  Padding(
-                                                                    padding: EdgeInsets.only(top: 20),
-                                                                    child: InkWell(onTap: () async{
-                                                                      vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                                      _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-
-                                                                    },child: Icon(Icons.edit,color: HexColor('#354291'),)),
-                                                                  ),
-                                                                  SizedBox(width: 15,),
 
                                                                   Padding(
                                                                     padding: EdgeInsets.only(top: 20),
@@ -1903,6 +1894,15 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                    await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
                                                                     },child: Icon(Icons.download_rounded,color: HexColor('#354291'),)),
+                                                                  ),
+                                                                  SizedBox(width: 15,),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(top: 20),
+                                                                    child: InkWell(onTap: () async{
+                                                                      vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                      _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+
+                                                                    },child: Icon(Icons.edit,color: HexColor('#354291'),)),
                                                                   ),
 
                                                                 ]),

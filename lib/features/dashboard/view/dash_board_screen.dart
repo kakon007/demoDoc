@@ -377,12 +377,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                               child: photo != ""
                                   ? Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: AppTheme.appbarPrimary),
+                                    border: Border.all(color: Colors.white),
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height: deviceWidth<=330 ? 35 : 30,
-                                  width: deviceWidth<=330 ? 35 : 30,
+                                  height: deviceWidth<=330 ? 30 : 35,
+                                  width: deviceWidth<=330 ? 30 : 35,
                                   child: Center(
                                       child: vm10.loadProfileImage(photo, deviceWidth<=330 ? 28.5 :33.5, deviceWidth<=330 ? 30 :35,50)
                                   ))

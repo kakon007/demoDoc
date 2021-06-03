@@ -404,6 +404,7 @@ var accessTokenVm;
     print("lltt::: ${vm3.documentList.length}");
     //var childButtons = List<UnicornButton>();
     var width = MediaQuery.of(context).size.width * 0.44;
+    var deviceWidth = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
 
@@ -1208,8 +1209,8 @@ var accessTokenVm;
                                             },
                                             child: Container(
 
-                                              height: width<=330 ? 70 : 100,
-                                              margin: EdgeInsets.only(top: width<=330 ? 5 : 8,bottom:width<=330 ? 3 :  5,right: 10,left: 10),
+                                              height: cardHeight*0.8,
+                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
                                                   1.0,
@@ -1231,14 +1232,14 @@ var accessTokenVm;
                                                 child: Row(
                                                   children: [
                                                     CircleAvatar(
-                                                      radius: width<=330 ? 21 : 31,
+                                                      radius:  31,
                                                       backgroundColor: HexColor('#354291').withOpacity(0.2),
                                                       child: CircleAvatar(
-                                                        radius: width<=330 ? 20 : 30,
+                                                        radius:30,
                                                         backgroundColor: Colors.white,
                                                         child: Container(
-                                                          height: width<=330? 35 : 45,
-                                                          width: width<=330? 35 : 45,
+                                                          height:  45,
+                                                          width: 45,
                                                           child: Image.asset("assets/icons/dct.png",fit: BoxFit.fill,),
                                                         ),
                                                       ),
@@ -1257,8 +1258,8 @@ var accessTokenVm;
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
-                                                                Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: width<=330? 10 : 12),),
-                                                                Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 8 :10,fontWeight: FontWeight.w500),),
+                                                                Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                                Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
                                                               ],
                                                             ),
                                                           ),
@@ -1271,8 +1272,8 @@ var accessTokenVm;
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
-                                                                Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 10 :12,fontWeight: FontWeight.w600))),
-                                                                Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 8 :10,fontWeight: FontWeight.w600))
+                                                                Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
+                                                                Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize:10,fontWeight: FontWeight.w600))
                                                               ],
                                                             ))),
                                                         ],
@@ -1452,7 +1453,7 @@ var accessTokenVm;
                                                         print("tappeddd");
                                                       },
                                                       child: Container(
-                                                        height: cardHeight*0.8,
+                                                        height: cardHeight*0.79,
                                                         margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                         decoration: BoxDecoration(
                                                           gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
@@ -1830,7 +1831,7 @@ var accessTokenVm;
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
                                                                     SizedBox(height: 10,),
-                                                                    Container(width: width<=360 ? 200 :220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                                                    Container(width: deviceWidth<=330 ? 220 :240,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
                                                                     SizedBox(height: 5,),
                                                                     Column(
                                                                       crossAxisAlignment: CrossAxisAlignment.start,

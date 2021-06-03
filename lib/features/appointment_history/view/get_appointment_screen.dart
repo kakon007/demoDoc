@@ -691,7 +691,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                      borderRadius: BorderRadius.circular(15),
                                                    ),
                                                    child: Padding(
-                                                     padding: EdgeInsets.only(left:10.0,right:10,top: 10),
+                                                     padding: EdgeInsets.only(left:10.0,right:10,top: 3),
                                                      child: Column(
                                                        children: [
                                                          Row(
@@ -708,15 +708,15 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                              ),
                                                              SizedBox(width: 5,),
                                                              Padding(
-                                                               padding: EdgeInsets.only(bottom: deviceWidth>600? 20 : 5,left: 1),
+                                                               padding: EdgeInsets.only(bottom: deviceWidth<=330? 10 : 30,left: 1),
                                                                child: Column(
                                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                                  children: [
-                                                                   SizedBox(height: deviceWidth >600? 8 : 3,),
+                                                                   SizedBox(height: deviceWidth >360? 8 : 3,),
                                                                    Text(vm.upComingAppointmentList[index].doctorName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#393939'),fontSize: 12),),
                                                                    Text(vm.upComingAppointmentList[index]?.doctorSpecialtyName??'',style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12,fontWeight: FontWeight.w500),),
                                                                    Container(
-                                                                       width:MediaQuery.of(context).size.width*.65,child: Text(vm.upComingAppointmentList[index].companyName,maxLines: 2,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12))),
+                                                                       width:deviceWidth<=330? 180 :MediaQuery.of(context).size.width*.65,child: Text(vm.upComingAppointmentList[index].companyName,maxLines: 2,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12))),
                                                                  ],
                                                                ),
 
@@ -733,7 +733,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                          ),
                                                          Divider(thickness: 1,),
                                                          Padding(
-                                                           padding:  EdgeInsets.only(top:5.0,right: 2,bottom: 8,left: deviceHeight>650 ? 10 :5),
+                                                           padding:  EdgeInsets.only(top:5.0,right: 2,bottom: 5,left: deviceHeight>350 ? 10 :5),
                                                            child: Column(
                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                              children: [
@@ -748,7 +748,7 @@ class _GetAppointmentState extends State<GetAppointment> {
 
                                                                      ],
                                                                    ),
-                                                                   SizedBox(width:  MediaQuery.of(context).size.width >600? 10 :5,),
+                                                                   SizedBox(width:  MediaQuery.of(context).size.width >350? 10 :5,),
                                                                    Row(
                                                                      children: [
                                                                        Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
@@ -756,7 +756,7 @@ class _GetAppointmentState extends State<GetAppointment> {
 
                                                                      ],
                                                                    ),
-                                                                   SizedBox(width:  MediaQuery.of(context).size.width >600? 10 : 5,),
+                                                                   SizedBox(width:  MediaQuery.of(context).size.width >350? 10 : 5,),
                                                                    Row(
                                                                      children: [
                                                                        Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
@@ -1244,7 +1244,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                               .w500),
                                                                 ),
                                                                 Container(
-                                                                    width: MediaQuery.of(context)
+                                                                    width: deviceWidth<=330? 200 : MediaQuery.of(context)
                                                                             .size
                                                                             .width *
                                                                         .65,

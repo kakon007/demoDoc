@@ -1825,21 +1825,24 @@ var accessTokenVm;
                                                           child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
-                                                              Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                SizedBox(height: 10,),
-                                                                Container(width: deviceWidth<=330 ? 220 : 230,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
-                                                                SizedBox(height: 5,),
-                                                                Column(
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 8.0),
+                                                                child: Column(
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
-                                                                    Text('Documentation Type: ${vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName}',maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                                    Text('Report Date: ${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                                    //SizedBox(width: 5,),
-                                                                  ],
-                                                                ),
-                                                              ],),
+                                                                  SizedBox(height: 10,),
+                                                                  Container(width: deviceWidth<=330 ? 220 : 230,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                                                  SizedBox(height: 5,),
+                                                                  Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
+                                                                      Text('Documentation Type: ${vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName}',maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                      Text('Report Date: ${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                      //SizedBox(width: 5,),
+                                                                    ],
+                                                                  ),
+                                                                ],),
+                                                              ),
                                                               Row(
                                                                 children: [
                                                                 Row(children: [
@@ -1879,6 +1882,7 @@ var accessTokenVm;
 
                                                                     },child: Icon(Icons.edit_outlined,color: HexColor('#354291'),)),
                                                                   ),
+                                                                  SizedBox(width: 10,),
 
                                                                 ]),
                                                               ],)

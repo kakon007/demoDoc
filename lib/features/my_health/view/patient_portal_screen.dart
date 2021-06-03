@@ -860,7 +860,7 @@ var accessTokenVm;
                       //borderRadius: BorderRadius.circular(25.0),
                     ),
                     suffixIcon:IconButton(
-                      icon:Icon(Icons.search_sharp),
+                      icon:Icon(Icons.search_sharp, color: Colors.black),
                       onPressed: (){
                         vm.search(_searchTextEditingController.text,accessTokenVm.accessToken);
 
@@ -907,7 +907,7 @@ var accessTokenVm;
                   //borderRadius: BorderRadius.circular(25.0),
                 ),
                 suffixIcon:IconButton(
-                  icon:Icon(Icons.search_sharp),
+                  icon:Icon(Icons.search_sharp, color: Colors.black,),
                   onPressed: (){
                     vm3.search(_searchTextEditingController3.text,accessTokenVm.accessToken);
 
@@ -954,7 +954,7 @@ var accessTokenVm;
                   //borderRadius: BorderRadius.circular(25.0),
                 ),
                 suffixIcon:IconButton(
-                  icon:Icon(Icons.search_sharp),
+                  icon:Icon(Icons.search_sharp, color: Colors.black,),
                   onPressed: (){
                     vm3.search(_searchTextEditingController2.text,accessTokenVm.accessToken);
 

@@ -1310,7 +1310,7 @@ var accessTokenVm;
                                                           await  _downloadPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString(),vm.prescriptionList[index].consultationId);
                                                           },
                                                              // onTap: showNotification,
-                                                              child: Icon(Icons.file_download_outlined, color: AppTheme.appbarPrimary,)),
+                                                              child: Icon(Icons.download_rounded, color: AppTheme.appbarPrimary,)),
                                                         ),
                                                       ]),
                                                     ),
@@ -1531,7 +1531,7 @@ var accessTokenVm;
                                                                   child: InkWell(onTap: () async{
                                                                     await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
 
-                                                                  },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary,)),
+                                                                  },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary,)),
                                                                 ),
                                                               ]),
                                                             ),
@@ -1893,7 +1893,7 @@ var accessTokenVm;
                                                                     child: InkWell(onTap: () async{
                                                                    await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
-                                                                    },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary)),
+                                                                    },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary)),
                                                                   ),
                                                                   SizedBox(width: 15,),
                                                                   Padding(

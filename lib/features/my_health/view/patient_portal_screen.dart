@@ -1286,7 +1286,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                     // ):
                                                     Padding(
                                                       padding: const EdgeInsets.only(right:0.0,),
-                                                      child: Stack(children: [
+                                                      child: Row(children: [
                                                         // Padding(
                                                         //   padding: const EdgeInsets.only(top:10.0),
                                                         //   child: Container(width:45,child: rx),
@@ -1300,7 +1300,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                         //   child: greyright,
                                                         // ):
                                                         Padding(
-                                                          padding: EdgeInsets.only(left: 38,top: 5),
+                                                          padding: EdgeInsets.only(left: 38,top: 40),
                                                           child: GestureDetector(
                                                               onTap: () async{
                                                             vm.prescriptionList[index].prescriptionNo==null?
@@ -1512,11 +1512,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                             // ),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right:18.0),
-                                                              child: Stack(children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top:10.0,right: 5),
-                                                                  child: Container(width:45,child: dx),
-                                                                ),
+                                                              child: Row(children: [
+                                                                // Padding(
+                                                                //   padding: const EdgeInsets.only(top:10.0,right: 5),
+                                                                //   child: Container(width:45,child: dx),
+                                                                // ),
                                                                 // (controller2.isSelected(index))?
                                                                 // Padding(
                                                                 //   padding: const EdgeInsets.only(left:38.0,top: 10),
@@ -1525,10 +1525,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 //   padding: const EdgeInsets.only(left:38.0,top: 10),
                                                                 //   child: greyright,
                                                                 // ):
-                                                                // Padding(
-                                                                //   padding: EdgeInsets.only(left: 38),
-                                                                //   child: popup,
-                                                                // ),
+                                                                Padding(
+                                                                  padding: EdgeInsets.only(right: 20,top: 40),
+                                                                  child: InkWell(onTap: () async{
+                                                                    await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
+
+                                                                  },child: Icon(Icons.download_rounded,color: HexColor('#354291'),)),
+                                                                ),
                                                               ]),
                                                             ),
                                                           ],
@@ -1863,12 +1866,12 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                               //   ]),
                                                               // ),
                                                               Padding(
-                                                                padding: const EdgeInsets.only(left: 10),
-                                                                child: Stack(children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(top:5.0,left: 30),
-                                                                    child: Container(width:45,child: jp),
-                                                                  ),
+                                                                padding: const EdgeInsets.only(left: 50),
+                                                                child: Row(children: [
+                                                                  // Padding(
+                                                                  //   padding: const EdgeInsets.only(top:5.0,left: 30),
+                                                                  //   child: Container(width:45,child: jp),
+                                                                  // ),
                                                                   // (controller3.isSelected(index))?
                                                                   // Padding(
                                                                   //   padding: const EdgeInsets.only(left:38.0,top: 10),
@@ -1884,17 +1887,18 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
                                                                   // //   },child: Icon(Icons.delete)),
                                                                   // // ),
-                                                                  // Padding(
-                                                                  //   padding: EdgeInsets.only(left: 90,top: 20),
-                                                                  //   child: InkWell(onTap: () async{
-                                                                  //     vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                                  //     _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-                                                                  //
-                                                                  //   },child: Icon(Icons.edit,color: HexColor('#354291'),)),
-                                                                  // ),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(top: 20),
+                                                                    child: InkWell(onTap: () async{
+                                                                      vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                      _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+
+                                                                    },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                                                  ),
+                                                                  SizedBox(width: 15,),
 
                                                                   Padding(
-                                                                    padding: EdgeInsets.only(left: 90,top: 20),
+                                                                    padding: EdgeInsets.only(top: 20),
                                                                     child: InkWell(onTap: () async{
                                                                    await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 

@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
+import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -35,7 +36,6 @@ class _GetAppointmentState extends State<GetAppointment> {
   ScrollController _scrollController2 = ScrollController();
   bool checkedValue = false;
   DateTime pickBirthDate;
-
   Future<Null> selectBirthDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -61,7 +61,6 @@ class _GetAppointmentState extends State<GetAppointment> {
       });
     }
   }
-
   String color = "#EAEBED";
 
   Future fetchPDF(String prescriptionNo, String companyAlias) async {
@@ -134,12 +133,11 @@ class _GetAppointmentState extends State<GetAppointment> {
     var vm5 = Provider.of<ZoomViewModel>(context, listen: false);
     vm5.getData(accessToken: widget.accessToken, consultationId: con);
   }
-
   @override
   void initState() {
     // TODO: implement initState
     var vm = Provider.of<AppointmentUpcomingViewModel>(context, listen: false);
-    vm.getData(widget.accessToken);
+    vm.getData();
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context, listen: false);
     vm2.getData();
     getZoomLink();
@@ -152,8 +150,9 @@ class _GetAppointmentState extends State<GetAppointment> {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 500) {
         print('scrolklinggtatg');
-        vm.getMoreData(widget.accessToken);
+        vm.getMoreData();
       }
+
     });
 
     _scrollController2.addListener(() {
@@ -162,9 +161,9 @@ class _GetAppointmentState extends State<GetAppointment> {
         print('scrolklinggtatg');
         vm2.getMoreData(widget.accessToken);
       }
+
     });
   }
-
   @override
   Widget build(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;
@@ -362,788 +361,469 @@ class _GetAppointmentState extends State<GetAppointment> {
                     },
                     child: WillPopScope(
                       child: Scaffold(
-                          body: Column(
-                        children: [
-                          Container(
-                            height: 55,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    vm.isInSearchMode
-                                        ? Icons.close
-                                        : Icons.search,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    _searchTextEditingController1?.clear();
-                                    vm.toggleIsInSearchMode(widget.accessToken);
+                          body:
+                          Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                      child: Text("${vm.totalCount.toString()} Appointment(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                    ),
+                                    Spacer(),
+                                    if (vm.isInSearchMode)searchField,
+                                    IconButton(
+                                      icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search,color: Colors.grey,),
+                                      onPressed: () {
+                                        _searchTextEditingController1?.clear();
+                                        vm.toggleIsInSearchMode(widget.accessToken);
 
-                                    if (vm.isInSearchMode) {
-                                      _searchFieldFocusNode.requestFocus();
-                                    } else {
-                                      _searchFieldFocusNode.unfocus();
-                                    }
-                                  },
+                                        if (vm.isInSearchMode) {
+                                          _searchFieldFocusNode.requestFocus();
+                                        } else {
+                                          _searchFieldFocusNode.unfocus();
+                                        }
+                                      },
+                                    ),
+
+                                    //Spacer(),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(right:15.0),
+                                    //   child: GestureDetector(
+                                    //       onTap: (){
+                                    //         showModalBottomSheet(
+                                    //             shape: RoundedRectangleBorder(
+                                    //                 borderRadius: BorderRadius.only(
+                                    //                     topLeft: Radius.circular(25),
+                                    //                     topRight: Radius.circular(25))),
+                                    //             context: context,
+                                    //             isScrollControlled: true,
+                                    //             builder: (context) {
+                                    //
+                                    //               return Container(
+                                    //                 height: 480,
+                                    //                 child: Column(
+                                    //                   children: [
+                                    //                     SizedBox(height: 20,),
+                                    //                     Row(
+                                    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                       children: [
+                                    //                         SizedBox(),
+                                    //                         Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
+                                    //                         // SizedBox(width: 100,),
+                                    //                         GestureDetector(onTap: (){
+                                    //                           Navigator.pop(context);
+                                    //                         },child: Icon(Icons.close,size: 30,)),
+                                    //                       ],
+                                    //                     ),
+                                    //                     SingleChildScrollView(
+                                    //                       child:
+                                    //                       Column(
+                                    //                         crossAxisAlignment: CrossAxisAlignment.start,
+                                    //                         children: [
+                                    //                           Padding(
+                                    //                             padding: const EdgeInsets.only(top:15.0,left: 10),
+                                    //                             child: Text(
+                                    //                               'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
+                                    //                             ),
+                                    //                           ),
+                                    //                           SizedBox(height: 10,),
+                                    //                           GestureDetector(
+                                    //                             onTap: (){
+                                    //                               selectBirthDate(context);
+                                    //                             },
+                                    //                             child: Padding(
+                                    //                               padding: const EdgeInsets.only(left: 10.0),
+                                    //                               child: Container(
+                                    //                                 height: 50.0,
+                                    //                                 width: MediaQuery.of(context).size.width*0.88,
+                                    //                                 decoration: BoxDecoration(
+                                    //                                     color: Colors.transparent,
+                                    //                                     border: Border.all(color: HexColor(color)),
+                                    //                                     borderRadius: BorderRadius.circular(10)),
+                                    //                                 child: Row(
+                                    //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                                   children: [
+                                    //                                     Padding(
+                                    //                                       padding: const EdgeInsets.only(left: 20.0),
+                                    //                                       child: Text(
+                                    //                                           pickBirthDate == DateTime.now()
+                                    //                                               ? "Select Date"
+                                    //                                               : "From: 22/02/2021",
+                                    //                                           style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                     Padding(
+                                    //                                       padding: const EdgeInsets.only(right: 8.0),
+                                    //                                       child: Container(
+                                    //                                         height: 18,
+                                    //                                         child:
+                                    //                                         calenderIcon,
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                   ],
+                                    //                                 ),
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                           SizedBox(height: 10,),
+                                    //                           GestureDetector(
+                                    //                             onTap: (){
+                                    //                               selectBirthDate(context);
+                                    //                             },
+                                    //                             child: Padding(
+                                    //                               padding: const EdgeInsets.only(left: 10.0),
+                                    //                               child: Container(
+                                    //                                 height: 50.0,
+                                    //                                 width: MediaQuery.of(context).size.width*0.88,
+                                    //                                 decoration: BoxDecoration(
+                                    //                                     color: Colors.transparent,
+                                    //                                     border: Border.all(color: HexColor(color)),
+                                    //                                     borderRadius: BorderRadius.circular(10)),
+                                    //                                 child: Row(
+                                    //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                                   children: [
+                                    //                                     Padding(
+                                    //                                       padding: const EdgeInsets.only(left: 15.0),
+                                    //                                       child: Text(
+                                    //                                           pickBirthDate == DateTime.now()
+                                    //                                               ? "Select Date"
+                                    //                                               : "To:",
+                                    //                                           style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
+                                    //                                       ),
+                                    //                                     ),
+                                    //                                     Padding(
+                                    //                                       padding: const EdgeInsets.only(right: 8.0),
+                                    //                                       child: Container(
+                                    //                                         height: 18,
+                                    //                                         child:
+                                    //                                         calenderIcon,
+                                    //                                       ),
+                                    //                                     ),
+                                    //
+                                    //                                   ],
+                                    //                                 ),
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                           Padding(
+                                    //                             padding: const EdgeInsets.only(top:15.0,left: 10),
+                                    //                             child: Text(
+                                    //                               'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
+                                    //                             ),
+                                    //                           ),
+                                    //                           Row(
+                                    //                             children: [
+                                    //                               Expanded(
+                                    //                                 flex:2,
+                                    //                                 child: CheckboxListTile(
+                                    //                                   title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                   value: checkedValue,
+                                    //                                   onChanged: (newValue) {
+                                    //                                     setState(() {
+                                    //                                       checkedValue = newValue;
+                                    //                                     });
+                                    //                                   },
+                                    //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                                 ),
+                                    //                               ),
+                                    //                               Expanded(
+                                    //                                 flex:2,
+                                    //                                 child: CheckboxListTile(
+                                    //                                   title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                   value: checkedValue,
+                                    //                                   onChanged: (newValue) {
+                                    //                                     setState(() {
+                                    //                                       checkedValue = newValue;
+                                    //                                     });
+                                    //                                   },
+                                    //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                                 ),
+                                    //                               ),
+                                    //                             ],
+                                    //                           ),
+                                    //                           Row(
+                                    //                             children: [
+                                    //                               Expanded(
+                                    //                                 flex:2,
+                                    //                                 child: CheckboxListTile(
+                                    //                                   title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                   value: checkedValue,
+                                    //                                   onChanged: (newValue) {
+                                    //                                     setState(() {
+                                    //                                       checkedValue = newValue;
+                                    //                                     });
+                                    //                                   },
+                                    //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                                 ),
+                                    //                               ),
+                                    //                               Expanded(
+                                    //                                 flex:2,
+                                    //                                 child: CheckboxListTile(
+                                    //                                   title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                   value: checkedValue,
+                                    //                                   onChanged: (newValue) {
+                                    //                                     setState(() {
+                                    //                                       checkedValue = newValue;
+                                    //                                     });
+                                    //                                   },
+                                    //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                                 ),
+                                    //                               ),
+                                    //
+                                    //                             ],
+                                    //                           ),
+                                    //                           Padding(
+                                    //                             padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
+                                    //                             child: Row(
+                                    //                               mainAxisAlignment:
+                                    //                               MainAxisAlignment.spaceBetween,
+                                    //                               children: [
+                                    //                                 SizedBox(
+                                    //                                   width: width * .9,
+                                    //                                   height: width * .25,
+                                    //                                   child: FlatButton(
+                                    //                                     onPressed: () {
+                                    //                                       Navigator.pop(context);
+                                    //                                     },
+                                    //                                     textColor:  AppTheme.appbarPrimary,
+                                    //                                     color: HexColor("#FFFFFF"),
+                                    //                                     shape: RoundedRectangleBorder(
+                                    //                                         borderRadius:
+                                    //                                         BorderRadius.circular(8),
+                                    //                                         side: BorderSide(
+                                    //                                             color: AppTheme
+                                    //                                                 .appbarPrimary,
+                                    //                                             width: 1)),
+                                    //                                     child: Text(
+                                    //                                       "Clear Filter",
+                                    //                                       style: GoogleFonts.poppins(),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                                 SizedBox(
+                                    //                                   width: width * .9,
+                                    //                                   height: width * .25,
+                                    //                                   child: FlatButton(
+                                    //                                     textColor: Colors.white,
+                                    //                                     onPressed: () {},
+                                    //                                     color:  AppTheme.appbarPrimary,
+                                    //                                     shape: RoundedRectangleBorder(
+                                    //                                       borderRadius:
+                                    //                                       BorderRadius.circular(8),
+                                    //                                     ),
+                                    //                                     child: Text(
+                                    //                                       "Apply Filter",
+                                    //                                       style: GoogleFonts.poppins(),
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 )
+                                    //                               ],
+                                    //                             ),
+                                    //                           ),
+                                    //                         ],
+                                    //                       )
+                                    //                       ,
+                                    //                     )
+                                    //                   ],
+                                    //                 ),
+                                    //               );
+                                    //             });
+                                    //       },
+                                    //       child: filtericon),
+                                    // )
+                                  ],
                                 ),
-                                if (vm.isInSearchMode) searchField,
-                                Spacer(),
-                                // Padding(
-                                //   padding: const EdgeInsets.only(right:15.0),
-                                //   child: GestureDetector(
-                                //       onTap: (){
-                                //         showModalBottomSheet(
-                                //             shape: RoundedRectangleBorder(
-                                //                 borderRadius: BorderRadius.only(
-                                //                     topLeft: Radius.circular(25),
-                                //                     topRight: Radius.circular(25))),
-                                //             context: context,
-                                //             isScrollControlled: true,
-                                //             builder: (context) {
-                                //
-                                //               return Container(
-                                //                 height: 480,
-                                //                 child: Column(
-                                //                   children: [
-                                //                     SizedBox(height: 20,),
-                                //                     Row(
-                                //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //                       children: [
-                                //                         SizedBox(),
-                                //                         Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
-                                //                         // SizedBox(width: 100,),
-                                //                         GestureDetector(onTap: (){
-                                //                           Navigator.pop(context);
-                                //                         },child: Icon(Icons.close,size: 30,)),
-                                //                       ],
-                                //                     ),
-                                //                     SingleChildScrollView(
-                                //                       child:
-                                //                       Column(
-                                //                         crossAxisAlignment: CrossAxisAlignment.start,
-                                //                         children: [
-                                //                           Padding(
-                                //                             padding: const EdgeInsets.only(top:15.0,left: 10),
-                                //                             child: Text(
-                                //                               'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
-                                //                             ),
-                                //                           ),
-                                //                           SizedBox(height: 10,),
-                                //                           GestureDetector(
-                                //                             onTap: (){
-                                //                               selectBirthDate(context);
-                                //                             },
-                                //                             child: Padding(
-                                //                               padding: const EdgeInsets.only(left: 10.0),
-                                //                               child: Container(
-                                //                                 height: 50.0,
-                                //                                 width: MediaQuery.of(context).size.width*0.88,
-                                //                                 decoration: BoxDecoration(
-                                //                                     color: Colors.transparent,
-                                //                                     border: Border.all(color: HexColor(color)),
-                                //                                     borderRadius: BorderRadius.circular(10)),
-                                //                                 child: Row(
-                                //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //                                   children: [
-                                //                                     Padding(
-                                //                                       padding: const EdgeInsets.only(left: 20.0),
-                                //                                       child: Text(
-                                //                                           pickBirthDate == DateTime.now()
-                                //                                               ? "Select Date"
-                                //                                               : "From: 22/02/2021",
-                                //                                           style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
-                                //                                       ),
-                                //                                     ),
-                                //                                     Padding(
-                                //                                       padding: const EdgeInsets.only(right: 8.0),
-                                //                                       child: Container(
-                                //                                         height: 18,
-                                //                                         child:
-                                //                                         calenderIcon,
-                                //                                       ),
-                                //                                     ),
-                                //                                   ],
-                                //                                 ),
-                                //                               ),
-                                //                             ),
-                                //                           ),
-                                //                           SizedBox(height: 10,),
-                                //                           GestureDetector(
-                                //                             onTap: (){
-                                //                               selectBirthDate(context);
-                                //                             },
-                                //                             child: Padding(
-                                //                               padding: const EdgeInsets.only(left: 10.0),
-                                //                               child: Container(
-                                //                                 height: 50.0,
-                                //                                 width: MediaQuery.of(context).size.width*0.88,
-                                //                                 decoration: BoxDecoration(
-                                //                                     color: Colors.transparent,
-                                //                                     border: Border.all(color: HexColor(color)),
-                                //                                     borderRadius: BorderRadius.circular(10)),
-                                //                                 child: Row(
-                                //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //                                   children: [
-                                //                                     Padding(
-                                //                                       padding: const EdgeInsets.only(left: 15.0),
-                                //                                       child: Text(
-                                //                                           pickBirthDate == DateTime.now()
-                                //                                               ? "Select Date"
-                                //                                               : "To:",
-                                //                                           style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
-                                //                                       ),
-                                //                                     ),
-                                //                                     Padding(
-                                //                                       padding: const EdgeInsets.only(right: 8.0),
-                                //                                       child: Container(
-                                //                                         height: 18,
-                                //                                         child:
-                                //                                         calenderIcon,
-                                //                                       ),
-                                //                                     ),
-                                //
-                                //                                   ],
-                                //                                 ),
-                                //                               ),
-                                //                             ),
-                                //                           ),
-                                //                           Padding(
-                                //                             padding: const EdgeInsets.only(top:15.0,left: 10),
-                                //                             child: Text(
-                                //                               'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
-                                //                             ),
-                                //                           ),
-                                //                           Row(
-                                //                             children: [
-                                //                               Expanded(
-                                //                                 flex:2,
-                                //                                 child: CheckboxListTile(
-                                //                                   title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                //                                   value: checkedValue,
-                                //                                   onChanged: (newValue) {
-                                //                                     setState(() {
-                                //                                       checkedValue = newValue;
-                                //                                     });
-                                //                                   },
-                                //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                //                                 ),
-                                //                               ),
-                                //                               Expanded(
-                                //                                 flex:2,
-                                //                                 child: CheckboxListTile(
-                                //                                   title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                //                                   value: checkedValue,
-                                //                                   onChanged: (newValue) {
-                                //                                     setState(() {
-                                //                                       checkedValue = newValue;
-                                //                                     });
-                                //                                   },
-                                //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                //                                 ),
-                                //                               ),
-                                //                             ],
-                                //                           ),
-                                //                           Row(
-                                //                             children: [
-                                //                               Expanded(
-                                //                                 flex:2,
-                                //                                 child: CheckboxListTile(
-                                //                                   title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                //                                   value: checkedValue,
-                                //                                   onChanged: (newValue) {
-                                //                                     setState(() {
-                                //                                       checkedValue = newValue;
-                                //                                     });
-                                //                                   },
-                                //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                //                                 ),
-                                //                               ),
-                                //                               Expanded(
-                                //                                 flex:2,
-                                //                                 child: CheckboxListTile(
-                                //                                   title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                //                                   value: checkedValue,
-                                //                                   onChanged: (newValue) {
-                                //                                     setState(() {
-                                //                                       checkedValue = newValue;
-                                //                                     });
-                                //                                   },
-                                //                                   controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                //                                 ),
-                                //                               ),
-                                //
-                                //                             ],
-                                //                           ),
-                                //                           Padding(
-                                //                             padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
-                                //                             child: Row(
-                                //                               mainAxisAlignment:
-                                //                               MainAxisAlignment.spaceBetween,
-                                //                               children: [
-                                //                                 SizedBox(
-                                //                                   width: width * .9,
-                                //                                   height: width * .25,
-                                //                                   child: FlatButton(
-                                //                                     onPressed: () {
-                                //                                       Navigator.pop(context);
-                                //                                     },
-                                //                                     textColor:  AppTheme.appbarPrimary,
-                                //                                     color: HexColor("#FFFFFF"),
-                                //                                     shape: RoundedRectangleBorder(
-                                //                                         borderRadius:
-                                //                                         BorderRadius.circular(8),
-                                //                                         side: BorderSide(
-                                //                                             color: AppTheme
-                                //                                                 .appbarPrimary,
-                                //                                             width: 1)),
-                                //                                     child: Text(
-                                //                                       "Clear Filter",
-                                //                                       style: GoogleFonts.poppins(),
-                                //                                     ),
-                                //                                   ),
-                                //                                 ),
-                                //                                 SizedBox(
-                                //                                   width: width * .9,
-                                //                                   height: width * .25,
-                                //                                   child: FlatButton(
-                                //                                     textColor: Colors.white,
-                                //                                     onPressed: () {},
-                                //                                     color:  AppTheme.appbarPrimary,
-                                //                                     shape: RoundedRectangleBorder(
-                                //                                       borderRadius:
-                                //                                       BorderRadius.circular(8),
-                                //                                     ),
-                                //                                     child: Text(
-                                //                                       "Apply Filter",
-                                //                                       style: GoogleFonts.poppins(),
-                                //                                     ),
-                                //                                   ),
-                                //                                 )
-                                //                               ],
-                                //                             ),
-                                //                           ),
-                                //                         ],
-                                //                       )
-                                //                       ,
-                                //                     )
-                                //                   ],
-                                //                 ),
-                                //               );
-                                //             });
-                                //       },
-                                //       child: filtericon),
-                                // )
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: vm.shouldShowPageLoader
-                                ? Loader()
-                                : vm.upComingAppointmentList.length == 0 &&
-                                        !vm.isInSearchMode
-                                    ? Align(
-                                        alignment: Alignment.center,
-                                        child: Container(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'You have no pending or waiting \nappointment.',
-                                                textAlign: TextAlign.center,
-                                                style: GoogleFonts.poppins(
-                                                    color: HexColor('#333132'),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 17),
-                                              ),
-                                              SizedBox(
-                                                height: 30,
-                                              ),
-                                              upComingBlank,
-                                              SizedBox(
-                                                height: 30,
-                                              ),
-                                              GestureDetector(
-                                                onTap:
-                                                    widget.onTapFeaturedCompany,
-                                                child: Material(
-                                                  elevation: 2,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  color: HexColor("#354291"),
-                                                  child: SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 35
-                                                            : 300,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 35
-                                                            : 45,
-                                                    child: Center(
-                                                      child: Text(
-                                                        "Get an appointment",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    : ListView.builder(
-                                        controller: _scrollController,
-                                        shrinkWrap: true,
-                                        itemCount:
-                                            vm.upComingAppointmentList.length +
-                                                1,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          //print("LIIIISSSYYSY:::" + list[index].consultationId);
-                                          if (index ==
-                                              vm.upComingAppointmentList
-                                                  .length) {
-                                            return vm.isFetchingMoreData
-                                                ? SizedBox(
-                                                    height: 60,
-                                                    child: Center(
-                                                        child:
-                                                            CircularProgressIndicator()))
-                                                : SizedBox();
-                                            //return SizedBox(height: 15,);
-
-                                          }
-                                          return Stack(children: [
-                                            InkWell(
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                            .size
-                                                            .width >
-                                                        330
-                                                    ? 200
-                                                    : 185,
-                                                margin: EdgeInsets.only(
-                                                    top: 8,
-                                                    bottom: 5,
-                                                    right: 5,
-                                                    left: 5),
-                                                decoration: BoxDecoration(
-                                                  color: HexColor('#F0F2FF'),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 5.0, right: 5),
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                            // height: 60,
-                                                            //width: 20,
-                                                            child: vm
-                                                                        .upComingAppointmentList[
-                                                                            index]
-                                                                        .photo !=
-                                                                    null
-                                                                ? loadLogo(vm
-                                                                    .upComingAppointmentList[
-                                                                        index]
-                                                                    .photo)
-                                                                : Image.asset(
-                                                                    "assets/icons/dct.png",
-                                                                    fit: BoxFit
-                                                                        .fill,
-                                                                    width: 80,
-                                                                    height: 60,
-                                                                  ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding: EdgeInsets.only(
-                                                                bottom:
-                                                                    deviceWidth >
-                                                                            600
-                                                                        ? 20
-                                                                        : 5,
-                                                                left: 1),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                SizedBox(
-                                                                  height:
-                                                                      deviceWidth >
-                                                                              330
-                                                                          ? 8
-                                                                          : 3,
-                                                                ),
-                                                                Text(
-                                                                  vm
-                                                                      .upComingAppointmentList[
-                                                                          index]
-                                                                      .doctorName,
-                                                                  style: GoogleFonts.poppins(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: HexColor(
-                                                                          '#393939'),
-                                                                      fontSize:
-                                                                         deviceWidth <330 ? 8 :  12),
-                                                                ),
-                                                                Text(
-                                                                  vm.upComingAppointmentList[index]
-                                                                          ?.doctorSpecialtyName ??
-                                                                      '',
-                                                                  style: GoogleFonts.poppins(
-                                                                      color: HexColor(
-                                                                          '#354291'),
-                                                                      fontSize:
-                                                                          12,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500),
-                                                                ),
-                                                                Container(
-                                                                    width: MediaQuery.of(context)
-                                                                            .size
-                                                                            .width *
-                                                                        .65,
-                                                                    child: Text(
-                                                                        vm
-                                                                            .upComingAppointmentList[
-                                                                                index]
-                                                                            .companyName,
-                                                                        maxLines:
-                                                                            2,
-                                                                        overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
-                                                                        style: GoogleFonts.poppins(
-                                                                            color:
-                                                                                HexColor('#354291'),
-                                                                            fontSize: 12))),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          // Container(width:45,child: rx),
-                                                          // (controller.isSelecting)?
-                                                          // Padding(
-                                                          //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                          //   child: righticon,
-                                                          // ):
-                                                        ],
-                                                      ),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      ),
-                                                      Padding(
-                                                        padding: EdgeInsets.only(
-                                                            top: 5.0,
-                                                            right: 2,
-                                                            bottom: 8,
-                                                            left: deviceHeight >
-                                                                    650
-                                                                ? 10
-                                                                : 5),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Serial No: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      vm.upComingAppointmentList[index]
-                                                                          .slotSl
-                                                                          .toString(),
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#141D53'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width >
-                                                                          600
-                                                                      ? 10
-                                                                      : 5,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Date: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      DateUtil().formattedDate(DateTime.parse(vm
-                                                                              .upComingAppointmentList[index]
-                                                                              .appointDate)
-                                                                          .toLocal()),
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#8592E5'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width >
-                                                                          600
-                                                                      ? 10
-                                                                      : 5,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Time: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      TimeUtil().formattedDate(DateTime.parse(vm
-                                                                              .upComingAppointmentList[index]
-                                                                              .startTime)
-                                                                          .toLocal()),
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#8592E5'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                              height: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width >
-                                                                      600
-                                                                  ? 10
-                                                                  : 5,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Consultation Type: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      vm.upComingAppointmentList[index]
-                                                                          .consultTypeName,
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#8592E5'),
-                                                                          fontSize: deviceWidth > 450
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Status: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      vm.upComingAppointmentList[index].status ==
-                                                                              1
-                                                                          ? "Waiting"
-                                                                          : "Pending",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: vm.upComingAppointmentList[index].status == 1
-                                                                              ? HexColor(
-                                                                                  '#EEB329')
-                                                                              : HexColor(
-                                                                                  '#FFA7A7'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 5
-                                                            : 3,
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          getZoomLink(
-                                                              con: vm
-                                                                  .upComingAppointmentList[
-                                                                      index]
-                                                                  .consultationId);
-                                                          if (vm5
-                                                              .zoomDetailsList
-                                                              .joinUrl
-                                                              .isNotEmpty)
-                                                            UrlLauncherHelper
-                                                                .launchUrl(vm5
-                                                                        .zoomDetailsList
-                                                                        ?.joinUrl ??
-                                                                    '');
-                                                        },
-                                                        child: Material(
-                                                          elevation: 2,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5)),
-                                                          color: vm
-                                                                      .upComingAppointmentList[
-                                                                          index]
-                                                                      .consultationId ==
-                                                                  null
-                                                              ? HexColor(
-                                                                  "#99A0C8")
-                                                              : HexColor(
-                                                                  "#354291"),
-                                                          child: SizedBox(
-                                                            width:
-                                                                double.infinity,
-                                                            height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width >
-                                                                    600
-                                                                ? 35
-                                                                : 28,
-                                                            child: Center(
-                                                              child: Text(
-                                                                "Start Consultation",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                              ),
+                              Expanded(
+                                child: vm.shouldShowPageLoader?Loader():vm.upComingAppointmentList.length==0&&!vm.isInSearchMode?Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top:120.0),
+                                    child: Container(
+                                      child: Column(
+                                        children: [
+                                          Text('You have no pending or waiting \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
+                                          SizedBox(height: 30,),
+                                          upComingBlank,
+                                          SizedBox(height: 30,),
+                                          GestureDetector(
+                                            onTap: widget.onTapFeaturedCompany,
+                                            child: Material(
+                                              elevation: 2  ,
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                              color: HexColor("#354291"),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context).size.width >600? 35 : 300,
+                                                height:  MediaQuery.of(context).size.width >600? 35 : 45,
+                                                child: Center(
+                                                  child: Text("Get an appointment",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
                                                 ),
                                               ),
                                             ),
-                                          ]);
-                                        }),
-                          ),
-                        ],
-                      )),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ): ListView.builder(
+                                     controller: _scrollController,
+                                     shrinkWrap: true,
+                                     itemCount:vm.upComingAppointmentList.length+1,
+                                     itemBuilder: (BuildContext context, int index) {
+                                       //print("LIIIISSSYYSY:::" + list[index].consultationId);
+                                       if(index==vm.upComingAppointmentList.length){
+                                         return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
+                                         //return SizedBox(height: 15,);
+
+                                       }
+                                       return  Stack(
+                                             children:[
+                                               InkWell(
+                                                 child: Container(
+                                                   height: MediaQuery.of(context).size.width >600? 190 : 190,
+                                                   margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                                   decoration: BoxDecoration(
+                                                     color:HexColor('#F0F2FF'),
+                                                     borderRadius: BorderRadius.circular(15),
+                                                   ),
+                                                   child: Padding(
+                                                     padding: EdgeInsets.only(left:10.0,right:10,top: 10),
+                                                     child: Column(
+                                                       children: [
+                                                         Row(
+                                                           children: [
+                                                             Container(
+                                                              // height: 60,
+                                                               //width: 20,
+                                                               child: vm.upComingAppointmentList[index].photo!=null?loadLogo(vm.upComingAppointmentList[index].photo):Image.asset(
+                                       "assets/icons/dct.png",
+                                       fit: BoxFit.fill,
+                                       width: 80,
+                                       height: 60,
+                                       ),
+                                                             ),
+                                                             SizedBox(width: 5,),
+                                                             Padding(
+                                                               padding: EdgeInsets.only(bottom: deviceWidth>600? 20 : 5,left: 1),
+                                                               child: Column(
+                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                                 children: [
+                                                                   SizedBox(height: deviceWidth >600? 8 : 3,),
+                                                                   Text(vm.upComingAppointmentList[index].doctorName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#393939'),fontSize: 12),),
+                                                                   Text(vm.upComingAppointmentList[index]?.doctorSpecialtyName??'',style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12,fontWeight: FontWeight.w500),),
+                                                                   Container(
+                                                                       width:MediaQuery.of(context).size.width*.65,child: Text(vm.upComingAppointmentList[index].companyName,maxLines: 2,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12))),
+                                                                 ],
+                                                               ),
+
+                                                             ),
+                                                             // Container(width:45,child: rx),
+                                                             // (controller.isSelecting)?
+                                                             // Padding(
+                                                             //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                             //   child: righticon,
+                                                             // ):
+
+
+                                                           ],
+                                                         ),
+                                                         Divider(thickness: 1,),
+                                                         Padding(
+                                                           padding:  EdgeInsets.only(top:5.0,right: 2,bottom: 8,left: deviceHeight>650 ? 10 :5),
+                                                           child: Column(
+                                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                                             children: [
+                                                               SizedBox(height: 3,),
+                                                               Row(
+                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                 children: [
+                                                                   Row(
+                                                                     children: [
+                                                                       Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                       Text(vm.upComingAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#141D53'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+
+                                                                     ],
+                                                                   ),
+                                                                   SizedBox(width:  MediaQuery.of(context).size.width >600? 10 :5,),
+                                                                   Row(
+                                                                     children: [
+                                                                       Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                       Text(DateUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].appointDate).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+
+                                                                     ],
+                                                                   ),
+                                                                   SizedBox(width:  MediaQuery.of(context).size.width >600? 10 : 5,),
+                                                                   Row(
+                                                                     children: [
+                                                                       Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                       Text(TimeUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].startTime).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                     ],
+                                                                   ),
+                                                                 ],
+                                                               ),
+                                                               SizedBox(height: MediaQuery.of(context).size.width >600? 10 :5,),
+                                                               Row(
+                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                 children: [
+                                                                   Row(
+                                                                     children: [
+                                                                       Text("Consultation Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                       Text(vm.upComingAppointmentList[index].consultTypeName,style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 450 ? bottomTextSize: 10),),
+
+                                                                     ],
+                                                                   ),
+                                                                   SizedBox(width: 10,),
+                                                                   Row(
+                                                                     children: [
+                                                                       Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                       Text(vm.upComingAppointmentList[index].status==1?"Waiting":"Pending",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color:vm.upComingAppointmentList[index].status==1? HexColor('#EEB329'):HexColor('#FFA7A7'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+
+                                                                     ],
+                                                                   ),
+                                                                 ],
+                                                               ),
+
+                                                             ],
+                                                           ),
+
+                                                         ),
+                                                         SizedBox(height:  MediaQuery.of(context).size.width >600? 5 : 10,),
+                                                         GestureDetector(
+                                                           onTap:(){
+                                                             getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
+                                                               if (vm5.zoomDetailsList.joinUrl.isNotEmpty)
+                                                                 UrlLauncherHelper.launchUrl(vm5.zoomDetailsList?.joinUrl??'');
+                                                           },
+                                                           child: Material(
+                                                             elevation: 2  ,
+                                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                             color:vm.upComingAppointmentList[index].consultationId==null?HexColor("#99A0C8"):HexColor("#354291"),
+                                                             child: SizedBox(
+                                                               width: double.infinity,
+                                                               height:  MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                               child: Center(
+                                                                 child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
+                                                               ),
+                                                             ),
+                                                           ),
+                                                         ),
+                                                       ],
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ),
+                                             ]
+                                         );
+                                     }),
+                              ),
+                            ],
+                          )
+
+                      ),
                     ),
                   ),
 
@@ -1155,374 +835,326 @@ class _GetAppointmentState extends State<GetAppointment> {
                     },
                     child: WillPopScope(
                       child: Scaffold(
-                          body: Column(
-                        children: [
-                          Container(
-                            height: 55,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  key: Key('featuredJobSearchToggleButtonKey'),
-                                  icon: Icon(
-                                    vm2.isInSearchMode
-                                        ? Icons.close
-                                        : Icons.search,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    _searchTextEditingController2?.clear();
-                                    vm2.toggleIsInSearchMode(
-                                        widget.accessToken);
+                          body:
+                          Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:12.0,bottom: 20),
+                                      child: Text("${vm2.totalCount.toString()} Appointment(s) found",style: GoogleFonts.poppins(fontSize: 10),),
+                                    ),
+                                    Spacer(),
+                                    if (vm2.isInSearchMode)searchField2,
+                                    IconButton(
+                                      key: Key('featuredJobSearchToggleButtonKey'),
+                                      icon: Icon(vm2.isInSearchMode ? Icons.close : Icons.search,color: Colors.grey,),
+                                      onPressed: () {
+                                        _searchTextEditingController2?.clear();
+                                        vm2.toggleIsInSearchMode(widget.accessToken);
 
-                                    if (vm2.isInSearchMode) {
-                                      _searchFieldFocusNode2.requestFocus();
-                                    } else {
-                                      _searchFieldFocusNode2.unfocus();
-                                    }
-                                  },
+                                        if (vm2.isInSearchMode) {
+                                          _searchFieldFocusNode2.requestFocus();
+                                        } else {
+                                          _searchFieldFocusNode2.unfocus();
+                                        }
+                                      },
+                                    ),
+
+                                    //Spacer(),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(right:15.0),
+                                    //   child: GestureDetector(
+                                    //       onTap: (){
+                                    //         showModalBottomSheet(
+                                    //             shape: RoundedRectangleBorder(
+                                    //                 borderRadius: BorderRadius.only(
+                                    //                     topLeft: Radius.circular(25),
+                                    //                     topRight: Radius.circular(25))),
+                                    //             context: context,
+                                    //             isScrollControlled: true,
+                                    //             builder: (context) {
+                                    //
+                                    //               return Container(
+                                    //                 height: 480,
+                                    //                 child: Column(
+                                    //                   children: [
+                                    //                     SizedBox(height: 20,),
+                                    //                     Row(
+                                    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                       children: [
+                                    //                         SizedBox(),
+                                    //                         Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
+                                    //                        // SizedBox(width: 100,),
+                                    //                         GestureDetector(onTap: (){
+                                    //                           Navigator.pop(context);
+                                    //                         },child: Icon(Icons.close,size: 30,)),
+                                    //                       ],
+                                    //                     ),
+                                    //                   SingleChildScrollView(
+                                    //                     child:
+                                    //                     Column(
+                                    //                       crossAxisAlignment: CrossAxisAlignment.start,
+                                    //                       children: [
+                                    //                         Padding(
+                                    //                           padding: const EdgeInsets.only(top:15.0,left: 10),
+                                    //                           child: Text(
+                                    //                             'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
+                                    //                           ),
+                                    //                         ),
+                                    //                         SizedBox(height: 10,),
+                                    //                         GestureDetector(
+                                    //                           onTap: (){
+                                    //                             selectBirthDate(context);
+                                    //                           },
+                                    //                           child: Padding(
+                                    //                             padding: const EdgeInsets.only(left: 10.0),
+                                    //                             child: Container(
+                                    //                               height: 50.0,
+                                    //                               width: MediaQuery.of(context).size.width*0.88,
+                                    //                               decoration: BoxDecoration(
+                                    //                                   color: Colors.transparent,
+                                    //                                   border: Border.all(color: HexColor(color)),
+                                    //                                   borderRadius: BorderRadius.circular(10)),
+                                    //                               child: Row(
+                                    //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                                 children: [
+                                    //                                   Padding(
+                                    //                                     padding: const EdgeInsets.only(left: 20.0),
+                                    //                                     child: Text(
+                                    //                                       pickBirthDate == DateTime.now()
+                                    //                                           ? "Select Date"
+                                    //                                           : "From: 22/02/2021",
+                                    //                                       style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                   Padding(
+                                    //                                     padding: const EdgeInsets.only(right: 8.0),
+                                    //                                     child: Container(
+                                    //                                         height: 18,
+                                    //                                         child:
+                                    //                                         calenderIcon,
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                 ],
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                         ),
+                                    //                         SizedBox(height: 10,),
+                                    //                         GestureDetector(
+                                    //                           onTap: (){
+                                    //                             selectBirthDate(context);
+                                    //                           },
+                                    //                           child: Padding(
+                                    //                             padding: const EdgeInsets.only(left: 10.0),
+                                    //                             child: Container(
+                                    //                               height: 50.0,
+                                    //                               width: MediaQuery.of(context).size.width*0.88,
+                                    //                               decoration: BoxDecoration(
+                                    //                                   color: Colors.transparent,
+                                    //                                   border: Border.all(color: HexColor(color)),
+                                    //                                   borderRadius: BorderRadius.circular(10)),
+                                    //                               child: Row(
+                                    //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //                                 children: [
+                                    //                                   Padding(
+                                    //                                     padding: const EdgeInsets.only(left: 15.0),
+                                    //                                     child: Text(
+                                    //                                       pickBirthDate == DateTime.now()
+                                    //                                           ? "Select Date"
+                                    //                                           : "To:",
+                                    //                                         style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
+                                    //                                     ),
+                                    //                                   ),
+                                    //                                   Padding(
+                                    //                                     padding: const EdgeInsets.only(right: 8.0),
+                                    //                                     child: Container(
+                                    //                                         height: 18,
+                                    //                                         child:
+                                    //                                         calenderIcon,
+                                    //                                     ),
+                                    //                                   ),
+                                    //
+                                    //                                 ],
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                         ),
+                                    //                         Padding(
+                                    //                           padding: const EdgeInsets.only(top:15.0,left: 10),
+                                    //                           child: Text(
+                                    //                               'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
+                                    //                           ),
+                                    //                         ),
+                                    //                         Row(
+                                    //                           children: [
+                                    //                             Expanded(
+                                    //                               flex:2,
+                                    //                               child: CheckboxListTile(
+                                    //                                 title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                 value: checkedValue,
+                                    //                                 onChanged: (newValue) {
+                                    //                                   setState(() {
+                                    //                                     checkedValue = newValue;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                               ),
+                                    //                             ),
+                                    //                             Expanded(
+                                    //                               flex:2,
+                                    //                               child: CheckboxListTile(
+                                    //                                 title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                 value: checkedValue,
+                                    //                                 onChanged: (newValue) {
+                                    //                                   setState(() {
+                                    //                                     checkedValue = newValue;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                               ),
+                                    //                             ),
+                                    //                           ],
+                                    //                         ),
+                                    //                         Row(
+                                    //                           children: [
+                                    //                             Expanded(
+                                    //                               flex:2,
+                                    //                               child: CheckboxListTile(
+                                    //                                 title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                 value: checkedValue,
+                                    //                                 onChanged: (newValue) {
+                                    //                                   setState(() {
+                                    //                                     checkedValue = newValue;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                               ),
+                                    //                             ),
+                                    //                             Expanded(
+                                    //                               flex:2,
+                                    //                               child: CheckboxListTile(
+                                    //                                 title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
+                                    //                                 value: checkedValue,
+                                    //                                 onChanged: (newValue) {
+                                    //                                   setState(() {
+                                    //                                     checkedValue = newValue;
+                                    //                                   });
+                                    //                                 },
+                                    //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                                    //                               ),
+                                    //                             ),
+                                    //
+                                    //                           ],
+                                    //                         ),
+                                    //                         Padding(
+                                    //                           padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
+                                    //                           child: Row(
+                                    //                             mainAxisAlignment:
+                                    //                             MainAxisAlignment.spaceBetween,
+                                    //                             children: [
+                                    //                               SizedBox(
+                                    //                                 width: width * .9,
+                                    //                                 height: width * .25,
+                                    //                                 child: FlatButton(
+                                    //                                   onPressed: () {
+                                    //                                     Navigator.pop(context);
+                                    //                                   },
+                                    //                                   textColor:  AppTheme.appbarPrimary,
+                                    //                                   color: HexColor("#FFFFFF"),
+                                    //                                   shape: RoundedRectangleBorder(
+                                    //                                       borderRadius:
+                                    //                                       BorderRadius.circular(8),
+                                    //                                       side: BorderSide(
+                                    //                                           color: AppTheme
+                                    //                                               .appbarPrimary,
+                                    //                                           width: 1)),
+                                    //                                   child: Text(
+                                    //                                     "Clear Filter",
+                                    //                                     style: GoogleFonts.poppins(),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                               ),
+                                    //                               SizedBox(
+                                    //                                 width: width * .9,
+                                    //                                 height: width * .25,
+                                    //                                 child: FlatButton(
+                                    //                                   textColor: Colors.white,
+                                    //                                   onPressed: () {},
+                                    //                                   color:  AppTheme.appbarPrimary,
+                                    //                                   shape: RoundedRectangleBorder(
+                                    //                                     borderRadius:
+                                    //                                     BorderRadius.circular(8),
+                                    //                                   ),
+                                    //                                   child: Text(
+                                    //                                     "Apply Filter",
+                                    //                                     style: GoogleFonts.poppins(),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                               )
+                                    //                             ],
+                                    //                           ),
+                                    //                         ),
+                                    //                       ],
+                                    //                     )
+                                    //                     ,
+                                    //                   )
+                                    //                   ],
+                                    //                 ),
+                                    //               );
+                                    //             });
+                                    //       },
+                                    //       child: filtericon),
+                                    // )
+                                  ],
                                 ),
-                                if (vm2.isInSearchMode) searchField2,
-                                Spacer(),
-                                // Padding(
-                                //   padding: const EdgeInsets.only(right:15.0),
-                                //   child: GestureDetector(
-                                //       onTap: (){
-                                //         showModalBottomSheet(
-                                //             shape: RoundedRectangleBorder(
-                                //                 borderRadius: BorderRadius.only(
-                                //                     topLeft: Radius.circular(25),
-                                //                     topRight: Radius.circular(25))),
-                                //             context: context,
-                                //             isScrollControlled: true,
-                                //             builder: (context) {
-                                //
-                                //               return Container(
-                                //                 height: 480,
-                                //                 child: Column(
-                                //                   children: [
-                                //                     SizedBox(height: 20,),
-                                //                     Row(
-                                //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //                       children: [
-                                //                         SizedBox(),
-                                //                         Text("Filter",style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w600,color: HexColor('#333132')),),
-                                //                        // SizedBox(width: 100,),
-                                //                         GestureDetector(onTap: (){
-                                //                           Navigator.pop(context);
-                                //                         },child: Icon(Icons.close,size: 30,)),
-                                //                       ],
-                                //                     ),
-                                //                   SingleChildScrollView(
-                                //                     child:
-                                //                     Column(
-                                //                       crossAxisAlignment: CrossAxisAlignment.start,
-                                //                       children: [
-                                //                         Padding(
-                                //                           padding: const EdgeInsets.only(top:15.0,left: 10),
-                                //                           child: Text(
-                                //                             'Select Date',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
-                                //                           ),
-                                //                         ),
-                                //                         SizedBox(height: 10,),
-                                //                         GestureDetector(
-                                //                           onTap: (){
-                                //                             selectBirthDate(context);
-                                //                           },
-                                //                           child: Padding(
-                                //                             padding: const EdgeInsets.only(left: 10.0),
-                                //                             child: Container(
-                                //                               height: 50.0,
-                                //                               width: MediaQuery.of(context).size.width*0.88,
-                                //                               decoration: BoxDecoration(
-                                //                                   color: Colors.transparent,
-                                //                                   border: Border.all(color: HexColor(color)),
-                                //                                   borderRadius: BorderRadius.circular(10)),
-                                //                               child: Row(
-                                //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //                                 children: [
-                                //                                   Padding(
-                                //                                     padding: const EdgeInsets.only(left: 20.0),
-                                //                                     child: Text(
-                                //                                       pickBirthDate == DateTime.now()
-                                //                                           ? "Select Date"
-                                //                                           : "From: 22/02/2021",
-                                //                                       style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
-                                //                                     ),
-                                //                                   ),
-                                //                                   Padding(
-                                //                                     padding: const EdgeInsets.only(right: 8.0),
-                                //                                     child: Container(
-                                //                                         height: 18,
-                                //                                         child:
-                                //                                         calenderIcon,
-                                //                                     ),
-                                //                                   ),
-                                //                                 ],
-                                //                               ),
-                                //                             ),
-                                //                           ),
-                                //                         ),
-                                //                         SizedBox(height: 10,),
-                                //                         GestureDetector(
-                                //                           onTap: (){
-                                //                             selectBirthDate(context);
-                                //                           },
-                                //                           child: Padding(
-                                //                             padding: const EdgeInsets.only(left: 10.0),
-                                //                             child: Container(
-                                //                               height: 50.0,
-                                //                               width: MediaQuery.of(context).size.width*0.88,
-                                //                               decoration: BoxDecoration(
-                                //                                   color: Colors.transparent,
-                                //                                   border: Border.all(color: HexColor(color)),
-                                //                                   borderRadius: BorderRadius.circular(10)),
-                                //                               child: Row(
-                                //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                //                                 children: [
-                                //                                   Padding(
-                                //                                     padding: const EdgeInsets.only(left: 15.0),
-                                //                                     child: Text(
-                                //                                       pickBirthDate == DateTime.now()
-                                //                                           ? "Select Date"
-                                //                                           : "To:",
-                                //                                         style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w500,color: HexColor('#354291'),)
-                                //                                     ),
-                                //                                   ),
-                                //                                   Padding(
-                                //                                     padding: const EdgeInsets.only(right: 8.0),
-                                //                                     child: Container(
-                                //                                         height: 18,
-                                //                                         child:
-                                //                                         calenderIcon,
-                                //                                     ),
-                                //                                   ),
-                                //
-                                //                                 ],
-                                //                               ),
-                                //                             ),
-                                //                           ),
-                                //                         ),
-                                //                         Padding(
-                                //                           padding: const EdgeInsets.only(top:15.0,left: 10),
-                                //                           child: Text(
-                                //                               'Consultation type',style: GoogleFonts.poppins(fontSize: 17,fontWeight: FontWeight.w600,color: HexColor('#333132')),
-                                //                           ),
-                                //                         ),
-                                //                         Row(
-                                //                           children: [
-                                //                             Expanded(
-                                //                               flex:2,
-                                //                               child: CheckboxListTile(
-                                //                                 title: Text("Fresh visit",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                //                                 value: checkedValue,
-                                //                                 onChanged: (newValue) {
-                                //                                   setState(() {
-                                //                                     checkedValue = newValue;
-                                //                                   });
-                                //                                 },
-                                //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                //                               ),
-                                //                             ),
-                                //                             Expanded(
-                                //                               flex:2,
-                                //                               child: CheckboxListTile(
-                                //                                 title: Text('Report check',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                //                                 value: checkedValue,
-                                //                                 onChanged: (newValue) {
-                                //                                   setState(() {
-                                //                                     checkedValue = newValue;
-                                //                                   });
-                                //                                 },
-                                //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                //                               ),
-                                //                             ),
-                                //                           ],
-                                //                         ),
-                                //                         Row(
-                                //                           children: [
-                                //                             Expanded(
-                                //                               flex:2,
-                                //                               child: CheckboxListTile(
-                                //                                 title: Text("Follow up",style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                //                                 value: checkedValue,
-                                //                                 onChanged: (newValue) {
-                                //                                   setState(() {
-                                //                                     checkedValue = newValue;
-                                //                                   });
-                                //                                 },
-                                //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                //                               ),
-                                //                             ),
-                                //                             Expanded(
-                                //                               flex:2,
-                                //                               child: CheckboxListTile(
-                                //                                 title: Text('2nd Follow up',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 11,color: HexColor('#333132'))),
-                                //                                 value: checkedValue,
-                                //                                 onChanged: (newValue) {
-                                //                                   setState(() {
-                                //                                     checkedValue = newValue;
-                                //                                   });
-                                //                                 },
-                                //                                 controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                                //                               ),
-                                //                             ),
-                                //
-                                //                           ],
-                                //                         ),
-                                //                         Padding(
-                                //                           padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 22),
-                                //                           child: Row(
-                                //                             mainAxisAlignment:
-                                //                             MainAxisAlignment.spaceBetween,
-                                //                             children: [
-                                //                               SizedBox(
-                                //                                 width: width * .9,
-                                //                                 height: width * .25,
-                                //                                 child: FlatButton(
-                                //                                   onPressed: () {
-                                //                                     Navigator.pop(context);
-                                //                                   },
-                                //                                   textColor:  AppTheme.appbarPrimary,
-                                //                                   color: HexColor("#FFFFFF"),
-                                //                                   shape: RoundedRectangleBorder(
-                                //                                       borderRadius:
-                                //                                       BorderRadius.circular(8),
-                                //                                       side: BorderSide(
-                                //                                           color: AppTheme
-                                //                                               .appbarPrimary,
-                                //                                           width: 1)),
-                                //                                   child: Text(
-                                //                                     "Clear Filter",
-                                //                                     style: GoogleFonts.poppins(),
-                                //                                   ),
-                                //                                 ),
-                                //                               ),
-                                //                               SizedBox(
-                                //                                 width: width * .9,
-                                //                                 height: width * .25,
-                                //                                 child: FlatButton(
-                                //                                   textColor: Colors.white,
-                                //                                   onPressed: () {},
-                                //                                   color:  AppTheme.appbarPrimary,
-                                //                                   shape: RoundedRectangleBorder(
-                                //                                     borderRadius:
-                                //                                     BorderRadius.circular(8),
-                                //                                   ),
-                                //                                   child: Text(
-                                //                                     "Apply Filter",
-                                //                                     style: GoogleFonts.poppins(),
-                                //                                   ),
-                                //                                 ),
-                                //                               )
-                                //                             ],
-                                //                           ),
-                                //                         ),
-                                //                       ],
-                                //                     )
-                                //                     ,
-                                //                   )
-                                //                   ],
-                                //                 ),
-                                //               );
-                                //             });
-                                //       },
-                                //       child: filtericon),
-                                // )
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: vm2.shouldShowPageLoader
-                                ? Loader()
-                                : vm2.previousAppointmentList.length == 0 &&
-                                        !vm2.isInSearchMode
-                                    ? Align(
-                                        alignment: Alignment.center,
-                                        child: Container(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'You have no completed \nappointment.',
-                                                textAlign: TextAlign.center,
-                                                style: GoogleFonts.poppins(
-                                                    color: HexColor('#333132'),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 17),
-                                              ),
-                                              SizedBox(
-                                                height: 30,
-                                              ),
-                                              upComingBlank,
-                                              SizedBox(
-                                                height: 30,
-                                              ),
-                                              GestureDetector(
-                                                onTap:
-                                                    widget.onTapFeaturedCompany,
-                                                child: Material(
-                                                  elevation: 2,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  color: HexColor("#354291"),
-                                                  child: SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 35
-                                                            : 300,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 35
-                                                            : 45,
-                                                    child: Center(
-                                                      child: Text(
-                                                        "Get an appointment",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                    ),
-                                                  ),
+                              ),
+                              Expanded(
+                                child:
+                                vm2.shouldShowPageLoader?Loader():vm2.previousAppointmentList.length==0&&!vm2.isInSearchMode?Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top:120.0),
+                                    child: Container(
+                                      child: Column(
+                                        children: [
+                                          Text('You have no completed \nappointment.',textAlign: TextAlign.center,style: GoogleFonts.poppins(color: HexColor('#333132'),fontWeight: FontWeight.w500,fontSize: 17),),
+                                          SizedBox(height: 30,),
+                                          upComingBlank,
+                                          SizedBox(height: 30,),
+                                          GestureDetector(
+                                            onTap: widget.onTapFeaturedCompany,
+                                            child: Material(
+                                              elevation: 2  ,
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                              color: HexColor("#354291"),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context).size.width >600? 35 : 300,
+                                                height:  MediaQuery.of(context).size.width >600? 35 : 45,
+                                                child: Center(
+                                                  child: Text("Get an appointment",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    : ListView.builder(
-                                        controller: _scrollController2,
-                                        shrinkWrap: true,
-                                        itemCount:
-                                            vm2.previousAppointmentList.length +
-                                                1,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          //print("LIIIISSSYYSY:::" + list[index].consultationId);
-                                          if (index ==
-                                              vm2.previousAppointmentList
-                                                  .length) {
-                                            return vm2.isFetchingMoreData
-                                                ? SizedBox(
-                                                    height: 60,
-                                                    child: Center(
-                                                        child:
-                                                            CircularProgressIndicator()))
-                                                : SizedBox();
-                                            //return SizedBox(height: 15,);
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ):
+                                ListView.builder(
+                                  controller: _scrollController2,
+                                    shrinkWrap: true,
+                                    itemCount:vm2.previousAppointmentList.length+1,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      //print("LIIIISSSYYSY:::" + list[index].consultationId);
+                                      if(index==vm2.previousAppointmentList.length){
+                                        return vm2.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
+                                        //return SizedBox(height: 15,);
 
                                           }
                                           return Stack(children: [
@@ -1863,127 +1495,79 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                           ],
                                                         ),
                                                       ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      // InkWell(
-                                                      //   // onTap:(){
-                                                      //   //   Navigator.push(context,MaterialPageRoute(builder: (context){
-                                                      //   //     return AppointmentScreen(doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString() == null
-                                                      //   //         ? ""
-                                                      //   //         : vm2.previousAppointmentList[index]?.doctorNo.toString(),
-                                                      //   //     //
-                                                      //   //     //   logo:vm2.previousAppointmentList[index].photo!=null?loadLogo(vm2.previousAppointmentList[index].photo):Image.asset(
-                                                      //   //     //   "assets/icons/dct.png",
-                                                      //   //     //   fit: BoxFit.fill,
-                                                      //   //     //   width: 80,
-                                                      //   //     //   height: 60,
-                                                      //   //     // ),jobTitle:  vm3.doctorList[index].jobtitle!=null?vm3.doctorList[index].jobtitle:"",name: vm2.previousAppointmentList[index]?.doctorName == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm2.previousAppointmentList[index]?.doctorName,specialist: vm2.previousAppointmentList[index]?.doctorSpecialtyName == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm2.previousAppointmentList[index]?.doctorSpecialtyName,hospitalName: vm2.previousAppointmentList[index].companyName,designation: vm3.doctorList[index]?.docDegree == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm3.doctorList[index]?.docDegree,fee: vm3.doctorList[index]?.consultationFee.toString() ==
-                                                      //   //     //     null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm3.doctorList[index]?.consultationFee
-                                                      //   //     //     .toString(),companyNo: vm3.doctorList[index]?.companyNo.toString() == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm3.doctorList[index]?.companyNo.toString(),orgNo: vm3.doctorList[index]?.ogNo.toString() == null
-                                                      //   //     //     ? ""
-                                                      //   //     //     : vm3.doctorList[index]?.ogNo.toString(),
-                                                      //   //
-                                                      //   //     );
-                                                      //   //   }));
-                                                      //   // },
-                                                      //   child: Material(
-                                                      //     elevation: 0  ,
-                                                      //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                      //     color: HexColor("#354291"),
-                                                      //     child: SizedBox(
-                                                      //       width: deviceWidth*.4,
-                                                      //       height: MediaQuery.of(context).size.width>650 ? 32 : 27,
-                                                      //       child: Center(
-                                                      //         child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
-                                                      //       ),
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
-                                                      // SizedBox(width: MediaQuery.of(context).size.width>650 ? 20 : 15,),
-                                                      InkWell(
-                                                        onTap: () async {
-                                                          print(
-                                                              'ButtonPredfromAppointmentscreen');
-                                                          final file = await _createPdfFileFromString(
-                                                              vm2
-                                                                  .previousAppointmentList[
-                                                                      index]
-                                                                  .prescriptionNo
-                                                                  .toString(),
-                                                              vm2
-                                                                  .previousAppointmentList[
-                                                                      index]
-                                                                  .companyAlias
-                                                                  .toString());
-                                                          Navigator.push(
-                                                            context,
-                                                            PageTransition(
-                                                              type: PageTransitionType
-                                                                  .rightToLeft,
-                                                              child:
-                                                                  PdfFileViewerScreen(
-                                                                      file),
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Material(
-                                                          elevation: 0,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5)),
-                                                          color: vm2
-                                                                          .previousAppointmentList[
-                                                                              index]
-                                                                          .prescriptionNo ==
-                                                                      null ||
-                                                                  vm2
-                                                                          .previousAppointmentList[
-                                                                              index]
-                                                                          .companyAlias ==
-                                                                      null
-                                                              ? HexColor(
-                                                                  "#99A0C8")
-                                                              : HexColor(
-                                                                  "#354291"),
-                                                          child: SizedBox(
-                                                            width:
-                                                                double.infinity,
-                                                            height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width >
-                                                                    650
-                                                                ? 35
-                                                                : 28,
-                                                            child: Center(
-                                                              child: Text(
-                                                                "View Prescription",
-                                                                style: GoogleFonts.poppins(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
+                                                      SizedBox(height: 5,),
+                                                      Row(children: [
+                                                        SizedBox(width: 6,),
+                                                        InkWell(
+                                                          onTap:(){
+                                                            Navigator.push(context,MaterialPageRoute(builder: (context){
+                                                            return AppointmentScreen(
+                                                                   doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString(),companyNo:vm2.previousAppointmentList[index]?.companyNo.toString() ,orgNo:vm2.previousAppointmentList[index]?.organizationNo.toString() ,hospitalName:vm2.previousAppointmentList[index]?.companyName.toString() ,
+                                                            //   doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString() == null
+                                                            //     ? ""
+                                                            //     : vm2.previousAppointmentList[index]?.doctorNo.toString(),
+                                                            //
+                                                            //   logo:vm2.previousAppointmentList[index].photo!=null?loadLogo(vm2.previousAppointmentList[index].photo):Image.asset(
+                                                            //   "assets/icons/dct.png",
+                                                            //   fit: BoxFit.fill,
+                                                            //   width: 80,
+                                                            //   height: 60,
+                                                            // ),jobTitle:  vm3.doctorList[index].jobtitle!=null?vm3.doctorList[index].jobtitle:"",name: vm2.previousAppointmentList[index]?.doctorName == null
+                                                            //     ? ""
+                                                            //     : vm2.previousAppointmentList[index]?.doctorName,specialist: vm2.previousAppointmentList[index]?.doctorSpecialtyName == null
+                                                            //     ? ""
+                                                            //     : vm2.previousAppointmentList[index]?.doctorSpecialtyName,hospitalName: vm2.previousAppointmentList[index].companyName,designation: vm3.doctorList[index]?.docDegree == null
+                                                            //     ? ""
+                                                            //     : vm3.doctorList[index]?.docDegree,fee: vm3.doctorList[index]?.consultationFee.toString() ==
+                                                            //     null
+                                                            //     ? ""
+                                                            //     : vm3.doctorList[index]?.consultationFee
+                                                            //     .toString(),companyNo: vm3.doctorList[index]?.companyNo.toString() == null
+                                                            //     ? ""
+                                                            //     : vm3.doctorList[index]?.companyNo.toString(),orgNo: vm3.doctorList[index]?.ogNo.toString() == null
+                                                            //     ? ""
+                                                            //     : vm3.doctorList[index]?.ogNo.toString(),
+
+                                                            );
+                                                            }));
+                                                          },
+                                                          child: Material(
+                                                            elevation: 0  ,
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                            color: HexColor("#354291"),
+                                                            child: SizedBox(
+                                                              width: deviceWidth*.4,
+                                                              height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                              child: Center(
+                                                                child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
                                                               ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
+                                                        SizedBox(width: MediaQuery.of(context).size.width>650 ? 20 : 25,),
+                                                        InkWell(
+                                                          onTap: () async{
+                                                            print('ButtonPredfromAppointmentscreen');
+                                                            final file=await _createPdfFileFromString(vm2.previousAppointmentList[index].prescriptionNo.toString(),vm2.previousAppointmentList[index].companyAlias.toString());
+                                                            Navigator.push(context, PageTransition(
+                                                              type: PageTransitionType.rightToLeft,
+                                                              child:PdfFileViewerScreen(file),
+                                                            ),);
+                                                          },
+                                                          child: Material(
+                                                            elevation: 0  ,
+                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                            color:vm2.previousAppointmentList[index].prescriptionNo==null || vm2.previousAppointmentList[index].companyAlias==null? HexColor("#99A0C8"):HexColor("#354291"),
+                                                            child: SizedBox(
+                                                              width: deviceWidth*.4,
+                                                              height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                              child: Center(
+                                                                child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],),
                                                     ],
                                                   ),
                                                 ),
@@ -2016,8 +1600,7 @@ class DateUtil {
 }
 
 class TimeUtil {
-  static const DATE_FORMAT = 'HH:mm:ss';
-
+  static const DATE_FORMAT = 'HH:mm a';
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);

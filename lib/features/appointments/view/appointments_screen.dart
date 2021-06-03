@@ -446,46 +446,46 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             "Book your appointment",
             style: GoogleFonts.poppins(fontSize: 15),
           ),
-          actions: <Widget>[
-            // IconButton(
-            //   icon: Icon(
-            //     Icons.notifications,
-            //     color: Colors.white,
-            //     size: 20,
-            //   ),
-            // ),
-            accessTokenVM.accessToken!=null?
-            Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  //color: AppTheme.appbarPrimary,
-                  shape: BoxShape.circle,
-                ),
-                height: 32,
-                width: 32,
-                child: Center(
-                    child: userImageVm.loadProfileImage(profileImage, 31.5, 32,50)
-                ))
-                : SizedBox(),
-            // isLoggedIn == false
-            //     ? Container(
-            //         //margin: EdgeInsets.all(100.0),
-            //         decoration: BoxDecoration(
-            //           shape: BoxShape.circle,
-            //           border: Border.all(
-            //             color: Colors.white,
-            //           ),
-            //         ),
-            //         child: CircleAvatar(
-            //           backgroundImage: AssetImage("assets/images/alok.png"),
-            //           radius: 15.0,
-            //         ),
-            //       )
-            //     : SizedBox(),
-            SizedBox(
-              width: 10,
-            )
-          ],
+          // actions: <Widget>[
+          //   // IconButton(
+          //   //   icon: Icon(
+          //   //     Icons.notifications,
+          //   //     color: Colors.white,
+          //   //     size: 20,
+          //   //   ),
+          //   // ),
+          //   accessTokenVM.accessToken!=null?
+          //   Container(
+          //       decoration: BoxDecoration(
+          //         border: Border.all(color: Colors.white),
+          //         //color: AppTheme.appbarPrimary,
+          //         shape: BoxShape.circle,
+          //       ),
+          //       height: 32,
+          //       width: 32,
+          //       child: Center(
+          //           child: userImageVm.loadProfileImage(profileImage, 31.5, 32,50)
+          //       ))
+          //       : SizedBox(),
+          //   // isLoggedIn == false
+          //   //     ? Container(
+          //   //         //margin: EdgeInsets.all(100.0),
+          //   //         decoration: BoxDecoration(
+          //   //           shape: BoxShape.circle,
+          //   //           border: Border.all(
+          //   //             color: Colors.white,
+          //   //           ),
+          //   //         ),
+          //   //         child: CircleAvatar(
+          //   //           backgroundImage: AssetImage("assets/images/alok.png"),
+          //   //           radius: 15.0,
+          //   //         ),
+          //   //       )
+          //   //     : SizedBox(),
+          //   SizedBox(
+          //     width: 10,
+          //   )
+          // ],
           // leading: IconButton(
           //     icon: Icon(Icons.notes),
           //     onPressed: () => _scaffoldKey.currentState.openDrawer())

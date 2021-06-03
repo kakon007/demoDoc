@@ -242,7 +242,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         child: TextField(
             maxLines: null,
           keyboardType: TextInputType.multiline,
-          maxLength: 20,
+          maxLength: 200,
           maxLengthEnforced: false,
           autofocus: false,
           textInputAction: TextInputAction.newline,

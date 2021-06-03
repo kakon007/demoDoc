@@ -1,16 +1,25 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/prescription_repository.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/doc_edit_prompt.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/local_notification.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/share_document_widget.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/upload_document_screen.dart';
@@ -27,6 +36,7 @@ import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart' as pp;
+import 'package:expandable/expandable.dart';
 
 class PrescriptionListScreen extends StatefulWidget {
   String accessToken;
@@ -171,27 +181,111 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   Future<File> _createPdfFileFromString(String index) async {
     // final encodedStr='''''';
     // Uint8List bytes = base64.decode(encodedStr);
+    SVProgressHUD.show(
+      status: 'Opening Pdf'
+    );
     String dir = (await pp.getApplicationDocumentsDirectory()).path;
     File file = File(
         "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
     await file.writeAsBytes(await fetchPDF(index),flush: true);
     print("FILEEEEE"+file.toString());
+    SVProgressHUD.dismiss();
     return file;
   }
 
+  showNotification(String path) async {
+    var android = new AndroidNotificationDetails(
+        'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
+        priority: Priority.high,importance: Importance.max
+    );
+    var iOS = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android:android, iOS:iOS);
+    await flutterLocalNotificationsPlugin.show(
+        0, 'Downloaded', path, platform,
+        payload: path);
+  }
+
+  Future<File> _downloadPdfFileFromString(String index,String conId) async {
+    // final encodedStr='''''';
+    // Uint8List bytes = base64.decode(encodedStr);
+    SVProgressHUD.show(
+      status: 'Downloading'
+    );
+    String filePath = '';
+    String dir = (await pp.getExternalStorageDirectory()).path;
+    filePath = "$dir/" + conId + ".pdf";
+    File file = File(filePath);
+    await file.writeAsBytes(await fetchPDF(index));
+    print("FILEEEEE"+file.toString());
+    SVProgressHUD.dismiss();
+    showNotification(filePath);
+    //return file;
+  }
+
+///////////////////////////////////////
+
+  Future<String> fetchDocFile(String filePath) async{
+    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    try {
+      var headers = {
+        'Authorization': 'Bearer $accessToken',
+        'Content-Type': 'text/plain'
+      };
+      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+      request.body =json.encode({"attachmentPath" : filePath});
+      print("Fillleeee:::: $filePath");
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
 
 
-  // createPdf() async {
-  //   var bytes = base64Decode(widget.base64String.replaceAll('\n', ''));
-  //   final output = await pp.getTemporaryDirectory();
-  //   final file = File("${output.path}/example.pdf");
-  //   await file.writeAsBytes(bytes.buffer.asUint8List());
-  //
-  //   print("${output.path}/example.pdf");
-  //   await OpenFile.open("${output.path}/example.pdf");
-  //   setState(() {});
-  // }
-  var accessTokenVm;
+      print('resssskj ${response.statusCode}');
+      if (response.statusCode == 200) {
+        var body=await response.stream.bytesToString();
+        ViewDocumentModel data = viewDocumentModelFromJson(body) ;
+        String obj=data.obj;
+        print('fileOBJ::::: $obj');
+        return obj;
+
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+    } on Exception catch (e) {
+      // TODO
+      print("PDFDATAERROR");
+      print(e.toString());
+      return null;
+    }
+    return null;
+  }
+
+
+  downloadDocumentations(String filePath,String fileName) async {
+    SVProgressHUD.show(
+        status: 'Downloading'
+    );
+    String docFilee= await fetchDocFile(filePath);
+    Uint8List bytes = base64.decode(docFilee);
+    // final output = await pp.getTemporaryDirectory();
+    // final file = File("${output.path}/example.pdf");
+    String filePat = '';
+    String dir = (await pp.getExternalStorageDirectory()).path;
+    filePat = "$dir/" + fileName;
+    File file = File(filePat);
+    await file.writeAsBytes(bytes.buffer.asUint8List());
+
+    //print("${output.path}/example.pdf");
+    print("Documentationnnn:::: $filePat");
+    SVProgressHUD.dismiss();
+    showNotification(filePat);
+    //await OpenFile.open("${output.path}/example.pdf");
+    // setState(() {});
+  }
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   @override
   var width;
   void initState() {
@@ -243,6 +337,25 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     //   }
     //
     // });
+
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var iOS = new IOSInitializationSettings();
+    var initSetttings = new InitializationSettings(android:android, iOS:iOS);
+    flutterLocalNotificationsPlugin.initialize(initSetttings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payload) {
+    debugPrint("payload : $payload");
+    // showDialog(
+    //   context: context,
+    //   builder: (_) => new AlertDialog(
+    //     title: new Text('Notification'),
+    //     content: new Text('$payload'),
+    //   ),
+    // );
+    OpenFile.open(payload);
   }
 
   void delete() {
@@ -272,6 +385,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     });
   }
 
+  bool descTextShowFlag = false;
 
 
   @override
@@ -285,8 +399,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     var vm4= Provider.of<ViewDocumentViewModel>(context,listen: true);
     var vm6 = Provider.of<UploadDocumentsViewModel>(context, listen: true);
     print("lltt::: ${vm3.documentList.length}");
-    var childButtons = List<UnicornButton>();
-     width = MediaQuery.of(context).size.width;
+    //var childButtons = List<UnicornButton>();
+    var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
 
 
@@ -571,23 +685,23 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       );
     }
 
-    childButtons.add(UnicornButton(
-        hasLabel: true,
-        labelText: " Upload Documents\n(JPG,PNG,PDF only)",
-        labelColor: HexColor("#354291") ,
-        labelBackgroundColor: HexColor("#E9ECFE"),
-        labelFontSize: 10,
-        currentButton: FloatingActionButton(
-          onPressed: (){
-            Navigator.push(context, PageTransition(
-              type: PageTransitionType.rightToLeft,
-              child:UploadDocumentScreen(),
-            ),);
-          },
-            heroTag: "airplane",
-            backgroundColor: HexColor("#354291"),
-            mini: true,
-            child: uploadIcon)));
+    // childButtons.add(UnicornButton(
+    //     hasLabel: true,
+    //     labelText: " Upload Documents\n(JPG,PNG,PDF only)",
+    //     labelColor: HexColor("#354291") ,
+    //     labelBackgroundColor: HexColor("#E9ECFE"),
+    //     labelFontSize: 10,
+    //     currentButton: FloatingActionButton(
+    //       onPressed: (){
+    //         Navigator.push(context, PageTransition(
+    //           type: PageTransitionType.rightToLeft,
+    //           child:UploadDocumentScreen(),
+    //         ),);
+    //       },
+    //         heroTag: "airplane",
+    //         backgroundColor: HexColor("#354291"),
+    //         mini: true,
+    //         child: uploadIcon)));
 
     void handleClick(String value) {
       switch (value) {
@@ -1080,8 +1194,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 });
                                               }else{
                                                 print('PDFPRESSED');
-                                                final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
-                                                Navigator.push(context, PageTransition(
+
+                                                final file= vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Pdf Found') :await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
+                                                vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Pdf Found') :Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
                                                   child:PdfFileViewerScreen(file),
                                                 ),);
@@ -1131,56 +1246,51 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: Container(
-                                                          alignment: Alignment.center,
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: width<=330? 10 : 12),),
-                                                              Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 8 :10,fontWeight: FontWeight.w500),),
-                                                              ],
-                                                          ),
+                                                        SizedBox(height: 8,),
+                                                        Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
+                                                        Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                        SizedBox(height: 8,),
+                                                        Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
+                                                        Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
+                                                      ],
+                                                    ),
+
+                                                    ),
+                                                    // Container(width:45,child: rx),
+                                                    // (controller.isSelecting)?
+                                                    // Padding(
+                                                    //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                    //   child: righticon,
+                                                    // ):
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right:0.0,),
+                                                      child: Row(children: [
+                                                        // Padding(
+                                                        //   padding: const EdgeInsets.only(top:10.0),
+                                                        //   child: Container(width:45,child: rx),
+                                                        // ),
+                                                        // (controller.isSelected(index))?
+                                                        // Padding(
+                                                        //   padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                        //   child: righticon,
+                                                        // ): (controller.isSelecting)?Padding(
+                                                        //   padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                        //   child: greyright,
+                                                        // ):
+                                                        Padding(
+                                                          padding: EdgeInsets.only(left: 38,top: 40),
+                                                          child: GestureDetector(
+                                                              onTap: () async{
+                                                            vm.prescriptionList[index].prescriptionNo==null?
+                                                            Fluttertoast.showToast(msg: 'No PDF Found')
+                                                                :
+                                                          await  _downloadPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString(),vm.prescriptionList[index].consultationId);
+                                                          },
+                                                             // onTap: showNotification,
+                                                              child: Icon(Icons.download_rounded)),
                                                         ),
-                                                      ),
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: Container(
-                                                          alignment: Alignment.center,
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                             Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 10 :12,fontWeight: FontWeight.w600))),
-                                                              Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 8 :10,fontWeight: FontWeight.w600))
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],),
-                                                  ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(right:0.0,),
-                                                        child: Stack(children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(top:10.0),
-                                                            child: Container(width:45,child: rx),
-                                                          ),
-                                                          // (controller.isSelected(index))?
-                                                          // Padding(
-                                                          //   padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                          //   child: righticon,
-                                                          // ): (controller.isSelecting)?Padding(
-                                                          //   padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                          //   child: greyright,
-                                                          // ):Padding(
-                                                          //   padding: EdgeInsets.only(left: 38,top: 5),
-                                                          //   child: popup,
-                                                          // ),
-                                                        ]),
-                                                      ),
+                                                      ]),
+                                                    ),
 
 
                                                   ],
@@ -1380,11 +1490,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                             // ),
                                                             Padding(
                                                               padding: const EdgeInsets.only(right:18.0),
-                                                              child: Stack(children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(top:10.0,right: 5),
-                                                                  child: Container(width:45,child: dx),
-                                                                ),
+                                                              child: Row(children: [
+                                                                // Padding(
+                                                                //   padding: const EdgeInsets.only(top:10.0,right: 5),
+                                                                //   child: Container(width:45,child: dx),
+                                                                // ),
                                                                 // (controller2.isSelected(index))?
                                                                 // Padding(
                                                                 //   padding: const EdgeInsets.only(left:38.0,top: 10),
@@ -1392,10 +1502,14 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 // ): (controller2.isSelecting)?Padding(
                                                                 //   padding: const EdgeInsets.only(left:38.0,top: 10),
                                                                 //   child: greyright,
-                                                                // ):Padding(
-                                                                //   padding: EdgeInsets.only(left: 38),
-                                                                //   child: popup,
-                                                                // ),
+                                                                // ):
+                                                                Padding(
+                                                                  padding: EdgeInsets.only(right: 20,top: 40),
+                                                                  child: InkWell(onTap: () async{
+                                                                    await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
+
+                                                                  },child: Icon(Icons.download_rounded,color: HexColor('#354291'),)),
+                                                                ),
                                                               ]),
                                                             ),
                                                           ],
@@ -1430,12 +1544,23 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                     child: Scaffold(
                       floatingActionButton: Padding(
                         padding: const EdgeInsets.only(bottom:10.0,right: 10),
-                        child: UnicornDialer(
-                            backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
-                            parentButtonBackground: HexColor('#8592E5'),
-                            orientation: UnicornOrientation.VERTICAL,
-                            parentButton: Icon(Icons.add),
-                            childButtons: childButtons),
+                        child:
+                        // UnicornDialer(
+                        //     backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
+                        //     parentButtonBackground: HexColor('#8592E5'),
+                        //     orientation: UnicornOrientation.VERTICAL,
+                        //     parentButton: Icon(Icons.add),
+                        //     childButtons: childButtons),
+
+                        FloatingActionButton(
+                          backgroundColor: HexColor('#8592E5'),
+                          child: Icon(Icons.add),
+                          onPressed: () {
+                            Navigator.push(context, PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child:UploadDocumentScreen(),
+                            ),);
+                          },),
                       ),
 
                       // body:
@@ -1549,95 +1674,281 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                               }
                                               print("tappeddd from Doc");
                                             },
-                                            child: Container(
-                                              // height: cardHeight*0.7,
-                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                                  1.0,
-                                                ], colors: [
-                                                  //HexColor('#C5CAE8'),
-                                                  HexColor('#E9ECFE'),
+                                            child:
 
-                                                ]),
-                                                //color: Colors.white,
-                                                // border: Border.all(
-                                                //   color: HexColor("#E9ECFE"),
-                                                //   width: 1,
-                                                // ),
-                                                borderRadius: BorderRadius.circular(15),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(width: 10,),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                            // Container(
+                                            //   // height: cardHeight*0.7,
+                                            //   margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                            //   decoration: BoxDecoration(
+                                            //     gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                            //       1.0,
+                                            //     ], colors: [
+                                            //       //HexColor('#C5CAE8'),
+                                            //       HexColor('#E9ECFE'),
+                                            //
+                                            //     ]),
+                                            //     //color: Colors.white,
+                                            //     // border: Border.all(
+                                            //     //   color: HexColor("#E9ECFE"),
+                                            //     //   width: 1,
+                                            //     // ),
+                                            //     borderRadius: BorderRadius.circular(15),
+                                            //   ),
+                                            //   child: Row(
+                                            //     children: [
+                                            //       SizedBox(width: 10,),
+                                            //       Padding(
+                                            //         padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                            //         child: Column(
+                                            //           crossAxisAlignment: CrossAxisAlignment.start,
+                                            //           children: [
+                                            //             SizedBox(height: 10,),
+                                            //             Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                            //             SizedBox(height: 5,),
+                                            //             Row(
+                                            //               children: [
+                                            //                 Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                            //                 SizedBox(width: 40,),
+                                            //                 Container(width: 100,child: Text(vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+                                            //               ],
+                                            //             ),
+                                            //             SizedBox(height: 5,),
+                                            //             InkWell(onTap: (){
+                                            //               setState(() {
+                                            //                 descTextShowFlag =!descTextShowFlag;
+                                            //               });
+                                            //               print('Taab $descTextShowFlag');
+                                            //             },child: Text('Description')),
+                                            //             vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                            //             Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+                                            //
+                                            //             SizedBox(height: 5,),
+                                            //           ],
+                                            //         ),
+                                            //       ),
+                                            //
+                                            //       // Padding(
+                                            //       //   padding: const EdgeInsets.only(right:18.0),
+                                            //       //   child: Stack(children: [
+                                            //       //     Container(width:45,child: dx),
+                                            //       //     Padding(
+                                            //       //       padding: const EdgeInsets.only(left:30.0),
+                                            //       //       child: righticon,
+                                            //       //     ),
+                                            //       //   ]),
+                                            //       // ),
+                                            //       Padding(
+                                            //         padding: const EdgeInsets.only(left: 10),
+                                            //         child: Stack(children: [
+                                            //           Padding(
+                                            //             padding: const EdgeInsets.only(top:5.0,left: 30),
+                                            //             child: Container(width:45,child: jp),
+                                            //           ),
+                                            //           // (controller3.isSelected(index))?
+                                            //           // Padding(
+                                            //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                            //           //   child: righticon,
+                                            //           // ): (controller3.isSelecting)?
+                                            //           // Padding(
+                                            //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                            //           //   child: greyright,
+                                            //           // ):
+                                            //           // // Padding(
+                                            //           // //   padding: EdgeInsets.only(left: 40,top: 10),
+                                            //           // //   child: InkWell(onTap: () async{
+                                            //           // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
+                                            //           // //   },child: Icon(Icons.delete)),
+                                            //           // // ),
+                                            //           Padding(
+                                            //             padding: EdgeInsets.only(left: 90,top: 40),
+                                            //             child: InkWell(onTap: () async{
+                                            //               vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                            //               _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                            //
+                                            //             },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                            //           ),
+                                            //         ]),
+                                            //       ),
+                                            //     ],
+                                            //   ),
+                                            // ),
+                                            ExpandableNotifier(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    // height: cardHeight*1.3,
+
+                                                    decoration: BoxDecoration(
+                                                      gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                                        1.0,
+                                                      ], colors: [
+                                                        //HexColor('#C5CAE8'),
+                                                        HexColor('#E9ECFE'),
+
+                                                      ]),
+                                                      //color: Colors.white,
+                                                      // border: Border.all(
+                                                      //   color: HexColor("#E9ECFE"),
+                                                      //   width: 1,
+                                                      // ),
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
+                                                    clipBehavior: Clip.antiAlias,
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        SizedBox(height: 10,),
-                                                        Container(width: width<350? 160 : 200,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
-                                                        SizedBox(height: 5,),
-                                                        Row(
-                                                          children: [
-                                                            Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                            SizedBox(width: 40,),
-                                                            Container(width: 100,child: Text(vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-                                                          ],
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: 75,
+                                                          child: Row(
+                                                            children: [
+                                                              SizedBox(width: 10,),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(right: 8,bottom: 8,left: 0),
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: [
+                                                                    SizedBox(height: 10,),
+                                                                    Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                                                    SizedBox(height: 5,),
+                                                                    Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Text('Documentation Type: ${vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName}',maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                        Text('Report Date: ${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                        //SizedBox(width: 5,),
+                                                                      ],
+                                                                    ),
+                                                                    //SizedBox(height: 5,),
+                                                                    // InkWell(onTap: (){
+                                                                    //   setState(() {
+                                                                    //     descTextShowFlag =!descTextShowFlag;
+                                                                    //   });
+                                                                    //   print('Taab $descTextShowFlag');
+                                                                    // },child: Text('Description')),
+                                                                    // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                                                    // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+
+                                                                    // SizedBox(height: 5,),
+                                                                  ],
+                                                                ),
+                                                              ),
+
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.only(right:18.0),
+                                                              //   child: Stack(children: [
+                                                              //     Container(width:45,child: dx),
+                                                              //     Padding(
+                                                              //       padding: const EdgeInsets.only(left:30.0),
+                                                              //       child: righticon,
+                                                              //     ),
+                                                              //   ]),
+                                                              // ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 50),
+                                                                child: Row(children: [
+                                                                  // Padding(
+                                                                  //   padding: const EdgeInsets.only(top:5.0,left: 30),
+                                                                  //   child: Container(width:45,child: jp),
+                                                                  // ),
+                                                                  // (controller3.isSelected(index))?
+                                                                  // Padding(
+                                                                  //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                  //   child: righticon,
+                                                                  // ): (controller3.isSelecting)?
+                                                                  // Padding(
+                                                                  //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                  //   child: greyright,
+                                                                  // ):
+                                                                  // // Padding(
+                                                                  // //   padding: EdgeInsets.only(left: 40,top: 10),
+                                                                  // //   child: InkWell(onTap: () async{
+                                                                  // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
+                                                                  // //   },child: Icon(Icons.delete)),
+                                                                  // // ),
+
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(top: 20),
+                                                                    child: InkWell(onTap: () async{
+                                                                   await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
+
+                                                                    },child: Icon(Icons.download_rounded,color: HexColor('#354291'),)),
+                                                                  ),
+                                                                  SizedBox(width: 15,),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(top: 20),
+                                                                    child: InkWell(onTap: () async{
+                                                                      vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                      _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+
+                                                                    },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                                                  ),
+
+                                                                ]),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                        SizedBox(height: 5,),
+                                                        vm3.documentList[index].description==null?SizedBox():Padding(
+                                                          padding: const EdgeInsets.only(right:10.0,left:10),
+                                                          child: Divider(thickness:1,),
+                                                        ),
                                                         vm3.documentList[index].description==null?SizedBox():
-                                                        Container(width:width<350? 160 :  200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-                                                        SizedBox(height: 5,),
+                                                        ScrollOnExpand(
+                                                          scrollOnExpand: true,
+                                                          scrollOnCollapse: false,
+                                                          child: ExpandablePanel(
+                                                            theme:  ExpandableThemeData(
+                                                              headerAlignment: ExpandablePanelHeaderAlignment.center,
+                                                              tapBodyToCollapse: true,
+                                                            ),
+                                                            header: Padding(
+                                                                padding: EdgeInsets.all(10),
+                                                                child: Text(
+                                                                  "Descriptions",
+                                                                    style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),
+                                                                )),
+                                                            // collapsed: Text(
+                                                            //   vm3.documentList[index].description==null?"":vm3.documentList[index].description,
+                                                            //   softWrap: true,
+                                                            //   maxLines: 2,
+                                                            //   overflow: TextOverflow.ellipsis,
+                                                            // ),
+                                                            expanded: Container(
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                borderRadius: BorderRadius.circular(15),
+                                                              ),
+                                                              width: double.infinity,
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: <Widget>[
+                                                                    //for (var _ in Iterable.generate(5))
+                                                                      Text(
+                                                                        vm3.documentList[index].description==null?"":vm3.documentList[index].description,
+                                                                        softWrap: true,
+                                                                        overflow: TextOverflow.fade,
+                                                                      ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            builder: (_, collapsed, expanded) {
+                                                              return Padding(
+                                                                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                                                                child: Expandable(
+                                                                  collapsed: collapsed,
+                                                                  expanded: expanded,
+                                                                  theme: const ExpandableThemeData(crossFadePoint: 0),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
-
-                                                  // Padding(
-                                                  //   padding: const EdgeInsets.only(right:18.0),
-                                                  //   child: Stack(children: [
-                                                  //     Container(width:45,child: dx),
-                                                  //     Padding(
-                                                  //       padding: const EdgeInsets.only(left:30.0),
-                                                  //       child: righticon,
-                                                  //     ),
-                                                  //   ]),
-                                                  // ),
-                                                  Padding(
-                                                    padding:  EdgeInsets.only(left:width<350 ? 0:  0),
-                                                    child: Stack(children: [
-                                                      Padding(
-                                                        padding:  EdgeInsets.only(top:5.0,left: width<350 ? 30: 30),
-                                                        child: Container(width:45,child: jp),
-                                                      ),
-                                                      // (controller3.isSelected(index))?
-                                                      // Padding(
-                                                      //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                      //   child: righticon,
-                                                      // ): (controller3.isSelecting)?
-                                                      // Padding(
-                                                      //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                      //   child: greyright,
-                                                      // ):
-                                                      // // Padding(
-                                                      // //   padding: EdgeInsets.only(left: 40,top: 10),
-                                                      // //   child: InkWell(onTap: () async{
-                                                      // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
-                                                      // //   },child: Icon(Icons.delete)),
-                                                      // // ),
-                                                      Padding(
-                                                        padding: EdgeInsets.only(left: width<330 ? 80: 80,top: 40),
-                                                        child: InkWell(onTap: () async{
-                                                          vm3.getData(accessToken: accessTokenVm.accessToken,id: vm3.documentList[index].id,);
-                                                          _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-
-                                                        },child: Icon(Icons.edit,color: HexColor('#354291'),)),
-                                                      ),
-                                                    ]),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                                )),
                                           ),
                                         ]
                                     ),
@@ -1666,6 +1977,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       setState(() {});
     });
   }
+
+
 }
 
 

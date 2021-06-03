@@ -29,7 +29,7 @@ class AppointmentPreviousRepository {
         AppointmentPreviousModel data = appointmentPreviousModelFromJson(response.body);
         return Right(Previous(dataList: data.obj.data, totalCount: data.obj.recordsTotal));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+       // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {

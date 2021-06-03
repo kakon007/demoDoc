@@ -205,11 +205,15 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   Future<File> _createPdfFileFromString(String index) async {
     // final encodedStr='''''';
     // Uint8List bytes = base64.decode(encodedStr);
+    SVProgressHUD.show(
+      status: 'Opening Pdf'
+    );
     String dir = (await pp.getApplicationDocumentsDirectory()).path;
     File file = File(
         "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
     await file.writeAsBytes(await fetchPDF(index),flush: true);
     print("FILEEEEE"+file.toString());
+    SVProgressHUD.dismiss();
     return file;
   }
 
@@ -1214,8 +1218,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 });
                                               }else{
                                                 print('PDFPRESSED');
-                                                final file=await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
-                                                Navigator.push(context, PageTransition(
+
+                                                final file= vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Pdf Found') :await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
+                                                vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Pdf Found') :Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
                                                   child:PdfFileViewerScreen(file),
                                                 ),);

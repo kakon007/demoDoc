@@ -1258,8 +1258,8 @@ var accessTokenVm;
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
-                                                                Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                                Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: width<=330 ? 10 : 12),),
+                                                                Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize:width<=330? 8 :  10,fontWeight: FontWeight.w500),),
                                                               ],
                                                             ),
                                                           ),
@@ -1272,8 +1272,8 @@ var accessTokenVm;
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
-                                                                Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
-                                                                Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize:10,fontWeight: FontWeight.w600))
+                                                                Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 10 :12,fontWeight: FontWeight.w600))),
+                                                                Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize:width<=330? 8 :10,fontWeight: FontWeight.w600))
                                                               ],
                                                             ))),
                                                         ],
@@ -1302,7 +1302,7 @@ var accessTokenVm;
                                                         //   child: greyright,
                                                         // ):
                                                         Padding(
-                                                          padding: EdgeInsets.only(left: 38,top: 40),
+                                                          padding: EdgeInsets.only(left: width<=330? 22 : 38,top: 40),
                                                           child: GestureDetector(
                                                               onTap: () async{
                                                             vm.prescriptionList[index].prescriptionNo==null?
@@ -1823,52 +1823,26 @@ var accessTokenVm;
                                                         SizedBox(
                                                           height: 75,
                                                           child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
-                                                              SizedBox(width: 10,),
-                                                              Padding(
-                                                                padding: const EdgeInsets.only(right: 8,bottom: 8,left: 0),
-                                                                child: Column(
+                                                              Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                SizedBox(height: 10,),
+                                                                Container(width: deviceWidth<=330 ? 220 : 230,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                                                SizedBox(height: 5,),
+                                                                Column(
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
-                                                                    SizedBox(height: 10,),
-                                                                    Container(width: deviceWidth<=330 ? 220 :240,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
-                                                                    SizedBox(height: 5,),
-                                                                    Column(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      children: [
-                                                                        Text('Documentation Type: ${vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName}',maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                                        Text('Report Date: ${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                                        //SizedBox(width: 5,),
-                                                                      ],
-                                                                    ),
-                                                                    //SizedBox(height: 5,),
-                                                                    // InkWell(onTap: (){
-                                                                    //   setState(() {
-                                                                    //     descTextShowFlag =!descTextShowFlag;
-                                                                    //   });
-                                                                    //   print('Taab $descTextShowFlag');
-                                                                    // },child: Text('Description')),
-                                                                    // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
-                                                                    // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-
-                                                                    // SizedBox(height: 5,),
+                                                                    Text('Documentation Type: ${vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName}',maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                    Text('Report Date: ${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                    //SizedBox(width: 5,),
                                                                   ],
                                                                 ),
-                                                              ),
-
-                                                              // Padding(
-                                                              //   padding: const EdgeInsets.only(right:18.0),
-                                                              //   child: Stack(children: [
-                                                              //     Container(width:45,child: dx),
-                                                              //     Padding(
-                                                              //       padding: const EdgeInsets.only(left:30.0),
-                                                              //       child: righticon,
-                                                              //     ),
-                                                              //   ]),
-                                                              // ),
-                                                              Padding(
-                                                                padding:  EdgeInsets.only(left: width<=360? 0 : 50),
-                                                                child: Row(children: [
+                                                              ],),
+                                                              Row(
+                                                                children: [
+                                                                Row(children: [
                                                                   // Padding(
                                                                   //   padding: const EdgeInsets.only(top:5.0,left: 30),
                                                                   //   child: Container(width:45,child: jp),
@@ -1892,7 +1866,7 @@ var accessTokenVm;
                                                                   Padding(
                                                                     padding: EdgeInsets.only(top: 20),
                                                                     child: InkWell(onTap: () async{
-                                                                   await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
+                                                                      await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
                                                                     },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary)),
                                                                   ),
@@ -1907,7 +1881,19 @@ var accessTokenVm;
                                                                   ),
 
                                                                 ]),
-                                                              ),
+                                                              ],)
+
+                                                              //SizedBox(height: 5,),
+                                                              // InkWell(onTap: (){
+                                                              //   setState(() {
+                                                              //     descTextShowFlag =!descTextShowFlag;
+                                                              //   });
+                                                              //   print('Taab $descTextShowFlag');
+                                                              // },child: Text('Description')),
+                                                              // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                                              // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+
+                                                              // SizedBox(height: 5,),
                                                             ],
                                                           ),
                                                         ),

@@ -201,7 +201,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
       child: Container(
-        width: MediaQuery.of(context).size.width * .70,
+        width: MediaQuery.of(context).size.width * .49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -243,7 +243,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField2 = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
       child: Container(
-        width: MediaQuery.of(context).size.width * .70,
+        width: MediaQuery.of(context).size.width * .49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),

@@ -679,26 +679,29 @@ class _UserProfileState extends State<UserProfile> {
                       onTap: () {
                         _showAlertDialogForPassword(context);
                       },
-                      child: Material(
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        color: HexColor("#354291"),
-                        child: SizedBox(
-                          width: 350,
-                          height: 40,
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Change Password",
-                                  style: GoogleFonts.roboto(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15),
+                        child: Material(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          color: HexColor("#354291"),
+                          child: SizedBox(
+                            width: 350,
+                            height: 40,
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Change Password",
+                                    style: GoogleFonts.roboto(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

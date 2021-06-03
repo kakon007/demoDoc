@@ -289,7 +289,6 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       //semanticsLabel: 'Acme Logo'
     );
 
-print("qqq $width");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),
@@ -449,7 +448,7 @@ print("qqq $width");
                         width: double.infinity,
                         height:  MediaQuery.of(context).size.width >600? 35 : 40,
                         child: Center(
-                          child: Text("Upload Document",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
+                          child: Text("Upload Document",style: GoogleFonts.poppins(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
                         ),
                       ),
                     ),

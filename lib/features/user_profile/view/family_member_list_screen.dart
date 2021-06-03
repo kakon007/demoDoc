@@ -42,6 +42,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
     var spaceBetween = SizedBox(
       height: 10,
     );
+    var width =MediaQuery.of(context).size.width;
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
 
     print("lenthhhhhhhhhhhhhhhhhhh::::: ${familyVm.familyMembersList.length}");
@@ -166,26 +167,26 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                         shape: BoxShape.circle,
                                       ),
                                       height: 50,
-                                      width: 50,
+                                      width: width<=330 ? 40 : 50,
                                       child: Center(
-                                          child: imageVm.loadProfileImage(photo, 45, 45,50)
+                                          child: imageVm.loadProfileImage(photo, width<=330 ? 35 : 45, width<=330 ? 35 : 45,50)
                                       ))
                                       : Container(
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: 50,
-                                      width: 50,
+                                      height: width<=330 ? 40 : 50,
+                                      width:width<=330 ? 40 :  50,
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height: 40,
-                                          width: 40,
+                                          height:width<=330 ? 35 :  40,
+                                          width: width<=330 ? 35 : 40,
                                         ),
                                       )),
                                   SizedBox(
-                                    width: 20,
+                                    width: width<=330 ? 10 : 20,
                                   ),
                                   Column(
                                     crossAxisAlignment:
@@ -193,7 +194,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
-                                        width: 160,
+                                        width: width<=330 ? 145 : 160,
                                         child: Text(
                                           familyVm.familyMembersList[index].fmName,
                                           style: GoogleFonts.poppins(
@@ -225,7 +226,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                         child: Icon(Icons.edit, color: AppTheme.appbarPrimary,size: 18,)),
                                    ),
                                   SizedBox(
-                                    width: 16,
+                                    width: width<=330 ? 12 : 16,
                                   ),
                                  GestureDetector(
                                     child: Icon(Icons.delete_sweep,
@@ -242,153 +243,183 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                         context: context,
                                         pageBuilder:
                                             (context, anim1, anim2) {
-                                          return Stack(
-                                            children: [
-                                              Align(
-                                                // alignment: Alignment.bottomCenter,
-                                                child: Material(
-                                                  type: MaterialType
-                                                      .transparency,
-                                                  child: Container(
-                                                    height: 200,
-                                                    margin:
-                                                    EdgeInsets.only(
-                                                        left: 15,
-                                                        right: 15),
-                                                    decoration:
-                                                    BoxDecoration(
-                                                      gradient:
-                                                      LinearGradient(
-                                                        begin: Alignment
-                                                            .topCenter,
-                                                        end: Alignment
-                                                            .bottomCenter,
-                                                        colors: [
-                                                          HexColor(
-                                                              '#fdf0f2'),
-                                                          HexColor(
-                                                              '#FFFFFF')
-                                                        ],
-                                                        tileMode: TileMode
-                                                            .repeated,
-                                                      ),
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          20),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .only(
-                                                          top: 60.0),
-                                                      child: Column(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: [
-                                                                  Text("Remove ", style: GoogleFonts.poppins()),
-                                                                  Text(familyVm.familyMembersList[index].fmName,style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                                                                  Text(" from", style: GoogleFonts.poppins())
-                                                                ],
-                                                              ),
-                                                              Text("your members list.", style: GoogleFonts.poppins())
-                                                            ],
+                                          return Material(
+                                            type: MaterialType
+                                                .transparency,
+                                            child: Align(
+                                              alignment:
+                                              Alignment.center,
+                                              child: Material(
+                                                type: MaterialType
+                                                    .transparency,
+                                                child: Stack(
+                                                  children: [
+                                                    Container(
+                                                     height: 300,
+                                                      child: Center(
+                                                        child: Container(
+                                                          height: 200,
+                                                          margin:
+                                                          EdgeInsets.only(
+                                                              left: 15,
+                                                              right: 15),
+                                                          decoration:
+                                                          BoxDecoration(
+                                                            gradient:
+                                                            LinearGradient(
+                                                              begin: Alignment
+                                                                  .topCenter,
+                                                              end: Alignment
+                                                                  .bottomCenter,
+                                                              colors: [
+                                                                HexColor(
+                                                                    '#fdf0f2'),
+                                                                HexColor(
+                                                                    '#FFFFFF')
+                                                              ],
+                                                              tileMode: TileMode
+                                                                  .repeated,
+                                                            ),
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                20),
                                                           ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Padding(
-                                                            padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.08, right: MediaQuery.of(context).size.width*0.08),
-                                                            child: Row(
-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          child: Padding(
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                top: 60.0),
+                                                            child: Column(
                                                               children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.only(left: 0.0, right: 0),
-                                                                  child: Container(
-                                                                    width: MediaQuery.of(context).size.width/3,
-                                                                    decoration: BoxDecoration(),
-                                                                    height: 45,
-                                                                    child: FlatButton(
-                                                                        onPressed: (){
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                        shape: RoundedRectangleBorder(
-                                                                            side: BorderSide(
-                                                                                color: AppTheme.appbarPrimary
-                                                                                ,width: 1),
-                                                                            borderRadius: BorderRadius.circular(10)),
-                                                                        textColor: AppTheme.appbarPrimary ,
-                                                                        color: Colors.white ,child: Text("Cancel",  style: GoogleFonts.poppins())),
-                                                                  ),
+                                                                Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(left: 15.0, right: 15),
+                                                                      child: RichText(
+                                                                        textAlign: TextAlign.center,
+                                                                        text:  TextSpan(
+                                                                          style:  GoogleFonts.poppins(
+                                                                            fontSize: 14.0,
+                                                                            color: Colors.black,
+                                                                          ),
+                                                                          children: <TextSpan>[
+                                                                            TextSpan(text: 'Remove '),
+                                                                            TextSpan(text: familyVm.familyMembersList[index].fmName, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                                                            TextSpan(text: " from your family member list?", style: GoogleFonts.poppins()),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Text("", style: GoogleFonts.poppins())
+                                                                  ],
+                                                                ),
+                                                                // Column(
+                                                                //   children: [
+                                                                //     Row(
+                                                                //       mainAxisAlignment: MainAxisAlignment.center,
+                                                                //       children: [
+                                                                //         Text("Remove ", style: GoogleFonts.poppins()),
+                                                                //         Text(familyVm.familyMembersList[index].fmName,style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                                                //         Text(" from", style: GoogleFonts.poppins())
+                                                                //       ],
+                                                                //     ),
+                                                                //     Text("your members list.", style: GoogleFonts.poppins())
+                                                                //   ],
+                                                                // ),
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: width<=330 ? 10 : 20,
                                                                 ),
                                                                 Padding(
-                                                                  padding: const EdgeInsets.only(left: 0.0, right: 0),
-                                                                  child: Container(
-                                                                    width: MediaQuery.of(context).size.width/3,
-                                                                    height: 45,
-                                                                    child: FlatButton(
-                                                                        onPressed: (){
-                                                                          Future.delayed(Duration.zero, () async {
-                                                                            await familyVm.deleteMember();
-                                                                            if(familyVm.deleteMessage=="Delete Successfully"){
-                                                                              Fluttertoast.showToast(
-                                                                                  msg: familyVm.deleteMessage,
-                                                                                  toastLength: Toast.LENGTH_SHORT,
-                                                                                  gravity: ToastGravity.BOTTOM,
-                                                                                  backgroundColor: Colors.green,
-                                                                                  textColor: Colors.white,
-                                                                                  fontSize: 12.0);
-                                                                              Navigator.pop(context);
-                                                                            }
-                                                                          });
+                                                                  padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.08, right: MediaQuery.of(context).size.width*0.08),
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(left: 0.0, right: 0),
+                                                                        child: Container(
+                                                                          width: MediaQuery.of(context).size.width/3,
+                                                                          decoration: BoxDecoration(),
+                                                                          height: 45,
+                                                                          child: FlatButton(
+                                                                              onPressed: (){
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              shape: RoundedRectangleBorder(
+                                                                                  side: BorderSide(
+                                                                                      color: AppTheme.appbarPrimary
+                                                                                      ,width: 1),
+                                                                                  borderRadius: BorderRadius.circular(10)),
+                                                                              textColor: AppTheme.appbarPrimary ,
+                                                                              color: Colors.white ,child: Text("Cancel",  style: GoogleFonts.poppins())),
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(left: 0.0, right: 0),
+                                                                        child: Container(
+                                                                          width: MediaQuery.of(context).size.width/3,
+                                                                          height: 45,
+                                                                          child: FlatButton(
+                                                                              onPressed: (){
+                                                                                Future.delayed(Duration.zero, () async {
+                                                                                  await familyVm.deleteMember();
+                                                                                  if(familyVm.deleteMessage=="Delete Successfully"){
+                                                                                    Fluttertoast.showToast(
+                                                                                        msg: familyVm.deleteMessage,
+                                                                                        toastLength: Toast.LENGTH_SHORT,
+                                                                                        gravity: ToastGravity.BOTTOM,
+                                                                                        backgroundColor: Colors.green,
+                                                                                        textColor: Colors.white,
+                                                                                        fontSize: 12.0);
+                                                                                    Navigator.pop(context);
+                                                                                  }
+                                                                                });
 
 
-                                                                        },
-                                                                        shape: RoundedRectangleBorder(
-                                                                            borderRadius: BorderRadius.circular(10)),
-                                                                        textColor: Colors.white,
-                                                                        color: AppTheme.appbarPrimary ,child: Text("Remove",  style: GoogleFonts.poppins())),
+                                                                              },
+                                                                              shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.circular(10)),
+                                                                              textColor: Colors.white,
+                                                                              color: AppTheme.appbarPrimary ,child: Text("Remove",  style: GoogleFonts.poppins())),
+                                                                        ),
+                                                                      ),
+                                                                    ],
                                                                   ),
-                                                                ),
+                                                                )
                                                               ],
                                                             ),
-                                                          )
-                                                        ],
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
+                                                    Positioned(
+                                                      bottom: 180,
+                                                      left: 100,
+                                                      right: 100,
+                                                      child: CircleAvatar(
+                                                        backgroundColor:
+                                                        Colors.transparent,
+                                                        radius: Constants
+                                                            .avatarRadius,
+                                                        child: ClipRRect(
+                                                            borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    Constants
+                                                                        .avatarRadius)),
+                                                            child: Image.asset(
+                                                                "assets/images/warning.png",height: 90,width: 90,)),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              Positioned(
-                                                top:
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                    3.35,
-                                                left: 100,
-                                                right: 100,
-                                                child: CircleAvatar(
-                                                  backgroundColor:
-                                                  Colors.transparent,
-                                                  radius: Constants
-                                                      .avatarRadius,
-                                                  child: ClipRRect(
-                                                      borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(
-                                                              Constants
-                                                                  .avatarRadius)),
-                                                      child: Image.asset(
-                                                          "assets/images/warning.png")),
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           );
                                         },
                                         transitionBuilder: (context,
@@ -405,7 +436,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                     },
                                   ),
                                   SizedBox(
-                                    width: 30,
+                                    width: width<=330 ? 15 : 25,
                                   ),
                                 ],
                               ),

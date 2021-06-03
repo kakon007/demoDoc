@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,11 +18,11 @@ import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.d
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
+import 'package:myhealthbd_app/features/my_health/models/view_document_model.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/prescription_repository.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/doc_edit_prompt.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/local_notification.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/share_document_widget.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/upload_document_screen.dart';
@@ -31,12 +34,12 @@ import 'package:myhealthbd_app/features/my_health/view_model/view_document_view_
 import 'package:multi_select_item/multi_select_item.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
+import 'package:open_file/open_file.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart' as pp;
-import 'package:expandable/expandable.dart';
 
 class PrescriptionListScreen extends StatefulWidget {
   String accessToken;
@@ -194,7 +197,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   }
 
   showNotification(String path) async {
-    var android = new AndroidNotificationDetails(
+    var android =  AndroidNotificationDetails(
         'channel id', 'channel NAME', 'CHANNEL DESCRIPTION',
         priority: Priority.high,importance: Importance.max
     );
@@ -285,7 +288,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   }
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
+var accessTokenVm;
   @override
   var width;
   void initState() {
@@ -1246,13 +1249,33 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        SizedBox(height: 8,),
-                                                        Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                        Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                        SizedBox(height: 8,),
-                                                        Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
-                                                        Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
-                                                      ],
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Container(
+                                                            alignment: Alignment.center,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: width<=330? 10 : 12),),
+                                                                Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 8 :10,fontWeight: FontWeight.w500),),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Container(
+                                                            alignment: Alignment.center,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 10 :12,fontWeight: FontWeight.w600))),
+                                                                Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 8 :10,fontWeight: FontWeight.w600))
+                                                              ],
+                                                            ))),
+                                                        ],
                                                     ),
 
                                                     ),
@@ -1287,7 +1310,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                           await  _downloadPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString(),vm.prescriptionList[index].consultationId);
                                                           },
                                                              // onTap: showNotification,
-                                                              child: Icon(Icons.download_rounded)),
+                                                              child: Icon(Icons.file_download_outlined, color: AppTheme.appbarPrimary,)),
                                                         ),
                                                       ]),
                                                     ),
@@ -1508,7 +1531,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   child: InkWell(onTap: () async{
                                                                     await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
 
-                                                                  },child: Icon(Icons.download_rounded,color: HexColor('#354291'),)),
+                                                                  },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary,)),
                                                                 ),
                                                               ]),
                                                             ),
@@ -1807,7 +1830,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: [
                                                                     SizedBox(height: 10,),
-                                                                    Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                                                    Container(width: width<=360 ? 200 :220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
                                                                     SizedBox(height: 5,),
                                                                     Column(
                                                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1843,7 +1866,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                               //   ]),
                                                               // ),
                                                               Padding(
-                                                                padding: const EdgeInsets.only(left: 50),
+                                                                padding:  EdgeInsets.only(left: width<=360? 0 : 50),
                                                                 child: Row(children: [
                                                                   // Padding(
                                                                   //   padding: const EdgeInsets.only(top:5.0,left: 30),
@@ -1870,7 +1893,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                     child: InkWell(onTap: () async{
                                                                    await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
-                                                                    },child: Icon(Icons.download_rounded,color: HexColor('#354291'),)),
+                                                                    },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary)),
                                                                   ),
                                                                   SizedBox(width: 15,),
                                                                   Padding(
@@ -1879,7 +1902,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                       vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
                                                                       _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
 
-                                                                    },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                                                    },child: Icon(Icons.edit_outlined,color: HexColor('#354291'),)),
                                                                   ),
 
                                                                 ]),

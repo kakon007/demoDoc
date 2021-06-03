@@ -119,7 +119,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
               padding: const EdgeInsets.only(top: 30.0),
               child: Padding(
                 padding:
-                    const EdgeInsets.only(left: 25.0, right: 25, bottom: 15),
+                    const EdgeInsets.only(left: 20.0, right: 20, bottom: 15),
                 child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisSize: MainAxisSize.min,

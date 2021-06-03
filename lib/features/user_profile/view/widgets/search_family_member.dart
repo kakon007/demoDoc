@@ -98,7 +98,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
+        padding: const EdgeInsets.only(left: 14.0, right: 14, top: 15),
         child: Column(
           children: [
             Row(

@@ -684,7 +684,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                              children:[
                                                InkWell(
                                                  child: Container(
-                                                   height: MediaQuery.of(context).size.width >600? 190 : 190,
+                                                   height: 200,
                                                    margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                    decoration: BoxDecoration(
                                                      color:HexColor('#F0F2FF'),
@@ -1160,7 +1160,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           return Stack(children: [
                                             InkWell(
                                               child: Container(
-                                                height: 190,
+                                                height: 200,
                                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                 decoration: BoxDecoration(
                                                   color: HexColor('#F0F2FF'),

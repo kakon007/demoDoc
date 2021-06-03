@@ -38,7 +38,7 @@ class AppointmentPreviousRepository {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
-      BotToast.showText(text: StringResources.somethingIsWrong);
+      //BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

@@ -1,41 +1,27 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
-import 'package:myhealthbd_app/features/my_health/models/view_document_model.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/prescription_repository.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/doc_edit_prompt.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/document_list.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/prescription_list.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/report_list.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/report_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/share_document_widget.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/add_switch_account_alert_dialog.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/upload_document_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/document_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/report_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/view_document_view_model.dart';
-import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:multi_select_item/multi_select_item.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
-import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
-import 'package:open_file/open_file.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
@@ -43,8 +29,6 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart' as pp;
 
 class PrescriptionListScreen extends StatefulWidget {
-  // final Function menuCallBack;
-  // bool isDrawerOpen;
   String accessToken;
   PrescriptionListScreen({this.accessToken});
   @override
@@ -86,16 +70,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   File newFile;
   bool isLoading=false;
-
-  // void startTimer() {
-  //   Timer.periodic(const Duration(seconds: 3), (t) {
-  //     setState(() {
-  //       isLoading = false; //set loading to false
-  //     });
-  //     t.cancel();
-  //     isLoading=true;//stops the timer
-  //   });
-  // }
 
   List<ReportList> reportList = [
     ReportList(
@@ -161,7 +135,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       print("FETCHPDFDATA");
       print('INDEX'+index);
       var headers = {
-        'Authorization': 'Bearer ${widget.accessToken}'
+        'Authorization': 'Bearer ${accessTokenVm.accessToken}'
       };
       var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription'));
       request.fields.addAll({
@@ -217,20 +191,21 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
   //   await OpenFile.open("${output.path}/example.pdf");
   //   setState(() {});
   // }
-
+  var accessTokenVm;
   @override
+  var width;
   void initState() {
-    PrescriptionRepository().fetchPrescriptionList(accessToken: widget.accessToken);
-
+     accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: false);
+    PrescriptionRepository().fetchPrescriptionList(accessToken: accessTokenVm.accessToken);
     super.initState();
     var vm = Provider.of<PrescriptionListViewModel>(context, listen: false);
-    vm.getData(widget.accessToken);
+    vm.getData(accessTokenVm.accessToken);
     var vm2 = Provider.of<ReportViewModel>(context, listen: false);
     vm2.getData();
     var vm3 = Provider.of<DocumentViewModel>(context, listen: false);
     vm3.getDataforDoc();
     Future.delayed(Duration.zero, () async {
-      await Provider.of<UploadDocumentsViewModel>(context, listen: false).deleteDocuments(accessToken: widget.accessToken);
+      await Provider.of<UploadDocumentsViewModel>(context, listen: false).deleteDocuments(accessToken:  accessTokenVm.accessToken);
     });
     // var vm4 = Provider.of<ViewDocumentViewModel>(context, listen: false);
     // vm4.getData();
@@ -250,8 +225,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
        if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent-100) {
-         print('scrolklinggtatg');
-        vm.getMoreData(widget.accessToken);
+        vm.getMoreData(accessTokenVm.accessToken);
       }
 
     });
@@ -302,6 +276,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: true);
     var vm = Provider.of<PrescriptionListViewModel>(context,listen: true);
     List<Datum> list = vm.prescriptionList;
     var lengthofPrescriptionList = list.length;
@@ -311,7 +286,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     var vm6 = Provider.of<UploadDocumentsViewModel>(context, listen: true);
     print("lltt::: ${vm3.documentList.length}");
     var childButtons = List<UnicornButton>();
-    var width = MediaQuery.of(context).size.width;
+     width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
 
@@ -769,7 +744,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                     suffixIcon:IconButton(
                       icon:Icon(Icons.search_sharp),
                       onPressed: (){
-                        vm.search(_searchTextEditingController.text,widget.accessToken);
+                        vm.search(_searchTextEditingController.text,accessTokenVm.accessToken);
 
                       },
                     )
@@ -778,7 +753,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                   //   //value = text;
                   // },
                   onSubmitted: (v){
-                    vm.search(_searchTextEditingController.text,widget.accessToken);
+                    vm.search(_searchTextEditingController.text,accessTokenVm.accessToken);
                   },
 
                 ),
@@ -816,7 +791,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                 suffixIcon:IconButton(
                   icon:Icon(Icons.search_sharp),
                   onPressed: (){
-                    vm3.search(_searchTextEditingController3.text,widget.accessToken);
+                    vm3.search(_searchTextEditingController3.text,accessTokenVm.accessToken);
 
                   },
                 )
@@ -825,7 +800,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
             //   //value = text;
             // },
             onSubmitted: (v){
-              vm3.search(_searchTextEditingController3.text,widget.accessToken);
+              vm3.search(_searchTextEditingController3.text,accessTokenVm.accessToken);
             },
 
           ),
@@ -863,7 +838,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                 suffixIcon:IconButton(
                   icon:Icon(Icons.search_sharp),
                   onPressed: (){
-                    vm3.search(_searchTextEditingController2.text,widget.accessToken);
+                    vm3.search(_searchTextEditingController2.text,accessTokenVm.accessToken);
 
                   },
                 )
@@ -872,7 +847,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
             //   //value = text;
             // },
             onSubmitted: (v){
-              vm3.search(_searchTextEditingController2.text,widget.accessToken);
+              vm3.search(_searchTextEditingController2.text,accessTokenVm.accessToken);
             },
 
           ),
@@ -998,7 +973,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                       // Provider.of<FeaturedJobListViewModel>(context, listen: false)
                       //     .resetState();
                       return Provider.of<PrescriptionListViewModel>(context, listen: false)
-                          .refresh(widget.accessToken);
+                          .refresh(accessTokenVm.accessToken);
                     },
                     child: WillPopScope(
                       onWillPop: () async {
@@ -1027,7 +1002,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                     icon: Icon(vm.isInSearchMode ? Icons.close : Icons.search),
                                     onPressed: () {
                                       _searchTextEditingController?.clear();
-                                      vm.toggleIsInSearchMode(widget.accessToken);
+                                      vm.toggleIsInSearchMode(accessTokenVm.accessToken);
 
                                       if (vm.isInSearchMode) {
                                         _searchFieldFocusNode.requestFocus();
@@ -1115,8 +1090,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                             },
                                             child: Container(
 
-                                              height: 100,
-                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                              height: width<=330 ? 70 : 100,
+                                              margin: EdgeInsets.only(top: width<=330 ? 5 : 8,bottom:width<=330 ? 3 :  5,right: 10,left: 10),
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
                                                   1.0,
@@ -1133,66 +1108,83 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 // ),
                                                 borderRadius: BorderRadius.circular(15),
                                               ),
-                                              child: Row(
-                                                children: [
-                                                  CircleAvatar(
-                                                    radius: 31,
-                                                    backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                    child: CircleAvatar(
-                                                      radius: 30,
-                                                      backgroundColor: Colors.white,
+                                              child: Padding(
+                                                padding:  EdgeInsets.only(right: 8.0, left: 8),
+                                                child: Row(
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: width<=330 ? 21 : 31,
+                                                      backgroundColor: HexColor('#354291').withOpacity(0.2),
                                                       child: CircleAvatar(
+                                                        radius: width<=330 ? 20 : 30,
                                                         backgroundColor: Colors.white,
-                                                        backgroundImage: AssetImage("assets/icons/dct.png"),
-                                                        radius: 28,
+                                                        child: Container(
+                                                          height: width<=330? 35 : 45,
+                                                          width: width<=330? 35 : 45,
+                                                          child: Image.asset("assets/icons/dct.png",fit: BoxFit.fill,),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  //SizedBox(width: 5,),
+                                                    //SizedBox(width: 5,),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 1),
+                                                    padding:  EdgeInsets.only(left: 15.0),
                                                     child: Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        SizedBox(height: 8,),
-                                                        Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),),
-                                                        Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                                        SizedBox(height: 8,),
-                                                        Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w600))),
-                                                        Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w600))
-                                                      ],
-                                                    ),
-
-                                                    ),
-                                                    // Container(width:45,child: rx),
-                                                    // (controller.isSelecting)?
-                                                    // Padding(
-                                                    //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                    //   child: righticon,
-                                                    // ):
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right:0.0,),
-                                                      child: Stack(children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top:10.0),
-                                                          child: Container(width:45,child: rx),
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Container(
+                                                          alignment: Alignment.center,
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: width<=330? 10 : 12),),
+                                                              Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 8 :10,fontWeight: FontWeight.w500),),
+                                                              ],
+                                                          ),
                                                         ),
-                                                        // (controller.isSelected(index))?
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                        //   child: righticon,
-                                                        // ): (controller.isSelecting)?Padding(
-                                                        //   padding: const EdgeInsets.only(left:38.0,top: 5),
-                                                        //   child: greyright,
-                                                        // ):Padding(
-                                                        //   padding: EdgeInsets.only(left: 38,top: 5),
-                                                        //   child: popup,
-                                                        // ),
-                                                      ]),
-                                                    ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Container(
+                                                          alignment: Alignment.center,
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                             Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 10 :12,fontWeight: FontWeight.w600))),
+                                                              Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 8 :10,fontWeight: FontWeight.w600))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],),
+                                                  ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right:0.0,),
+                                                        child: Stack(children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top:10.0),
+                                                            child: Container(width:45,child: rx),
+                                                          ),
+                                                          // (controller.isSelected(index))?
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                          //   child: righticon,
+                                                          // ): (controller.isSelecting)?Padding(
+                                                          //   padding: const EdgeInsets.only(left:38.0,top: 5),
+                                                          //   child: greyright,
+                                                          // ):Padding(
+                                                          //   padding: EdgeInsets.only(left: 38,top: 5),
+                                                          //   child: popup,
+                                                          // ),
+                                                        ]),
+                                                      ),
 
 
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -1255,7 +1247,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   icon: Icon(vm2.isInSearchMode ? Icons.close : Icons.search),
                                   onPressed: () {
                                     _searchTextEditingController2?.clear();
-                                    vm2.toggleIsInSearchMode(widget.accessToken);
+                                    vm2.toggleIsInSearchMode(accessTokenVm.accessToken);
 
                                     if (vm2.isInSearchMode) {
                                       _searchFieldFocusNode2.requestFocus();
@@ -1478,7 +1470,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 icon: Icon(vm3.isInSearchMode ? Icons.close : Icons.search),
                                 onPressed: () {
                                   _searchTextEditingController3?.clear();
-                                  vm3.toggleIsInSearchMode(widget.accessToken);
+                                  vm3.toggleIsInSearchMode(accessTokenVm.accessToken);
 
                                   if (vm3.isInSearchMode) {
                                     _searchFieldFocusNode3.requestFocus();
@@ -1636,7 +1628,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       Padding(
                                                         padding: EdgeInsets.only(left: width<330 ? 80: 80,top: 40),
                                                         child: InkWell(onTap: () async{
-                                                          vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                          vm3.getData(accessToken: accessTokenVm.accessToken,id: vm3.documentList[index].id,);
                                                           _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
 
                                                         },child: Icon(Icons.edit,color: HexColor('#354291'),)),

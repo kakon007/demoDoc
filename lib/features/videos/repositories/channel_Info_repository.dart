@@ -43,8 +43,8 @@ class VideoInfoRepository{
 
         );
       }else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
-        print('DataaaaaaafromAPIError::::::: ' );
+       // BotToast.showText(text: StringResources.somethingIsWrong);
+        //print('DataaaaaaafromAPIError::::::: ' );
         return Left(AppError.serverError);
       }
     }on SocketException catch (e){
@@ -53,8 +53,8 @@ class VideoInfoRepository{
       return Left(AppError.networkError);
     }catch (e) {
       //logger.e(e);
-      print('DataaaaaaafromAPIcatch::::::: $e' );
-      BotToast.showText(text: StringResources.somethingIsWrong);
+      //print('DataaaaaaafromAPIcatch::::::: $e' );
+     // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
 

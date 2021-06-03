@@ -19,30 +19,6 @@ class NearestAppointmentViewModel extends ChangeNotifier{
   bool _isFetchingData = false;
   int _page = 1;
 
-  // Future<void> getData() async {
-  //   print('Enter:::::::::::');
-  //   _isFetchingData = true;
-  //   _lastFetchTime = DateTime.now();
-  //   var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
-  //   var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
-  //   var res = await NearestAppointmentRepository().fetchNearestAppointmentDetails(accessToken:accessToken,regID: vm.userDetailsList.hospitalNumber);
-  //   print('Enterrrr:::::::::::');
-  //   notifyListeners();
-  //   res.fold((l) {
-  //     _appError = l;
-  //     _isFetchingData = false;
-  //     print('NotNearest::::');
-  //     notifyListeners();
-  //     return false;
-  //   }, (r) {
-  //     _isFetchingData = false;
-  //     _nearestAppointmentDetails=r.dataList;
-  //     print('Nearest::::');
-  //     notifyListeners();
-  //     return true;
-  //   });
-  // }
-
   Future<bool> getData(String regID) async {
     print("CalledfromNearestList");
     // print("HasMoreFromGetData ${hasMoreData}");

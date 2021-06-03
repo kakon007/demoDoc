@@ -124,7 +124,6 @@ class _AddPatientState extends State<AddPatient> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.height);
     var vm2 = Provider.of<BookAppointmentViewModel>(context, listen: false);
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var familyVm =
@@ -133,6 +132,7 @@ class _AddPatientState extends State<AddPatient> {
     var vm3 = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm4 = Provider.of<AppointmentUpcomingViewModel>(context, listen: true);
     var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
     );
@@ -338,8 +338,8 @@ class _AddPatientState extends State<AddPatient> {
           borderRadius: BorderRadius.circular(10),
         ),
         margin: EdgeInsets.only(bottom: 2),
-        height: 70,
-      //width: MediaQuery.of(context).size.width * .78,
+        height: width <= 330 ? 60 : 70,
+      width: MediaQuery.of(context).size.width * .78,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -355,23 +355,23 @@ class _AddPatientState extends State<AddPatient> {
                           //color: AppTheme.appbarPrimary,
                           shape: BoxShape.circle,
                         ),
-                        height: 50,
-                        width: 50,
+                        height: width <= 330 ? 40 : 50,
+                        width: width <= 330 ? 40 : 50,
                         child: Center(
                             child: imageVm.loadProfileImage(
-                                familyVm.imageMem, 45, 45, 50)))
+                                familyVm.imageMem, width <= 330 ? 35 : 45, width <= 330 ? 35 : 45, 50)))
                     : Container(
                         decoration: BoxDecoration(
                           color: AppTheme.appbarPrimary,
                           shape: BoxShape.circle,
                         ),
-                        height: 50,
-                        width: 50,
+                        height: width <= 330 ? 35 : 50,
+                        width: width <= 330 ? 35 : 50,
                         child: Center(
                           child: Image.asset(
                             'assets/images/dPro.png',
-                            height: 40,
-                            width: 40,
+                            height: width <= 330 ? 30 : 40,
+                            width: width <= 330 ? 30 : 40,
                           ),
                         )),
                 SizedBox(
@@ -382,18 +382,19 @@ class _AddPatientState extends State<AddPatient> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 160,
+                      width: MediaQuery.of(context).size.width*.4,
                       child: Text(
                         familyVm.familyMemName,
                         style: GoogleFonts.poppins(
                             color: HexColor("#0D1231"),
-                            fontSize: 14,
+                            fontSize: width <= 330 ? 12 :14,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
                     Text(
                       familyVm.relation,
                       style: GoogleFonts.poppins(
+                        fontSize: width <= 330 ? 13 : 15,
                         color: AppTheme.appbarPrimary,
                       ),
                     )
@@ -559,7 +560,7 @@ class _AddPatientState extends State<AddPatient> {
                       child: Container(
                         width: MediaQuery.of(context).size.width * .72,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 2.0),
+                          padding: const EdgeInsets.only(left: 7.0),
                           child: Text(
                             "Select your family member",
                             style: GoogleFonts.roboto(

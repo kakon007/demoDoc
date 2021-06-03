@@ -27,7 +27,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
   SwitchAccounts accounts;
   final _username = TextEditingController();
   final _password = TextEditingController();
-
+  bool isEmpty = false;
   refresh() {
     setState(() {});
   }
@@ -91,109 +91,111 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
     return Form(
       key: _formKey,
       child: Center(
-          child: Center(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          constraints: BoxConstraints(maxWidth: 400, maxHeight: 325),
-          child: Material(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 38.0, right: 25, bottom: 15),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            // padding: new EdgeInsets.all(10.0),
-                            decoration: new BoxDecoration(),
-                            child: new Text(
-                              'Switch Account',
-                              style: GoogleFonts.poppins(
-                                  color: AppTheme.appbarPrimary,
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w500),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //name,
-                          //relation,
-                          userName,
-                          password,
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 22.0, right: 22, top: 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  width: width * .8,
-                                  height: width * .25,
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    textColor: AppTheme.appbarPrimary,
-                                    color: HexColor("#FFFFFF"),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        side: BorderSide(
-                                            color: AppTheme.appbarPrimary,
-                                            width: 1)),
-                                    child: Text(
-                                      StringResources.cancelText,
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: width * .8,
-                                  height: width * .25,
-                                  child: FlatButton(
-                                    textColor: Colors.white,
-                                    onPressed: () {
-                                      _submitStudent(context);
-                                    },
-                                    color: AppTheme.appbarPrimary,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      "Confirm",
-                                      style: GoogleFonts.poppins(),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ]),
-            ),
-          ),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      constraints: BoxConstraints(maxWidth: 400, maxHeight: isEmpty ? width<=330? 365 : 370 : width<=330? 330 : 335),
+      child: Material(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
-      )),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 38.0, right: 25, bottom: 15),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        // padding: new EdgeInsets.all(10.0),
+                        decoration: new BoxDecoration(),
+                        child: new Text(
+                          'Switch Account',
+                          style: GoogleFonts.poppins(
+                              color: AppTheme.appbarPrimary,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //name,
+                      //relation,
+                      userName,
+                      password,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8.0, right: 8, top: 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: width * .8,
+                              height: width * .25,
+                              child: FlatButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                textColor: AppTheme.appbarPrimary,
+                                color: HexColor("#FFFFFF"),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: BorderSide(
+                                        color: AppTheme.appbarPrimary,
+                                        width: 1)),
+                                child: Text(
+                                  StringResources.cancelText,
+                                  style: GoogleFonts.poppins(),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: width * .8,
+                              height: width * .25,
+                              child: FlatButton(
+                                textColor: Colors.white,
+                                onPressed: () {
+                                  _submitStudent(context);
+                                },
+                                color: AppTheme.appbarPrimary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  "Confirm",
+                                  style: GoogleFonts.poppins(),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ]),
+        ),
+      ),
+        ),
+      ),
     );
   }
 
   Future<void> _submitStudent(BuildContext context) async {
     if (_formKey.currentState.validate()) {
+      setState(() {
+        isEmpty= false;
+      });
       accountsList.forEach((item) {
         if(item.username.contains(_username.text)) {
          addAccountValue = _username.text;
@@ -247,6 +249,10 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
               fontSize: 16.0);
         }
       }
+    }else{
+      setState(() {
+        isEmpty= true;
+      });
     }
   }
 }

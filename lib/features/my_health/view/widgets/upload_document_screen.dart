@@ -94,7 +94,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   )),
               Container(
                 height: 45.0,
-                width:MediaQuery.of(context).size.width*.89,
+                width:MediaQuery.of(context).size.width*.87,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
                     border: Border.all(color: HexColor(color)),
@@ -133,7 +133,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 300.0, top: 5),
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.75, top: 5),
                           child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#8592E5"),size: 30,),
                         ),
                       ],
@@ -146,8 +146,6 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         ),
       ],
     );
-
-
 
     String abc = "#8592E5";
 
@@ -188,14 +186,14 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
             children: [
               Container(
                   height: 35.0,
-                  width: MediaQuery.of(context).size.width*.8,
+                  width: MediaQuery.of(context).size.width*.87,
                   child: Padding(
                     padding: const EdgeInsets.only(top:8.0,left:5,right:10),
                     child: Text("Select Date mentioned on the Document",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#333132'),fontSize: 12),),
                   )),
               Container(
                 height: 48.0,
-                width: MediaQuery.of(context).size.width * 0.89,
+                width: MediaQuery.of(context).size.width * 0.87,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),
@@ -229,7 +227,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         ),
       ],
     );
-
+      var width= MediaQuery.of(context).size.width;
     var writeDetailsField=Container(
       width: MediaQuery.of(context).size.width*.89,
       height: 150,
@@ -275,7 +273,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
 
     final Widget upCam = SvgPicture.asset(
       assetName,
-      height:35,
+      height:width<=360 ? 25 : 35,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -284,29 +282,29 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
 
     final Widget fileUp = SvgPicture.asset(
       assetName2,
-      height:35,
+      height:width<=360 ? 25 : 35,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
 
-
+print("qqq $width");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),
         title: Text('Upload Document',style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
-            },
-          )
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.notifications,
+          //     color: Colors.white,
+          //     size: 20,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
+          //   },
+          // )
         ],
       ),
       body: SingleChildScrollView(
@@ -324,7 +322,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       },
                       child: Container(
                         height: cardHeight*0.9,
-                        width: 160,
+                        width: width<=360 ? width/2.5 :  160,
                         margin: EdgeInsets.only(top: 8,bottom: 5,right: 12,left: 12),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
@@ -341,16 +339,14 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           // ),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top:30.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              upCam,
-                              SizedBox(height: 5,),
-                              Text("Capture Document",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),),
-                            ],
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            upCam,
+                            SizedBox(height: 5,),
+                            Text("Capture Document",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: Colors.white,fontSize: width<=360 ? 10 : 12,),),
+                          ],
                         ),
                       ),
                     ),
@@ -372,7 +368,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       },
                       child: Container(
                         height: cardHeight*0.9,
-                        width: 160,
+                        width: width<=360 ? width/2.5 :  160,
                         margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
@@ -389,16 +385,14 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           // ),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top:25.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              fileUp,
-                              SizedBox(height: 5,),
-                              Text("Upload Document\n(JPG,PNG,PDF only)",style: GoogleFonts.poppins(fontWeight: FontWeight.w600,color: Colors.white,fontSize: 12),),
-                            ],
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            fileUp,
+                            SizedBox(height: 5,),
+                            Text("Upload Document\n(JPG,PNG,PDF only)",style: GoogleFonts.poppins(fontWeight: FontWeight.w600,color: Colors.white,fontSize:width<=360 ? 10 : 12,),)
+                          ],
                         ),
                       ),
                     ),
@@ -425,7 +419,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(top:15.0,left:10,right:10),
+                  padding: const EdgeInsets.only(top:15.0,left:10,right:10, bottom: 10),
                   child: InkWell(
                     onTap: () async{
                       var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();

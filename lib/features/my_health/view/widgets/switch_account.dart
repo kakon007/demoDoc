@@ -35,6 +35,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     username = prefs.getString("username");
   }
+
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
@@ -50,6 +51,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
     var spaceBetween = SizedBox(
       height: 10,
     );
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),
@@ -129,8 +131,9 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                       : Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                margin: EdgeInsets.only(bottom: 2),
-                                height: 80,
+                                margin: EdgeInsets.only(
+                                    bottom: width <= 330 ? 3 : 4),
+                                height: width <= 330 ? 70 : 80,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -138,27 +141,34 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                     Row(
                                       children: [
                                         SizedBox(
-                                          width: 10,
+                                          width: width <= 330 ? 5 : 10,
                                         ),
                                         Container(
                                             decoration: BoxDecoration(
                                               color: AppTheme.appbarPrimary,
                                               shape: BoxShape.circle,
                                             ),
-                                            height: 60,
-                                            width: 60,
+                                            height: width <= 330 ? 50 : 60,
+                                            width: width <= 330 ? 50 : 60,
                                             child: profileImage == ""
                                                 ? Center(
                                                     child: Image.asset(
                                                       'assets/images/dPro.png',
-                                                      height: 35,
-                                                      width: 35,
+                                                      height: width <= 330
+                                                          ? 30
+                                                          : 35,
+                                                      width: width <= 330
+                                                          ? 30
+                                                          : 35,
                                                     ),
                                                   )
                                                 : userImageVm.loadProfileImage(
-                                                    profileImage, 34, 34, 50)),
+                                                    profileImage,
+                                                    width <= 330 ? 28 : 34,
+                                                    width <= 330 ? 28 : 34,
+                                                    50)),
                                         SizedBox(
-                                          width: 20,
+                                          width: width <= 330 ? 10 : 20,
                                         ),
                                         Column(
                                           crossAxisAlignment:
@@ -205,7 +215,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                 ],
                                               ),
                                               SizedBox(
-                                                width: 20,
+                                                width: width <= 330 ? 10 : 20,
                                               ),
                                             ],
                                           )
@@ -277,17 +287,26 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                             child:
                                                                                 Column(
                                                                               children: [
-                                                                                Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                  children: [
-                                                                                    Text("Do you really want to switch account?", style: TextStyle(fontSize: 16, color: Colors.black)),
-                                                                                  ],
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(left: 10.0, right: 10),
+                                                                                  child: RichText(
+                                                                                    textAlign: TextAlign.center,
+                                                                                    text:  TextSpan(
+                                                                                      style:  GoogleFonts.poppins(
+                                                                                        fontSize: 16.0,
+                                                                                        color: Colors.black,
+                                                                                      ),
+                                                                                      children: <TextSpan>[
+                                                                                        TextSpan(text: 'Do you really want to switch account?'),],
+                                                                                    ),
+                                                                                  ),
                                                                                 ),
                                                                                 SizedBox(
-                                                                                  height: 30,
+                                                                                  height: 15,
                                                                                 ),
                                                                                 Row(
                                                                                   mainAxisAlignment: MainAxisAlignment.center,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.center,
                                                                                   children: [
                                                                                     GestureDetector(
                                                                                       onTap: () {
@@ -401,7 +420,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                 },
                                               ),
                                               SizedBox(
-                                                width: 20,
+                                                width: width <= 330 ? 10 : 20,
                                               ),
                                               GestureDetector(
                                                 child: Icon(Icons.delete_sweep,
@@ -471,20 +490,31 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                               Column(
                                                                             children: [
                                                                               Column(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
                                                                                 children: [
-                                                                                  Row(
-                                                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                                                    children: [
-                                                                                      Text("Remove ", style: GoogleFonts.poppins()),
-                                                                                      Text(accountList[index].name, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                                                                                      Text(" from your account list.", maxLines: 2,style: GoogleFonts.poppins())
-                                                                                    ],
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.only(left: 15.0, right: 15),
+                                                                                    child: RichText(
+                                                                                      textAlign: TextAlign.center,
+                                                                                      text:  TextSpan(
+                                                                                        style:  GoogleFonts.poppins(
+                                                                                          fontSize: 14.0,
+                                                                                          color: Colors.black,
+                                                                                        ),
+                                                                                        children: <TextSpan>[
+                                                                                           TextSpan(text: 'Remove '),
+                                                                                           TextSpan(text: accountList[index].name, style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                                                                           TextSpan(text: " from your account list?", style: GoogleFonts.poppins()),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
                                                                                   ),
                                                                                   Text("", style: GoogleFonts.poppins())
                                                                                 ],
                                                                               ),
                                                                               SizedBox(
-                                                                                height: 20,
+                                                                                height: 5,
                                                                               ),
                                                                               Row(
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -552,22 +582,33 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                   right: 100,
                                                                   child:
                                                                       Container(
-                                                                        width: 55,
-                                                                        height: 55,
-                                                                        decoration: BoxDecoration(
-                                                                          color: Colors.white,
-                                                                          shape: BoxShape.circle,
-                                                                            boxShadow: [
-                                                                              BoxShadow(
-                                                                                color: HexColor("#0D1231").withOpacity(0.08),
-                                                                                spreadRadius: 3,
-                                                                                blurRadius: 5,
-                                                                                offset:
+                                                                    width: 55,
+                                                                    height: 55,
+                                                                    decoration: BoxDecoration(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                        boxShadow: [
+                                                                          BoxShadow(
+                                                                            color:
+                                                                                HexColor("#0D1231").withOpacity(0.08),
+                                                                            spreadRadius:
+                                                                                3,
+                                                                            blurRadius:
+                                                                                5,
+                                                                            offset:
                                                                                 Offset(0, 1), // changes position of shadow
-                                                                              ),
-                                                                            ]),
-                                                                        child: Icon(Icons.delete_outline,size: 30, color: HexColor("#FF92A1"),),
-                                                                      ),
+                                                                          ),
+                                                                        ]),
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .delete_outline,
+                                                                      size: 30,
+                                                                      color: HexColor(
+                                                                          "#FF92A1"),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),

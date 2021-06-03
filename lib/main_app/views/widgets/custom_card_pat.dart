@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
@@ -83,40 +84,42 @@ class CustomCardPat extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(titleText,
-                              style: TextStyle(
-                                  fontSize: 13,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),
                               textAlign: TextAlign.start),
-                          SizedBox(
-                            width: width < 330 ? 40 : 60,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Your Serial No.",
-                                  style: TextStyle(
-                                      fontSize: width < 330 ? 12 : 15,
-                                      color: HexColor('#354291')),
-                                  textAlign: TextAlign.center,
+                          Row(
+                            children: [
+                              Padding(
+                                padding:  EdgeInsets.only(top: 8.0, right: width/12),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Your Serial No.",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: width < 330 ? 10 : 11,
+                                          color: HexColor('#354291')),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "$serial",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: HexColor('#354291')),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "$serial",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                      color: HexColor('#354291')),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

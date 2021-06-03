@@ -35,7 +35,7 @@ class NearestAppointmentRepository {
           dataList: data2.obj,
         ));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
@@ -44,7 +44,7 @@ class NearestAppointmentRepository {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
-      BotToast.showText(text: StringResources.somethingIsWrong);
+     // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

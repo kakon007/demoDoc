@@ -121,16 +121,16 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   void initState() {
-
-    Future.delayed(Duration.zero, () async {
-      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
-      var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
-      await vm19.getData();
-      var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
-     await vm9.getData(vm19.userDetailsList.hospitalNumber);
-    });
-
-    // TODO: implement initState
+    var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: false);
+    if(accessTokenVm.accessToken!=null){
+      Future.delayed(Duration.zero, () async {
+        await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+        var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+        await vm19.getData();
+        var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
+        await vm9.getData(vm19.userDetailsList.hospitalNumber);
+      });
+    }
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
@@ -166,7 +166,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   Widget build(BuildContext context) {
-    var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
+    var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: true);
     var vm = appNavigator.getProviderListener<HospitalListViewModel>();
     List<hos.Item> list = vm.hospitalList;
     var lengthofHospitalList;
@@ -312,12 +312,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                   title:  Text(
                     StringResources.dasboardAppBarText,
                     style: GoogleFonts.poppins(
-                        fontSize: 15, fontWeight: FontWeight.w600),
+                        fontSize: deviceWidth<=320 ? 13 : 15, fontWeight: FontWeight.w600),
                   ),
                   actions: [
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: vm9.accessToken == null
+                      child: accessTokenVm.accessToken == null
                           ? GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -378,23 +378,23 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height: 35,
-                                  width: 35,
+                                  height: deviceWidth<=330 ? 35 : 30,
+                                  width: deviceWidth<=330 ? 35 : 30,
                                   child: Center(
-                                      child: vm10.loadProfileImage(photo, 33.5, 35,50)
+                                      child: vm10.loadProfileImage(photo, deviceWidth<=330 ? 28.5 :33.5, deviceWidth<=330 ? 30 :35,50)
                                   ))
                                   : Container(
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: 32,
-                                      width: 32,
+                                      height: deviceWidth<=330 ? 27 :32,
+                                      width: deviceWidth<=330 ? 27 :32,
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height: 22,
-                                          width: 22,
+                                          height: deviceWidth<=330 ? 18 :22,
+                                          width: deviceWidth<=330 ? 18 : 22,
                                         ),
                                       )),
                             ),
@@ -557,7 +557,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    vm9.accessToken == null || vm15.nearestAppointmentDetails==null
+                                    accessTokenVm.accessToken == null || vm15.nearestAppointmentDetails==null
                                         ? Container()
                                         : CustomCardPat(
                                       titleText: "You have an \nupcoming appointment.",
@@ -581,7 +581,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             StringResources
                                                 .hospitalDiagnosticsText,
                                             style: GoogleFonts.poppins(
-                                                fontSize: 16,
+                                                fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width <=
+                                                    450
+                                                    ? 14
+                                                    : 16,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Spacer(),

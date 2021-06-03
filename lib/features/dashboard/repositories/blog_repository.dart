@@ -42,22 +42,18 @@ class BlogRepository {
 
   Future<Either<AppError, BlogLogoList>> fetchBlogLogo() async {
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/logo-list?blogType=2";
+        "${Urls.buildUrl}online-appointment-api/fapi/news-blogs/logo-list?blogType=2";
     try {
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
       if (response.statusCode == 200) {
         print(response.body);
-
         BlogLogoModel data = blogLogoModelFromJson(response.body);
-        // print('Dataaaaaaa::::::: ' + data.items[1].title);
-        // return data;
-
         return Right(BlogLogoList(
           dataList2: data.items,
         ));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
@@ -66,7 +62,7 @@ class BlogRepository {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
-      BotToast.showText(text: StringResources.somethingIsWrong);
+      //BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

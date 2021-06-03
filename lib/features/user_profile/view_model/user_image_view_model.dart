@@ -141,7 +141,7 @@ class UserImageViewModel extends ChangeNotifier {
       } else {}
     } catch (e) {
       Fluttertoast.showToast(
-          msg: "Something went wrong!!",
+          msg: "Check Network Connection!!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.red,
@@ -172,7 +172,7 @@ class UserImageViewModel extends ChangeNotifier {
       } else {}
     } catch (e) {
       Fluttertoast.showToast(
-          msg: "Something went wrong!!",
+          msg: "Check Network Connection!!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.red,

@@ -2,24 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/features/after_sign_in.dart';
-import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
-import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
-import 'package:myhealthbd_app/features/constant.dart';
-import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
-import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
-import 'package:myhealthbd_app/features/hospitals/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
-import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
-import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
-import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_Sign_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
@@ -27,12 +16,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer_2.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashBoard_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashboard_prompt_for_patient_profile.dart';
 import 'package:provider/provider.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../features/appointment_history/view/get_appointment_screen.dart';
-import 'views/widgets/default_screen.dart';
-
 class HomeScreen extends StatefulWidget {
   String accessToken;
   bool connection;

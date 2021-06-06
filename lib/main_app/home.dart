@@ -95,14 +95,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
-      1: accessTokenVm.accessToken==null?SignInPrompt("To access your Appointments,",'Appointments'):GetAppointment(),
-      2: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //5:NotificationScreen(),
-      5:SettingScreen(accessToken: accessTokenVm.accessToken,),
-      6:FamilyMemberListScreen(),
-      7:SwitchAccount(),
+      3:SettingScreen(accessToken: accessTokenVm.accessToken,),
+      // 6:FamilyMemberListScreen(),
+      // 7:SwitchAccount(),
     };
     screens2= {
       0: DashboardScreen(menuCallBack: (){
@@ -112,8 +112,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
-      1: accessTokenVm.accessToken==null?SignInPrompt("To access your Appointments,",'Appointments'):GetAppointment(),
-      2: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //5:NotificationScreen(),

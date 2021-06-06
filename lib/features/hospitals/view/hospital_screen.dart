@@ -16,6 +16,9 @@ import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 
 class HospitalScreen extends StatefulWidget {
+  //bool isNotNave;
+  FocusNode f1;
+  HospitalScreen({this.f1});
   @override
   _HospitalScreenState createState() => _HospitalScreenState();
 }
@@ -84,7 +87,8 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
 
   @override
   Widget build(BuildContext context) {
-    var searchField = SignUpFormField(
+    var searchField =SignUpFormField(
+      focusNode: widget.f1,
       onChanged: (value) {
         hospitalSearch(value);
         // print(value);

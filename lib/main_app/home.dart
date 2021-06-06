@@ -48,7 +48,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Map<int,Widget> screens;
   Map<int,Widget> screens2;
 
-
+  // bool isNotNave;
+  FocusNode f1=FocusNode();
 
   @override
   void initState() {
@@ -279,15 +280,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       print("Heeoollo");
                     });
                   },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,onTapFeaturedCompany: () {
+                    f1.requestFocus();
                     _moveTo(2);
-                    // _paeViewController.animateToPage(2,
-                    //     duration: const Duration(milliseconds: 400),
-                    //     curve: Curves.easeInOut);
                   },onTapFeaturedAppointment: () {
                     _moveTo(1);
-                    // _paeViewController.animateToPage(2,
-                    //     duration: const Duration(milliseconds: 400),
-                    //     curve: Curves.easeInOut);
                   },),
                 ),
               ),
@@ -302,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         //     duration: const Duration(milliseconds: 400),
         //     curve: Curves.easeInOut);
       }),
-      HospitalScreen(),
+      HospitalScreen(f1: f1,),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(
       //     children:[
@@ -351,6 +347,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //BottomNavBar
     var bottomNavBar=BottomNavigationBar(
         onTap: (int index){
+          f1.unfocus();
           if(currentIndex !=index)
           {
             _moveTo(index);

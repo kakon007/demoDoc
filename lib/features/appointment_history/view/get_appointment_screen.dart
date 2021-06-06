@@ -740,11 +740,11 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                          Divider(thickness: 1,),
                                                          Padding(
                                                            padding:  EdgeInsets.only(top: 0.0,
-                                                               right: 2,
+                                                               right: 5,
                                                                bottom: 8,
                                                                left: deviceHeight >
                                                                    650
-                                                                   ? 20
+                                                                   ? 5
                                                                    : 10),
                                                            child: Column(
                                                              crossAxisAlignment: CrossAxisAlignment.start,
@@ -1291,12 +1291,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                       Padding(
                                                         padding: EdgeInsets.only(
                                                             top: 0.0,
-                                                            right: 2,
+                                                            right: 5,
                                                             bottom: 8,
                                                             left: deviceHeight >
                                                                     650
-                                                                ? 20
-                                                                : 10),
+                                                                ? 5
+                                                                : 20),
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment

@@ -268,6 +268,9 @@ class _SignInState extends State<SignIn> {
                                   fontSize: height*.03,
                                   fontWeight: FontWeight.w600),
                             )),
+                        SizedBox(
+                          height: width>360 ? 15 : 10,
+                        ),
                         userName,
                         password,
                         validUser == false

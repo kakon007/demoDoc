@@ -121,7 +121,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                 padding:
                     const EdgeInsets.only(left: 20.0, right: 20, bottom: 15),
                 child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
@@ -145,6 +145,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                       ),
                       Container(
                         height: 75,
+                        width: MediaQuery.of(context).size.width*.77,
                         decoration: BoxDecoration(
                           color: HexColor("#F0F2FF"),
                           borderRadius: BorderRadius.circular(10),

@@ -146,7 +146,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
@@ -172,10 +172,11 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0, right: 10),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left:12.0, right: 10),
+                              padding: const EdgeInsets.only(left:12.0, right: 12),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 currentPassword,
@@ -186,7 +187,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 15.0, right: 15, top: 5),
+                                  left: 12.0, right: 12, top: 5),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

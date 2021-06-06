@@ -333,13 +333,14 @@ class _AddPatientState extends State<AddPatient> {
       ],
     );
     var memberDetail = Container(
+        width: MediaQuery.of(context).size.width * .77,
         decoration: BoxDecoration(
           color: HexColor("#F0F2FF"),
           borderRadius: BorderRadius.circular(10),
         ),
         margin: EdgeInsets.only(bottom: 2),
         height: width <= 330 ? 60 : 70,
-      width: MediaQuery.of(context).size.width * .78,
+     // width: MediaQuery.of(context).size.width * .78,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -547,7 +548,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .775,
+                width: MediaQuery.of(context).size.width * .77,
                 decoration: BoxDecoration(
                     color: familyVm.isSelected && memberList
                         ? AppTheme.appbarPrimary
@@ -640,7 +641,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .78,
+                width: MediaQuery.of(context).size.width * .77,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
@@ -1122,13 +1123,15 @@ class _AddPatientState extends State<AddPatient> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  //mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     spaceBetween,
                     Padding(
                       padding: const EdgeInsets.only(right: 15.0, left: 15),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           spaceBetween,
                           //vm.forMe== false ? membersList : SizedBox(),
@@ -1189,11 +1192,11 @@ class _AddPatientState extends State<AddPatient> {
                               : SizedBox(),
                           spaceBetween,
                           spaceBetween,
-                          vm.forMe ? consultFeeForMe : consultFeeAdd,
                           spaceBetween,
                         ],
                       ),
                     ),
+                    vm.forMe ? consultFeeForMe : consultFeeAdd,
                   ],
                 ),
               ),

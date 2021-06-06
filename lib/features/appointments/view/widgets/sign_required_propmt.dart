@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 
@@ -36,20 +37,37 @@ class SignInRequired extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 50.0),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                        Text("To Book an Appointment ",
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.black)),
-                        Text("Sign In Required.",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500)),
-                      ],),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text:  TextSpan(
+                            style:  GoogleFonts.poppins(
+                              fontSize: 16.0,
+                              color: Colors.black,
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(text: "To Book an Appointment "),
+                              TextSpan(text: "Sign In Required.", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                              //TextSpan(text: " from your family member list?", style: GoogleFonts.poppins()),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //   Text("To Book an Appointment ",
+                      //       style: TextStyle(
+                      //           fontSize: 16, color: Colors.black)),
+                      //   Text("Sign In Required.",
+                      //       style: TextStyle(
+                      //           fontSize: 18,
+                      //           color: Colors.black,
+                      //           fontWeight: FontWeight.w500)),
+                      // ],),
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

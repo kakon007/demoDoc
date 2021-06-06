@@ -168,10 +168,10 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   }
 
   Future<void> getSlots(DateTime pickedAppointDate, String companyNo,
-      String docotrNo, String orgNo) async {
+      String doctorNo, String orgNo) async {
     _isLoading = true;
     var res = await AvailableSlotsRepository()
-        .fetchSlotInfo(pickedAppointDate, companyNo, docotrNo, orgNo);
+        .fetchSlotInfo(pickedAppointDate, companyNo, doctorNo, orgNo);
     _slots.clear();
     notifyListeners();
     res.fold((l) {

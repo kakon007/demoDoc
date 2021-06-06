@@ -210,7 +210,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     final String assetName1 = "assets/icons/sign_in.svg";
     final Widget svg = SvgPicture.asset(
       assetName1,
-      width: 8,
+      width: 9,
       height: 15,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
@@ -353,7 +353,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     StringResources.dasboardAppBarSignInText,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 10),
+                                        fontSize: 12),
                                   ),
                                   SizedBox(
                                     width: 3,
@@ -558,7 +558,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 15,
                                     ),
                                     accessTokenVm.accessToken == null || vm15.nearestAppointmentDetails==null
                                         ? Container()
@@ -573,7 +573,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       //controller
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 15,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(

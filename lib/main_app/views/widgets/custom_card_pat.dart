@@ -101,7 +101,7 @@ class CustomCardPat extends StatelessWidget {
                                     Text(
                                       "Your Serial No.",
                                       style: GoogleFonts.poppins(
-                                          fontSize: width < 330 ? 10 : 11,
+                                          fontSize: width < 330 ? 10 : 12,
                                           color: HexColor('#354291')),
                                       textAlign: TextAlign.center,
                                     ),
@@ -187,9 +187,9 @@ class CustomCardPat extends StatelessWidget {
                                     padding: const EdgeInsets.all(0.0),
                                     child: Text(
                                       "View All Appointments",
-                                      style: TextStyle(
+                                      style: GoogleFonts.poppins(
                                           color: Colors.white,
-                                          fontSize: width < 330 ? 8 : 11),
+                                          fontSize: width < 330 ? 8 : 10,fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),

@@ -27,7 +27,7 @@ class HospitalListCard extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     var cardWidth = MediaQuery.of(context).size.width * 0.3435;
     return Container(
-      margin: EdgeInsets.all(width<330 ? 3 :6),
+      margin: EdgeInsets.only(left: width<330 ? 3 :6,right: width<330 ? 3 :6, bottom: 2),
       width: MediaQuery.of(context).size.width,
       height:  width< 330 ? 118 : 135,
       child: Card(
@@ -81,9 +81,7 @@ class HospitalListCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: width<330
-                              ?135
-                              : 161,
+                          width: MediaQuery.of(context).size.width*.5,
                           height: width<330 ? 25 : 35,
                           child: Center(child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),)),
                         ),

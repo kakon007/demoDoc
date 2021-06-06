@@ -9,13 +9,13 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-  bool value = false;
   String _dropDownValue;
   List<String> selectedList;
   String selectedDuration;
@@ -56,7 +56,6 @@ class _SignUpState extends State<SignUp> {
       });
     }
   }
-
 
   @override
   void initState() {
@@ -166,7 +165,7 @@ class _SignUpState extends State<SignUp> {
                       child: Container(
                           height: 18,
                           child:
-                          Image.asset("assets/images/calender_icon.png")),
+                              Image.asset("assets/images/calender_icon.png")),
                     ),
                   ],
                 ),
@@ -181,84 +180,75 @@ class _SignUpState extends State<SignUp> {
     );
     var gender = Row(
       children: [
-        GestureDetector(
-          child: Column(
-            children: [
-              Container(
-                  height: 20.0,
-                  width: width,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      children: [
-                        Text(StringResources.gender,
-                            style: GoogleFonts.roboto(fontSize: 12)),
-                        Text(
-                          " *",
-                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
-                        )
-                      ],
-                    ),
-                  )),
-              Container(
-                height: 45.0,
+        Column(
+          children: [
+            Container(
+                height: 20.0,
                 width: width,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: HexColor(abc)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: 140,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButtonFormField(
-                                decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none),
-                                iconSize: 0.0,
-                                hint: Text(
-                                  StringResources.gender,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                value: _selectedGender,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedGender = newValue;
-                                  });
-                                },
-                                items: StringResources.genderList.map((gender) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      gender,
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: gender,
-                                  );
-                                }).toList(),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Row(
+                    children: [
+                      Text(StringResources.gender,
+                          style: GoogleFonts.roboto(fontSize: 12)),
+                      Text(
+                        " *",
+                        style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                      )
+                    ],
+                  ),
+                )),
+            Container(
+              height: 45.0,
+              width: width,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: HexColor(abc)),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: width*.88,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedGender != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                          iconSize:25,
+                          decoration:
+                              InputDecoration(
+                                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          hint: Text(
+                            StringResources.gender,
+                            style: GoogleFonts.roboto(
+                                fontSize: 15, color: HexColor("#D2D2D2")),
+                          ),
+                          value: _selectedGender,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedGender = newValue;
+                            });
+                          },
+                          items: StringResources.genderList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 14),
                               ),
-                            ),
-                          ),
+                              value: gender,
+                            );
+                          }).toList(),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 120.0, top: 5),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
@@ -269,11 +259,10 @@ class _SignUpState extends State<SignUp> {
           print("shaki" + _address.text + "shaki");
           await vm.getSignUpInfo(_name.text, _email.text, _mobile.text,
               _address.text, _selectedGender, _formatDate2);
-          if(vm.message=="Saved Successfully"){
+          if (vm.message == "Saved Successfully") {
             Navigator.pop(context);
             showAlert(context);
           }
-
         }
       },
       child: Material(
@@ -346,7 +335,7 @@ class _SignUpState extends State<SignUp> {
             Text(
               " and  ",
               style:
-              GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 13),
+                  GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 13),
             ),
             Text(
               StringResources.policy,
@@ -377,7 +366,7 @@ class _SignUpState extends State<SignUp> {
             key: _formKey,
             child: Padding(
               padding:
-              EdgeInsets.only(top: MediaQuery.of(context).size.width * .04),
+                  EdgeInsets.only(top: MediaQuery.of(context).size.width * .04),
               child: Column(
                 children: [
                   Expanded(
@@ -393,7 +382,7 @@ class _SignUpState extends State<SignUp> {
                               spreadRadius: 10,
                               blurRadius: 7,
                               offset:
-                              Offset(0, 3), // changes position of shadow
+                                  Offset(0, 3), // changes position of shadow
                             ),
                           ]),
                       child: SingleChildScrollView(
@@ -404,12 +393,12 @@ class _SignUpState extends State<SignUp> {
                               spaceBetween,
                               Center(
                                   child: Text(
-                                    StringResources.createAccount,
-                                    style: TextStyle(
-                                        color: HexColor("#0D1231"),
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w500),
-                                  )),
+                                StringResources.createAccount,
+                                style: TextStyle(
+                                    color: HexColor("#0D1231"),
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w500),
+                              )),
                               spaceBetween,
                               name,
                               email,
@@ -419,7 +408,7 @@ class _SignUpState extends State<SignUp> {
                               address,
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   gender,
                                   date,
@@ -431,7 +420,10 @@ class _SignUpState extends State<SignUp> {
                                   spaceBetween,
                                   spaceBetween,
                                   spaceBetween,
-                                  vm.isLoading==true ? Center(child: CircularProgressIndicator()) : signUpButton,
+                                  vm.isLoading == true
+                                      ? Center(
+                                          child: CircularProgressIndicator())
+                                      : signUpButton,
                                   spaceBetween,
                                   signIn,
                                   spaceBetween,
@@ -530,9 +522,9 @@ class _SignUpState extends State<SignUp> {
                         0.2,
                         0.5,
                       ], colors: [
-                        HexColor("#D6DCFF"),
-                        HexColor("#FFFFFF"),
-                      ]),
+                    HexColor("#D6DCFF"),
+                    HexColor("#FFFFFF"),
+                  ]),
                   //borderRadius: 10,
                 ),
                 child: Padding(
@@ -540,24 +532,47 @@ class _SignUpState extends State<SignUp> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(vm.message, style: GoogleFonts.poppins(fontWeight: FontWeight.w600),),
-                      SizedBox(height: 5,),
+                      Text(
+                        vm.message,
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Username : ",  style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
-                          Text(vm.username, style: GoogleFonts.poppins(),)
+                          Text(
+                            "Username : ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            vm.username,
+                            style: GoogleFonts.poppins(),
+                          )
                         ],
                       ),
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Password: ", style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
-                          Text(vm.password, style: GoogleFonts.poppins(),)
+                          Text(
+                            "Password: ",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            vm.password,
+                            style: GoogleFonts.poppins(),
+                          )
                         ],
                       ),
-                      SizedBox(height: 5,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -571,8 +586,7 @@ class _SignUpState extends State<SignUp> {
                               color: AppTheme.appbarPrimary,
                               child: Text(
                                 "OK",
-                                style:
-                                GoogleFonts.poppins(color: Colors.white),
+                                style: GoogleFonts.poppins(color: Colors.white),
                               ))
                         ],
                       )

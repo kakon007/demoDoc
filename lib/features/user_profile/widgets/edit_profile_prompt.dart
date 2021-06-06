@@ -135,166 +135,140 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     );
     var gender = Row(
       children: [
-        GestureDetector(
-          child: Column(
-            children: [
-              Container(
-                  height: 20.0,
-                  width: width * .9,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      children: [
-                        Text(StringResources.gender,
-                            style: GoogleFonts.roboto(fontSize: 12)),
-                        Text(
-                          " *",
-                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
-                        )
-                      ],
-                    ),
-                  )),
-              Container(
-                height: 50.0,
+        Column(
+          children: [
+            Container(
+                height: 20.0,
                 width: width * .9,
-                decoration: BoxDecoration(
-                    border: Border.all(color: HexColor(genderColor)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: width * .72,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButtonFormField(
-                                decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none),
-                                iconSize: 0.0,
-                                hint: Text(
-                                  StringResources.gender,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                value: _selectedGender,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedGender = newValue;
-                                  });
-                                },
-                                items: StringResources.genderList.map((gender) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      gender,
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: gender,
-                                  );
-                                }).toList(),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Row(
+                    children: [
+                      Text(StringResources.gender,
+                          style: GoogleFonts.roboto(fontSize: 12)),
+                      Text(
+                        " *",
+                        style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                      )
+                    ],
+                  ),
+                )),
+            Container(
+              height: 50.0,
+              width: width * .9,
+              decoration: BoxDecoration(
+                  border: Border.all(color: HexColor(genderColor)),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: width * .78,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedGender != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                          iconSize:25,
+                          hint: Text(
+                            StringResources.gender,
+                            style: GoogleFonts.roboto(
+                                fontSize: 15, color: HexColor("#D2D2D2")),
+                          ),
+                          value: _selectedGender,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedGender = newValue;
+                            });
+                          },
+                          items: StringResources.genderList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 14),
                               ),
-                            ),
-                          ),
+                              value: gender,
+                            );
+                          }).toList(),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: width * .7, top: 10),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                            size: 28,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
-    var bloodGroup = Row(
+    var bloodGroup = Column(
       children: [
-        GestureDetector(
-          child: Column(
-            children: [
-              Container(
-                  height: 20.0,
-                  width: width * .9,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      children: [
-                        Text(StringResources.bloodGroup,
-                            style: GoogleFonts.roboto(fontSize: 12)),
-                        Text(
-                          " *",
-                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
-                        )
-                      ],
-                    ),
-                  )),
-              Container(
-                height: 50.0,
-                width: width * .9,
-                decoration: BoxDecoration(
-                    border: Border.all(color: HexColor(bloodBorderColor)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 18.0),
-                          child: Container(
-                            width: width * .72,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButtonFormField(
-                                decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none),
-                                iconSize: 0.0,
-                                hint: Text(
-                                  'Blood Group',
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                value: _selectedBlood,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedBlood = newValue;
-                                  });
-                                },
-                                items:
-                                    StringResources.bloodGroupList.map((blood) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      blood,
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: blood,
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: width * .7, top: 10),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                            size: 28,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+        Container(
+            height: 20.0,
+            width: width * .9,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Row(
+                children: [
+                  Text(StringResources.bloodGroup,
+                      style: GoogleFonts.roboto(fontSize: 12)),
+                  Text(
+                    " *",
+                    style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                  )
+                ],
               ),
+            )),
+        Container(
+          height: 50.0,
+          width: width * .9,
+          decoration: BoxDecoration(
+              border: Border.all(color: HexColor(bloodBorderColor)),
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 18.0),
+                child: Container(
+                  width: width * .76,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButtonFormField(
+                      icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedBlood != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                      iconSize:25,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          enabledBorder: InputBorder.none),
+                      hint: Text(
+                        'Blood Group',
+                        style: GoogleFonts.roboto(
+                            fontSize: 15, color: HexColor("#D2D2D2")),
+                      ),
+                      value: _selectedBlood,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedBlood = newValue;
+                        });
+                      },
+                      items:
+                          StringResources.bloodGroupList.map((blood) {
+                        return DropdownMenuItem(
+                          child: new Text(
+                            blood,
+                            style: GoogleFonts.roboto(fontSize: 14),
+                          ),
+                          value: blood,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),

@@ -136,130 +136,131 @@ class _AddPatientState extends State<AddPatient> {
     var spaceBetween = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
     );
-    var name = SignUpFormField(
+    var name = Container(
+      width: MediaQuery.of(context).size.width*.79,
+      child: SignUpFormField(
       validator: Validator().nullFieldValidate,
       controller: _name,
       margin: EdgeInsets.all(2),
       labelText: "Name",
       isRequired: true,
       hintText: StringResources.name,
-    );
-    var email = SignUpFormField(
+    ),);
+    var email = Container(
+      width: MediaQuery.of(context).size.width*.79,
+      child: SignUpFormField(
       validator: Validator().validateEmail,
       controller: _email,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Email",
       hintText: StringResources.email,
-    );
-    var mobile = SignUpFormField(
+    ),);
+    var mobile = Container(
+      width: MediaQuery.of(context).size.width*.79,
+      child: SignUpFormField(
       validator: Validator().validatePhoneNumber,
       controller: _mobile,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Mobile",
       hintText: StringResources.mobileNumber,
-    );
-    var address = SignUpFormField(
+    ),);
+    var address = Container(
+      width: MediaQuery.of(context).size.width*.79,
+      child: SignUpFormField(
       validator: Validator().nullFieldValidate,
       controller: _address,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Address",
       hintText: StringResources.address,
-    );
+    ),);
     var gender = Row(
       children: [
-        GestureDetector(
-          child: Column(
-            children: [
-              Container(
-                  height: 20.0,
-                  width: MediaQuery.of(context).size.width * .4,
-                  child: Padding(
+        Column(
+          children: [
+            Container(
+                height: 20.0,
+                width: MediaQuery.of(context).size.width * .38,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Row(
+                    children: [
+                      Text(StringResources.gender,
+                          style: GoogleFonts.roboto(fontSize: 12)),
+                      Text(
+                        " *",
+                        style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                      )
+                    ],
+                  ),
+                )),
+            Container(
+              height: 45.0,
+              width: MediaQuery.of(context).size.width * .38,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: HexColor(genderBorderColor)),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
                     padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      children: [
-                        Text(StringResources.gender,
-                            style: GoogleFonts.roboto(fontSize: 12)),
-                        Text(
-                          " *",
-                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
-                        )
-                      ],
-                    ),
-                  )),
-              Container(
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .42,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: HexColor(genderBorderColor)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: 120,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                iconSize: 0.0,
-                                hint: Text(
-                                  StringResources.gender,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                // Not necessary for Option 1
-                                value: _selectedGender,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedGender = newValue;
-                                    selectedGender = newValue;
-                                  });
-                                },
-                                items: StringResources.genderList.map((gender) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      gender,
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: gender,
-                                  );
-                                }).toList(),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .32,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedGender != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                          iconSize:25,
+                          decoration:
+                          InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          hint: Text(
+                            StringResources.gender,
+                            style: GoogleFonts.roboto(
+                                fontSize: 15, color: HexColor("#D2D2D2")),
+                          ),
+                          // Not necessary for Option 1
+                          value: _selectedGender,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedGender = newValue;
+                              selectedGender = newValue;
+                            });
+                          },
+                          items: StringResources.genderList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 14),
                               ),
-                            ),
-                          ),
+                              value: gender,
+                            );
+                          }).toList(),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 120.0, top: 5),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              genderBorderColor != "#FF0000"
-                  ? SizedBox(
-                      width: 2,
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
-                      child: Text(
-                        "This Field Is Required",
-                        style: GoogleFonts.poppins(
-                            color: Colors.red, fontSize: 12),
                       ),
-                    )
-            ],
-          ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            genderBorderColor != "#FF0000"
+                ? SizedBox(
+                    width: 2,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
+                    child: Text(
+                      "This Field Is Required",
+                      style: GoogleFonts.poppins(
+                          color: Colors.red, fontSize: 12),
+                    ),
+                  )
+          ],
         ),
       ],
     );
@@ -273,7 +274,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                   height: 20.0,
-                  width: MediaQuery.of(context).size.width * .23,
+                  width: MediaQuery.of(context).size.width * .25,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -289,7 +290,7 @@ class _AddPatientState extends State<AddPatient> {
                   )),
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .38,
+                width: MediaQuery.of(context).size.width * .36,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(color)),
@@ -333,7 +334,7 @@ class _AddPatientState extends State<AddPatient> {
       ],
     );
     var memberDetail = Container(
-        width: MediaQuery.of(context).size.width * .77,
+        width: MediaQuery.of(context).size.width * .79,
         decoration: BoxDecoration(
           color: HexColor("#F0F2FF"),
           borderRadius: BorderRadius.circular(10),
@@ -431,7 +432,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                //width: MediaQuery.of(context).size.width * .79,
+                width: MediaQuery.of(context).size.width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(patientBorderColor)),
@@ -439,77 +440,70 @@ class _AddPatientState extends State<AddPatient> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .72,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                iconSize: 0.0,
-                                hint: Text(
-                                  "Select Type",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                // Not necessary for Option 1
-                                value: _selectedMemberType,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedMemberType = newValue;
-                                    if (_selectedMemberType !=
-                                        selectedMemberType) {
-                                      if(_selectedMemberType=="Family Member"){
-                                        memberList= true;
-                                      }
-                                      else{
-                                        memberList= false;
-                                      }
-                                      selectedMemberType = newValue;
-                                      _selectedConsultation = null;
-                                      selectedConsultationType="";
-                                      Future.delayed(Duration.zero, () async {
-                                        await vm.getConType(
-                                            widget.doctorNo,
-                                            selectedMemberType ==
-                                                    "Family Member"
-                                                ? vm.patNo
-                                                : vm.patOther,
-                                            widget.companyNo,
-                                            widget.orgNo);
-                                      });
-                                    }
-                                  });
-                                },
-                                items: StringResources.memberList.map((patNo) {
-                                  return DropdownMenuItem(
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          patNo,
-                                          style:
-                                              GoogleFonts.roboto(fontSize: 14),
-                                        ),
-                                      ],
-                                    ),
-                                    value: patNo,
-                                  );
-                                }).toList(),
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .73,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField(
+                            icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedMemberType != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                            iconSize:25,
+                            decoration:
+                            InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                enabledBorder: InputBorder.none),
+                            isExpanded: true,
+                            hint: Text(
+                              "Select Type",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 15, color: HexColor("#D2D2D2")),
                             ),
+                            // Not necessary for Option 1
+                            value: _selectedMemberType,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedMemberType = newValue;
+                                if (_selectedMemberType !=
+                                    selectedMemberType) {
+                                  if(_selectedMemberType=="Family Member"){
+                                    memberList= true;
+                                  }
+                                  else{
+                                    memberList= false;
+                                  }
+                                  selectedMemberType = newValue;
+                                  _selectedConsultation = null;
+                                  selectedConsultationType="";
+                                  Future.delayed(Duration.zero, () async {
+                                    await vm.getConType(
+                                        widget.doctorNo,
+                                        selectedMemberType ==
+                                                "Family Member"
+                                            ? vm.patNo
+                                            : vm.patOther,
+                                        widget.companyNo,
+                                        widget.orgNo);
+                                  });
+                                }
+                              });
+                            },
+                            items: StringResources.memberList.map((patNo) {
+                              return DropdownMenuItem(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      patNo,
+                                      style:
+                                          GoogleFonts.roboto(fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                                value: patNo,
+                              );
+                            }).toList(),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * .7,
-                              top: 10),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
+                      ),
                     )
                   ],
                 ),
@@ -547,19 +541,21 @@ class _AddPatientState extends State<AddPatient> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                padding:EdgeInsets.only(left: 10),
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .77,
+                width: MediaQuery.of(context).size.width * .79,
                 decoration: BoxDecoration(
                     color: familyVm.isSelected && memberList
                         ? AppTheme.appbarPrimary
                         : Colors.white,
                     border: Border.all(color: HexColor(memberBorderColor)),
                     borderRadius: BorderRadius.circular(10)),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * .72,
+                child: Center(
+                  child: Row(
+                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * .67,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 7.0),
                           child: Text(
@@ -573,19 +569,17 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * .7,
-                          top: 10),
-                      child: Icon(
-                        familyVm.isSelected && memberList
-                            ? Icons.keyboard_arrow_right_outlined
-                            : Icons.keyboard_arrow_down_sharp,
-                        color: HexColor("#D2D2D2"),
-                      ),
-                    ),
-                  ],
+                      Row(children: [
+                        Icon(
+                          familyVm.isSelected && memberList
+                              ? Icons.keyboard_arrow_right_outlined
+                              : Icons.keyboard_arrow_down_sharp,
+                          color: HexColor("#D2D2D2"),
+                          size: 25,
+                        ),
+                      ],)
+                    ],
+                  ),
                 ),
               ),
               memberBorderColor != "#FF0000"
@@ -613,7 +607,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .78,
+                width: MediaQuery.of(context).size.width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
@@ -641,7 +635,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .77,
+                width: MediaQuery.of(context).size.width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
@@ -665,193 +659,172 @@ class _AddPatientState extends State<AddPatient> {
     );
     var consultationTypeAdd = Row(
       children: [
-        GestureDetector(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 45.0,
-                //width: MediaQuery.of(context).size.width * .8,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: HexColor(consultBorderColor)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .72,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                iconSize: 0.0,
-                                hint: Text(
-                                  StringResources.consultationTypeText,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                // Not necessary for Option 1
-                                value: _selectedConsultation,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    //print(newValue);
-                                    _selectedConsultation = newValue;
-                                    selectedConsultationType = newValue;
-                                    //print("Con: $selectedConsultationType");
-                                    vm.getFee(
-                                      widget.companyNo,
-                                      _selectedConsultation,
-                                      widget.doctorNo,
-                                      widget.orgNo,
-                                      (selectedMemberType == "Family Member" &&
-                                              vm.addPatient == true)
-                                          ? vm.patNo
-                                          : vm.patOther,
-                                    );
-                                  });
-                                },
-                                items: vm.consultType.map((consNo) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      Validator()
-                                          .capitalizeTheFirstLetterOfEachWord(
-                                              consNo.name),
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: consNo.no,
-                                  );
-                                }).toList(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 45.0,
+              width: MediaQuery.of(context).size.width * .79,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: HexColor(consultBorderColor)),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .73,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedConsultation != null ?  Colors.black54: HexColor("#D2D2D2"),),
+                          iconSize:25,
+                          hint: Text(
+                            StringResources.consultationTypeText,
+                            style: GoogleFonts.roboto(
+                                fontSize: 15, color: HexColor("#D2D2D2")),
+                          ),
+                          decoration:
+                          InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              enabledBorder: InputBorder.none),
+                          value: _selectedConsultation,
+                          onChanged: (newValue) {
+                            setState(() {
+                              //print(newValue);
+                              _selectedConsultation = newValue;
+                              selectedConsultationType = newValue;
+                              //print("Con: $selectedConsultationType");
+                              vm.getFee(
+                                widget.companyNo,
+                                _selectedConsultation,
+                                widget.doctorNo,
+                                widget.orgNo,
+                                (selectedMemberType == "Family Member" &&
+                                        vm.addPatient == true)
+                                    ? vm.patNo
+                                    : vm.patOther,
+                              );
+                            });
+                          },
+                          items: vm.consultType.map((consNo) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                Validator()
+                                    .capitalizeTheFirstLetterOfEachWord(
+                                        consNo.name),
+                                style: GoogleFonts.roboto(fontSize: 14),
                               ),
-                            ),
-                          ),
+                              value: consNo.no,
+                            );
+                          }).toList(),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * .7,
-                              top: 10),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              consultBorderColor != "#FF0000"
-                  ? SizedBox(
-                      width: 2,
-                    )
-                  : Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, top: 8, right: 38),
-                      child: Text(
-                        "This Field Is Required",
-                        style: GoogleFonts.poppins(
-                            color: Colors.red, fontSize: 12),
                       ),
-                    )
-            ],
-          ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            consultBorderColor != "#FF0000"
+                ? SizedBox(
+                    width: 2,
+                  )
+                : Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16, top: 8, right: 38),
+                    child: Text(
+                      "This Field Is Required",
+                      style: GoogleFonts.poppins(
+                          color: Colors.red, fontSize: 12),
+                    ),
+                  )
+          ],
         ),
       ],
     );
     var consultationTypeForMe = Row(
       children: [
-        GestureDetector(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 45.0,
-                //width: MediaQuery.of(context).size.width * .8,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border:
-                        Border.all(color: HexColor(consultBorderColorForMe)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .72,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                iconSize: 0.0,
-                                hint: Text(
-                                  StringResources.consultationTypeText,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                // Not necessary for Option 1
-                                value: _selectedConsultationForMe,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    //print(newValue);
-                                    _selectedConsultationForMe = newValue;
-                                    selectedConsultationTypeForMe = newValue;
-                                    //print("Con: $selectedConsultationType");
-                                    vm.getFeeForMe(
-                                      widget.companyNo,
-                                      _selectedConsultationForMe,
-                                      widget.doctorNo,
-                                      widget.orgNo,
-                                      vm.patNo,
-                                    );
-                                  });
-                                },
-                                items: vm.consultType2.map((consNo) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      Validator()
-                                          .capitalizeTheFirstLetterOfEachWord(
-                                              consNo.name),
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: consNo.no,
-                                  );
-                                }).toList(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 45.0,
+              width: MediaQuery.of(context).size.width * .79,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border:
+                      Border.all(color: HexColor(consultBorderColorForMe)),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .73,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedConsultationForMe != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                          iconSize:25,
+                          decoration:
+                          InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          hint: Text(
+                            StringResources.consultationTypeText,
+                            style: GoogleFonts.roboto(
+                                fontSize: 15, color: HexColor("#D2D2D2")),
+                          ),
+                          // Not necessary for Option 1
+                          value: _selectedConsultationForMe,
+                          onChanged: (newValue) {
+                            setState(() {
+                              //print(newValue);
+                              _selectedConsultationForMe = newValue;
+                              selectedConsultationTypeForMe = newValue;
+                              //print("Con: $selectedConsultationType");
+                              vm.getFeeForMe(
+                                widget.companyNo,
+                                _selectedConsultationForMe,
+                                widget.doctorNo,
+                                widget.orgNo,
+                                vm.patNo,
+                              );
+                            });
+                          },
+                          items: vm.consultType2.map((consNo) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                Validator()
+                                    .capitalizeTheFirstLetterOfEachWord(
+                                        consNo.name),
+                                style: GoogleFonts.roboto(fontSize: 14),
                               ),
-                            ),
-                          ),
+                              value: consNo.no,
+                            );
+                          }).toList(),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * .7,
-                              top: 10),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              consultBorderColorForMe != "#FF0000"
-                  ? SizedBox(
-                      width: 2,
-                    )
-                  : Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, top: 8, right: 38),
-                      child: Text(
-                        "This Field Is Required",
-                        style: GoogleFonts.poppins(
-                            color: Colors.red, fontSize: 12),
                       ),
-                    )
-            ],
-          ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            consultBorderColorForMe != "#FF0000"
+                ? SizedBox(
+                    width: 2,
+                  )
+                : Padding(
+                    padding:
+                        const EdgeInsets.only(left: 16, top: 8, right: 38),
+                    child: Text(
+                      "This Field Is Required",
+                      style: GoogleFonts.poppins(
+                          color: Colors.red, fontSize: 12),
+                    ),
+                  )
+          ],
         ),
       ],
     );
@@ -1128,7 +1101,7 @@ class _AddPatientState extends State<AddPatient> {
                   children: [
                     spaceBetween,
                     Padding(
-                      padding: const EdgeInsets.only(right: 15.0, left: 15),
+                      padding: EdgeInsets.only(right: MediaQuery.of(context).size.width/24 , left: MediaQuery.of(context).size.width/24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -1179,13 +1152,16 @@ class _AddPatientState extends State<AddPatient> {
                                     //confirmPassword,
                                     address,
                                     spaceBetween,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        gender,
-                                        dateOfBirth,
-                                      ],
+                                    Container(
+                                      width: MediaQuery.of(context).size.width*.79,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          gender,
+                                          dateOfBirth,
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 )

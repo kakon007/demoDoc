@@ -91,6 +91,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       },
       controller: hospitalController,
       borderRadius: 30,
+      minimizeBottomPadding: true,
       hintText: StringResources.searchBoxHint,
       suffixIcon: Padding(
         padding: const EdgeInsets.only(right: 20.0),
@@ -153,7 +154,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               searchField,
-              vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Loader():  Expanded(
+              vm.shouldShowPageLoader||vm5.shouldShowPageLoader || vm6.shouldShowPageLoaderForImage? Loader():  Expanded(
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: hospitalItems.length,

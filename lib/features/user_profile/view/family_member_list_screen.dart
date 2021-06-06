@@ -313,7 +313,6 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                    Text("", style: GoogleFonts.poppins())
                                                                   ],
                                                                 ),
                                                                 // Column(

@@ -12,6 +12,7 @@ class SignUpFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final int maxLines;
   final int minLines;
+  final bool minimizeBottomPadding;
   final EdgeInsetsGeometry contentPadding;
   final EdgeInsetsGeometry margin;
   final FocusNode focusNode;
@@ -34,6 +35,7 @@ class SignUpFormField extends StatelessWidget {
   final double topPadding;
 
   const SignUpFormField({
+    this.minimizeBottomPadding = false,
     this.readOnly = false,
     this.enabled = true,
     this.maxLength,
@@ -139,7 +141,7 @@ class SignUpFormField extends StatelessWidget {
             ),
           ),
           errorText == null
-              ? Text("")
+              ? minimizeBottomPadding ? SizedBox(height: 2,) : Text("")
               : Padding(
                   padding: const EdgeInsets.only(left: 38, top: 0, right: 38),
                   child: Text(

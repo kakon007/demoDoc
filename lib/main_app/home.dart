@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   );
   List<Widget> screenShots;
   Map<int,Widget> screens;
+  Map<int,Widget> screens2;
 
 
 
@@ -103,8 +104,25 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       6:FamilyMemberListScreen(),
       7:SwitchAccount(),
     };
+    screens2= {
+      0: DashboardScreen(menuCallBack: (){
+        setState(() {
+          isDrawerOpen=true;
+          _animationController.forward();
+          print("Heeoollo");
+        });
+      },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
+      1: accessTokenVm.accessToken==null?SignInPrompt("To access your Appointments,",'Appointments'):GetAppointment(),
+      2: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //5:NotificationScreen(),
+      3:FamilyMemberListScreen(),
+      4:SwitchAccount(),
+      5:SettingScreen(accessToken: accessTokenVm.accessToken,),
+    };
 
-    screenShots=screens.values.toList();
+    screenShots=accessTokenVm.accessToken==null?screens.values.toList():screens2.values.toList();
 
     Widget buildStackedScreen(int position){
       var deviceWidth=MediaQuery.of(context).size.width;
@@ -152,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           DrawerScreen(accessToken: accessTokenVm.accessToken,menuCallBack:(selectedIndex) {
             setState(() {
               //isSelected=true;
-              screenShots=screens.values.toList();
+              screenShots=accessTokenVm.accessToken==null?screens.values.toList():screens2.values.toList();
               final selectedWidget=screenShots.removeAt(selectedIndex);
               screenShots.insert(0, selectedWidget);
               // ignore: unnecessary_statements

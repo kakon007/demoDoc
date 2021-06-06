@@ -38,9 +38,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Prescriptions",
     // "Reports",
     // "Documents",
-    "More",
     "Family Members",
     "Switch Account",
+    "More",
   ];
 
   List<String> menuItem2=[

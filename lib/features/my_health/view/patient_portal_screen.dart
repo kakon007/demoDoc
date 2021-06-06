@@ -1302,7 +1302,7 @@ var accessTokenVm;
                                                         //   child: greyright,
                                                         // ):
                                                         Padding(
-                                                          padding: EdgeInsets.only(left: width<=330? 22 : 38,top: 40),
+                                                          padding: EdgeInsets.only(top: 40),
                                                           child: GestureDetector(
                                                               onTap: () async{
                                                             vm.prescriptionList[index].prescriptionNo==null?
@@ -1312,6 +1312,34 @@ var accessTokenVm;
                                                           },
                                                              // onTap: showNotification,
                                                               child: Icon(Icons.download_rounded, color: AppTheme.appbarPrimary,)),
+                                                        ),
+                                                        SizedBox(width: 15,),
+                                                        Padding(
+                                                          padding: EdgeInsets.only(top: 40),
+                                                          child: GestureDetector(
+                                                              onTap: () async{
+                                                                showModalBottomSheet(
+                                                                    backgroundColor: HexColor("#E9ECFE"),
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius: BorderRadius.only(
+                                                                            topLeft: Radius.circular(25),
+                                                                            topRight: Radius.circular(25))),
+                                                                    context: context,
+                                                                    isScrollControlled: true,
+                                                                    builder: (context) {
+                                                                      return StatefulBuilder(
+                                                                          builder: (BuildContext context, StateSetter setState) {
+                                                                            var index = 0;
+                                                                            bool isTrue = false;
+                                                                            return FractionallySizedBox(
+                                                                                heightFactor: 0.65,
+                                                                                child:ShareDocument()
+                                                                            );
+                                                                          });
+                                                                    });
+                                                              },
+                                                              // onTap: showNotification,
+                                                              child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
                                                         ),
                                                       ]),
                                                     ),

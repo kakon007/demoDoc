@@ -684,14 +684,14 @@ class _GetAppointmentState extends State<GetAppointment> {
                                              children:[
                                                InkWell(
                                                  child: Container(
-                                                   height: 200,
+                                                   height: 190,
                                                    margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                    decoration: BoxDecoration(
                                                      color:HexColor('#F0F2FF'),
                                                      borderRadius: BorderRadius.circular(15),
                                                    ),
                                                    child: Padding(
-                                                     padding: EdgeInsets.only(left:10.0,right:10,top: 3),
+                                                     padding: EdgeInsets.only(left:5,right:5),
                                                      child: Column(
                                                        children: [
                                                          Row(
@@ -708,7 +708,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                              ),
                                                              SizedBox(width: 5,),
                                                              Padding(
-                                                               padding: EdgeInsets.only(bottom: deviceWidth<=330? 10 : 30,left: 1),
+                                                               padding: EdgeInsets.only(   bottom: MediaQuery.of(context)
+                                                                   .size
+                                                                   .height >
+                                                                   650
+                                                                   ? 20
+                                                                   : 10,
+                                                                   left: 1),
                                                                child: Column(
                                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                                  children: [
@@ -733,7 +739,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                          ),
                                                          Divider(thickness: 1,),
                                                          Padding(
-                                                           padding:  EdgeInsets.only(top:5.0,right: 2,bottom: 5,left: deviceHeight>350 ? 10 :5),
+                                                           padding:  EdgeInsets.only(top: 0.0,
+                                                               right: 2,
+                                                               bottom: 8,
+                                                               left: deviceHeight >
+                                                                   650
+                                                                   ? 20
+                                                                   : 10),
                                                            child: Column(
                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                              children: [
@@ -791,7 +803,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                            ),
 
                                                          ),
-                                                         SizedBox(height:  MediaQuery.of(context).size.width >600? 5 : 10,),
+                                                         SizedBox(height:  MediaQuery.of(context).size.width*.44 >600? 10 : 5,),
                                                          GestureDetector(
                                                            onTap:(){
                                                              getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
@@ -1177,7 +1189,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                       Row(
                                                         children: [
                                                           Container(
-                                                            height: 60,
+                                                            //height: 60,
                                                             //width: 20,
                                                             child: vm2
                                                                         .previousAppointmentList[
@@ -1491,7 +1503,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                       ),
                                                       SizedBox(height: 5,),
                                                       Row(children: [
-                                                        SizedBox(width: 6,),
+                                                        SizedBox(width: 10,),
                                                         InkWell(
                                                           onTap:(){
                                                             Navigator.push(context,MaterialPageRoute(builder: (context){

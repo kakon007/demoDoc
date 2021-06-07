@@ -1315,7 +1315,7 @@ var accessTokenVm;
                                                         ),
                                                         SizedBox(width: 15,),
                                                         Padding(
-                                                          padding: EdgeInsets.only(top: 40),
+                                                          padding: EdgeInsets.only(top: 20),
                                                           child: GestureDetector(
                                                               onTap: () async{
                                                                 showModalBottomSheet(
@@ -1332,7 +1332,7 @@ var accessTokenVm;
                                                                             var index = 0;
                                                                             bool isTrue = false;
                                                                             return FractionallySizedBox(
-                                                                                heightFactor: 0.65,
+                                                                                heightFactor: 0.85,
                                                                                 child:ShareDocument()
                                                                             );
                                                                           });

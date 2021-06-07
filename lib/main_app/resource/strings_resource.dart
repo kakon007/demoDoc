@@ -86,6 +86,9 @@ class StringResources {
   static List<String> memberList = [
    "Family Member", "Others"
   ];
+  static List<String> ShareType = [
+   "Share With All", "Share With Selective Doctor(s)"
+  ];
   static List<String> memberNameList = [
    "Feroz Alam", "Shakil", "Jahid","Monir","Akram"
   ];

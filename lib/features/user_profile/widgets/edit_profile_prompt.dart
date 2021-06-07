@@ -81,7 +81,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
         ? vm.userDetailsList.gender == "M"
             ? "Male"
             : "Female"
-        : _selectedBlood;
+        : _selectedGender;
     // _selectedGender= vm.userDetailsList.gender!=null? vm.userDetailsList.gender : _selectedGender;
     // TODO: implement initState
     super.initState();

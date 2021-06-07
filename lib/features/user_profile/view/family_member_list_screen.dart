@@ -219,7 +219,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                    GestureDetector(
                                      onTap:(){
                                        _showAlertDialogForEditMemberList(context);
-                                       familyVm.getSelectedUserImage(relationId: familyVm.familyMembersList[index].relation.toString(),regId: familyVm.familyMembersList[index].regId,id: familyVm.familyMembersList[index].id.toString(),name: familyVm.familyMembersList[index].fmName,image: familyVm.familyMembersList[index].photo,userId: familyVm.familyMembersList[index].fmRegId,relationName: familyVm.familyMembersList[index].relationName);
+                                       familyVm.getSelectedUserImage(relationId: familyVm.familyMembersList[index].relation.toString(),regId: familyVm.familyMembersList[index].regId,id: familyVm.familyMembersList[index].id.toString(),name: familyVm.familyMembersList[index].fmName,image: familyVm.familyMembersList[index].photo,userId: familyVm.familyMembersList[index].fmRegId,relationName: familyVm.familyMembersList[index].relationName, memberRegId: familyVm.familyMembersList[index].fmRegId);
                                      },
                                      child: Container(
                                         height: 16,
@@ -297,7 +297,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsets.only(left: 15.0, right: 15),
+                                                                      padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.08, right: MediaQuery.of(context).size.width*0.08),
                                                                       child: RichText(
                                                                         textAlign: TextAlign.center,
                                                                         text:  TextSpan(
@@ -466,14 +466,4 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
           return AddFamilyMemberPrompt();
         });
   }
-}
-
-
-class MemberList {
-  String name;
-  String imageUrl;
-  bool isLoggedIn;
-  String relation;
-
-  MemberList({this.isLoggedIn, this.imageUrl, this.name, this.relation});
 }

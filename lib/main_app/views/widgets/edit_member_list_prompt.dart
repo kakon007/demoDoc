@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/user_profile/models/relationship_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/relationship_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
@@ -14,19 +16,31 @@ class EditMemberListPrompt extends StatefulWidget {
 }
 
 class _EditMemberListPromptState extends State<EditMemberListPrompt> {
-
-
+  String _selectedRelation;
+  // List<Item> _relations=[];
   void initState() {
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<RelationShipViewModel>(context, listen: false);
       await vm.getRelationShip();
+      // var vm3 = Provider.of<UserDetailsViewModel>(
+      //     context,
+      //     listen: false);
+      // var familyVm = Provider.of<FamilyMembersListViewModel>(
+      //     context,
+      //     listen: false);
+      // await vm3.getPatData(familyVm.memberRegId);
+      // if(vm3.patDetails.gender=="M"){
+      //   for(int i=0; i<vm.relations.length;i++){
+      //     if(vm.relations[i].name.contains("Son")){
+      //       print("aaaa");
+      //       _relations.add(vm.relations[i]);
+      //       print(_relations);
+      //     }
+      //   }
+      // }
     });
-    // TODO: implement initState
     super.initState();
   }
-  String _selectedRelation;
-
-
   @override
   Widget build(BuildContext context) {
     var familyVm =
@@ -40,59 +54,49 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
             children: [
               Container(
                 height: 50.0,
-                width: MediaQuery.of(context).size.width * .77,
+                width: MediaQuery.of(context).size.width*.79,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: HexColor("#8592E5")),
+                    border: Border.all(color: _selectedRelation!=null ? HexColor("#8592E5") : HexColor("D2D2D2")),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .68,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButtonFormField(
-                                decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none),
-                                iconSize: 0.0,
-                                hint: Text(
-                                  "Select relation",
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                value: _selectedRelation,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedRelation = newValue;
-                                  });
-                                },
-                                items: relationVm.relations.map((gender) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      gender.name,
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: gender.id.toString(),
-                                  );
-                                }).toList(),
-                              ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width*.7,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField(
+                            icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedRelation != null  ?  HexColor("#8592E5") : HexColor("#D2D2D2"),),
+                            iconSize:25,
+                            decoration: InputDecoration(
+                                enabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             ),
+                            hint: Text(
+                              "Select relation",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 15, color: HexColor("#D2D2D2")),
+                            ),
+                            value: _selectedRelation,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedRelation = newValue;
+                              });
+                            },
+                            items: relationVm.relations.map((relation) {
+                              return DropdownMenuItem(
+                                child: new Text(
+                                  relation.name,
+                                  style: GoogleFonts.roboto(fontSize: 14),
+                                ),
+                                value: relation.id.toString(),
+                              );
+                            }).toList(),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * .65,
-                              top: 12),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
+                      ),
                     )
                   ],
                 ),
@@ -110,7 +114,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
           padding: EdgeInsets.symmetric(
             horizontal: 16,
           ),
-          constraints: BoxConstraints(maxWidth: 400, maxHeight: 330),
+          constraints: BoxConstraints(maxWidth: 400, maxHeight: 320),
           child: Material(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -145,7 +149,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                       ),
                       Container(
                         height: 75,
-                        width: MediaQuery.of(context).size.width*.77,
+                        width: MediaQuery.of(context).size.width*.79,
                         decoration: BoxDecoration(
                           color: HexColor("#F0F2FF"),
                           borderRadius: BorderRadius.circular(10),
@@ -223,32 +227,29 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0.0, right: 0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 3,
-                              decoration: BoxDecoration(),
-                              height: 45,
-                              child: FlatButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: AppTheme.appbarPrimary,
-                                          width: 1),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  textColor: AppTheme.appbarPrimary,
-                                  color: Colors.white,
-                                  child: Text("Cancel",
-                                      style: GoogleFonts.poppins())),
-                            ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            decoration: BoxDecoration(),
+                            height: 45,
+                            child: FlatButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: AppTheme.appbarPrimary,
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(10)),
+                                textColor: AppTheme.appbarPrimary,
+                                color: Colors.white,
+                                child: Text("Cancel",
+                                    style: GoogleFonts.poppins())),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0.0, right: 0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 3,
-                              height: 45,
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            height: 45,
+                            child: AbsorbPointer(
+                             absorbing: _selectedRelation!=null ? false : true,
                               child: FlatButton(
                                   onPressed: () {
 
@@ -271,7 +272,9 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   textColor: Colors.white,
-                                  color: AppTheme.appbarPrimary,
+                                  color: _selectedRelation == null
+                                      ? HexColor("#969EC8")
+                                      : AppTheme.appbarPrimary,
                                   child: Text("Update",
                                       style: GoogleFonts.poppins())),
                             ),

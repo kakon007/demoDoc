@@ -197,12 +197,16 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        familyMembers[index].fname,
-                                        style: GoogleFonts.poppins(
-                                            color: HexColor("#0D1231"),
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
+                                      Container(
+                                        width: MediaQuery.of(context).size.width*.4,
+                                        child: Text(
+                                          familyMembers[index].fname,
+                                          maxLines: 1,
+                                          style: GoogleFonts.poppins(
+                                              color: HexColor("#0D1231"),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
                                       ),
                                       Text(
                                         familyMembers[index].hospitalNumber,

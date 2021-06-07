@@ -19,6 +19,7 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   String _relationName;
   String _id;
   String _regId;
+  String _memberRegId;
   String _relationId;
   String _deleteMessage;
   String _updateMessage;
@@ -73,7 +74,10 @@ class FamilyMembersListViewModel extends ChangeNotifier {
       String userId,
       String image,
       String relationName,
-      String relationId}) {
+      String relationId,
+      String memberRegId
+      }) {
+    _memberRegId= memberRegId;
     _regId = regId;
     _id = id;
     _image = image;
@@ -209,4 +213,7 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   String get relation => _relation;
 
   int get selectedCard => _selectedCard;
+
+  String get  memberRegId => _memberRegId;
+
 }

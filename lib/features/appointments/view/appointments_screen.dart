@@ -65,6 +65,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         pickedAppointDate = date;
       });
     }
+    if (pickedAppointDate != pickedAppointDate2) {
+      var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+      Future.delayed(Duration.zero, () async {
+        await vm.getSlots(
+            pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+        pickedAppointDate2 = pickedAppointDate;
+        length= vm.slotList.length;
+        selectedCard = -1;
+        isSelected = false;
+      });
+    }
   }
 
   int selectedCard = -1;
@@ -104,6 +115,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       gaplessPlayback: true,
     );
   }
+  var length;
   @override
   void initState() {
     status = "Not Ok";
@@ -118,6 +130,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       await vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
       await vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      length = vm.slotList.length;
       vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
       vm.getAppointType(true, false);
     });
@@ -142,7 +155,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var accessTokenVM = Provider.of<AccessTokenProvider>(context, listen: false);
     var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var profileImage = userImageVm.details?.photo ?? "";
-    var length= vm.slotList.length;
+    //length= vm.slotList.length;
     var doctorDegree=  vm.doctorInfo?.docDegree == null
         ? ""
         : vm.doctorInfo?.docDegree;
@@ -150,19 +163,19 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var photo= vm.doctorInfo?.doctorPhoto??"";
     var consultFee= vm.doctorInfo?.consultationFee??'';
     var width = MediaQuery.of(context).size.width;
-    if (pickedAppointDate != pickedAppointDate2) {
-      vm.getSlots(
-          pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-      pickedAppointDate2 = pickedAppointDate;
-      //startTimer();
-      selectedCard = -1;
-      isSelected = false;
-    }
+    // if (pickedAppointDate != pickedAppointDate2) {
+    //   vm.getSlots(
+    //       pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+    //   pickedAppointDate2 = pickedAppointDate;
+    //   //startTimer();
+    //   selectedCard = -1;
+    //   isSelected = false;
+    // }
     List<Items> list = vm.slotList;
     var spaceBetween = SizedBox(
       height: 10,
     );
-    String _formatDate = DateFormat("yyyy-MM-dd").format(pickedAppointDate);
+    String _formatDate = DateFormat("dd-MM-yyyy").format(pickedAppointDate);
     var appointmentDate = Row(
       children: [
         GestureDetector(
@@ -365,9 +378,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           ? loadLogo(vm.doctorInfo.doctorPhoto)
                           : Image.asset(
                         "assets/icons/dct.png",
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         width: 110,
-                        height: 160,
+                        height: 120,
                       ),
                     ),
                   ),

@@ -33,6 +33,7 @@ class SignUpFormField extends StatelessWidget {
   final double borderRadius;
   final bool obSecure;
   final double topPadding;
+  final double hintSize;
 
   const SignUpFormField({
     this.minimizeBottomPadding = false,
@@ -48,6 +49,7 @@ class SignUpFormField extends StatelessWidget {
     this.controller,
     this.onFieldSubmitted,
     this.focusNode,
+    this.hintSize = 15,
     this.isRequired = false,
     this.autofocus = false,
     this.labelText,
@@ -119,7 +121,7 @@ class SignUpFormField extends StatelessWidget {
               prefixIcon: prefixIcon,
               prefix: prefix,
               border: InputBorder.none,
-              hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
+              hintStyle: GoogleFonts.poppins(fontSize: hintSize, color: HexColor("#D2D2D2")),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),

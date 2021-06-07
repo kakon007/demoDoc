@@ -55,13 +55,13 @@ class UserDetailsViewModel extends ChangeNotifier{
         print(response.reasonPhrase);
       }
     }catch(e){
-      Fluttertoast.showToast(
-          msg: "Check Network Connection!!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 12.0);
+      // Fluttertoast.showToast(
+      //     msg: "Check Network Connection!!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 12.0);
     }
 
 

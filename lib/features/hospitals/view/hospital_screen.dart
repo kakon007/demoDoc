@@ -9,6 +9,7 @@ import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
@@ -84,6 +85,9 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var searchField = SignUpFormField(
       onChanged: (value) {
         hospitalSearch(value);
@@ -92,6 +96,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       controller: hospitalController,
       borderRadius: 30,
       minimizeBottomPadding: true,
+      hintSize : isTablet? 17 : 15,
       hintText: StringResources.searchBoxHint,
       suffixIcon: Padding(
         padding: const EdgeInsets.only(right: 20.0),

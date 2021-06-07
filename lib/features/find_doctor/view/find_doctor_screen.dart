@@ -7,14 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
-import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_doc.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
@@ -50,7 +51,9 @@ class FindYourDoctorScreen extends StatefulWidget {
 
 class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   AsyncMemoizer<DoctorsGridModel> _memoizer;
-
+  bool isDesktop = Responsive.isDesktop(appNavigator.context);
+  bool isTablet = Responsive.isTablet(appNavigator.context);
+  bool isMobile = Responsive.isMobile(appNavigator.context);
   TextEditingController specialityController = TextEditingController();
   TextEditingController deptController = TextEditingController();
   TextEditingController doctorController = TextEditingController();
@@ -76,12 +79,11 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   var width;
   loadLogo(String image) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
-
     return Image.memory(
       _bytesImage,
-      fit: BoxFit.cover,
-      width: width <350  ? 90 : 120,
-      height: width <350 ? 118 : 160,
+      fit: BoxFit.fill,
+      width: isTablet? MediaQuery.of(context).size.width*.26 : width <350  ? 90 : 120,
+      height: isTablet? 148 : width <350 ? 118 : 160,
       gaplessPlayback: true,
     );
   }
@@ -126,8 +128,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
             specialSelectedItem, doctorItem);
       }
     });
-
-    // });
   }
 
   @override
@@ -139,31 +139,33 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
   @override
   Widget build(BuildContext context) {
     width= MediaQuery.of(context).size.width;
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<DoctorListViewModel>(context);
     final String assetName1 = "assets/icons/phone.svg";
     final String assetName2 = "assets/icons/mail.svg";
     final String assetName3 = "assets/icons/marker.svg";
     final Widget phoneimg = SvgPicture.asset(
       assetName1,
-      width: 10,
-      height: width <350  ? 15 :18,
+      width: isTablet ? 25 : 10,
+      height: isTablet ? 25 : width <350  ? 15 :18,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
     );
-
     final Widget mailimg = SvgPicture.asset(
       assetName2,
-      width: 10,
-      height: width <350  ? 12 :18,
+      width: isTablet ? 25 : 10,
+      height: isTablet ? 25 : width <350  ? 15 :18,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
     );
     final Widget mapimg = SvgPicture.asset(
       assetName3,
-      width: 10,
-      height: width <350  ? 15 :18,
+      width: isTablet ? 25 : 10,
+      height: isTablet ? 25 : width <350  ? 15 :18,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -194,7 +196,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       )),
                 ),
                 backgroundColor: HexColor('#354291'),
-                expandedHeight: 150.0,
+                expandedHeight: isTablet? 180 : 150.0,
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
@@ -279,7 +281,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 70.0, left: 20),
+                            padding:  EdgeInsets.only(top: 70.0, left: isTablet ? 50 : 20),
                             child: Card(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -288,9 +290,9 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: SizedBox(
-                                  height: width <350  ? 50 : 85,
+                                  height: isTablet? 110 : width <350  ? 50 : 85,
                                   width:
-                                  width <350  ? MediaQuery.of(context).size.width / 7.3: MediaQuery.of(context).size.width / 5.4,
+                                  isTablet ? MediaQuery.of(context).size.width / 4 : width <350  ? MediaQuery.of(context).size.width / 7.3: MediaQuery.of(context).size.width / 5.4,
                                   child: Image.memory(
                                     widget.image,
                                     gaplessPlayback: true,
@@ -298,27 +300,27 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: 5,
+                            width: isTablet? 15 : 5,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:  EdgeInsets.only(top:width<350 ? 85 : 75.0),
+                                padding:  EdgeInsets.only(top: width<350 ? 85 : 75.0),
                                 child: Container(
-                                    width: width <350  ? 190 :260,
+                                    width: isTablet ? MediaQuery.of(context).size.width*.6 : width <350  ? 190 :260,
                                     child: Text(
                                       widget.title,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.poppins(
-                                          fontSize: width <350  ? 12 : 18,
+                                          fontSize: isTablet ? 20 : width <350  ? 12 : 18,
                                           fontWeight: FontWeight.w600,
                                           color: HexColor('#141D53')),
                                     )),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: isTablet ? 15 : 5,
                               ),
                               Row(
                                 children: [
@@ -333,7 +335,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                             text: widget.phoneText,
                                             style: GoogleFonts.poppins(
                                                 color: HexColor('#141D53'),
-                                                fontSize: width <350  ? 9 : 11),
+                                                fontSize: isTablet? 15 : width <350  ? 9 : 11),
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 launch(
@@ -358,7 +360,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                               text: widget.emailText,
                                               style: GoogleFonts.poppins(
                                                 color: HexColor('#141D53'),
-                                                fontSize: width <350  ? 9 :11,
+                                                fontSize: isTablet? 15 : width <350  ? 9 :11,
                                               ),
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () {
@@ -372,7 +374,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                 ],
                               ),
                               SizedBox(
-                                height: 5,
+                                height: isTablet? 10 : 5,
                               ),
                               Row(
                                 children: [
@@ -385,13 +387,13 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     width: 5,
                                   ),
                                   Container(
-                                      width: width <350  ? 180 :200,
+                                      width: isTablet? width*.6 : width <350  ? 180 :200,
                                       child: Text(widget.addressText,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
                                             color: HexColor('#141D53'),
-                                            fontSize: width <350  ? 9 :11,
+                                            fontSize: isTablet? 15 : width <350  ? 9 :11,
                                           ))),
                                 ],
                               )
@@ -416,15 +418,15 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                         margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
                         child: Text('Doctors',
                             style: GoogleFonts.poppins(
-                                fontSize: 15, fontWeight: FontWeight.w600))),
+                                fontSize: isTablet? 18 : 15, fontWeight: FontWeight.w600))),
                     isFiltered == false
-                        ? Text("")
+                        ? SizedBox()
                         : Container(
                             margin:
                                 EdgeInsets.only(top: 8, bottom: 3, right: 25),
                             child: Text('Showing Filtered Result',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 13,
+                                  fontSize: isTablet? 16 : 13,
                                 )))
                   ],
                 ),
@@ -436,7 +438,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                         ),
                       )
                     : vm.doctorList.length == 0
-                        ? Center(child: Text("No doctors found!"))
+                        ? Center(child: Text("No doctors found!",style: GoogleFonts.poppins(fontSize: isTablet? 18 : 12 ),))
                         : ListView.builder(
                             shrinkWrap: true,
                             itemCount: vm.doctorList.length + 1,
@@ -458,8 +460,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     : Image.asset(
                                         "assets/icons/dct.png",
                                         fit: BoxFit.fill,
-                                  width: width <350  ? 90 : 120,
-                                  height: width <350 ? 118 : 160,
+                                  width: isTablet? MediaQuery.of(context).size.width*.25 : width <350  ? 90 : 120,
+                                  height: isTablet? 148 : width <350 ? 118 : 160,
                                       ),
                                 vm.doctorList[i]?.doctorName == null
                                     ? ""
@@ -565,6 +567,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
         },
         controller: deptController,
         decoration: new InputDecoration(
+          hintStyle: GoogleFonts.poppins(fontSize: isTablet? 16 : 14 ),
           prefixIcon: Padding(
             padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
             child: Icon(Icons.search),
@@ -611,6 +614,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
         },
         controller: specialityController,
         decoration: new InputDecoration(
+          hintStyle: GoogleFonts.poppins(fontSize: isTablet? 16 : 14 ),
           prefixIcon: Padding(
             padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
             child: Icon(Icons.search),
@@ -662,7 +666,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               verticalSpace,
               Text(
                 StringResources.filters,
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: isTablet? 18 : 15 ,),
               ),
               GestureDetector(
                   onTap: () {
@@ -698,7 +702,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           child: TextField(
               onChanged: (value) {
                 doctorItem = value.replaceAll(" ", "%20");
-
                 vm.getDoctor(widget.orgNo, widget.companyNo, deptSelectedItem,
                     specialSelectedItem, doctorItem);
                 //doctorSearch(doctorItem);
@@ -711,7 +714,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                   child: Icon(Icons.search),
                 ),
                 hintText: "Find your doctor",
-                hintStyle: GoogleFonts.poppins(fontSize: width<350? 12 : 15.0,),
+                hintStyle: GoogleFonts.poppins(fontSize: isTablet? 16 : width<350? 12 : 15.0,),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
                   borderRadius: BorderRadius.circular(25),
@@ -752,7 +755,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                               child: Column(
                                 children: [
                                   Container(
-                                    height: height / 3,
+                                    height: isTablet? height/2.7 : height / 3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(25),
@@ -788,7 +791,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                               .capitalizeTheFirstLetterOfEachWord(
                                                                   item.buName),
                                                           style: GoogleFonts.poppins(
-                                                              fontSize: 15,
+                                                              fontSize: isTablet? 18 : 15,
                                                               fontWeight: item
                                                                           .isChecked ==
                                                                       true
@@ -839,7 +842,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                   horizontalSpace,
                                   horizontalSpace,
                                   Container(
-                                    height: height / 3,
+                                    height: isTablet? height/2.7 : height / 3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(20),
@@ -874,7 +877,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                         title: Text(
                                                           item.dtlName,
                                                           style: GoogleFonts.poppins(
-                                                              fontSize: 15,
+                                                              fontSize: isTablet? 18 : 15,
                                                               fontWeight: item
                                                                           .isChecked ==
                                                                       true
@@ -920,7 +923,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: height >= 600 ? 25 : 15,
+                                    height: isTablet? 45 :  height >= 600 ? 25 : 15,
                                   ),
                                   Row(
                                     mainAxisAlignment:
@@ -934,7 +937,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                             : false,
                                         child: SizedBox(
                                           width: width * .9,
-                                          height: width * .25,
+                                          height: isTablet? 50 : width * .25,
                                           child: FlatButton(
                                             onPressed: () {
                                               isFiltered = false;
@@ -1000,7 +1003,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                             : false,
                                         child: SizedBox(
                                           width: width * .9,
-                                          height: width * .25,
+                                          height: isTablet? 50 : width * .25,
                                           child: FlatButton(
                                             textColor: Colors.white,
                                             onPressed: () {

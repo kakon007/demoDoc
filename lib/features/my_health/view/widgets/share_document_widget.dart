@@ -1,13 +1,23 @@
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/shared_file_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:provider/provider.dart';
+import 'package:myhealthbd_app/features/my_health/models/shared_file_model.dart';
+import 'package:http/http.dart' as http;
+
 class ShareDocument extends StatefulWidget {
+   List<Item> lenght;
+  // String name;
+  // String hosname;
+  ShareDocument({this.lenght});
   @override
   _ShareDocumentState createState() => _ShareDocumentState();
 }
@@ -20,6 +30,28 @@ class _ShareDocumentState extends State<ShareDocument> {
   String _selectedName;
   String _selectedSharedtype;
 
+  Future<String> removeData({int id}) async{
+    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    var headers = {
+      'Authorization': 'Bearer $accessToken'
+    };
+    var request = http.MultipartRequest('DELETE', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/delete?id=$id'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var body=await response.stream.bytesToString();
+      print("Remove Body::"+body);
+      return body;
+    }
+    else {
+    print('Res:::'+response.reasonPhrase);
+    }
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -27,6 +59,16 @@ class _ShareDocumentState extends State<ShareDocument> {
     _selectedSharedtype=null;
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
+    removeData();
+    // Future.delayed(Duration.zero,()async{
+    //   var vm10 =  Provider.of<SharedFileViewModel>(context, listen: false);
+    //  await vm10.getData(fileNo: widget.prescriptionNo);
+    //  print('pres ::: ${widget.prescriptionNo}');
+    // });
+    // var vm10 =  Provider.of<SharedFileViewModel>(context, listen: false);
+    // vm10.getData();
+    //print('pres ::: ${widget.prescriptionNo}');
+
     super.initState();
   }
 
@@ -37,99 +79,9 @@ class _ShareDocumentState extends State<ShareDocument> {
     var height = MediaQuery.of(context).size.height;
 
     var vm = appNavigator.getProviderListener<HospitalListViewModel>();
+     var vm10 = Provider.of<SharedFileViewModel>(context, listen: true);
 
     String color = "#8592E5";
-    var doctorList=
-    Padding(padding: EdgeInsets.all(5),child:
-    Container(
-      height: 70,
-      width:
-      MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius:
-        BorderRadius.circular(15),
-      ),
-      child: Row(
-        mainAxisAlignment:
-        MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 10,
-          ),
-          Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white,
-              ),
-            ),
-            child: CircleAvatar(
-              backgroundImage: AssetImage(
-                  "assets/images/doc.png"),
-              radius: 15.0,
-            ),
-          ),
-          SizedBox(
-            width: 3,
-          ),
-          Container(
-              height: 50,
-              width: 170,
-              child: Center(
-                  child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
-                    children: [
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Text(
-                          "Dr. Zia Udiin Arman",
-                          style: GoogleFonts
-                              .poppins(
-                              fontSize: 12,
-                              fontWeight:
-                              FontWeight
-                                  .w500)),
-                      Text(
-                          "Lab Science Diagnostic 02",
-                          style: GoogleFonts
-                              .poppins(
-                              fontSize: 12,
-                              fontWeight:
-                              FontWeight
-                                  .w500))
-                    ],
-                  ))),
-          GestureDetector(
-            child: Container(
-              decoration: BoxDecoration(
-                color: HexColor("#FFA7A7"),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              height: 40,
-              width: 100,
-              child: Center(
-                child: Text(
-                  "Remove Access",
-                  style:
-                  GoogleFonts.poppins(
-                      fontSize: 11),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-        ],
-      ),
-    )
-      ,);
    
     var hospitalName = Row(
       children: [
@@ -629,10 +581,115 @@ class _ShareDocumentState extends State<ShareDocument> {
                   SizedBox(
                     height: 5,
                   ),
+                  vm10.sharedFileList==null?Text("No Share History Yet."):
                   Column(
                     children: <Widget>[
-                      ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: 10,shrinkWrap: true,itemBuilder: (BuildContext context,index){
-                        return doctorList;
+                      ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: widget.lenght.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
+                        return  Padding(padding: EdgeInsets.all(5),child:
+                        Container(
+                            height: 70,
+                            width:
+                            MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                              BorderRadius.circular(15),
+                            ),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.start,
+                              children: [
+                              SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              child: CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    "assets/images/doc.png"),
+                                radius: 15.0,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Container(
+                              height: 50,
+                              width: 170,
+                              child: Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment
+                                        .start,
+                                    children: [
+                                    SizedBox(
+                                    height: 7,
+                                  ),
+                                  Text(
+                                      vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
+                                  style: GoogleFonts
+                                      .poppins(
+                                  fontSize: 12,
+                                  fontWeight:
+                                  FontWeight
+                                  .w500)),
+                              Container(
+                                width: 120,
+                                child: Text(
+                                    vm10.sharedFileList[index].companyName==null?'No Hospital Name Available':vm10.sharedFileList[index].companyName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts
+                                        .poppins(
+                                        fontSize: 12,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500)),
+                              )
+                              ],
+                            ))),
+                        GestureDetector(
+                          onTap: ()async{
+                            SVProgressHUD.show(
+                              status: 'Deleting'
+                            );
+                            await removeData(id:vm10.sharedFileList[index].id);
+                            SVProgressHUD.dismiss();
+
+                            //await vm10.getData();
+
+                          },
+                        child: Container(
+                        decoration: BoxDecoration(
+                        color: HexColor("#FFA7A7"),
+                        borderRadius: BorderRadius.circular(10),
+                        ),
+                        height: 40,
+                        width: 100,
+                        child: Center(
+                        child: Text(
+                        "Remove Access",
+                        style:
+                        GoogleFonts.poppins(
+                        fontSize: 11),
+                        ),
+                        ),
+                        ),
+                        ),
+                        SizedBox(
+                        width: 5,
+                        ),
+                        ],
+                        ),
+                        )
+                        ,);
                       })
                     ],
                   ),

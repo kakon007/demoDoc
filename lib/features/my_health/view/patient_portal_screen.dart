@@ -29,6 +29,7 @@ import 'package:myhealthbd_app/features/my_health/view/widgets/upload_document_s
 import 'package:myhealthbd_app/features/my_health/view_model/document_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/report_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/shared_file_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/view_document_view_model.dart';
 import 'package:multi_select_item/multi_select_item.dart';
@@ -301,6 +302,10 @@ var accessTokenVm;
     vm2.getData();
     var vm3 = Provider.of<DocumentViewModel>(context, listen: false);
     vm3.getDataforDoc();
+     var vm10 =  Provider.of<SharedFileViewModel>(context, listen: false);
+     vm10.getData();
+    // print('pres ::: ${widget.prescriptionNo}');
+
     Future.delayed(Duration.zero, () async {
       await Provider.of<UploadDocumentsViewModel>(context, listen: false).deleteDocuments(accessToken:  accessTokenVm.accessToken);
     });
@@ -401,6 +406,8 @@ var accessTokenVm;
     var vm3= Provider.of<DocumentViewModel>(context,listen: true);
     var vm4= Provider.of<ViewDocumentViewModel>(context,listen: true);
     var vm6 = Provider.of<UploadDocumentsViewModel>(context, listen: true);
+    var vm10 = Provider.of<SharedFileViewModel>(context, listen: true);
+
     print("lltt::: ${vm3.documentList.length}");
     //var childButtons = List<UnicornButton>();
     var width = MediaQuery.of(context).size.width * 0.44;
@@ -1318,7 +1325,12 @@ var accessTokenVm;
                                                           padding: EdgeInsets.only(top: 20),
                                                           child: GestureDetector(
                                                               onTap: () async{
-                                                                showModalBottomSheet(
+                                                                SVProgressHUD.show(
+                                                                  status: 'Please Wait'
+                                                                );
+                                                              await vm10.getData(fileNo: vm.prescriptionList[index].prescriptionNo);
+                                                               SVProgressHUD.dismiss();
+                                                                vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
                                                                     backgroundColor: HexColor("#E9ECFE"),
                                                                     shape: RoundedRectangleBorder(
                                                                         borderRadius: BorderRadius.only(
@@ -1333,10 +1345,11 @@ var accessTokenVm;
                                                                             bool isTrue = false;
                                                                             return FractionallySizedBox(
                                                                                 heightFactor: 0.85,
-                                                                                child:ShareDocument()
+                                                                                child:ShareDocument(lenght: vm10.sharedFileList,)
                                                                             );
                                                                           });
                                                                     });
+                                                                print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                               },
                                                               // onTap: showNotification,
                                                               child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),

@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_vi
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:http/http.dart' as http;
@@ -93,6 +94,9 @@ class _EditDocAlertState extends State<EditDocAlert> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm3= Provider.of<DocumentViewModel>(context,listen: true);
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
@@ -100,11 +104,14 @@ class _EditDocAlertState extends State<EditDocAlert> {
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;
     var width = MediaQuery.of(context).size.width * 0.44;
-    var name = CustomTextFieldRounded(
+    var name = SignUpFormField(
+      hintSize: isTablet? 15 : 12,
       validator: Validator().nullFieldValidate,
       labelText: "Name",
+      labelFontSize: isTablet? 15 : 12,
       isRequired: true,
       controller: _username,
+      topPadding: 50,
       margin: EdgeInsets.only(
         top: 2,
       ),
@@ -119,7 +126,7 @@ class _EditDocAlertState extends State<EditDocAlert> {
             child: Center(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                constraints: BoxConstraints(maxWidth: 400, maxHeight: maxHeight),
+                constraints: BoxConstraints(maxWidth:isTablet ?600 :  400, maxHeight: isTablet ? 350 : maxHeight),
                 child: Material(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -141,7 +148,7 @@ class _EditDocAlertState extends State<EditDocAlert> {
                                     'Edit Document Name',
                                     style: GoogleFonts.poppins(
                                         color: AppTheme.appbarPrimary,
-                                        fontSize: 15.0,
+                                        fontSize: isTablet? 18 : 15.0,
                                         fontWeight: FontWeight.w500),
                                     textAlign: TextAlign.center,
                                   ),
@@ -155,14 +162,15 @@ class _EditDocAlertState extends State<EditDocAlert> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 name,
+                                SizedBox(height: isTablet? 30 : 10,),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 0.0, top: 22),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       SizedBox(
-                                        width: width * .9,
-                                        height: width * .25,
+                                        width: isTablet? 250 :width * .9,
+                                        height: isTablet? 60 : width * .25,
                                         child: FlatButton(
                                           onPressed: () {
                                             Navigator.pop(context);
@@ -181,8 +189,8 @@ class _EditDocAlertState extends State<EditDocAlert> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: width * .9,
-                                        height: width * .25,
+                                        width:isTablet? 250 : width * .9,
+                                        height: isTablet? 60 :width * .25,
                                         child: FlatButton(
                                           textColor: Colors.white,
                                           onPressed: () {

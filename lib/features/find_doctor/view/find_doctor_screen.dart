@@ -196,7 +196,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       )),
                 ),
                 backgroundColor: HexColor('#354291'),
-                expandedHeight: isTablet? 180 : 150.0,
+                expandedHeight: isTablet? 220 : 150.0,
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
@@ -281,7 +281,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       Row(
                         children: [
                           Padding(
-                            padding:  EdgeInsets.only(top: 70.0, left: isTablet ? 50 : 20),
+                            padding:  EdgeInsets.only(top: isTablet? 40 : 70.0, left: isTablet ? 50 : 20),
                             child: Card(
                               elevation: 0,
                               shape: RoundedRectangleBorder(

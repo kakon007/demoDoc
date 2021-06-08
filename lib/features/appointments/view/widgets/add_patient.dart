@@ -779,6 +779,7 @@ class _AddPatientState extends State<AddPatient> {
                       width: isTablet? width*.82 : width * .73,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
+
                           icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedConsultationForMe != null  ?  Colors.black54: HexColor("#D2D2D2"),),
                           iconSize:isTablet? 30 : 25,
                           decoration:
@@ -872,7 +873,7 @@ class _AddPatientState extends State<AddPatient> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text("BDT",
+                          Text(" BDT",
                               style: GoogleFonts.poppins(
                                 fontSize: isTablet? 18 : 15,
                                   color: AppTheme.appbarPrimary,
@@ -920,7 +921,7 @@ class _AddPatientState extends State<AddPatient> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text("BDT",
+                          Text(" BDT",
                               style: GoogleFonts.poppins(
                                   fontSize: isTablet? 18 : 15,
                                   color: AppTheme.appbarPrimary,

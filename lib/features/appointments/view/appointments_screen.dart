@@ -14,6 +14,7 @@ import 'package:myhealthbd_app/features/appointments/view_model/available_slot_v
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,14 +47,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     final DateTime date = await showDatePicker(
       context: context,
       builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppTheme.appbarPrimary,
-            accentColor: AppTheme.appbarPrimary,
-            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        return Container(
+          child: Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: AppTheme.appbarPrimary,
+              accentColor: AppTheme.appbarPrimary,
+              colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child,
           ),
-          child: child,
         );
       },
       initialDate: pickedAppointDate,
@@ -110,8 +113,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     return Image.memory(
       _bytesImage,
       fit: BoxFit.fill,
-      width: 110,
-      height: 120,
       gaplessPlayback: true,
     );
   }
@@ -144,8 +145,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.height);
-    int _crossAxisCount = MediaQuery.of(context).size.height > 650 ? 4 :MediaQuery.of(context).size.height > 550 ? 3 : 2;
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
+    int _crossAxisCount = isTablet? 6 : MediaQuery.of(context).size.height > 650 ? 4 :MediaQuery.of(context).size.height > 550 ? 3 : 2;
     double _crossAxisSpacing =MediaQuery.of(context).size.height > 550? 8 : 3,
         _mainAxisSpacing =MediaQuery.of(context).size.height > 550? 8 : 3,
         _aspectRatio = MediaQuery.of(context).size.height > 650 ? .6:.5;
@@ -189,13 +192,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     children: [
                       Text("Select Date",
                           style: GoogleFonts.poppins(
-                              fontSize: 14, fontWeight: FontWeight.w600)),
+                              fontSize: isTablet? 18 : 14, fontWeight: FontWeight.w600)),
                     ],
                   )),
               spaceBetween,
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .85,
+                width: isTablet? width*.95 : MediaQuery.of(context).size.width * .85,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#D6DCFF")),
@@ -208,7 +211,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       Text(
                         "$_formatDate",
                         style: GoogleFonts.poppins(
-                            color: AppTheme.signInSignUpColor, fontSize: 13.0),
+                            color: AppTheme.signInSignUpColor, fontSize: isTablet? 18 : 13.0),
                       ),
                       Container(
                           height: 18,
@@ -232,7 +235,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         ? SizedBox()
         : Container(
             width: MediaQuery.of(context).size.width,
-            height: 45,
+            height: isTablet? 60 : 45,
             child: AbsorbPointer(
               absorbing: isSelected == false ? true : false,
               child: FlatButton(
@@ -280,7 +283,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 child: Text(
                   "Proceed",
                   style: GoogleFonts.poppins(
-                      fontSize: height <= 600 ? 15 : 15,
+                      fontSize: isTablet? 20 : height <= 600 ? 15 : 15,
                       color: Colors.white,
                       fontWeight: FontWeight.w600),
                 ),
@@ -288,12 +291,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             ),
           );
     var selectType = Container(
-      height: 65.0,
+      height: isTablet? 90 : 65.0,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: HexColor("#E9ECFE"), borderRadius: BorderRadius.circular(13)),
       child: Padding(
-        padding: const EdgeInsets.only(left: 10.0, right: 10),
+        padding:  EdgeInsets.only(left: isTablet? 30 : 10.0, right: isTablet? 30 : 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -302,7 +305,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 decoration: BoxDecoration(
                     color: HexColor(vm.forMeBackColor),
                     borderRadius: BorderRadius.circular(10)),
-                height: MediaQuery.of(context).size.height * 0.06,
+                height: isTablet? 60 : MediaQuery.of(context).size.height * 0.06,
                 width: MediaQuery.of(context).size.width * .4,
                 child: Center(
                     child: Text(
@@ -324,7 +327,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   decoration: BoxDecoration(
                       color: HexColor(vm.addPatientBackColor),
                       borderRadius: BorderRadius.circular(10)),
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: isTablet? 65 : MediaQuery.of(context).size.height * 0.06,
                   width: MediaQuery.of(context).size.width * .4,
                   child: Center(
                       child: Text(
@@ -351,7 +354,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
         child: Container(
-          height: 120,
+          height:isTablet? 140 : 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -368,8 +371,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               Row(
                 children: [
                   Container(
-                    height: 120,
-                    width: width<330 ? 90 : 108,
+                    height: isTablet ? 140 : 120,
+                    width: isTablet? 180 : width<330 ? 90 : 108,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
@@ -379,8 +382,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           : Image.asset(
                         "assets/icons/dct.png",
                         fit: BoxFit.fill,
-                        width: 110,
-                        height: 120,
                       ),
                     ),
                   ),
@@ -395,14 +396,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         style: GoogleFonts.poppins(
                             height: 1.5,
                             color: AppTheme.appbarPrimary,
-                            fontWeight: FontWeight.w600, fontSize: width < 330 ? 13 : 15 ),
+                            fontWeight: FontWeight.w600, fontSize: isTablet? 18 : width < 330 ? 13 : 15 ),
                       ),
                       Container(
                           width: width< 330 ? width*.54 : width*.5,
                           child: Text(
                             vm.doctorInfo?.doctorName??"",
                             style: GoogleFonts.poppins(
-                                fontSize: width< 330 ? 11 : 12, fontWeight: FontWeight.w700),
+                                fontSize: isTablet? 18 : width< 330 ? 11 : 12, fontWeight: FontWeight.w700),
                           )),
                       SizedBox(
                         height: 1,
@@ -421,13 +422,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           //       GoogleFonts.poppins(height: 0.7, fontSize: 11)),
                           // ),
                           Container(
-                            width: width < 330 ? 170 : 185,
+                            width: isTablet?width*.7 :  width < 330 ? 170 : 185,
                             child: Text(
                                 jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style:
-                                GoogleFonts.poppins(height: 1.2, fontSize: 11)),
+                                GoogleFonts.poppins(height: 1.2, fontSize:isTablet? 15 :  11)),
                           ),
                         ],
                       ),
@@ -437,7 +438,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       Text(
                         "TK. " + consultFee.toString(),
                         style: GoogleFonts.poppins(
-                          fontSize: width<330 ? 13 : 15,
+                          fontSize: isTablet? 17 : width<330 ? 13 : 15,
                           color: AppTheme.appbarPrimary,
                         ),
                       ),
@@ -457,7 +458,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         appBar: new AppBar(
           title: new Text(
             "Book your appointment",
-            style: GoogleFonts.poppins(fontSize: 15),
+            style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15),
           ),
           // actions: <Widget>[
           //   // IconButton(
@@ -530,6 +531,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       child: isStatusOk == true
                           ? Column(
                               children: [
+                                isTablet? SizedBox(height: 40,): SizedBox(),
                                 selectType,
                                 AddPatient(
                                     doctorNo: widget.doctorNo,
@@ -541,11 +543,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                isTablet? SizedBox(height: 40,): SizedBox(),
                                 appointmentDate,
                                 spaceBetween,
                                 Text("Available Slots",
                                     style: GoogleFonts.poppins(
-                                        fontSize: 14,
+                                        fontSize: isTablet? 18 : 14,
                                         fontWeight: FontWeight.w600)),
 
 
@@ -679,7 +682,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                                   .slotSl
                                                                   .toString(),
                                                               style: GoogleFonts.poppins(
-                                                              fontSize:
+                                                              fontSize: isTablet? 18 :
                                                                   MediaQuery.of(context).size.height > 650
                                                                       ? 14 :
                                                                   MediaQuery.of(context).size.height > 550 ? 12: 10,
@@ -707,7 +710,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                                       .toString())
                                                                   .toLocal()),
                                                               style: GoogleFonts.poppins(
-                                                              fontSize:
+                                                              fontSize: isTablet? 18 :
                                                               MediaQuery.of(context).size.height > 650
                                                                   ? 14 :
                                                               MediaQuery.of(context).size.height > 550 ? 12: 10,

@@ -18,6 +18,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_Sign_prompt.dart';
@@ -124,6 +125,9 @@ class _AddPatientState extends State<AddPatient> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm2 = Provider.of<BookAppointmentViewModel>(context, listen: false);
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var familyVm =

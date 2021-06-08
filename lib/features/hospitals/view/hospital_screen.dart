@@ -117,7 +117,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         backgroundColor: AppTheme.appbarPrimary,
         title: Text(
           StringResources.hospitalListAppbar,
-          style: GoogleFonts.poppins(fontSize: 15),
+          style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15),
         ),
         actions: <Widget>[
           accessToken != null

@@ -82,7 +82,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     return Image.memory(
       _bytesImage,
       fit: BoxFit.fill,
-      width: isTablet? MediaQuery.of(context).size.width*.26 : width <350  ? 90 : 120,
+      width: isTablet? MediaQuery.of(context).size.width*.23 : width <350  ? 90 : 120,
       height: isTablet? 148 : width <350 ? 118 : 160,
       gaplessPlayback: true,
     );
@@ -460,7 +460,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     : Image.asset(
                                         "assets/icons/dct.png",
                                         fit: BoxFit.fill,
-                                  width: isTablet? MediaQuery.of(context).size.width*.25 : width <350  ? 90 : 120,
+                                  width: isTablet? MediaQuery.of(context).size.width*.23 : width <350  ? 90 : 120,
                                   height: isTablet? 148 : width <350 ? 118 : 160,
                                       ),
                                 vm.doctorList[i]?.doctorName == null

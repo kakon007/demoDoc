@@ -75,12 +75,14 @@ class _UserProfileState extends State<UserProfile> {
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
-  String response;
+  String response; var photo;
+
   @override
   void initState() {
     // TODO: implement initState
     Future.delayed(Duration.zero, () async {
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+       photo = Provider.of<UserImageViewModel>(context, listen: false).details?.photo ?? "";
       var userVm = Provider.of<UserDetailsViewModel>(context,listen: false);
       await userVm.getData();
       var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
@@ -115,7 +117,8 @@ class _UserProfileState extends State<UserProfile> {
     var userId = vm.userDetailsList.id;
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;
-    var photo = vm2.details?.photo ?? "";
+    photo = vm2.details?.photo ?? "";
+    print("abcd $photo");
     var pickBirthDate = DateFormat("yyyy-MM-dd")
         .parse(vm.userDetailsList.dob)
         .add(Duration(days: 1));
@@ -149,7 +152,7 @@ class _UserProfileState extends State<UserProfile> {
                     ? GestureDetector(
                         child: Text("Save", style: GoogleFonts.poppins(),),
                         onTap: () async {
-                          print("Sha ${vm.userDetailsList.id}");
+                          print("Sha ${vm2.details.userId.toString()}");
                           await vm2.updateImage(
                               _image,
                               vm.userDetailsList.hospitalNumber,

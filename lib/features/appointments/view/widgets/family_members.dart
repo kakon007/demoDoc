@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/family_members_v
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class FamilyMembers extends StatefulWidget {
@@ -44,22 +45,22 @@ class _FamilyMembersState extends State<FamilyMembers> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var familyVm =
     Provider.of<FamilyMembersListViewModel>(context, listen: true);
-    var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var spaceBetween = SizedBox(
       height: 10,
     );
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
-
-    print("lenthhhhhhhhhhhhhhhhhhh::::: ${familyVm.familyMembersList.length}");
     return Scaffold(
       appBar: AppBar(
         //leading: Icon(Icons.notes),
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Family Members",
-          style: GoogleFonts.poppins(fontSize: 15),
+          style: GoogleFonts.poppins(fontSize:isTablet?18: 15),
         ),
       ),
       body: Padding(
@@ -129,8 +130,8 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                   : Colors.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            margin: EdgeInsets.only(bottom: 2),
-                            height: 70,
+                            margin: EdgeInsets.only(bottom: isTablet? 6 : 2),
+                            height: isTablet? 85 : 70,
                             child: Row(
                               mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
@@ -138,7 +139,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                      width: 10,
+                                      width: isTablet? 20 :10,
                                     ),
                                     photo != ""
                                         ? Container(
@@ -149,14 +150,14 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                           //color: AppTheme.appbarPrimary,
                                           shape: BoxShape.circle,
                                         ),
-                                        height: 50,
-                                        width: 50,
+                                        height: isTablet? 60 : 50,
+                                        width: isTablet?  60 : 50,
                                         child: Center(
                                             child: imageVm
                                                 .loadProfileImage(
                                                 photo,
-                                                45,
-                                                45,
+                                                isTablet? 55 : 45,
+                                                isTablet? 55 : 45,
                                                 50)))
                                         : Container(
                                         decoration: BoxDecoration(
@@ -164,17 +165,17 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                           AppTheme.appbarPrimary,
                                           shape: BoxShape.circle,
                                         ),
-                                        height: 50,
-                                        width: 50,
+                                        height: isTablet? 60 : 50,
+                                        width:isTablet? 60 : 50,
                                         child: Center(
                                           child: Image.asset(
                                             'assets/images/dPro.png',
-                                            height: 40,
-                                            width: 40,
+                                            height: isTablet? 50 : 40,
+                                            width: isTablet? 50 : 40,
                                           ),
                                         )),
                                     SizedBox(
-                                      width: 20,
+                                      width: isTablet?  30 : 20,
                                     ),
                                     Column(
                                       crossAxisAlignment:
@@ -191,7 +192,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                             style: GoogleFonts.poppins(
                                                 color:
                                                 HexColor("#0D1231"),
-                                                fontSize: 14,
+                                                fontSize: isTablet? 18 : 15,
                                                 fontWeight:
                                                 FontWeight.w500),
                                           ),
@@ -201,6 +202,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                               .familyMembersList[index]
                                               .relationName,
                                           style: GoogleFonts.poppins(
+                                            fontSize: isTablet? 18 : 15,
                                             color: AppTheme.appbarPrimary,
                                           ),
                                         )
@@ -211,8 +213,8 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10.0),
                                   child: Container(
-                                    height: 20,
-                                    width: 20,
+                                    height:  isTablet? 25 : 20,
+                                    width: isTablet? 25 : 20,
                                     decoration: BoxDecoration(
                                       borderRadius:
                                       BorderRadius.circular(50),
@@ -225,8 +227,8 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(2.0),
                                       child: Container(
-                                        height: 10,
-                                        width: 10,
+                                        height: isTablet? 15 : 10,
+                                        width: isTablet? 15 : 10,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                             BorderRadius.circular(50),

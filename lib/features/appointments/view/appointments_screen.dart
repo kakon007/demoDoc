@@ -149,12 +149,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     int _crossAxisCount = isTablet? 6 : MediaQuery.of(context).size.height > 650 ? 4 :MediaQuery.of(context).size.height > 550 ? 3 : 2;
-    double _crossAxisSpacing =MediaQuery.of(context).size.height > 550? 8 : 3,
-        _mainAxisSpacing =MediaQuery.of(context).size.height > 550? 8 : 3,
+    double _crossAxisSpacing = isTablet? 12 : MediaQuery.of(context).size.height > 550? 8 : 3,
+        _mainAxisSpacing = isTablet? 12 :  MediaQuery.of(context).size.height > 550? 8 : 3,
         _aspectRatio = MediaQuery.of(context).size.height > 650 ? .6:.5;
     var height = MediaQuery.of(context).size.height;
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: true);
-
     var accessTokenVM = Provider.of<AccessTokenProvider>(context, listen: false);
     var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var profileImage = userImageVm.details?.photo ?? "";
@@ -311,7 +310,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     child: Text(
                   "For Me",
                   style:
-                      GoogleFonts.poppins(color: HexColor(vm.forMeTextColor)),
+                      GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: HexColor(vm.forMeTextColor)),
                 )),
               ),
               onTap: () {
@@ -333,6 +332,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       child: Text(
                     "Add patient",
                     style: GoogleFonts.poppins(
+                      fontSize: isTablet? 20 : 15,
                         color: HexColor(vm.addPatientTextColor)),
                   ))),
               onTap: () {

@@ -138,10 +138,10 @@ class _AddPatientState extends State<AddPatient> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
-      height: height >= 600 ? 10.0 : 5.0,
+      height: isTablet? 20 : height >= 600 ? 10.0 : 5.0,
     );
     var name = Container(
-      width: MediaQuery.of(context).size.width*.79,
+      width: isTablet? width*.87 : width * .79,
       child: SignUpFormField(
       validator: Validator().nullFieldValidate,
       controller: _name,
@@ -149,9 +149,11 @@ class _AddPatientState extends State<AddPatient> {
       labelText: "Name",
       isRequired: true,
       hintText: StringResources.name,
+        labelFontSize: isTablet? 15 : 12,
+        hintSize: isTablet? 18 : 15,
     ),);
     var email = Container(
-      width: MediaQuery.of(context).size.width*.79,
+      width: isTablet? width*.87 : width * .79,
       child: SignUpFormField(
       validator: Validator().validateEmail,
       controller: _email,
@@ -159,9 +161,11 @@ class _AddPatientState extends State<AddPatient> {
       isRequired: true,
       labelText: "Email",
       hintText: StringResources.email,
+        labelFontSize: isTablet? 15 : 12,
+        hintSize: isTablet? 18 : 15,
     ),);
     var mobile = Container(
-      width: MediaQuery.of(context).size.width*.79,
+      width: isTablet? width*.87 : width * .79,
       child: SignUpFormField(
       validator: Validator().validatePhoneNumber,
       controller: _mobile,
@@ -169,9 +173,11 @@ class _AddPatientState extends State<AddPatient> {
       isRequired: true,
       labelText: "Mobile",
       hintText: StringResources.mobileNumber,
+        labelFontSize: isTablet? 15 : 12,
+        hintSize: isTablet? 18 : 15,
     ),);
     var address = Container(
-      width: MediaQuery.of(context).size.width*.79,
+      width: isTablet? width*.87 : width * .79,
       child: SignUpFormField(
       validator: Validator().nullFieldValidate,
       controller: _address,
@@ -179,6 +185,8 @@ class _AddPatientState extends State<AddPatient> {
       isRequired: true,
       labelText: "Address",
       hintText: StringResources.address,
+        labelFontSize: isTablet? 15 : 12,
+        hintSize: isTablet? 18 : 15,
     ),);
     var gender = Row(
       children: [
@@ -192,16 +200,16 @@ class _AddPatientState extends State<AddPatient> {
                   child: Row(
                     children: [
                       Text(StringResources.gender,
-                          style: GoogleFonts.roboto(fontSize: 12)),
+                          style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
                       Text(
                         " *",
-                        style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                        style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12, color: HexColor("#FF5B71")),
                       )
                     ],
                   ),
                 )),
             Container(
-              height: 45.0,
+              height: 50.0,
               width: MediaQuery.of(context).size.width * .38,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -217,7 +225,7 @@ class _AddPatientState extends State<AddPatient> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
                           icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedGender != null  ?  Colors.black54: HexColor("#D2D2D2"),),
-                          iconSize:25,
+                          iconSize:isTablet? 30 : 25,
                           decoration:
                           InputDecoration(
                               contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -226,7 +234,7 @@ class _AddPatientState extends State<AddPatient> {
                           hint: Text(
                             StringResources.gender,
                             style: GoogleFonts.roboto(
-                                fontSize: 15, color: HexColor("#D2D2D2")),
+                                fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
                           ),
                           // Not necessary for Option 1
                           value: _selectedGender,
@@ -240,7 +248,7 @@ class _AddPatientState extends State<AddPatient> {
                             return DropdownMenuItem(
                               child: new Text(
                                 gender,
-                                style: GoogleFonts.roboto(fontSize: 14),
+                                style: GoogleFonts.roboto(fontSize: isTablet? 18 : 15 ),
                               ),
                               value: gender,
                             );
@@ -284,16 +292,16 @@ class _AddPatientState extends State<AddPatient> {
                     child: Row(
                       children: [
                         Text(StringResources.dateOfBirth,
-                            style: GoogleFonts.roboto(fontSize: 12)),
+                            style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
                         Text(
                           " *",
-                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                          style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12, color: HexColor("#FF5B71")),
                         )
                       ],
                     ),
                   )),
               Container(
-                height: 45.0,
+                height: 50.0,
                 width: MediaQuery.of(context).size.width * .36,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -308,7 +316,7 @@ class _AddPatientState extends State<AddPatient> {
                         pickBirthDate == DateTime.now()
                             ? "Date of birth"
                             : "$formatBirthDate",
-                        style: TextStyle(fontSize: 13.0),
+                        style: TextStyle(fontSize: isTablet? 18 : 15),
                       ),
                     ),
                     Padding(
@@ -338,13 +346,13 @@ class _AddPatientState extends State<AddPatient> {
       ],
     );
     var memberDetail = Container(
-        width: MediaQuery.of(context).size.width * .79,
+        width: isTablet? width*.87 : width * .79,
         decoration: BoxDecoration(
           color: HexColor("#F0F2FF"),
           borderRadius: BorderRadius.circular(10),
         ),
         margin: EdgeInsets.only(bottom: 2),
-        height: width <= 330 ? 60 : 70,
+        height: isTablet? 80 :width <= 330 ? 60 : 70,
      // width: MediaQuery.of(context).size.width * .78,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -361,23 +369,23 @@ class _AddPatientState extends State<AddPatient> {
                           //color: AppTheme.appbarPrimary,
                           shape: BoxShape.circle,
                         ),
-                        height: width <= 330 ? 40 : 50,
-                        width: width <= 330 ? 40 : 50,
+                        height: isTablet? 60 : width <= 330 ? 40 : 50,
+                        width: isTablet? 60 : width <= 330 ? 40 : 50,
                         child: Center(
                             child: imageVm.loadProfileImage(
-                                familyVm.imageMem, width <= 330 ? 35 : 45, width <= 330 ? 35 : 45, 50)))
+                                familyVm.imageMem, isTablet? 55 : width <= 330 ? 35 : 45, isTablet ? 55 :  width <= 330 ? 35 : 45, 50)))
                     : Container(
                         decoration: BoxDecoration(
                           color: AppTheme.appbarPrimary,
                           shape: BoxShape.circle,
                         ),
-                        height: width <= 330 ? 35 : 50,
-                        width: width <= 330 ? 35 : 50,
+                        height: isTablet? 60 : width <= 330 ? 35 : 50,
+                        width: isTablet? 60 : width <= 330 ? 35 : 50,
                         child: Center(
                           child: Image.asset(
                             'assets/images/dPro.png',
-                            height: width <= 330 ? 30 : 40,
-                            width: width <= 330 ? 30 : 40,
+                            height: isTablet? 50: width <= 330 ? 30 : 40,
+                            width: isTablet? 50 :width <= 330 ? 30 : 40,
                           ),
                         )),
                 SizedBox(
@@ -393,14 +401,14 @@ class _AddPatientState extends State<AddPatient> {
                         familyVm.familyMemName,
                         style: GoogleFonts.poppins(
                             color: HexColor("#0D1231"),
-                            fontSize: width <= 330 ? 12 :14,
+                            fontSize: isTablet? 17: width <= 330 ? 12 :14,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
                     Text(
                       familyVm.relation,
                       style: GoogleFonts.poppins(
-                        fontSize: width <= 330 ? 13 : 15,
+                        fontSize: isTablet? 18 : width <= 330 ? 13 : 15,
                         color: AppTheme.appbarPrimary,
                       ),
                     )
@@ -419,10 +427,11 @@ class _AddPatientState extends State<AddPatient> {
                     },
                     child: Icon(
                       Icons.clear,
+                      size: isTablet? 30 : 25 ,
                       color: AppTheme.appbarPrimary,
                     )),
                 SizedBox(
-                  width: 10,
+                  width: isTablet? 30 : 10,
                 ),
               ],
             ),
@@ -435,8 +444,8 @@ class _AddPatientState extends State<AddPatient> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .79,
+                height: 50.0,
+                width: isTablet? width*.87 : width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(patientBorderColor)),
@@ -447,11 +456,11 @@ class _AddPatientState extends State<AddPatient> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * .73,
+                        width: isTablet? width*.82 : width * .73,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
                             icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedMemberType != null  ?  Colors.black54: HexColor("#D2D2D2"),),
-                            iconSize:25,
+                            iconSize: isTablet? 30 : 25,
                             decoration:
                             InputDecoration(
                                 contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -460,7 +469,7 @@ class _AddPatientState extends State<AddPatient> {
                             hint: Text(
                               "Select Type",
                               style: GoogleFonts.roboto(
-                                  fontSize: 15, color: HexColor("#D2D2D2")),
+                                  fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
                             ),
                             // Not necessary for Option 1
                             value: _selectedMemberType,
@@ -498,7 +507,7 @@ class _AddPatientState extends State<AddPatient> {
                                     Text(
                                       patNo,
                                       style:
-                                          GoogleFonts.roboto(fontSize: 14),
+                                          GoogleFonts.roboto(fontSize: isTablet? 18 : 15),
                                     ),
                                   ],
                                 ),
@@ -532,72 +541,73 @@ class _AddPatientState extends State<AddPatient> {
     var membersNameList = Row(
       children: [
         GestureDetector(
-          onTap: () {
-            setState(() {
-              memberList = true;
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext) {
-                return FamilyMembers();
-              }));
-            });
-          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding:EdgeInsets.only(left: 10),
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .79,
+                height: 50.0,
+                width: isTablet? width*.87 : width * .79,
                 decoration: BoxDecoration(
-                    color: familyVm.isSelected && memberList
-                        ? AppTheme.appbarPrimary
-                        : Colors.white,
-                    border: Border.all(color: HexColor(memberBorderColor)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Center(
-                  child: Row(
-                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * .67,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 7.0),
-                          child: Text(
-                            "Select your family member",
-                            style: GoogleFonts.roboto(
-                              color: familyVm.isSelected && memberList
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontSize: 15,
+                  color: familyVm.isSelected && memberList
+                      ? AppTheme.appbarPrimary
+                      : Colors.white,
+                  border: Border.all(color: HexColor(memberBorderColor)),
+                  borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding:  EdgeInsets.only(left: 16.0),
+                      child: GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            memberList = true;
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                                  return FamilyMembers();
+                                }));
+                          });
+                        },
+                        child: Container(
+                          width: isTablet? width*.82 : width * .73,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButtonFormField(
+                              icon: Icon(   familyVm.isSelected && memberList
+                                  ? Icons.keyboard_arrow_right_outlined
+                                  : Icons.keyboard_arrow_down_sharp,
+                                color: familyVm.isSelected && memberList ?  Colors.white : HexColor("#D2D2D2"),),
+                              iconSize: isTablet ? 30 : 25,
+                              decoration:
+                              InputDecoration(
+                                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  enabledBorder: InputBorder.none),
+                              isExpanded: true,
+                              hint: Text(
+                                "Select your family member",
+                                style: GoogleFonts.roboto(
+                                    fontSize: isTablet? 18 : 15, color: familyVm.isSelected && memberList ? Colors.white : HexColor("#D2D2D2")),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      Row(children: [
-                        Icon(
-                          familyVm.isSelected && memberList
-                              ? Icons.keyboard_arrow_right_outlined
-                              : Icons.keyboard_arrow_down_sharp,
-                          color: HexColor("#D2D2D2"),
-                          size: 25,
-                        ),
-                      ],)
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
               memberBorderColor != "#FF0000"
                   ? SizedBox(
-                      width: 2,
-                    )
+                width: 2,
+              )
                   : Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, top: 8, right: 38),
-                      child: Text(
-                        "This Field Is Required",
-                        style: GoogleFonts.poppins(
-                            color: Colors.red, fontSize: 12),
-                      )),
+                  padding:
+                  const EdgeInsets.only(left: 16, top: 8, right: 38),
+                  child: Text(
+                    "This Field Is Required",
+                    style: GoogleFonts.poppins(
+                        color: Colors.red, fontSize: 12),
+                  )),
             ],
           ),
         ),
@@ -608,20 +618,21 @@ class _AddPatientState extends State<AddPatient> {
         GestureDetector(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .79,
+                height: 50.0,
+                width: isTablet? width*.87 : width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0, top: 12),
+                  padding: const EdgeInsets.only(left: 15.0, top: 15),
                   child: Text(
                     "Registered Patient",
                     style: GoogleFonts.roboto(
-                      fontSize: 15,
+                      fontSize: isTablet? 18 : 15,
                     ),
                   ),
                 ),
@@ -638,20 +649,20 @@ class _AddPatientState extends State<AddPatient> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 45.0,
-                width: MediaQuery.of(context).size.width * .79,
+                height: 50.0,
+                width: isTablet? width*.87 : width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0, top: 12),
+                  padding: const EdgeInsets.only(left: 15.0, top: 15),
                   child: Text(
                     selectedMemberType == "Family Member"
                         ? "Registered Patient"
                         : "Not Registered Patient",
                     style: GoogleFonts.roboto(
-                      fontSize: 15,
+                      fontSize: isTablet? 18 : 15,
                     ),
                   ),
                 ),
@@ -667,8 +678,8 @@ class _AddPatientState extends State<AddPatient> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 45.0,
-              width: MediaQuery.of(context).size.width * .79,
+              height: 50.0,
+              width: isTablet? width*.87 : width * .79,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: HexColor(consultBorderColor)),
@@ -678,15 +689,15 @@ class _AddPatientState extends State<AddPatient> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Container(
-                      width: MediaQuery.of(context).size.width * .73,
+                      width: isTablet? width*.82 : width * .73,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
                           icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedConsultation != null ?  Colors.black54: HexColor("#D2D2D2"),),
-                          iconSize:25,
+                          iconSize:isTablet? 30 : 25,
                           hint: Text(
                             StringResources.consultationTypeText,
                             style: GoogleFonts.roboto(
-                                fontSize: 15, color: HexColor("#D2D2D2")),
+                                fontSize: isTablet ? 18 : 15, color: HexColor("#D2D2D2")),
                           ),
                           decoration:
                           InputDecoration(
@@ -717,7 +728,7 @@ class _AddPatientState extends State<AddPatient> {
                                 Validator()
                                     .capitalizeTheFirstLetterOfEachWord(
                                         consNo.name),
-                                style: GoogleFonts.roboto(fontSize: 14),
+                                style: GoogleFonts.roboto(fontSize: isTablet? 18 : 15),
                               ),
                               value: consNo.no,
                             );
@@ -752,8 +763,8 @@ class _AddPatientState extends State<AddPatient> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 45.0,
-              width: MediaQuery.of(context).size.width * .79,
+              height: 50.0,
+              width: isTablet? width*.87 : width * .79,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border:
@@ -765,11 +776,11 @@ class _AddPatientState extends State<AddPatient> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Container(
-                      width: MediaQuery.of(context).size.width * .73,
+                      width: isTablet? width*.82 : width * .73,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
                           icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedConsultationForMe != null  ?  Colors.black54: HexColor("#D2D2D2"),),
-                          iconSize:25,
+                          iconSize:isTablet? 30 : 25,
                           decoration:
                           InputDecoration(
                               contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -778,7 +789,7 @@ class _AddPatientState extends State<AddPatient> {
                           hint: Text(
                             StringResources.consultationTypeText,
                             style: GoogleFonts.roboto(
-                                fontSize: 15, color: HexColor("#D2D2D2")),
+                                fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
                           ),
                           // Not necessary for Option 1
                           value: _selectedConsultationForMe,
@@ -803,7 +814,7 @@ class _AddPatientState extends State<AddPatient> {
                                 Validator()
                                     .capitalizeTheFirstLetterOfEachWord(
                                         consNo.name),
-                                style: GoogleFonts.roboto(fontSize: 14),
+                                style: GoogleFonts.roboto(fontSize: isTablet? 18 : 15),
                               ),
                               value: consNo.no,
                             );
@@ -838,8 +849,8 @@ class _AddPatientState extends State<AddPatient> {
       dashedLength: 10.0,
       blankLength: 2.0,
       child: Container(
-        height: 90.0,
-        width: MediaQuery.of(context).size.width * .5,
+        height: isTablet? 100 : 90.0,
+        width: isTablet? width*.3 : width * .5,
         child: vm.consultFee == null || selectedConsultationType == ""
             ? SizedBox()
             : Column(
@@ -853,7 +864,7 @@ class _AddPatientState extends State<AddPatient> {
                         vm.consultationFee,
                         style: GoogleFonts.poppins(
                             color: AppTheme.appbarPrimary,
-                            fontSize: 30,
+                            fontSize: isTablet? 40: 30,
                             fontWeight: FontWeight.w600),
                       ),
                       Column(
@@ -863,6 +874,7 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                           Text("BDT",
                               style: GoogleFonts.poppins(
+                                fontSize: isTablet? 18 : 15,
                                   color: AppTheme.appbarPrimary,
                                   fontWeight: FontWeight.w500))
                         ],
@@ -871,6 +883,7 @@ class _AddPatientState extends State<AddPatient> {
                   ),
                   Text("Consultation Fee",
                       style: GoogleFonts.poppins(
+                          fontSize: isTablet? 18 : 15,
                           color: AppTheme.appbarPrimary,
                           fontWeight: FontWeight.w500))
                 ],
@@ -883,8 +896,8 @@ class _AddPatientState extends State<AddPatient> {
       dashedLength: 10.0,
       blankLength: 2.0,
       child: Container(
-        height: 90.0,
-        width: MediaQuery.of(context).size.width * .5,
+        height: isTablet? 100 : 90.0,
+        width: isTablet? width*.3 : width * .5,
         child: vm.consultationFeeForMe == null ||
                 selectedConsultationTypeForMe == ""
             ? SizedBox()
@@ -899,7 +912,7 @@ class _AddPatientState extends State<AddPatient> {
                         vm.consultationFeeForMe,
                         style: GoogleFonts.poppins(
                             color: AppTheme.appbarPrimary,
-                            fontSize: 30,
+                            fontSize: isTablet? 40: 30,
                             fontWeight: FontWeight.w600),
                       ),
                       Column(
@@ -909,6 +922,7 @@ class _AddPatientState extends State<AddPatient> {
                           ),
                           Text("BDT",
                               style: GoogleFonts.poppins(
+                                  fontSize: isTablet? 18 : 15,
                                   color: AppTheme.appbarPrimary,
                                   fontWeight: FontWeight.w500))
                         ],
@@ -917,6 +931,7 @@ class _AddPatientState extends State<AddPatient> {
                   ),
                   Text("Consultation Fee",
                       style: GoogleFonts.poppins(
+                          fontSize: isTablet? 18 : 15,
                           color: AppTheme.appbarPrimary,
                           fontWeight: FontWeight.w500))
                 ],
@@ -1077,14 +1092,14 @@ class _AddPatientState extends State<AddPatient> {
                       child: Center(
                           child: Text(
                         "Confirm Booking",
-                        style: GoogleFonts.poppins(color: Colors.white),
+                        style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: Colors.white),
                       )),
-                      height: 45.0,
-                      width: MediaQuery.of(context).size.width * .89,
+                      height: isTablet? 60 : 45.0,
+                      width: MediaQuery.of(context).size.width * .87,
                       decoration: BoxDecoration(
                           color: AppTheme.appbarPrimary,
                           border: Border.all(color: HexColor("#354391")),
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(8)),
                     ),
                   ),
                 ),
@@ -1110,7 +1125,7 @@ class _AddPatientState extends State<AddPatient> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          spaceBetween,
+                          isTablet? SizedBox() : spaceBetween,
                           //vm.forMe== false ? membersList : SizedBox(),
                           vm.forMe ? patientTypeForMe : membersTypeList,
                           selectedMemberType == "Family Member" || vm.forMe || (vm.addPatient && selectedMemberType=="") || (vm.addPatient && selectedMemberType=="Others")? spaceBetween : SizedBox(),
@@ -1144,6 +1159,7 @@ class _AddPatientState extends State<AddPatient> {
                           vm.forMe
                               ? consultationTypeForMe
                               : consultationTypeAdd,
+                          isTablet && _selectedMemberType=="Family Member"? SizedBox(height: 40,):  SizedBox(),
                           spaceBetween,
                           vm.forMe == false && selectedMemberType == "Others"
                               ? Column(
@@ -1157,7 +1173,7 @@ class _AddPatientState extends State<AddPatient> {
                                     address,
                                     spaceBetween,
                                     Container(
-                                      width: MediaQuery.of(context).size.width*.79,
+                                      width: isTablet? width*.87 : width*.79,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,

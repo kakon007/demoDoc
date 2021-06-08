@@ -134,9 +134,10 @@ class UserImageViewModel extends ChangeNotifier {
     try {
       if (response.statusCode == 200) {
         var res = await response.stream.bytesToString();
-        print(res);
+        print("shakil ${res}");
         UserImageModel data = userImageModelFromJson(res);
         _details = data.obj;
+        print("details $_details");
         notifyListeners();
       } else {}
     } catch (e) {

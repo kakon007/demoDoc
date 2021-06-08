@@ -311,7 +311,7 @@ class _SignInState extends State<SignIn> {
                                     print("abcd");
                                     SwitchAccounts switchAccounts = new SwitchAccounts(
                                       name: vm4.userSwitchDetailsList.fname,
-                                      relation: vm3.switchDetails.photo,
+                                      relation: vm3.switchDetails?.photo==null? "" : vm3.switchDetails.photo,
                                       username: _username.text,
                                       password: _password.text,
                                     );
@@ -321,7 +321,6 @@ class _SignInState extends State<SignIn> {
                                     });
                                   }
                                   else{
-                                    print("prity");
                                   }
                                 }
                                 if (vm5.accessToken!=null) {

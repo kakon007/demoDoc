@@ -7,6 +7,7 @@ class SignUpFormField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final TextEditingController controller;
   final String labelText;
+  final double labelFontSize;
   final String hintText;
   final String errorText;
   final TextInputType keyboardType;
@@ -36,6 +37,7 @@ class SignUpFormField extends StatelessWidget {
   final double hintSize;
 
   const SignUpFormField({
+    this.labelFontSize =12,
     this.minimizeBottomPadding = false,
     this.readOnly = false,
     this.enabled = true,
@@ -85,7 +87,7 @@ class SignUpFormField extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text("  ${labelText ?? ""}",
-                        style: GoogleFonts.roboto(fontSize: 12)),
+                        style: GoogleFonts.roboto(fontSize: labelFontSize)),
                   ),
                   if (isRequired)
                     Text(

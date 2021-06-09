@@ -145,10 +145,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
+    print(MediaQuery.of(context).size.width);
     bool isMobile = Responsive.isMobile(context);
-    int _crossAxisCount = isTablet? 6 : MediaQuery.of(context).size.height > 650 ? 4 :MediaQuery.of(context).size.height > 550 ? 3 : 2;
+    int _crossAxisCount = width >850 ? 6 : width <=850 && width>=650 ? 5 : width> 360 ? 4 :width <= 360 && width >= 300 ? 3 : 2;
     double _crossAxisSpacing = isTablet? 12 : MediaQuery.of(context).size.height > 550? 8 : 3,
         _mainAxisSpacing = isTablet? 12 :  MediaQuery.of(context).size.height > 550? 8 : 3,
         _aspectRatio = MediaQuery.of(context).size.height > 650 ? .6:.5;
@@ -164,7 +166,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var jobTitle=   vm.doctorInfo?.jobtitle??"";
     var photo= vm.doctorInfo?.doctorPhoto??"";
     var consultFee= vm.doctorInfo?.consultationFee??'';
-    var width = MediaQuery.of(context).size.width;
     // if (pickedAppointDate != pickedAppointDate2) {
     //   vm.getSlots(
     //       pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
@@ -197,7 +198,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               spaceBetween,
               Container(
                 height: 45.0,
-                width: isTablet? width*.95 : MediaQuery.of(context).size.width * .85,
+                width: isTablet? width*.94 : MediaQuery.of(context).size.width * .85,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#D6DCFF")),
@@ -422,7 +423,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           //       GoogleFonts.poppins(height: 0.7, fontSize: 11)),
                           // ),
                           Container(
-                            width: isTablet?width*.7 :  width < 330 ? 170 : 185,
+                            width: isTablet?width*.65 :  width < 330 ? 170 : 185,
                             child: Text(
                                 jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
                                 maxLines: 2,
@@ -509,7 +510,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           children: <Widget>[
             Positioned(
               child: Padding(
-                padding: const EdgeInsets.only(top: 90.0),
+                padding:  EdgeInsets.only(top: 90.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,

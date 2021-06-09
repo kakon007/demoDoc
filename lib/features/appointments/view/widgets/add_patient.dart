@@ -141,7 +141,7 @@ class _AddPatientState extends State<AddPatient> {
       height: isTablet? 20 : height >= 600 ? 10.0 : 5.0,
     );
     var name = Container(
-      width: isTablet? width*.87 : width * .79,
+      width: isTablet? width*.86  : width * .79,
       child: SignUpFormField(
       validator: Validator().nullFieldValidate,
       controller: _name,
@@ -153,7 +153,7 @@ class _AddPatientState extends State<AddPatient> {
         hintSize: isTablet? 18 : 15,
     ),);
     var email = Container(
-      width: isTablet? width*.87 : width * .79,
+      width: isTablet? width*.86  : width * .79,
       child: SignUpFormField(
       validator: Validator().validateEmail,
       controller: _email,
@@ -165,7 +165,7 @@ class _AddPatientState extends State<AddPatient> {
         hintSize: isTablet? 18 : 15,
     ),);
     var mobile = Container(
-      width: isTablet? width*.87 : width * .79,
+      width: isTablet? width*.86  : width * .79,
       child: SignUpFormField(
       validator: Validator().validatePhoneNumber,
       controller: _mobile,
@@ -177,7 +177,7 @@ class _AddPatientState extends State<AddPatient> {
         hintSize: isTablet? 18 : 15,
     ),);
     var address = Container(
-      width: isTablet? width*.87 : width * .79,
+      width: isTablet? width*.86  : width * .79,
       child: SignUpFormField(
       validator: Validator().nullFieldValidate,
       controller: _address,
@@ -346,7 +346,7 @@ class _AddPatientState extends State<AddPatient> {
       ],
     );
     var memberDetail = Container(
-        width: isTablet? width*.87 : width * .79,
+        width: isTablet? width*.86  : width * .79,
         decoration: BoxDecoration(
           color: HexColor("#F0F2FF"),
           borderRadius: BorderRadius.circular(10),
@@ -445,7 +445,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet? width*.87 : width * .79,
+                width: isTablet? width*.86  : width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(patientBorderColor)),
@@ -546,7 +546,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet? width*.87 : width * .79,
+                width: isTablet? width*.86  : width * .79,
                 decoration: BoxDecoration(
                   color: familyVm.isSelected && memberList
                       ? AppTheme.appbarPrimary
@@ -622,7 +622,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet? width*.87 : width * .79,
+                width: isTablet? width*.86  : width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
@@ -650,7 +650,7 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet? width*.87 : width * .79,
+                width: isTablet? width*.86  : width * .79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#EAEBED")),
@@ -679,7 +679,7 @@ class _AddPatientState extends State<AddPatient> {
           children: [
             Container(
               height: 50.0,
-              width: isTablet? width*.87 : width * .79,
+              width: isTablet? width*.86  : width * .79,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: HexColor(consultBorderColor)),
@@ -764,7 +764,7 @@ class _AddPatientState extends State<AddPatient> {
           children: [
             Container(
               height: 50.0,
-              width: isTablet? width*.87 : width * .79,
+              width: isTablet? width*.86 : width * .79,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border:
@@ -1174,7 +1174,7 @@ class _AddPatientState extends State<AddPatient> {
                                     address,
                                     spaceBetween,
                                     Container(
-                                      width: isTablet? width*.87 : width*.79,
+                                      width: isTablet? width*.86  : width*.79,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,

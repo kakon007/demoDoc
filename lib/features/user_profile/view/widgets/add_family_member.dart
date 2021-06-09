@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/relationship_vie
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class AddFamilyMember extends StatefulWidget {
@@ -32,12 +33,14 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
   }
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<RelationShipViewModel>(context, listen: true);
     var regMemberVm = Provider.of<RegisteredMemberViewModel>(context, listen: true);
     var familyVm = Provider.of<FamilyMembersListViewModel>(context, listen: true);
     var imageVm = Provider.of<UserImageViewModel>(appNavigator.context,listen: true);
-    //var photo = regMemberVm?.image ?? "";
-    //print("pppppppppppppppppp $photo");
+    var width = MediaQuery.of(context).size.width;
     var relationshipList = Row(
       children: [
         GestureDetector(
@@ -45,7 +48,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
             children: [
               Container(
                 height: 50.0,
-                width: MediaQuery.of(context).size.width*.845,
+                width: isTablet? width*.91 : width*.845,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color:  _selectedRelation != null  ?  HexColor("#8592E5") : HexColor("#D2D2D2")),
@@ -56,7 +59,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                     Padding(
                       padding: EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width*.75,
+                        width: isTablet? width*.87 : width*.75,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
                             decoration: InputDecoration(
@@ -68,7 +71,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                             hint: Text(
                               "Select here",
                               style: GoogleFonts.roboto(
-                                  fontSize: 15, color: HexColor("#D2D2D2")),
+                                  fontSize: isTablet? 18 :15, color: HexColor("#D2D2D2")),
                             ),
                             value: _selectedRelation,
                             onChanged: (newValue) {
@@ -102,11 +105,11 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Select Relationship",
-          style: GoogleFonts.poppins(fontSize: 15),
+          style: GoogleFonts.poppins(fontSize: isTablet? 18  : 15),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
+        padding:  EdgeInsets.only(left: isTablet? 25 : 15.0, right: isTablet? 25  :15, top: 15),
         child: Column(
           children: [
             Container(
@@ -115,7 +118,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: EdgeInsets.only(top: 5, bottom: 5),
-                height: 70,
+                height: isTablet? 85 :  70,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -131,23 +134,23 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                               //color: AppTheme.appbarPrimary,
                               shape: BoxShape.circle,
                             ),
-                            height: 50,
-                            width: 50,
+                            height: isTablet? 55 : 50,
+                            width: isTablet? 55 :50,
                             child: Center(
-                                child: imageVm.loadProfileImage(regMemberVm.image, 45, 45,50)
+                                child: imageVm.loadProfileImage(regMemberVm.image, isTablet? 50 :45, isTablet? 50 :45,50)
                             ))
                             : Container(
                             decoration: BoxDecoration(
                               color: AppTheme.appbarPrimary,
                               shape: BoxShape.circle,
                             ),
-                            height: 50,
-                            width: 50,
+                            height: isTablet? 55 :50,
+                            width: isTablet? 55 :50,
                             child: Center(
                               child: Image.asset(
                                 'assets/images/dPro.png',
-                                height: 40,
-                                width: 40,
+                                height: isTablet? 45 :40,
+                                width: isTablet? 45 :40,
                               ),
                             )),
                         SizedBox(
@@ -161,12 +164,13 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                               regMemberVm.name,
                               style: GoogleFonts.poppins(
                                   color: HexColor("#0D1231"),
-                                  fontSize: 16,
+                                  fontSize: isTablet? 18 :16,
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
                               "Username: ${regMemberVm.relatedRegId}",
                               style: GoogleFonts.poppins(
+                                fontSize: isTablet? 18 :16,
                                 color: AppTheme.appbarPrimary,),
                             )
                           ],
@@ -178,7 +182,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
             SizedBox(height: 10,),
             Container(
               height: 300,
-              width: MediaQuery.of(context).size.width,
+              width: width,
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -201,7 +205,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Text("Select your relationship status:", style: GoogleFonts.poppins(color: HexColor("#333132"), fontSize: 16),),
+                        child: Text("Select your relationship status:", style: GoogleFonts.poppins(color: HexColor("#333132"), fontSize: isTablet? 19 : 16),),
                       ),
                       SizedBox(height: 10,),
                       relationshipList,
@@ -210,8 +214,8 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                   Padding(
                     padding: const EdgeInsets.only(left: 14.0, right: 14),
                     child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 45,
+                      width: width,
+                      height: isTablet? 50 :  45,
                       child: AbsorbPointer(
                         absorbing: _selectedRelation!=null? false : true,
                         child: FlatButton(
@@ -236,7 +240,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             textColor: Colors.white,
-                            color: _selectedRelation!= null ? AppTheme.appbarPrimary : HexColor("#969EC8") ,child: Text("Add as Family Member",  style: GoogleFonts.poppins())),
+                            color: _selectedRelation!= null ? AppTheme.appbarPrimary : HexColor("#969EC8") ,child: Text("Add as Family Member",  style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ))),
                       ),
                     ),
                   )

@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'doctor/features/dashboard/view/doctor_home_screen.dart';
@@ -62,7 +63,9 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var myHealthLogo = Image.asset(
       kMyHealthLogo,
       fit: BoxFit.cover,
@@ -87,7 +90,7 @@ class _RootState extends State<Root> {
               Container(
                   child: Center(
                     child: Container(
-                      height: 420,
+                      height: isTablet? 650 : 420,
                       child: Image.asset(kMyHealthLogo,
                         fit: BoxFit.cover,
                       ),

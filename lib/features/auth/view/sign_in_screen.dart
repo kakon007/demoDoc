@@ -17,6 +17,7 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
@@ -48,7 +49,7 @@ class _SignInState extends State<SignIn> {
   Future<void> getUSerDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     user= prefs.getString("username");
-    pass= prefs.getString("password");
+    pass= prefs.getString("passwordRemember");
     var rememberMe= prefs.getBool("value");
     accounts=null;
     if(rememberMe==true){
@@ -74,6 +75,9 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     print(height);
@@ -81,7 +85,9 @@ class _SignInState extends State<SignIn> {
       height: height >= 700 ? 10.0 : 5.0,
     );
     var userName = SignUpFormField(
+      topPadding: isTablet? 30 : 25,
       validator: Validator().nullFieldValidate,
+      hintSize:isTablet? 17 : 15  ,
       controller: _username,
       margin: EdgeInsets.only(top: 3, left: 8, right: 8),
       contentPadding: EdgeInsets.all(15),
@@ -95,6 +101,8 @@ class _SignInState extends State<SignIn> {
       //   }
       //   return null;
       // },
+      topPadding: isTablet? 30 : 25,
+      hintSize:isTablet? 17 : 15 ,
       suffixIcon: IconButton(
         icon: isObSecure == true
             ? Icon(
@@ -137,6 +145,7 @@ class _SignInState extends State<SignIn> {
                 StringResources.rememberMe,
                 style: GoogleFonts.roboto(
                   color: HexColor('#141D53'),
+                  fontSize: isTablet? 17 : 15
                 ),
               )
             ],
@@ -145,6 +154,7 @@ class _SignInState extends State<SignIn> {
             StringResources.forgetPassword,
             style: GoogleFonts.roboto(
               color: HexColor('#141D53'),
+                fontSize: isTablet? 17 : 15
             ),
           )
         ],
@@ -157,7 +167,7 @@ class _SignInState extends State<SignIn> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: AppTheme.signInSignUpColor,
         child: SizedBox(
-          height: height*.07,
+          height: isTablet? 50 : height*.07,
           width: MediaQuery.of(context).size.width / .2,
           child: Center(
             child: Padding(
@@ -215,12 +225,16 @@ class _SignInState extends State<SignIn> {
           children: [
             Text(StringResources.dontHaveAccount,
                 style: GoogleFonts.roboto(
-                    color: HexColor("#8592E5"), fontWeight: FontWeight.w300)),
+                    fontSize: isTablet? 17 : 15,
+                    color: HexColor("#8592E5"), fontWeight: FontWeight.w300),
+            ),
             Text(
               StringResources.signUpText,
               style: GoogleFonts.roboto(
                   color: AppTheme.signInSignUpColor,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,
+                  fontSize: isTablet? 17 : 15
+              ),
             )
           ],
         ));
@@ -253,7 +267,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ]),
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 25, left: 15),
+                    padding:  EdgeInsets.only(right: isTablet? 45 : 25, left: isTablet? 45 : 25),
                     child: Column(
                       children: [
                         spaceBetween,
@@ -295,6 +309,8 @@ class _SignInState extends State<SignIn> {
                                     "username", _username.text);
                                 prefs.setString(
                                     "password", _password.text);
+                                prefs.setString(
+                                    "passwordRemember", _password.text);
                                 var vm5 = Provider.of<AuthViewModel>(context, listen: false);
                                 await vm5.getAuthData(_username.text, _password.text);
                                 if(vm5.accessToken!=null){
@@ -389,11 +405,16 @@ class _SignInState extends State<SignIn> {
   }
 
   Widget _backgroundImage() {
-    return Container(
-      height: MediaQuery.of(context).size.height*.47,
-      width: MediaQuery.of(context).size.width,
-      child: Image.asset(kMyHealthLogo,
-        fit: BoxFit.fill,
+    bool isTablet = Responsive.isTablet(context);
+    return Padding(
+      padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.15 ),
+      child: Container(
+        height: isTablet? MediaQuery.of(context).size.height*.52: MediaQuery.of(context).size.height*.47,
+        width: isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width*.95,
+        child: Image.asset(
+          kMyHealthLogo,
+          fit: BoxFit.fill,
+        ),
       ),
     );
   }

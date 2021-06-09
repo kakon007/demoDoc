@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/relationship_vie
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class EditMemberListPrompt extends StatefulWidget {
@@ -43,6 +44,9 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
   }
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var familyVm =
         Provider.of<FamilyMembersListViewModel>(context, listen: true);
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
@@ -54,7 +58,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
             children: [
               Container(
                 height: 50.0,
-                width: MediaQuery.of(context).size.width*.79,
+                width: isTablet ?MediaQuery.of(context).size.width*.555 :  MediaQuery.of(context).size.width*.79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: _selectedRelation!=null ? HexColor("#8592E5") : HexColor("D2D2D2")),
@@ -65,7 +69,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                     Padding(
                       padding: EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width*.7,
+                        width: isTablet ?MediaQuery.of(context).size.width*.52 :  MediaQuery.of(context).size.width*.7,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
                             icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedRelation != null  ?  HexColor("#8592E5") : HexColor("#D2D2D2"),),
@@ -77,7 +81,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                             hint: Text(
                               "Select relation",
                               style: GoogleFonts.roboto(
-                                  fontSize: 15, color: HexColor("#D2D2D2")),
+                                  fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
                             ),
                             value: _selectedRelation,
                             onChanged: (newValue) {
@@ -89,7 +93,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                               return DropdownMenuItem(
                                 child: new Text(
                                   relation.name,
-                                  style: GoogleFonts.roboto(fontSize: 14),
+                                  style: GoogleFonts.roboto(fontSize: isTablet? 18 : 15),
                                 ),
                                 value: relation.id.toString(),
                               );
@@ -114,7 +118,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
           padding: EdgeInsets.symmetric(
             horizontal: 16,
           ),
-          constraints: BoxConstraints(maxWidth: 400, maxHeight: 320),
+          constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, maxHeight: isTablet? 360 : 320),
           child: Material(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -137,7 +141,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                               'Edit Family Member Info',
                               style: GoogleFonts.poppins(
                                   color: AppTheme.appbarPrimary,
-                                  fontSize: 15.0,
+                                  fontSize: isTablet? 18 : 15.0,
                                   fontWeight: FontWeight.w500),
                               textAlign: TextAlign.center,
                             ),
@@ -148,7 +152,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                         height: 10,
                       ),
                       Container(
-                        height: 75,
+                        height: isTablet? 90 : 75,
                         width: MediaQuery.of(context).size.width*.79,
                         decoration: BoxDecoration(
                           color: HexColor("#F0F2FF"),
@@ -167,23 +171,23 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                       //color: AppTheme.appbarPrimary,
                                       shape: BoxShape.circle,
                                     ),
-                                    height: 50,
-                                    width: 50,
+                                    height: isTablet? 55 : 50,
+                                    width: isTablet? 55 : 50,
                                     child: Center(
                                         child: imageVm.loadProfileImage(
-                                            familyVm.image, 45, 45, 50)))
+                                            familyVm.image, isTablet? 50 : 45, isTablet? 50 : 45, 50)))
                                 : Container(
                                     decoration: BoxDecoration(
                                       color: AppTheme.appbarPrimary,
                                       shape: BoxShape.circle,
                                     ),
-                                    height: 50,
-                                    width: 50,
+                                    height: isTablet? 55 : 50,
+                                    width: isTablet? 55 : 50,
                                     child: Center(
                                       child: Image.asset(
                                         'assets/images/dPro.png',
-                                        height: 40,
-                                        width: 40,
+                                        height: isTablet? 45 : 40,
+                                        width: isTablet? 45 : 40,
                                       ),
                                     )),
                             SizedBox(
@@ -197,19 +201,20 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                   familyVm.name,
                                   style: GoogleFonts.poppins(
                                       color: HexColor("#0D1231"),
-                                      fontSize: 16,
+                                      fontSize: isTablet? 18 : 16,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   familyVm.userId,
                                   style: GoogleFonts.poppins(
                                       color: AppTheme.appbarPrimary,
-                                      fontSize: 16,
+                                      fontSize: isTablet? 18 : 16,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 Text(
                                   familyVm.relationName,
                                   style: GoogleFonts.poppins(
+                                    fontSize: isTablet? 16 : 14,
                                       color: HexColor("#B8C2F8")),
                                 )
                               ],
@@ -228,9 +233,9 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width / 2.6,
+                            width: isTablet?MediaQuery.of(context).size.width*.25 :  MediaQuery.of(context).size.width / 2.6,
                             decoration: BoxDecoration(),
-                            height: 45,
+                            height: isTablet? 50 : 45,
                             child: FlatButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -243,11 +248,11 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                 textColor: AppTheme.appbarPrimary,
                                 color: Colors.white,
                                 child: Text("Cancel",
-                                    style: GoogleFonts.poppins())),
+                                    style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width / 2.6,
-                            height: 45,
+                            width: isTablet?MediaQuery.of(context).size.width*.25 : MediaQuery.of(context).size.width / 2.6,
+                            height: isTablet? 50 : 45,
                             child: AbsorbPointer(
                              absorbing: _selectedRelation!=null ? false : true,
                               child: FlatButton(
@@ -276,7 +281,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                       ? HexColor("#969EC8")
                                       : AppTheme.appbarPrimary,
                                   child: Text("Update",
-                                      style: GoogleFonts.poppins())),
+                                      style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
                             ),
                           ),
                         ],

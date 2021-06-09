@@ -420,7 +420,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                 },
                                               ),
                                               SizedBox(
-                                                width: width <= 330 ? 10 : 20,
+                                                width: width <= 330 ? 10 : 15,
                                               ),
                                               GestureDetector(
                                                 child: Icon(Icons.delete_sweep,

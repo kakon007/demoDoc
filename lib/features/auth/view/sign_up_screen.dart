@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
@@ -66,6 +67,9 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<SignUpViewModel>(context, listen: true);
     selectedList = StringResources.genderList;
     var height = MediaQuery.of(context).size.height;
@@ -75,24 +79,33 @@ class _SignUpState extends State<SignUp> {
     );
     print(pickedDate);
     var name = SignUpFormField(
+      topPadding: isTablet? 30 : 25,
       controller: _name,
       validator: Validator().nullFieldValidate,
       margin: EdgeInsets.all(2),
       labelText: "Name",
       isRequired: true,
+      labelFontSize: isTablet? 15 : 12 ,
+      hintSize:isTablet? 17 : 15  ,
       hintText: StringResources.name,
     );
     var email = SignUpFormField(
+      topPadding: isTablet? 30 : 25,
       controller: _email,
       validator: Validator().validateEmail,
+      hintSize:isTablet? 17 : 15  ,
       margin: EdgeInsets.only(bottom: 2),
+      labelFontSize: isTablet? 15 : 12 ,
       isRequired: true,
       labelText: "Email",
       hintText: StringResources.email,
     );
     var mobile = SignUpFormField(
+      topPadding: isTablet? 30 : 25,
       controller: _mobile,
       validator: Validator().validatePhoneNumber,
+      labelFontSize: isTablet? 15 : 12 ,
+      hintSize:isTablet? 17 : 15  ,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Mobile",
@@ -111,8 +124,11 @@ class _SignUpState extends State<SignUp> {
       hintText: StringResources.confirmPassword,
     );
     var address = SignUpFormField(
+      topPadding: isTablet? 30 : 25,
       controller: _address,
       validator: Validator().nullFieldValidate,
+      labelFontSize: isTablet? 15 : 12 ,
+      hintSize:isTablet? 17 : 15  ,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Address",
@@ -133,16 +149,16 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Text(StringResources.dateOfBirth,
-                            style: GoogleFonts.roboto(fontSize: 12)),
+                            style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
                         Text(
                           " *",
-                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                          style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12 ,color: HexColor("#FF5B71")),
                         )
                       ],
                     ),
                   )),
               Container(
-                height: 45.0,
+                height: isTablet? 50 : 45.0,
                 width: width,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -157,7 +173,7 @@ class _SignUpState extends State<SignUp> {
                         pickedDate == DateTime.now()
                             ? "Date of birth"
                             : "$_formatDate",
-                        style: TextStyle(fontSize: 13.0),
+                        style: TextStyle(fontSize :isTablet? 17 : 14  ,),
                       ),
                     ),
                     Padding(
@@ -190,16 +206,16 @@ class _SignUpState extends State<SignUp> {
                   child: Row(
                     children: [
                       Text(StringResources.gender,
-                          style: GoogleFonts.roboto(fontSize: 12)),
+                          style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
                       Text(
                         " *",
-                        style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                        style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12,color: HexColor("#FF5B71")),
                       )
                     ],
                   ),
                 )),
             Container(
-              height: 45.0,
+              height: isTablet? 50 : 45.0,
               width: width,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -224,7 +240,7 @@ class _SignUpState extends State<SignUp> {
                           hint: Text(
                             StringResources.gender,
                             style: GoogleFonts.roboto(
-                                fontSize: 15, color: HexColor("#D2D2D2")),
+                                fontSize: isTablet? 17 : 15, color: HexColor("#D2D2D2")),
                           ),
                           value: _selectedGender,
                           onChanged: (newValue) {
@@ -255,6 +271,7 @@ class _SignUpState extends State<SignUp> {
     var signUpButton = GestureDetector(
       onTap: () async {
         //signUp(_name.text,_email.text, _mobile.text, _address.text, _selectedGender,_formatDate2);
+        //showAlert(context);
         if (_formKey.currentState.validate()) {
           print("shaki" + _address.text + "shaki");
           await vm.getSignUpInfo(_name.text, _email.text, _mobile.text,
@@ -278,7 +295,7 @@ class _SignUpState extends State<SignUp> {
               child: Text(
                 StringResources.signUpButton,
                 style: TextStyle(
-                    fontSize: height >= 600 ? 18 : 15, color: Colors.white),
+                    fontSize:isTablet? 20 :  height >= 600 ? 18 : 15, color: Colors.white),
               ),
             ),
           ),
@@ -295,6 +312,7 @@ class _SignUpState extends State<SignUp> {
           children: [
             Text(StringResources.alreadyHaveAnAccount,
                 style: TextStyle(
+                  fontSize: isTablet ? 16 : 13,
                     color: AppTheme.signInSignUpColor,
                     fontWeight: FontWeight.w300)),
             GestureDetector(
@@ -304,6 +322,7 @@ class _SignUpState extends State<SignUp> {
               child: Text(
                 StringResources.signInText,
                 style: TextStyle(
+                  fontSize: isTablet ? 16 : 13,
                     color: AppTheme.signInSignUpColor,
                     fontWeight: FontWeight.bold),
               ),
@@ -320,7 +339,7 @@ class _SignUpState extends State<SignUp> {
         ),
         Text(
           StringResources.agreeToTerms,
-          style: GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 14),
+          style: GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: isTablet ? 16 : 14),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -330,19 +349,19 @@ class _SignUpState extends State<SignUp> {
               style: GoogleFonts.roboto(
                   color: AppTheme.signInSignUpColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 13),
+                  fontSize: isTablet ? 16 : 13),
             ),
             Text(
               " and  ",
               style:
-                  GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: 13),
+                  GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: isTablet ? 16 : 13),
             ),
             Text(
               StringResources.policy,
               style: GoogleFonts.roboto(
                   color: AppTheme.signInSignUpColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 13),
+                  fontSize: isTablet ? 16 : 13),
             ),
           ],
         )
@@ -387,7 +406,7 @@ class _SignUpState extends State<SignUp> {
                           ]),
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 15.0, left: 15),
+                          padding:  EdgeInsets.only(right: isTablet? 35 : 15.0, left: isTablet? 35 : 15),
                           child: Column(
                             children: [
                               spaceBetween,
@@ -396,7 +415,7 @@ class _SignUpState extends State<SignUp> {
                                 StringResources.createAccount,
                                 style: TextStyle(
                                     color: HexColor("#0D1231"),
-                                    fontSize: 20.0,
+                                    fontSize: isTablet? 25 : 20.0,
                                     fontWeight: FontWeight.w500),
                               )),
                               spaceBetween,
@@ -472,13 +491,15 @@ class _SignUpState extends State<SignUp> {
   }
 
   Widget _backgroundImage() {
+    bool isTablet = Responsive.isTablet(context);
     return Stack(
       children: [
         Positioned(
-          top: MediaQuery.of(context).size.height >= 700
-              ? MediaQuery.of(context).size.width * .12
+          top: isTablet
+              ? 35
               : MediaQuery.of(context).size.width * .12,
           left: MediaQuery.of(context).size.width * .32,
+          right: MediaQuery.of(context).size.width * .32,
           child: Container(
             height: MediaQuery.of(context).size.width * .13,
             alignment: Alignment(0, -0.75),
@@ -494,6 +515,9 @@ class _SignUpState extends State<SignUp> {
   }
 
   void showAlert(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<SignUpViewModel>(context, listen: false);
     showGeneralDialog(
       barrierLabel: "Label",
@@ -502,16 +526,13 @@ class _SignUpState extends State<SignUp> {
       transitionDuration: Duration(milliseconds: 700),
       context: context,
       pageBuilder: (context, anim1, anim2) {
-        return Material(
-          type: MaterialType.transparency,
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 2.7,
-                bottom: MediaQuery.of(context).size.height / 2.7,
-                right: 20,
-                left: 20),
+        return Align(
+          alignment: Alignment.center,
+          child: Material(
+            type: MaterialType.transparency,
             child: Container(
-                height: 100,
+                height: 180,
+                width:  isTablet? MediaQuery.of(context).size.width*.7 : 250,
                 // child: SizedBox.expand(child: FlutterLogo()),
                 //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
                 decoration: BoxDecoration(
@@ -528,48 +549,52 @@ class _SignUpState extends State<SignUp> {
                   //borderRadius: 10,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding:  EdgeInsets.all(20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        vm.message,
-                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                      Padding(
+                        padding:  EdgeInsets.only(top: isTablet? 25 : 0),
+                        child: Text(
+                          vm.message,
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                        ),
                       ),
                       SizedBox(
                         height: 5,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Username : ",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500),
-                          ),
-                          Text(
-                            vm.username,
-                            style: GoogleFonts.poppins(),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Password: ",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500),
-                          ),
-                          Text(
-                            vm.password,
-                            style: GoogleFonts.poppins(),
-                          )
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Text(
+                      //       "Username : ",
+                      //       style: GoogleFonts.poppins(
+                      //           fontWeight: FontWeight.w500),
+                      //     ),
+                      //     Text(
+                      //       vm.username,
+                      //       style: GoogleFonts.poppins(),
+                      //     )
+                      //   ],
+                      // ),
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Text(
+                      //       "Password: ",
+                      //       style: GoogleFonts.poppins(
+                      //           fontWeight: FontWeight.w500),
+                      //     ),
+                      //     Text(
+                      //       vm.password,
+                      //       style: GoogleFonts.poppins(),
+                      //     )
+                      //   ],
+                      // ),
+                      Text("An sms has been sent to your mobile number with your username and password.", textAlign: TextAlign.center,style: GoogleFonts.poppins(fontWeight: FontWeight.w600),),
                       SizedBox(
                         height: 5,
                       ),

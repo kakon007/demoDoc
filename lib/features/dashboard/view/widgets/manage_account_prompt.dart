@@ -4,11 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/sign_out_prompt.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class ManageAccountPrompt extends StatefulWidget {
@@ -30,6 +31,9 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm2 = Provider.of<AccessTokenProvider>(context, listen: true);
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
@@ -42,8 +46,8 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
           borderRadius: BorderRadius.circular(
             20,
           )),
-      width: width < 330 ? 300 : 320.0,
-      height: width < 330 ? 280 : 300.0,
+      width: isTablet? 420 : width < 330 ? 300 : 320.0,
+      height: isTablet? 400  : width < 330 ? 280 : 300.0,
       child: Stack(
         children: [
           Column(
@@ -55,7 +59,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                     bottom: BorderSide(width: 0.5, color: Colors.grey),
                   ),
                 ),
-                height: 150,
+                height: isTablet? 200  : width < 330 ? 140 : 150.0,
                 child: Padding(
                   padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
                   child: Column(
@@ -67,7 +71,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                           Text(
                             "Accounts",
                             style: GoogleFonts.poppins(
-                                fontSize: width < 330 ? 16 : 18,
+                                fontSize: isTablet? 20 : width < 330 ? 16 : 18,
                                 color: AppTheme.appbarPrimary,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -92,27 +96,27 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height:  width < 330 ? 50 : 60,
-                                  width:  width < 330 ? 50 : 60,
+                                  height:  isTablet? 70 : width < 330 ? 50 : 60,
+                                  width:  isTablet? 70 :width < 330 ? 50 : 60,
                                   child: Center(
                                       child: vm10.loadProfileImage(
-                                          photo, width < 330 ? 50 : 60,  width < 330 ? 50 : 60, 50)))
+                                          photo, isTablet? 70 :width < 330 ? 50 : 60,  isTablet? 70 :width < 330 ? 50 : 60, 50)))
                               : Container(
                                   decoration: BoxDecoration(
                                     color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height:  width < 330 ? 50 : 60,
-                                  width:  width < 330 ? 50 : 60,
+                                  height:  isTablet? 70 :width < 330 ? 50 : 60,
+                                  width:  isTablet? 70 :width < 330 ? 50 : 60,
                                   child: Center(
                                     child: Image.asset(
                                       'assets/images/dPro.png',
-                                      height:  width < 330 ? 30 : 35,
-                                      width: width < 330 ? 30 : 35,
+                                      height: isTablet? 45 : width < 330 ? 30 : 35,
+                                      width:isTablet? 45 : width < 330 ? 30 : 35,
                                     ),
                                   )),
                           SizedBox(
-                            width: 10,
+                            width: isTablet? 20 :10,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,16 +125,16 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                 vm.userDetailsList?.fname ?? '',
                                 style: GoogleFonts.poppins(
                                     color: AppTheme.appbarPrimary,
-                                    fontSize: width < 330 ? 16 : 18,
+                                    fontSize: isTablet? 20 :width < 330 ? 16 : 18,
                                     fontWeight: FontWeight.w400),
                               ),
                               Text(
                                 vm.userDetailsList?.address ?? '',
                                 style: GoogleFonts.poppins(
-                                    color: HexColor("#8592E5"), fontSize: 13),
+                                    color: HexColor("#8592E5"), fontSize: isTablet? 16 :13),
                               ),
                               SizedBox(
-                                height: width < 330 ? 5 : 8,
+                                height: isTablet? 10 :width < 330 ? 5 : 8,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -153,8 +157,8 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                               )));
                                 },
                                 child: Container(
-                                  width: width<330 ? 150 : 160,
-                                  height: 26,
+                                  width: isTablet? 200 :width<330 ? 150 : 160,
+                                  height: isTablet? 35 :26,
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                         color: AppTheme.appbarPrimary),
@@ -165,7 +169,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                     "Manage Your Profile",
                                     style: GoogleFonts.poppins(
                                         color: AppTheme.appbarPrimary,
-                                        fontSize: 12),
+                                        fontSize: isTablet? 18 :12),
                                   )),
                                 ),
                               )
@@ -193,22 +197,22 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                       child: Row(
                         children: [
                           Container(
-                              height: 25,
-                              width: 25,
+                              height: isTablet? 35 :25,
+                              width: isTablet? 35 :25,
                               child: Image.asset('assets/images/switch.png')),
                           SizedBox(
-                            width: width < 330 ?  5 : 10,
+                            width: isTablet? 15 :width < 330 ?  5 : 10,
                           ),
                           Text(
                             "Switch to another account",
                             style: GoogleFonts.poppins(
-                                color: AppTheme.appbarPrimary, fontSize: 13),
+                                color: AppTheme.appbarPrimary, fontSize: isTablet? 18 :13),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: width < 330 ? 15 : 20,
+                      height: isTablet? 25 :width < 330 ? 15 : 20,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -221,17 +225,17 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                       child: Row(
                         children: [
                           Container(
-                              height: 25,
-                              width: 25,
+                              height: isTablet? 35 :25,
+                              width: isTablet? 35 :25,
                               child:
                                   Image.asset('assets/images/add_account.png')),
                           SizedBox(
-                            width: 10,
+                            width: isTablet? 15 :width < 330 ?  5 : 10,
                           ),
                           Text(
                             "Add another account",
                             style: GoogleFonts.poppins(
-                                color: AppTheme.appbarPrimary, fontSize: 13),
+                                color: AppTheme.appbarPrimary, fontSize:isTablet? 16: 13),
                           ),
                         ],
                       ),
@@ -252,7 +256,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                     });
               },
               child: Container(
-                width: width < 330 ? 300 : 320.0,
+                width: isTablet? 420 : width < 330 ? 300 : 320.0,
                 decoration: BoxDecoration(
                   color: AppTheme.appbarPrimary,
                   borderRadius: BorderRadius.only(
@@ -266,6 +270,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                     Text(
                       "Sign Out",
                       style: GoogleFonts.poppins(
+                        fontSize: isTablet? 18 : 15,
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
@@ -273,7 +278,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                     ),
                     Icon(
                       Icons.logout,
-                      size: 20,
+                      size: isTablet? 25 : 20,
                       color: Colors.white,
                     ),
                   ],

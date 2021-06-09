@@ -25,7 +25,7 @@ import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dar
     as hos;
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';

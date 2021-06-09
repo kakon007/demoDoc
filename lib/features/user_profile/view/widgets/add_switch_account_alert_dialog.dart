@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';

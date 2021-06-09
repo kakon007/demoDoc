@@ -1096,7 +1096,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                           Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 12.0),
+                                padding:  EdgeInsets.only(left: isTablet? 20 :12.0),
                                 child: Text(
                                   "${vm.totalCount.toString()} Prescription(s) found",
                                   style: GoogleFonts.poppins(
@@ -1124,6 +1124,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   }
                                 },
                               ),
+                              SizedBox(width: isTablet? 20 : 0,)
                             ],
                           ),
                           Expanded(
@@ -1540,8 +1541,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                         Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12.0, bottom: 20, top: 10),
+                              padding:  EdgeInsets.only(
+                                  left: isTablet? 20 :12.0, bottom: 20, top: 10),
                               child: Text(
                                 "${vm2.totalCount.toString()} Report(s) found",
                                 style: GoogleFonts.poppins(
@@ -1568,6 +1569,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 }
                               },
                             ),
+                            SizedBox(width: isTablet? 20 : 0,)
                           ],
                         ),
                         Expanded(
@@ -1894,8 +1896,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                           Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 12.0, bottom: 20),
+                                padding:  EdgeInsets.only(
+                                    left: isTablet? 20 : 12.0, bottom: 20),
                                 child: Text(
                                   "${vm3.totalCount.toString()} Document(s) found",
                                   style: GoogleFonts.poppins(
@@ -1924,6 +1926,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   }
                                 },
                               ),
+                              SizedBox(width: isTablet? 20 : 0,)
                             ],
                           ),
                           Expanded(
@@ -2137,8 +2140,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Container(
-                                                    // height: cardHeight*1.3,
-
+                                                    margin: EdgeInsets.only(
+                                                        top: isTablet ? 8 : 8,
+                                                        bottom:
+                                                        isTablet ? 10 : 5,
+                                                        right: isTablet
+                                                            ? 20
+                                                            : 10,
+                                                        left: isTablet
+                                                            ? 20
+                                                            : 10),
                                                     decoration: BoxDecoration(
                                                       gradient: LinearGradient(
                                                           begin: Alignment
@@ -2186,7 +2197,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                           10,
                                                                     ),
                                                                     Container(
-                                                                        width: isTablet? deviceWidth*.85 : deviceWidth <=
+                                                                        width: isTablet? deviceWidth*.72 : deviceWidth <=
                                                                                 330
                                                                             ? 220
                                                                             : 230,

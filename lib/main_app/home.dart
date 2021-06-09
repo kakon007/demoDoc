@@ -6,7 +6,7 @@ import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.d
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';

@@ -17,6 +17,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_
 import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
 import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -96,7 +97,7 @@ class _UserProfileState extends State<UserProfile> {
   final picker = ImagePicker();
   bool isEdit = false;
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery,maxHeight: 500, maxWidth: 500,imageQuality: 50);
 
     if (pickedFile != null) {
       _image = File(pickedFile.path);
@@ -111,6 +112,9 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
     var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: true);
@@ -139,7 +143,7 @@ class _UserProfileState extends State<UserProfile> {
             Text(
               'User Profile',
               style:
-                  GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w500),
+                  GoogleFonts.roboto(fontSize: isTablet? 18 : 15, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -150,7 +154,7 @@ class _UserProfileState extends State<UserProfile> {
               children: [
                 isEdit
                     ? GestureDetector(
-                        child: Text("Save", style: GoogleFonts.poppins(),),
+                        child: Text("Save", style: GoogleFonts.poppins( fontSize: isTablet? 18 :15,),),
                         onTap: () async {
                           print("Sha ${vm2.details.userId.toString()}");
                           await vm2.updateImage(
@@ -202,18 +206,18 @@ class _UserProfileState extends State<UserProfile> {
               height: 800,
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.only(top: 180.0),
+                padding:  EdgeInsets.only(top: 180.0),
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 28.0, left: 22),
+                      padding: const EdgeInsets.only(right: 25.0, left: 22),
                       child: Row(
                         children: [
                           Text(
                             "Family Members",
                             style: GoogleFonts.roboto(
                                 color: HexColor('#354291'),
-                                fontSize: 16,
+                                fontSize: isTablet? 20 : 16,
                                 fontWeight: FontWeight.bold),
                           ),
                           Spacer(),
@@ -231,14 +235,14 @@ class _UserProfileState extends State<UserProfile> {
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
                                   border: Border.all(color: AppTheme.appbarPrimary),
                                 ),
-                                height: 20,
-                                width: 60,
+                                height: isTablet? 25 : 20,
+                                width: isTablet? 70 : 60,
 
                                 child: Center(
                                   child: Text(
                                     "View All",
                                     style: GoogleFonts.roboto(
-                                        color: AppTheme.appbarPrimary, fontSize: 10),
+                                        color: AppTheme.appbarPrimary, fontSize: isTablet?12 : 10),
                                   ),
                                 ),
                               )),
@@ -246,7 +250,7 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: isTablet? 15 : 10,
                     ),
                     InkWell(
                       onTap: (){
@@ -264,8 +268,8 @@ class _UserProfileState extends State<UserProfile> {
                             borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width*.9,
-                          height: 40,
+                          width: isTablet? MediaQuery.of(context).size.width*.95 : MediaQuery.of(context).size.width*.9,
+                          height: isTablet? 50 : 40,
                           child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -273,15 +277,16 @@ class _UserProfileState extends State<UserProfile> {
                                 Icon(
                                   Icons.person_add,
                                   color: Colors.white,
+                                  size: isTablet? 25 : 20 ,
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  "Add family members",
+                                  "Add Family Members",
                                   style: GoogleFonts.roboto(
                                       color: Colors.white,
-                                      fontSize: 15,
+                                      fontSize: isTablet? 18 : 15,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ],
@@ -526,7 +531,7 @@ class _UserProfileState extends State<UserProfile> {
                             "Personal Info",
                             style: GoogleFonts.roboto(
                                 color: HexColor('#354291'),
-                                fontSize: 16,
+                                fontSize: isTablet? 18 : 15,
                                 fontWeight: FontWeight.bold),
                           ),
                           Spacer(),
@@ -535,8 +540,8 @@ class _UserProfileState extends State<UserProfile> {
                               _showAlertDialogForEditProfile(context);
                             },
                             child: Container(
-                              width: 60,
-                              height: 20,
+                              height: isTablet? 25 : 20,
+                              width: isTablet? 70 : 60,
                               decoration: BoxDecoration(
                                 border: Border.all(color: HexColor('#354291')),
                                 borderRadius: BorderRadius.circular(5),
@@ -548,12 +553,12 @@ class _UserProfileState extends State<UserProfile> {
                                       SizedBox(),
                                      Row(children: [
                                        Icon(
-                                         Icons.edit, color: AppTheme.appbarPrimary,size: 13,
+                                         Icons.edit, color: AppTheme.appbarPrimary,size: isTablet? 15 : 13,
                                        ),
                                        Text(
                                          "Edit Info",
                                          style: GoogleFonts.roboto(
-                                             color: HexColor('#354291'), fontSize: 10),
+                                             color: HexColor('#354291'), fontSize: isTablet? 12 : 10,),
                                        ),
                                      ],),
                                       SizedBox(),
@@ -576,7 +581,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Text(
                           "Full Name            : ${vm.userDetailsList?.fname ?? ""}",
                           style: GoogleFonts.roboto(
-                              color: HexColor('#141D53'), fontSize: 15),
+                              color: HexColor('#141D53'), fontSize: isTablet? 17 : 15),
                         ),
                       ),
                     ),
@@ -589,7 +594,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Text(
                           "Email Address    : ${vm.userDetailsList?.email ?? ""}",
                           style: GoogleFonts.roboto(
-                              color: HexColor('#141D53'), fontSize: 15),
+                              color: HexColor('#141D53'), fontSize: isTablet? 17 : 15),
                         ),
                       ),
                     ),
@@ -602,7 +607,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Text(
                           "Mobile Number   : ${vm.userDetailsList?.phoneMobile ?? ""}",
                           style: GoogleFonts.roboto(
-                              color: HexColor('#141D53'), fontSize: 15),
+                              color: HexColor('#141D53'), fontSize: isTablet? 17 : 15),
                         ),
                       ),
                     ),
@@ -615,7 +620,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Text(
                           "Address               : ${vm.userDetailsList?.address ?? ""}",
                           style: GoogleFonts.roboto(
-                              color: HexColor('#141D53'), fontSize: 15),
+                              color: HexColor('#141D53'), fontSize: isTablet? 17 : 15),
                         ),
                       ),
                     ),
@@ -628,7 +633,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Text(
                           "Date of Birth        : ${DateUtil().formattedDate(DateTime.parse(vm.userDetailsList?.dob ?? "").toLocal())}",
                           style: GoogleFonts.roboto(
-                              color: HexColor('#141D53'), fontSize: 15),
+                              color: HexColor('#141D53'), fontSize: isTablet? 17 : 15),
                         ),
                       ),
                     ),
@@ -641,7 +646,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Text(
                           "Gender                  : ${vm.userDetailsList?.gender == "M" ? "Male" : vm.userDetailsList?.gender == "F" ? "Female" : ""}",
                           style: GoogleFonts.roboto(
-                              color: HexColor('#141D53'), fontSize: 15),
+                              color: HexColor('#141D53'), fontSize: isTablet? 17 : 15),
                         ),
                       ),
                     ),
@@ -654,7 +659,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Text(
                           "Blood Group         : ${vm.userDetailsList?.bloodGroup ?? ""}",
                           style: GoogleFonts.roboto(
-                              color: HexColor('#141D53'), fontSize: 15),
+                              color: HexColor('#141D53'), fontSize: isTablet? 17 : 15),
                         ),
                       ),
                     ),
@@ -690,8 +695,8 @@ class _UserProfileState extends State<UserProfile> {
                               borderRadius: BorderRadius.circular(8)),
                           color: HexColor("#354291"),
                           child: SizedBox(
-                            width: 350,
-                            height: 40,
+                            width: isTablet? MediaQuery.of(context).size.width*.95 : 350,
+                            height: isTablet? 50 : 40,
                             child: Center(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -700,7 +705,7 @@ class _UserProfileState extends State<UserProfile> {
                                     "Change Password",
                                     style: GoogleFonts.roboto(
                                         color: Colors.white,
-                                        fontSize: 15,
+                                        fontSize: isTablet? 18 : 15,
                                         fontWeight: FontWeight.w500),
                                   ),
                                 ],
@@ -739,7 +744,7 @@ class _UserProfileState extends State<UserProfile> {
               padding: const EdgeInsets.only(top: 30.0),
               child: Container(
                 height: 145,
-                width: 145,
+                width: isTablet? 160 : 145,
                 child: Stack(
                   children: [
                     Container(
@@ -749,8 +754,8 @@ class _UserProfileState extends State<UserProfile> {
                         color: Colors.white,
                       ),
                       //color: Colors.white,
-                      height: 120,
-                      width: 135,
+                      height: isTablet? 135 : 120,
+                      width: isTablet ? 155 : 135,
                       child: _image != null
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(19),
@@ -765,22 +770,22 @@ class _UserProfileState extends State<UserProfile> {
                               : Image.asset('assets/images/dPro.png'),
                     ),
                     Positioned(
-                      bottom: 12,
-                      left: 55,
+                      bottom: isTablet? 0 : 12,
+                      left: isTablet? 62 : 55,
                       child: GestureDetector(
                         onTap: () {
                           getImage();
                         },
                         child: Container(
-                            height: 30,
-                            width: 30,
+                            height: isTablet? 35 : 30,
+                            width: isTablet? 35 : 30,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
                                 border:
                                     Border.all(color: AppTheme.appbarPrimary)),
                             child: Icon(
-                              Icons.camera_alt, color: AppTheme.appbarPrimary,size: 18,
+                              Icons.camera_alt, color: AppTheme.appbarPrimary,size: isTablet? 22 : 18,
                             )),
                       ),
                     )

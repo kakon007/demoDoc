@@ -104,7 +104,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   )),
               Container(
                 height: isTablet? 55 : 45.0,
-                width: isTablet?MediaQuery.of(context).size.width * .93 :  MediaQuery.of(context).size.width * .87,
+                width: isTablet?MediaQuery.of(context).size.width * .92 :  MediaQuery.of(context).size.width * .87,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
                     border: Border.all(color: HexColor(color)),
@@ -212,7 +212,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   )),
               Container(
                 height:  isTablet? 55 : 45.0,
-                width:  isTablet? width*.93 : MediaQuery.of(context).size.width * 0.87,
+                width:  isTablet? width*.92 : MediaQuery.of(context).size.width * 0.87,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),
@@ -247,7 +247,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       ],
     );
     var writeDetailsField = Container(
-      width: isTablet? width*93 : MediaQuery.of(context).size.width * .89,
+      width: isTablet? width*92 : MediaQuery.of(context).size.width * .89,
       height: isTablet? 200 : 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -338,7 +338,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       },
                       child: Container(
                         height: isTablet ? 200 : cardHeight * 0.9,
-                        width: isTablet ? 350 : width <= 360 ? width / 2.5 : 160,
+                        width: isTablet ? 340 : width <= 360 ? width / 2.5 : 160,
                         margin: EdgeInsets.only(
                             top: 8, bottom: 5, right: 12, left: 12),
                         decoration: BoxDecoration(
@@ -397,7 +397,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       },
                       child: Container(
                         height: isTablet ? 200 : cardHeight * 0.9,
-                        width: isTablet ? 350 : width <= 360 ? width / 2.5 : 160,
+                        width: isTablet ? 340 : width <= 360 ? width / 2.5 : 160,
                         margin: EdgeInsets.only(
                             top: 8, bottom: 5, right: 10, left: 10),
                         decoration: BoxDecoration(

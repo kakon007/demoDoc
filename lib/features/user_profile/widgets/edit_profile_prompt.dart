@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   final _formKey = new GlobalKey<FormState>();
   DateTime pickBirthDate;
   String abc = "#EAEBED";
-  double maxHeight = 588;
+  double maxHeight;
 
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
@@ -89,13 +90,19 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   //File _image;
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
+    maxHeight = isTablet? 665 : 588;
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var userId = vm.userDetailsList.id;
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;
     var width = MediaQuery.of(context).size.width * 0.44;
-    var name = CustomTextFieldRounded(
+    var name = SignUpFormField(
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().nullFieldValidate,
       labelText: "Name",
       isRequired: true,
@@ -106,7 +113,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Name',
     );
-    var email = CustomTextFieldRounded(
+    var email = SignUpFormField(
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().validateEmail,
       labelText: "Email",
       isRequired: true,
@@ -115,7 +124,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Email',
     );
-    var mobile = CustomTextFieldRounded(
+    var mobile = SignUpFormField(
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().validatePhoneNumber,
       labelText: "Mobile",
       isRequired: true,
@@ -124,7 +135,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Mobile',
     );
-    var address = CustomTextFieldRounded(
+    var address = SignUpFormField(
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().nullFieldValidate,
       labelText: "Address",
       isRequired: true,
@@ -139,23 +152,23 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           children: [
             Container(
                 height: 20.0,
-                width: width * .9,
+                width: isTablet ? width*.6 : width * .9,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Row(
                     children: [
                       Text(StringResources.gender,
-                          style: GoogleFonts.roboto(fontSize: 12)),
+                          style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
                       Text(
                         " *",
-                        style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                        style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12,color: HexColor("#FF5B71")),
                       )
                     ],
                   ),
                 )),
             Container(
               height: 50.0,
-              width: width * .9,
+              width: isTablet ? width*.6  : width * .9,
               decoration: BoxDecoration(
                   border: Border.all(color: HexColor(genderColor)),
                   borderRadius: BorderRadius.circular(10)),
@@ -165,7 +178,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   Padding(
                     padding: EdgeInsets.only(left: 15.0),
                     child: Container(
-                      width: width * .78,
+                      width: isTablet ? width*.48  : width * .78,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
                           decoration: InputDecoration(
@@ -210,23 +223,23 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       children: [
         Container(
             height: 20.0,
-            width: width * .9,
+            width: isTablet ? width*.6 : width * .9,
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Row(
                 children: [
                   Text(StringResources.bloodGroup,
-                      style: GoogleFonts.roboto(fontSize: 12)),
+                      style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
                   Text(
                     " *",
-                    style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                    style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12,color: HexColor("#FF5B71")),
                   )
                 ],
               ),
             )),
         Container(
           height: 50.0,
-          width: width * .9,
+          width: isTablet ? width*.6  : width * .9,
           decoration: BoxDecoration(
               border: Border.all(color: HexColor(bloodBorderColor)),
               borderRadius: BorderRadius.circular(10)),
@@ -236,7 +249,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               Padding(
                 padding: EdgeInsets.only(left: 18.0),
                 child: Container(
-                  width: width * .76,
+                  width: isTablet ? width*.48  : width * .76,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
                       icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedBlood != null  ?  Colors.black54: HexColor("#D2D2D2"),),
@@ -247,7 +260,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                       hint: Text(
                         'Blood Group',
                         style: GoogleFonts.roboto(
-                            fontSize: 15, color: HexColor("#D2D2D2")),
+                            fontSize: isTablet? 15: 12, color: HexColor("#D2D2D2")),
                       ),
                       value: _selectedBlood,
                       onChanged: (newValue) {
@@ -283,13 +296,13 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             children: [
               Container(
                   height: 20.0,
-                  width: width,
+                  width:  width,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
                       children: [
                         Text(StringResources.dateOfBirth,
-                            style: GoogleFonts.roboto(fontSize: 12)),
+                            style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
                         Text(
                           " *",
                           style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
@@ -299,7 +312,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 48.0,
-                width: MediaQuery.of(context).size.width * 0.82,
+                width: isTablet ? MediaQuery.of(context).size.width*.57 :MediaQuery.of(context).size.width * 0.82,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),
@@ -340,7 +353,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
         child: Center(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            constraints: BoxConstraints(maxWidth: 400, maxHeight: maxHeight),
+            constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, maxHeight: maxHeight),
             child: Material(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -362,7 +375,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                 'Edit Personal Info',
                                 style: GoogleFonts.poppins(
                                     color: AppTheme.appbarPrimary,
-                                    fontSize: 15.0,
+                                    fontSize: isTablet? 18 :15.0,
                                     fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.center,
                               ),
@@ -395,8 +408,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: width * .9,
-                                    height: width * .25,
+                                    width: isTablet? 200 : width * .8,
+                                    height: isTablet ? 50 : width * .25,
                                     child: FlatButton(
                                       onPressed: () {
                                         Navigator.pop(context);
@@ -411,13 +424,13 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                               width: 1)),
                                       child: Text(
                                         StringResources.cancelText,
-                                        style: GoogleFonts.poppins(),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ),
                                       ),
                                     ),
                                   ),
                                   SizedBox(
-                                    width: width * .9,
-                                    height: width * .25,
+                                    width: isTablet? 200 : width * .8,
+                                    height: isTablet ? 50 : width * .25,
                                     child: FlatButton(
                                       textColor: Colors.white,
                                       onPressed: () {
@@ -444,7 +457,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                               fontSize: 16.0);
                                           Navigator.pop(context);
                                         } else {
-                                          maxHeight = 650;
+                                          maxHeight = isTablet? 755 : 650;
                                           if (_selectedBlood == null) {
                                             setState(() {
                                               bloodBorderColor = "FF0000";
@@ -463,7 +476,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                       ),
                                       child: Text(
                                         "Submit",
-                                        style: GoogleFonts.poppins(),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ),
                                       ),
                                     ),
                                   )

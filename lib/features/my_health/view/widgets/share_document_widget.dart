@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/features/my_health/view/widgets/doctor_search_scr
 
 import 'package:myhealthbd_app/features/my_health/view_model/shared_file_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/search_doctor_view_model.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +62,30 @@ class _ShareDocumentState extends State<ShareDocument> {
 
   }
 
+  Future sharedFile({int fileNoArr,int regNo,int shareType,int doctorNoArr,String note})async{
+
+    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    var headers = {
+      'Authorization': 'Bearer $accessToken',
+      'Content-Type': 'text/plain'
+    };
+    var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/create'));
+    request.body = '''{\n "fileNoArr": [$fileNoArr],\n "regNo": $regNo,\n "shareType": $shareType,\n "doctorNoArr": [$doctorNoArr],\n "activeStat": 1,\n "remarks": "$note"\n}\n''';
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+print('Resss:: ${response.statusCode}');
+print('Resss:: $fileNoArr');
+print('Resss:: $shareType');
+print('Resss:: $doctorNoArr');
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -70,6 +95,8 @@ class _ShareDocumentState extends State<ShareDocument> {
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     removeData();
+    var vm2 = appNavigator.getProviderListener<SearchDoctorViewModel>();
+    vm2.docNull('');
     // var vm2 = Provider.of<SearchDoctorViewModel>(context, listen: false);
     // vm2.getData();
     // Future.delayed(Duration.zero,()async{
@@ -134,7 +161,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 iconSize: 0.0,
-                                hint: Text('Select Hospital', style:  GoogleFonts.roboto(fontSize: 13, color: HexColor("#333132")),), // Not necessary for Option 1
+                                hint: Text('Select Hospital or Diagnostic', style:  GoogleFonts.roboto(fontSize: 13, color: HexColor("#333132")),), // Not necessary for Option 1
                                 value: _selectedName,
                                 onChanged: (newValue) {
                                   setState(() {
@@ -339,7 +366,7 @@ class _ShareDocumentState extends State<ShareDocument> {
             cursorColor: HexColor('#C5CAE8'),
             decoration: InputDecoration(
               border: InputBorder.none,
-              // hintText: 'Search here',
+              hintText: 'Type Your Notes Here',
               hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
               fillColor: Colors.white,
 
@@ -431,6 +458,22 @@ class _ShareDocumentState extends State<ShareDocument> {
           ],
         ) ,);
 
+    var doctorCardForAllDoc=
+    Container(
+        decoration: BoxDecoration(
+      color: HexColor("#F0F2FF"),
+      borderRadius: BorderRadius.circular(10),
+    ),
+      // margin: EdgeInsets.only(top: 5, bottom: 5),
+      height: 70,
+      width: MediaQuery.of(context).size.width*.89,
+      child:
+      Center(
+        child: Text(
+          'You Are Sharing Documents With All Doctors'
+        ),
+      ));
+
     print('Nameeee:: ${vm2.doctorName}');
     var horizontalSpace = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
@@ -473,7 +516,7 @@ class _ShareDocumentState extends State<ShareDocument> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: height * .60,
+            height:_selectedSharedtype==null||_selectedSharedtype=='Share With All'?height *.48: height * .60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25),
@@ -500,7 +543,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                             // ),
                             horizontalSpace,
                             shareType,
-                            horizontalSpace,
+                            _selectedSharedtype==null||_selectedSharedtype=='Share With All'? SizedBox(): horizontalSpace,
                             _selectedSharedtype==null||_selectedSharedtype=='Share With All'? SizedBox():hospitalName,
                             // Container(
                             //   width: width * 1.2,
@@ -579,16 +622,22 @@ class _ShareDocumentState extends State<ShareDocument> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width * .72,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 15.0,top: 15),
-                                  child: Text(
-                                    "Search Doctor(s)",
-                                    style: GoogleFonts.roboto(
-                                      color:
-                                      // familyVm.isSelected && memberList
-                                      //     ? Colors.white
-                                           Colors.black,
-                                      fontSize: 12,
-                                    ),
+                                  padding: const EdgeInsets.only(left: 15.0,top: 5),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.search_outlined,size: 20,),
+                                      SizedBox(width: 5,),
+                                      Text(
+                                        "Search Doctor(s)",
+                                        style: GoogleFonts.roboto(
+                                          color:
+                                          // familyVm.isSelected && memberList
+                                          //     ? Colors.white
+                                               Colors.black,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -647,7 +696,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                             //             }),
                             //       ),
                             // ),
-                           vm2.doctorName==null || vm2.hospitalName==null?SizedBox():doctorCard,
+                           vm2.doctorName!='' || vm2.hospitalName!=''?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox(),
                             horizontalSpace,
                             writeDetailsField,
                             horizontalSpace,
@@ -782,24 +831,41 @@ class _ShareDocumentState extends State<ShareDocument> {
                   // ),
 
                   GestureDetector(
-                    onTap:(){
-                     print('Dhuuurrr');
-                     var num=_selectedSharedtype=="Share With All"?1:2;
-                                 print('light $num');
-                    },
+                    onTap:() async{
+                      var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+SVProgressHUD.show(
+  status: "Sharing"
+);
+                   await sharedFile(fileNoArr: vm10.fileNo,regNo: vm10.regId,shareType:_selectedSharedtype=="Share With All"?1:2,doctorNoArr:vm2.doctorNo,note: _descriptionTextEditingController.text);
+                   SVProgressHUD.dismiss();
+                     Future.delayed(Duration.zero, () async {
+                       // setState(() {
+                       //   // file==null && _image==null?Loader():
+                       //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                       //   //     builder: (BuildContext context) =>
+                       //   //     // DoctorHomeScreen(
+                       //   //     HomeScreen(
+                       //   //       accessToken: accessToken,
+                       //   //     )));
+                       //
+                       // });
+
+                       Navigator.pop(context);
+
+                     });
+                   },
                     child: Material(
                       elevation: 2  ,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                      color:_username.text == "" &&
-                                      _password.text == ""
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      color:_selectedSharedtype==null||_selectedName==null||vm2.doctorName==''
                                       ? HexColor("#969EC8")
                                       : AppTheme.appbarPrimary,
                       child: SizedBox(
                         width:
                               MediaQuery.of(context).size.width*.89,
-                              height: width * .25,
+                              height: width * .20,
                         child: Center(
-                          child: Text("Share",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
+                          child: Text("Share",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.bold),),
                         ),
                       ),
                     ),
@@ -899,13 +965,26 @@ class _ShareDocumentState extends State<ShareDocument> {
                             ))),
                         GestureDetector(
                           onTap: ()async{
+                            var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
                             SVProgressHUD.show(
                               status: 'Deleting'
                             );
                             await removeData(id:vm10.sharedFileList[index].id);
                             SVProgressHUD.dismiss();
 
-                            //await vm10.getData();
+                            Future.delayed(Duration.zero, () async {
+                              setState(() {
+                                // file==null && _image==null?Loader():
+                                // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                //     builder: (BuildContext context) =>
+                                //     // DoctorHomeScreen(
+                                //     HomeScreen(
+                                //       accessToken: accessToken,
+                                //     )));
+                                Navigator.pop(context);
+                              });
+
+                            });
 
                           },
                         child: Container(

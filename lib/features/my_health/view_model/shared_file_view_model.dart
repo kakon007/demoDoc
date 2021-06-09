@@ -20,6 +20,8 @@ class SharedFileViewModel extends ChangeNotifier{
   get logger => null;
   int limit=10;
   int startIndex=0;
+  int _fileNo;
+  int _regId;
 
 
   void resetPageCounter() {
@@ -97,6 +99,18 @@ class SharedFileViewModel extends ChangeNotifier{
   // }
 
 
+  fileInfo({
+    int fileNo,
+    int regId,
+
+  }){
+    print("fileNo $fileNo");
+    print("regId $regId");
+    _fileNo= fileNo;
+    _regId=regId;
+
+  }
+
   Future<bool> refresh(String accessToke) async {
     _pageCount = 1;
     notifyListeners();
@@ -153,4 +167,6 @@ class SharedFileViewModel extends ChangeNotifier{
 
 
   List<Item> get sharedFileList => _sharedFileList;
+  int get fileNo=>_fileNo;
+  int get regId=>_regId;
 }

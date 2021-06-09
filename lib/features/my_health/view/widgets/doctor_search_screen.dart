@@ -71,6 +71,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
           width: MediaQuery.of(context).size.width*.89,
           height: 50,
           child: TextField(
+            textCapitalization: TextCapitalization.characters,
               onSubmitted: (value) {
                 membersSearch(value);
               },

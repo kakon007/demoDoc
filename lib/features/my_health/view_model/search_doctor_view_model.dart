@@ -39,6 +39,12 @@ class SearchDoctorViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
+  String docNull(String value){
+    _doctorName=value;
+    _hospitalName=value;
+    notifyListeners();
+  }
+
   bool get isFetchingMoreData => _isFetchingMoreData;
 
   set isFetchingMoreData(bool value) {

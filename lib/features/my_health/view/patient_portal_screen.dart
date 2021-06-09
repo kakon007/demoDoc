@@ -714,36 +714,36 @@ var accessTokenVm;
     //         mini: true,
     //         child: uploadIcon)));
 
-    void handleClick(String value) {
-      switch (value) {
-        case 'Share':
-          {
-            showModalBottomSheet(
-                backgroundColor: HexColor("#E9ECFE"),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25))),
-                context: context,
-                isScrollControlled: true,
-                builder: (context) {
-                  return StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        var index = 0;
-                        bool isTrue = false;
-                        return FractionallySizedBox(
-                            heightFactor: 0.65,
-                            child:ShareDocument()
-                        );
-                      });
-                });
-          }
-          break;
-        case 'Download':
-          break;
-
-      }
-    }
+    // void handleClick(String value) {
+    //   switch (value) {
+    //     case 'Share':
+    //       {
+    //         showModalBottomSheet(
+    //             backgroundColor: HexColor("#E9ECFE"),
+    //             shape: RoundedRectangleBorder(
+    //                 borderRadius: BorderRadius.only(
+    //                     topLeft: Radius.circular(25),
+    //                     topRight: Radius.circular(25))),
+    //             context: context,
+    //             isScrollControlled: true,
+    //             builder: (context) {
+    //               return StatefulBuilder(
+    //                   builder: (BuildContext context, StateSetter setState) {
+    //                     var index = 0;
+    //                     bool isTrue = false;
+    //                     return FractionallySizedBox(
+    //                         heightFactor: 0.65,
+    //                         child:ShareDocument()
+    //                     );
+    //                   });
+    //             });
+    //       }
+    //       break;
+    //     case 'Download':
+    //       break;
+    //
+    //   }
+    // }
 
     void handleClickForDocuments(String value) {
       switch (value) {
@@ -780,26 +780,26 @@ var accessTokenVm;
 
       }
     }
-    var popup= Padding(
-      padding: EdgeInsets.only(bottom: 60,right: 1),
-      child: Container(
-        //margin: EdgeInsets.only(bottom: 60,),
-        width: 25,
-        height: 30,
-        child: PopupMenuButton<String>(
-          onSelected: handleClick,
-          itemBuilder: (BuildContext context) {
-            return {'Share', 'Download'}.map((String choice) {
-              return PopupMenuItem<String>(
-                height: 30,
-                value: choice,
-                child: Text(choice,style:GoogleFonts.poppins(fontSize: 12),),
-
-              );
-            }).toList();
-          },
-        ),
-      ),);
+    // var popup= Padding(
+    //   padding: EdgeInsets.only(bottom: 60,right: 1),
+    //   child: Container(
+    //     //margin: EdgeInsets.only(bottom: 60,),
+    //     width: 25,
+    //     height: 30,
+    //     child: PopupMenuButton<String>(
+    //       onSelected: handleClick,
+    //       itemBuilder: (BuildContext context) {
+    //         return {'Share', 'Download'}.map((String choice) {
+    //           return PopupMenuItem<String>(
+    //             height: 30,
+    //             value: choice,
+    //             child: Text(choice,style:GoogleFonts.poppins(fontSize: 12),),
+    //
+    //           );
+    //         }).toList();
+    //       },
+    //     ),
+    //   ),);
 
     var popup2=
     Padding(
@@ -1329,6 +1329,7 @@ var accessTokenVm;
                                                                   status: 'Please Wait'
                                                                 );
                                                               await vm10.getData(fileNo: vm.prescriptionList[index].prescriptionNo);
+                                                              await vm10.fileInfo(fileNo: vm.prescriptionList[index].prescriptionNo,regId: vm.prescriptionList[index].registrationNo);
                                                                SVProgressHUD.dismiss();
                                                                 vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
                                                                     backgroundColor: HexColor("#E9ECFE"),
@@ -1350,7 +1351,7 @@ var accessTokenVm;
                                                                             );
                                                                           });
                                                                     });
-                                                                print('CompanyName ${vm10.sharedFileList.last.companyName}');
+                                                                //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                               },
                                                               // onTap: showNotification,
                                                               child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),

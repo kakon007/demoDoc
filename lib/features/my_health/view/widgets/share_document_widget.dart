@@ -1,17 +1,23 @@
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/models/search_doctor_model.dart';
+import 'package:myhealthbd_app/features/my_health/view/widgets/doctor_search_screen.dart';
+
 import 'package:myhealthbd_app/features/my_health/view_model/shared_file_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/search_doctor_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:provider/provider.dart';
 import 'package:myhealthbd_app/features/my_health/models/shared_file_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 class ShareDocument extends StatefulWidget {
    List<Item> lenght;
@@ -26,9 +32,12 @@ class _ShareDocumentState extends State<ShareDocument> {
   final _username = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  TextEditingController memberSearch = TextEditingController();
+  List<Itemm> familyMembers= [];
 
   String _selectedName;
   String _selectedSharedtype;
+  String selectedSearchValue;
 
   Future<String> removeData({int id}) async{
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
@@ -57,9 +66,12 @@ class _ShareDocumentState extends State<ShareDocument> {
     // TODO: implement initState
     _selectedName=null;
     _selectedSharedtype=null;
+    selectedSearchValue=null;
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     removeData();
+    // var vm2 = Provider.of<SearchDoctorViewModel>(context, listen: false);
+    // vm2.getData();
     // Future.delayed(Duration.zero,()async{
     //   var vm10 =  Provider.of<SharedFileViewModel>(context, listen: false);
     //  await vm10.getData(fileNo: widget.prescriptionNo);
@@ -72,17 +84,24 @@ class _ShareDocumentState extends State<ShareDocument> {
     super.initState();
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
+
+    TextEditingController _descriptionTextEditingController = TextEditingController();
+    var _searchFieldFocusNode2 = FocusNode();
 
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;
 
     var vm = appNavigator.getProviderListener<HospitalListViewModel>();
+    var vm2 = appNavigator.getProviderListener<SearchDoctorViewModel>();
      var vm10 = Provider.of<SharedFileViewModel>(context, listen: true);
 
     String color = "#8592E5";
-   
+
     var hospitalName = Row(
       children: [
         GestureDetector(
@@ -155,6 +174,74 @@ class _ShareDocumentState extends State<ShareDocument> {
         ),
       ],
     );
+
+    // var searchDropdown = Row(
+    //   children: [
+    //     GestureDetector(
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           // Container(
+    //           //     height: 35.0,
+    //           //     width: MediaQuery.of(context).size.width*.6,
+    //           //     child: Padding(
+    //           //       padding: const EdgeInsets.only(top:8.0,left:5,right:10),
+    //           //       child: Text("Document Type",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#333132'),fontSize: 12),),
+    //           //     )),
+    //           Container(
+    //             height: 70.0,
+    //             width:MediaQuery.of(context).size.width*.89,
+    //             decoration: BoxDecoration(
+    //                 color: Colors.transparent,
+    //                 border: Border.all(color: HexColor(color)),
+    //                 borderRadius: BorderRadius.circular(25)),
+    //             child: Row(
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               children: [
+    //                 Stack(
+    //                   children: [
+    //                     Padding(
+    //                       padding: const EdgeInsets.only(left: 15.0),
+    //                       child: Container(
+    //                         width: 280,
+    //                         child:
+    //                         SearchableDropdown(
+    //                           items: StringResources.memberList.map((item) {
+    //                             return  DropdownMenuItem(
+    //                                 child: Text(item), value: item);
+    //                           }).toList(),
+    //                           isExpanded: true,
+    //                           value: selectedSearchValue,
+    //                           isCaseSensitiveSearch: true,
+    //                           searchHint:  Text(
+    //                             'Select ',
+    //                             style:  TextStyle(fontSize: 20),
+    //                           ),
+    //                           onChanged: (value) {
+    //                             setState(() {
+    //                               selectedSearchValue = value;
+    //                               print("search Value:: $selectedSearchValue");
+    //                             });
+    //                           },
+    //                         ),
+    //                       ),
+    //                     ),
+    //                     // Padding(
+    //                     //   padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.75, top: 5),
+    //                     //   child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#8592E5"),size: 30,),
+    //                     // ),
+    //                   ],
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ],
+    // );
+
+
 
     var shareType = Row(
       children: [
@@ -229,8 +316,122 @@ class _ShareDocumentState extends State<ShareDocument> {
       ],
     );
 
+    var writeDetailsField=Container(
+      width: MediaQuery.of(context).size.width*.89,
+      height: 90,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        //color: Colors.white,
+        border: Border.all(color: HexColor('#8592E5')),
+      ),
+      child:
+      Padding(
+        padding: const EdgeInsets.only(left:15.0,right: 15),
+        child: TextField(
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
+            maxLength: 200,
+            maxLengthEnforced: false,
+            autofocus: false,
+            textInputAction: TextInputAction.newline,
+            focusNode: _searchFieldFocusNode2,
+            controller: _descriptionTextEditingController,
+            cursorColor: HexColor('#C5CAE8'),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              // hintText: 'Search here',
+              hintStyle: GoogleFonts.poppins(fontSize: 11,fontWeight: FontWeight.w400),
+              fillColor: Colors.white,
 
+            ),
+            onSubmitted: (v){
+              //vm2.search(_searchTextEditingController2.text,widget.accessToken);
+            },
 
+            // inputFormatters: [
+            //   LengthLimitingTextInputFormatter(20),
+            // ]
+        ),
+      ),
+    );
+
+    var doctorCard=
+    Container( decoration: BoxDecoration(
+      color: HexColor("#F0F2FF"),
+      borderRadius: BorderRadius.circular(10),
+    ),
+     // margin: EdgeInsets.only(top: 5, bottom: 5),
+      height: 70,
+      width: MediaQuery.of(context).size.width*.89,
+      child:Row(
+          children: [
+            SizedBox(
+              width: 10,
+            ),
+
+            // photo != ""
+            //     ? Container(
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: AppTheme.appbarPrimary),
+            //       //color: AppTheme.appbarPrimary,
+            //       shape: BoxShape.circle,
+            //     ),
+            //     height: 50,
+            //     width: 50,
+            //     child: Center(
+            //         child: imageVm.loadProfileImage(photo, 45, 45,50)
+            //     ))
+            //     : Container(
+            //     decoration: BoxDecoration(
+            //       color: AppTheme.appbarPrimary,
+            //       shape: BoxShape.circle,
+            //     ),
+            //     height: 50,
+            //     width: 50,
+            //     child: Center(
+            //       child: Image.asset(
+            //         'assets/images/dPro.png',
+            //         height: 40,
+            //         width: 40,
+            //       ),
+            //     )),
+            SizedBox(
+              width: 20,
+            ),
+            Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width:220,
+                  child: Text(
+                    vm2.doctorName==null?'Loading':vm2.doctorName,
+                    style: GoogleFonts.poppins(
+                        color: HexColor("#0D1231"),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Container(
+                  width:220,
+                  child: Text(
+
+                  vm2.hospitalName==null?'Loading':vm2.hospitalName,
+                    style: GoogleFonts.poppins(
+                      color: AppTheme.appbarPrimary,),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ) ,);
+
+    print('Nameeee:: ${vm2.doctorName}');
     var horizontalSpace = SizedBox(
       height: height >= 600 ? 10.0 : 5.0,
     );
@@ -272,7 +473,7 @@ class _ShareDocumentState extends State<ShareDocument> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: height * .50,
+            height: height * .60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25),
@@ -300,7 +501,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                             horizontalSpace,
                             shareType,
                             horizontalSpace,
-                            hospitalName,
+                            _selectedSharedtype==null||_selectedSharedtype=='Share With All'? SizedBox():hospitalName,
                             // Container(
                             //   width: width * 1.2,
                             //   height: width * .32,
@@ -357,57 +558,98 @@ class _ShareDocumentState extends State<ShareDocument> {
                             //   "Type your Doctor name",
                             //   style: GoogleFonts.poppins(),
                             // ),
-                            Container(
+                            //
+                            _selectedSharedtype==null||_selectedSharedtype=='Share With All'? SizedBox():
+                            GestureDetector(
+                            onTap: (){
+                              _selectedName==null?Fluttertoast.showToast(msg: 'Please Select A Hospital',backgroundColor: Colors.blue,textColor: Colors.white):Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchDoctor(selectedName: _selectedName,))).then((value){
+                                setState(() {
+
+                                });
+                              });
+                            },
+                            child: Container(
                               width: MediaQuery.of(context).size.width*.89,
-                              height: width * .32,
-                              child: TextFormField(
-                                controller: _password,
-                                decoration: InputDecoration(
-                                  focusedBorder:
-                                  OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                        HexColor("#D6DCFF"),
-                                        width: 1.0),
-                                    borderRadius:
-                                    BorderRadius.circular(
-                                        25),
-                                  ),
-                                  // contentPadding: EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
-                                  enabledBorder:
-                                  OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                        HexColor("#EAEBED"),
-                                        width: 1.0),
-                                    borderRadius:
-                                    BorderRadius.circular(
-                                        25),
-                                  ),
-                                  prefixIcon: Padding(
-                                    padding:
-                                    const EdgeInsets.only(
-                                        left: 18.0),
-                                    child: Icon(
-                                      Icons.search_rounded,
-                                      color: AppTheme
-                                          .appbarPrimary,
-                                    ),
-                                  ),
-                                  suffixIcon: Padding(
-                                    padding: EdgeInsets.only(
-                                        right: 18.0),
-                                    child: Icon(
-                                      Icons
-                                          .keyboard_arrow_down_rounded,
-                                      color: AppTheme
-                                          .appbarPrimary,
-                                      size: 30,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                //color: Colors.white,
+                                border: Border.all(color: HexColor('#8592E5')),
+                              ),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .72,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15.0,top: 15),
+                                  child: Text(
+                                    "Search Doctor(s)",
+                                    style: GoogleFonts.roboto(
+                                      color:
+                                      // familyVm.isSelected && memberList
+                                      //     ? Colors.white
+                                           Colors.black,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
+                          ),
+                            horizontalSpace,
+                            // Container(
+                            //   height: 100,
+                            //   width: MediaQuery.of(context).size.width*.89,
+                            //   decoration: BoxDecoration(
+                            //     border: Border.all(color:Colors.grey)
+                            //   ),
+                            //   child:
+                            //   vm2.isLoading? Center(child: CircularProgressIndicator(valueColor:
+                            //   AlwaysStoppedAnimation<Color>(
+                            //       AppTheme.appbarPrimary),)) : SingleChildScrollView(
+                            //         physics: ScrollPhysics(),
+                            //         scrollDirection: Axis.vertical,
+                            //         child: ListView.builder(
+                            //             physics: NeverScrollableScrollPhysics(),
+                            //             shrinkWrap: true,
+                            //             itemCount: familyMembers.length,
+                            //             itemBuilder: (BuildContext context, int index) {
+                            //               //var photo = familyMembers[index]?.photo ?? "";
+                            //               return Container(
+                            //                   decoration: BoxDecoration(
+                            //                     color: HexColor("#F0F2FF"),
+                            //                     borderRadius: BorderRadius.circular(10),
+                            //                   ),
+                            //                   margin: EdgeInsets.only(top: 5, bottom: 5),
+                            //                   height: 70,
+                            //                   child: Row(
+                            //                     children: [
+                            //
+                            //                       Column(
+                            //                         crossAxisAlignment:
+                            //                         CrossAxisAlignment.start,
+                            //                         mainAxisAlignment: MainAxisAlignment.center,
+                            //                         children: [
+                            //                           Text(
+                            //                             familyMembers[index].doctorName,
+                            //                             style: GoogleFonts.poppins(
+                            //                                 color: HexColor("#0D1231"),
+                            //                                 fontSize: 16,
+                            //                                 fontWeight: FontWeight.w500),
+                            //                           ),
+                            //                           Text(
+                            //                             familyMembers[index].companyName,
+                            //                             style: GoogleFonts.poppins(
+                            //                               color: AppTheme.appbarPrimary,),
+                            //                           )
+                            //                         ],
+                            //                       ),
+                            //                     ],
+                            //                   ));
+                            //             }),
+                            //       ),
+                            // ),
+                           vm2.doctorName==null || vm2.hospitalName==null?SizedBox():doctorCard,
+                            horizontalSpace,
+                            writeDetailsField,
                             horizontalSpace,
                           ],
                         ),
@@ -557,7 +799,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                               MediaQuery.of(context).size.width*.89,
                               height: width * .25,
                         child: Center(
-                          child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
+                          child: Text("Share",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
                         ),
                       ),
                     ),

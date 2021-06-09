@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
-import 'package:myhealthbd_app/features/my_health/repositories/shared_file_repository.dart';
+import 'package:myhealthbd_app/features/my_health/repositories/search_doctor_repository.dart';
+//import 'package:myhealthbd_app/features/my_health/repositories/shared_file_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
-import 'package:myhealthbd_app/features/my_health/models/shared_file_model.dart';
+import 'package:myhealthbd_app/features/my_health/models/search_doctor_model.dart';
 import 'package:provider/provider.dart';
 
-class SharedFileViewModel extends ChangeNotifier{
-  List<Item> _sharedFileList =[];
+class SearchDoctorViewModel extends ChangeNotifier{
+  List<Itemm> _searchDocList =[];
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
@@ -20,6 +21,11 @@ class SharedFileViewModel extends ChangeNotifier{
   get logger => null;
   int limit=10;
   int startIndex=0;
+  String _message;
+  bool _isLoading = false;
+  String _doctorName;
+  String _hospitalName;
+  int _doctorNo;
 
 
   void resetPageCounter() {
@@ -40,28 +46,33 @@ class SharedFileViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<bool> getData({int fileNo}) async {
-    print('Enter Shareddd');
+  Future<bool> getData({String name,int companyNo}) async {
+    print('Enter Shared');
+    _isLoading=true;
     // startIndex=0;
     // _pageCount++;
     _isFetchingData = true;
     //_lastFetchTime = DateTime.now();
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
-    var res = await SharedFileRepository().fetchSharedFile(accessToken: accessToken,fileNo: fileNo);
+    print('Enter Shared before');
+    var res = await SearchDoctorRepository().fetchDoctorList(accessToken: accessToken,name: name,companyNo: companyNo);
+    print('Enter Shared After');
     notifyListeners();
-    _sharedFileList.clear();
+    _searchDocList.clear();
     res.fold((l) {
+      _isLoading=false;
       _appError = l;
       _isFetchingData = false;
-      print('Left Shared');
+      print('Left Sharedd');
       notifyListeners();
       return false;
     }, (r) {
-     // hasMoreData = r.totalCount-1>startIndex;
+      _isLoading=false;
+      // hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
-      _sharedFileList.addAll(r.dataList);
-      //count = r.totalCount;
-      print('Right Shared ${_sharedFileList.first.remarks}');
+      _searchDocList.addAll(r.dataListOfsearchDoc);
+      _message=r.message;
+      print('Right Sharedd ${_searchDocList.first.doctorName}');
       notifyListeners();
       return true;
     });
@@ -95,7 +106,20 @@ class SharedFileViewModel extends ChangeNotifier{
   //     });
   //   }
   // }
+  adDoctorsInfo({
+    String doctorName,
+    String hospitalName,
+    int doctorNo,
 
+  }){
+    print("regId $doctorName");
+    print("regNo $hospitalName");
+    print("relatedRegId $doctorNo");
+    _doctorName= doctorName;
+    _hospitalName=hospitalName;
+    _doctorNo= doctorNo;
+
+  }
 
   Future<bool> refresh(String accessToke) async {
     _pageCount = 1;
@@ -103,7 +127,7 @@ class SharedFileViewModel extends ChangeNotifier{
     return getData();
   }
   search(String query,String accessToken) {
-    _sharedFileList.clear();
+    _searchDocList.clear();
     _pageCount = 1;
     searchQuery = query;
     print("Searching for: $query");
@@ -146,11 +170,16 @@ class SharedFileViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  bool get shouldShowNoPrescriptionFound => _sharedFileList.length == 0 && !isFetchingData;
+  bool get shouldShowNoPrescriptionFound => _searchDocList.length == 0 && !isFetchingData;
 
   bool get shouldShowPageLoader =>
-      _isFetchingData && _sharedFileList.length == 0;
+      _isFetchingData && _searchDocList.length == 0;
 
 
-  List<Item> get sharedFileList => _sharedFileList;
+  List<Itemm> get searchDocList => _searchDocList;
+  bool get isLoading =>_isLoading;
+  String get message=>_message;
+  String get doctorName=>_doctorName;
+  String get hospitalName=>_hospitalName;
+  int get doctorNo=>_doctorNo;
 }

@@ -1343,7 +1343,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                           await  _downloadPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString(),vm.prescriptionList[index].consultationId);
                                                           },
                                                              // onTap: showNotification,
-                                                              child: Icon(Icons.file_download_outlined, color: AppTheme.appbarPrimary,)),
+                                                              child: Icon(Icons.download_rounded, color: AppTheme.appbarPrimary,)),
                                                         ),
                                                         SizedBox(width: 15,),
                                                         Padding(
@@ -1697,7 +1697,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   child: InkWell(onTap: () async{
                                                                     await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
 
-                                                                  },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary,)),
+                                                                  },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary,)),
                                                                 ),
 
                                                                 SizedBox(width: 5,),
@@ -2199,7 +2199,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                     child: InkWell(onTap: () async{
                                                                       await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
-                                                                    },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary)),
+                                                                    },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary)),
                                                                   ),
                                                                   SizedBox(width: 8,),
                                                                   Padding(

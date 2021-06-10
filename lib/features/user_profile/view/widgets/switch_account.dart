@@ -367,6 +367,8 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                                                                           prefs.setString("username", st.username);
                                                                                           prefs.setString("password", st.password);
+                                                                                          prefs.setString(
+                                                                                              "passwordRemember", st.password);
                                                                                         } else {
                                                                                           BotToast.closeAllLoading();
                                                                                         }

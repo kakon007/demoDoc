@@ -967,14 +967,19 @@ SVProgressHUD.show(
                                     SizedBox(
                                     height: 7,
                                   ),
-                                  Text(
-                                      vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
-                                  style: GoogleFonts
-                                      .poppins(
-                                  fontSize: 12,
-                                  fontWeight:
-                                  FontWeight
-                                  .w500)),
+                                  Container(
+                                    width: 120,
+                                    child: Text(
+                                        vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts
+                                        .poppins(
+                                    fontSize: 12,
+                                    fontWeight:
+                                    FontWeight
+                                    .w500)),
+                                  ),
                               Container(
                                 width: 120,
                                 child: Text(

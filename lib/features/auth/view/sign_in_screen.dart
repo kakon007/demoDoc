@@ -267,7 +267,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ]),
                   child: Padding(
-                    padding:  EdgeInsets.only(right: isTablet? 45 : 25, left: isTablet? 45 : 25),
+                    padding:  EdgeInsets.only(right: isTablet? 45 : 15, left: isTablet? 45 : 15),
                     child: Column(
                       children: [
                         spaceBetween,

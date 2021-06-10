@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 
 class CustomCard extends StatelessWidget {
@@ -22,10 +23,13 @@ class CustomCard extends StatelessWidget {
   CustomCard(@required this.image,@required this.backgroundImage,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     return Container(
       //height: 40,
-      width: 300,
-      height: 135,
+      width: isTablet? 340 : 300,
+      height:isTablet? 155 :  135,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -34,8 +38,8 @@ class CustomCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 100,
-                  width: 90,
+                height: isTablet? 115 : 100,
+                  width: isTablet? 105 : 90,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -48,13 +52,13 @@ class CustomCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 70,
+                      height: isTablet? 90 : 70,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
-                          SizedBox(height: 3,),
-                          Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: 8),textAlign:TextAlign.start),
+                          Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: isTablet? 14 :12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
+                          SizedBox(height: isTablet? 8 : 3,),
+                          Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: isTablet? 12 : 8),textAlign:TextAlign.start),
                         ],
                       ),
                     ),
@@ -80,12 +84,12 @@ class CustomCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: 130,
-                          height: 30,
+                          width: isTablet? 155 : 130,
+                          height: isTablet? 35: 30,
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                              child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: isTablet?  13 :11,fontWeight: FontWeight.w600),),
                             ),
                           ),
                         ),

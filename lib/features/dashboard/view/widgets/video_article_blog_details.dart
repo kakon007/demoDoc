@@ -13,6 +13,7 @@ import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dar
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/blog_vlog_article_card.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:provider/provider.dart';
@@ -46,12 +47,6 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
   ScrollController _scrollController2 = ScrollController();
   ScrollController _scrollController3 = ScrollController();
 
-  // void onPageChange(int index, CarouselPageChangedReason changeReason) {
-  //   setState(() {
-  //     itemIndex = index;
-  //   });
-  // }
-
   loadLogo(String image){
     Uint8List  _bytesImage = Base64Decoder().convert(image);
     return _bytesImage;
@@ -74,18 +69,18 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent-100) {
-        print("Scrolling:::::::");
         if(vm.videoList.length<=vm.totalData){
           vm.getMoreData(vm.nextPageToken);
         }
-
       }
-
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     void onPageChange(int index, CarouselPageChangedReason changeReason) {
       setState(() {
         itemIndex = index;
@@ -104,6 +99,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
         ),
         SignUpFormField(
           borderRadius: 30,
+          hintSize: isTablet? 18: 15,
           hintText: "Search here",
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -162,22 +158,23 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                         padding: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 18.0),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             SizedBox(
-                              width: 5,
+                              width: isTablet? 0 : 5,
                             ),
                             Container(
-                              width: 115,
+                              width: isTablet? 240 : 115,
                               child: Text(
                                 list[a].name,
                                 style: GoogleFonts.poppins(
-                                    fontSize: 18,
+                                    fontSize: isTablet? 22 : 18,
                                     fontWeight: FontWeight.w700,
                                     color: HexColor("#354291")),
                               ),
                             ),
                             SizedBox(
-                              width: 10,
+                              width: isTablet?0 : 10,
                             ),
                             Flexible(
                               child: Container(
@@ -195,10 +192,11 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                 );
               },
               options: CarouselOptions(
-                height: 125,
+                height: isTablet? 160 : 125,
                 initialPage: itemIndex,
                 enlargeCenterPage: true,
                 aspectRatio: 16 / 9,
+                disableCenter: false,
                 onPageChanged: onPageChange,
                 //autoPlay: true,
               ),
@@ -216,7 +214,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                         ? "Health News"
                         : "Health Blog",
                 style: GoogleFonts.poppins(
-                    fontSize: 12, fontWeight: FontWeight.w500),
+                    fontSize: isTablet? 15 : 12, fontWeight: FontWeight.w500),
               ),
             ),
             Expanded(
@@ -275,122 +273,14 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                                 blogDetails: vm3.newsList[index].blogDetail,
                               );
                   }),
-
-              // return BlogVlogArticleCard(
-              //   buttonName: "Read News",
-              //   title: vm2.newsList[index].title==null? "" : vm2.newsList[index].title,
-              //   image: vm2.newsList[index].image== null? "": vm2.newsList[index].image,
-              //   url: vm2.newsList[index].newsLink== null? "": vm2.newsList[index].newsLink,
-              //   pageNo: widget.pageNo.toString(),
-              // );
             ),
           ],
         ),
       ),
-
-      // Column(
-      //   children: <Widget>[
-      //     CarouselSlider.builder(
-      //       itemCount: imageSliders.length,
-      //       itemBuilder: (BuildContext context, int a, int i) {
-      //         return imageSliders[a];
-      //
-      //       },
-      //       options: CarouselOptions(
-      //         initialPage: itemIndex,
-      //         enlargeCenterPage: true,
-      //         aspectRatio: 16/9,
-      //         onPageChanged: onPageChange,
-      //         //autoPlay: true,
-      //       ),
-      //       carouselController: _controller,
-      //     ),
-      //     Center(
-      //       child: Expanded(
-      //         child: Column(children: [
-      //           itemIndex== 1 ? SingleChildScrollView(
-      //         scrollDirection: Axis.vertical,
-      //           child: Padding(
-      //             padding: const EdgeInsets.only(left:18.0,),
-      //             child:
-      //             Column(
-      //               children: [
-      //                 ...List.generate(
-      //                   vm.videoList.length,
-      //                       (i) => CustomCardVideo(vm.videoList[i].snippet.thumbnails.standard.url,vm.videoList[i].snippet.title,vm.videoList[i].snippet.resourceId.videoId,vm.videoList[i].snippet.description),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ) : Text("")
-      //           //Text(""),
-      //         ],),
-      //       ),
-      //     )
-      //   ],
-      // )
     );
   }
 }
 
-// import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-//
-// class HealthVideoAll extends StatefulWidget {
-//   @override
-//   _HealthVideoAllState createState() => _HealthVideoAllState();
-// }
-//
-// class _HealthVideoAllState extends State<HealthVideoAll> {
-//   var list = [
-//     vlog(name: "Blog", image: "assets/images/vlog.png"),
-//     vlog(name: "Vlog", image: "assets/images/vlog.png"),
-//     vlog(name: "Article", image: "assets/images/article.png"),
-//   ];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     var searchField = Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.only(left: 8.0),
-//           child: Text(
-//             "Blog, Article & Vlog",
-//             style: GoogleFonts.poppins(fontSize: 20),
-//           ),
-//         ),
-//         SignUpFormField(
-//           borderRadius: 30,
-//           hintText: "Search here",
-//           suffixIcon: Padding(
-//             padding: const EdgeInsets.only(right: 20.0),
-//             child: Icon(
-//               Icons.search_rounded,
-//               color: Colors.grey,
-//             ),
-//           ),
-//         )
-//       ],
-//     );
-//     return Scaffold(
-//       appBar: AppBar(
-//         leading: BackButton(color: Colors.black),
-//         backgroundColor: Colors.transparent,
-//         elevation: 0.0,
-//       ),
-//       body: ListView(
-//         children: <Widget>[
-//           CarouselSlider(items: , )
-//         ],
-//       )
-//     );
-//   }
-// }
-//
 class BlogVideoNews {
   String name;
   String image;
@@ -398,25 +288,3 @@ class BlogVideoNews {
 
   BlogVideoNews({this.name, this.image, this.color});
 }
-// // Container(
-// //   height: 150,
-// //   child: Expanded(
-// //      child:  ListView.builder(
-// //          scrollDirection: Axis.horizontal,
-// //          itemCount: list.length,
-// //          itemBuilder: (BuildContext context, int index) {
-// //            return Container(
-// //              margin: EdgeInsets.all(8),
-// //              height: 120,
-// //              width: MediaQuery.of(context).size.width*.7,
-// //              color: Colors.grey,
-// //              child: Row(children: [
-// //                SizedBox(width: 30,),
-// //                Text(list[index].name, style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),),
-// //                SizedBox(width: 20,),
-// //                Container(height: 100, width: 130, child: Image.asset(list[index].image, fit: BoxFit.fill,),)
-// //              ],),
-// //            );
-// //          }),
-// //   ),
-// // ),

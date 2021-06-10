@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 import 'package:provider/provider.dart';
 
@@ -17,11 +18,13 @@ class CustomCardNews extends StatelessWidget {
   CustomCardNews(@required this.image,@required this.titleText,@required this.subTitleText,@required this.url,);
   @override
   Widget build(BuildContext context) {
-
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     return Container(
       //height: 40,
-      width: 300,
-      height: 120,
+      width: isTablet? 340 :300,
+      height: isTablet? 140 :120,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -30,8 +33,8 @@ class CustomCardNews extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  height: 100,
-                  width: 90,
+                  height: isTablet? 115 : 100,
+                  width: isTablet? 105 : 90,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -48,24 +51,24 @@ class CustomCardNews extends StatelessWidget {
                       child: Column(children: [
                         Row(
                           children: [
-                            Text(titleText,style: TextStyle(fontSize: 8,fontWeight: FontWeight.bold,color: Colors.grey),textAlign:TextAlign.start),
+                            Text(titleText,style: TextStyle(fontSize: isTablet? 12 : 8,fontWeight: FontWeight.bold,color: Colors.grey),textAlign:TextAlign.start),
                             Spacer(),
-                            Row(
-                              children: [
-                                Icon(Icons.star,size: 8,color:HexColor('#F5D63C')),
-                                Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
-                                Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
-                                Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
-                                Icon(Icons.star,size: 8,color: HexColor('#D2D2D2')),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Icon(Icons.star,size: 8,color:HexColor('#F5D63C')),
+                            //     Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
+                            //     Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
+                            //     Icon(Icons.star,size: 8,color: HexColor('#F5D63C')),
+                            //     Icon(Icons.star,size: 8,color: HexColor('#D2D2D2')),
+                            //   ],
+                            // ),
                           ],
                         ),
                         SizedBox(height: 5,),
-                        Text(subTitleText,style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
+                        Text(subTitleText,style: TextStyle(fontSize: isTablet?  12 :11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
                       ],),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: isTablet? 15 : 10,),
                     InkWell(
                       onTap: (){
                         if (url != null) {
@@ -78,12 +81,12 @@ class CustomCardNews extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: 130,
-                          height: 30,
+                          width: isTablet? 150 : 130,
+                          height: isTablet? 35: 30,
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Read News",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                              child: Text("Read News",style:  GoogleFonts.poppins(color: Colors.white,fontSize: isTablet?  13 :11,fontWeight: FontWeight.w600),),
                             ),
                           ),
                         ),

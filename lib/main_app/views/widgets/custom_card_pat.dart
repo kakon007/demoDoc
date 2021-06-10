@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
@@ -29,14 +30,17 @@ class CustomCardPat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var width = MediaQuery.of(context).size.width;
     print("width $width");
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0, right: 10),
+      padding:  EdgeInsets.only(left: 10.0, right: isTablet? 0 : 10),
       child: Container(
         //height: 40,
-        width: double.infinity,
-        height: 140,
+        width: width,
+        height: isTablet? 150 : 130,
         child: Card(
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -79,125 +83,135 @@ class CustomCardPat extends StatelessWidget {
               // ),
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                  padding:  EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(titleText,
-                              style: GoogleFonts.poppins(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                              textAlign: TextAlign.start),
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:  EdgeInsets.only(top: 8.0, right: width/12),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Your Serial No.",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: width < 330 ? 10 : 11,
-                                          color: HexColor('#354291')),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "$serial",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: HexColor('#354291')),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
+                                padding:  EdgeInsets.only(top: 8.0),
+                                child: Text(titleText,
+                                    style: GoogleFonts.poppins(
+                                        fontSize:isTablet? 16 : 11,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                    textAlign: TextAlign.start),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Text(
-                        subTitleText,
-                        style:
-                            TextStyle(fontSize: 12, color: HexColor('#354291')),
-                        textAlign: TextAlign.start,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 3,
-                                height: 20,
-                                color: HexColor("#354291"),
+                              SizedBox(height: isTablet? 20 : 5,),
+                              Text(
+                                subTitleText,
+                                style:
+                                TextStyle(fontSize: isTablet? 16 : 12, color: HexColor('#354291')),
+                                textAlign: TextAlign.start,
                               ),
                               SizedBox(
-                                width: 1,
+                                height: 10,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
                                   Container(
-                                      width: width <= 360 ? 155 : 180,
-                                      child: Text(
-                                        countText,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: HexColor('#354291')),
-                                      )),
-                                  Container(
-                                      width: width <= 360 ? 155 : 180,
-                                      child: Text(
-                                        name,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 8),
-                                      )),
+                                    width: 3,
+                                    height: 20,
+                                    color: HexColor("#354291"),
+                                  ),
+                                  SizedBox(
+                                    width: 1,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          width: isTablet ? 300 : width <= 360 ? 155 : 180,
+                                          child: Text(
+                                            countText,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: isTablet? 16 : 10,
+                                                fontWeight: FontWeight.bold,
+                                                color: HexColor('#354291')),
+                                          )),
+                                      Container(
+                                          width:isTablet ? 300 : width <= 360 ? 155 : 180,
+                                          child: Text(
+                                            name,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: isTablet? 14 : 8),
+                                          )),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ],
                           ),
-                          // SizedBox(width: 8,),
-                          GestureDetector(
-                            onTap: onTapFeaturedAppointment,
-                            child: Material(
-                              elevation: 2,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                              color: HexColor("#354291"),
-                              child: SizedBox(
-                                width: width < 330 ? 105 : 130,
-                                height: 30,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(0.0),
-                                    child: Text(
-                                      "View All Appointments",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: width < 330 ? 8 : 11),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:  EdgeInsets.only(top: 8.0, right: 15),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Your Serial No.",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: isTablet? 16 : width < 330 ? 10 : 11,
+                                              color: HexColor('#354291')),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          "$serial",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: isTablet? 24 :20,
+                                              fontWeight: FontWeight.bold,
+                                              color: HexColor('#354291')),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        GestureDetector(
+                                          onTap: onTapFeaturedAppointment,
+                                          child: Material(
+                                            elevation: 2,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8)),
+                                            color: HexColor("#354291"),
+                                            child: SizedBox(
+                                              width: isTablet? 190 : width <= 330 ? 95 : 130,
+                                              height: isTablet? 35 : 30,
+                                              child: Center(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(0.0),
+                                                  child: Text(
+                                                    "View All Appointments",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: isTablet? 15 : width < 330 ? 8 : 11),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
+                            ],
                           ),
                         ],
                       ),

@@ -167,6 +167,9 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: true);
     var vm = appNavigator.getProviderListener<HospitalListViewModel>();
     List<hos.Item> list = vm.hospitalList;
@@ -316,7 +319,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   title:  Text(
                    vm19.userDetailsList==null?StringResources.dasboardAppBarText:'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
                     style: GoogleFonts.poppins(
-                        fontSize: deviceWidth<=320 ? 13 : 15, fontWeight: FontWeight.w600),
+                        fontSize: isTablet? 18 : deviceWidth<=320 ? 13 : 15, fontWeight: FontWeight.w600),
                   ),
                   actions: [
                     Padding(
@@ -382,8 +385,8 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height: deviceWidth<=330 ? 30 : 35,
-                                  width: deviceWidth<=330 ? 30 : 35,
+                                  height: isTablet? 40 :  deviceWidth<=330 ? 30 : 35,
+                                  width: isTablet? 40 : deviceWidth<=330 ? 30 : 35,
                                   child: Center(
                                       child: vm10.loadProfileImage(photo, deviceWidth<=330 ? 28.5 :33.5, deviceWidth<=330 ? 30 :35,50)
                                   ))
@@ -392,13 +395,13 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: deviceWidth<=330 ? 27 :32,
-                                      width: deviceWidth<=330 ? 27 :32,
+                                      height:isTablet? 32 : deviceWidth<=330 ? 27 :32,
+                                      width: isTablet? 32 : deviceWidth<=330 ? 27 :32,
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height: deviceWidth<=330 ? 18 :22,
-                                          width: deviceWidth<=330 ? 18 : 22,
+                                          height: isTablet? 22 :deviceWidth<=330 ? 18 :22,
+                                          width: isTablet? 22 :deviceWidth<=330 ? 18 : 22,
                                         ),
                                       )),
                             ),
@@ -443,9 +446,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     //       ),
                     //     ]),
 
-                    initialChildSize: 0.79,
+                    initialChildSize: isTablet? .815 : 0.79,
                     maxChildSize: 1.0,
-                    minChildSize: 0.79,
+                    minChildSize: isTablet? .815 : 0.79,
                     builder: (BuildContext context,
                         ScrollController scrollController) {
                       return Column(
@@ -486,12 +489,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             StringResources
                                                 .esayDoctorAppointmentText,
                                             style: GoogleFonts.poppins(
-                                                fontSize: deviceWidth<330 ?  16 : 17,
+                                                fontSize: isTablet? 18 : deviceWidth<330 ?  16 : 17,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Spacer(),
                                           Container(
-                                              width: MediaQuery.of(context)
+                                              width: isTablet? 110 :MediaQuery.of(context)
                                                           .size
                                                           .width <=
                                                       330
@@ -564,7 +567,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     accessTokenVm.accessToken == null || vm15.nearestAppointmentDetails==null
                                         ? Container()
                                         : CustomCardPat(
-                                      titleText: "You have an \nupcoming appointment.",
+                                      titleText: isTablet? "You have an upcoming appointment.":"You have an \nupcoming appointment.",
                                       subTitleText:  vm15.nearestAppointmentDetails==null?'Loading':DateUtil().formattedDate(DateTime.parse(vm15.nearestAppointmentDetails.startTime).toLocal()),
                                       serial: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.slotSl.toString(),
                                       countText: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.doctorName,
@@ -585,7 +588,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             StringResources
                                                 .hospitalDiagnosticsText,
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 : MediaQuery.of(context)
                                                     .size
                                                     .width <=
                                                     450
@@ -606,7 +609,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -724,7 +727,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD News",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -747,7 +750,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -853,7 +856,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD Blog",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -876,7 +879,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -956,7 +959,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD Videos",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -979,7 +982,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               StringResources.viewAllText,
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#8592E5"),
-                                                  fontSize: 11,
+                                                  fontSize: isTablet? 15 : 11,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),

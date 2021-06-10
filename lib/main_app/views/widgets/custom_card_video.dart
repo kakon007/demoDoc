@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:myhealthbd_app/features/videos/view/video_player_screen.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:page_transition/page_transition.dart';
 
 // ignore: must_be_immutable
@@ -19,10 +20,13 @@ class CustomCardVideo extends StatefulWidget {
 class _CustomCardVideoState extends State<CustomCardVideo> {
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     return Container(
       //height: 40,
-      width: 300,
-      height: 120,
+      width: isTablet? 340 :300,
+      height: isTablet? 140 :120,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -31,8 +35,8 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  height: 120,
-                  width: 90,
+                  height: isTablet? 115 : 100,
+                  width: isTablet? 105 : 90,
                   // decoration: BoxDecoration(
                   //   borderRadius: BorderRadius.circular(30),
                   // ),
@@ -72,7 +76,7 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 5,),
-                          Text(widget.title,maxLines:2,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
+                          Text(widget.title,maxLines:2,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: isTablet? 13 : 11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
                         ],
                       ),
                     ),
@@ -93,12 +97,12 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: 130,
-                          height: 30,
+                          width: isTablet? 150 : 130,
+                          height: isTablet? 35: 30,
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Watch Video",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                              child: Text("Watch Video",style:  GoogleFonts.poppins(color: Colors.white,fontSize:  isTablet?  13  : 11,fontWeight: FontWeight.w600),),
                             ),
                           ),
                         ),

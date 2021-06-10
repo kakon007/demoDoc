@@ -115,7 +115,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: isTablet? width*.88 : 145,
+                        width: isTablet? width*.88 : width*.79,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
                             iconSize:25,

@@ -46,8 +46,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   );
   List<Widget> screenShots;
   Map<int,Widget> screens;
+  Map<int,Widget> screens2;
 
-
+  // bool isNotNave;
+  FocusNode f1=FocusNode();
 
   @override
   void initState() {
@@ -94,17 +96,34 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
-      1: accessTokenVm.accessToken==null?SignInPrompt("To access your Appointments,",'Appointments'):GetAppointment(),
-      2: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //5:NotificationScreen(),
+      3:SettingScreen(accessToken: accessTokenVm.accessToken,),
+      // 6:FamilyMemberListScreen(),
+      // 7:SwitchAccount(),
+    };
+    screens2= {
+      0: DashboardScreen(menuCallBack: (){
+        setState(() {
+          isDrawerOpen=true;
+          _animationController.forward();
+          print("Heeoollo");
+        });
+      },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //5:NotificationScreen(),
+      3:FamilyMemberListScreen(),
+      4:SwitchAccount(),
       5:SettingScreen(accessToken: accessTokenVm.accessToken,),
-      6:FamilyMemberListScreen(),
-      7:SwitchAccount(),
     };
 
-    screenShots=screens.values.toList();
+    screenShots=accessTokenVm.accessToken==null?screens.values.toList():screens2.values.toList();
 
     Widget buildStackedScreen(int position){
       var deviceWidth=MediaQuery.of(context).size.width;
@@ -152,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           DrawerScreen(accessToken: accessTokenVm.accessToken,menuCallBack:(selectedIndex) {
             setState(() {
               //isSelected=true;
-              screenShots=screens.values.toList();
+              screenShots=accessTokenVm.accessToken==null?screens.values.toList():screens2.values.toList();
               final selectedWidget=screenShots.removeAt(selectedIndex);
               screenShots.insert(0, selectedWidget);
               // ignore: unnecessary_statements
@@ -261,15 +280,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       print("Heeoollo");
                     });
                   },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,onTapFeaturedCompany: () {
+                    f1.requestFocus();
                     _moveTo(2);
-                    // _paeViewController.animateToPage(2,
-                    //     duration: const Duration(milliseconds: 400),
-                    //     curve: Curves.easeInOut);
                   },onTapFeaturedAppointment: () {
                     _moveTo(1);
-                    // _paeViewController.animateToPage(2,
-                    //     duration: const Duration(milliseconds: 400),
-                    //     curve: Curves.easeInOut);
                   },),
                 ),
               ),
@@ -284,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         //     duration: const Duration(milliseconds: 400),
         //     curve: Curves.easeInOut);
       }),
-      HospitalScreen(),
+      HospitalScreen(f1: f1,),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(
       //     children:[
@@ -333,6 +347,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //BottomNavBar
     var bottomNavBar=BottomNavigationBar(
         onTap: (int index){
+          f1.unfocus();
           if(currentIndex !=index)
           {
             _moveTo(index);

@@ -27,7 +27,7 @@ class HospitalListViewModel extends ChangeNotifier{
   Future<void> getData() async {
 
     _isFetchingData = true;
-    _lastFetchTime = DateTime.now();
+    //_lastFetchTime = DateTime.now();
     _isLoading = true;
     var res = await HospitalListRepositry().fetchHospitalList();
     notifyListeners();

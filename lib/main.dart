@@ -17,6 +17,8 @@ import 'package:myhealthbd_app/features/my_health/view_model/document_view_model
 import 'package:myhealthbd_app/features/my_health/view_model/file_type_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/report_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/search_doctor_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/shared_file_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/view_document_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dart';
@@ -92,6 +94,8 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<UploadDocumentsViewModel>(create: (context) =>  UploadDocumentsViewModel()),
       ChangeNotifierProvider<ViewDocumentViewModel>(create: (context) =>  ViewDocumentViewModel()),
       ChangeNotifierProvider<NearestAppointmentViewModel>(create: (context) =>  NearestAppointmentViewModel()),
+      ChangeNotifierProvider<SharedFileViewModel>(create: (context) =>  SharedFileViewModel()),
+      ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) =>  SearchDoctorViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

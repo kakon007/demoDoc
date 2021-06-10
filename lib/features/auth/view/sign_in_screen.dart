@@ -403,16 +403,14 @@ class _SignInState extends State<SignIn> {
       ]),
     );
   }
-
   Widget _backgroundImage() {
     bool isTablet = Responsive.isTablet(context);
     return Padding(
-      padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.15 ),
+      padding:  EdgeInsets.only(left: isTablet? MediaQuery.of(context).size.width*.15 : 0 ),
       child: Container(
         height: isTablet? MediaQuery.of(context).size.height*.52: MediaQuery.of(context).size.height*.47,
-        width: isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width*.95,
-        child: Image.asset(
-          kMyHealthLogo,
+        width: isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width,
+        child: Image.asset(kMyHealthLogo,
           fit: BoxFit.fill,
         ),
       ),

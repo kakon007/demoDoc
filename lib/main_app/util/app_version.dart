@@ -56,6 +56,7 @@ class AppVersionWidgetLowerCase extends StatelessWidget {
     bool isMobile = Responsive.isMobile(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
+
       child: FutureBuilder(
         future: AppInfoRepository().getAppVersion(),
         builder: (c,snapshot){

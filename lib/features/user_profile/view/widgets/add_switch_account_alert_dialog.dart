@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
@@ -47,28 +48,14 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var width = MediaQuery.of(context).size.width * 0.44;
-    var name = SignUpFormField(
-      validator: Validator().nullFieldValidate,
-      labelText: "Name",
-      isRequired: true,
-      topPadding: 16,
-      controller: _nameController,
-      //margin: EdgeInsets.all(8),
-      contentPadding: EdgeInsets.all(15),
-      hintText: StringResources.name,
-    );
-    var relation = SignUpFormField(
-      labelText: "Relation",
-      isRequired: true,
-      controller: _relationController,
-      //margin: EdgeInsets.all(8),
-      contentPadding: EdgeInsets.all(15),
-      hintText: "Relation",
-    );
-
     var userName = SignUpFormField(
       topPadding: 16,
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 18 : 15,
       validator: Validator().nullFieldValidate,
       labelText: "Username",
       isRequired: true,
@@ -82,6 +69,8 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
       validator: Validator().nullFieldValidate,
       labelText: "Password",
       isRequired: true,
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 18 : 15,
       obSecure: true,
       controller: _password,
       margin: EdgeInsets.all(8),
@@ -93,7 +82,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
       child: Center(
         child: Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      constraints: BoxConstraints(maxWidth: 400, maxHeight: isEmpty ? width<=330? 365 : 370 : width<=330? 330 : 335),
+      constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, maxHeight: isEmpty ? isTablet? 400 : width<=330? 365 : 370 : isTablet? 355 : width<=330? 330 : 335),
       child: Material(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -116,7 +105,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                           'Switch Account',
                           style: GoogleFonts.poppins(
                               color: AppTheme.appbarPrimary,
-                              fontSize: 15.0,
+                              fontSize: isTablet? 18 : 15.0,
                               fontWeight: FontWeight.w500),
                           textAlign: TextAlign.center,
                         ),
@@ -125,7 +114,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15),
+                  padding:  EdgeInsets.only(left: 15.0, right: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -134,14 +123,14 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                       userName,
                       password,
                       Padding(
-                        padding: const EdgeInsets.only(
+                        padding:  EdgeInsets.only(
                             left: 8.0, right: 8, top: 0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              width: width * .8,
-                              height: width * .25,
+                              width: isTablet? 200 : width * .8,
+                              height: isTablet? 50 : width * .25,
                               child: FlatButton(
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -155,13 +144,13 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                                         width: 1)),
                                 child: Text(
                                   StringResources.cancelText,
-                                  style: GoogleFonts.poppins(),
+                                  style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
                                 ),
                               ),
                             ),
                             SizedBox(
-                              width: width * .8,
-                              height: width * .25,
+                              width: isTablet? 200 : width * .8,
+                              height: isTablet? 50 : width * .25,
                               child: FlatButton(
                                 textColor: Colors.white,
                                 onPressed: () {
@@ -173,7 +162,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                                 ),
                                 child: Text(
                                   "Confirm",
-                                  style: GoogleFonts.poppins(),
+                                  style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
                                 ),
                               ),
                             )

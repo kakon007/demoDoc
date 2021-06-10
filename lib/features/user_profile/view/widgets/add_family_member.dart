@@ -149,8 +149,8 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                             child: Center(
                               child: Image.asset(
                                 'assets/images/dPro.png',
-                                height: isTablet? 45 :40,
-                                width: isTablet? 45 :40,
+                                height:isTablet? 32 : 27,
+                                width: isTablet? 32 :  27,
                               ),
                             )),
                         SizedBox(

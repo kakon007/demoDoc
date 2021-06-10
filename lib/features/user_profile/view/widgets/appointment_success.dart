@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 import '../../../constant.dart';
 
@@ -28,6 +29,9 @@ class AppointSuccess extends StatefulWidget {
 class _AppointSuccessState extends State<AppointSuccess> {
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     return Material(
       type: MaterialType.transparency,
       child: Align(
@@ -37,8 +41,8 @@ class _AppointSuccessState extends State<AppointSuccess> {
           child: Stack(
             children: [
               Container(
-                height: 400,
-                width: 355,
+                height: isTablet? 500 : 400,
+                width: isTablet? 450 : 355,
                 //color: Colors.red,
                 child: Center(
                   child: Padding(
@@ -69,7 +73,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     "Booked Successfully!",
                                     style: GoogleFonts.poppins(
                                         color: HexColor("#037BB7"),
-                                        fontSize: 18,
+                                        fontSize: isTablet? 20 : 18,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
@@ -80,11 +84,12 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                       Text(
                                         "Serial No ",
                                         style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w600),
+                                            fontWeight: FontWeight.w600,fontSize: isTablet? 15 : 12),
                                       ),
                                       Text(
                                         "#" + widget.slotSl.toString(),
                                         style: GoogleFonts.poppins(
+                                        fontSize: isTablet? 15 : 12,
                                             fontWeight: FontWeight.w600,
                                             color: HexColor("#037BB7")),
                                       ),
@@ -101,7 +106,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                             DateTime.parse(widget.appointDate
                                                     .toString())
                                                 .toLocal()),
-                                        style: GoogleFonts.poppins(),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 : 12,),
                                       ),
                                     ],
                                   ),
@@ -116,7 +121,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                             DateTime.parse(
                                                     widget.startTime.toString())
                                                 .toLocal()),
-                                        style: GoogleFonts.poppins(),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 : 12,),
                                       ),
                                     ],
                                   ),
@@ -124,24 +129,24 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     widget.doctorName,
                                     style: GoogleFonts.poppins(
                                         color: HexColor("#037BB7"),
-                                        fontSize: 13),
+                                      fontSize: isTablet? 15 : 13,),
                                   ),
                                   Text(
                                     widget.hospitalName,
                                     style: GoogleFonts.poppins(
                                         color: HexColor("#037BB7"),
-                                        fontSize: 13),
+                                      fontSize: isTablet? 15 : 13,),
                                   ),
                                   SizedBox(
                                     height: 8,
                                   ),
                                   Text(
                                     " * Please proceed with the payment",
-                                    style: GoogleFonts.poppins(fontSize: 13),
+                                    style: GoogleFonts.poppins(fontSize: isTablet? 15 : 13,),
                                   ),
                                   Text(
                                     "    confirm this appointment",
-                                    style: GoogleFonts.poppins(fontSize: 13),
+                                    style: GoogleFonts.poppins(fontSize: isTablet? 15 : 13,),
                                   ),
                                 ],
                               ),
@@ -157,14 +162,16 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  minWidth: 120,
+                                  minWidth: isTablet? 150 : 120,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5)),
                                   color: AppTheme.appbarPrimary,
                                   child: Text(
                                     "OK",
                                     style: GoogleFonts.poppins(
-                                        color: Colors.white),
+                                        color: Colors.white,
+                                    fontSize: isTablet? 17 : 14
+                                    ),
                                   ))
                             ],
                           )
@@ -175,7 +182,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                 ),
               ),
               Positioned(
-                bottom: 295,
+                bottom: isTablet? 350 : 295,
                 //top: MediaQuery.of(context).size.height / 1.8,
                 left: 100,
                 right: 110,

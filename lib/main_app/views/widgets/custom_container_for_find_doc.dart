@@ -60,7 +60,7 @@ class CustomContainer extends StatelessWidget {
 
               ),
               SizedBox(
-                width: isTablet? cardHeight *0.3 : MediaQuery.of(context).size.height > 650 ? cardHeight *0.2 : cardHeight *0.1,
+                width: isTablet? cardHeight *0.2 : MediaQuery.of(context).size.height > 650 ? cardHeight *0.2 : cardHeight *0.1,
               ),
               Container(
                 width: isTablet? width*.65 : width<350 ?cardWidth*1.73:  cardWidth*1.62,
@@ -98,7 +98,7 @@ class CustomContainer extends StatelessWidget {
                                   }));
                                 },
                                 child: Container(
-                                  width:  isTablet? cardHeight*1.2 : width <350 ? 60 : cardWidth*0.7,
+                                  width:  isTablet? cardHeight*1.1 : width <350 ? 60 : cardWidth*0.7,
                                   height:  isTablet? 35 : width <350 ? 20 :30,
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
                                   color: HexColor("#354291")

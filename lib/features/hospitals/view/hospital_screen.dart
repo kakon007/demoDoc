@@ -154,7 +154,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
               .refresh();
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          padding: EdgeInsets.only(left: isTablet? 18 : 8.0, right: isTablet? 18 : 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

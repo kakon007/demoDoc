@@ -191,12 +191,12 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height: isTablet? 45 : 40,
-                                          width: isTablet? 45 : 40,
+                                          height: isTablet? 32 : 27,
+                                          width: isTablet? 32 : 27,
                                         ),
                                       )),
                                   SizedBox(
-                                    width: isTablet? 25 : 20,
+                                    width: isTablet? 25 : width<=330? 15 : 20,
                                   ),
                                   Column(
                                     crossAxisAlignment:
@@ -252,7 +252,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                   decoration: BoxDecoration(
                                       color: HexColor("#D2D9FF"),
                                       borderRadius: BorderRadius.circular(10)),
-                                  width: isTablet? 110 : 90,
+                                  width: isTablet? 110 : width<=330 ? 85 : 90,
                                   height: isTablet? 85 : 70,
                                 ),
                               ),

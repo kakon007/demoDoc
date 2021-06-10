@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constant.dart';
@@ -46,6 +47,9 @@ class _SwitchAccountState extends State<SwitchAccount> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm5 = Provider.of<AuthViewModel>(context, listen: false);
     var vm = Provider.of<AccessTokenProvider>(context, listen: false);
     var spaceBetween = SizedBox(
@@ -57,21 +61,21 @@ class _SwitchAccountState extends State<SwitchAccount> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Switch Account",
-          style: GoogleFonts.poppins(fontSize: 15),
+          style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+        padding: EdgeInsets.only(left: isTablet ? 25 : 15, right: isTablet ? 25 :  15, top: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Switch Account",
-              style: GoogleFonts.poppins(
-                  fontSize: 15,
-                  color: HexColor("#354291"),
-                  fontWeight: FontWeight.w500),
-            ),
+            // Text(
+            //   "Switch Account",
+            //   style: GoogleFonts.poppins(
+            //       fontSize: isTablet? 18 : 15,
+            //       color: HexColor("#354291"),
+            //       fontWeight: FontWeight.w500),
+            // ),
             spaceBetween,
             GestureDetector(
               onTap: () {
@@ -83,7 +87,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                 dashedLength: 15.0,
                 blankLength: 5.0,
                 child: Container(
-                  height: 30,
+                  height: isTablet? 40 : 30,
                   width: MediaQuery.of(context).size.width,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +101,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                       ),
                       Text("Add New Account",
                           style:
-                              GoogleFonts.poppins(color: HexColor("#354291"))),
+                              GoogleFonts.poppins(fontSize: isTablet? 18 : 15,color: HexColor("#354291"))),
                     ],
                   ),
                 ),
@@ -133,7 +137,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                 ),
                                 margin: EdgeInsets.only(
                                     bottom: width <= 330 ? 3 : 4),
-                                height: width <= 330 ? 70 : 80,
+                                height: isTablet? 90 : width <= 330 ? 70 : 80,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -148,16 +152,16 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                               color: AppTheme.appbarPrimary,
                                               shape: BoxShape.circle,
                                             ),
-                                            height: width <= 330 ? 50 : 60,
-                                            width: width <= 330 ? 50 : 60,
+                                            height: isTablet? 65 : width <= 330 ? 50 : 60,
+                                            width: isTablet? 65 : width <= 330 ? 50 : 60,
                                             child: profileImage == ""
                                                 ? Center(
                                                     child: Image.asset(
                                                       'assets/images/dPro.png',
-                                                      height: width <= 330
+                                                      height: isTablet?35: width <= 330
                                                           ? 30
                                                           : 35,
-                                                      width: width <= 330
+                                                      width: isTablet?40: width <= 330
                                                           ? 30
                                                           : 35,
                                                     ),
@@ -180,12 +184,13 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                               st.name,
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#0D1231"),
-                                                  fontSize: 14,
+                                                  fontSize: isTablet? 18 : 14,
                                                   fontWeight: FontWeight.w400),
                                             ),
                                             Text(
                                               st.username,
                                               style: GoogleFonts.poppins(
+                                                  fontSize: isTablet? 16 : 12,
                                                   color: HexColor("#B8C2F8")),
                                             ),
                                           ],
@@ -203,10 +208,12 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                     Icons.check,
                                                     color:
                                                         AppTheme.appbarPrimary,
+                                                    size: isTablet? 27 : 20,
                                                   ),
                                                   Text(
                                                     "Signed In",
                                                     style: GoogleFonts.poppins(
+                                                      fontSize: isTablet? 15 : 12,
                                                         color: AppTheme
                                                             .appbarPrimary,
                                                         fontWeight:
@@ -225,7 +232,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                             children: [
                                               GestureDetector(
                                                 child: Container(
-                                                    height: 16,
+                                                    height: isTablet? 18 : 16,
                                                     child: SvgPicture.asset(
                                                       "assets/images/switch.svg",
                                                       color: AppTheme
@@ -268,6 +275,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                             Container(
                                                                           height:
                                                                               180,
+                                                                              width: isTablet? 450 : 350,
                                                                           decoration: BoxDecoration(
                                                                               //color: HexColor('#f9f2f3'),
                                                                               gradient: LinearGradient(
@@ -293,7 +301,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                     textAlign: TextAlign.center,
                                                                                     text:  TextSpan(
                                                                                       style:  GoogleFonts.poppins(
-                                                                                        fontSize: 16.0,
+                                                                                        fontSize: isTablet? 18 : 16.0,
                                                                                         color: Colors.black,
                                                                                       ),
                                                                                       children: <TextSpan>[
@@ -302,7 +310,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                   ),
                                                                                 ),
                                                                                 SizedBox(
-                                                                                  height: 15,
+                                                                                  height: isTablet? 25 : 15,
                                                                                 ),
                                                                                 Row(
                                                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -318,11 +326,11 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                         color: Colors.white,
                                                                                         child: SizedBox(
                                                                                           height: 50,
-                                                                                          width: 120,
+                                                                                          width: isTablet? 170 : 120,
                                                                                           child: Center(
                                                                                             child: Text(
                                                                                               "No",
-                                                                                              style: TextStyle(color: HexColor('#354291'), fontWeight: FontWeight.w500, fontSize: 15),
+                                                                                              style: GoogleFonts.poppins(color: HexColor('#354291'), fontWeight: FontWeight.w500, fontSize: isTablet? 18 : 15),
                                                                                             ),
                                                                                           ),
                                                                                         ),
@@ -369,11 +377,11 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                         color: HexColor('#354291'),
                                                                                         child: SizedBox(
                                                                                           height: 50,
-                                                                                          width: 120,
+                                                                                          width: isTablet? 170 : 120,
                                                                                           child: Center(
                                                                                             child: Text(
                                                                                               "Yes",
-                                                                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                                                                              style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: isTablet? 18: 15),
                                                                                             ),
                                                                                           ),
                                                                                         ),
@@ -424,6 +432,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                               ),
                                               GestureDetector(
                                                 child: Icon(Icons.delete_sweep,
+                                                    size: isTablet?27 : 20,
                                                     color:
                                                         AppTheme.appbarPrimary),
                                                 onTap: () {
@@ -470,6 +479,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                           Container(
                                                                         height:
                                                                             180,
+                                                                        width: isTablet? 450 : 350,
                                                                         decoration: BoxDecoration(
                                                                             //color: HexColor('#f9f2f3'),
                                                                             gradient: LinearGradient(
@@ -499,7 +509,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                       textAlign: TextAlign.center,
                                                                                       text:  TextSpan(
                                                                                         style:  GoogleFonts.poppins(
-                                                                                          fontSize: 14.0,
+                                                                                          fontSize: isTablet? 17 : 14.0,
                                                                                           color: Colors.black,
                                                                                         ),
                                                                                         children: <TextSpan>[
@@ -529,11 +539,11 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                       color: Colors.white,
                                                                                       child: SizedBox(
                                                                                         height: 50,
-                                                                                        width: 120,
+                                                                                        width: isTablet? 170 : 120,
                                                                                         child: Center(
                                                                                           child: Text(
                                                                                             "Cancel",
-                                                                                            style: TextStyle(color: HexColor('#354291'), fontWeight: FontWeight.w500, fontSize: 15),
+                                                                                            style: GoogleFonts.poppins(color: HexColor('#354291'), fontWeight: FontWeight.w500, fontSize: isTablet? 18 : 15),
                                                                                           ),
                                                                                         ),
                                                                                       ),
@@ -557,11 +567,11 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                       color: HexColor('#354291'),
                                                                                       child: SizedBox(
                                                                                         height: 50,
-                                                                                        width: 120,
+                                                                                        width: isTablet? 170 : 120,
                                                                                         child: Center(
                                                                                           child: Text(
                                                                                             "Remove",
-                                                                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                                                                            style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: isTablet? 18 : 15),
                                                                                           ),
                                                                                         ),
                                                                                       ),

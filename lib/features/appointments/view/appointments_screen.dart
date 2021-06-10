@@ -290,61 +290,64 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               ),
             ),
           );
-    var selectType = Container(
-      height: isTablet? 90 : 65.0,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          color: HexColor("#E9ECFE"), borderRadius: BorderRadius.circular(13)),
-      child: Padding(
-        padding:  EdgeInsets.only(left: isTablet? 30 : 10.0, right: isTablet? 30 : 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: HexColor(vm.forMeBackColor),
-                    borderRadius: BorderRadius.circular(10)),
-                height: isTablet? 60 : MediaQuery.of(context).size.height * 0.06,
-                width: MediaQuery.of(context).size.width * .4,
-                child: Center(
-                    child: Text(
-                  "For Me",
-                  style:
-                      GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: HexColor(vm.forMeTextColor)),
-                )),
-              ),
-              onTap: () {
-                vm.getAppointType(true, false);
-                if (vm.addPatient == false) {
-                  vm.getButtonColor(
-                      "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
-                }
-              },
-            ),
-            InkWell(
-              child: Container(
+    var selectType = Padding(
+      padding:  EdgeInsets.only(left: isTablet? 15 : 0, right: isTablet? 15 : 0),
+      child: Container(
+        height: isTablet? 90 : 65.0,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: HexColor("#E9ECFE"), borderRadius: BorderRadius.circular(13)),
+        child: Padding(
+          padding:  EdgeInsets.only(left: isTablet? 30 : 10.0, right: isTablet? 30 : 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                child: Container(
                   decoration: BoxDecoration(
-                      color: HexColor(vm.addPatientBackColor),
+                      color: HexColor(vm.forMeBackColor),
                       borderRadius: BorderRadius.circular(10)),
-                  height: isTablet? 65 : MediaQuery.of(context).size.height * 0.06,
+                  height: isTablet? 60 : MediaQuery.of(context).size.height * 0.06,
                   width: MediaQuery.of(context).size.width * .4,
                   child: Center(
                       child: Text(
-                    "Add patient",
-                    style: GoogleFonts.poppins(
-                      fontSize: isTablet? 20 : 15,
-                        color: HexColor(vm.addPatientTextColor)),
-                  ))),
-              onTap: () {
-                vm.getAppointType(false, true);
-                if (vm.forMe == false) {
-                  vm.getButtonColor(
-                      "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");
-                }
-              },
-            )
-          ],
+                    "For Me",
+                    style:
+                        GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: HexColor(vm.forMeTextColor)),
+                  )),
+                ),
+                onTap: () {
+                  vm.getAppointType(true, false);
+                  if (vm.addPatient == false) {
+                    vm.getButtonColor(
+                        "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
+                  }
+                },
+              ),
+              InkWell(
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: HexColor(vm.addPatientBackColor),
+                        borderRadius: BorderRadius.circular(10)),
+                    height: isTablet? 65 : MediaQuery.of(context).size.height * 0.06,
+                    width: MediaQuery.of(context).size.width * .4,
+                    child: Center(
+                        child: Text(
+                      "Add patient",
+                      style: GoogleFonts.poppins(
+                        fontSize: isTablet? 20 : 15,
+                          color: HexColor(vm.addPatientTextColor)),
+                    ))),
+                onTap: () {
+                  vm.getAppointType(false, true);
+                  if (vm.forMe == false) {
+                    vm.getButtonColor(
+                        "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -353,7 +356,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       left: 0,
       right: 0,
       child: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+        padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
         child: Container(
           height:isTablet? 140 : 120,
           decoration: BoxDecoration(

@@ -47,6 +47,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
+    var width = MediaQuery.of(context).size.width;
     var familyVm =
         Provider.of<FamilyMembersListViewModel>(context, listen: true);
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
@@ -58,7 +59,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ?MediaQuery.of(context).size.width*.555 :  MediaQuery.of(context).size.width*.79,
+                width: isTablet ?width*.555 : width<=330 ? width*.76 :  width*.79,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: _selectedRelation!=null ? HexColor("#8592E5") : HexColor("D2D2D2")),
@@ -69,7 +70,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                     Padding(
                       padding: EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: isTablet ?MediaQuery.of(context).size.width*.52 :  MediaQuery.of(context).size.width*.7,
+                        width: isTablet ?width*.52 :  width*.7,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
                             icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedRelation != null  ?  HexColor("#8592E5") : HexColor("#D2D2D2"),),
@@ -153,7 +154,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                       ),
                       Container(
                         height: isTablet? 90 : 75,
-                        width: MediaQuery.of(context).size.width*.79,
+                        width: width*.79,
                         decoration: BoxDecoration(
                           color: HexColor("#F0F2FF"),
                           borderRadius: BorderRadius.circular(10),
@@ -186,8 +187,8 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                     child: Center(
                                       child: Image.asset(
                                         'assets/images/dPro.png',
-                                        height: isTablet? 45 : 40,
-                                        width: isTablet? 45 : 40,
+                                        height:isTablet? 32 : 27,
+                                        width: isTablet? 32 :  27,
                                       ),
                                     )),
                             SizedBox(
@@ -233,7 +234,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: isTablet?MediaQuery.of(context).size.width*.25 :  MediaQuery.of(context).size.width / 2.6,
+                            width: isTablet?width*.25 :  width / 2.6,
                             decoration: BoxDecoration(),
                             height: isTablet? 50 : 45,
                             child: FlatButton(
@@ -251,7 +252,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                     style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
                           ),
                           Container(
-                            width: isTablet?MediaQuery.of(context).size.width*.25 : MediaQuery.of(context).size.width / 2.6,
+                            width: isTablet?width*.25 : width / 2.6,
                             height: isTablet? 50 : 45,
                             child: AbsorbPointer(
                              absorbing: _selectedRelation!=null ? false : true,

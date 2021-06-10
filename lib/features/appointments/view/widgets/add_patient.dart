@@ -384,8 +384,8 @@ class _AddPatientState extends State<AddPatient> {
                         child: Center(
                           child: Image.asset(
                             'assets/images/dPro.png',
-                            height: isTablet? 50: width <= 330 ? 30 : 40,
-                            width: isTablet? 50 :width <= 330 ? 30 : 40,
+                            height: isTablet? 38: width <= 330 ? 22 : 33,
+                            width: isTablet? 38 :width <= 330 ? 22 : 33,
                           ),
                         )),
                 SizedBox(
@@ -431,7 +431,7 @@ class _AddPatientState extends State<AddPatient> {
                       color: AppTheme.appbarPrimary,
                     )),
                 SizedBox(
-                  width: isTablet? 30 : 10,
+                  width: isTablet? 18 : 10,
                 ),
               ],
             ),
@@ -1054,7 +1054,7 @@ class _AddPatientState extends State<AddPatient> {
                       Future.delayed(Duration.zero, () async {
                         setState(() {
                           if (vm2.message == null) {
-                            _showAlert(context);
+                            _showSuccessAlert(context);
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
@@ -1205,7 +1205,7 @@ class _AddPatientState extends State<AddPatient> {
     );
   }
 
-  void _showAlert(BuildContext context) {
+  void _showSuccessAlert(BuildContext context) {
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
     showGeneralDialog(
       barrierLabel: "Label",

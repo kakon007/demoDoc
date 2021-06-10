@@ -185,8 +185,8 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height:isTablet? 45 :width<=330 ? 35 :  40,
-                                          width: isTablet? 45 : width<=330 ? 35 : 40,
+                                          height:isTablet? 32 :width<=330 ? 22 :  40,
+                                          width: isTablet? 32 : width<=330 ? 22 : 40,
                                         ),
                                       )),
                                   SizedBox(

@@ -2136,337 +2136,333 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                     //   ),
                                                     // ),
                                                     ExpandableNotifier(
-                                                        child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: isTablet ? 8 : 8,
-                                                        bottom:
-                                                        isTablet ? 10 : 5,
-                                                        right: isTablet
-                                                            ? 20
-                                                            : 10,
-                                                        left: isTablet
-                                                            ? 20
-                                                            : 10),
-                                                    decoration: BoxDecoration(
-                                                      gradient: LinearGradient(
-                                                          begin: Alignment
-                                                              .bottomRight,
-                                                          stops: [
-                                                            1.0,
-                                                          ],
-                                                          colors: [
-                                                            //HexColor('#C5CAE8'),
-                                                            HexColor('#E9ECFE'),
-                                                          ]),
-                                                      //color: Colors.white,
-                                                      // border: Border.all(
-                                                      //   color: HexColor("#E9ECFE"),
-                                                      //   width: 1,
-                                                      // ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        SizedBox(
-                                                          height: 75,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            8.0),
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      height:
-                                                                          10,
-                                                                    ),
-                                                                    Container(
-                                                                        width: isTablet? deviceWidth*.72 : deviceWidth <=
-                                                                                330
-                                                                            ? 220
-                                                                            : 230,
-                                                                        child:
-                                                                            Text(
-                                                                          vm3.documentList[index].attachmentName == null
-                                                                              ? 'Doc'
-                                                                              : vm3.documentList[index].attachmentName,
-                                                                          maxLines:
-                                                                              1,
-                                                                          overflow:
-                                                                              TextOverflow.ellipsis,
-                                                                          style: GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              color: HexColor('#354291'),
-                                                                              fontSize:  isTablet
-                                                                                  ? 15
-                                                                                  : width <= 330
-                                                                                  ? 10
-                                                                                  : 12,),
-                                                                        )),
-                                                                    SizedBox(
-                                                                      height: isTablet? 3 : 5,
-                                                                    ),
-                                                                    Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Text(
-                                                                          'Documentation Type: ${vm3.documentList[index].attachmentTypeName == null ? '' : vm3.documentList[index].attachmentTypeName}',
-                                                                          maxLines:
-                                                                              1,
-                                                                          overflow:
-                                                                              TextOverflow.ellipsis,
-                                                                          style: GoogleFonts.poppins(
-                                                                              color: HexColor('#141D53'),
-                                                                              fontSize:  isTablet
-                                                                                  ? 14
-                                                                                  : width <= 330
-                                                                                  ? 8
-                                                                                  : 10,
-                                                                              fontWeight: FontWeight.w500),
-                                                                        ),
-                                                                        Text(
-                                                                          'Report Date: ${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
-                                                                          style: GoogleFonts.poppins(
-                                                                              color: HexColor('#141D53'),
-                                                                              fontSize:  isTablet
-                                                                                  ? 12
-                                                                                  : width <= 330
-                                                                                  ? 8
-                                                                                  : 10,
-                                                                              fontWeight: FontWeight.w500),
-                                                                        ),
-                                                                        //SizedBox(width: 5,),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Row(
-                                                                      children: [
-                                                                        // Padding(
-                                                                        //   padding: const EdgeInsets.only(top:5.0,left: 30),
-                                                                        //   child: Container(width:45,child: jp),
-                                                                        // ),
-                                                                        // (controller3.isSelected(index))?
-                                                                        // Padding(
-                                                                        //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                                        //   child: righticon,
-                                                                        // ): (controller3.isSelecting)?
-                                                                        // Padding(
-                                                                        //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                                        //   child: greyright,
-                                                                        // ):
-                                                                        // // Padding(
-                                                                        // //   padding: EdgeInsets.only(left: 40,top: 10),
-                                                                        // //   child: InkWell(onTap: () async{
-                                                                        // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
-                                                                        // //   },child: Icon(Icons.delete)),
-                                                                        // // ),
-
-                                                                        Padding(
-                                                                          padding:
-                                                                              EdgeInsets.only(top: 20),
-                                                                          child: InkWell(
-                                                                              onTap: () async {
-                                                                                await downloadDocumentations(vm3.documentList[index].attachmentPath, vm3.documentList[index].attachmentName);
-                                                                              },
-                                                                              child: Icon(Icons.file_download_outlined, size: isTablet
-                                                                                  ? 35
-                                                                                  : 25,color: AppTheme.appbarPrimary)),
-                                                                        ),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              15,
-                                                                        ),
-                                                                        Padding(
-                                                                          padding:
-                                                                              EdgeInsets.only(top: 20),
-                                                                          child: InkWell(
-                                                                              onTap: () async {
-                                                                                vm3.getData(
-                                                                                  accessToken: widget.accessToken,
-                                                                                  id: vm3.documentList[index].id,
-                                                                                );
-                                                                                _showAlertDialogForEditProfile(context, vm3.documentList[index].attachmentName);
-                                                                              },
-                                                                              child: Icon(
-                                                                                Icons.edit_outlined,
-                                                                                size: isTablet
-                                                                                    ? 35
-                                                                                    : 25,
-                                                                                color: HexColor('#354291'),
-                                                                              )),
-                                                                        ),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              10,
-                                                                        ),
-                                                                      ]),
+                                                        child: Container(
+                                                          margin: EdgeInsets.only(
+                                                              top: isTablet ? 8 : 8,
+                                                              bottom:
+                                                              isTablet ? 5 : 5,
+                                                              right: isTablet
+                                                                  ? 20
+                                                                  : 10,
+                                                              left: isTablet
+                                                                  ? 20
+                                                                  : 10),
+                                                          decoration: BoxDecoration(
+                                                            gradient: LinearGradient(
+                                                                begin: Alignment
+                                                                    .bottomRight,
+                                                                stops: [
+                                                                  1.0,
                                                                 ],
-                                                              )
-
-                                                              //SizedBox(height: 5,),
-                                                              // InkWell(onTap: (){
-                                                              //   setState(() {
-                                                              //     descTextShowFlag =!descTextShowFlag;
-                                                              //   });
-                                                              //   print('Taab $descTextShowFlag');
-                                                              // },child: Text('Description')),
-                                                              // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
-                                                              // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-
-                                                              // SizedBox(height: 5,),
-                                                            ],
+                                                                colors: [
+                                                                  //HexColor('#C5CAE8'),
+                                                                  HexColor('#E9ECFE'),
+                                                                ]),
+                                                            //color: Colors.white,
+                                                            // border: Border.all(
+                                                            //   color: HexColor("#E9ECFE"),
+                                                            //   width: 1,
+                                                            // ),
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    15),
                                                           ),
-                                                        ),
-                                                        vm3.documentList[index]
-                                                                    .description ==
-                                                                null
-                                                            ? SizedBox()
-                                                            : Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        right:
-                                                                            10.0,
-                                                                        left:
-                                                                            10),
-                                                                child: Divider(
-                                                                  thickness: 1,
-                                                                ),
-                                                              ),
-                                                        vm3.documentList[index]
-                                                                    .description ==
-                                                                null
-                                                            ? SizedBox()
-                                                            : ScrollOnExpand(
-                                                                scrollOnExpand:
-                                                                    true,
-                                                                scrollOnCollapse:
-                                                                    false,
-                                                                child:
-                                                                    ExpandablePanel(
-                                                                  theme:
-                                                                      ExpandableThemeData(
-                                                                    headerAlignment:
-                                                                        ExpandablePanelHeaderAlignment
-                                                                            .center,
-                                                                    tapBodyToCollapse:
-                                                                        true,
-                                                                  ),
-                                                                  header: Padding(
-                                                                      padding: EdgeInsets.all(10),
-                                                                      child: Text(
-                                                                        "Description",
-                                                                        style: GoogleFonts.poppins(
-                                                                            color: HexColor(
-                                                                                '#141D53'),
-                                                                            fontSize:
-                                                                            isTablet
-                                                                                ? 14
-                                                                                : width <= 330
-                                                                                ? 8
-                                                                                : 10,
-                                                                            fontWeight:
-                                                                                FontWeight.w500),
-                                                                      )),
-                                                                  // collapsed: Text(
-                                                                  //   vm3.documentList[index].description==null?"":vm3.documentList[index].description,
-                                                                  //   softWrap: true,
-                                                                  //   maxLines: 2,
-                                                                  //   overflow: TextOverflow.ellipsis,
-                                                                  // ),
-                                                                  expanded:
-                                                                      Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              15),
-                                                                    ),
-                                                                    width: double
-                                                                        .infinity,
-                                                                    child:
-                                                                        Padding(
+                                                          clipBehavior:
+                                                              Clip.antiAlias,
+                                                          child: Column(
+                                                            children: <Widget>[
+                                                              SizedBox(
+                                                                height: 75,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Padding(
                                                                       padding:
-                                                                          const EdgeInsets.all(
-                                                                              8.0),
-                                                                      child:
-                                                                          Column(
+                                                                          const EdgeInsets
+                                                                                  .only(
+                                                                              left:
+                                                                                  8.0),
+                                                                      child: Column(
                                                                         crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: <
-                                                                            Widget>[
-                                                                          //for (var _ in Iterable.generate(5))
-                                                                          Text(
-                                                                            vm3.documentList[index].description == null
-                                                                                ? ""
-                                                                                : vm3.documentList[index].description,
-                                                                            softWrap:
-                                                                                true,
-                                                                            overflow:
-                                                                                TextOverflow.fade,
-                                                                            style: GoogleFonts.poppins( fontSize: isTablet
-                                                                                ? 15
-                                                                                : width <= 330
-                                                                                ? 8
-                                                                                : 12,),
+                                                                            CrossAxisAlignment
+                                                                                .start,
+                                                                        children: [
+                                                                          SizedBox(
+                                                                            height:
+                                                                                10,
+                                                                          ),
+                                                                          Container(
+                                                                              width: isTablet? deviceWidth*.72 : deviceWidth <=
+                                                                                      330
+                                                                                  ? 220
+                                                                                  : 230,
+                                                                              child:
+                                                                                  Text(
+                                                                                vm3.documentList[index].attachmentName == null
+                                                                                    ? 'Doc'
+                                                                                    : vm3.documentList[index].attachmentName,
+                                                                                maxLines:
+                                                                                    1,
+                                                                                overflow:
+                                                                                    TextOverflow.ellipsis,
+                                                                                style: GoogleFonts.poppins(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    color: HexColor('#354291'),
+                                                                                    fontSize:  isTablet
+                                                                                        ? 15
+                                                                                        : width <= 330
+                                                                                        ? 10
+                                                                                        : 12,),
+                                                                              )),
+                                                                          SizedBox(
+                                                                            height: isTablet? 3 : 5,
+                                                                          ),
+                                                                          Column(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment
+                                                                                    .start,
+                                                                            children: [
+                                                                              Text(
+                                                                                'Documentation Type: ${vm3.documentList[index].attachmentTypeName == null ? '' : vm3.documentList[index].attachmentTypeName}',
+                                                                                maxLines:
+                                                                                    1,
+                                                                                overflow:
+                                                                                    TextOverflow.ellipsis,
+                                                                                style: GoogleFonts.poppins(
+                                                                                    color: HexColor('#141D53'),
+                                                                                    fontSize:  isTablet
+                                                                                        ? 14
+                                                                                        : width <= 330
+                                                                                        ? 8
+                                                                                        : 10,
+                                                                                    fontWeight: FontWeight.w500),
+                                                                              ),
+                                                                              Text(
+                                                                                'Report Date: ${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
+                                                                                style: GoogleFonts.poppins(
+                                                                                    color: HexColor('#141D53'),
+                                                                                    fontSize:  isTablet
+                                                                                        ? 12
+                                                                                        : width <= 330
+                                                                                        ? 8
+                                                                                        : 10,
+                                                                                    fontWeight: FontWeight.w500),
+                                                                              ),
+                                                                              //SizedBox(width: 5,),
+                                                                            ],
                                                                           ),
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  builder: (_,
-                                                                      collapsed,
-                                                                      expanded) {
-                                                                    return Padding(
-                                                                      padding: EdgeInsets.only(
-                                                                          left:
-                                                                              10,
-                                                                          right:
-                                                                              10,
-                                                                          bottom:
-                                                                              10),
-                                                                      child:
-                                                                          Expandable(
-                                                                        collapsed:
-                                                                            collapsed,
-                                                                        expanded:
-                                                                            expanded,
-                                                                        theme: const ExpandableThemeData(
-                                                                            crossFadePoint:
-                                                                                0),
-                                                                      ),
-                                                                    );
-                                                                  },
+                                                                    Row(
+                                                                      children: [
+                                                                        Row(
+                                                                            children: [
+                                                                              // Padding(
+                                                                              //   padding: const EdgeInsets.only(top:5.0,left: 30),
+                                                                              //   child: Container(width:45,child: jp),
+                                                                              // ),
+                                                                              // (controller3.isSelected(index))?
+                                                                              // Padding(
+                                                                              //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                              //   child: righticon,
+                                                                              // ): (controller3.isSelecting)?
+                                                                              // Padding(
+                                                                              //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                                              //   child: greyright,
+                                                                              // ):
+                                                                              // // Padding(
+                                                                              // //   padding: EdgeInsets.only(left: 40,top: 10),
+                                                                              // //   child: InkWell(onTap: () async{
+                                                                              // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
+                                                                              // //   },child: Icon(Icons.delete)),
+                                                                              // // ),
+
+                                                                              Padding(
+                                                                                padding:
+                                                                                    EdgeInsets.only(top: 20),
+                                                                                child: InkWell(
+                                                                                    onTap: () async {
+                                                                                      await downloadDocumentations(vm3.documentList[index].attachmentPath, vm3.documentList[index].attachmentName);
+                                                                                    },
+                                                                                    child: Icon(Icons.file_download_outlined, size: isTablet
+                                                                                        ? 35
+                                                                                        : 25,color: AppTheme.appbarPrimary)),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                width:
+                                                                                    15,
+                                                                              ),
+                                                                              Padding(
+                                                                                padding:
+                                                                                    EdgeInsets.only(top: 20),
+                                                                                child: InkWell(
+                                                                                    onTap: () async {
+                                                                                      vm3.getData(
+                                                                                        accessToken: widget.accessToken,
+                                                                                        id: vm3.documentList[index].id,
+                                                                                      );
+                                                                                      _showAlertDialogForEditProfile(context, vm3.documentList[index].attachmentName);
+                                                                                    },
+                                                                                    child: Icon(
+                                                                                      Icons.edit_outlined,
+                                                                                      size: isTablet
+                                                                                          ? 35
+                                                                                          : 25,
+                                                                                      color: HexColor('#354291'),
+                                                                                    )),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                width:
+                                                                                    10,
+                                                                              ),
+                                                                            ]),
+                                                                      ],
+                                                                    )
+
+                                                                    //SizedBox(height: 5,),
+                                                                    // InkWell(onTap: (){
+                                                                    //   setState(() {
+                                                                    //     descTextShowFlag =!descTextShowFlag;
+                                                                    //   });
+                                                                    //   print('Taab $descTextShowFlag');
+                                                                    // },child: Text('Description')),
+                                                                    // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                                                    // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+
+                                                                    // SizedBox(height: 5,),
+                                                                  ],
                                                                 ),
                                                               ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )),
+                                                              vm3.documentList[index]
+                                                                          .description ==
+                                                                      null
+                                                                  ? SizedBox()
+                                                                  : Padding(
+                                                                      padding:
+                                                                          const EdgeInsets
+                                                                                  .only(
+                                                                              right:
+                                                                                  10.0,
+                                                                              left:
+                                                                                  10),
+                                                                      child: Divider(
+                                                                        thickness: 1,
+                                                                      ),
+                                                                    ),
+                                                              vm3.documentList[index]
+                                                                          .description ==
+                                                                      null
+                                                                  ? SizedBox()
+                                                                  : ScrollOnExpand(
+                                                                      scrollOnExpand:
+                                                                          true,
+                                                                      scrollOnCollapse:
+                                                                          false,
+                                                                      child:
+                                                                          ExpandablePanel(
+                                                                        theme:
+                                                                            ExpandableThemeData(
+                                                                          headerAlignment:
+                                                                              ExpandablePanelHeaderAlignment
+                                                                                  .center,
+                                                                          tapBodyToCollapse:
+                                                                              true,
+                                                                        ),
+                                                                        header: Padding(
+                                                                            padding: EdgeInsets.all(10),
+                                                                            child: Text(
+                                                                              "Description",
+                                                                              style: GoogleFonts.poppins(
+                                                                                  color: HexColor(
+                                                                                      '#141D53'),
+                                                                                  fontSize:
+                                                                                  isTablet
+                                                                                      ? 14
+                                                                                      : width <= 330
+                                                                                      ? 8
+                                                                                      : 10,
+                                                                                  fontWeight:
+                                                                                      FontWeight.w500),
+                                                                            )),
+                                                                        // collapsed: Text(
+                                                                        //   vm3.documentList[index].description==null?"":vm3.documentList[index].description,
+                                                                        //   softWrap: true,
+                                                                        //   maxLines: 2,
+                                                                        //   overflow: TextOverflow.ellipsis,
+                                                                        // ),
+                                                                        expanded:
+                                                                            Container(
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color: Colors
+                                                                                .white,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(
+                                                                                    15),
+                                                                          ),
+                                                                          width: double
+                                                                              .infinity,
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.all(
+                                                                                    8.0),
+                                                                            child:
+                                                                                Column(
+                                                                              crossAxisAlignment:
+                                                                                  CrossAxisAlignment.start,
+                                                                              children: <
+                                                                                  Widget>[
+                                                                                //for (var _ in Iterable.generate(5))
+                                                                                Text(
+                                                                                  vm3.documentList[index].description == null
+                                                                                      ? ""
+                                                                                      : vm3.documentList[index].description,
+                                                                                  softWrap:
+                                                                                      true,
+                                                                                  overflow:
+                                                                                      TextOverflow.fade,
+                                                                                  style: GoogleFonts.poppins( fontSize: isTablet
+                                                                                      ? 15
+                                                                                      : width <= 330
+                                                                                      ? 8
+                                                                                      : 12,),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        builder: (_,
+                                                                            collapsed,
+                                                                            expanded) {
+                                                                          return Padding(
+                                                                            padding: EdgeInsets.only(
+                                                                                left:
+                                                                                    10,
+                                                                                right:
+                                                                                    10,
+                                                                                bottom:
+                                                                                    10),
+                                                                            child:
+                                                                                Expandable(
+                                                                              collapsed:
+                                                                                  collapsed,
+                                                                              expanded:
+                                                                                  expanded,
+                                                                              theme: const ExpandableThemeData(
+                                                                                  crossFadePoint:
+                                                                                      0),
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                            ],
+                                                          ),
+                                                        )),
                                               ),
                                             ]),
                                           );

@@ -26,6 +26,7 @@ class SearchDoctorViewModel extends ChangeNotifier{
   String _doctorName;
   String _hospitalName;
   int _doctorNo;
+  String _image;
 
 
   void resetPageCounter() {
@@ -116,6 +117,7 @@ class SearchDoctorViewModel extends ChangeNotifier{
     String doctorName,
     String hospitalName,
     int doctorNo,
+    String image,
 
   }){
     print("regId $doctorName");
@@ -124,6 +126,7 @@ class SearchDoctorViewModel extends ChangeNotifier{
     _doctorName= doctorName;
     _hospitalName=hospitalName;
     _doctorNo= doctorNo;
+    _image= image;
 
   }
 
@@ -188,4 +191,5 @@ class SearchDoctorViewModel extends ChangeNotifier{
   String get doctorName=>_doctorName;
   String get hospitalName=>_hospitalName;
   int get doctorNo=>_doctorNo;
+  String get image => _image;
 }

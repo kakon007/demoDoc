@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
@@ -86,6 +89,21 @@ print('Resss:: $doctorNoArr');
     }
   }
 
+  loadProfileImage(String image, double height, double width, double border) {
+    Uint8List _bytesImage = Base64Decoder().convert(image);
+    //print(_bytesImage);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(border),
+      child: Image.memory(
+        _bytesImage,
+        fit: BoxFit.fill,
+        width: width,
+        height: height,
+        gaplessPlayback: true,
+      ),
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -101,8 +119,8 @@ print('Resss:: $doctorNoArr');
     // vm2.getData();
     // Future.delayed(Duration.zero,()async{
     //   var vm10 =  Provider.of<SharedFileViewModel>(context, listen: false);
-    //  await vm10.getData(fileNo: widget.prescriptionNo);
-    //  print('pres ::: ${widget.prescriptionNo}');
+    //  await vm10.getData();
+    //  //print('pres ::: ${widget.prescriptionNo}');
     // });
     // var vm10 =  Provider.of<SharedFileViewModel>(context, listen: false);
     // vm10.getData();
@@ -396,32 +414,32 @@ print('Resss:: $doctorNoArr');
               width: 10,
             ),
 
-            // photo != ""
-            //     ? Container(
-            //     decoration: BoxDecoration(
-            //       border: Border.all(color: AppTheme.appbarPrimary),
-            //       //color: AppTheme.appbarPrimary,
-            //       shape: BoxShape.circle,
-            //     ),
-            //     height: 50,
-            //     width: 50,
-            //     child: Center(
-            //         child: imageVm.loadProfileImage(photo, 45, 45,50)
-            //     ))
-            //     : Container(
-            //     decoration: BoxDecoration(
-            //       color: AppTheme.appbarPrimary,
-            //       shape: BoxShape.circle,
-            //     ),
-            //     height: 50,
-            //     width: 50,
-            //     child: Center(
-            //       child: Image.asset(
-            //         'assets/images/dPro.png',
-            //         height: 40,
-            //         width: 40,
-            //       ),
-            //     )),
+            vm2.image != null
+                ? Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppTheme.appbarPrimary),
+                  //color: AppTheme.appbarPrimary,
+                  shape: BoxShape.circle,
+                ),
+                height: 50,
+                width: 50,
+                child: Center(
+                    child: loadProfileImage(vm2.image, 45, 45,50)
+                ))
+                : Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.appbarPrimary,
+                  shape: BoxShape.circle,
+                ),
+                height: 50,
+                width: 50,
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/dPro.png',
+                    height: 40,
+                    width: 40,
+                  ),
+                )),
             SizedBox(
               width: 20,
             ),
@@ -889,10 +907,11 @@ SVProgressHUD.show(
                   SizedBox(
                     height: 5,
                   ),
-                  vm10.sharedFileList==null?Text("No Share History Yet."):
+                  vm10.sharedFileList==null?Center(child: Text("No Share History Yet.")):
                   Column(
                     children: <Widget>[
-                      ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: widget.lenght.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
+                      ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
+                        var photo = vm10.sharedFileList[index]?.photo ?? "";
                         return  Padding(padding: EdgeInsets.all(5),child:
                         Container(
                             height: 70,
@@ -910,21 +929,32 @@ SVProgressHUD.show(
                               SizedBox(
                               width: 10,
                             ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage(
-                                    "assets/images/doc.png"),
-                                radius: 15.0,
-                              ),
-                            ),
+                                photo != ""
+                                    ? Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: AppTheme.appbarPrimary),
+                                      //color: AppTheme.appbarPrimary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    height: 50,
+                                    width: 50,
+                                    child: Center(
+                                        child: loadProfileImage(photo, 45, 45,50)
+                                    ))
+                                    : Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.appbarPrimary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    height: 50,
+                                    width: 50,
+                                    child: Center(
+                                      child: Image.asset(
+                                        'assets/images/dPro.png',
+                                        height: 40,
+                                        width: 40,
+                                      ),
+                                    )),
                             SizedBox(
                               width: 3,
                             ),

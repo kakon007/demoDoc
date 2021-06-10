@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
@@ -29,6 +32,21 @@ class SearchDoctor extends StatefulWidget {
 class _SearchDoctorState extends State<SearchDoctor> {
   TextEditingController memberSearch = TextEditingController();
   List<Itemm> familyMembers= [];
+
+  loadProfileImage(String image, double height, double width, double border) {
+    Uint8List _bytesImage = Base64Decoder().convert(image);
+    //print(_bytesImage);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(border),
+      child: Image.memory(
+        _bytesImage,
+        fit: BoxFit.fill,
+        width: width,
+        height: height,
+        gaplessPlayback: true,
+      ),
+    );
+  }
   @override
   void initState() {
     // Future.delayed(Duration.zero, () async {
@@ -156,7 +174,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
                     shrinkWrap: true,
                     itemCount: familyMembers.length,
                     itemBuilder: (BuildContext context, int index) {
-                      //var photo = familyMembers[index]?.photo ?? "";
+                      var photo = familyMembers[index]?.photo ?? "";
                       return Container(
                           decoration: BoxDecoration(
                             color: HexColor("#F0F2FF"),
@@ -174,32 +192,32 @@ class _SearchDoctorState extends State<SearchDoctor> {
                                     width: 10,
                                   ),
 
-                                  // photo != ""
-                                  //     ? Container(
-                                  //     decoration: BoxDecoration(
-                                  //       border: Border.all(color: AppTheme.appbarPrimary),
-                                  //       //color: AppTheme.appbarPrimary,
-                                  //       shape: BoxShape.circle,
-                                  //     ),
-                                  //     height: 50,
-                                  //     width: 50,
-                                  //     child: Center(
-                                  //         child: imageVm.loadProfileImage(photo, 45, 45,50)
-                                  //     ))
-                                  //     : Container(
-                                  //     decoration: BoxDecoration(
-                                  //       color: AppTheme.appbarPrimary,
-                                  //       shape: BoxShape.circle,
-                                  //     ),
-                                  //     height: 50,
-                                  //     width: 50,
-                                  //     child: Center(
-                                  //       child: Image.asset(
-                                  //         'assets/images/dPro.png',
-                                  //         height: 40,
-                                  //         width: 40,
-                                  //       ),
-                                  //     )),
+                                  photo != ""
+                                      ? Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: AppTheme.appbarPrimary),
+                                        //color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: 50,
+                                      width: 50,
+                                      child: Center(
+                                          child: loadProfileImage(photo, 45, 45,50)
+                                      ))
+                                      : Container(
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: 50,
+                                      width: 50,
+                                      child: Center(
+                                        child: Image.asset(
+                                          'assets/images/dPro.png',
+                                          height: 40,
+                                          width: 40,
+                                        ),
+                                      )),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -243,7 +261,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
 
                                   setState(() {
                                     Future.delayed(Duration.zero, () async {
-                                      vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo );
+                                      vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo );
 
                                       Navigator.pop(context);
                                     });
@@ -251,27 +269,38 @@ class _SearchDoctorState extends State<SearchDoctor> {
                                   });
 
                                 },
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.person_add,
-                                        color: HexColor("#4077BC"),
-                                      ),
-                                      Text(
-                                        "Select Doc",
-                                        style: GoogleFonts.poppins(
-                                            color: HexColor("#4077BC"),
-                                            fontSize: 11),
-                                      )
-                                    ],
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right:8.0),
+                                  child: Container(
+                                    child: Center(
+                                      child: Text(
+                      "Select",
+                      style: GoogleFonts.poppins(
+                      color: HexColor("#4077BC"),
+                      fontSize: 11,fontWeight: FontWeight.bold),
+                      ),
+                                    ),
+                                    // Column(
+                                    //   mainAxisAlignment: MainAxisAlignment.center,
+                                    //   children: [
+                                    //     Icon(
+                                    //       Icons.person_add,
+                                    //       color: HexColor("#4077BC"),
+                                    //     ),
+                                    //     Text(
+                                    //       "Select Doc",
+                                    //       style: GoogleFonts.poppins(
+                                    //           color: HexColor("#4077BC"),
+                                    //           fontSize: 11),
+                                    //     )
+                                    //   ],
+                                    // ),
+                                    decoration: BoxDecoration(
+                                        color: HexColor("#D2D9FF"),
+                                        borderRadius: BorderRadius.circular(10)),
+                                    width: 50,
+                                    height: 40,
                                   ),
-                                  decoration: BoxDecoration(
-                                      color: HexColor("#D2D9FF"),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  width: 90,
-                                  height: 70,
                                 ),
                               ),
                             ],

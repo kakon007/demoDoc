@@ -1322,15 +1322,15 @@ var accessTokenVm;
                                                         ),
                                                         SizedBox(width: 15,),
                                                         Padding(
-                                                          padding: EdgeInsets.only(top: 20),
+                                                          padding: EdgeInsets.only(top: 40),
                                                           child: GestureDetector(
                                                               onTap: () async{
-                                                                SVProgressHUD.show(
-                                                                  status: 'Please Wait'
-                                                                );
+                                                                // SVProgressHUD.show(
+                                                                //   status: 'Please Wait'
+                                                                // );
                                                               await vm10.getData(fileNo: vm.prescriptionList[index].prescriptionNo);
                                                               await vm10.fileInfo(fileNo: vm.prescriptionList[index].prescriptionNo,regId: vm.prescriptionList[index].registrationNo);
-                                                               SVProgressHUD.dismiss();
+                                                              // SVProgressHUD.dismiss();
                                                                 vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
                                                                     backgroundColor: HexColor("#E9ECFE"),
                                                                     shape: RoundedRectangleBorder(
@@ -1347,7 +1347,7 @@ var accessTokenVm;
                                                                             bool isTrue = false;
                                                                             return FractionallySizedBox(
                                                                                 heightFactor: 0.85,
-                                                                                child:ShareDocument(lenght: vm10.sharedFileList,)
+                                                                                child:ShareDocument()
                                                                             );
                                                                           });
                                                                     });
@@ -1576,6 +1576,43 @@ var accessTokenVm;
                                                                     await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
 
                                                                   },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary,)),
+                                                                ),
+
+                                                                SizedBox(width: 5,),
+                                                                Padding(
+                                                                  padding: EdgeInsets.only(top: 40),
+                                                                  child: GestureDetector(
+                                                                      onTap: () async{
+                                                                        // SVProgressHUD.show(
+                                                                        //   status: 'Please Wait'
+                                                                        // );
+                                                                        await vm10.getData(fileNo: vm2.reportList[index].id);
+                                                                        await vm10.fileInfo(fileNo: vm2.reportList[index].id,regId: vm2.reportList[index].referenceNo);
+                                                                        // SVProgressHUD.dismiss();
+                                                                        vm2.reportList[index].id==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
+                                                                            backgroundColor: HexColor("#E9ECFE"),
+                                                                            shape: RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.only(
+                                                                                    topLeft: Radius.circular(25),
+                                                                                    topRight: Radius.circular(25))),
+                                                                            context: context,
+                                                                            isScrollControlled: true,
+                                                                            builder: (context) {
+
+                                                                              return StatefulBuilder(
+                                                                                  builder: (BuildContext context, StateSetter setState) {
+                                                                                    var index = 0;
+                                                                                    bool isTrue = false;
+                                                                                    return FractionallySizedBox(
+                                                                                        heightFactor: 0.85,
+                                                                                        child:ShareDocument()
+                                                                                    );
+                                                                                  });
+                                                                            });
+                                                                        //print('CompanyName ${vm10.sharedFileList.last.companyName}');
+                                                                      },
+                                                                      // onTap: showNotification,
+                                                                      child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
                                                                 ),
                                                               ]),
                                                             ),
@@ -1910,22 +1947,56 @@ var accessTokenVm;
                                                                   // // ),
 
                                                                   Padding(
-                                                                    padding: EdgeInsets.only(top: 20),
+                                                                    padding: EdgeInsets.only(top: 20,right:10),
                                                                     child: InkWell(onTap: () async{
                                                                       await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
                                                                     },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary)),
                                                                   ),
-                                                                  SizedBox(width: 15,),
+                                                                  SizedBox(width: 8,),
                                                                   Padding(
-                                                                    padding: EdgeInsets.only(top: 20),
+                                                                    padding: EdgeInsets.only(top: 20,right:15),
                                                                     child: InkWell(onTap: () async{
                                                                       vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
                                                                       _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
 
                                                                     },child: Icon(Icons.edit_outlined,color: HexColor('#354291'),)),
                                                                   ),
-                                                                  SizedBox(width: 10,),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(top: 20,right: 8),
+                                                                    child: GestureDetector(
+                                                                        onTap: () async{
+                                                                          // SVProgressHUD.show(
+                                                                          //   status: 'Please Wait'
+                                                                          // );
+                                                                          await vm10.getData(fileNo: vm3.documentList[index].id);
+                                                                          await vm10.fileInfo(fileNo: vm3.documentList[index].id,regId: vm3.documentList[index].referenceNo);
+                                                                          // SVProgressHUD.dismiss();
+                                                                          vm3.documentList[index].id==null?Fluttertoast.showToast(msg: 'No Documents Found'): showModalBottomSheet(
+                                                                              backgroundColor: HexColor("#E9ECFE"),
+                                                                              shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.only(
+                                                                                      topLeft: Radius.circular(25),
+                                                                                      topRight: Radius.circular(25))),
+                                                                              context: context,
+                                                                              isScrollControlled: true,
+                                                                              builder: (context) {
+
+                                                                                return StatefulBuilder(
+                                                                                    builder: (BuildContext context, StateSetter setState) {
+                                                                                      var index = 0;
+                                                                                      bool isTrue = false;
+                                                                                      return FractionallySizedBox(
+                                                                                          heightFactor: 0.85,
+                                                                                          child:ShareDocument()
+                                                                                      );
+                                                                                    });
+                                                                              });
+                                                                          //print('CompanyName ${vm10.sharedFileList.last.companyName}');
+                                                                        },
+                                                                        // onTap: showNotification,
+                                                                        child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
+                                                                  ),
 
                                                                 ]),
                                                               ],)

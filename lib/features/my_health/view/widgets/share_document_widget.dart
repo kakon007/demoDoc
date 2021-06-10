@@ -21,7 +21,7 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:provider/provider.dart';
 import 'package:myhealthbd_app/features/my_health/models/shared_file_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:searchable_dropdown/searchable_dropdown.dart';
+
 
 class ShareDocument extends StatefulWidget {
    List<Item> lenght;
@@ -170,46 +170,43 @@ print('Resss:: $doctorNoArr');
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: 280,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                iconSize: 0.0,
-                                hint: Text('Select Hospital or Diagnostic', style:  GoogleFonts.roboto(fontSize: 13, color: HexColor("#333132")),), // Not necessary for Option 1
-                                value: _selectedName,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedName = newValue;
-                                    print('SelectValue::::: $_selectedName');
-                                  });
-                                },
-                                items: vm.hospitalList.map((hospitalName) {
-                                  return DropdownMenuItem(
-                                    child: SizedBox(
-                                      width: 275,
-                                      child: Text(
-                                        hospitalName.companyName,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.roboto(fontSize: 14),
-                                      ),
-                                    ),
-                                    value: hospitalName.id.toString(),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width*.8,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField(
+                            icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedName != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                            iconSize:25,
+                            decoration:
+                            InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                enabledBorder: InputBorder.none),
+                            hint: Text('Select Hospital or Diagnostic', style:  GoogleFonts.roboto(fontSize: 13, color: HexColor("#333132")),), // Not necessary for Option 1
+                            value: _selectedName,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedName = newValue;
+                                print('SelectValue::::: $_selectedName');
+                              });
+                            },
+                            items: vm.hospitalList.map((hospitalName) {
+                              return DropdownMenuItem(
+                                child: SizedBox(
+                                  width: 275,
+                                  child: Text(
+                                    hospitalName.companyName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.roboto(fontSize: 14),
+                                  ),
+                                ),
+                                value: hospitalName.id.toString(),
+                              );
+                            }).toList(),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.75, top: 5),
-                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#8592E5"),size: 30,),
-                        ),
-                      ],
+                      ),
                     )
                   ],
                 ),
@@ -311,46 +308,43 @@ print('Resss:: $doctorNoArr');
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: 280,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                iconSize: 0.0,
-                                hint: Text('Share With', style:  GoogleFonts.roboto(fontSize: 13, color: HexColor("#333132")),), // Not necessary for Option 1
-                                value: _selectedSharedtype,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedSharedtype = newValue;
-                                    print('SelectValue::::: $_selectedSharedtype');
-                                  });
-                                },
-                                items: StringResources.ShareType.map((sharedType) {
-                                  return DropdownMenuItem(
-                                    child: SizedBox(
-                                      width: 275,
-                                      child: Text(
-                                        sharedType,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.roboto(fontSize: 14),
-                                      ),
-                                    ),
-                                    value: sharedType,
-                                  );
-                                }).toList(),
-                              ),
-                            ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width*.8,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField(
+                            icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedSharedtype != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                            iconSize:25,
+                            hint: Text('Share With', style:  GoogleFonts.roboto(fontSize: 13, color: HexColor("#333132")),), // Not necessary for Option 1
+                            decoration:
+                            InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                enabledBorder: InputBorder.none),
+                            value: _selectedSharedtype,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedSharedtype = newValue;
+                                print('SelectValue::::: $_selectedSharedtype');
+                              });
+                            },
+                            items: StringResources.ShareType.map((sharedType) {
+                              return DropdownMenuItem(
+                                child: SizedBox(
+                                  width: 275,
+                                  child: Text(
+                                    sharedType,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.roboto(fontSize: 14),
+                                  ),
+                                ),
+                                value: sharedType,
+                              );
+                            }).toList(),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.75, top: 5),
-                          child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#8592E5"),size: 30,),
-                        ),
-                      ],
+                      ),
                     )
                   ],
                 ),

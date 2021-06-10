@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userImageModel.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +17,7 @@ import 'package:http/http.dart' as http;
 class UserImageViewModel extends ChangeNotifier {
   String _image;
   Obj _details;
+  Obj _switchDetails;
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
@@ -45,7 +47,7 @@ class UserImageViewModel extends ChangeNotifier {
     var request = http.MultipartRequest(
         'PUT',
         Uri.parse(
-            'https://qa.myhealthbd.com:9096/auth-api/api/coreUser/update-user-info'));
+            '${Urls.buildUrl}auth-api/api/coreUser/update-user-info'));
     request.fields.addAll({
       'reqobj': {
         "name": hospitalNo,
@@ -75,16 +77,48 @@ class UserImageViewModel extends ChangeNotifier {
         print(response.reasonPhrase);
       }
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong!!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 12.0);
+      // Fluttertoast.showToast(
+      //     msg: "Check Network Connection!!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 12.0);
     }
   }
 
+  Future<void> updateProfile2(File image, String userId, String name, String email, String number,String address, String birthDate,String gender, String blood, String hospitalNumber, String regDate) async {
+    if(gender=="Male"){
+      gender="M";
+    }
+    if(gender=="Female"){
+      gender="F";
+    }
+    DateTime tempDate =  DateFormat("yyyy-MM-dd").parse(regDate);
+    String registrationDate = DateFormat("yyyy-MM-dd").format(tempDate);
+    var headers = {
+      'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
+    };
+    var request = http.MultipartRequest('PUT', Uri.parse('${Urls.buildUrl}diagnostic-api/api/opd-registration/update-with-image'));
+    request.fields.addAll({
+      'reqobj':  json.encode({"opdReg":{"id":userId,"fname":name,"dob":birthDate,"gender":gender,"phoneMobile":number,"email":email,"address":address,"bloodGroup":blood,"hospitalNumber":hospitalNumber,"regDate":registrationDate,"organizationNo":1}})
+    });
+    request.files.add(await http.MultipartFile.fromPath('file', image.path,
+        filename: basename(image.path)));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    try{
+      if (response.statusCode == 200) {
+        var res= await response.stream.bytesToString();
+        notifyListeners();
+      }
+      else {
+      }
+    }catch(e){
+    }
+
+
+  }
   Future<void> userImage() async {
     var headers = {
       'Authorization':
@@ -94,28 +128,59 @@ class UserImageViewModel extends ChangeNotifier {
     var request = http.Request(
         'GET',
         Uri.parse(
-            'https://qa.myhealthbd.com:9096/auth-api/api/coreUser/user-details'));
+            '${Urls.buildUrl}auth-api/api/coreUser/user-details'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {
       if (response.statusCode == 200) {
         var res = await response.stream.bytesToString();
-        print(res);
+        print("shakil ${res}");
         UserImageModel data = userImageModelFromJson(res);
         _details = data.obj;
+        print("details $_details");
         notifyListeners();
       } else {}
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong!!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 12.0);
+      // Fluttertoast.showToast(
+      //     msg: "Check Network Connection!!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 12.0);
     }
   }
+  Future<void> switchImage(var accessToken) async {
+    //_switchDetails=null;
+    var headers = {
+      'Authorization':
+      'Bearer $accessToken'
+    };
 
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            '${Urls.buildUrl}auth-api/api/coreUser/user-details'));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    try {
+      if (response.statusCode == 200) {
+        var res = await response.stream.bytesToString();
+        print( "shakil" + res);
+        UserImageModel data = userImageModelFromJson(res);
+        _switchDetails = data.obj;
+        notifyListeners();
+      } else {}
+    } catch (e) {
+      // Fluttertoast.showToast(
+      //     msg: "Check Network Connection!!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 12.0);
+    }
+  }
   AppError get appError => _appError;
 
   bool get isFetchingData => _isFetchingData;
@@ -123,6 +188,7 @@ class UserImageViewModel extends ChangeNotifier {
   bool get isFetchingMoreData => _isFetchingMoreData;
 
   Obj get details => _details;
+  Obj get switchDetails => _switchDetails;
 
   String get resStatusCode => _resStatusCode;
 }

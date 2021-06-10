@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
@@ -9,45 +7,41 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 
-class NewsRepository{
-  Future<Either<AppError,NewsListM>> fetchNewspdate() async {
+class NewsRepository {
+  Future<Either<AppError, NewsListM>> fetchNewspdate() async {
     var url =
         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1";
     // List<Item> dataList = new List<Item>();
 
-    try{
+    try {
       var client = http.Client();
-      var response = await client.get(url);
+      var response = await client.get(Uri.parse(url));
       if (response.statusCode == 200) {
-        NewsUpdatedModel data = newsUpdatedModelFromJson(response.body) ;
+        NewsUpdatedModel data = newsUpdatedModelFromJson(response.body);
         print('Dataaaaaaa::::::: ' + data.items[1].title);
         // return data;
 
-        return Right(
-            NewsListM(
-              dataList: data.items,
-            )
-
-        );
+        return Right(NewsListM(
+          dataList: data.items,
+        ));
         //print(data[0]['companySlogan']);
-      }else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+      } else {
+        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
-    }on SocketException catch (e){
+    } on SocketException catch (e) {
       //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
-    }catch (e) {
+    } catch (e) {
       //logger.e(e);
-      BotToast.showText(text: StringResources.somethingIsWrong);
+      //BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
-
   }
 }
 
-class NewsListM{
+class NewsListM {
   List<Item> dataList = new List<Item>();
   NewsListM({this.dataList});
 }

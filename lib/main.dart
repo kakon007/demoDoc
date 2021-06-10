@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
@@ -9,13 +10,22 @@ import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/nearest_appointment_card_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/document_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/file_type_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/report_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/search_doctor_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/shared_file_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/view_document_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/registered_member_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
@@ -27,7 +37,8 @@ import 'features/auth/view_model/auth_view_model.dart';
 import 'features/auth/view_model/sign_out_view_model.dart';
 import 'features/auth/view_model/sign_up_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
-import 'features/hospitals/models/company_logo_model.dart';
+import 'features/user_profile/view_model/family_members_view_model.dart';
+import 'features/user_profile/view_model/relationship_view_model.dart';
 import 'features/user_profile/view_model/user_image_view_model.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,11 +84,25 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<AppointmentPreviousViewModel>(create: (context) =>  AppointmentPreviousViewModel()),
       ChangeNotifierProvider<ZoomViewModel>(create: (context) =>  ZoomViewModel()),
       ChangeNotifierProvider<UserImageViewModel>(create: (context) =>  UserImageViewModel()),
+      ChangeNotifierProvider<RelationShipViewModel>(create: (context) =>  RelationShipViewModel()),
+      ChangeNotifierProvider<RegisteredMemberViewModel>(create: (context) =>  RegisteredMemberViewModel()),
+       ChangeNotifierProvider<FamilyMembersListViewModel>(create: (context) =>  FamilyMembersListViewModel()),
+
+      ChangeNotifierProvider<ReportViewModel>(create: (context) =>  ReportViewModel()),
+      ChangeNotifierProvider<DocumentViewModel>(create: (context) =>  DocumentViewModel()),
+      ChangeNotifierProvider<FileTypeViewModel>(create: (context) =>  FileTypeViewModel()),
+      ChangeNotifierProvider<UploadDocumentsViewModel>(create: (context) =>  UploadDocumentsViewModel()),
+      ChangeNotifierProvider<ViewDocumentViewModel>(create: (context) =>  ViewDocumentViewModel()),
+      ChangeNotifierProvider<NearestAppointmentViewModel>(create: (context) =>  NearestAppointmentViewModel()),
+      ChangeNotifierProvider<SharedFileViewModel>(create: (context) =>  SharedFileViewModel()),
+      ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) =>  SearchDoctorViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(
         providers: providers,
         child: MaterialApp(
+          builder: BotToastInit(),
+             navigatorObservers: [BotToastNavigatorObserver()],
              navigatorKey: appNavigator.navigatorKey,
             debugShowCheckedModeBanner: false,
             home: Root()),

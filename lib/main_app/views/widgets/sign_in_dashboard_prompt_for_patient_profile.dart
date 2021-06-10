@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class SignInDashboardForPatientPrompt extends StatefulWidget {
   String title;
@@ -37,17 +38,18 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
   }
   @override
   Widget build(BuildContext context) {
-    print( MediaQuery.of(context).size.height);
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     final Widget appoinIcon = SvgPicture.asset(
       "assets/icons/new_pro.svg",
-      width: 50,
-      height:MediaQuery.of(context).size.height>650 ? 210 : MediaQuery.of(context).size.height<550? 160 :  180,
+      width: isTablet ? 70 : 50,
+      height: isTablet ? 250 : MediaQuery.of(context).size.height>650 ? 210 : MediaQuery.of(context).size.height<550? 160 :  180,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
-
     return Scaffold(
       appBar: AppBar(
         //title: Text('Appointments'),
@@ -56,67 +58,25 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
       ),
       body: Center(
         child: Container(
-          child: Padding(
-            padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height<=600 ? 30: 70.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right:20.0),
-                  child: Container(
-                      width: 250,
-                      height:MediaQuery.of(context).size.height>600 ? 70 : MediaQuery.of(context).size.height<550? 60 :  70,
-                      child: Image.asset(
-                          "assets/images/my_health_logo.png")),
-                ),
-                SizedBox(height: 10,),
-                appoinIcon,
-                SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10,),
-                Text('Want to access your Prescriptions?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize:MediaQuery.of(context).size.height<=600 ? 13 : 16,fontWeight: FontWeight.w500),),
-                SizedBox(height:MediaQuery.of(context).size.height>600 ? 20 :10,),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: Duration(seconds: 1),
-                          transitionsBuilder: (context, animation,
-                              secondaryAnimation, child) {
-                            var begin = Offset(0, 1.0);
-                            var end = Offset.zero;
-                            var curve = Curves.easeInOut;
-
-                            var tween = Tween(
-                                begin: begin, end: end)
-                                .chain(CurveTween(curve: curve));
-
-                            return SlideTransition(
-                              position: animation.drive(tween),
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (context, animation,
-                              secondaryAnimation) =>
-                              SignIn(),
-                        ));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8),
-                    child: Material(
-                      elevation: 0  ,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      color: HexColor("#354291"),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width*.85,
-                        height :MediaQuery.of(context).size.height>600 ? 50 : MediaQuery.of(context).size.height<550? 35 :  40,
-                        child: Center(
-                          child: Text("Sign In",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10),
-                GestureDetector(   onTap: (){
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right:20.0),
+                child: Container(
+                    width: 250,
+                    height: isTablet ? 90 : MediaQuery.of(context).size.height>600 ? 70 : MediaQuery.of(context).size.height<550? 60 :  70,
+                    child: Image.asset(
+                        "assets/images/my_health_logo.png")),
+              ),
+              SizedBox(height: 10,),
+              appoinIcon,
+              SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10,),
+              Text('Want to access your Prescriptions?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize: isTablet ? 20 :  MediaQuery.of(context).size.height<=600 ? 13 : 16 ,fontWeight: FontWeight.w500),),
+              SizedBox(height:isTablet? 25  : MediaQuery.of(context).size.height>600 ? 20 :10,),
+              GestureDetector(
+                onTap: (){
                   Navigator.push(
                       context,
                       PageRouteBuilder(
@@ -138,13 +98,54 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
                         },
                         pageBuilder: (context, animation,
                             secondaryAnimation) =>
-                            SignUp(),
+                            SignIn(),
                       ));
-                },child: Text("Sign Up",style:  GoogleFonts.poppins(color: HexColor('#8592E5'),fontSize: 12,fontWeight: FontWeight.w600),)),
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8),
+                  child: Material(
+                    elevation: 0  ,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    color: HexColor("#354291"),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width*.85,
+                      height : isTablet ? 60 : MediaQuery.of(context).size.height>600 ? 50 : MediaQuery.of(context).size.height<550? 35 :  40,
+                      child: Center(
+                        child: Text("Sign In",style:  GoogleFonts.poppins(color: Colors.white,fontSize: isTablet? 18 : 12,fontWeight: FontWeight.w600),),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: isTablet? 25 :  MediaQuery.of(context).size.height>600 ? 20 : 10),
+              GestureDetector(   onTap: (){
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      transitionDuration: Duration(seconds: 1),
+                      transitionsBuilder: (context, animation,
+                          secondaryAnimation, child) {
+                        var begin = Offset(0, 1.0);
+                        var end = Offset.zero;
+                        var curve = Curves.easeInOut;
+
+                        var tween = Tween(
+                            begin: begin, end: end)
+                            .chain(CurveTween(curve: curve));
+
+                        return SlideTransition(
+                          position: animation.drive(tween),
+                          child: child,
+                        );
+                      },
+                      pageBuilder: (context, animation,
+                          secondaryAnimation) =>
+                          SignUp(),
+                    ));
+              },child: Text("Sign Up",style:  GoogleFonts.poppins(color: HexColor('#8592E5'),fontSize: isTablet? 18  : 12,fontWeight: FontWeight.w600),)),
 
 
-              ],
-            ),
+            ],
           ),
         ),
       ),
@@ -266,20 +267,6 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
-
-            Positioned(
-              top: MediaQuery.of(context).size.height/1.5,
-              left:100,
-              right:100,
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: Constants.avatarRadius,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                    child: Image.asset("assets/icons/sign_in_prompt.png")
                 ),
               ),
             ),

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart
 import 'package:myhealthbd_app/features/dashboard/view/widgets/manage_account_prompt.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view_model/nearest_appointment_card_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/custom_blog_widget.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
@@ -23,7 +25,7 @@ import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dar
     as hos;
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';
@@ -44,6 +46,7 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
@@ -57,18 +60,24 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+
 
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
   String accessToken;
   final Function onTapFeaturedCompany;
+  final Function onTapFeaturedAppointment;
+
 
   DashboardScreen(
       {this.menuCallBack,
       this.isDrawerOpen,
       this.accessToken,
-      this.onTapFeaturedCompany});
+      this.onTapFeaturedCompany,
+      this.onTapFeaturedAppointment
+      });
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -83,7 +92,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     topLeft: Radius.circular(25.0),
     topRight: Radius.circular(25.0),
   );
-
+  //CountdownTimerController controller;
   double xOffset = 0.0;
   double yOffset = 0.0;
   double scaleFactor = 1;
@@ -98,13 +107,31 @@ class _DashboardScreenState extends State<DashboardScreen>
     return _bytesImage;
   }
 
+  var lasTtimerr;
+
+  lastTme() async{
+
+    SharedPreferences lastTimer=await SharedPreferences.getInstance();
+
+    if(lastTimer.containsKey('lastBookingTime')){
+      lasTtimerr=lastTimer.getInt('lastBookingTime');
+      print('lasttttt'+lasTtimerr.toString());
+    }
+
+  }
+
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
-      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
-    });
-
-    // TODO: implement initState
+    var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: false);
+    if(accessTokenVm.accessToken!=null){
+      Future.delayed(Duration.zero, () async {
+        await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+        var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+        await vm19.getData();
+        var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
+        await vm9.getData(vm19.userDetailsList.hospitalNumber);
+      });
+    }
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
@@ -123,6 +150,10 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
 
+
+    lastTme();
+   // controller = CountdownTimerController(endTime: lasTtimerr!=null?lasTtimerr:DateTime.now().millisecondsSinceEpoch);
+
     super.initState();
   }
 
@@ -130,12 +161,16 @@ class _DashboardScreenState extends State<DashboardScreen>
   // void dispose() {
   //   // TODO: implement dispose
   //   //fetchHospitalList();
+  //   controller.dispose();
   //   super.dispose();
   // }
 
   @override
   Widget build(BuildContext context) {
-    var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
+    var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: true);
     var vm = appNavigator.getProviderListener<HospitalListViewModel>();
     List<hos.Item> list = vm.hospitalList;
     var lengthofHospitalList;
@@ -145,6 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 
     var vm2 = Provider.of<NewsViewModel>(context);
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
+    var vm15 = Provider.of<NearestAppointmentViewModel>(context, listen: true);
     var photo = vm10.details?.photo ?? "";
     List<news.Item> list2 = vm2.newsList;
     var lengthofNewsList = list2.length;
@@ -152,6 +188,9 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm3 = Provider.of<VideoViewModel>(context);
     List<video.Item> list3 = vm3.videoList;
     var lengthofVideoList = list3.length;
+
+
+    var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
     // MediaQuery.of(context).size.width > 600
     //     ? lengthofVideoList = list3.length < 5 ? list3.length : 6
     //     : lengthofVideoList = list3.length < 5 ? list3.length : 5;
@@ -166,6 +205,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm7 = Provider.of<NewsLogoViewModel>(context);
     var vm8 = Provider.of<BLogLogoViewModel>(context);
 
+
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
 
@@ -174,7 +214,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     final String assetName1 = "assets/icons/sign_in.svg";
     final Widget svg = SvgPicture.asset(
       assetName1,
-      width: 8,
+      width: 9,
       height: 15,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
@@ -214,60 +254,60 @@ class _DashboardScreenState extends State<DashboardScreen>
               widget.isDrawerOpen
                   ? this._backgroundImage()
                   : this._backgroundImage2(),
-              Padding(
-                padding: const EdgeInsets.only(top: 80.0, left: 70),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "20 Health tips",
-                      style: GoogleFonts.poppins(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 1,
-                    ),
-                    Text(
-                      "to help you start off towards \nhealthy living in 2021",
-                      style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      width: 90,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10.0, left: 10),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Read More",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.white, fontSize: 8),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward,
-                              size: 10,
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 80.0, left: 70),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         "20 Health tips",
+              //         style: GoogleFonts.poppins(
+              //             fontSize: 25,
+              //             color: Colors.white,
+              //             fontWeight: FontWeight.bold),
+              //       ),
+              //       SizedBox(
+              //         height: 1,
+              //       ),
+              //       Text(
+              //         "to help you start off towards \nhealthy living in 2021",
+              //         style: GoogleFonts.poppins(
+              //             fontSize: 10,
+              //             color: Colors.white,
+              //             fontWeight: FontWeight.w500),
+              //       ),
+              //       SizedBox(
+              //         height: 8,
+              //       ),
+              //       Container(
+              //         width: 90,
+              //         height: 20,
+              //         decoration: BoxDecoration(
+              //           border: Border.all(color: Colors.white),
+              //           borderRadius: BorderRadius.circular(30),
+              //         ),
+              //         child: Padding(
+              //           padding: const EdgeInsets.only(right: 10.0, left: 10),
+              //           child: Row(
+              //             children: [
+              //               Text(
+              //                 "Read More",
+              //                 style: GoogleFonts.poppins(
+              //                     color: Colors.white, fontSize: 8),
+              //               ),
+              //               Spacer(),
+              //               Icon(
+              //                 Icons.arrow_forward,
+              //                 size: 10,
+              //                 color: Colors.white,
+              //               )
+              //             ],
+              //           ),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
               Scaffold(
                 resizeToAvoidBottomInset: false,
                 key: _scaffoldKey,
@@ -277,14 +317,14 @@ class _DashboardScreenState extends State<DashboardScreen>
                   //     height: 10,
                   //     child: svg),
                   title:  Text(
-                    StringResources.dasboardAppBarText,
+                   vm19.userDetailsList==null?StringResources.dasboardAppBarText:'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
                     style: GoogleFonts.poppins(
-                        fontSize: 15, fontWeight: FontWeight.w600),
+                        fontSize: isTablet? 18 : deviceWidth<=320 ? 13 : 15, fontWeight: FontWeight.w600),
                   ),
                   actions: [
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: vm9.accessToken == null
+                      child: accessTokenVm.accessToken == null
                           ? GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -317,7 +357,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     StringResources.dasboardAppBarSignInText,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 10),
+                                        fontSize: 12),
                                   ),
                                   SizedBox(
                                     width: 3,
@@ -341,27 +381,27 @@ class _DashboardScreenState extends State<DashboardScreen>
                               child: photo != ""
                                   ? Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: AppTheme.appbarPrimary),
+                                    border: Border.all(color: Colors.white),
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height: 35,
-                                  width: 35,
+                                  height: isTablet? 40 :  deviceWidth<=330 ? 30 : 35,
+                                  width: isTablet? 40 : deviceWidth<=330 ? 30 : 35,
                                   child: Center(
-                                      child: vm10.loadProfileImage(photo, 33.5, 35,50)
+                                      child: vm10.loadProfileImage(photo, deviceWidth<=330 ? 28.5 :33.5, deviceWidth<=330 ? 30 :35,50)
                                   ))
                                   : Container(
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: 32,
-                                      width: 32,
+                                      height:isTablet? 32 : deviceWidth<=330 ? 27 :32,
+                                      width: isTablet? 32 : deviceWidth<=330 ? 27 :32,
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height: 22,
-                                          width: 22,
+                                          height: isTablet? 22 :deviceWidth<=330 ? 18 :22,
+                                          width: isTablet? 22 :deviceWidth<=330 ? 18 : 22,
                                         ),
                                       )),
                             ),
@@ -406,9 +446,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     //       ),
                     //     ]),
 
-                    initialChildSize: 0.83,
+                    initialChildSize: isTablet? .815 : 0.79,
                     maxChildSize: 1.0,
-                    minChildSize: 0.83,
+                    minChildSize: isTablet? .815 : 0.79,
                     builder: (BuildContext context,
                         ScrollController scrollController) {
                       return Column(
@@ -449,17 +489,17 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             StringResources
                                                 .esayDoctorAppointmentText,
                                             style: GoogleFonts.poppins(
-                                                fontSize: 17,
+                                                fontSize: isTablet? 18 : deviceWidth<330 ?  16 : 17,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Spacer(),
                                           Container(
-                                              width: MediaQuery.of(context)
+                                              width: isTablet? 110 :MediaQuery.of(context)
                                                           .size
                                                           .width <=
-                                                      450
-                                                  ? 70
-                                                  : 100,
+                                                      330
+                                                  ? 60
+                                                  : 85,
                                               child: Image.asset(
                                                   "assets/images/my_health_logo.png")),
                                         ],
@@ -522,17 +562,22 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 15,
                                     ),
-                                    vm9.accessToken == null
+                                    accessTokenVm.accessToken == null || vm15.nearestAppointmentDetails==null
                                         ? Container()
                                         : CustomCardPat(
-                                            "You have an upcoming appointment",
-                                            "22-02-2021 Monday 08:30pm \nSerial-12",
-                                            "Dr. Jahid Hasan",
-                                            "Alok hospital"),
+                                      titleText: isTablet? "You have an upcoming appointment.":"You have an \nupcoming appointment.",
+                                      subTitleText:  vm15.nearestAppointmentDetails==null?'Loading':DateUtil().formattedDate(DateTime.parse(vm15.nearestAppointmentDetails.startTime).toLocal()),
+                                      serial: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.slotSl.toString(),
+                                      countText: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.doctorName,
+                                      name:   vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.companyName,
+                                     lastTime:vm15.nearestAppointmentDetails==null?DateTime.now().millisecondsSinceEpoch:DateTime.parse(vm15.nearestAppointmentDetails.startTime).millisecondsSinceEpoch,
+                                      onTapFeaturedAppointment: widget.onTapFeaturedAppointment,
+                                      //controller
+                                    ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 15,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -543,7 +588,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             StringResources
                                                 .hospitalDiagnosticsText,
                                             style: GoogleFonts.poppins(
-                                                fontSize: 16,
+                                                fontSize: isTablet? 18 : MediaQuery.of(context)
+                                                    .size
+                                                    .width <=
+                                                    450
+                                                    ? 14
+                                                    : 16,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Spacer(),
@@ -559,7 +609,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -677,7 +727,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD News",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -700,7 +750,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -806,7 +856,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD Blog",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -829,7 +879,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -909,7 +959,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD Videos",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -932,7 +982,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               StringResources.viewAllText,
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#8592E5"),
-                                                  fontSize: 11,
+                                                  fontSize: isTablet? 15 : 11,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
@@ -986,8 +1036,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                       list3[index]
                                                           .snippet
                                                           .thumbnails
-                                                          .standard
-                                                          .url,
+                                                          .standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png': list3[index]
+                                                          .snippet
+                                                          .thumbnails
+                                                          .standard.url,
                                                       list3[index]
                                                           .snippet
                                                           .title,
@@ -1060,10 +1112,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
-            image: AssetImage("assets/images/dashboard_back.png"),
+            image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: 418.0,
+      height: 250.0,
       //width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
@@ -1083,10 +1135,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         color: Colors.white,
         //borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
-            image: AssetImage("assets/images/dashboard_back.png"),
+            image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: 300.0,
+      height: 250.0,
       // width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
@@ -1106,10 +1158,18 @@ class _DashboardScreenState extends State<DashboardScreen>
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd';
+  static const DATE_FORMAT = 'yyyy-MM-dd   hh:mm a';
 
   String formattedDate(DateTime dateTime) {
     //print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }
+
+// class TimeUtil {
+//   static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+//   String formattedDate(DateTime dateTime) {
+//     print('dateTime ($dateTime)');
+//     return DateFormat(DATE_FORMAT).format(dateTime);
+//   }
+// }

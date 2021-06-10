@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/change_password_text_fileld.dart';
@@ -46,16 +47,20 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var changePassViewModel = Provider.of<PasswordChangeViewModel>(context);
-
     var width = MediaQuery.of(context).size.width * 0.44;
     var currentPassword = SignUpFormField(
-      topPadding: 18,
+      topPadding: isTablet? 25 :18,
       controller: _currentPassword,
       validator: Validator().nullFieldValidate,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Current Password",
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       hintText: "Current password",
       suffixIcon: IconButton(
         icon: isCurrentObSecure == true
@@ -76,8 +81,10 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
       obSecure: isCurrentObSecure,
     );
     var newPassword = SignUpFormField(
-      topPadding: 18,
+      topPadding: isTablet? 25 : 18,
       controller: _newPassword,
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().nullFieldValidate,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
@@ -102,12 +109,14 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
       obSecure: isNewObSecure,
     );
     var confirmPassword = SignUpFormField(
-      topPadding: 18,
+      topPadding: isTablet? 25 :18,
       controller: _confirmPassword,
       validator: (v) {
         return Validator().validateConfirmPassword(
             _newPassword.text, v);
       },
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 18 : 15,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Confirm Password",
@@ -138,7 +147,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
         child: Center(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            constraints: BoxConstraints(maxWidth: 400, maxHeight: !isExpanded ? width * 2.3 : width*2.6),
+            constraints: BoxConstraints(maxWidth: isTablet ? 500 : 400, maxHeight: !isExpanded ? isTablet? 420 : 380 : isTablet ? 460 : 420),
             child: Material(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -146,7 +155,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
@@ -161,7 +170,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                 'Change Password',
                                 style: GoogleFonts.poppins(
                                     color: AppTheme.appbarPrimary,
-                                    fontSize: 15.0,
+                                    fontSize: isTablet? 18 : 15.0,
                                     fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.center,
                               ),
@@ -172,10 +181,11 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0, right: 10),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left:12.0, right: 10),
+                              padding: const EdgeInsets.only(left:12.0, right: 12),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 currentPassword,
@@ -186,14 +196,14 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 22.0, right: 22, top: 5),
+                                  left: 12.0, right: 12, top: 5),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: width * .8,
-                                    height: width * .25,
+                                    width: isTablet? 200 : width * .8,
+                                    height: isTablet ? 50 : width * .25,
                                     child: FlatButton(
                                       onPressed: () {
                                         Navigator.pop(context);
@@ -214,8 +224,8 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                   ),
                                   SizedBox(width: 5,),
                                   SizedBox(
-                                    width: width * .8,
-                                    height: width * .25,
+                                    width: isTablet? 200 : width * .8,
+                                    height: isTablet ? 50 : width * .25,
                                     child: FlatButton(
                                       textColor: Colors.white,
                                       onPressed: () async {
@@ -237,6 +247,8 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                                 .getInstance();
                                             prefs.setString(
                                                 "password", _newPassword.text);
+                                            prefs.setString(
+                                                "passwordRemember", _newPassword.text);
                                             Navigator.pop(context);
                                             showAlert(context,
                                                 changePassViewModel.message);

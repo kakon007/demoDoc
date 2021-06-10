@@ -1,16 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'doctor/features/dashboard/view/doctor_home_screen.dart';
 import 'features/auth/view_model/app_navigator.dart';
 import 'features/auth/view_model/auth_view_model.dart';
 import 'main_app/util/app_version.dart';
-
+import 'package:data_connection_checker/data_connection_checker.dart';
 class Root extends StatefulWidget {
 
   Root();
@@ -25,30 +27,35 @@ class _RootState extends State<Root> {
   void initState() {
 
     Future.delayed(Duration.zero,()async{
-      SharedPreferences prefs =
-      await SharedPreferences.getInstance();
-      _username= prefs.getString("username");
-      _passWord= prefs.getString("password");
-       var vm5= Provider.of<AuthViewModel>(context, listen: false);
-      await vm5.getAuthData(_username, _passWord);
       var accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
-      if(accessToken!= null && vm5.accessToken!= accessToken){
-         appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
-         accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
+      bool connection = await DataConnectionChecker().hasConnection;
+      if(connection){
+        SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+        _username= prefs.getString("username");
+        _passWord= prefs.getString("password");
+        var vm5= Provider.of<AuthViewModel>(context, listen: false);
+        await vm5.getAuthData(_username, _passWord);
+        if(accessToken!= null && vm5.accessToken!= accessToken){
+          appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+          accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
+        }
+        Future.delayed(Duration(microseconds: 500));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) =>
+            // DoctorHomeScreen(
+            HomeScreen(accessToken: accessToken,connection: connection,
+            )));
       }
-      await Future.delayed(Duration(seconds: 3));
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) =>
-          // DoctorHomeScreen(
-          HomeScreen(accessToken: accessToken
-
-          )));
-
-      // SharedPreferences prefs =
-      // await SharedPreferences.getInstance();
-      // prefs.setString("accessToken", vm5.accessToken);
-      // if(accessToken!= null && vm5.accessToken!= accessToken)
-      //   accessToken= vm5.accessToken;
+      else{
+        Future.delayed(const Duration(milliseconds: 2000), () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) =>
+              // DoctorHomeScreen(
+              HomeScreen(accessToken: accessToken, connection: connection
+              )));
+        });
+      }
     });
 
     super.initState();
@@ -56,7 +63,9 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var myHealthLogo = Image.asset(
       kMyHealthLogo,
       fit: BoxFit.cover,
@@ -80,13 +89,13 @@ class _RootState extends State<Root> {
               SizedBox(),
               Container(
                   child: Center(
-                  child: Container(
-                    height: 420,
-                    child: Image.asset(kMyHealthLogo,
-                      fit: BoxFit.cover,
+                    child: Container(
+                      height: isTablet? 650 : 420,
+                      child: Image.asset(kMyHealthLogo,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                    )),
+                  )),
               //  appLogoText,
               SizedBox(),
 

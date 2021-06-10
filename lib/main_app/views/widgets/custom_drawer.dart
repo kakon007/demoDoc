@@ -36,22 +36,20 @@ class _DrawerScreenState extends State<DrawerScreen> {
     "Dashboard",
     "Appointments",
     "Prescriptions",
-    "Reports",
-    "Documents",
-    "Notifications",
-    "Settings",
+    // "Reports",
+    // "Documents",
     "Family Members",
     "Switch Account",
+    "More",
   ];
 
   List<String> menuItem2=[
     "Dashboard",
     "Appointments",
     "Prescriptions",
-    "Reports",
-    "Documents",
-    "Notifications",
-    "Settings",
+    // "Reports",
+    // "Documents",
+    "More",
   ];
 
   Widget buildMenuRow(int index){
@@ -145,7 +143,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
+                    padding: const EdgeInsets.only(left: 10.0),
                     child:   photo != ""
                         ? Container(
                         decoration: BoxDecoration(

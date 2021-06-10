@@ -9,12 +9,17 @@ import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 
 class HospitalScreen extends StatefulWidget {
+  //bool isNotNave;
+  FocusNode f1;
+  HospitalScreen({this.f1});
   @override
   _HospitalScreenState createState() => _HospitalScreenState();
 }
@@ -83,13 +88,19 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var searchField = SignUpFormField(
+      focusNode: widget.f1,
       onChanged: (value) {
         hospitalSearch(value);
         // print(value);
       },
       controller: hospitalController,
       borderRadius: 30,
+      minimizeBottomPadding: true,
+      hintSize : isTablet? 17 : 15,
       hintText: StringResources.searchBoxHint,
       suffixIcon: Padding(
         padding: const EdgeInsets.only(right: 20.0),
@@ -110,7 +121,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         backgroundColor: AppTheme.appbarPrimary,
         title: Text(
           StringResources.hospitalListAppbar,
-          style: GoogleFonts.poppins(fontSize: 15),
+          style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15),
         ),
         actions: <Widget>[
           accessToken != null
@@ -131,14 +142,14 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           SizedBox(
             width: 10,
           ),
-          IconButton(
-            icon: Icon(
-              Icons.notifications,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () {},
-          )
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.notifications,
+          //     color: Colors.white,
+          //     size: 20,
+          //   ),
+          //   onPressed: () {},
+          // )
         ],
       ),
       body: RefreshIndicator(
@@ -147,16 +158,12 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
               .refresh();
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          padding: EdgeInsets.only(left: isTablet? 18 : 8.0, right: isTablet? 18 : 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               searchField,
-              vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Center(child: Center(
-                child: CircularProgressIndicator(  valueColor:
-                AlwaysStoppedAnimation<Color>(
-                    AppTheme.appbarPrimary),),
-              )):  Expanded(
+              vm.shouldShowPageLoader||vm5.shouldShowPageLoader || vm6.shouldShowPageLoaderForImage? Loader():  Expanded(
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: hospitalItems.length,

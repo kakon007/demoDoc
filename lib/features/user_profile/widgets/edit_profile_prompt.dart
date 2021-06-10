@@ -1,13 +1,14 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   final _formKey = new GlobalKey<FormState>();
   DateTime pickBirthDate;
   String abc = "#EAEBED";
-  double maxHeight=588;
+  double maxHeight;
+
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -57,7 +59,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   String _selectedBlood;
   String genderColor = "#EAEBED";
   String bloodBorderColor = "#EAEBED";
-
   @override
   void initState() {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
@@ -81,21 +82,27 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
         ? vm.userDetailsList.gender == "M"
             ? "Male"
             : "Female"
-        : _selectedBlood;
+        : _selectedGender;
     // _selectedGender= vm.userDetailsList.gender!=null? vm.userDetailsList.gender : _selectedGender;
     // TODO: implement initState
     super.initState();
   }
-
+  //File _image;
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
+    maxHeight = isTablet? 665 : 588;
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var userId = vm.userDetailsList.id;
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;
     var width = MediaQuery.of(context).size.width * 0.44;
-    var name = CustomTextFieldRounded(
+    var name = SignUpFormField(
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().nullFieldValidate,
       labelText: "Name",
       isRequired: true,
@@ -106,7 +113,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Name',
     );
-    var email = CustomTextFieldRounded(
+    var email = SignUpFormField(
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().validateEmail,
       labelText: "Email",
       isRequired: true,
@@ -115,7 +124,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Email',
     );
-    var mobile = CustomTextFieldRounded(
+    var mobile = SignUpFormField(
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().validatePhoneNumber,
       labelText: "Mobile",
       isRequired: true,
@@ -124,7 +135,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Mobile',
     );
-    var address = CustomTextFieldRounded(
+    var address = SignUpFormField(
+      labelFontSize: isTablet? 15 : 12,
+      hintSize: isTablet? 17 : 15,
       validator: Validator().nullFieldValidate,
       labelText: "Address",
       isRequired: true,
@@ -133,173 +146,142 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Address',
     );
-
     var gender = Row(
       children: [
-        GestureDetector(
-          child: Column(
-            children: [
-              Container(
-                  height: 35.0,
-                  width: MediaQuery.of(context).size.width * .4,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      children: [
-                        Text(StringResources.gender,
-                            style: GoogleFonts.roboto(fontSize: 12)),
-                        Text(
-                          " *",
-                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
-                        )
-                      ],
-                    ),
-                  )),
-              Container(
-                height: 45.0,
-                width: 135,
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(color: HexColor(genderColor)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: 110,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                iconSize: 0.0,
-                                hint: Text(
-                                  StringResources.gender,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                // Not necessary for Option 1
-                                value: _selectedGender,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedGender = newValue;
-                                  });
-                                },
-                                items: StringResources.genderList.map((gender) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      gender,
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: gender,
-                                  );
-                                }).toList(),
+        Column(
+          children: [
+            Container(
+                height: 20.0,
+                width: isTablet ? width*.6 : width * .9,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Row(
+                    children: [
+                      Text(StringResources.gender,
+                          style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
+                      Text(
+                        " *",
+                        style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12,color: HexColor("#FF5B71")),
+                      )
+                    ],
+                  ),
+                )),
+            Container(
+              height: 50.0,
+              width: isTablet ? width*.6  : width * .9,
+              decoration: BoxDecoration(
+                  border: Border.all(color: HexColor(genderColor)),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: isTablet ? width*.48  : width * .78,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedGender != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                          iconSize:25,
+                          hint: Text(
+                            StringResources.gender,
+                            style: GoogleFonts.roboto(
+                                fontSize: 15, color: HexColor("#D2D2D2")),
+                          ),
+                          value: _selectedGender,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedGender = newValue;
+                            });
+                          },
+                          items: StringResources.genderList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 14),
                               ),
-                            ),
-                          ),
+                              value: gender,
+                            );
+                          }).toList(),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 105.0, top: 5),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
-    var bloodGroup = Row(
+    var bloodGroup = Column(
       children: [
-        GestureDetector(
-          child: Column(
-            children: [
-              Container(
-                  height: 35.0,
-                  width: MediaQuery.of(context).size.width * .4,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      children: [
-                        Text(StringResources.bloodGroup,
-                            style: GoogleFonts.roboto(fontSize: 12)),
-                      ],
-                    ),
-                  )),
-              Container(
-                height: 45.0,
-                width: 135,
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(color: HexColor(bloodBorderColor)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Container(
-                            width: 110,
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                iconSize: 0.0,
-                                hint: Text(
-                                  'Blood Group',
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 15, color: HexColor("#D2D2D2")),
-                                ),
-                                // Not necessary for Option 1
-                                value: _selectedBlood,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _selectedBlood = newValue;
-                                  });
-                                },
-                                items: StringResources.bloodGroupList
-                                    .map((gender) {
-                                  return DropdownMenuItem(
-                                    child: new Text(
-                                      gender,
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                    value: gender,
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 105.0, top: 5),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: HexColor("#D2D2D2"),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+        Container(
+            height: 20.0,
+            width: isTablet ? width*.6 : width * .9,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Row(
+                children: [
+                  Text(StringResources.bloodGroup,
+                      style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
+                  Text(
+                    " *",
+                    style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12,color: HexColor("#FF5B71")),
+                  )
+                ],
               ),
-              bloodBorderColor == "#FF0000"
-                  ? Padding(
-                padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
-                child: Text(
-                  "This Field Is Required",
-                  style: GoogleFonts.poppins(
-                      color: Colors.red, fontSize: 12),
+            )),
+        Container(
+          height: 50.0,
+          width: isTablet ? width*.6  : width * .9,
+          decoration: BoxDecoration(
+              border: Border.all(color: HexColor(bloodBorderColor)),
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 18.0),
+                child: Container(
+                  width: isTablet ? width*.48  : width * .76,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButtonFormField(
+                      icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedBlood != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                      iconSize:25,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          enabledBorder: InputBorder.none),
+                      hint: Text(
+                        'Blood Group',
+                        style: GoogleFonts.roboto(
+                            fontSize: isTablet? 15: 12, color: HexColor("#D2D2D2")),
+                      ),
+                      value: _selectedBlood,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedBlood = newValue;
+                        });
+                      },
+                      items:
+                          StringResources.bloodGroupList.map((blood) {
+                        return DropdownMenuItem(
+                          child: new Text(
+                            blood,
+                            style: GoogleFonts.roboto(fontSize: 14),
+                          ),
+                          value: blood,
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
               )
-                  : SizedBox()
             ],
           ),
         ),
@@ -314,13 +296,13 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             children: [
               Container(
                   height: 20.0,
-                  width: width,
+                  width:  width,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
                       children: [
                         Text(StringResources.dateOfBirth,
-                            style: GoogleFonts.roboto(fontSize: 12)),
+                            style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
                         Text(
                           " *",
                           style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
@@ -330,7 +312,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 48.0,
-                width: MediaQuery.of(context).size.width * 0.84,
+                width: isTablet ? MediaQuery.of(context).size.width*.57 :MediaQuery.of(context).size.width * 0.82,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),
@@ -347,7 +329,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
+                      padding: const EdgeInsets.only(right: 4.0),
                       child: Container(
                           height: 18,
                           child:
@@ -371,7 +353,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
         child: Center(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            constraints: BoxConstraints(maxWidth: 400, maxHeight: maxHeight),
+            constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, maxHeight: maxHeight),
             child: Material(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -393,7 +375,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                 'Edit Personal Info',
                                 style: GoogleFonts.poppins(
                                     color: AppTheme.appbarPrimary,
-                                    fontSize: 15.0,
+                                    fontSize: isTablet? 18 :15.0,
                                     fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.center,
                               ),
@@ -419,13 +401,15 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 0.0, top: 22),
+                              padding:
+                                  const EdgeInsets.only(left: 0.0, top: 22),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: width * .9,
-                                    height: width * .25,
+                                    width: isTablet? 200 : width * .8,
+                                    height: isTablet ? 50 : width * .25,
                                     child: FlatButton(
                                       onPressed: () {
                                         Navigator.pop(context);
@@ -433,23 +417,25 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                       textColor: AppTheme.appbarPrimary,
                                       color: HexColor("#FFFFFF"),
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           side: BorderSide(
                                               color: AppTheme.appbarPrimary,
                                               width: 1)),
                                       child: Text(
                                         StringResources.cancelText,
-                                        style: GoogleFonts.poppins(),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ),
                                       ),
                                     ),
                                   ),
                                   SizedBox(
-                                    width: width * .9,
-                                    height: width * .25,
+                                    width: isTablet? 200 : width * .8,
+                                    height: isTablet ? 50 : width * .25,
                                     child: FlatButton(
                                       textColor: Colors.white,
                                       onPressed: () {
-                                        if (_formKey.currentState.validate() && _selectedBlood!=null) {
+                                        if (_formKey.currentState.validate() &&
+                                            _selectedBlood != null) {
                                           vm.updateProfile(
                                               userId.toString(),
                                               _username.text,
@@ -462,30 +448,26 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                               hospitalNumber,
                                               regDate);
                                           Fluttertoast.showToast(
-                                              msg: "Profile updated successfully!",
+                                              msg:
+                                                  "Profile updated successfully!",
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.BOTTOM,
                                               backgroundColor: Colors.green,
                                               textColor: Colors.white,
                                               fontSize: 16.0);
                                           Navigator.pop(context);
-
-                                        }
-                                        else{
-                                          maxHeight= 650;
-                                          if(_selectedBlood==null){
+                                        } else {
+                                          maxHeight = isTablet? 755 : 650;
+                                          if (_selectedBlood == null) {
                                             setState(() {
-                                              bloodBorderColor="FF0000";
+                                              bloodBorderColor = "FF0000";
                                             });
-
                                           }
-                                          if(_selectedBlood!=null)
-                                            {
-                                              setState(() {
-                                                bloodBorderColor="EAEBED";
-                                              });
-
-                                            }
+                                          if (_selectedBlood != null) {
+                                            setState(() {
+                                              bloodBorderColor = "EAEBED";
+                                            });
+                                          }
                                         }
                                       },
                                       color: AppTheme.appbarPrimary,
@@ -494,7 +476,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                       ),
                                       child: Text(
                                         "Submit",
-                                        style: GoogleFonts.poppins(),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ),
                                       ),
                                     ),
                                   )

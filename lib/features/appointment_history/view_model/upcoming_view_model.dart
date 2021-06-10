@@ -42,13 +42,13 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<bool> getData(String accessToken) async {
+  Future<bool> getData() async {
     print("CalledfromUpcomingList");
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
-   // var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
     var res = await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query:searchQuery,userName: vm.userDetailsList.hospitalNumber);
     notifyListeners();
@@ -62,13 +62,14 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
       _upComingList.addAll(r.dataList);
+      count=r.totalCount;
       print('DataaaaaaaFromUpcominglist:: ' + _upComingList.toString());
       notifyListeners();
       return true;
     });
   }
 
-  getMoreData(String accessToken) async {
+  getMoreData() async {
     print("Calling from AppointmentgetMoreData:::::");
     print("HasMoreData ${hasMoreData}");
     print("isFetchingMoreData ${isFetchingMoreData}");
@@ -77,7 +78,7 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
       startIndex+=limit;
       _pageCount++;
       isFetchingMoreData = true;
-      //var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+      var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
       var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
       Either<AppError, Upcoming> result =
       await AppointmentUpcomingRepository().fetchAppointmentUpcomingHistory(pageCount: _pageCount,accessToken:accessToken,query: searchQuery,startIndex: startIndex,userName: vm.userDetailsList.hospitalNumber);
@@ -103,24 +104,24 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
   Future<bool> refresh(String accessToken) async {
     _pageCount = 1;
     notifyListeners();
-    return getData(accessToken);
+    return getData();
   }
   search(String query,String accessToken) {
     _upComingList.clear();
    // _pageCount = 1;
     searchQuery = query;
     print("Searching for: $query");
-    getData(accessToken);
+    getData();
   }
 
 
   toggleIsInSearchMode(String accessToken) {
     _isInSearchMode = !_isInSearchMode;
-    count = 0;
+    //count = 0;
     resetPageCounter();
     if (!_isInSearchMode) {
       searchQuery = "";
-      getData(accessToken);
+      getData();
     }
     notifyListeners();
   }

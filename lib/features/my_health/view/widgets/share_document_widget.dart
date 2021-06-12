@@ -38,6 +38,8 @@ class _ShareDocumentState extends State<ShareDocument> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController memberSearch = TextEditingController();
   List<Itemm> familyMembers= [];
+  TextEditingController _descriptionTextEditingController = TextEditingController();
+  var _searchFieldFocusNode2 = FocusNode();
 
   String _selectedName;
   String _selectedSharedtype;
@@ -135,8 +137,7 @@ print('Resss:: $doctorNoArr');
   @override
   Widget build(BuildContext context) {
 
-    TextEditingController _descriptionTextEditingController = TextEditingController();
-    var _searchFieldFocusNode2 = FocusNode();
+
 
     var width = MediaQuery.of(context).size.width * 0.44;
     var height = MediaQuery.of(context).size.height;

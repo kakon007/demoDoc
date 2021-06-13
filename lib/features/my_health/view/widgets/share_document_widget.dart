@@ -842,42 +842,45 @@ print('Resss:: $doctorNoArr');
                   //   ),
                   // ),
 
-                  GestureDetector(
-                    onTap:() async{
-                      var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+                  AbsorbPointer(
+                    absorbing: _selectedSharedtype==null||_selectedName==null||vm2.doctorName==''?true:false,
+                    child: GestureDetector(
+                      onTap:() async{
+                        var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
 SVProgressHUD.show(
   status: "Sharing"
 );
-                   await sharedFile(fileNoArr: vm10.fileNo,regNo: vm10.regId,shareType:_selectedSharedtype=="Share With All"?1:2,doctorNoArr:vm2.doctorNo,note: _descriptionTextEditingController.text);
-                   SVProgressHUD.dismiss();
-                     Future.delayed(Duration.zero, () async {
-                       // setState(() {
-                       //   // file==null && _image==null?Loader():
-                       //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                       //   //     builder: (BuildContext context) =>
-                       //   //     // DoctorHomeScreen(
-                       //   //     HomeScreen(
-                       //   //       accessToken: accessToken,
-                       //   //     )));
-                       //
-                       // });
+                     await sharedFile(fileNoArr: vm10.fileNo,regNo: vm10.regId,shareType:_selectedSharedtype=="Share With All"?1:2,doctorNoArr:vm2.doctorNo,note: _descriptionTextEditingController.text);
+                     SVProgressHUD.dismiss();
+                       Future.delayed(Duration.zero, () async {
+                         // setState(() {
+                         //   // file==null && _image==null?Loader():
+                         //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                         //   //     builder: (BuildContext context) =>
+                         //   //     // DoctorHomeScreen(
+                         //   //     HomeScreen(
+                         //   //       accessToken: accessToken,
+                         //   //     )));
+                         //
+                         // });
 
-                       Navigator.pop(context);
+                         Navigator.pop(context);
 
-                     });
-                   },
-                    child: Material(
-                      elevation: 2  ,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      color:_selectedSharedtype==null||_selectedName==null||vm2.doctorName==''
-                                      ? HexColor("#969EC8")
-                                      : AppTheme.appbarPrimary,
-                      child: SizedBox(
-                        width:
-                              MediaQuery.of(context).size.width*.89,
-                              height: width * .20,
-                        child: Center(
-                          child: Text("Share",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.bold),),
+                       });
+                     },
+                      child: Material(
+                        elevation: 2  ,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        color:_selectedSharedtype==null||_selectedName==null||vm2.doctorName==''
+                                        ? HexColor("#969EC8")
+                                        : AppTheme.appbarPrimary,
+                        child: SizedBox(
+                          width:
+                                MediaQuery.of(context).size.width*.89,
+                                height: width * .20,
+                          child: Center(
+                            child: Text("Share",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.bold),),
+                          ),
                         ),
                       ),
                     ),
@@ -964,14 +967,19 @@ SVProgressHUD.show(
                                     SizedBox(
                                     height: 7,
                                   ),
-                                  Text(
-                                      vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
-                                  style: GoogleFonts
-                                      .poppins(
-                                  fontSize: 12,
-                                  fontWeight:
-                                  FontWeight
-                                  .w500)),
+                                  Container(
+                                    width: 120,
+                                    child: Text(
+                                        vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts
+                                        .poppins(
+                                    fontSize: 12,
+                                    fontWeight:
+                                    FontWeight
+                                    .w500)),
+                                  ),
                               Container(
                                 width: 120,
                                 child: Text(

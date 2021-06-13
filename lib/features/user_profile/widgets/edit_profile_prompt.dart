@@ -146,84 +146,84 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       contentPadding: EdgeInsets.all(15),
       hintText: 'Address',
     );
-    var gender = Row(
+    var gender = Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          children: [
-            Container(
-                height: 20.0,
-                width: isTablet ? width*.6 : width * .9,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Row(
-                    children: [
-                      Text(StringResources.gender,
-                          style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
-                      Text(
-                        " *",
-                        style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12,color: HexColor("#FF5B71")),
-                      )
-                    ],
-                  ),
-                )),
-            Container(
-              height: 50.0,
-              width: isTablet ? width*.6  : width * .9,
-              decoration: BoxDecoration(
-                  border: Border.all(color: HexColor(genderColor)),
-                  borderRadius: BorderRadius.circular(10)),
+        Container(
+            height: 20.0,
+            width: isTablet ? 220 : width * .9,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 15.0),
-                    child: Container(
-                      width: isTablet ? width*.48  : width * .78,
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButtonFormField(
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-
-                              enabledBorder: InputBorder.none),
-                          isExpanded: true,
-                          icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedGender != null  ?  Colors.black54: HexColor("#D2D2D2"),),
-                          iconSize:25,
-                          hint: Text(
-                            StringResources.gender,
-                            style: GoogleFonts.roboto(
-                                fontSize: 15, color: HexColor("#D2D2D2")),
-                          ),
-                          value: _selectedGender,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _selectedGender = newValue;
-                            });
-                          },
-                          items: StringResources.genderList.map((gender) {
-                            return DropdownMenuItem(
-                              child: new Text(
-                                gender,
-                                style: GoogleFonts.roboto(fontSize: 14),
-                              ),
-                              value: gender,
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
+                  Text(StringResources.gender,
+                      style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12)),
+                  Text(
+                    " *",
+                    style: GoogleFonts.roboto(fontSize: isTablet? 15 : 12,color: HexColor("#FF5B71")),
                   )
                 ],
               ),
-            ),
-          ],
+            )),
+        Container(
+          height: 50.0,
+          width: isTablet ? 200  : width * .9,
+          decoration: BoxDecoration(
+              border: Border.all(color: HexColor(genderColor)),
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 15.0),
+                child: Container(
+                  width: isTablet ? 180  : width * .78,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+
+                          enabledBorder: InputBorder.none),
+                      isExpanded: true,
+                      icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedGender != null  ?  Colors.black54: HexColor("#D2D2D2"),),
+                      iconSize:25,
+                      hint: Text(
+                        StringResources.gender,
+                        style: GoogleFonts.roboto(
+                            fontSize: 15, color: HexColor("#D2D2D2")),
+                      ),
+                      value: _selectedGender,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedGender = newValue;
+                        });
+                      },
+                      items: StringResources.genderList.map((gender) {
+                        return DropdownMenuItem(
+                          child: new Text(
+                            gender,
+                            style: GoogleFonts.roboto(fontSize: 14),
+                          ),
+                          value: gender,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ],
     );
     var bloodGroup = Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
             height: 20.0,
-            width: isTablet ? width*.6 : width * .9,
+            width: isTablet ? 200 : width * .9,
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Row(
@@ -239,7 +239,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             )),
         Container(
           height: 50.0,
-          width: isTablet ? width*.6  : width * .9,
+          width: isTablet ? 200 : width * .9,
           decoration: BoxDecoration(
               border: Border.all(color: HexColor(bloodBorderColor)),
               borderRadius: BorderRadius.circular(10)),
@@ -249,7 +249,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               Padding(
                 padding: EdgeInsets.only(left: 18.0),
                 child: Container(
-                  width: isTablet ? width*.48  : width * .76,
+                  width: isTablet ? 180  : width * .76,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
                       icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedBlood != null  ?  Colors.black54: HexColor("#D2D2D2"),),
@@ -296,7 +296,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             children: [
               Container(
                   height: 20.0,
-                  width:  width,
+                  width: 400,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -312,7 +312,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 48.0,
-                width: isTablet ? MediaQuery.of(context).size.width*.57 :MediaQuery.of(context).size.width * 0.82,
+                width: isTablet ? 438:MediaQuery.of(context).size.width * 0.82,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),

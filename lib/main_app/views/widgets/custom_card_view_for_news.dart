@@ -21,10 +21,11 @@ class CustomCardNews extends StatelessWidget {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
+    var width = MediaQuery.of(context).size.width;
     return Container(
       //height: 40,
-      width: isTablet? 340 :300,
-      height: isTablet? 140 :120,
+      width: width<=1250 && width>=1000 ? 380 : width<=999 && width>=650? 340 :300,
+      height:width<=1250 && width>=1000 ? 175 : width<=999 && width>=650? 140 :120,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -33,8 +34,8 @@ class CustomCardNews extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  height: isTablet? 115 : 100,
-                  width: isTablet? 105 : 90,
+                  height: width<=1250 && width>=1000 ? 140 : width<=999 && width>=650?  115 : 100,
+                  width: width<=1250 && width>=1000 ? 110 : width<=999 && width>=650?  105 : 90,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -47,11 +48,11 @@ class CustomCardNews extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 55,
+                      height: width<=1250 && width>=1000 ? 70 : 55,
                       child: Column(children: [
                         Row(
                           children: [
-                            Text(titleText,style: TextStyle(fontSize: isTablet? 12 : 8,fontWeight: FontWeight.bold,color: Colors.grey),textAlign:TextAlign.start),
+                            Text(titleText,style: TextStyle(fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  12 : 8,fontWeight: FontWeight.bold,color: Colors.grey),textAlign:TextAlign.start),
                             Spacer(),
                             // Row(
                             //   children: [
@@ -64,11 +65,11 @@ class CustomCardNews extends StatelessWidget {
                             // ),
                           ],
                         ),
-                        SizedBox(height: 5,),
-                        Text(subTitleText,style: TextStyle(fontSize: isTablet?  12 :11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
+                        SizedBox(height: width<=1250 && width>=1000 ? 10 : 5,),
+                        Text(subTitleText,style: TextStyle(fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?   12 :11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
                       ],),
                     ),
-                    SizedBox(height: isTablet? 15 : 10,),
+                    SizedBox(height: width<=1250 && width>=1000 ? 20 : width<=999 && width>=650?  15 : 10,),
                     InkWell(
                       onTap: (){
                         if (url != null) {
@@ -81,12 +82,12 @@ class CustomCardNews extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: isTablet? 150 : 130,
-                          height: isTablet? 35: 30,
+                          width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 130,
+                          height: width<=1250 && width>=1000 ? 40 : width<=999 && width>=650? 35: 30,
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Read News",style:  GoogleFonts.poppins(color: Colors.white,fontSize: isTablet?  13 :11,fontWeight: FontWeight.w600),),
+                              child: Text("Read News",style:  GoogleFonts.poppins(color: Colors.white,fontSize:  width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  13 :11,fontWeight: FontWeight.w600),),
                             ),
                           ),
                         ),

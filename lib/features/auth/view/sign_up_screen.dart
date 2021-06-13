@@ -79,21 +79,21 @@ class _SignUpState extends State<SignUp> {
     );
     print(pickedDate);
     var name = SignUpFormField(
-      topPadding: isTablet? 30 : 25,
+      topPadding: isTablet? 30 : 18,
       controller: _name,
       validator: Validator().nullFieldValidate,
       margin: EdgeInsets.all(2),
       labelText: "Name",
       isRequired: true,
       labelFontSize: isTablet? 15 : 12 ,
-      hintSize:isTablet? 17 : 15  ,
+      hintSize:isTablet? 17 : 14  ,
       hintText: StringResources.name,
     );
     var email = SignUpFormField(
       topPadding: isTablet? 30 : 25,
       controller: _email,
       validator: Validator().validateEmail,
-      hintSize:isTablet? 17 : 15  ,
+      hintSize:isTablet? 17 : 14  ,
       margin: EdgeInsets.only(bottom: 2),
       labelFontSize: isTablet? 15 : 12 ,
       isRequired: true,
@@ -105,7 +105,7 @@ class _SignUpState extends State<SignUp> {
       controller: _mobile,
       validator: Validator().validatePhoneNumber,
       labelFontSize: isTablet? 15 : 12 ,
-      hintSize:isTablet? 17 : 15  ,
+      hintSize:isTablet? 17 : 14  ,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Mobile",
@@ -128,7 +128,7 @@ class _SignUpState extends State<SignUp> {
       controller: _address,
       validator: Validator().nullFieldValidate,
       labelFontSize: isTablet? 15 : 12 ,
-      hintSize:isTablet? 17 : 15  ,
+      hintSize:isTablet? 17 : 14  ,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Address",

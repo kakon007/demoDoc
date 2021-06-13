@@ -1241,8 +1241,19 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                             },
                                             child: Container(
 
-                                              height: cardHeight*0.8,
-                                              margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                              height: isTablet
+                                                  ? 130
+                                                  : cardHeight * 0.8,
+                                              margin: EdgeInsets.only(
+                                                  top: isTablet ? 8 : 8,
+                                                  bottom:
+                                                  isTablet ? 10 : 5,
+                                                  right: isTablet
+                                                      ? 20
+                                                      : 10,
+                                                  left: isTablet
+                                                      ? 20
+                                                      : 10),
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
                                                   1.0,
@@ -1262,56 +1273,92 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                               child: Padding(
                                                 padding:  EdgeInsets.only(right: 8.0, left: 8),
                                                 child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    CircleAvatar(
-                                                      radius:  31,
-                                                      backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                      child: CircleAvatar(
-                                                        radius:30,
-                                                        backgroundColor: Colors.white,
-                                                        child: Container(
-                                                          height:  45,
-                                                          width: 45,
-                                                          child: Image.asset("assets/icons/dct.png",fit: BoxFit.fill,),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    //SizedBox(width: 5,),
-                                                  Padding(
-                                                    padding:  EdgeInsets.only(left: 15.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 1,
+                                                  Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        radius:  isTablet
+                                                            ? 48
+                                                            : width <= 330
+                                                            ? 25
+                                                            : 31,
+                                                        backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                        child: CircleAvatar(
+                                                          radius: isTablet
+                                                              ? 43
+                                                              : 30,
+                                                          backgroundColor: Colors.white,
                                                           child: Container(
-                                                            alignment: Alignment.center,
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: width<=330 ? 10 : 12),),
-                                                                Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize:width<=330? 8 :  10,fontWeight: FontWeight.w500),),
-                                                              ],
-                                                            ),
+                                                            height: isTablet
+                                                                ? 50
+                                                                : width <= 330
+                                                                ? 30
+                                                                : 45,
+                                                            width: isTablet
+                                                                ? 50
+                                                                : width <= 330
+                                                                ? 30
+                                                                : 45,
+                                                            child: Image.asset("assets/icons/dct.png",fit: BoxFit.fill,),
                                                           ),
                                                         ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Container(
-                                                            alignment: Alignment.center,
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: width<=330? 10 :12,fontWeight: FontWeight.w600))),
-                                                                Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize:width<=330? 8 :10,fontWeight: FontWeight.w600))
-                                                              ],
-                                                            ))),
-                                                        ],
-                                                    ),
+                                                      ),
+                                                      Padding(
+                                                        padding:  EdgeInsets.only(left: isTablet
+                                                            ? 25
+                                                            : 15.0),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: Container(
+                                                                alignment: Alignment.center,
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    Text(list[index].consultationId,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'), fontSize: isTablet
+                                                                        ? 16
+                                                                        : width <= 330
+                                                                        ? 10
+                                                                        : 12),),
+                                                                    Text(DateUtil().formattedDate(DateTime.parse(list[index].consTime).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize:isTablet
+                                                                        ? 14
+                                                                        : width <= 330
+                                                                        ? 8
+                                                                        : 10,fontWeight: FontWeight.w500),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: Container(
+                                                                alignment: Alignment.center,
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    Container(width:MediaQuery.of(context).size.width*.5,child: Text(list[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize:isTablet
+                                                                        ? 16
+                                                                        : width <= 330
+                                                                        ? 10
+                                                                        : 12,fontWeight: FontWeight.w600))),
+                                                                    Text(list[index].ogName,style: GoogleFonts.poppins(color: HexColor('#141D53'),  fontSize: isTablet
+                                                                        ? 14
+                                                                        : width <= 330
+                                                                        ? 8
+                                                                        : 10,fontWeight: FontWeight.w600))
+                                                                  ],
+                                                                ))),
+                                                            ],
+                                                        ),
 
-                                                    ),
+                                                        ),
+                                                    ],
+                                                  ),
                                                     // Container(width:45,child: rx),
                                                     // (controller.isSelecting)?
                                                     // Padding(
@@ -1381,6 +1428,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                               // onTap: showNotification,
                                                               child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
                                                         ),
+                                                        SizedBox(width: isTablet? 15 : 10,),
                                                       ]),
                                                     ),
 

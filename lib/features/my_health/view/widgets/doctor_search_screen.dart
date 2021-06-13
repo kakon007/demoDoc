@@ -16,6 +16,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/registered_membe
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
@@ -80,13 +81,17 @@ class _SearchDoctorState extends State<SearchDoctor> {
     // var vm = Provider.of<RegisteredMemberViewModel>(context, listen: true);
     // var userVm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: true);
     // var imageVm = Provider.of<UserImageViewModel>(appNavigator.context,listen: true);
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm2 = appNavigator.getProviderListener<SearchDoctorViewModel>();
+    var deviceWidth=MediaQuery.of(context).size.width;
     var searchField =Theme(
         data: Theme.of(context).copyWith(
           primaryColor: HexColor("#8592E5"),
         ),
         child: Container(
-          width: MediaQuery.of(context).size.width*.89,
+          width: isTablet? deviceWidth*.96 : deviceWidth*.89,
           height: 50,
           child: TextField(
             textCapitalization: TextCapitalization.characters,
@@ -181,7 +186,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           margin: EdgeInsets.only(top: 5, bottom: 5),
-                          height: 70,
+                          height: isTablet? 85 : 70,
                           child:
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,27 +204,27 @@ class _SearchDoctorState extends State<SearchDoctor> {
                                         //color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: 50,
-                                      width: 50,
+                                      height: isTablet? 55 : deviceWidth<=360 ? 40 : 50,
+                                      width: isTablet? 55 :deviceWidth<=360 ? 40 : 50,
                                       child: Center(
-                                          child: loadProfileImage(photo, 45, 45,50)
+                                          child: loadProfileImage(photo, isTablet? 50 :deviceWidth<=360 ? 35 : 45,  isTablet? 50 : deviceWidth<=360 ? 40 : 45,50)
                                       ))
                                       : Container(
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: 50,
-                                      width: 50,
+                                      height: isTablet? 55 : deviceWidth<=360 ? 40 :50,
+                                      width:  isTablet? 55 :deviceWidth<=360 ? 40 :50,
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height: 40,
-                                          width: 40,
+                                          height: isTablet? 35 :deviceWidth<=360 ? 25 : 30,
+                                          width:  isTablet? 35 :deviceWidth<=360 ? 25 : 30,
                                         ),
                                       )),
                                   SizedBox(
-                                    width: 20,
+                                    width:  deviceWidth<=360 ? 10 : 20,
                                   ),
                                   Column(
                                     crossAxisAlignment:
@@ -227,22 +232,23 @@ class _SearchDoctorState extends State<SearchDoctor> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
-                                        width:220,
+                                        width:isTablet? 300 :deviceWidth<=330? 170:  deviceWidth<=360 ? 200 :220,
                                         child: Text(
                                           familyMembers[index].doctorName,
                                           style: GoogleFonts.poppins(
                                               color: HexColor("#0D1231"),
-                                              fontSize: 16,
+                                              fontSize:  deviceWidth<=360 ? 12 :16,
                                               fontWeight: FontWeight.w500),
                                           maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
-                                        width:220,
+                                        width:isTablet? 300 : deviceWidth<=330? 170:  deviceWidth<=360 && deviceWidth>330 ? 200 :220,
                                         child: Text(
                                           familyMembers[index].companyName,
                                           style: GoogleFonts.poppins(
+                                            fontSize:  deviceWidth<=360 ? 12 : 15,
                                             color: AppTheme.appbarPrimary,),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -277,7 +283,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
                       "Select",
                       style: GoogleFonts.poppins(
                       color: HexColor("#4077BC"),
-                      fontSize: 11,fontWeight: FontWeight.bold),
+                      fontSize: isTablet? 15 :11,fontWeight: FontWeight.bold),
                       ),
                                     ),
                                     // Column(
@@ -298,8 +304,8 @@ class _SearchDoctorState extends State<SearchDoctor> {
                                     decoration: BoxDecoration(
                                         color: HexColor("#D2D9FF"),
                                         borderRadius: BorderRadius.circular(10)),
-                                    width: 50,
-                                    height: 40,
+                                    width: isTablet? 70 : 50,
+                                    height: isTablet? 45 : 40,
                                   ),
                                 ),
                               ),

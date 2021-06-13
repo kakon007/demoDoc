@@ -1390,9 +1390,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                           await  _downloadPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString(),vm.prescriptionList[index].consultationId);
                                                           },
                                                              // onTap: showNotification,
-                                                              child: Icon(Icons.file_download_outlined, color: AppTheme.appbarPrimary,)),
+                                                              child: Icon(Icons.file_download_outlined, color: AppTheme.appbarPrimary,size: isTablet? 25 : width<=330 ? 20 : 15,)),
                                                         ),
-                                                        SizedBox(width: 15,),
+                                                        SizedBox(width: 14),
                                                         Padding(
                                                           padding: EdgeInsets.only(top: 40),
                                                           child: GestureDetector(
@@ -1426,9 +1426,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                               },
                                                               // onTap: showNotification,
-                                                              child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
+                                                              child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,size: isTablet? 25 : width<=330 ? 20 : 15,)),
                                                         ),
-                                                        SizedBox(width: isTablet? 15 : 10,),
+                                                        SizedBox(width: isTablet? 15 : width<=330? 5 : 10,),
                                                       ]),
                                                     ),
 
@@ -1745,7 +1745,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   child: InkWell(onTap: () async{
                                                                     await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
 
-                                                                  },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary,)),
+                                                                  },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary,size: isTablet? 25 : width<=330 ? 20 : 15,)),
                                                                 ),
 
                                                                 SizedBox(width: 5,),
@@ -1783,7 +1783,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                         //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                                       },
                                                                       // onTap: showNotification,
-                                                                      child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
+                                                                      child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,size: isTablet? 25 : width<=330 ? 20 : 15,)),
                                                                 ),
                                                               ]),
                                                             ),
@@ -2159,7 +2159,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                           Container(
                                                                               width: isTablet? deviceWidth*.72 : deviceWidth <=
                                                                                       330
-                                                                                  ? 220
+                                                                                  ? 190
                                                                                   : 230,
                                                                               child:
                                                                                   Text(
@@ -2248,7 +2248,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                     child: InkWell(onTap: () async{
                                                                       await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
-                                                                    },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary)),
+                                                                    },child: Icon(Icons.file_download_outlined,color: AppTheme.appbarPrimary,size: isTablet? 25 : width<=330 ? 20 : 15,)),
                                                                   ),
                                                                   SizedBox(width: 8,),
                                                                   Padding(
@@ -2257,7 +2257,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                       vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
                                                                       _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
 
-                                                                    },child: Icon(Icons.edit_outlined,color: HexColor('#354291'),)),
+                                                                    },child: Icon(Icons.edit_outlined,color: HexColor('#354291'),size: isTablet? 25 : width<=330 ? 20 : 15,)),
                                                                   ),
                                                                   Padding(
                                                                     padding: EdgeInsets.only(top: 20,right: 8),
@@ -2292,7 +2292,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                           //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                                         },
                                                                         // onTap: showNotification,
-                                                                        child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
+                                                                        child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,size: isTablet? 25 : width<=330 ? 20 : 15,)),
                                                                   ),
 
                                                                 ]),

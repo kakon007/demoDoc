@@ -100,7 +100,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       controller: hospitalController,
       borderRadius: 30,
       minimizeBottomPadding: true,
-      hintSize : isTablet? 17 : 15,
+      hintSize : isTablet? 17 : 12,
       hintText: StringResources.searchBoxHint,
       suffixIcon: Padding(
         padding: const EdgeInsets.only(right: 20.0),

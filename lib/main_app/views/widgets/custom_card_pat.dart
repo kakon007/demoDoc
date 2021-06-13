@@ -40,7 +40,7 @@ class CustomCardPat extends StatelessWidget {
       child: Container(
         //height: 40,
         width: width,
-        height: isTablet? 150 : 130,
+        height: width<=1250 && width>=1000 ? 200 : width<=999 && width>=650? 150 : 130,
         child: Card(
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -100,7 +100,7 @@ class CustomCardPat extends StatelessWidget {
                                 padding:  EdgeInsets.only(top: 8.0),
                                 child: Text(titleText,
                                     style: GoogleFonts.poppins(
-                                        fontSize:isTablet? 16 : 11,
+                                        fontSize:width<=1250 && width>=1000 ? 18 : width<=999 && width>=650?16 : 11,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
                                     textAlign: TextAlign.start),
@@ -109,17 +109,17 @@ class CustomCardPat extends StatelessWidget {
                               Text(
                                 subTitleText,
                                 style:
-                                TextStyle(fontSize: isTablet? 16 : 12, color: HexColor('#354291')),
+                                TextStyle(fontSize: width<=1250 && width>=1000 ? 18 : width<=999 && width>=650? 16 : 12, color: HexColor('#354291')),
                                 textAlign: TextAlign.start,
                               ),
                               SizedBox(
-                                height: 10,
+                                height: width<=1250 && width>=1000 ? 20 : 10,
                               ),
                               Row(
                                 children: [
                                   Container(
                                     width: 3,
-                                    height: 20,
+                                    height: width<=1250 && width>=1000 ? 40 : 20,
                                     color: HexColor("#354291"),
                                   ),
                                   SizedBox(
@@ -135,7 +135,7 @@ class CustomCardPat extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                                fontSize: isTablet? 16 : 10,
+                                                fontSize: width<=1250 && width>=1000 ? 18 : width<=999 && width>=650? 16 : 10,
                                                 fontWeight: FontWeight.bold,
                                                 color: HexColor('#354291')),
                                           )),
@@ -145,7 +145,7 @@ class CustomCardPat extends StatelessWidget {
                                             name,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: isTablet? 14 : 8),
+                                            style: TextStyle(fontSize: width<=1250 && width>=1000 ? 16 : width<=999 && width>=650? 14 : 8),
                                           )),
                                     ],
                                   ),
@@ -164,17 +164,17 @@ class CustomCardPat extends StatelessWidget {
                                         Text(
                                           "Your Serial No.",
                                           style: GoogleFonts.poppins(
-                                              fontSize: isTablet? 16 : width < 330 ? 10 : 11,
+                                              fontSize: width<=1250 && width>=1000 ? 18 : width<=999 && width>=650? 16 : width < 330 ? 10 : 11,
                                               color: HexColor('#354291')),
                                           textAlign: TextAlign.center,
                                         ),
                                         SizedBox(
-                                          height: 5,
+                                          height: width<=1250 && width>=1000 ? 20 :  5,
                                         ),
                                         Text(
                                           "$serial",
                                           style: GoogleFonts.poppins(
-                                              fontSize: isTablet? 24 :20,
+                                              fontSize: width<=1250 && width>=1000 ? 30 : width<=999 && width>=650?24 :20,
                                               fontWeight: FontWeight.bold,
                                               color: HexColor('#354291')),
                                           textAlign: TextAlign.center,
@@ -187,7 +187,7 @@ class CustomCardPat extends StatelessWidget {
                                                 borderRadius: BorderRadius.circular(8)),
                                             color: HexColor("#354291"),
                                             child: SizedBox(
-                                              width: isTablet? 190 : width <= 330 ? 95 : 130,
+                                              width: width<=1250 && width>=1000 ? 250 : width<=999 && width>=650?190 : width <= 330 ? 95 : 130,
                                               height: isTablet? 35 : 30,
                                               child: Center(
                                                 child: Padding(
@@ -196,7 +196,7 @@ class CustomCardPat extends StatelessWidget {
                                                     "View All Appointments",
                                                     style: TextStyle(
                                                         color: Colors.white,
-                                                        fontSize: isTablet? 15 : width < 330 ? 8 : 11),
+                                                        fontSize: width<=1250 && width>=1000 ? 18 : width<=999 && width>=650? 15 : width < 330 ? 8 : 11),
                                                   ),
                                                 ),
                                               ),

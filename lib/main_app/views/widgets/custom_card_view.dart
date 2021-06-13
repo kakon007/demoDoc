@@ -26,10 +26,11 @@ class CustomCard extends StatelessWidget {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
+    var width = MediaQuery.of(context).size.width;
     return Container(
       //height: 40,
-      width: isTablet? 340 : 300,
-      height:isTablet? 155 :  135,
+      width: width<=1250 && width>=1000 ? 380 : width<=999 && width>=650? 340 :300,
+      height:width<=1250 && width>=1000 ? 175 : width<=999 && width>=650? 155 :135,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -38,8 +39,8 @@ class CustomCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: isTablet? 115 : 100,
-                  width: isTablet? 105 : 90,
+                  height: width<=1250 && width>=1000 ? 140 : width<=999 && width>=650?  115 : 100,
+                  width: width<=1250 && width>=1000 ? 110 : width<=999 && width>=650?  105 : 90,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -56,9 +57,9 @@ class CustomCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: isTablet? 14 :12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
+                          Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<=1250 && width>=1000 ? 16 : width<=999 && width>=650?  14 :12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
                           SizedBox(height: isTablet? 8 : 3,),
-                          Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: isTablet? 12 : 8),textAlign:TextAlign.start),
+                          Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  12 : 8),textAlign:TextAlign.start),
                         ],
                       ),
                     ),
@@ -84,12 +85,12 @@ class CustomCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: isTablet? 155 : 130,
-                          height: isTablet? 35: 30,
+                          width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 130,
+                          height: width<=1250 && width>=1000 ? 40 : width<=999 && width>=650? 35: 30,
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: isTablet?  13 :11,fontWeight: FontWeight.w600),),
+                              child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?   13 :11,fontWeight: FontWeight.w600),),
                             ),
                           ),
                         ),

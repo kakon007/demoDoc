@@ -261,7 +261,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
 
                                   setState(() {
                                     Future.delayed(Duration.zero, () async {
-                                      vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo );
+                                      vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo,spName: familyMembers[index].specializationName);
 
                                       Navigator.pop(context);
                                     });

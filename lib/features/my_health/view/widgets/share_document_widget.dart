@@ -45,6 +45,8 @@ class _ShareDocumentState extends State<ShareDocument> {
   String _selectedSharedtype;
   String selectedSearchValue;
 
+  bool isRemove=false;
+
   Future<String> removeData({int id}) async{
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     var headers = {
@@ -166,7 +168,7 @@ print('Resss:: $doctorNoArr');
                 width:MediaQuery.of(context).size.width*.89,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
-                    border: Border.all(color: HexColor(color)),
+                    border: Border.all(color: Colors.grey.withOpacity(0.3)),
                     borderRadius: BorderRadius.circular(25)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -304,7 +306,7 @@ print('Resss:: $doctorNoArr');
                 width:MediaQuery.of(context).size.width*.89,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
-                    border: Border.all(color: HexColor(color)),
+                    border: Border.all(color: Colors.grey.withOpacity(0.3)),
                     borderRadius: BorderRadius.circular(25)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -325,6 +327,8 @@ print('Resss:: $doctorNoArr');
                             value: _selectedSharedtype,
                             onChanged: (newValue) {
                               setState(() {
+                                vm2.docNull('');
+                                _selectedName=null;
                                 _selectedSharedtype = newValue;
                                 print('SelectValue::::: $_selectedSharedtype');
                               });
@@ -362,7 +366,7 @@ print('Resss:: $doctorNoArr');
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         //color: Colors.white,
-        border: Border.all(color: HexColor('#8592E5')),
+        border: Border.all(color: Colors.grey.withOpacity(0.3)),
       ),
       child:
       Padding(
@@ -397,8 +401,9 @@ print('Resss:: $doctorNoArr');
 
     var doctorCard=
     Container( decoration: BoxDecoration(
-      color: HexColor("#F0F2FF"),
+      color: Colors.white,
       borderRadius: BorderRadius.circular(10),
+      border: Border.all(color: Colors.grey.withOpacity(0.3)),
     ),
      // margin: EdgeInsets.only(top: 5, bottom: 5),
       height: 70,
@@ -459,7 +464,7 @@ print('Resss:: $doctorNoArr');
                   width:220,
                   child: Text(
 
-                  vm2.hospitalName==null?'Loading':vm2.hospitalName,
+                  vm2.spName==null?'Loading':vm2.spName,
                     style: GoogleFonts.poppins(
                       color: AppTheme.appbarPrimary,),
                     maxLines: 1,
@@ -474,8 +479,9 @@ print('Resss:: $doctorNoArr');
     var doctorCardForAllDoc=
     Container(
         decoration: BoxDecoration(
-      color: HexColor("#F0F2FF"),
-      borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey.withOpacity(0.3)),
     ),
       // margin: EdgeInsets.only(top: 5, bottom: 5),
       height: 70,
@@ -630,7 +636,8 @@ print('Resss:: $doctorNoArr');
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
                                 //color: Colors.white,
-                                border: Border.all(color: HexColor('#8592E5')),
+                                color: Colors.white,
+                                border: Border.all(color: Colors.grey.withOpacity(0.3)),
                               ),
                               child: Container(
                                 width: MediaQuery.of(context).size.width * .72,
@@ -925,7 +932,7 @@ SVProgressHUD.show(
                               MainAxisAlignment.start,
                               children: [
                               SizedBox(
-                              width: 10,
+                              width: 5,
                             ),
                                 photo != ""
                                     ? Container(
@@ -953,12 +960,12 @@ SVProgressHUD.show(
                                         width: 40,
                                       ),
                                     )),
-                            SizedBox(
-                              width: 3,
-                            ),
+                            // SizedBox(
+                            //   width: 3,
+                            // ),
                             Container(
                               height: 50,
-                              width: 170,
+                              width: 160,
                               child: Center(
                                   child: Column(
                                     crossAxisAlignment:
@@ -996,50 +1003,106 @@ SVProgressHUD.show(
                               )
                               ],
                             ))),
-                        GestureDetector(
-                          onTap: ()async{
-                            var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
-                            SVProgressHUD.show(
-                              status: 'Deleting'
-                            );
-                            await removeData(id:vm10.sharedFileList[index].id);
-                            SVProgressHUD.dismiss();
+                       isRemove? Row(
+                         children: [
+                           GestureDetector(
+                              onTap: ()async{
 
-                            Future.delayed(Duration.zero, () async {
-                              setState(() {
-                                // file==null && _image==null?Loader():
-                                // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                //     builder: (BuildContext context) =>
-                                //     // DoctorHomeScreen(
-                                //     HomeScreen(
-                                //       accessToken: accessToken,
-                                //     )));
-                                Navigator.pop(context);
-                              });
+                                var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+                                SVProgressHUD.show(
+                                  status: 'Deleting'
+                                );
+                                await removeData(id:vm10.sharedFileList[index].id);
+                                SVProgressHUD.dismiss();
 
-                            });
+                                Future.delayed(Duration.zero, () async {
+                                  setState(() {
+                                    // file==null && _image==null?Loader():
+                                    // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                    //     builder: (BuildContext context) =>
+                                    //     // DoctorHomeScreen(
+                                    //     HomeScreen(
+                                    //       accessToken: accessToken,
+                                    //     )));
+                                    Navigator.pop(context);
+                                  });
 
-                          },
-                        child: Container(
-                        decoration: BoxDecoration(
-                        color: HexColor("#FFA7A7"),
-                        borderRadius: BorderRadius.circular(10),
-                        ),
-                        height: 40,
-                        width: 100,
-                        child: Center(
-                        child: Text(
-                        "Remove Access",
-                        style:
-                        GoogleFonts.poppins(
-                        fontSize: 11),
-                        ),
-                        ),
-                        ),
-                        ),
-                        SizedBox(
-                        width: 5,
-                        ),
+                                });
+
+                              },
+                            child: Container(
+                            decoration: BoxDecoration(
+                            color: HexColor("#FFA7A7"),
+                            borderRadius: BorderRadius.circular(8),
+                            ),
+                            height: 30,
+                            width: 55,
+                            child: Center(
+                            child: Text(
+                            "Confirm",
+                            style:
+                            GoogleFonts.poppins(
+                            fontSize: 11,color:Colors.white ),
+                            ),
+                            ),
+                            ),
+                            ),
+
+                            SizedBox(width: 5,),
+                           GestureDetector(
+                             onTap: ()async{
+
+                               setState(() {
+                                 isRemove=false;
+                               });
+
+                             },
+                             child: Container(
+                               decoration: BoxDecoration(
+                                 color: HexColor("#8592E5"),
+                                 borderRadius: BorderRadius.circular(8),
+                               ),
+                               height: 30,
+                               width: 55,
+                               child: Center(
+                                 child: Text(
+                                   "Cancel",
+                                   style:
+                                   GoogleFonts.poppins(
+                                       fontSize: 11,color: Colors.white),
+                                 ),
+                               ),
+                             ),
+                           ),
+                         ],
+                       ):Padding(
+                         padding: const EdgeInsets.only(left:8.0),
+                         child: GestureDetector(
+                           onTap: (){
+
+                             setState(() {
+                               isRemove=true;
+                             });
+
+                           },
+                           child: Container(
+                             decoration: BoxDecoration(
+                               color: HexColor("#FFA7A7"),
+                               borderRadius: BorderRadius.circular(8),
+                             ),
+                             height: 40,
+                             width: 100,
+                             child: Center(
+                               child: Text(
+                                 "Remove Access",
+                                 style:
+                                 GoogleFonts.poppins(
+                                     fontSize: 11,color: Colors.white),
+                               ),
+                             ),
+                           ),
+                         ),
+                       ),
                         ],
                         ),
                         )

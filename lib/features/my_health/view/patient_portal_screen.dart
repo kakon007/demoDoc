@@ -1708,6 +1708,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                         // SVProgressHUD.show(
                                                                         //   status: 'Please Wait'
                                                                         // );
+
                                                                         await vm10.getData(fileNo: vm2.reportList[index].id);
                                                                         await vm10.fileInfo(fileNo: vm2.reportList[index].id,regId: vm2.reportList[index].referenceNo);
                                                                         // SVProgressHUD.dismiss();

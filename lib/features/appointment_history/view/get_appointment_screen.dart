@@ -683,19 +683,115 @@ class _GetAppointmentState extends State<GetAppointment> {
                                              children:[
                                                InkWell(
                                                  child: Container(
-                                                   height: 190,
+                                                   height: 165,
                                                    margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                    decoration: BoxDecoration(
-                                                     color:HexColor('#F0F2FF'),
+                                                     color:Colors.white,
                                                      borderRadius: BorderRadius.circular(15),
+                                                     boxShadow: [
+                                                       BoxShadow(
+                                                         color: Colors.grey.withOpacity(0.1),
+                                                         spreadRadius: 5,
+                                                         blurRadius: 7,
+                                                         offset: Offset(0, 1), // changes position of shadow
+                                                       ),
+                                                     ],
                                                    ),
-                                                   child: Padding(
-                                                     padding: EdgeInsets.only(left:5,right:5),
-                                                     child: Column(
-                                                       children: [
-                                                         Row(
+                                                   child: Column(
+                                                     children: [
+                                                       Stack(
+                                                         children: [
+                                                           Container(
+                                                             height: 70,
+                                                            // margin: EdgeInsets.only(bottom: 5,right: 10,left: 10),
+                                                             decoration: BoxDecoration(
+                                                               color:HexColor('#F0F2FF'),
+                                                               borderRadius: BorderRadius.circular(15),
+                                                             ),
+                                                             child: Padding(
+                                                               padding:  EdgeInsets.only(top: 0.0,
+                                                                   right: 5,
+                                                                   bottom: 8,
+                                                                   left: deviceHeight >
+                                                                       650
+                                                                       ? 5
+                                                                       : 10),
+                                                               child: Column(
+                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                                 children: [
+                                                                   SizedBox(height: 10,),
+                                                                   Row(
+                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                     children: [
+                                                                       Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 12,),),
+                                                                       SizedBox(width:  MediaQuery.of(context).size.width >350? 10 :5,),
+                                                                       Row(
+                                                                         children: [
+                                                                           Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                           Text(DateUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].appointDate).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+
+                                                                         ],
+                                                                       ),
+                                                                       SizedBox(width:  MediaQuery.of(context).size.width >350? 10 : 5,),
+                                                                       Row(
+                                                                         children: [
+
+                                                                           Text("Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                           Text(vm.upComingAppointmentList[index].consultTypeName,style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 450 ? bottomTextSize: 10),),
+                                                                         ],
+                                                                       ),
+                                                                     ],
+                                                                   ),
+                                                                   SizedBox(height: MediaQuery.of(context).size.width >600? 10 :5,),
+                                                                   Row(
+                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                     children: [
+                                                                       Padding(
+                                                                         padding: const EdgeInsets.only(left:20.0),
+                                                                         child: Text(vm.upComingAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.bold,color: HexColor('#141D53'),fontSize:  deviceWidth> 420 ? bottomTextSize: 18),),
+                                                                       ),
+
+                                                                       Padding(
+                                                                         padding: const EdgeInsets.only(left:15.0),
+                                                                         child: Row(
+                                                                           children: [
+                                                                             Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                             Text(TimeUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].startTime).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+
+                                                                           ],
+                                                                         ),
+                                                                       ),
+                                                                       Padding(
+                                                                         padding: const EdgeInsets.only(right:21.0),
+                                                                         child: Row(
+                                                                           children: [
+                                                                             Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                             Text(vm.upComingAppointmentList[index].status==1?"Waiting":"Pending",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color:vm.upComingAppointmentList[index].status==1? HexColor('#EEB329'):HexColor('#FFA7A7'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+
+                                                                           ],
+                                                                         ),
+                                                                       ),
+                                                                     ],
+                                                                   ),
+
+                                                                 ],
+                                                               ),
+
+                                                             ),
+                                                           )
+                                                         ],
+                                                       ),
+                                                       SizedBox(height:  MediaQuery.of(context).size.width*.44 >600? 10 : 7,),
+                                                       Padding(
+                                                         padding: const EdgeInsets.only(right:5.0,left:5),
+                                                         child: Row(
                                                            children: [
                                                              Container(
+                                                               decoration: BoxDecoration(
+                                                                 //color:HexColor('#F0F2FF'),
+                                                                 borderRadius: BorderRadius.circular(15),
+                                                               ),
+
                                                               // height: 60,
                                                                //width: 20,
                                                                child: vm.upComingAppointmentList[index].photo!=null?loadLogo(vm.upComingAppointmentList[index].photo):Image.asset(
@@ -718,10 +814,10 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                                  children: [
                                                                    SizedBox(height: deviceWidth >360? 8 : 3,),
-                                                                   Text(vm.upComingAppointmentList[index].doctorName,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#393939'),fontSize: 12),),
+                                                                   Container(width:deviceWidth<=330? 180 :MediaQuery.of(context).size.width*.40,child: Text(vm.upComingAppointmentList[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#393939'),fontSize: 12),)),
                                                                    Text(vm.upComingAppointmentList[index]?.doctorSpecialtyName??'',style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12,fontWeight: FontWeight.w500),),
                                                                    Container(
-                                                                       width:deviceWidth<=330? 180 :MediaQuery.of(context).size.width*.65,child: Text(vm.upComingAppointmentList[index].companyName,maxLines: 2,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12))),
+                                                                       width:deviceWidth<=330? 180 :MediaQuery.of(context).size.width*.40,child: Text(vm.upComingAppointmentList[index].companyName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 12))),
                                                                  ],
                                                                ),
 
@@ -732,98 +828,35 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                              //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
                                                              //   child: righticon,
                                                              // ):
-
+                                                             SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 10 : 6,),
+                                                             GestureDetector(
+                                                               onTap:(){
+                                                                 getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
+                                                                 if (vm5.zoomDetailsList.joinUrl.isNotEmpty)
+                                                                   UrlLauncherHelper.launchUrl(vm5.zoomDetailsList?.joinUrl??'');
+                                                               },
+                                                               child: Material(
+                                                                 elevation: 2  ,
+                                                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                 color:vm.upComingAppointmentList[index].consultationId==null?HexColor("#99A0C8"):HexColor("#354291"),
+                                                                 child: SizedBox(
+                                                                   width: 110,
+                                                                   height:  MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                                   child: Center(
+                                                                     child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w500),),
+                                                                   ),
+                                                                 ),
+                                                               ),
+                                                             ),
 
                                                            ],
                                                          ),
-                                                         Divider(thickness: 1,),
-                                                         Padding(
-                                                           padding:  EdgeInsets.only(top: 0.0,
-                                                               right: 5,
-                                                               bottom: 8,
-                                                               left: deviceHeight >
-                                                                   650
-                                                                   ? 5
-                                                                   : 10),
-                                                           child: Column(
-                                                             crossAxisAlignment: CrossAxisAlignment.start,
-                                                             children: [
-                                                               SizedBox(height: 3,),
-                                                               Row(
-                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                 children: [
-                                                                   Row(
-                                                                     children: [
-                                                                       Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                       Text(vm.upComingAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#141D53'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                       ),
+                                                       //Divider(thickness: 1,),
 
-                                                                     ],
-                                                                   ),
-                                                                   SizedBox(width:  MediaQuery.of(context).size.width >350? 10 :5,),
-                                                                   Row(
-                                                                     children: [
-                                                                       Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                       Text(DateUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].appointDate).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                       //SizedBox(height:  MediaQuery.of(context).size.width*.44 >600? 10 : 5,),
 
-                                                                     ],
-                                                                   ),
-                                                                   SizedBox(width:  MediaQuery.of(context).size.width >350? 10 : 5,),
-                                                                   Row(
-                                                                     children: [
-                                                                       Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                       Text(TimeUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].startTime).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                     ],
-                                                                   ),
-                                                                 ],
-                                                               ),
-                                                               SizedBox(height: MediaQuery.of(context).size.width >600? 10 :5,),
-                                                               Row(
-                                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                 children: [
-                                                                   Row(
-                                                                     children: [
-                                                                       Text("Consultation Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                       Text(vm.upComingAppointmentList[index].consultTypeName,style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 450 ? bottomTextSize: 10),),
-
-                                                                     ],
-                                                                   ),
-                                                                   SizedBox(width: 10,),
-                                                                   Row(
-                                                                     children: [
-                                                                       Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                       Text(vm.upComingAppointmentList[index].status==1?"Waiting":"Pending",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color:vm.upComingAppointmentList[index].status==1? HexColor('#EEB329'):HexColor('#FFA7A7'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-
-                                                                     ],
-                                                                   ),
-                                                                 ],
-                                                               ),
-
-                                                             ],
-                                                           ),
-
-                                                         ),
-                                                         SizedBox(height:  MediaQuery.of(context).size.width*.44 >600? 10 : 5,),
-                                                         GestureDetector(
-                                                           onTap:(){
-                                                             getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
-                                                               if (vm5.zoomDetailsList.joinUrl.isNotEmpty)
-                                                                 UrlLauncherHelper.launchUrl(vm5.zoomDetailsList?.joinUrl??'');
-                                                           },
-                                                           child: Material(
-                                                             elevation: 2  ,
-                                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                             color:vm.upComingAppointmentList[index].consultationId==null?HexColor("#99A0C8"):HexColor("#354291"),
-                                                             child: SizedBox(
-                                                               width: double.infinity,
-                                                               height:  MediaQuery.of(context).size.width>650 ? 35 : 28,
-                                                               child: Center(
-                                                                 child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 13,fontWeight: FontWeight.w500),),
-                                                               ),
-                                                             ),
-                                                           ),
-                                                         ),
-                                                       ],
-                                                     ),
+                                                     ],
                                                    ),
                                                  ),
                                                ),
@@ -1170,21 +1203,168 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           return Stack(children: [
                                             InkWell(
                                               child: Container(
-                                                height: 190,
+                                                height: 165,
                                                 margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
                                                 decoration: BoxDecoration(
-                                                  color: HexColor('#F0F2FF'),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
+                                                  color:Colors.white,
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey.withOpacity(0.1),
+                                                      spreadRadius: 5,
+                                                      blurRadius: 7,
+                                                      offset: Offset(0, 1), // changes position of shadow
+                                                    ),
+                                                  ],
                                                 ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 5.0,
-                                                          right: 5),
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
+                                                child: Column(
+                                                  children: [
+                                                    Stack(
+                                                      children: [
+                                                        Container(
+                                                          height: 70,
+                                                          // margin: EdgeInsets.only(bottom: 5,right: 10,left: 10),
+                                                          decoration: BoxDecoration(
+                                                            color:HexColor('#F0F2FF'),
+                                                            borderRadius: BorderRadius.circular(15),
+                                                          ),
+                                                          child: Padding(
+                                                            padding:  EdgeInsets.only(top: 0.0,
+                                                                right: 5,
+                                                                bottom: 8,
+                                                                left: deviceHeight >
+                                                                    650
+                                                                    ? 5
+                                                                    : 10),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                SizedBox(height: 10,),
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 12,),),
+                                                                    SizedBox(width:  MediaQuery.of(context).size.width >350? 10 :5,),
+                                                                    Row(
+                                                                      children: [
+                                                                        Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                        Text(
+                                                                          DateUtil().formattedDate(DateTime.parse(vm2
+                                                                              .previousAppointmentList[index]
+                                                                              .appointDate)
+                                                                              .toLocal()),
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              color: HexColor(
+                                                                                  '#8592E5'),
+                                                                              fontSize: deviceWidth > 420
+                                                                                  ? bottomTextSize
+                                                                                  : 10),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(width:  MediaQuery.of(context).size.width >350? 10 : 5,),
+                                                                    Row(
+                                                                      children: [
+
+                                                                        Text("Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                        Text(
+                                                                          vm2
+                                                                              .previousAppointmentList[
+                                                                          index]
+                                                                              .consultTypeName,
+                                                                          style: GoogleFonts.poppins(
+                                                                              fontWeight: FontWeight
+                                                                                  .w500,
+                                                                              color: HexColor(
+                                                                                  '#8592E5'),
+                                                                              fontSize: deviceWidth > 420
+                                                                                  ? bottomTextSize
+                                                                                  : 10),
+                                                                        ),                                                                        ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(height: MediaQuery.of(context).size.width >600? 10 :5,),
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(left:20.0),
+                                                                      child: Text(
+                                                                        vm2
+                                                                            .previousAppointmentList[
+                                                                        index]
+                                                                            .slotSl
+                                                                            .toString(),
+                                                                        style: GoogleFonts.poppins(
+                                                                            fontWeight: FontWeight
+                                                                                .bold,
+                                                                            color: HexColor(
+                                                                                '#141D53'),
+                                                                            fontSize:  deviceWidth> 420 ? bottomTextSize: 18),
+                                                                      ),
+                                                                    ),
+
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(left:15.0),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                          Text(
+                                                                            TimeUtil().formattedDate(DateTime.parse(vm2
+                                                                                .previousAppointmentList[index]
+                                                                                .endTime)
+                                                                                .toLocal()),
+                                                                            style: GoogleFonts.poppins(
+                                                                                fontWeight: FontWeight
+                                                                                    .w500,
+                                                                                color: HexColor(
+                                                                                    '#8592E5'),
+                                                                                fontSize: deviceWidth > 420
+                                                                                    ? bottomTextSize
+                                                                                    : 10),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(right:8.0),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                          Text(
+                                                                            vm2.previousAppointmentList[index].status ==
+                                                                                2
+                                                                                ? "Completed"
+                                                                                : '',
+                                                                            style: GoogleFonts.poppins(
+                                                                                fontWeight: FontWeight
+                                                                                    .w500,
+                                                                                color: HexColor(
+                                                                                    '#32C974'),
+                                                                                fontSize: deviceWidth > 420
+                                                                                    ? bottomTextSize
+                                                                                    : 10),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+
+                                                              ],
+                                                            ),
+
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(height:  MediaQuery.of(context).size.width*.44 >600? 10 : 7,),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right:5.0,left:5),
+                                                      child: Row(
                                                         children: [
                                                           Container(
                                                             //height: 60,
@@ -1226,19 +1406,24 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                 SizedBox(
                                                                   height: 8,
                                                                 ),
-                                                                Text(
-                                                                  vm2
-                                                                      .previousAppointmentList[
-                                                                          index]
-                                                                      .doctorName,
-                                                                  style: GoogleFonts.poppins(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: HexColor(
-                                                                          '#393939'),
-                                                                      fontSize:
-                                                                          12),
+                                                                Container(
+                                                                  width:deviceWidth<=330? 180 :MediaQuery.of(context).size.width*.40,
+                                                                  child: Text(
+                                                                    vm2
+                                                                        .previousAppointmentList[
+                                                                            index]
+                                                                        .doctorName,
+                                                                    style: GoogleFonts.poppins(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        color: HexColor(
+                                                                            '#393939'),
+                                                                        fontSize:
+                                                                            12),
+                                                                    maxLines: 1,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                  ),
                                                                 ),
                                                                 Text(
                                                                   vm2.previousAppointmentList[index]
@@ -1254,17 +1439,14 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                               .w500),
                                                                 ),
                                                                 Container(
-                                                                    width: deviceWidth<=330? 200 : MediaQuery.of(context)
-                                                                            .size
-                                                                            .width *
-                                                                        .65,
+                                                                    width:deviceWidth<=330? 180 :MediaQuery.of(context).size.width*.40,
                                                                     child: Text(
                                                                         vm2
                                                                             .previousAppointmentList[
                                                                                 index]
                                                                             .companyName,
                                                                         maxLines:
-                                                                            2,
+                                                                            1,
                                                                         overflow:
                                                                             TextOverflow
                                                                                 .ellipsis,
@@ -1281,299 +1463,59 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                           //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
                                                           //   child: righticon,
                                                           // ):
+                                                          SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 10 : 6,),
+                                                          Column(children: [
+                                                            InkWell(
+                                                              onTap:(){
+                                                                Navigator.push(context,MaterialPageRoute(builder: (context){
+                                                                  return AppointmentScreen(
+                                                                    doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString(),companyNo:vm2.previousAppointmentList[index]?.companyNo.toString() ,orgNo:vm2.previousAppointmentList[index]?.organizationNo.toString() ,hospitalName:vm2.previousAppointmentList[index]?.companyName.toString() ,
+
+
+                                                                  );
+                                                                }));
+                                                              },
+                                                              child: Material(
+                                                                elevation: 0  ,
+                                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                color: HexColor("#354291"),
+                                                                child: SizedBox(
+                                                                  width: 110,
+                                                                  height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                                  child: Center(
+                                                                    child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(height: MediaQuery.of(context).size.height>650 ? 5 : 25,),
+                                                            InkWell(
+                                                              onTap: () async{
+                                                                print('ButtonPredfromAppointmentscreen');
+                                                                final file=await _createPdfFileFromString(vm2.previousAppointmentList[index].prescriptionNo.toString(),vm2.previousAppointmentList[index].companyAlias.toString());
+                                                                Navigator.push(context, PageTransition(
+                                                                  type: PageTransitionType.rightToLeft,
+                                                                  child:PdfFileViewerScreen(file),
+                                                                ),);
+                                                              },
+                                                              child: Material(
+                                                                elevation: 0  ,
+                                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                color:vm2.previousAppointmentList[index].prescriptionNo==null || vm2.previousAppointmentList[index].companyAlias==null? HexColor("#99A0C8"):HexColor("#354291"),
+                                                                child: SizedBox(
+                                                                  width: 110,
+                                                                  height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                                  child: Center(
+                                                                    child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],),
                                                         ],
                                                       ),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      ),
-                                                      Padding(
-                                                        padding: EdgeInsets.only(
-                                                            top: 0.0,
-                                                            right: 5,
-                                                            bottom: 8,
-                                                            left: deviceHeight >
-                                                                    650
-                                                                ? 5
-                                                                : 20),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Serial No: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      vm2
-                                                                          .previousAppointmentList[
-                                                                              index]
-                                                                          .slotSl
-                                                                          .toString(),
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#141D53'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width >
-                                                                          650
-                                                                      ? 10
-                                                                      : 5,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Date: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      DateUtil().formattedDate(DateTime.parse(vm2
-                                                                              .previousAppointmentList[index]
-                                                                              .appointDate)
-                                                                          .toLocal()),
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#8592E5'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width >
-                                                                          650
-                                                                      ? 10
-                                                                      : 5,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Time: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      TimeUtil().formattedDate(DateTime.parse(vm2
-                                                                              .previousAppointmentList[index]
-                                                                              .endTime)
-                                                                          .toLocal()),
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#8592E5'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                              height: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width >
-                                                                      650
-                                                                  ? 10
-                                                                  : 5,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Consultation Type: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      vm2
-                                                                          .previousAppointmentList[
-                                                                              index]
-                                                                          .consultTypeName,
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#8592E5'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width >
-                                                                          650
-                                                                      ? 10
-                                                                      : 5,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Status: ",
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#333132'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                    Text(
-                                                                      vm2.previousAppointmentList[index].status ==
-                                                                              2
-                                                                          ? "Completed"
-                                                                          : '',
-                                                                      style: GoogleFonts.poppins(
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          color: HexColor(
-                                                                              '#32C974'),
-                                                                          fontSize: deviceWidth > 420
-                                                                              ? bottomTextSize
-                                                                              : 10),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 5,),
-                                                      Row(children: [
-                                                        SizedBox(width: 10,),
-                                                        InkWell(
-                                                          onTap:(){
-                                                            Navigator.push(context,MaterialPageRoute(builder: (context){
-                                                            return AppointmentScreen(
-                                                                   doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString(),companyNo:vm2.previousAppointmentList[index]?.companyNo.toString() ,orgNo:vm2.previousAppointmentList[index]?.organizationNo.toString() ,hospitalName:vm2.previousAppointmentList[index]?.companyName.toString() ,
-                                                            //   doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString() == null
-                                                            //     ? ""
-                                                            //     : vm2.previousAppointmentList[index]?.doctorNo.toString(),
-                                                            //
-                                                            //   logo:vm2.previousAppointmentList[index].photo!=null?loadLogo(vm2.previousAppointmentList[index].photo):Image.asset(
-                                                            //   "assets/icons/dct.png",
-                                                            //   fit: BoxFit.fill,
-                                                            //   width: 80,
-                                                            //   height: 60,
-                                                            // ),jobTitle:  vm3.doctorList[index].jobtitle!=null?vm3.doctorList[index].jobtitle:"",name: vm2.previousAppointmentList[index]?.doctorName == null
-                                                            //     ? ""
-                                                            //     : vm2.previousAppointmentList[index]?.doctorName,specialist: vm2.previousAppointmentList[index]?.doctorSpecialtyName == null
-                                                            //     ? ""
-                                                            //     : vm2.previousAppointmentList[index]?.doctorSpecialtyName,hospitalName: vm2.previousAppointmentList[index].companyName,designation: vm3.doctorList[index]?.docDegree == null
-                                                            //     ? ""
-                                                            //     : vm3.doctorList[index]?.docDegree,fee: vm3.doctorList[index]?.consultationFee.toString() ==
-                                                            //     null
-                                                            //     ? ""
-                                                            //     : vm3.doctorList[index]?.consultationFee
-                                                            //     .toString(),companyNo: vm3.doctorList[index]?.companyNo.toString() == null
-                                                            //     ? ""
-                                                            //     : vm3.doctorList[index]?.companyNo.toString(),orgNo: vm3.doctorList[index]?.ogNo.toString() == null
-                                                            //     ? ""
-                                                            //     : vm3.doctorList[index]?.ogNo.toString(),
-
-                                                            );
-                                                            }));
-                                                          },
-                                                          child: Material(
-                                                            elevation: 0  ,
-                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                            color: HexColor("#354291"),
-                                                            child: SizedBox(
-                                                              width: deviceWidth*.4,
-                                                              height: MediaQuery.of(context).size.width>650 ? 35 : 28,
-                                                              child: Center(
-                                                                child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: MediaQuery.of(context).size.width>650 ? 20 : 25,),
-                                                        InkWell(
-                                                          onTap: () async{
-                                                            print('ButtonPredfromAppointmentscreen');
-                                                            final file=await _createPdfFileFromString(vm2.previousAppointmentList[index].prescriptionNo.toString(),vm2.previousAppointmentList[index].companyAlias.toString());
-                                                            Navigator.push(context, PageTransition(
-                                                              type: PageTransitionType.rightToLeft,
-                                                              child:PdfFileViewerScreen(file),
-                                                            ),);
-                                                          },
-                                                          child: Material(
-                                                            elevation: 0  ,
-                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                            color:vm2.previousAppointmentList[index].prescriptionNo==null || vm2.previousAppointmentList[index].companyAlias==null? HexColor("#99A0C8"):HexColor("#354291"),
-                                                            child: SizedBox(
-                                                              width: deviceWidth*.4,
-                                                              height: MediaQuery.of(context).size.width>650 ? 35 : 28,
-                                                              child: Center(
-                                                                child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w600),),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),

@@ -61,9 +61,11 @@ class SharedFileViewModel extends ChangeNotifier{
     }, (r) {
      // hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
+      if(r.dataList!=null){
       _sharedFileList.addAll(r.dataList);
+      }
       //count = r.totalCount;
-      print('Right Shared ${_sharedFileList.first.remarks}');
+      //print('Right Shared ${_sharedFileList.first.remarks}');
       notifyListeners();
       return true;
     });

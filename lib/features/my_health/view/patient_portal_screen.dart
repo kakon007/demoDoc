@@ -1705,12 +1705,12 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   padding: EdgeInsets.only(top: 40),
                                                                   child: GestureDetector(
                                                                       onTap: () async{
-                                                                        // SVProgressHUD.show(
-                                                                        //   status: 'Please Wait'
-                                                                        // );
+                                                                        SVProgressHUD.show(
+                                                                          status: 'Please Wait'
+                                                                        );
                                                                         await vm10.getData(fileNo: vm2.reportList[index].id);
                                                                         await vm10.fileInfo(fileNo: vm2.reportList[index].id,regId: vm2.reportList[index].referenceNo);
-                                                                        // SVProgressHUD.dismiss();
+                                                                        SVProgressHUD.dismiss();
                                                                         vm2.reportList[index].id==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
                                                                             backgroundColor: HexColor("#E9ECFE"),
                                                                             shape: RoundedRectangleBorder(

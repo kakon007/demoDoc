@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -392,9 +393,9 @@ print('Resss:: $doctorNoArr');
               //vm2.search(_searchTextEditingController2.text,widget.accessToken);
             },
 
-            // inputFormatters: [
-            //   LengthLimitingTextInputFormatter(20),
-            // ]
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(200),
+            ]
         ),
       ),
     );
@@ -663,7 +664,7 @@ print('Resss:: $doctorNoArr');
                               ),
                             ),
                           ),
-                            horizontalSpace,
+                            vm2.doctorName=='' || vm2.hospitalName=='' || _selectedSharedtype==null?SizedBox.shrink(): horizontalSpace,
                             // Container(
                             //   height: 100,
                             //   width: MediaQuery.of(context).size.width*.89,
@@ -716,7 +717,7 @@ print('Resss:: $doctorNoArr');
                             //             }),
                             //       ),
                             // ),
-                           vm2.doctorName!='' || vm2.hospitalName!=''?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox(),
+                           vm2.doctorName!='' || vm2.hospitalName!=''?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox.shrink(),
                             horizontalSpace,
                             writeDetailsField,
                             horizontalSpace,

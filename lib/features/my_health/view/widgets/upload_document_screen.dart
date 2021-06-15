@@ -277,7 +277,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               //vm2.search(_searchTextEditingController2.text,widget.accessToken);
             },
             inputFormatters: [
-              LengthLimitingTextInputFormatter(20),
+              LengthLimitingTextInputFormatter(200),
             ]),
       ),
     );

@@ -49,7 +49,7 @@ class _SignInState extends State<SignIn> {
   var pass;
   Future<void> getUSerDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    user= prefs.getString("username");
+    user= prefs.getString("usernameRemember");
     pass= prefs.getString("passwordRemember");
     var rememberMe= prefs.getBool("value");
     accounts=null;
@@ -315,6 +315,8 @@ class _SignInState extends State<SignIn> {
                                 await SharedPreferences.getInstance();
                                 prefs.setString(
                                     "username", _username.text);
+                                prefs.setString(
+                                    "usernameRemember", _username.text);
                                 prefs.setString(
                                     "password", _password.text);
                                 prefs.setString(

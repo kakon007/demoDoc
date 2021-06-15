@@ -22,7 +22,8 @@ class CustomContainer extends StatelessWidget {
   String companyNo;
   String orgNo;
   String hospitalName;
-  CustomContainer(@required this.jobTitle,@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName);
+  String phoneText;
+  CustomContainer(@required this.jobTitle,@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName, this.phoneText);
   @override
   Widget build(BuildContext context) {
     var vm2 = Provider.of<AvailableSlotsViewModel>(context, listen: true);
@@ -94,7 +95,7 @@ class CustomContainer extends StatelessWidget {
                                 onTap: (){
                                   vm2.getInfo(doctorNo, companyNo, orgNo);
                                   Navigator.push(context,MaterialPageRoute(builder: (context){
-                                    return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,);
+                                    return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,phoneNumber: phoneText,);
                                   }));
                                 },
                                 child: Container(

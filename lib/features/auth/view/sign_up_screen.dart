@@ -1,15 +1,24 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
+import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -33,7 +42,10 @@ class _SignUpState extends State<SignUp> {
 // Option 2
   String _selectedGender;
   final _formKey = GlobalKey<FormState>();
-
+  final DbManager dbmManager = new DbManager();
+  SwitchAccounts accounts;
+  List<SwitchAccounts> accountsList;
+  String addAccountValue;
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -61,7 +73,9 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    Future.delayed(Duration.zero, () async {
+      accountsList = await dbmManager.getAccountList();
+    });
     super.initState();
     pickedDate = DateTime(2003);
   }
@@ -292,11 +306,52 @@ class _SignUpState extends State<SignUp> {
           await vm.getSignUpInfo(_name.text, _email.text, _mobile.text,
               _address.text, _selectedGender, _formatDate2);
           if (vm.message == "Saved Successfully") {
-            Navigator.pop(context);
+            var vm5 = Provider.of<AuthViewModel>(context, listen: false);
+            await vm5.getAuthData(vm.username, vm.password);
+            BotToast.showLoading();
+            if (vm5.accessToken!=null) {
+              accountsList.forEach((item) {
+                if(item.username.contains(vm.username)) {
+                  addAccountValue = vm.username;
+                }
+              });
+              if(addAccountValue==null){
+                var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
+                var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
+                await vm4.getSwitchData(vm5.accessToken);
+                await vm3.switchImage(vm5.accessToken);
+                SwitchAccounts switchAccounts = new SwitchAccounts(
+                  name: vm4.userSwitchDetailsList.fname,
+                  relation: vm3.switchDetails?.photo==null? "" : vm3.switchDetails.photo,
+                  username: vm.username,
+                  password: vm.password,
+                );
+                dbmManager.insertStudent(switchAccounts).then((id) => {
+                });
+              }
+              BotToast.closeAllLoading();
+              SharedPreferences prefs =
+              await SharedPreferences.getInstance();
+              prefs.setString(
+                  "username", vm.username);
+              prefs.setString(
+                  "password", vm.password);
+              appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        HomeScreen(
+                          accessToken:
+                          vm5.accessToken,
+                        ),
+                  ),
+                      (Route<dynamic> route) => false);
+            }
             showAlert(context);
           }
         }
         else{
+          BotToast.closeAllLoading();
           if(_selectedGender==null){
             setState(() {
               genderBorderColor="#FF0000";
@@ -554,7 +609,7 @@ class _SignUpState extends State<SignUp> {
           child: Material(
             type: MaterialType.transparency,
             child: Container(
-                height: 180,
+                height: 200,
                 width:  isTablet? MediaQuery.of(context).size.width*.7 : 250,
                 // child: SizedBox.expand(child: FlutterLogo()),
                 //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
@@ -571,75 +626,73 @@ class _SignUpState extends State<SignUp> {
                   ]),
                   //borderRadius: 10,
                 ),
-                child: Padding(
-                  padding:  EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding:  EdgeInsets.only(top: isTablet? 25 : 0),
-                        child: Text(
-                          vm.message,
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 25,),
+                    Padding(
+                      padding:  EdgeInsets.only(top: isTablet? 25 : 15),
+                      child: Text(
+                        vm.message,
+                        style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Text(
-                      //       "Username : ",
-                      //       style: GoogleFonts.poppins(
-                      //           fontWeight: FontWeight.w500),
-                      //     ),
-                      //     Text(
-                      //       vm.username,
-                      //       style: GoogleFonts.poppins(),
-                      //     )
-                      //   ],
-                      // ),
-                      // SizedBox(
-                      //   height: 5,
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Text(
-                      //       "Password: ",
-                      //       style: GoogleFonts.poppins(
-                      //           fontWeight: FontWeight.w500),
-                      //     ),
-                      //     Text(
-                      //       vm.password,
-                      //       style: GoogleFonts.poppins(),
-                      //     )
-                      //   ],
-                      // ),
-                      Text("An sms has been sent to your mobile number with your username and password.", textAlign: TextAlign.center,style: GoogleFonts.poppins(fontWeight: FontWeight.w600),),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              minWidth: 120,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              color: AppTheme.appbarPrimary,
-                              child: Text(
-                                "OK",
-                                style: GoogleFonts.poppins(color: Colors.white),
-                              ))
-                        ],
-                      )
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Text(
+                    //       "Username : ",
+                    //       style: GoogleFonts.poppins(
+                    //           fontWeight: FontWeight.w500),
+                    //     ),
+                    //     Text(
+                    //       vm.username,
+                    //       style: GoogleFonts.poppins(),
+                    //     )
+                    //   ],
+                    // ),
+                    // SizedBox(
+                    //   height: 5,
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Text(
+                    //       "Password: ",
+                    //       style: GoogleFonts.poppins(
+                    //           fontWeight: FontWeight.w500),
+                    //     ),
+                    //     Text(
+                    //       vm.password,
+                    //       style: GoogleFonts.poppins(),
+                    //     )
+                    //   ],
+                    // ),
+                    Text("An sms has been sent to your mobile number with your username and password.", textAlign: TextAlign.center,style: GoogleFonts.poppins(),),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            minWidth: 120,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: AppTheme.appbarPrimary,
+                            child: Text(
+                              "OK",
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            ))
+                      ],
+                    )
+                  ],
                 )),
           ),
         );

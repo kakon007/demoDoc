@@ -950,6 +950,7 @@ class _AddPatientState extends State<AddPatient> {
         spaceBetween,
         GestureDetector(
           onTap: () async {
+            //_showSuccessAlert(context);
             if (selectedConsultationTypeForMe != "" ||
                 (vm.forMe == false && selectedGender != "") || selectedConsultationType != "" ||
             (selectedConsultationType != "" &&
@@ -1218,7 +1219,7 @@ class _AddPatientState extends State<AddPatient> {
       pageBuilder: (context, anim1, anim2) {
         return Material(
             type: MaterialType.transparency,
-            child: AppointSuccess(appointDate: vm.appointDate,doctorName: vm.doctorName, hospitalName: widget.hospitalName,slotSl: vm.slotSl,startTime: vm.startTime.toString(),));
+            child: AppointSuccess(appointDate: vm.appointDate,doctorName: vm.doctorName, hospitalName: widget.hospitalName,slotSl: vm.slotSl,startTime: vm.startTime.toString(),phoneText: vm.phoneNumber,));
       },
     );
   }

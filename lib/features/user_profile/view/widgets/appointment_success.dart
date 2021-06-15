@@ -14,13 +14,16 @@ class AppointSuccess extends StatefulWidget {
   String doctorName;
   String slotSl;
   String startTime;
+  String phoneText;
 
   AppointSuccess(
       {this.startTime,
       this.slotSl,
       this.hospitalName,
       this.doctorName,
-      this.appointDate});
+      this.appointDate,
+      this.phoneText
+      });
 
   @override
   _AppointSuccessState createState() => _AppointSuccessState();
@@ -48,7 +51,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 0, left: 20, right: 20),
                     child: Container(
-                      height: 320,
+                      height: 330,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         gradient: LinearGradient(begin: Alignment.topRight,
@@ -137,6 +140,21 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                         color: HexColor("#037BB7"),
                                       fontSize: isTablet? 15 : 13,),
                                   ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Phone Number : ",
+                                        style: GoogleFonts.poppins(),
+                                      ),
+                                      Text(
+                                        widget.phoneText.toString()==null? "" : widget.phoneText.toString(),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: isTablet? 15 : 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: HexColor("#037BB7")),
+                                      ),
+                                    ],
+                                  ),
                                   SizedBox(
                                     height: 8,
                                   ),
@@ -182,7 +200,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                 ),
               ),
               Positioned(
-                bottom: isTablet? 350 : 295,
+                bottom: isTablet? 355 : 300,
                 //top: MediaQuery.of(context).size.height / 1.8,
                 left: 100,
                 right: 110,

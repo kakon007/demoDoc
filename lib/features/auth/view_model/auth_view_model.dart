@@ -21,6 +21,7 @@ class AuthViewModel extends ChangeNotifier {
     var res = await AuthRepository().fetchAuthData(user, pass);
     notifyListeners();
     res.fold((l) {
+      print("bbb");
       _appError = l;
       _isFetchingMoreData = false;
       _isLoading = false;

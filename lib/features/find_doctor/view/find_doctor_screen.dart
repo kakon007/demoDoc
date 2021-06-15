@@ -491,6 +491,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                       ? ""
                                       : vm.doctorList[i]?.ogNo.toString(),
                                   widget.title,
+                                  widget.phoneText
                                 );
                               }),
                 ],

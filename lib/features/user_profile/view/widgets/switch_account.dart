@@ -366,6 +366,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                           appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
                                                                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                                                                           prefs.setString("username", st.username);
+                                                                                          prefs.setString("usernameRemember", st.username);
                                                                                           prefs.setString("password", st.password);
                                                                                           prefs.setString(
                                                                                               "passwordRemember", st.password);

@@ -10,6 +10,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
@@ -20,6 +21,7 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfile extends StatefulWidget {
   String fName;
@@ -77,17 +79,23 @@ class _UserProfileState extends State<UserProfile> {
     topRight: Radius.circular(25.0),
   );
   String response; var photo;
-
+  final DbManager dbmManager = new DbManager();
+  SwitchAccounts switchAccounts;
+  List<SwitchAccounts> accountsList;
+  var username;
   @override
   void initState() {
     // TODO: implement initState
     Future.delayed(Duration.zero, () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      username= prefs.getString("username");
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
        photo = Provider.of<UserImageViewModel>(context, listen: false).details?.photo ?? "";
       var userVm = Provider.of<UserDetailsViewModel>(context,listen: false);
       await userVm.getData();
       var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
       familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
+      accountsList = await dbmManager.getAccountList();
     });
     Provider.of<UserDetailsViewModel>(context, listen: false).getData();
     super.initState();
@@ -156,7 +164,6 @@ class _UserProfileState extends State<UserProfile> {
                     ? GestureDetector(
                         child: Text("Save", style: GoogleFonts.poppins( fontSize: isTablet? 18 :15,),),
                         onTap: () async {
-                          print("Sha ${vm2.details.userId.toString()}");
                           await vm2.updateImage(
                               _image,
                               vm.userDetailsList.hospitalNumber,
@@ -174,6 +181,33 @@ class _UserProfileState extends State<UserProfile> {
                               hospitalNumber,
                               regDate
                           );
+                          accountsList.forEach((item) {
+                            if(item.username.contains(username)) {
+                              //switchAccounts = st;
+                              SwitchAccounts st = item;
+                               switchAccounts = st;
+                               switchAccounts.username = item.username;
+                               switchAccounts.password = item.password;
+                               switchAccounts.name = item.name;
+                               switchAccounts.relation = vm2.details?.photo ;
+                               switchAccounts.id = item.id;
+                               dbmManager.updateStudent(switchAccounts).then((value) => {
+                                 setState(() {}),
+                               });
+                            }
+                          });
+                          //print(accountsList[index]);
+                          // switchAccounts = st;
+                         // SwitchAccounts st = accountsList[index];
+                         // switchAccounts = st;
+                         //  switchAccounts.username = username;
+                         //  switchAccounts.password = password;
+                         //  switchAccounts.name = vm.userDetailsList.fname;
+                         //  switchAccounts.relation = vm2.details?.photo ;
+                         //  switchAccounts.id = index;
+                         //  dbmManager.updateStudent(switchAccounts).then((value) => {
+                         //    setState(() {}),
+                         //  });
                           response= vm2.resStatusCode;
                           setState(() {
                             if(response=="200"){

@@ -23,6 +23,7 @@ class AppointmentScreen extends StatefulWidget {
   String companyNo;
   String orgNo;
   String hospitalName;
+  String phoneNumber;
 
   AppointmentScreen(
       {
@@ -30,6 +31,7 @@ class AppointmentScreen extends StatefulWidget {
         this.doctorNo,
         this.orgNo,
         this.hospitalName,
+        this.phoneNumber
       });
 
 
@@ -272,6 +274,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             appointStatus.toString(),
                             widget.companyNo,
                             widget.orgNo,
+                              widget.phoneNumber
                           );
                         });
                     });

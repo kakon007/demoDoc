@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -14,6 +15,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfileAlert extends StatefulWidget {
   @override
@@ -29,7 +31,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   DateTime pickBirthDate;
   String abc = "#EAEBED";
   double maxHeight;
-
+  final DbManager dbmManager = new DbManager();
+  SwitchAccounts switchAccounts;
+  List<SwitchAccounts> accountsList;
+  var username;
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
       context: context,
@@ -64,11 +69,14 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      username= prefs.getString("username");
       vm.getData();
       _username.text = vm.userDetailsList.fname;
       _email.text = vm.userDetailsList.email;
       _mobile.text = vm.userDetailsList.phoneMobile;
       _address.text = vm.userDetailsList.address;
+      accountsList = await dbmManager.getAccountList();
     });
     pickBirthDate = vm.userDetailsList.dob != null
         ? DateFormat("yyyy-MM-dd")
@@ -455,6 +463,21 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                               backgroundColor: Colors.green,
                                               textColor: Colors.white,
                                               fontSize: 16.0);
+                                          accountsList.forEach((item) {
+                                            if(item.username.contains(username)) {
+                                              //switchAccounts = st;
+                                              SwitchAccounts st = item;
+                                              switchAccounts = st;
+                                              switchAccounts.username = item.username;
+                                              switchAccounts.password = item.password;
+                                              switchAccounts.name = _username.text;
+                                              switchAccounts.relation = item.relation ;
+                                              switchAccounts.id = item.id;
+                                              dbmManager.updateStudent(switchAccounts).then((value) => {
+                                                setState(() {}),
+                                              });
+                                            }
+                                          });
                                           Navigator.pop(context);
                                         } else {
                                           maxHeight = isTablet? 755 : 680;

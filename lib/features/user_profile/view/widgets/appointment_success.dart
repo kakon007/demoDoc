@@ -143,14 +143,13 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Phone Number : ",
-                                        style: GoogleFonts.poppins(),
-                                      ),
+                                        "Contact : ",
+                                        style: GoogleFonts.poppins( color: HexColor("#037BB7")),),
                                       Text(
                                         widget.phoneText.toString()==null? "" : widget.phoneText.toString(),
                                         style: GoogleFonts.poppins(
-                                            fontSize: isTablet? 15 : 12,
-                                            fontWeight: FontWeight.w600,
+                                            //fontSize: isTablet? 15 : 12,
+                                            //fontWeight: FontWeight.w600,
                                             color: HexColor("#037BB7")),
                                       ),
                                     ],

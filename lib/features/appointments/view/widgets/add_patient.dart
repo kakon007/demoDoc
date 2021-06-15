@@ -1137,7 +1137,7 @@ class _AddPatientState extends State<AddPatient> {
                               selectedMemberType == "Family Member"
                               ? membersNameList
                               : SizedBox(),
-                          familyVm.isSelected && vm.addPatient
+                          familyVm.isSelected && vm.addPatient && selectedMemberType == "Family Member"
                               ? spaceBetween
                               : SizedBox(),
                           familyVm.isSelected && vm.addPatient && memberList
@@ -1150,7 +1150,7 @@ class _AddPatientState extends State<AddPatient> {
                               : selectedMemberType == "Others"
                               ? SizedBox()
                               : spaceBetween,
-                          vm.forMe == false && selectedMemberType != ""
+                          vm.forMe == false && selectedMemberType != "" && familyVm.isSelected
                               ? patientTypeAdd
                               : SizedBox(),
                           selectedMemberType == ""
@@ -1162,7 +1162,8 @@ class _AddPatientState extends State<AddPatient> {
                               : SizedBox(),
                           vm.forMe
                               ? consultationTypeForMe
-                              : consultationTypeAdd,
+                              : SizedBox(),
+                          vm.addPatient && ((selectedMemberType=="Family Member"  && familyVm.isSelected) || selectedMemberType=="Others") ? consultationTypeAdd :  SizedBox(),
                           isTablet && _selectedMemberType=="Family Member"? SizedBox(height: 40,):  SizedBox(),
                           spaceBetween,
                           vm.forMe == false && selectedMemberType == "Others"

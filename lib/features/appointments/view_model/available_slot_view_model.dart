@@ -192,6 +192,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   Future<void> getDoctorInfo(String companyNo,
       String doctorNo, String orgNo) async {
     _isLoading = true;
+    _doctors= null;
     var res = await AvailableSlotsRepository()
         .fetchDoctorInfo(companyNo, doctorNo, orgNo);
     notifyListeners();

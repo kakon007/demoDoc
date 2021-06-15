@@ -66,7 +66,9 @@ class _FamilyMembersState extends State<FamilyMembers> {
       body: Padding(
         padding: EdgeInsets.only(left: 15, right: 15, top: 15),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+
+           crossAxisAlignment: familyVm.familyMembersList.length==0 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             familyVm.isLoading == true
                 ? Center(
@@ -74,7 +76,11 @@ class _FamilyMembersState extends State<FamilyMembers> {
                   valueColor:
                   AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
                 ))
-                : Expanded(
+                : familyVm.familyMembersList.length==0 ? Center(
+                  child: Container(
+                  //height: MediaQuery.of(context).size.height*.65,
+                  child: Text("No family member added yet!", style: GoogleFonts.poppins(fontSize: isTablet?20 : 16),)),
+                ) : Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: ListView.builder(

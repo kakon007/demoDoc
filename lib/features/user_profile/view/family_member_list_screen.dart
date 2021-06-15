@@ -136,7 +136,9 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
             // }),)
             familyVm.isLoading==true? Center(child: CircularProgressIndicator(valueColor:
             AlwaysStoppedAnimation<Color>(
-                AppTheme.appbarPrimary),)) : Expanded(
+                AppTheme.appbarPrimary),)) : familyVm.familyMembersList.length==0 ? Container(
+                height: MediaQuery.of(context).size.height*.65,
+                child: Center(child: Text("No family member added yet!", style: GoogleFonts.poppins(fontSize: isTablet?20 : 16),))) :Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: ListView.builder(

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/doctor_info_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/add_patient.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/available_slots.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/no_available_slots.dart';
@@ -17,6 +18,7 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AppointmentScreen extends StatefulWidget {
   String doctorNo;
@@ -119,6 +121,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     );
   }
   var length;
+  Obj doctorInformation;
   @override
   void initState() {
     status = "Not Ok";
@@ -127,12 +130,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     isSelected = false;
     pickedAppointDate = DateTime.now();
     pickedAppointDate2 = DateTime.now();
+    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+    doctorInformation = null;
     Future.delayed(Duration.zero, () async {
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       await vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
       await vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      doctorInformation = vm.doctorInfo;
       length = vm.slotList.length;
       vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
       vm.getAppointType(true, false);
@@ -162,12 +168,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var profileImage = userImageVm.details?.photo ?? "";
     //length= vm.slotList.length;
-    var doctorDegree=  vm.doctorInfo?.docDegree == null
+    var doctorDegree=  doctorInformation?.docDegree == null
         ? ""
         : vm.doctorInfo?.docDegree;
-    var jobTitle=   vm.doctorInfo?.jobtitle??"";
-    var photo= vm.doctorInfo?.doctorPhoto??"";
-    var consultFee= vm.doctorInfo?.consultationFee??'';
+    var jobTitle=   doctorInformation?.jobtitle??"";
+    var photo= doctorInformation?.doctorPhoto??"";
+    var consultFee= doctorInformation?.consultationFee??'';
     // if (pickedAppointDate != pickedAppointDate2) {
     //   vm.getSlots(
     //       pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
@@ -354,7 +360,30 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         ),
       ),
     );
-    var doctorCard = Positioned(
+    var doctorCard = doctorInformation==null? Positioned(
+      top: 10,
+      left: 0,
+      right: 0,
+      child: Padding(
+        padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
+        child: Container(
+          height:isTablet? 140 : 120,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+          ),
+          child: Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.white,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey[300],
+               ),
+              height:isTablet? 140 : 120,
+            ),
+          ),
+        ),
+      ),) : Positioned(
       top: 10,
       left: 0,
       right: 0,
@@ -399,7 +428,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        vm.doctorInfo?.specializationName??"",
+                        doctorInformation?.specializationName??"",
                         style: GoogleFonts.poppins(
                             height: 1.5,
                             color: AppTheme.appbarPrimary,
@@ -408,7 +437,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       Container(
                           width: width< 330 ? width*.54 : width*.5,
                           child: Text(
-                            vm.doctorInfo?.doctorName??"",
+                            doctorInformation?.doctorName??"",
                             style: GoogleFonts.poppins(
                                 fontSize: isTablet? 18 : width< 330 ? 11 : 12, fontWeight: FontWeight.w700),
                           )),

@@ -125,7 +125,7 @@ class SignUpFormField extends StatelessWidget {
               border: InputBorder.none,
               hintStyle: GoogleFonts.poppins(fontSize: hintSize, color: HexColor("#D2D2D2")),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               contentPadding: EdgeInsets.fromLTRB(15.0, topPadding, 40.0, 0.0),

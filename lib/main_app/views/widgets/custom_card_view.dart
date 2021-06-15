@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
+import 'package:recase/recase.dart';
 
 class CustomCard extends StatelessWidget {
   Uint8List image;
@@ -57,7 +57,7 @@ class CustomCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<=1250 && width>=1000 ? 16 : width<=999 && width>=650?  14 :12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
+                          Text(titleText.titleCase,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<=1250 && width>=1000 ? 16 : width<=999 && width>=650?  14 :12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
                           SizedBox(height: isTablet? 8 : 3,),
                           Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  12 : 8),textAlign:TextAlign.start),
                         ],

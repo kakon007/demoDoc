@@ -93,7 +93,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
-    maxHeight = isTablet? 665 : 588;
+    maxHeight = isTablet? 665 : 635;
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var userId = vm.userDetailsList.id;
@@ -296,7 +296,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             children: [
               Container(
                   height: 20.0,
-                  width: 400,
+                  width: width*.5,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -457,7 +457,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                               fontSize: 16.0);
                                           Navigator.pop(context);
                                         } else {
-                                          maxHeight = isTablet? 755 : 650;
+                                          maxHeight = isTablet? 755 : 680;
                                           if (_selectedBlood == null) {
                                             setState(() {
                                               bloodBorderColor = "FF0000";

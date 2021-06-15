@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
@@ -69,7 +70,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     if(query.isNotEmpty) {
       List<Item> initialHospitalSearchItems = List<Item>();
       initialHospitalSearch.forEach((item) {
-        if(item.companyName.contains(query)) {
+        if(item.companyName.contains(query.toLowerCase())) {
           initialHospitalSearchItems.add(item);
         }
       });
@@ -168,10 +169,10 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                     shrinkWrap: true,
                     itemCount: hospitalItems.length,
                     itemBuilder: (BuildContext context, int index) {
-                      int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
-                      int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
-                      return HospitalListCard(loadImage(vm5.hospitalLogoList[ind].photoLogo),
-                        vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                      int logoIndex = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      int imageIndex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      return HospitalListCard(loadImage(vm5.hospitalLogoList[logoIndex].photoLogo),
+                        vm6.hospitalImageList[imageIndex].photoImg!=null?loadImage(vm6.hospitalImageList[imageIndex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
                         hospitalItems[index].companyName,
                         hospitalItems[index].companyAddress == null
                             ? "Mirpur,Dahaka,Bangladesh"

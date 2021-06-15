@@ -22,6 +22,7 @@ class _SignUpState extends State<SignUp> {
   String selectedDuration;
   String abc = "#EAEBED";
   DateTime pickedDate;
+  var genderBorderColor = "#EAEBED";
   TextEditingController _name = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _mobile = TextEditingController();
@@ -197,6 +198,7 @@ class _SignUpState extends State<SignUp> {
     var gender = Row(
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
                 height: 20.0,
@@ -219,7 +221,7 @@ class _SignUpState extends State<SignUp> {
               width: width,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: HexColor(abc)),
+                  border: Border.all(color: HexColor(genderBorderColor)),
                   borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -245,6 +247,7 @@ class _SignUpState extends State<SignUp> {
                           value: _selectedGender,
                           onChanged: (newValue) {
                             setState(() {
+                              genderBorderColor = "#EAEBED";
                               _selectedGender = newValue;
                             });
                           },
@@ -264,6 +267,18 @@ class _SignUpState extends State<SignUp> {
                 ],
               ),
             ),
+            genderBorderColor != "#FF0000"
+                ? SizedBox(
+              width: 2,
+            )
+                : Padding(
+                padding:
+                const EdgeInsets.only(left: 16, top: 8, right: 38),
+                child: Text(
+                  "This Field Is Required",
+                  style: GoogleFonts.poppins(
+                      color: Colors.red, fontSize: 11),
+                )),
           ],
         ),
       ],
@@ -272,13 +287,20 @@ class _SignUpState extends State<SignUp> {
       onTap: () async {
         //signUp(_name.text,_email.text, _mobile.text, _address.text, _selectedGender,_formatDate2);
         //showAlert(context);
-        if (_formKey.currentState.validate()) {
+        if (_formKey.currentState.validate() && _selectedGender!=null) {
           print("shaki" + _address.text + "shaki");
           await vm.getSignUpInfo(_name.text, _email.text, _mobile.text,
               _address.text, _selectedGender, _formatDate2);
           if (vm.message == "Saved Successfully") {
             Navigator.pop(context);
             showAlert(context);
+          }
+        }
+        else{
+          if(_selectedGender==null){
+            setState(() {
+              genderBorderColor="#FF0000";
+            });
           }
         }
       },
@@ -428,6 +450,7 @@ class _SignUpState extends State<SignUp> {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   gender,
                                   date,

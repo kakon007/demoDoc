@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
+import 'package:myhealthbd_app/features/auth/view/widgets/reset_password.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
@@ -75,6 +76,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
@@ -150,11 +152,17 @@ class _SignInState extends State<SignIn> {
               )
             ],
           ),
-          Text(
-            StringResources.forgetPassword,
-            style: GoogleFonts.roboto(
-              color: HexColor('#141D53'),
-                fontSize: isTablet? 17 : 15
+          GestureDetector(
+            onTap:
+            (){
+              _resetPassword(context,_username.text);
+            },
+            child: Text(
+              StringResources.forgetPassword,
+              style: GoogleFonts.roboto(
+                color: HexColor('#141D53'),
+                  fontSize: isTablet? 17 : 15
+              ),
             ),
           )
         ],
@@ -415,5 +423,12 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
+  }
+
+  void _resetPassword(BuildContext context, String userName) {
+    showDialog(context: context, builder: (context){
+      return ResetPasswordAlert(userName: userName,);
+    });
+
   }
 }

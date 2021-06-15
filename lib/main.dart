@@ -34,6 +34,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'features/appointments/view_model/book_appointment_view_model.dart';
 import 'features/auth/view_model/auth_view_model.dart';
+import 'features/auth/view_model/reset_password_view_model.dart';
 import 'features/auth/view_model/sign_out_view_model.dart';
 import 'features/auth/view_model/sign_up_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
@@ -96,6 +97,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<NearestAppointmentViewModel>(create: (context) =>  NearestAppointmentViewModel()),
       ChangeNotifierProvider<SharedFileViewModel>(create: (context) =>  SharedFileViewModel()),
       ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) =>  SearchDoctorViewModel()),
+      ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) =>  ResetPasswordViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

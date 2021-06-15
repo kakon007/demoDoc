@@ -21,7 +21,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_container_for_find_
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:recase/recase.dart';
 class FindYourDoctorScreen extends StatefulWidget {
   Uint8List image;
   Uint8List backgroundImage;
@@ -310,7 +310,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                 child: Container(
                                     width: isTablet ? MediaQuery.of(context).size.width*.6 : width <350  ? 190 :260,
                                     child: Text(
-                                      widget.title,
+                                      widget.title.titleCase,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.poppins(
@@ -736,6 +736,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       actions: [
         GestureDetector(
           onTap: () {
+            FocusScope.of(context).unfocus();
             showModalBottomSheet(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(

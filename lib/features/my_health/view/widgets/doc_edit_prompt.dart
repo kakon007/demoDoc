@@ -111,7 +111,7 @@ class _EditDocAlertState extends State<EditDocAlert> {
       labelFontSize: isTablet? 15 : 12,
       isRequired: true,
       controller: _username,
-      topPadding: 50,
+      topPadding: 18,
       margin: EdgeInsets.only(
         top: 2,
       ),
@@ -164,7 +164,7 @@ class _EditDocAlertState extends State<EditDocAlert> {
                                 name,
                                 SizedBox(height: isTablet? 30 : 10,),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 0.0, top: 22),
+                                  padding: const EdgeInsets.only(left: 0.0, top: 0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [

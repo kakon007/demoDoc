@@ -102,7 +102,7 @@ class _AddPatientState extends State<AddPatient> {
     // TODO: implement initState
     super.initState();
     var familyVm =
-        Provider.of<FamilyMembersListViewModel>(context, listen: false);
+    Provider.of<FamilyMembersListViewModel>(context, listen: false);
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       await vm.getPatType(widget.doctorNo);
@@ -131,7 +131,7 @@ class _AddPatientState extends State<AddPatient> {
     var vm2 = Provider.of<BookAppointmentViewModel>(context, listen: false);
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var familyVm =
-        Provider.of<FamilyMembersListViewModel>(context, listen: true);
+    Provider.of<FamilyMembersListViewModel>(context, listen: true);
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
     var vm3 = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm4 = Provider.of<AppointmentUpcomingViewModel>(context, listen: true);
@@ -143,51 +143,51 @@ class _AddPatientState extends State<AddPatient> {
     var name = Container(
       width: isTablet? width*.86  : width * .79,
       child: SignUpFormField(
-      validator: Validator().nullFieldValidate,
-      controller: _name,
-      margin: EdgeInsets.all(2),
-      labelText: "Name",
-      isRequired: true,
-      hintText: StringResources.name,
+        validator: Validator().nullFieldValidate,
+        controller: _name,
+        margin: EdgeInsets.all(2),
+        labelText: "Name",
+        isRequired: true,
+        hintText: StringResources.name,
         labelFontSize: isTablet? 15 : 12,
         hintSize: isTablet? 18 : 15,
-    ),);
+      ),);
     var email = Container(
       width: isTablet? width*.86  : width * .79,
       child: SignUpFormField(
-      validator: Validator().validateEmail,
-      controller: _email,
-      margin: EdgeInsets.only(bottom: 2),
-      isRequired: true,
-      labelText: "Email",
-      hintText: StringResources.email,
+        validator: Validator().validateEmail,
+        controller: _email,
+        margin: EdgeInsets.only(bottom: 2),
+        isRequired: true,
+        labelText: "Email",
+        hintText: StringResources.email,
         labelFontSize: isTablet? 15 : 12,
         hintSize: isTablet? 18 : 15,
-    ),);
+      ),);
     var mobile = Container(
       width: isTablet? width*.86  : width * .79,
       child: SignUpFormField(
-      validator: Validator().validatePhoneNumber,
-      controller: _mobile,
-      margin: EdgeInsets.only(bottom: 2),
-      isRequired: true,
-      labelText: "Mobile",
-      hintText: StringResources.mobileNumber,
+        validator: Validator().validatePhoneNumber,
+        controller: _mobile,
+        margin: EdgeInsets.only(bottom: 2),
+        isRequired: true,
+        labelText: "Mobile",
+        hintText: StringResources.mobileNumber,
         labelFontSize: isTablet? 15 : 12,
         hintSize: isTablet? 18 : 15,
-    ),);
+      ),);
     var address = Container(
       width: isTablet? width*.86  : width * .79,
       child: SignUpFormField(
-      validator: Validator().nullFieldValidate,
-      controller: _address,
-      margin: EdgeInsets.only(bottom: 2),
-      isRequired: true,
-      labelText: "Address",
-      hintText: StringResources.address,
+        validator: Validator().nullFieldValidate,
+        controller: _address,
+        margin: EdgeInsets.only(bottom: 2),
+        isRequired: true,
+        labelText: "Address",
+        hintText: StringResources.address,
         labelFontSize: isTablet? 15 : 12,
         hintSize: isTablet? 18 : 15,
-    ),);
+      ),);
     var gender = Row(
       children: [
         Column(
@@ -240,6 +240,7 @@ class _AddPatientState extends State<AddPatient> {
                           value: _selectedGender,
                           onChanged: (newValue) {
                             setState(() {
+                              genderBorderColor = "#EAEBED";
                               _selectedGender = newValue;
                               selectedGender = newValue;
                             });
@@ -262,16 +263,16 @@ class _AddPatientState extends State<AddPatient> {
             ),
             genderBorderColor != "#FF0000"
                 ? SizedBox(
-                    width: 2,
-                  )
+              width: 2,
+            )
                 : Padding(
-                    padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
-                    child: Text(
-                      "This Field Is Required",
-                      style: GoogleFonts.poppins(
-                          color: Colors.red, fontSize: 12),
-                    ),
-                  )
+              padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
+              child: Text(
+                "This Field Is Required",
+                style: GoogleFonts.poppins(
+                    color: Colors.red, fontSize: 12),
+              ),
+            )
           ],
         ),
       ],
@@ -324,19 +325,19 @@ class _AddPatientState extends State<AddPatient> {
                       child: Container(
                           height: 18,
                           child:
-                              Image.asset("assets/images/calender_icon.png")),
+                          Image.asset("assets/images/calender_icon.png")),
                     ),
                   ],
                 ),
               ),
               genderBorderColor != "#FF0000"
                   ? SizedBox(
-                      width: 2,
-                    )
+                width: 2,
+              )
                   : Padding(
-                      padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
-                      child: Text(""),
-                    )
+                padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
+                child: Text(""),
+              )
             ],
           ),
           onTap: () {
@@ -353,7 +354,7 @@ class _AddPatientState extends State<AddPatient> {
         ),
         margin: EdgeInsets.only(bottom: 2),
         height: isTablet? 80 :width <= 330 ? 60 : 70,
-     // width: MediaQuery.of(context).size.width * .78,
+        // width: MediaQuery.of(context).size.width * .78,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -364,30 +365,30 @@ class _AddPatientState extends State<AddPatient> {
                 ),
                 familyVm.imageMem != ""
                     ? Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppTheme.appbarPrimary),
-                          //color: AppTheme.appbarPrimary,
-                          shape: BoxShape.circle,
-                        ),
-                        height: isTablet? 60 : width <= 330 ? 40 : 50,
-                        width: isTablet? 60 : width <= 330 ? 40 : 50,
-                        child: Center(
-                            child: imageVm.loadProfileImage(
-                                familyVm.imageMem, isTablet? 55 : width <= 330 ? 35 : 45, isTablet ? 55 :  width <= 330 ? 35 : 45, 50)))
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppTheme.appbarPrimary),
+                      //color: AppTheme.appbarPrimary,
+                      shape: BoxShape.circle,
+                    ),
+                    height: isTablet? 60 : width <= 330 ? 40 : 50,
+                    width: isTablet? 60 : width <= 330 ? 40 : 50,
+                    child: Center(
+                        child: imageVm.loadProfileImage(
+                            familyVm.imageMem, isTablet? 55 : width <= 330 ? 35 : 45, isTablet ? 55 :  width <= 330 ? 35 : 45, 50)))
                     : Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.appbarPrimary,
-                          shape: BoxShape.circle,
-                        ),
-                        height: isTablet? 60 : width <= 330 ? 35 : 50,
-                        width: isTablet? 60 : width <= 330 ? 35 : 50,
-                        child: Center(
-                          child: Image.asset(
-                            'assets/images/dPro.png',
-                            height: isTablet? 38: width <= 330 ? 22 : 33,
-                            width: isTablet? 38 :width <= 330 ? 22 : 33,
-                          ),
-                        )),
+                    decoration: BoxDecoration(
+                      color: AppTheme.appbarPrimary,
+                      shape: BoxShape.circle,
+                    ),
+                    height: isTablet? 60 : width <= 330 ? 35 : 50,
+                    width: isTablet? 60 : width <= 330 ? 35 : 50,
+                    child: Center(
+                      child: Image.asset(
+                        'assets/images/dPro.png',
+                        height: isTablet? 38: width <= 330 ? 22 : 33,
+                        width: isTablet? 38 :width <= 330 ? 22 : 33,
+                      ),
+                    )),
                 SizedBox(
                   width: 20,
                 ),
@@ -475,6 +476,7 @@ class _AddPatientState extends State<AddPatient> {
                             value: _selectedMemberType,
                             onChanged: (newValue) {
                               setState(() {
+                                patientBorderColor = "#EAEBED";
                                 _selectedMemberType = newValue;
                                 if (_selectedMemberType !=
                                     selectedMemberType) {
@@ -491,7 +493,7 @@ class _AddPatientState extends State<AddPatient> {
                                     await vm.getConType(
                                         widget.doctorNo,
                                         selectedMemberType ==
-                                                "Family Member"
+                                            "Family Member"
                                             ? vm.patNo
                                             : vm.patOther,
                                         widget.companyNo,
@@ -507,7 +509,7 @@ class _AddPatientState extends State<AddPatient> {
                                     Text(
                                       patNo,
                                       style:
-                                          GoogleFonts.roboto(fontSize: isTablet? 18 : 15),
+                                      GoogleFonts.roboto(fontSize: isTablet? 18 : 15),
                                     ),
                                   ],
                                 ),
@@ -523,16 +525,16 @@ class _AddPatientState extends State<AddPatient> {
               ),
               patientBorderColor != "#FF0000"
                   ? SizedBox(
-                      width: 2,
-                    )
+                width: 2,
+              )
                   : Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, top: 8, right: 38),
-                      child: Text(
-                        "This Field Is Required",
-                        style: GoogleFonts.poppins(
-                            color: Colors.red, fontSize: 12),
-                      )),
+                  padding:
+                  const EdgeInsets.only(left: 16, top: 8, right: 38),
+                  child: Text(
+                    "This Field Is Required",
+                    style: GoogleFonts.poppins(
+                        color: Colors.red, fontSize: 12),
+                  )),
             ],
           ),
         ),
@@ -548,11 +550,11 @@ class _AddPatientState extends State<AddPatient> {
                 height: 50.0,
                 width: isTablet? width*.86  : width * .79,
                 decoration: BoxDecoration(
-                  color: familyVm.isSelected && memberList
-                      ? AppTheme.appbarPrimary
-                      : Colors.white,
-                  border: Border.all(color: HexColor(memberBorderColor)),
-                  borderRadius: BorderRadius.circular(10)),
+                    color: familyVm.isSelected && memberList
+                        ? AppTheme.appbarPrimary
+                        : Colors.white,
+                    border: Border.all(color: HexColor(memberBorderColor)),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -706,7 +708,7 @@ class _AddPatientState extends State<AddPatient> {
                           value: _selectedConsultation,
                           onChanged: (newValue) {
                             setState(() {
-                              //print(newValue);
+                              consultBorderColor = "#EAEBED";
                               _selectedConsultation = newValue;
                               selectedConsultationType = newValue;
                               //print("Con: $selectedConsultationType");
@@ -716,7 +718,7 @@ class _AddPatientState extends State<AddPatient> {
                                 widget.doctorNo,
                                 widget.orgNo,
                                 (selectedMemberType == "Family Member" &&
-                                        vm.addPatient == true)
+                                    vm.addPatient == true)
                                     ? vm.patNo
                                     : vm.patOther,
                               );
@@ -727,7 +729,7 @@ class _AddPatientState extends State<AddPatient> {
                               child: new Text(
                                 Validator()
                                     .capitalizeTheFirstLetterOfEachWord(
-                                        consNo.name),
+                                    consNo.name),
                                 style: GoogleFonts.roboto(fontSize: isTablet? 18 : 15),
                               ),
                               value: consNo.no,
@@ -742,17 +744,17 @@ class _AddPatientState extends State<AddPatient> {
             ),
             consultBorderColor != "#FF0000"
                 ? SizedBox(
-                    width: 2,
-                  )
+              width: 2,
+            )
                 : Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, top: 8, right: 38),
-                    child: Text(
-                      "This Field Is Required",
-                      style: GoogleFonts.poppins(
-                          color: Colors.red, fontSize: 12),
-                    ),
-                  )
+              padding:
+              const EdgeInsets.only(left: 16, top: 8, right: 38),
+              child: Text(
+                "This Field Is Required",
+                style: GoogleFonts.poppins(
+                    color: Colors.red, fontSize: 12),
+              ),
+            )
           ],
         ),
       ],
@@ -768,7 +770,7 @@ class _AddPatientState extends State<AddPatient> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   border:
-                      Border.all(color: HexColor(consultBorderColorForMe)),
+                  Border.all(color: HexColor(consultBorderColorForMe)),
                   borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -796,7 +798,7 @@ class _AddPatientState extends State<AddPatient> {
                           value: _selectedConsultationForMe,
                           onChanged: (newValue) {
                             setState(() {
-                              //print(newValue);
+                              consultBorderColorForMe = "#EAEBED";
                               _selectedConsultationForMe = newValue;
                               selectedConsultationTypeForMe = newValue;
                               //print("Con: $selectedConsultationType");
@@ -814,7 +816,7 @@ class _AddPatientState extends State<AddPatient> {
                               child: new Text(
                                 Validator()
                                     .capitalizeTheFirstLetterOfEachWord(
-                                        consNo.name),
+                                    consNo.name),
                                 style: GoogleFonts.roboto(fontSize: isTablet? 18 : 15),
                               ),
                               value: consNo.no,
@@ -829,17 +831,17 @@ class _AddPatientState extends State<AddPatient> {
             ),
             consultBorderColorForMe != "#FF0000"
                 ? SizedBox(
-                    width: 2,
-                  )
+              width: 2,
+            )
                 : Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, top: 8, right: 38),
-                    child: Text(
-                      "This Field Is Required",
-                      style: GoogleFonts.poppins(
-                          color: Colors.red, fontSize: 12),
-                    ),
-                  )
+              padding:
+              const EdgeInsets.only(left: 16, top: 8, right: 38),
+              child: Text(
+                "This Field Is Required",
+                style: GoogleFonts.poppins(
+                    color: Colors.red, fontSize: 12),
+              ),
+            )
           ],
         ),
       ],
@@ -855,40 +857,40 @@ class _AddPatientState extends State<AddPatient> {
         child: vm.consultFee == null || selectedConsultationType == ""
             ? SizedBox()
             : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        vm.consultationFee,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  vm.consultationFee,
+                  style: GoogleFonts.poppins(
+                      color: AppTheme.appbarPrimary,
+                      fontSize: isTablet? 40: 30,
+                      fontWeight: FontWeight.w600),
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(" BDT",
                         style: GoogleFonts.poppins(
+                            fontSize: isTablet? 18 : 15,
                             color: AppTheme.appbarPrimary,
-                            fontSize: isTablet? 40: 30,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(" BDT",
-                              style: GoogleFonts.poppins(
-                                fontSize: isTablet? 18 : 15,
-                                  color: AppTheme.appbarPrimary,
-                                  fontWeight: FontWeight.w500))
-                        ],
-                      )
-                    ],
-                  ),
-                  Text("Consultation Fee",
-                      style: GoogleFonts.poppins(
-                          fontSize: isTablet? 18 : 15,
-                          color: AppTheme.appbarPrimary,
-                          fontWeight: FontWeight.w500))
-                ],
-              ),
+                            fontWeight: FontWeight.w500))
+                  ],
+                )
+              ],
+            ),
+            Text("Consultation Fee",
+                style: GoogleFonts.poppins(
+                    fontSize: isTablet? 18 : 15,
+                    color: AppTheme.appbarPrimary,
+                    fontWeight: FontWeight.w500))
+          ],
+        ),
       ),
     );
     var consultFeeForMe = DashedContainer(
@@ -900,214 +902,214 @@ class _AddPatientState extends State<AddPatient> {
         height: isTablet? 100 : 90.0,
         width: isTablet? width*.3 : width * .5,
         child: vm.consultationFeeForMe == null ||
-                selectedConsultationTypeForMe == ""
+            selectedConsultationTypeForMe == ""
             ? SizedBox()
             : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        vm.consultationFeeForMe,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  vm.consultationFeeForMe,
+                  style: GoogleFonts.poppins(
+                      color: AppTheme.appbarPrimary,
+                      fontSize: isTablet? 40: 30,
+                      fontWeight: FontWeight.w600),
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(" BDT",
                         style: GoogleFonts.poppins(
+                            fontSize: isTablet? 18 : 15,
                             color: AppTheme.appbarPrimary,
-                            fontSize: isTablet? 40: 30,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(" BDT",
-                              style: GoogleFonts.poppins(
-                                  fontSize: isTablet? 18 : 15,
-                                  color: AppTheme.appbarPrimary,
-                                  fontWeight: FontWeight.w500))
-                        ],
-                      )
-                    ],
-                  ),
-                  Text("Consultation Fee",
-                      style: GoogleFonts.poppins(
-                          fontSize: isTablet? 18 : 15,
-                          color: AppTheme.appbarPrimary,
-                          fontWeight: FontWeight.w500))
-                ],
-              ),
+                            fontWeight: FontWeight.w500))
+                  ],
+                )
+              ],
+            ),
+            Text("Consultation Fee",
+                style: GoogleFonts.poppins(
+                    fontSize: isTablet? 18 : 15,
+                    color: AppTheme.appbarPrimary,
+                    fontWeight: FontWeight.w500))
+          ],
+        ),
       ),
     );
     var confirmBooking = vm2.isLoading == true
         ? CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
-          )
+      valueColor: AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
+    )
         : Column(
-            children: [
-              spaceBetween,
-              GestureDetector(
-                onTap: () async {
-                  if (selectedConsultationTypeForMe != "" ||
-                      (vm.forMe == false && selectedGender != "") ||
-                      (selectedConsultationType != "" &&
-                          (vm.forMe == false && selectedMemberType != "") &&
-                          familyVm.familyMemName != '')) {
-                    setState(() {
-                      if (selectedGender != "") {
-                        genderBorderColor = "#EAEBED";
-                      }
-                      if (familyVm.familyMemName != "") {
-                        memberBorderColor = "#EAEBED";
-                      }
-                      if (selectedConsultationType != "" && vm.addPatient) {
-                        consultBorderColor = "#EAEBED";
-                      }
-                      if (selectedConsultationTypeForMe != "" && vm.forMe) {
-                        consultBorderColorForMe = "#EAEBED";
-                      }
-                      if (selectedMemberType != "") {
-                        patientBorderColor = "#EAEBED";
-                      }
-                    });
-                    if (_formKey.currentState.validate()) {
-                      await vm2.getAppointData(
-                        widget.doctorNo,
-                        vm.doctorName,
-                        vm.appointDate,
-                        vm.shiftdtlNo,
-                        vm.shift,
-                        vm.slotNo,
-                        vm.slotSl,
-                        vm.startTime,
-                        vm.endTime,
-                        vm.durationMin,
-                        vm.extraSlot,
-                        vm.slotSplited,
-                        vm3.userDetailsList.ssCreatedOn,
-                        vm3.userDetailsList.ssCreator.toString(),
-                        vm.remarks,
-                        vm.appointStatus,
-                        vm.companyNo,
-                        vm.ogNo,
-                        vm.forMe
-                            ? vm.patNo
-                            : selectedMemberType == "Family Member"
-                                ? vm.patNo
-                                : vm.patOther,
-                        vm.forMe
-                            ? selectedConsultationTypeForMe
-                            : selectedConsultationType,
-                        vm.forMe ? vm.consultFeeForMe : vm.consultationFee,
-                        vm.forMe == false && selectedMemberType == "Others"
-                            ? _name.text
-                            : vm.forMe == false &&
-                                    selectedMemberType == "Family Member"
-                                ? familyVm.familyMemName
-                                : vm3.userDetailsList.fname,
-                        vm.forMe == false && selectedMemberType == "Others"
-                            ? _mobile.text
-                            : vm.forMe == false &&
-                                    selectedMemberType == "Family Member"
-                                ? familyVm.familyMemMobile
-                                : vm3.userDetailsList.phoneMobile,
-                        vm.forMe == false &&
-                                selectedMemberType == "Family Member"
-                            ? familyVm.familyMemGender
-                            : vm.forMe == false &&
-                                    selectedMemberType == "Others"
-                                ? _selectedGender == "Male"
-                                    ? "M"
-                                    : _selectedGender == "Female"
-                                        ? "F"
-                                        : "O"
-                                : vm3.userDetailsList.gender,
-                        vm.forMe == false &&
-                                selectedMemberType == "Family Member"
-                            ? familyVm.familyMemAddress
-                            : vm.forMe == false &&
-                                    selectedMemberType == "Others"
-                                ? _address.text
-                                : vm3.userDetailsList.address,
-                        vm.forMe == false &&
-                                selectedMemberType == "Family Member"
-                            ? familyVm.familyMemEmail
-                            : vm.forMe == false &&
-                                    selectedMemberType == "Others"
-                                ? _email.text
-                                : vm3.userDetailsList.email == null
-                                    ? "ish@ish.com"
-                                    : vm3.userDetailsList.email,
-                        vm.forMe == false &&
-                                selectedMemberType == "Family Member"
-                            ? familyVm.familyMemDob
-                            : vm.forMe == false &&
-                                    selectedMemberType == "Others"
-                                ? birthDate
-                                : vm3.userDetailsList.dob,
-                        "0",
-                        vm.forMe == false &&
-                                selectedMemberType == "Family Member"
-                            ? familyVm.familyMemRegNo
-                            : vm3.userDetailsList.id.toString(),
-                      );
-                      Future.delayed(Duration.zero, () async {
-                        setState(() {
-                          if (vm2.message == null) {
-                            _showSuccessAlert(context);
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        HomeScreen(
-                                          accessToken: accessToken,
-                                        )));
-                          } else {
-                            //isClicked = false;
-                          }
-                        });
-                      });
+      children: [
+        spaceBetween,
+        GestureDetector(
+          onTap: () async {
+            if (selectedConsultationTypeForMe != "" ||
+                (vm.forMe == false && selectedGender != "") || selectedConsultationType != "" ||
+            (selectedConsultationType != "" &&
+                    (vm.forMe == false && selectedMemberType != "") &&
+                    familyVm.familyMemName != '') || selectedConsultationTypeForMe!= "" || (familyVm.isSelected && vm.addPatient && memberList)) {
+              setState(() {
+                if (selectedGender != "") {
+                  genderBorderColor = "#EAEBED";
+                }
+                if (familyVm.familyMemName != "") {
+                  memberBorderColor = "#EAEBED";
+                }
+                if (selectedConsultationType != "" && vm.addPatient) {
+                  consultBorderColor = "#EAEBED";
+                }
+                if (selectedConsultationTypeForMe != "" && vm.forMe) {
+                  consultBorderColorForMe = "#EAEBED";
+                }
+                if (selectedMemberType != "") {
+                  patientBorderColor = "#EAEBED";
+                }
+              });
+              if (_formKey.currentState.validate()) {
+                await vm2.getAppointData(
+                  widget.doctorNo,
+                  vm.doctorName,
+                  vm.appointDate,
+                  vm.shiftdtlNo,
+                  vm.shift,
+                  vm.slotNo,
+                  vm.slotSl,
+                  vm.startTime,
+                  vm.endTime,
+                  vm.durationMin,
+                  vm.extraSlot,
+                  vm.slotSplited,
+                  vm3.userDetailsList.ssCreatedOn,
+                  vm3.userDetailsList.ssCreator.toString(),
+                  vm.remarks,
+                  vm.appointStatus,
+                  vm.companyNo,
+                  vm.ogNo,
+                  vm.forMe
+                      ? vm.patNo
+                      : selectedMemberType == "Family Member"
+                      ? vm.patNo
+                      : vm.patOther,
+                  vm.forMe
+                      ? selectedConsultationTypeForMe
+                      : selectedConsultationType,
+                  vm.forMe ? vm.consultFeeForMe : vm.consultationFee,
+                  vm.forMe == false && selectedMemberType == "Others"
+                      ? _name.text
+                      : vm.forMe == false &&
+                      selectedMemberType == "Family Member"
+                      ? familyVm.familyMemName
+                      : vm3.userDetailsList.fname,
+                  vm.forMe == false && selectedMemberType == "Others"
+                      ? _mobile.text
+                      : vm.forMe == false &&
+                      selectedMemberType == "Family Member"
+                      ? familyVm.familyMemMobile
+                      : vm3.userDetailsList.phoneMobile,
+                  vm.forMe == false &&
+                      selectedMemberType == "Family Member"
+                      ? familyVm.familyMemGender
+                      : vm.forMe == false &&
+                      selectedMemberType == "Others"
+                      ? _selectedGender == "Male"
+                      ? "M"
+                      : _selectedGender == "Female"
+                      ? "F"
+                      : "O"
+                      : vm3.userDetailsList.gender,
+                  vm.forMe == false &&
+                      selectedMemberType == "Family Member"
+                      ? familyVm.familyMemAddress
+                      : vm.forMe == false &&
+                      selectedMemberType == "Others"
+                      ? _address.text
+                      : vm3.userDetailsList.address,
+                  vm.forMe == false &&
+                      selectedMemberType == "Family Member"
+                      ? familyVm.familyMemEmail
+                      : vm.forMe == false &&
+                      selectedMemberType == "Others"
+                      ? _email.text
+                      : vm3.userDetailsList.email == null
+                      ? "ish@ish.com"
+                      : vm3.userDetailsList.email,
+                  vm.forMe == false &&
+                      selectedMemberType == "Family Member"
+                      ? familyVm.familyMemDob
+                      : vm.forMe == false &&
+                      selectedMemberType == "Others"
+                      ? birthDate
+                      : vm3.userDetailsList.dob,
+                  "0",
+                  vm.forMe == false &&
+                      selectedMemberType == "Family Member"
+                      ? familyVm.familyMemRegNo
+                      : vm3.userDetailsList.id.toString(),
+                );
+                Future.delayed(Duration.zero, () async {
+                  setState(() {
+                    if (vm2.message == null) {
+                      _showSuccessAlert(context);
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  HomeScreen(
+                                    accessToken: accessToken,
+                                  )));
+                    } else {
+                      //isClicked = false;
                     }
-                  } else {
-                    setState(() {
-                      if (vm.forMe == false && selectedGender == "") {
-                        genderBorderColor = "#FF0000";
-                      }
-                      if (vm.forMe == false && selectedMemberType == "") {
-                        patientBorderColor = "#FF0000";
-                      }
-                      if (vm.forMe == false && familyVm.familyMemName == "") {
-                        memberBorderColor = "#FF0000";
-                      }
-                      if (selectedConsultationType == "" && vm.addPatient) {
-                        consultBorderColor = "#FF0000";
-                      }
-                      if (selectedConsultationTypeForMe == "" && vm.forMe) {
-                        consultBorderColorForMe = "#FF0000";
-                      }
-                    });
-                  }
-                },
-                child: Container(
-                  child: Material(
-                    child: Container(
-                      child: Center(
-                          child: Text(
-                        "Confirm Booking",
-                        style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: Colors.white),
-                      )),
-                      height: isTablet? 60 : 45.0,
-                      width: MediaQuery.of(context).size.width * .87,
-                      decoration: BoxDecoration(
-                          color: AppTheme.appbarPrimary,
-                          border: Border.all(color: HexColor("#354391")),
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                  ),
-                ),
+                  });
+                });
+              }
+            } else {
+              setState(() {
+                if (vm.forMe == false && selectedGender == "") {
+                  genderBorderColor = "#FF0000";
+                }
+                if (vm.forMe == false && selectedMemberType == "") {
+                  patientBorderColor = "#FF0000";
+                }
+                if (vm.forMe == false && familyVm.familyMemName == "") {
+                  memberBorderColor = "#FF0000";
+                }
+                if (selectedConsultationType == "" && vm.addPatient) {
+                  consultBorderColor = "#FF0000";
+                }
+                if (selectedConsultationTypeForMe == "" && vm.forMe) {
+                  consultBorderColorForMe = "#FF0000";
+                }
+              });
+            }
+          },
+          child: Container(
+            child: Material(
+              child: Container(
+                child: Center(
+                    child: Text(
+                      "Confirm Booking",
+                      style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: Colors.white),
+                    )),
+                height: isTablet? 60 : 45.0,
+                width: MediaQuery.of(context).size.width * .87,
+                decoration: BoxDecoration(
+                    color: AppTheme.appbarPrimary,
+                    border: Border.all(color: HexColor("#354391")),
+                    borderRadius: BorderRadius.circular(8)),
               ),
-              spaceBetween,
-            ],
-          );
+            ),
+          ),
+        ),
+        spaceBetween,
+      ],
+    );
     return Expanded(
       child: Form(
         key: _formKey,
@@ -1131,7 +1133,7 @@ class _AddPatientState extends State<AddPatient> {
                           vm.forMe ? patientTypeForMe : membersTypeList,
                           selectedMemberType == "Family Member" || vm.forMe || (vm.addPatient && selectedMemberType=="") || (vm.addPatient && selectedMemberType=="Others")? spaceBetween : SizedBox(),
                           vm.forMe == false &&
-                                  selectedMemberType == "Family Member"
+                              selectedMemberType == "Family Member"
                               ? membersNameList
                               : SizedBox(),
                           familyVm.isSelected && vm.addPatient
@@ -1143,20 +1145,20 @@ class _AddPatientState extends State<AddPatient> {
                           selectedMemberType == ""
                               ? SizedBox()
                               : vm.forMe
-                                  ? SizedBox()
-                                  : selectedMemberType == "Others"
-                                      ? SizedBox()
-                                      : spaceBetween,
+                              ? SizedBox()
+                              : selectedMemberType == "Others"
+                              ? SizedBox()
+                              : spaceBetween,
                           vm.forMe == false && selectedMemberType != ""
                               ? patientTypeAdd
                               : SizedBox(),
                           selectedMemberType == ""
                               ? SizedBox()
                               : vm.forMe
-                                  ? SizedBox()
-                                  : selectedMemberType != ""
-                                      ? spaceBetween
-                                      : SizedBox(),
+                              ? SizedBox()
+                              : selectedMemberType != ""
+                              ? spaceBetween
+                              : SizedBox(),
                           vm.forMe
                               ? consultationTypeForMe
                               : consultationTypeAdd,
@@ -1164,28 +1166,28 @@ class _AddPatientState extends State<AddPatient> {
                           spaceBetween,
                           vm.forMe == false && selectedMemberType == "Others"
                               ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              name,
+                              email,
+                              mobile,
+                              //password,
+                              //confirmPassword,
+                              address,
+                              spaceBetween,
+                              Container(
+                                width: isTablet? width*.86  : width*.79,
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
-                                    name,
-                                    email,
-                                    mobile,
-                                    //password,
-                                    //confirmPassword,
-                                    address,
-                                    spaceBetween,
-                                    Container(
-                                      width: isTablet? width*.86  : width*.79,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          gender,
-                                          dateOfBirth,
-                                        ],
-                                      ),
-                                    ),
+                                    gender,
+                                    dateOfBirth,
                                   ],
-                                )
+                                ),
+                              ),
+                            ],
+                          )
                               : SizedBox(),
                           spaceBetween,
                           spaceBetween,
@@ -1215,8 +1217,8 @@ class _AddPatientState extends State<AddPatient> {
       context: context,
       pageBuilder: (context, anim1, anim2) {
         return Material(
-          type: MaterialType.transparency,
-          child: AppointSuccess(appointDate: vm.appointDate,doctorName: vm.doctorName, hospitalName: widget.hospitalName,slotSl: vm.slotSl,startTime: vm.startTime.toString(),));
+            type: MaterialType.transparency,
+            child: AppointSuccess(appointDate: vm.appointDate,doctorName: vm.doctorName, hospitalName: widget.hospitalName,slotSl: vm.slotSl,startTime: vm.startTime.toString(),));
       },
     );
   }

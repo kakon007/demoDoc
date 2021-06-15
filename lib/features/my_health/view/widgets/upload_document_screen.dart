@@ -520,18 +520,19 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           description: _descriptionTextEditingController.text);
                       print("Upload Doc tapped");
                       // await Future.delayed(Duration(seconds: 3));
-                      Future.delayed(Duration.zero, () async {
-                        setState(() {
-                          // file==null && _image==null?Loader():
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      // DoctorHomeScreen(
-                                      HomeScreen(
-                                        accessToken: accessToken,
-                                      )));
-                        });
-                      });
+                      // Future.delayed(Duration.zero, () async {
+                      //   setState(() {
+                      //     // file==null && _image==null?Loader():
+                      //     Navigator.of(context)
+                      //         .pushReplacement(MaterialPageRoute(
+                      //             builder: (BuildContext context) =>
+                      //                 // DoctorHomeScreen(
+                      //                 HomeScreen(
+                      //                   accessToken: accessToken,
+                      //                 )));
+                      //   });
+                      // });
+                      Navigator.pop(context);
                     },
                     child: Material(
                       elevation: 2,

@@ -1783,7 +1783,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 type: PageTransitionType.rightToLeft,
                                 child: UploadDocumentScreen(),
                               ),
-                            );
+                            ).then((value) {
+                            setState(() {
+                                vm3.getDataforDoc();
+                            });
+                            });
                           },
                         ),
                       ),

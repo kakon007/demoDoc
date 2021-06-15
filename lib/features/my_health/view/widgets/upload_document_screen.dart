@@ -65,6 +65,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       setState(() {
         isEdit = true;
       });
+      //print('ImageName ${_image.toString().split('/').last}');
     } else {
       print('No image selected.');
     }
@@ -358,7 +359,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           // ),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Column(
+                        child: _image==null?Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -375,6 +376,24 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                               ),
                             ),
                           ],
+                        ):Padding(
+                          padding: const EdgeInsets.only(top:40.0),
+                          child: Center(
+                            child: Container(
+                              height: isTablet ? 200 : cardHeight * 0.7,
+                              width: isTablet ? 340 : width <= 360 ? width / 2.5 : 140,
+                              child: Text(
+                                _image.toString().split('/').last,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: isTablet? 20 : width <= 360 ? 10 : 12,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -417,7 +436,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           // ),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Column(
+                        child:file==null? Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -434,6 +453,24 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                               ),
                             )
                           ],
+                        ):Padding(
+                          padding: const EdgeInsets.only(top:40.0),
+                          child: Center(
+                            child: Container(
+                              height: isTablet ? 200 : cardHeight * 0.7,
+                              width: isTablet ? 340 : width <= 360 ? width / 2.5 : 90,
+                              child: Text(
+                                file.toString().split('/').last,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: isTablet? 20 : width <= 360 ? 10 : 12,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

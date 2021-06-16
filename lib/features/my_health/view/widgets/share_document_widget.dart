@@ -436,7 +436,7 @@ print('Resss:: $doctorNoArr');
                 width: 50,
                 child: Center(
                   child: Image.asset(
-                    'assets/images/dPro.png',
+                    'assets/icons/dct.png',
                     height: 40,
                     width: 40,
                   ),
@@ -956,7 +956,7 @@ SVProgressHUD.show(
                                     width: 50,
                                     child: Center(
                                       child: Image.asset(
-                                        'assets/images/dPro.png',
+                                        'assets/icons/dct.png',
                                         height: 40,
                                         width: 40,
                                       ),

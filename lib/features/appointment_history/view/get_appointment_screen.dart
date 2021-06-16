@@ -796,7 +796,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                //width: 20,
                                                                child: vm.upComingAppointmentList[index].photo!=null?loadLogo(vm.upComingAppointmentList[index].photo):Image.asset(
                                        "assets/icons/dct.png",
-                                       fit: BoxFit.fill,
+                                       fit: BoxFit.fitHeight,
                                        width: 80,
                                        height: 60,
                                        ),
@@ -840,10 +840,10 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                                                  color:vm.upComingAppointmentList[index].consultationId==null?HexColor("#99A0C8"):HexColor("#354291"),
                                                                  child: SizedBox(
-                                                                   width: 110,
+                                                                   width: 113,
                                                                    height:  MediaQuery.of(context).size.width>650 ? 35 : 28,
                                                                    child: Center(
-                                                                     child: Text("Start Consultation",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w500),),
+                                                                     child: Text("Join Video Consultation",style: TextStyle(color: Colors.white,fontSize: 10,fontWeight: FontWeight.w500),),
                                                                    ),
                                                                  ),
                                                                ),
@@ -1381,7 +1381,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                 : Image.asset(
                                                                     "assets/icons/dct.png",
                                                                     fit: BoxFit
-                                                                        .fill,
+                                                                        .fitHeight,
                                                                     width: 80,
                                                                     height: 60,
                                                                   ),

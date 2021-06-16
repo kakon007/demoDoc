@@ -297,10 +297,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
      vm10.getData();
     // print('pres ::: ${widget.prescriptionNo}');
 
-    Future.delayed(Duration.zero, () async {
-      await Provider.of<UploadDocumentsViewModel>(context, listen: false)
-          .deleteDocuments(accessToken: accessTokenVm.accessToken);
-    });
+    // Future.delayed(Duration.zero, () async {
+    //   await Provider.of<UploadDocumentsViewModel>(context, listen: false)
+    //       .deleteDocuments(accessToken: accessTokenVm.accessToken);
+    // });
     // var vm4 = Provider.of<ViewDocumentViewModel>(context, listen: false);
     // vm4.getData();
     //startTimer();
@@ -2260,7 +2260,16 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                           child: InkWell(onTap: () async{
                                                                             // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
                                                                             // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-
+                                                                            SVProgressHUD.show(
+                                                                               status: 'Deleting'
+                                                                            );
+                                                                            await Provider.of<UploadDocumentsViewModel>(context, listen: false)
+                                                                                .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
+                                                                                  setState(() {
+                                                                                    vm3.getDataforDoc();
+                                                                                  });
+                                                                            });
+                                                                            SVProgressHUD.dismiss();
                                                                           },child: Icon(Icons.delete,color: HexColor('#354291'),)),
                                                                         ),
 

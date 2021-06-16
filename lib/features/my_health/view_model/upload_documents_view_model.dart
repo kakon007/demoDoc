@@ -61,13 +61,13 @@ class UploadDocumentsViewModel extends ChangeNotifier{
   }
 
 
-  Future<void> deleteDocuments({int id,String attachmentName,String attachmentPath,int attachmentTypeNo,String description,int activeStatus,String regId,int type,String accessToken}) async {
+  Future<void> deleteDocuments({int id,String attachmentName,String attachmentPath,int attachmentTypeNo,String description,int activeStatus,int referenceNo,int referenceTypeNo,String regId,int type,String accessToken}) async {
 var headers = {
   'Authorization': 'Bearer $accessToken',
   'Content-Type': 'text/plain'
 };
 var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/delete'));
-request.body =json.encode(''' { "id": $id,"attachmentName": $attachmentName,"attachmentPath": $attachmentPath,"attachmentTypeNo": $attachmentTypeNo,"description": $description,"activeStatus": $activeStatus,"regId": $regId,"type": $type }''');
+request.body = ''' {\n           \n            "id": $id,\n            "attachmentName": "$attachmentName",\n            "attachmentPath": "$attachmentPath",\n            "attachmentTypeNo": $attachmentTypeNo,\n            "description": $description,\n            "activeStatus": $activeStatus,\n            "referenceNo": $referenceNo,\n            "referenceTypeNo": $referenceTypeNo,\n            "regId": "$regId",\n            "type": $type\n        },''';
 request.headers.addAll(headers);
 
 http.StreamedResponse response = await request.send();

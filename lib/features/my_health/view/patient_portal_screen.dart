@@ -1334,7 +1334,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                         //   child: greyright,
                                                         // ):
                                                         Padding(
-                                                          padding: EdgeInsets.only(top: 40),
+                                                          padding: EdgeInsets.only(bottom: 25),
                                                           child: GestureDetector(
                                                               onTap: () async{
                                                             vm.prescriptionList[index].prescriptionNo==null?
@@ -1347,7 +1347,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                         ),
                                                         SizedBox(width: 15,),
                                                         Padding(
-                                                          padding: EdgeInsets.only(top: 40),
+                                                          padding: EdgeInsets.only(bottom: 25),
                                                           child: GestureDetector(
                                                               onTap: () async{
                                                                 SVProgressHUD.show(
@@ -1556,7 +1556,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       child: Container(
                                                         height: isTablet
                                                             ? 130
-                                                            : cardHeight * 0.8,
+                                                            : cardHeight * 0.5,
                                                         margin: EdgeInsets.only(
                                                             top: isTablet ? 8 : 8,
                                                             bottom:
@@ -1574,11 +1574,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   .bottomRight,
                                                               stops: [
                                                                 1.0,
-                                                                1.0
+                                                                // 1.0
                                                               ],
                                                               colors: [
-                                                                HexColor(
-                                                                    '#C5CAE8'),
+                                                                // HexColor(
+                                                                //     '#C5CAE8'),
                                                                 HexColor(
                                                                     '#E9ECFE'),
                                                               ]),
@@ -1600,7 +1600,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                               padding:
                                                                   const EdgeInsets
                                                                           .only(
-                                                                      top: 8.0,
+                                                                      top: 12.0,
                                                                       right: 8,
                                                                       bottom: 8,
                                                                       left: 6),
@@ -1693,7 +1693,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 //   child: greyright,
                                                                 // ):
                                                                 Padding(
-                                                                  padding: EdgeInsets.only(right: 20,top: 40),
+                                                                  padding: EdgeInsets.only(right: 20,),
                                                                   child: InkWell(onTap: () async{
                                                                     await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
 
@@ -1701,41 +1701,38 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 ),
 
                                                                 SizedBox(width: 5,),
-                                                                Padding(
-                                                                  padding: EdgeInsets.only(top: 40),
-                                                                  child: GestureDetector(
-                                                                      onTap: () async{
-                                                                        SVProgressHUD.show(
-                                                                          status: 'Please Wait'
-                                                                        );
-                                                                        await vm10.getData(fileNo: vm2.reportList[index].id);
-                                                                        await vm10.fileInfo(fileNo: vm2.reportList[index].id,regId: vm2.reportList[index].referenceNo);
-                                                                        SVProgressHUD.dismiss();
-                                                                        vm2.reportList[index].id==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
-                                                                            backgroundColor: HexColor("#E9ECFE"),
-                                                                            shape: RoundedRectangleBorder(
-                                                                                borderRadius: BorderRadius.only(
-                                                                                    topLeft: Radius.circular(25),
-                                                                                    topRight: Radius.circular(25))),
-                                                                            context: context,
-                                                                            isScrollControlled: true,
-                                                                            builder: (context) {
+                                                                GestureDetector(
+                                                                    onTap: () async{
+                                                                      SVProgressHUD.show(
+                                                                        status: 'Please Wait'
+                                                                      );
+                                                                      await vm10.getData(fileNo: vm2.reportList[index].id);
+                                                                      await vm10.fileInfo(fileNo: vm2.reportList[index].id,regId: vm2.reportList[index].referenceNo);
+                                                                      SVProgressHUD.dismiss();
+                                                                      vm2.reportList[index].id==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
+                                                                          backgroundColor: HexColor("#E9ECFE"),
+                                                                          shape: RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                  topLeft: Radius.circular(25),
+                                                                                  topRight: Radius.circular(25))),
+                                                                          context: context,
+                                                                          isScrollControlled: true,
+                                                                          builder: (context) {
 
-                                                                              return StatefulBuilder(
-                                                                                  builder: (BuildContext context, StateSetter setState) {
-                                                                                    var index = 0;
-                                                                                    bool isTrue = false;
-                                                                                    return FractionallySizedBox(
-                                                                                        heightFactor: 0.85,
-                                                                                        child:ShareDocument()
-                                                                                    );
-                                                                                  });
-                                                                            });
-                                                                        //print('CompanyName ${vm10.sharedFileList.last.companyName}');
-                                                                      },
-                                                                      // onTap: showNotification,
-                                                                      child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
-                                                                ),
+                                                                            return StatefulBuilder(
+                                                                                builder: (BuildContext context, StateSetter setState) {
+                                                                                  var index = 0;
+                                                                                  bool isTrue = false;
+                                                                                  return FractionallySizedBox(
+                                                                                      heightFactor: 0.85,
+                                                                                      child:ShareDocument()
+                                                                                  );
+                                                                                });
+                                                                          });
+                                                                      //print('CompanyName ${vm10.sharedFileList.last.companyName}');
+                                                                    },
+                                                                    // onTap: showNotification,
+                                                                    child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
                                                               ]),
                                                             ),
                                                           ],
@@ -2256,7 +2253,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                         SizedBox(width: 5,),
 
                                                                         Padding(
-                                                                          padding: EdgeInsets.only(top: 20,right:15),
+                                                                          padding: EdgeInsets.only(top: 25,right:15),
                                                                           child: InkWell(onTap: () async{
                                                                             // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
                                                                             // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);

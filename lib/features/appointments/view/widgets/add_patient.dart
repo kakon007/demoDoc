@@ -370,23 +370,23 @@ class _AddPatientState extends State<AddPatient> {
                       //color: AppTheme.appbarPrimary,
                       shape: BoxShape.circle,
                     ),
-                    height: isTablet? 60 : width <= 330 ? 40 : 50,
-                    width: isTablet? 60 : width <= 330 ? 40 : 50,
+                    height: isTablet? 55 : width <= 330 ? 40 : 50,
+                    width: isTablet? 55 : width <= 330 ? 40 : 50,
                     child: Center(
                         child: imageVm.loadProfileImage(
-                            familyVm.imageMem, isTablet? 55 : width <= 330 ? 35 : 45, isTablet ? 55 :  width <= 330 ? 35 : 45, 50)))
+                            familyVm.imageMem, isTablet? 50 : width <= 330 ? 35 : 45, isTablet ? 50 :  width <= 330 ? 35 : 45, 50)))
                     : Container(
                     decoration: BoxDecoration(
                       color: AppTheme.appbarPrimary,
                       shape: BoxShape.circle,
                     ),
-                    height: isTablet? 60 : width <= 330 ? 35 : 50,
-                    width: isTablet? 60 : width <= 330 ? 35 : 50,
+                    height: isTablet? 55 : width <= 330 ? 40 : 50,
+                    width: isTablet? 55 : width <= 330 ? 40 : 50,
                     child: Center(
                       child: Image.asset(
                         'assets/images/dPro.png',
-                        height: isTablet? 38: width <= 330 ? 22 : 33,
-                        width: isTablet? 38 :width <= 330 ? 22 : 33,
+                        height: isTablet? 32: width <= 330 ? 22 : 28,
+                        width: isTablet? 32 :width <= 330 ? 22 : 28,
                       ),
                     )),
                 SizedBox(

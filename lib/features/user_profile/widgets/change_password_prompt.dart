@@ -147,7 +147,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
         child: Center(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            constraints: BoxConstraints(maxWidth: isTablet ? 500 : 400, maxHeight: !isExpanded ? isTablet? 420 : 380 : isTablet ? 460 : 430),
+            constraints: BoxConstraints(maxWidth: isTablet ? 500 : 400, maxHeight: !isExpanded ? isTablet? 420 : 390 : isTablet ? 460 : 440),
             child: Material(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

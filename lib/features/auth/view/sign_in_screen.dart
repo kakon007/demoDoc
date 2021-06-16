@@ -87,6 +87,7 @@ class _SignInState extends State<SignIn> {
       height: height >= 700 ? 10.0 : 5.0,
     );
     var userName = SignUpFormField(
+      textFieldKey: Key("userNameKey"),
       topPadding: isTablet? 30 : 25,
       validator: Validator().nullFieldValidate,
       hintSize:isTablet? 17 : 15  ,
@@ -96,6 +97,7 @@ class _SignInState extends State<SignIn> {
       hintText: StringResources.usernameHint,
     );
     var password = SignUpFormField(
+      textFieldKey: Key("passwordKey"),
       validator: Validator().nullFieldValidate,
       // validator: (value) {
       //   if (value == null || value.isEmpty) {
@@ -106,6 +108,7 @@ class _SignInState extends State<SignIn> {
       topPadding: isTablet? 30 : 25,
       hintSize:isTablet? 17 : 15 ,
       suffixIcon: IconButton(
+        key: Key("visibleButtonKey"),
         icon: isObSecure == true
             ? Icon(
             Icons.visibility_off,
@@ -182,6 +185,7 @@ class _SignInState extends State<SignIn> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 StringResources.signInButton,
+                key: Key("signInButtonKey"),
                 style: GoogleFonts.roboto(fontSize: 18, color: Colors.white),
               ),
             ),
@@ -285,6 +289,7 @@ class _SignInState extends State<SignIn> {
                         Center(
                             child: Text(
                               StringResources.welcomeBack,
+                              key: Key("welcomeBackTextKey"),
                               style: GoogleFonts.roboto(
                                   color: HexColor("#0D1231"),
                                   fontSize: height*.03,
@@ -300,6 +305,7 @@ class _SignInState extends State<SignIn> {
                             color: Colors.red[100],
                             child: Text(
                               "Invalid Credential",
+                              key: Key("invalidCredentialKey"),
                               style: GoogleFonts.poppins(color: Colors.red),
                             ))
                             : SizedBox(),

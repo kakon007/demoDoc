@@ -355,6 +355,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 children: [
                                   Text(
                                     StringResources.dasboardAppBarSignInText,
+                                    key: Key('signInTextKey'),
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         fontSize: isTablet? 16: 12),
@@ -378,6 +379,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 showAlert(context);
                                 // showDialog(context: context, builder: (context) => carDialog);
                               },
+                        key: Key("userAvatarKey"),
                               child: photo != ""
                                   ? Container(
                                   decoration: BoxDecoration(
@@ -489,6 +491,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             StringResources
                                                 .esayDoctorAppointmentText,
+                                            key: Key('easyDoctorTextKey'),
                                             style: GoogleFonts.poppins(
                                                 fontSize: isTablet? 18 : width<330 ?  16 : 17,
                                                 fontWeight: FontWeight.w600),
@@ -1141,7 +1144,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: width<=1250 && width>=1000 ?  380: 250,
+      height: width<=1250 && width>=1000 ?  380 : width<=999 && width>=850? 305 : 250,
       // width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,

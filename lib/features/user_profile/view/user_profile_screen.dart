@@ -150,6 +150,7 @@ class _UserProfileState extends State<UserProfile> {
           children: [
             Text(
               'User Profile',
+              key: Key('userProfileKey'),
               style:
                   GoogleFonts.roboto(fontSize: isTablet? 18 : 15, fontWeight: FontWeight.w500),
             ),
@@ -266,9 +267,9 @@ class _UserProfileState extends State<UserProfile> {
                                 );
                               },
                               child: Container(
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(color: AppTheme.appbarPrimary),
-                                ),
+                                // decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+                                //   border: Border.all(color: AppTheme.appbarPrimary),
+                                // ),
                                 height: isTablet? 25 : 20,
                                 width: isTablet? 70 : 60,
 
@@ -276,7 +277,7 @@ class _UserProfileState extends State<UserProfile> {
                                   child: Text(
                                     "View All",
                                     style: GoogleFonts.roboto(
-                                        color: AppTheme.appbarPrimary, fontSize: isTablet?12 : 10),
+                                        color: AppTheme.appbarPrimary, fontSize: isTablet?14 : 12),
                                   ),
                                 ),
                               )),

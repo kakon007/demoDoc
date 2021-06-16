@@ -59,42 +59,38 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
     var userVm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: true);
     var imageVm = Provider.of<UserImageViewModel>(appNavigator.context,listen: true);
     var width= MediaQuery.of(context).size.width;
-    var searchField =Theme(
-        data: Theme.of(context).copyWith(
-          primaryColor: HexColor("#8592E5"),
-        ),
-        child: Container(
-          width: isTablet?width*.935 :  width*.91,
-          height: 50,
-          child: TextField(
-              onSubmitted: (value) {
-                membersSearch(value);
-              },
-              controller: memberSearch,
-              decoration: new InputDecoration(
-                suffixIcon: Icon(
-                  Icons.search,
-                  //color: HexColor("#8592E5"),
-                ),
-                hintStyle: GoogleFonts.poppins(fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
-                hintText: "Name or Username",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: HexColor("#8592E5"), width: 1.0),
-                  // borderRadius: BorderRadius.only(
-                  //     topLeft: Radius.circular(25),
-                  //     bottomLeft: Radius.circular(25)),
-                    borderRadius: BorderRadius.circular(25),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: HexColor("#C7C8CF"), width: 1.0),
-                  borderRadius: BorderRadius.circular(25),
-                  // borderRadius: BorderRadius.only(
-                  //     topLeft: Radius.circular(25),
-                  //     bottomLeft: Radius.circular(25)),
-                ),
-                contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 30.0, 3.0),
-              )),
-        ));
+    var searchField =Container(
+      width: isTablet?width*.935 :  width*.91,
+      height: 50,
+      child: TextField(
+          onSubmitted: (value) {
+            membersSearch(value);
+          },
+          controller: memberSearch,
+          decoration: new InputDecoration(
+            suffixIcon: Icon(
+              Icons.search,
+              //color: HexColor("#8592E5"),
+            ),
+            hintStyle: GoogleFonts.poppins(fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
+            hintText: "Name or Username",
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor("#8592E5"), width: 1.0),
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(25),
+              //     bottomLeft: Radius.circular(25)),
+                borderRadius: BorderRadius.circular(25),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor("#C7C8CF"), width: 1.0),
+              borderRadius: BorderRadius.circular(25),
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(25),
+              //     bottomLeft: Radius.circular(25)),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 30.0, 3.0),
+          )),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),

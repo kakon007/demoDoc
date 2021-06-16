@@ -122,6 +122,8 @@ class _SwitchAccountState extends State<SwitchAccount> {
                           itemCount:
                               accountList == null ? 0 : accountList.length,
                           itemBuilder: (BuildContext context, int index) {
+                            accountList.sort((a, b) =>
+                            b.username==username ? 1 : -1);
                             SwitchAccounts st = accountList[index];
                             var userImageVm = Provider.of<UserImageViewModel>(
                                 context,

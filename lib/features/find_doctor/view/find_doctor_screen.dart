@@ -407,6 +407,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
             ];
           },
           body: SingleChildScrollView(
+            physics: ScrollPhysics(),
             controller: _scrollControllerPagination,
             child: Padding(
               padding:  EdgeInsets.only(left: isTablet? 10 : 0 , right: isTablet? 10 : 0),
@@ -576,27 +577,27 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
             padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
             child: Icon(Icons.search),
           ),
-          suffixIcon: Padding(
-            padding: EdgeInsets.only(right: width / 8.64),
-            child: Container(
-              width: 20,
-              height: 15,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppTheme.appbarPrimary,
-              ),
-              child: GestureDetector(
-                  onTap: () {
-                    deptController.clear();
-                    departmentSearch('');
-                  },
-                  child: Icon(
-                    Icons.clear,
-                    size: 15,
-                    color: Colors.white,
-                  )),
-            ),
-          ),
+          // suffixIcon: Padding(
+          //   padding: EdgeInsets.only(right: width / 8.64),
+          //   child: Container(
+          //     width: 20,
+          //     height: 15,
+          //     decoration: BoxDecoration(
+          //       shape: BoxShape.circle,
+          //       color: AppTheme.appbarPrimary,
+          //     ),
+          //     child: GestureDetector(
+          //         onTap: () {
+          //           deptController.clear();
+          //           departmentSearch('');
+          //         },
+          //         child: Icon(
+          //           Icons.clear,
+          //           size: 15,
+          //           color: Colors.white,
+          //         )),
+          //   ),
+          // ),
           hintText: StringResources.searchDepartment,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
@@ -623,27 +624,27 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
             padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
             child: Icon(Icons.search),
           ),
-          suffixIcon: Padding(
-            padding: EdgeInsets.only(right: width / 8.64),
-            child: Container(
-              width: 20,
-              height: 15,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppTheme.appbarPrimary,
-              ),
-              child: GestureDetector(
-                  onTap: () {
-                    specialityController.clear();
-                    specializationSearch('');
-                  },
-                  child: Icon(
-                    Icons.clear,
-                    size: 15,
-                    color: Colors.white,
-                  )),
-            ),
-          ),
+          // suffixIcon: Padding(
+          //   padding: EdgeInsets.only(right: width / 8.64),
+          //   child: Container(
+          //     width: 20,
+          //     height: 15,
+          //     decoration: BoxDecoration(
+          //       shape: BoxShape.circle,
+          //       color: AppTheme.appbarPrimary,
+          //     ),
+          //     child: GestureDetector(
+          //         onTap: () {
+          //           specialityController.clear();
+          //           specializationSearch('');
+          //         },
+          //         child: Icon(
+          //           Icons.clear,
+          //           size: 15,
+          //           color: Colors.white,
+          //         )),
+          //   ),
+          // ),
           hintText: StringResources.searchSpeciality,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1.0),
@@ -850,8 +851,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     height: isTablet? height/2.7 : height / 3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20)),
+                                          topLeft: Radius.circular(25),
+                                          topRight: Radius.circular(25)),
                                       border: Border.all(
                                         color: HexColor("#D6DCFF"),
                                         //                   <--- border color

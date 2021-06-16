@@ -53,6 +53,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
     var spaceBetween = SizedBox(
       height: 10,
     );
+    var width =MediaQuery.of(context).size.width;
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
@@ -150,34 +151,27 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                     photo != ""
                                         ? Container(
                                         decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: AppTheme
-                                                  .appbarPrimary),
+                                          border: Border.all(color: AppTheme.appbarPrimary),
                                           //color: AppTheme.appbarPrimary,
                                           shape: BoxShape.circle,
                                         ),
-                                        height: isTablet? 60 : 50,
-                                        width: isTablet?  60 : 50,
+                                        height: isTablet? 55 : 50,
+                                        width: isTablet? 55 : width<=330 ? 40 : 50,
                                         child: Center(
-                                            child: imageVm
-                                                .loadProfileImage(
-                                                photo,
-                                                isTablet? 55 : 45,
-                                                isTablet? 55 : 45,
-                                                50)))
+                                            child: imageVm.loadProfileImage(photo, isTablet? 50 : width<=330 ? 35 : 45,isTablet? 50 : width<=330 ? 35 : 45,50)
+                                        ))
                                         : Container(
                                         decoration: BoxDecoration(
-                                          color:
-                                          AppTheme.appbarPrimary,
+                                          color: AppTheme.appbarPrimary,
                                           shape: BoxShape.circle,
                                         ),
-                                        height: isTablet? 60 : 50,
-                                        width:isTablet? 60 : 50,
+                                        height: isTablet? 55 :width<=330 ? 40 : 50,
+                                        width:isTablet? 55 :width<=330 ? 40 :  50,
                                         child: Center(
                                           child: Image.asset(
                                             'assets/images/dPro.png',
-                                            height: isTablet? 50 : 40,
-                                            width: isTablet? 50 : 40,
+                                            height:isTablet? 32 :width<=330 ? 22 :  28,
+                                            width: isTablet? 32 : width<=330 ? 22 : 28,
                                           ),
                                         )),
                                     SizedBox(

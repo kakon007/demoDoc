@@ -98,6 +98,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         hospitalSearch(value);
         // print(value);
       },
+      focusBorderColor:"#8592E5",
       controller: hospitalController,
       borderRadius: 30,
       minimizeBottomPadding: true,
@@ -107,7 +108,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         padding: const EdgeInsets.only(right: 20.0),
         child: Icon(
           Icons.search_rounded,
-          color: Colors.grey,
+          //color: Colors.grey,
         ),
       ),
     );

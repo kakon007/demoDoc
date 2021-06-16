@@ -70,6 +70,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                         children: [
                           Text(
                             "Accounts",
+                            key: Key('accountsTextKey'),
                             style: GoogleFonts.poppins(
                                 fontSize: isTablet? 20 : width < 330 ? 16 : 18,
                                 color: AppTheme.appbarPrimary,
@@ -167,6 +168,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                   child: Center(
                                       child: Text(
                                     "Manage Your Profile",
+                                    key: Key('manageProfileTextKey'),
                                     style: GoogleFonts.poppins(
                                         color: AppTheme.appbarPrimary,
                                         fontSize: isTablet? 18 :12),

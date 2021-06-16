@@ -1270,9 +1270,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                         radius:30,
                                                         backgroundColor: Colors.white,
                                                         child: Container(
-                                                          height:  45,
-                                                          width: 45,
-                                                          child: Image.asset("assets/icons/dct.png",fit: BoxFit.fill,),
+                                                          height:  40,
+                                                          width: 40,
+                                                          child: Image.asset("assets/icons/dct.png",fit: BoxFit.fitHeight,),
                                                         ),
                                                       ),
                                                     ),
@@ -1379,7 +1379,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                               },
                                                               // onTap: showNotification,
-                                                              child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
+                                                              child: Icon(Icons.share, color: AppTheme.appbarPrimary,)),
                                                         ),
                                                       ]),
                                                     ),
@@ -1732,7 +1732,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                       //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                                     },
                                                                     // onTap: showNotification,
-                                                                    child: Icon(Icons.share_outlined, color: AppTheme.appbarPrimary,)),
+                                                                    child: Icon(Icons.share, color: AppTheme.appbarPrimary,)),
                                                               ]),
                                                             ),
                                                           ],

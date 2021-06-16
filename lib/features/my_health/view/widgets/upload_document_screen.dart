@@ -260,7 +260,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
         child: TextField(
             maxLines: null,
             keyboardType: TextInputType.multiline,
-            maxLength: 200,
+            maxLength: 75,
             maxLengthEnforced: false,
             autofocus: false,
             textInputAction: TextInputAction.newline,
@@ -278,7 +278,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               //vm2.search(_searchTextEditingController2.text,widget.accessToken);
             },
             inputFormatters: [
-              LengthLimitingTextInputFormatter(200),
+              LengthLimitingTextInputFormatter(75),
             ]),
       ),
     );

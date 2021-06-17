@@ -1243,11 +1243,11 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                 Row(
                                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                   children: [
-                                                                    Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 12,),),
+                                                                    Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 12,),),
                                                                     SizedBox(width:  MediaQuery.of(context).size.width >350? 10 :5,),
                                                                     Row(
                                                                       children: [
-                                                                        Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                        Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
                                                                         Text(
                                                                           DateUtil().formattedDate(DateTime.parse(vm2
                                                                               .previousAppointmentList[index]
@@ -1257,7 +1257,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                               fontWeight: FontWeight
                                                                                   .w500,
                                                                               color: HexColor(
-                                                                                  '#8592E5'),
+                                                                                  '#354291'),
                                                                               fontSize: deviceWidth > 420
                                                                                   ? bottomTextSize
                                                                                   : 10),
@@ -1268,7 +1268,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     Row(
                                                                       children: [
 
-                                                                        Text("Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                        Text("Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
                                                                         Text(
                                                                           vm2
                                                                               .previousAppointmentList[
@@ -1278,7 +1278,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                               fontWeight: FontWeight
                                                                                   .w500,
                                                                               color: HexColor(
-                                                                                  '#8592E5'),
+                                                                                  '#354291'),
                                                                               fontSize: deviceWidth > 420
                                                                                   ? bottomTextSize
                                                                                   : 10),
@@ -1302,7 +1302,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                             fontWeight: FontWeight
                                                                                 .bold,
                                                                             color: HexColor(
-                                                                                '#141D53'),
+                                                                                '#354291'),
                                                                             fontSize:  deviceWidth> 420 ? bottomTextSize: 18),
                                                                       ),
                                                                     ),
@@ -1311,7 +1311,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       padding: const EdgeInsets.only(left:15.0),
                                                                       child: Row(
                                                                         children: [
-                                                                          Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                          Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
                                                                           Text(
                                                                             TimeUtil().formattedDate(DateTime.parse(vm2
                                                                                 .previousAppointmentList[index]
@@ -1321,7 +1321,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                                 fontWeight: FontWeight
                                                                                     .w500,
                                                                                 color: HexColor(
-                                                                                    '#8592E5'),
+                                                                                    '#354291'),
                                                                                 fontSize: deviceWidth > 420
                                                                                     ? bottomTextSize
                                                                                     : 10),
@@ -1333,7 +1333,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       padding: const EdgeInsets.only(right:8.0),
                                                                       child: Row(
                                                                         children: [
-                                                                          Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                          Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
                                                                           Text(
                                                                             vm2.previousAppointmentList[index].status ==
                                                                                 2

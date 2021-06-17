@@ -512,7 +512,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 border: Border.all(color: HexColor('#8592E5')),
               ),
               child: Padding(
-              padding: const EdgeInsets.only(left: 15.0,bottom: 8),
+              padding: const EdgeInsets.only(left: 15.0,bottom: 0),
                 child: TextField(
                     maxLines: null,
                     keyboardType: TextInputType.multiline,

@@ -18,6 +18,8 @@ import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
+import 'package:myhealthbd_app/main_app/util/validator.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
@@ -34,6 +36,8 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
   TextEditingController _descriptionTextEditingController =
       TextEditingController();
   var _searchFieldFocusNode2 = FocusNode();
+  TextEditingController _username = TextEditingController();
+  var _searchFieldFocusNode3 = FocusNode();
   File file;
   int filesize;
 
@@ -49,6 +53,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     //   await Provider.of<UploadDocumentsViewModel>(context, listen: false).uploadDocuments();
     // });
     vm.getData();
+    _username.text="";
     super.initState();
   }
 
@@ -282,7 +287,6 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
             ]),
       ),
     );
-
     final String assetName = "assets/images/camm.svg";
     final String assetName2 = "assets/images/uyp.svg";
 
@@ -335,7 +339,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        getImage();
+                        getImage().then((value) => {
+                        _username.text=_image.toString().split('/').last,
+                        });
                       },
                       child: Container(
                         height: isTablet ? 200 : cardHeight * 0.9,
@@ -407,11 +413,13 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                         );
                         if (result != null) {
                           file = File(result.files.single.path);
+
                           print(
                               'File Path Name::::' + file.path.split('.').last);
                           filesize = file.lengthSync();
                           setState(() {});
                         }
+                        _username.text=file.toString().split('/').last;
                         print('FileTapped:::');
                       },
                       child: Container(
@@ -478,6 +486,56 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, left: 10, right: 10),
+                  child: Container(
+                      height: 35.0,
+                      width: MediaQuery.of(context).size.width * .6,
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.only(top: 8.0, left: 5, right: 10),
+                        child: Text(
+                          "Document Title",
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.bold,
+                              color: HexColor('#333132'),
+                              fontSize: isTablet? 15 : 12),
+                        ),
+                      )),
+                ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, left: 10, right: 20),
+            child: Container(
+              width: isTablet? width*92 : MediaQuery.of(context).size.width * .89,
+              height: isTablet? 200 : 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                //color: Colors.white,
+                border: Border.all(color: HexColor('#8592E5')),
+              ),
+              child: Padding(
+              padding: const EdgeInsets.only(left: 15.0,bottom: 8),
+                child: TextField(
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                   // maxLength: 75,
+                    maxLengthEnforced: false,
+                    autofocus: false,
+                    textInputAction: TextInputAction.newline,
+                    focusNode: _searchFieldFocusNode3,
+                    controller: _username,
+                    cursorColor: HexColor('#C5CAE8'),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                       hintText: 'Type Your Title',
+                      hintStyle: GoogleFonts.poppins(
+                          fontSize: isTablet? 15 : 11, fontWeight: FontWeight.w400),
+                      fillColor: Colors.white,
+                    ),
+                ),
+              ),
+            ),
+          ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 10, right: 10),
                   child: docType,
                 ),
                 Padding(
@@ -517,7 +575,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           pickDate: _reportDate,
                           regID: details.userDetailsList.id,
                           username: details.userDetailsList.hospitalNumber,
-                          description: _descriptionTextEditingController.text);
+                          description: _descriptionTextEditingController.text,
+                        attachmentName: _username.text
+                      );
                       print("Upload Doc tapped");
                       // await Future.delayed(Duration(seconds: 3));
                       // Future.delayed(Duration.zero, () async {

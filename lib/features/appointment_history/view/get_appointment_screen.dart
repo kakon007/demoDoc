@@ -723,12 +723,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                    Row(
                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                      children: [
-                                                                       Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 12,),),
+                                                                       Text("Serial No: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 12,),),
                                                                        SizedBox(width:  MediaQuery.of(context).size.width >350? 10 :5,),
                                                                        Row(
                                                                          children: [
-                                                                           Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                           Text(DateUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].appointDate).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                           Text("Date: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                           Text(DateUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].appointDate).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
 
                                                                          ],
                                                                        ),
@@ -736,8 +736,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                        Row(
                                                                          children: [
 
-                                                                           Text("Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                           Text(vm.upComingAppointmentList[index].consultTypeName,style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize: deviceWidth> 450 ? bottomTextSize: 10),),
+                                                                           Text("Type: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                           Text(vm.upComingAppointmentList[index].consultTypeName,style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 450 ? bottomTextSize: 10),),
                                                                          ],
                                                                        ),
                                                                      ],
@@ -748,15 +748,15 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                      children: [
                                                                        Padding(
                                                                          padding: const EdgeInsets.only(left:20.0),
-                                                                         child: Text(vm.upComingAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.bold,color: HexColor('#141D53'),fontSize:  deviceWidth> 420 ? bottomTextSize: 18),),
+                                                                         child: Text(vm.upComingAppointmentList[index].slotSl.toString(),style: GoogleFonts.poppins(fontWeight:FontWeight.bold,color: HexColor('#354291'),fontSize:  deviceWidth> 420 ? bottomTextSize: 18),),
                                                                        ),
 
                                                                        Padding(
                                                                          padding: const EdgeInsets.only(left:15.0),
                                                                          child: Row(
                                                                            children: [
-                                                                             Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
-                                                                             Text(TimeUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].startTime).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#8592E5'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                             Text("Time: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                             Text(TimeUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].startTime).toLocal()),style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize:  deviceWidth> 420 ? bottomTextSize: 10),),
 
                                                                            ],
                                                                          ),
@@ -765,7 +765,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                          padding: const EdgeInsets.only(right:21.0),
                                                                          child: Row(
                                                                            children: [
-                                                                             Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#333132'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
+                                                                             Text("Status: ",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color: HexColor('#354291'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
                                                                              Text(vm.upComingAppointmentList[index].status==1?"Waiting":"Pending",style: GoogleFonts.poppins(fontWeight:FontWeight.w500,color:vm.upComingAppointmentList[index].status==1? HexColor('#EEB329'):HexColor('#FFA7A7'),fontSize: deviceWidth> 420 ? bottomTextSize: 10),),
 
                                                                            ],

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -832,7 +833,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                              GestureDetector(
                                                                onTap:(){
                                                                  getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
-                                                                 if (vm5.zoomDetailsList.joinUrl.isNotEmpty)
+                                                                 vm5.zoomDetailsList==null?Fluttertoast.showToast(msg: 'No Consultation Available Yet.'):
                                                                    UrlLauncherHelper.launchUrl(vm5.zoomDetailsList?.joinUrl??'');
                                                                },
                                                                child: Material(

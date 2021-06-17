@@ -271,9 +271,8 @@ class _SearchDoctorState extends State<SearchDoctor> {
                                           child: Text(
                                             familyMembers[index].companyName,
                                             style: GoogleFonts.poppins(
+                                              fontSize:  deviceWidth<=360 ? 12 : 15,
                                               color: AppTheme.appbarPrimary,),
-                                            fontSize:  deviceWidth<=360 ? 12 : 15,
-
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),

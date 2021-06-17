@@ -1231,8 +1231,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       } else {
                                                         print('PDFPRESSED');
 
-                                                final file= vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Pdf Found') :await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
-                                                vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Pdf Found') :Navigator.push(context, PageTransition(
+                                                final file= vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!') :await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
+                                                vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!') :Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
                                                   child:PdfFileViewerScreen(file),
                                                 ),);
@@ -1338,7 +1338,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                           child: GestureDetector(
                                                               onTap: () async{
                                                             vm.prescriptionList[index].prescriptionNo==null?
-                                                            Fluttertoast.showToast(msg: 'No PDF Found')
+                                                            Fluttertoast.showToast(msg: 'Prescription Not Saved yet!')
                                                                 :
                                                           await  _downloadPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString(),vm.prescriptionList[index].consultationId);
                                                           },
@@ -1356,7 +1356,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                               await vm10.getData(fileNo: vm.prescriptionList[index].prescriptionNo);
                                                               await vm10.fileInfo(fileNo: vm.prescriptionList[index].prescriptionNo,regId: vm.prescriptionList[index].registrationNo);
                                                                SVProgressHUD.dismiss();
-                                                                vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
+                                                                vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!'): showModalBottomSheet(
                                                                     backgroundColor: HexColor("#E9ECFE"),
                                                                     shape: RoundedRectangleBorder(
                                                                         borderRadius: BorderRadius.only(
@@ -1709,7 +1709,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                       await vm10.getData(fileNo: vm2.reportList[index].id);
                                                                       await vm10.fileInfo(fileNo: vm2.reportList[index].id,regId: vm2.reportList[index].referenceNo);
                                                                       SVProgressHUD.dismiss();
-                                                                      vm2.reportList[index].id==null?Fluttertoast.showToast(msg: 'No Prescription Found'): showModalBottomSheet(
+                                                                      vm2.reportList[index].id==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!'): showModalBottomSheet(
                                                                           backgroundColor: HexColor("#E9ECFE"),
                                                                           shape: RoundedRectangleBorder(
                                                                               borderRadius: BorderRadius.only(

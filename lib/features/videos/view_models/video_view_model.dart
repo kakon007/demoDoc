@@ -7,7 +7,7 @@ import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
 
 class VideoViewModel extends ChangeNotifier {
   List<Item> _videoList = [];
-
+  List<Item> _videoListViewAll = [];
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
@@ -89,10 +89,11 @@ class VideoViewModel extends ChangeNotifier {
     }, (r) {
       totalData = r.maxData;
       nextPageToken = r.moreData;
-      _videoList.addAll(r.dataList);
-      print("MoreVideoList From Youtube:::" + _videoList.toString());
-      print("MoreVideoList From Youtube Lenth:::" + _videoList.length.toString());
-      print("MoreVideoList From Youtube Token:::" + r.moreData);
+      _videoListViewAll.addAll(r.dataList);
+      print("video lenth ${_videoListViewAll.length}");
+      print("MoreVideoList From Youtube:::" + _videoListViewAll.toString());
+      print("MoreVideoList From Youtube Lenth:::" + _videoListViewAll.length.toString());
+      //print("MoreVideoList From Youtube Token:::" + r.moreData);
       notifyListeners();
       return true;
     });
@@ -119,4 +120,5 @@ class VideoViewModel extends ChangeNotifier {
   bool get shouldShowPageLoader => _isFetchingData && _videoList.length == 0;
 
   List<Item> get videoList => _videoList;
+  List<Item> get videoListViewAll => _videoListViewAll;
 }

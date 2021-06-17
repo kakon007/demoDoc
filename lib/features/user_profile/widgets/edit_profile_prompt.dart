@@ -113,6 +113,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       hintSize: isTablet? 17 : 15,
       validator: Validator().nullFieldValidate,
       labelText: "Name",
+      textFieldKey: Key("profileNameKey"),
       isRequired: true,
       controller: _username,
       margin: EdgeInsets.only(
@@ -124,6 +125,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     var email = SignUpFormField(
       labelFontSize: isTablet? 15 : 12,
       hintSize: isTablet? 17 : 15,
+      textFieldKey: Key("profileEmailKey"),
       validator: Validator().validateEmail,
       labelText: "Email",
       isRequired: true,
@@ -133,6 +135,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       hintText: 'Email',
     );
     var mobile = SignUpFormField(
+      textFieldKey: Key("profileMobileNumberKey"),
       labelFontSize: isTablet? 15 : 12,
       hintSize: isTablet? 17 : 15,
       validator: Validator().validatePhoneNumber,
@@ -144,6 +147,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       hintText: 'Mobile',
     );
     var address = SignUpFormField(
+      textFieldKey: Key("profileAddressKey"),
       labelFontSize: isTablet? 15 : 12,
       hintSize: isTablet? 17 : 15,
       validator: Validator().nullFieldValidate,
@@ -189,6 +193,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   width: isTablet ? 180  : width * .78,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
+                      key: Key("profileGenderKey"),
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
 
@@ -260,6 +265,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   width: isTablet ? 180  : width * .76,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
+                      key: Key("profileBloodGroupKey"),
                       icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedBlood != null  ?  Colors.black54: HexColor("#D2D2D2"),),
                       iconSize:25,
                       decoration: InputDecoration(
@@ -381,6 +387,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                               // padding: new EdgeInsets.all(10.0),
                               child: new Text(
                                 'Edit Personal Info',
+                                key: Key('editPersonalInfo'),
                                 style: GoogleFonts.poppins(
                                     color: AppTheme.appbarPrimary,
                                     fontSize: isTablet? 18 :15.0,
@@ -422,6 +429,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
+                                      key: Key('cancelButtonKey'),
                                       textColor: AppTheme.appbarPrimary,
                                       color: HexColor("#FFFFFF"),
                                       shape: RoundedRectangleBorder(
@@ -441,6 +449,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                     height: isTablet ? 50 : width * .25,
                                     child: FlatButton(
                                       textColor: Colors.white,
+                                      key: Key('profileSubmitButtonKey'),
                                       onPressed: () {
                                         if (_formKey.currentState.validate() &&
                                             _selectedBlood != null) {

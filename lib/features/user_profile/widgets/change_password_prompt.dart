@@ -54,6 +54,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
     var width = MediaQuery.of(context).size.width * 0.44;
     var currentPassword = SignUpFormField(
       topPadding: isTablet? 25 :18,
+      textFieldKey: Key('currentPasswordKey'),
       controller: _currentPassword,
       validator: Validator().nullFieldValidate,
       margin: EdgeInsets.only(bottom: 2),
@@ -81,6 +82,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
       obSecure: isCurrentObSecure,
     );
     var newPassword = SignUpFormField(
+      textFieldKey: Key('newPasswordKey'),
       topPadding: isTablet? 25 : 18,
       controller: _newPassword,
       labelFontSize: isTablet? 15 : 12,
@@ -109,6 +111,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
       obSecure: isNewObSecure,
     );
     var confirmPassword = SignUpFormField(
+      textFieldKey: Key('confirmPasswordKey'),
       topPadding: isTablet? 25 :18,
       controller: _confirmPassword,
       validator: (v) {
@@ -168,6 +171,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                               decoration: new BoxDecoration(),
                               child: new Text(
                                 'Change Password',
+                                key: Key('changePasswordPromptKey'),
                                 style: GoogleFonts.poppins(
                                     color: AppTheme.appbarPrimary,
                                     fontSize: isTablet? 18 : 15.0,
@@ -208,6 +212,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
+                                      key: Key('changePasswordCancelButtonKey'),
                                       textColor: AppTheme.appbarPrimary,
                                       color: HexColor("#FFFFFF"),
                                       shape: RoundedRectangleBorder(
@@ -228,6 +233,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                     height: isTablet ? 50 : width * .25,
                                     child: FlatButton(
                                       textColor: Colors.white,
+                                      key: Key('changePasswordSaveButtonKey'),
                                       onPressed: () async {
                                         if (_formKey.currentState.validate()) {
                                           await changePassViewModel.getPassword(
@@ -355,6 +361,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                                 color: AppTheme.appbarPrimary,
                                 child: Text(
                                   "OK",
+                                  key: Key('changePasswordPromptOkButton'),
                                   style:
                                       GoogleFonts.poppins(color: Colors.white),
                                 ))

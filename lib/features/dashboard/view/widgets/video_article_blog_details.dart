@@ -68,8 +68,8 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent-100) {
-        if(vm.videoList.length<=vm.totalData){
+          _scrollController.position.maxScrollExtent) {
+        if(vm.videoListViewAll.length<vm.totalData){
           vm.getMoreData(vm.nextPageToken);
         }
       }
@@ -224,10 +224,10 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                   itemCount: itemIndex == 1
                       ? vm2.newsList.length
                       : itemIndex == 2
-                          ? vm.videoList.length
+                          ? vm.videoListViewAll.length
                           : vm3.newsList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    if(index==vm.videoList.length){
+                    if(index==vm.videoListViewAll.length){
                       return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
                       //return SizedBox(height: 15,);
 
@@ -248,13 +248,13 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                         ? BlogVlogArticleCard(
                             buttonName: "Watch Video",
                             pageNo: "2",
-                            videoId: vm.videoList[index].snippet.resourceId
+                            videoId: vm.videoListViewAll[index].snippet.resourceId
                                 .videoId,
                             description:
-                                vm.videoList[index].snippet.description,
-                            title: vm.videoList[index].snippet.title,
-                      logo: vm.videoList[index].snippet
-                          .thumbnails.standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png':vm.videoList[index].snippet
+                                vm.videoListViewAll[index].snippet.description,
+                            title: vm.videoListViewAll[index].snippet.title,
+                      logo: vm.videoListViewAll[index].snippet
+                          .thumbnails.standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png':vm.videoListViewAll[index].snippet
                           .thumbnails.standard.url,
                           )
                         : itemIndex == 1

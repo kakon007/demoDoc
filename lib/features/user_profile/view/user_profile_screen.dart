@@ -276,6 +276,7 @@ class _UserProfileState extends State<UserProfile> {
                                 child: Center(
                                   child: Text(
                                     "View All",
+                                    key: Key('profileFamilyViewAllKey'),
                                     style: GoogleFonts.roboto(
                                         color: AppTheme.appbarPrimary, fontSize: isTablet?14 : 12),
                                   ),
@@ -319,6 +320,7 @@ class _UserProfileState extends State<UserProfile> {
                                 ),
                                 Text(
                                   "Add Family Members",
+                                  key: Key('addFamilyMemberKey'),
                                   style: GoogleFonts.roboto(
                                       color: Colors.white,
                                       fontSize: isTablet? 18 : 15,
@@ -592,6 +594,7 @@ class _UserProfileState extends State<UserProfile> {
                                        ),
                                        Text(
                                          "Edit Info",
+                                         key: Key('editInfoKey'),
                                          style: GoogleFonts.roboto(
                                              color: HexColor('#354291'), fontSize: isTablet? 12 : 10,),
                                        ),
@@ -722,6 +725,7 @@ class _UserProfileState extends State<UserProfile> {
                       onTap: () {
                         _showAlertDialogForPassword(context);
                       },
+                      key: Key('changePasswordKey'),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0, right: 15),
                         child: Material(

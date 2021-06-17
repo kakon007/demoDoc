@@ -56,6 +56,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Family Members",
+          key: Key('familyMembersAppbarKey'),
           style: GoogleFonts.poppins(fontSize:isTablet? 18 :  15),
         ),
         // actions: [

@@ -27,6 +27,8 @@ class SearchDoctorViewModel extends ChangeNotifier{
   String _hospitalName;
   int _doctorNo;
   String _image;
+  String _spName;
+  int _selectedCard=-1;
 
 
   void resetPageCounter() {
@@ -114,19 +116,23 @@ class SearchDoctorViewModel extends ChangeNotifier{
   //   }
   // }
   adDoctorsInfo({
+    int selectedCard,
     String doctorName,
     String hospitalName,
     int doctorNo,
     String image,
+    String spName,
 
   }){
     print("regId $doctorName");
     print("regNo $hospitalName");
     print("relatedRegId $doctorNo");
+    _selectedCard=selectedCard;
     _doctorName= doctorName;
     _hospitalName=hospitalName;
     _doctorNo= doctorNo;
     _image= image;
+    _spName= spName;
 
   }
 
@@ -190,6 +196,8 @@ class SearchDoctorViewModel extends ChangeNotifier{
   String get message=>_message;
   String get doctorName=>_doctorName;
   String get hospitalName=>_hospitalName;
+  int get selectedCard => _selectedCard;
+  String get spName=>_spName;
   int get doctorNo=>_doctorNo;
   String get image => _image;
 }

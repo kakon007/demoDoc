@@ -251,9 +251,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         Stack(
           children: <Widget>[
             Stack(children: [
-              widget.isDrawerOpen
-                  ? this._backgroundImage()
-                  : this._backgroundImage2(),
+              // widget.isDrawerOpen
+              //     ?
+              //this._backgroundImage(),
+                    this._backgroundImage2(),
               // Padding(
               //   padding: const EdgeInsets.only(top: 80.0, left: 70),
               //   child: Column(

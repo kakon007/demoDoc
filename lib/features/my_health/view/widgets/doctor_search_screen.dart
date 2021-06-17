@@ -33,6 +33,7 @@ class SearchDoctor extends StatefulWidget {
 class _SearchDoctorState extends State<SearchDoctor> {
   TextEditingController memberSearch = TextEditingController();
   List<Itemm> familyMembers= [];
+  int selectedCard = -1;
 
   loadProfileImage(String image, double height, double width, double border) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
@@ -55,7 +56,8 @@ class _SearchDoctorState extends State<SearchDoctor> {
     //   // TODO: implement initState
     //   userVm.getData();
     // });
-
+    var vm2 = Provider.of<SearchDoctorViewModel>(context, listen: false);
+    selectedCard=vm2.selectedCard;
     super.initState();
   }
   Future<void> membersSearch(String query) async {
@@ -180,137 +182,138 @@ class _SearchDoctorState extends State<SearchDoctor> {
                     itemCount: familyMembers.length,
                     itemBuilder: (BuildContext context, int index) {
                       var photo = familyMembers[index]?.photo ?? "";
-                      return Container(
-                          decoration: BoxDecoration(
-                            color: HexColor("#F0F2FF"),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          margin: EdgeInsets.only(top: 5, bottom: 5),
-                          height: isTablet? 85 : 70,
-                          child:
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
+                      return GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            selectedCard = index;
+                            Future.delayed(Duration.zero, () async {
+                              vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo,spName: familyMembers[index].specializationName,selectedCard:selectedCard);
 
-                                  photo != ""
-                                      ? Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: AppTheme.appbarPrimary),
-                                        //color: AppTheme.appbarPrimary,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      height: isTablet? 55 : deviceWidth<=360 ? 40 : 50,
-                                      width: isTablet? 55 :deviceWidth<=360 ? 40 : 50,
-                                      child: Center(
-                                          child: loadProfileImage(photo, isTablet? 50 :deviceWidth<=360 ? 35 : 45,  isTablet? 50 : deviceWidth<=360 ? 40 : 45,50)
-                                      ))
-                                      : Container(
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.appbarPrimary,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      height: isTablet? 55 : deviceWidth<=360 ? 40 :50,
-                                      width:  isTablet? 55 :deviceWidth<=360 ? 40 :50,
-                                      child: Center(
-                                        child: Image.asset(
-                                          'assets/images/dPro.png',
-                                          height: isTablet? 35 :deviceWidth<=360 ? 25 : 30,
-                                          width:  isTablet? 35 :deviceWidth<=360 ? 25 : 30,
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    width:  deviceWidth<=360 ? 10 : 20,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width:isTablet? 300 :deviceWidth<=330? 170:  deviceWidth<=360 ? 200 :220,
-                                        child: Text(
-                                          familyMembers[index].doctorName,
-                                          style: GoogleFonts.poppins(
-                                              color: HexColor("#0D1231"),
-                                              fontSize:  deviceWidth<=360 ? 12 :16,
-                                              fontWeight: FontWeight.w500),
-                                          maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Container(
-                                        width:isTablet? 300 : deviceWidth<=330? 170:  deviceWidth<=360 && deviceWidth>330 ? 200 :220,
-                                        child: Text(
-                                          familyMembers[index].companyName,
-                                          style: GoogleFonts.poppins(
-                                            fontSize:  deviceWidth<=360 ? 12 : 15,
-                                            color: AppTheme.appbarPrimary,),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              GestureDetector(
-                                onTap: ()  {
-                                  // SVProgressHUD.show(
-                                  //   status: 'Selecting'
-                                  // );
-                                  // SVProgressHUD.dismiss();
+                              Navigator.pop(context);
+                            });
 
-                                  setState(() {
-                                    Future.delayed(Duration.zero, () async {
-                                      vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo );
+                          });
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
 
-                                      Navigator.pop(context);
-                                    });
-
-                                  });
-
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right:8.0),
-                                  child: Container(
-                                    child: Center(
-                                      child: Text(
-                      "Select",
-                      style: GoogleFonts.poppins(
-                      color: HexColor("#4077BC"),
-                      fontSize: isTablet? 15 :11,fontWeight: FontWeight.bold),
-                      ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.1),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 1), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            height: 70,
+                            child:
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                    // Column(
-                                    //   mainAxisAlignment: MainAxisAlignment.center,
-                                    //   children: [
-                                    //     Icon(
-                                    //       Icons.person_add,
-                                    //       color: HexColor("#4077BC"),
-                                    //     ),
-                                    //     Text(
-                                    //       "Select Doc",
-                                    //       style: GoogleFonts.poppins(
-                                    //           color: HexColor("#4077BC"),
-                                    //           fontSize: 11),
-                                    //     )
-                                    //   ],
-                                    // ),
+
+                                    photo != ""
+                                        ? Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: AppTheme.appbarPrimary),
+                                          //color: AppTheme.appbarPrimary,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        height: isTablet? 55 : deviceWidth<=360 ? 40 : 50,
+                                        width: isTablet? 55 :deviceWidth<=360 ? 40 : 50,
+                                        child: Center(
+                                            child: loadProfileImage(photo, isTablet? 50 :deviceWidth<=360 ? 35 : 45,  isTablet? 50 : deviceWidth<=360 ? 40 : 45,50)
+                                        ))
+                                        : Container(
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.appbarPrimary,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        height: isTablet? 55 : deviceWidth<=360 ? 40 :50,
+                                        width:  isTablet? 55 :deviceWidth<=360 ? 40 :50,
+                                        child: Center(
+                                          child: Image.asset(
+                                            'assets/images/dPro.png',
+                                            height: isTablet? 35 :deviceWidth<=360 ? 25 : 30,
+                                            width:  isTablet? 35 :deviceWidth<=360 ? 25 : 30,
+                                          ),
+                                        )),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width:isTablet? 300 :deviceWidth<=330? 170:  deviceWidth<=360 ? 200 :220,
+                                          child: Text(
+                                            familyMembers[index].doctorName,
+                                            style: GoogleFonts.poppins(
+                                                color: HexColor("#0D1231"),
+                                                fontSize: deviceWidth<=360 ? 12 :16,
+                                                fontWeight: FontWeight.w500),
+                                            maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        Container(
+                                          width:isTablet? 300 : deviceWidth<=330? 170:  deviceWidth<=360 && deviceWidth>330 ? 200 :220,
+                                          child: Text(
+                                            familyMembers[index].companyName,
+                                            style: GoogleFonts.poppins(
+                                              color: AppTheme.appbarPrimary,),
+                                            fontSize:  deviceWidth<=360 ? 12 : 15,
+
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10.0),
+                                  child: Container(
+                                    height:  isTablet? 25 : 20,
+                                    width: isTablet? 25 : 20,
                                     decoration: BoxDecoration(
-                                        color: HexColor("#D2D9FF"),
-                                        borderRadius: BorderRadius.circular(10)),
-                                    width: isTablet? 70 : 50,
-                                    height: isTablet? 45 : 40,
+                                      borderRadius:
+                                      BorderRadius.circular(50),
+                                      border: Border.all(
+                                        width: 2,
+                                        color: AppTheme.appbarPrimary,
+                                        style: BorderStyle.solid,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Container(
+                                        height: isTablet? 15 : 10,
+                                        width: isTablet? 15 : 10,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(50),
+                                            color: selectedCard == index
+                                                ? AppTheme.appbarPrimary
+                                                : Colors.white),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ));
+                              ],
+                            )),
+                      );
                     }),
               ),
             ),

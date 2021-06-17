@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,22 +40,22 @@ class _ShareDocumentState extends State<ShareDocument> {
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   TextEditingController memberSearch = TextEditingController();
-  List<Itemm> familyMembers = [];
+  List<Itemm> familyMembers= [];
+  TextEditingController _descriptionTextEditingController = TextEditingController();
+  var _searchFieldFocusNode2 = FocusNode();
 
   String _selectedName;
   String _selectedSharedtype;
   String selectedSearchValue;
 
-  Future<String> removeData({int id}) async {
-    var accessToken = await Provider.of<AccessTokenProvider>(
-            appNavigator.context,
-            listen: false)
-        .getToken();
-    var headers = {'Authorization': 'Bearer $accessToken'};
-    var request = http.MultipartRequest(
-        'DELETE',
-        Uri.parse(
-            'https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/delete?id=$id'));
+  bool isRemove=false;
+
+  Future<String> removeData({int id}) async{
+    var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+    var headers = {
+      'Authorization': 'Bearer $accessToken'
+    };
+    var request = http.MultipartRequest('DELETE', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/delete?id=$id'));
 
     request.headers.addAll(headers);
 
@@ -179,7 +180,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                 width: isTablet? deviceWidth * .92 :MediaQuery.of(context).size.width * .87,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
-                    border: Border.all(color: HexColor(color)),
+                    border: Border.all(color: Colors.grey.withOpacity(0.3)),
                     borderRadius: BorderRadius.circular(25)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -324,7 +325,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                 width: isTablet? deviceWidth * .92: deviceWidth * .87,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
-                    border: Border.all(color: HexColor(color)),
+                    border: Border.all(color: Colors.grey.withOpacity(0.3)),
                     borderRadius: BorderRadius.circular(25)),
                 child: Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -354,6 +355,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                             value: _selectedSharedtype,
                             onChanged: (newValue) {
                               setState(() {
+                                vm2.docNull('');
+                                _selectedName=null;
                                 _selectedSharedtype = newValue;
                                 print('SelectValue::::: $_selectedSharedtype');
                               });
@@ -391,7 +394,7 @@ class _ShareDocumentState extends State<ShareDocument> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         //color: Colors.white,
-        border: Border.all(color: HexColor('#8592E5')),
+        border: Border.all(color: Colors.grey.withOpacity(0.3)),
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 15),
@@ -416,98 +419,105 @@ class _ShareDocumentState extends State<ShareDocument> {
             //vm2.search(_searchTextEditingController2.text,widget.accessToken);
           },
 
-          // inputFormatters: [
-          //   LengthLimitingTextInputFormatter(20),
-          // ]
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(200),
+            ]
         ),
       ),
     );
 
-    var doctorCard = Container(
-      decoration: BoxDecoration(
-        color: HexColor("#F0F2FF"),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      // margin: EdgeInsets.only(top: 5, bottom: 5),
-      height: isTablet ? 85 : 70,
-      width: isTablet? deviceWidth*.92 : MediaQuery.of(context).size.width * .87,
-      child: Row(
-        children: [
-          SizedBox(
-            width: 10,
-          ),
-          vm2.image != null
-              ? Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppTheme.appbarPrimary),
-                    //color: AppTheme.appbarPrimary,
-                    shape: BoxShape.circle,
-                  ),
-                  height:  isTablet ? 55 :deviceWidth<=360 ? 40 : 50,
-                  width:  isTablet ? 55 :deviceWidth<=360 ? 40 : 50,
-                  child: Center(child: loadProfileImage(vm2.image, isTablet ? 50 : isTablet ? 50 : deviceWidth<=360 ? 35 : 45,  deviceWidth<=360 ? 35 : 45, 50)))
-              : Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.appbarPrimary,
-                    shape: BoxShape.circle,
-                  ),
-                  height:  isTablet ? 55 :deviceWidth<=360 ? 40 : 50,
-                  width:  isTablet ? 55 :deviceWidth<=360 ? 40 : 50,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/dPro.png',
-                      height: isTablet ? 45 : deviceWidth<=360 ? 30 : 40,
-                      width:  isTablet ? 45 :deviceWidth<=360 ? 30 : 40,
-                    ),
-                  )),
-          SizedBox(
-            width:  deviceWidth<=360 ? 10 : 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: isTablet ? 400 : deviceWidth<=330 ? 200 : 220,
-                child: Text(
-                  vm2.doctorName == null ? 'Loading' : vm2.doctorName,
-                  style: GoogleFonts.poppins(
-                      color: HexColor("#0D1231"),
-                      fontSize:  deviceWidth<=360 ? 12 : 16,
-                      fontWeight: FontWeight.w500),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+    var doctorCard=
+    Container( decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(color: Colors.grey.withOpacity(0.3)),
+    ),
+     // margin: EdgeInsets.only(top: 5, bottom: 5),
+      height: 70,
+      width: MediaQuery.of(context).size.width*.89,
+      child:Row(
+          children: [
+            SizedBox(
+              width: 10,
+            ),
+
+            vm2.image != null
+                ? Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppTheme.appbarPrimary),
+                  //color: AppTheme.appbarPrimary,
+                  shape: BoxShape.circle,
                 ),
-              ),
-              Container(
-                width: isTablet ? 400 :  deviceWidth<=330 ? 200 :220,
-                child: Text(
-                  vm2.hospitalName == null ? 'Loading' : vm2.hospitalName,
-                  style: GoogleFonts.poppins(
-                    fontSize: isTablet? 16 :  deviceWidth<=330 ? 11 :  14,
-                    color: AppTheme.appbarPrimary,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                height: 50,
+                width: 50,
+                child: Center(
+                    child: loadProfileImage(vm2.image, 45, 45,50)
+                ))
+                : Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.appbarPrimary,
+                  shape: BoxShape.circle,
                 ),
-              )
-            ],
-          ),
-        ],
-      ),
-    );
+                height: 50,
+                width: 50,
+                child: Center(
+                  child: Image.asset(
+                    'assets/icons/dct.png',
+                    height: 40,
+                    width: 40,
+                  ),
+                )),
+            SizedBox(
+              width: 20,
+            ),
+            Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width:220,
+                  child: Text(
+                    vm2.doctorName==null?'Loading':vm2.doctorName,
+                    style: GoogleFonts.poppins(
+                        color: HexColor("#0D1231"),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Container(
+                  width:220,
+                  child: Text(
+
+                  vm2.spName==null?'Loading':vm2.spName,
+                    style: GoogleFonts.poppins(
+                      color: AppTheme.appbarPrimary,),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ) ,);
 
     var doctorCardForAllDoc = Container(
         decoration: BoxDecoration(
-          color: HexColor("#F0F2FF"),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey.withOpacity(0.3)),
+    ),
+      // margin: EdgeInsets.only(top: 5, bottom: 5),
+      height: 70,
+      width: MediaQuery.of(context).size.width*.89,
+      child:
+      Center(
+        child: Text(
+          'You Are Sharing Documents With All Doctors'
         ),
-        // margin: EdgeInsets.only(top: 5, bottom: 5),
-        height: 70,
-        width: MediaQuery.of(context).size.width * .87,
-        child: Center(
-          child: Text('You Are Sharing Documents With All Doctors'),
-        ));
+      ));
 
     print('Nameeee:: ${vm2.doctorName}');
     var horizontalSpace = SizedBox(
@@ -646,70 +656,49 @@ class _ShareDocumentState extends State<ShareDocument> {
                             //   style: GoogleFonts.poppins(),
                             // ),
                             //
-                            _selectedSharedtype == null ||
-                                    _selectedSharedtype == 'Share With All'
-                                ? SizedBox()
-                                : GestureDetector(
-                                    onTap: () {
-                                      _selectedName == null
-                                          ? Fluttertoast.showToast(
-                                              msg: 'Please Select A Hospital',
-                                              backgroundColor: Colors.blue,
-                                              textColor: Colors.white)
-                                          : Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SearchDoctor(
-                                                        selectedName:
-                                                            _selectedName,
-                                                      ))).then((value) {
-                                              setState(() {});
-                                            });
-                                    },
-                                    child: Container(
-                                      width: isTablet? deviceWidth * .92 :MediaQuery.of(context).size.width *
-                                          .87,
-                                      height: 45,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        //color: Colors.white,
-                                        border: Border.all(
-                                            color: HexColor('#8592E5')),
-                                      ),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                .8,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 15.0, top: 5),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.search_outlined,
-                                                size: 20,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "Search Doctor(s)",
-                                                style: GoogleFonts.roboto(
-                                                  color:
-                                                      // familyVm.isSelected && memberList
-                                                      //     ? Colors.white
-                                                      Colors.black,
-                                                  fontSize: 13,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                            _selectedSharedtype==null||_selectedSharedtype=='Share With All'? SizedBox():
+                            GestureDetector(
+                            onTap: (){
+                              _selectedName==null?Fluttertoast.showToast(msg: 'Please Select A Hospital',backgroundColor: Colors.blue,textColor: Colors.white):Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchDoctor(selectedName: _selectedName,))).then((value){
+                                setState(() {
+
+                                });
+                              });
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width*.89,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                //color: Colors.white,
+                                color: Colors.white,
+                                border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                              ),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .72,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15.0,top: 5),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.search_outlined,size: 20,),
+                                      SizedBox(width: 5,),
+                                      Text(
+                                        "Search Doctor(s)",
+                                        style: GoogleFonts.roboto(
+                                          color:
+                                          // familyVm.isSelected && memberList
+                                          //     ? Colors.white
+                                               Colors.black,
+                                          fontSize: 13,
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                            horizontalSpace,
+                                ),
+                              ),
+                            ),
+                          ),
+                            vm2.doctorName=='' || vm2.hospitalName=='' || _selectedSharedtype==null?SizedBox.shrink(): horizontalSpace,
                             // Container(
                             //   height: 100,
                             //   width: MediaQuery.of(context).size.width*.89,
@@ -762,11 +751,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                             //             }),
                             //       ),
                             // ),
-                            vm2.doctorName != '' || vm2.hospitalName != ''
-                                ? doctorCard
-                                : _selectedSharedtype == 'Share With All'
-                                    ? doctorCardForAllDoc
-                                    : SizedBox(),
+                           vm2.doctorName!='' || vm2.hospitalName!=''?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox.shrink(),
                             horizontalSpace,
                             writeDetailsField,
                             horizontalSpace,
@@ -979,188 +964,204 @@ class _ShareDocumentState extends State<ShareDocument> {
                   SizedBox(
                     height: 5,
                   ),
-                  vm10.sharedFileList == null
-                      ? Center(child: Text("No Share History Yet."))
-                      : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: vm10.sharedFileList.length,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, index) {
-                                  var photo =
-                                      vm10.sharedFileList[index]?.photo ?? "";
-                                  return Padding(
-                                    padding: EdgeInsets.only(bottom: 5),
-                                    child: Container(
-                                      height: isTablet? 90 : 70,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                        Row(children: [
-                                          SizedBox(
-                                            width:  deviceWidth<=360 ? 5 : 10,
-                                          ),
-                                          photo != ""
-                                              ? Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: AppTheme
-                                                        .appbarPrimary),
-                                                //color: AppTheme.appbarPrimary,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              height: isTablet ? 55 :deviceWidth<=360 ? 40 : 50,
-                                              width:  isTablet ? 55 :deviceWidth<=360 ? 40 : 50,
-                                              child: Center(
-                                                  child: loadProfileImage(
-                                                      photo,  isTablet ? 50 :deviceWidth<=360 ? 35 : 45, isTablet ? 50 :deviceWidth<=360 ? 35 :  45, 50)))
-                                              : Container(
-                                              decoration: BoxDecoration(
-                                                color:
-                                                AppTheme.appbarPrimary,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              height:  isTablet ? 55 :deviceWidth<=360 ? 40 : 50,
-                                              width: isTablet ? 55 : deviceWidth<=360 ? 40 : 50,
-                                              child: Center(
-                                                child: Image.asset(
-                                                  'assets/images/dPro.png',
-                                                  height:  isTablet ? 40 :deviceWidth<=360 ? 25 : 35,
-                                                  width:  isTablet ? 40 :deviceWidth<=360 ? 25 : 35,
-                                                ),
-                                              )),
-                                          SizedBox(
-                                            width:  deviceWidth<=360 ? 0 : 3,
-                                          ),
-                                          Container(
-                                              height: isTablet? 60 : 50,
-                                              width:  isTablet? 450 : deviceWidth<=330 ? 130 : deviceWidth<=360 && deviceWidth>330 ? 150  : 170,
-                                              child: Center(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 7,
-                                                      ),
-                                                      Container(
-                                                        width:  isTablet ? 400 :deviceWidth<=330 ? 110  : 130,
-                                                        child: Text(
-                                                            vm10
-                                                                .sharedFileList[
-                                                            index]
-                                                                .doctorName ==
-                                                                null
-                                                                ? 'No DocTor Name Available'
-                                                                : vm10
-                                                                .sharedFileList[
-                                                            index]
-                                                                .doctorName,
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow
-                                                                .ellipsis,
-                                                            style:
-                                                            GoogleFonts.poppins(
-                                                                fontSize:  isTablet? 16 : deviceWidth<=360 ? 10 : 12,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500)),
-                                                      ),
-                                                      Container(
-                                                        width:   isTablet ? 400 : deviceWidth<=330 ? 110 : 120,
-                                                        child: Text(
-                                                            vm10
-                                                                .sharedFileList[
-                                                            index]
-                                                                .companyName ==
-                                                                null
-                                                                ? 'No Hospital Name Available'
-                                                                : vm10
-                                                                .sharedFileList[
-                                                            index]
-                                                                .companyName,
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow
-                                                                .ellipsis,
-                                                            style:
-                                                            GoogleFonts.poppins(
-                                                                fontSize:  isTablet? 15 : deviceWidth<=330 ? 8 : 12,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500)),
-                                                      )
-                                                    ],
-                                                  ))),
-                                        ],),
-                                          Row(
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  var accessToken = await Provider
-                                                          .of<AccessTokenProvider>(
-                                                              appNavigator.context,
-                                                              listen: false)
-                                                      .getToken();
-                                                  SVProgressHUD.show(
-                                                      status: 'Deleting');
-                                                  await removeData(
-                                                      id: vm10.sharedFileList[index]
-                                                          .id);
-                                                  SVProgressHUD.dismiss();
-
-                                                  Future.delayed(Duration.zero,
-                                                      () async {
-                                                    setState(() {
-                                                      // file==null && _image==null?Loader():
-                                                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                                      //     builder: (BuildContext context) =>
-                                                      //     // DoctorHomeScreen(
-                                                      //     HomeScreen(
-                                                      //       accessToken: accessToken,
-                                                      //     )));
-                                                      Navigator.pop(context);
-                                                    });
-                                                  });
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: HexColor("#FFA7A7"),
-                                                    borderRadius:
-                                                        BorderRadius.circular(10),
-                                                  ),
-                                                  height:  isTablet? 45 : deviceWidth<=330 ? 30 : 40,
-                                                  width:  isTablet?150 : deviceWidth<=330 ? 95 : 100,
-                                                  child: Center(
-                                                    child: Text(
-                                                      "Remove Access",
-                                                      style: GoogleFonts.poppins(
-                                                          fontSize: isTablet? 16 : 11),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: isTablet? 15 : 5,
-                                              ),
-                                            ],
-                                          ),
-
-                                        ],
-                                      ),
+                  vm10.sharedFileList==null?Center(child: Text("No Share History Yet.")):
+                  Column(
+                    children: <Widget>[
+                      vm10.sharedFileList==null?Text("No Share History Yet."):ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
+                        var photo = vm10.sharedFileList[index]?.photo ?? "";
+                        return  Padding(padding: EdgeInsets.all(5),child:
+                        Container(
+                            height: 70,
+                            width:
+                            MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                              BorderRadius.circular(15),
+                            ),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.start,
+                              children: [
+                              SizedBox(
+                              width: 5,
+                            ),
+                                photo != ""
+                                    ? Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: AppTheme.appbarPrimary),
+                                      //color: AppTheme.appbarPrimary,
+                                      shape: BoxShape.circle,
                                     ),
-                                  );
-                                })
-                          ],
+                                    height: 50,
+                                    width: 50,
+                                    child: Center(
+                                        child: loadProfileImage(photo, 45, 45,50)
+                                    ))
+                                    : Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.appbarPrimary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    height: 50,
+                                    width: 50,
+                                    child: Center(
+                                      child: Image.asset(
+                                        'assets/icons/dct.png',
+                                        height: 40,
+                                        width: 40,
+                                      ),
+                                    )),
+                            // SizedBox(
+                            //   width: 3,
+                            // ),
+                            Container(
+                              height: 50,
+                              width: 160,
+                              child: Center(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment
+                                        .start,
+                                    children: [
+                                    SizedBox(
+                                    height: 7,
+                                  ),
+                                  Container(
+                                    width: 120,
+                                    child: Text(
+                                        vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts
+                                        .poppins(
+                                    fontSize: 12,
+                                    fontWeight:
+                                    FontWeight
+                                    .w500)),
+                                  ),
+                              Container(
+                                width: 120,
+                                child: Text(
+                                    vm10.sharedFileList[index].companyName==null?'No Hospital Name Available':vm10.sharedFileList[index].companyName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts
+                                        .poppins(
+                                        fontSize: 12,
+                                        fontWeight:
+                                        FontWeight
+                                            .w500)),
+                              )
+                              ],
+                            ))),
+                       isRemove? Row(
+                         children: [
+                           GestureDetector(
+                              onTap: ()async{
+
+                                var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+                                SVProgressHUD.show(
+                                  status: 'Deleting'
+                                );
+                                await removeData(id:vm10.sharedFileList[index].id);
+                                SVProgressHUD.dismiss();
+
+                                Future.delayed(Duration.zero, () async {
+                                  setState(() {
+                                    // file==null && _image==null?Loader():
+                                    // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                    //     builder: (BuildContext context) =>
+                                    //     // DoctorHomeScreen(
+                                    //     HomeScreen(
+                                    //       accessToken: accessToken,
+                                    //     )));
+                                    Navigator.pop(context);
+                                  });
+
+                                });
+
+                              },
+                            child: Container(
+                            decoration: BoxDecoration(
+                            color: HexColor("#FFA7A7"),
+                            borderRadius: BorderRadius.circular(8),
+                            ),
+                            height: 30,
+                            width: 55,
+                            child: Center(
+                            child: Text(
+                            "Confirm",
+                            style:
+                            GoogleFonts.poppins(
+                            fontSize: 11,color:Colors.white ),
+                            ),
+                            ),
+                            ),
+                            ),
+
+                            SizedBox(width: 5,),
+                           GestureDetector(
+                             onTap: ()async{
+
+                               setState(() {
+                                 isRemove=false;
+                               });
+
+                             },
+                             child: Container(
+                               decoration: BoxDecoration(
+                                 color: HexColor("#8592E5"),
+                                 borderRadius: BorderRadius.circular(8),
+                               ),
+                               height: 30,
+                               width: 55,
+                               child: Center(
+                                 child: Text(
+                                   "Cancel",
+                                   style:
+                                   GoogleFonts.poppins(
+                                       fontSize: 11,color: Colors.white),
+                                 ),
+                               ),
+                             ),
+                           ),
+                         ],
+                       ):Padding(
+                         padding: const EdgeInsets.only(left:8.0),
+                         child: GestureDetector(
+                           onTap: (){
+
+                             setState(() {
+                               isRemove=true;
+                             });
+
+                           },
+                           child: Container(
+                             decoration: BoxDecoration(
+                               color: HexColor("#FFA7A7"),
+                               borderRadius: BorderRadius.circular(8),
+                             ),
+                             height: 40,
+                             width: 100,
+                             child: Center(
+                               child: Text(
+                                 "Remove Access",
+                                 style:
+                                 GoogleFonts.poppins(
+                                     fontSize: 11,color: Colors.white),
+                               ),
+                             ),
+                           ),
+                         ),
+                       ),
+                        ],
                         ),
+                        )
+                        ,);
+                      })
+                    ],
+                  ),
                 ],
               ))
         ],

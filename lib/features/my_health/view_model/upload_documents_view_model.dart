@@ -12,7 +12,7 @@ class UploadDocumentsViewModel extends ChangeNotifier{
   String _accessToken;
   int _id;
   String _filed;
-  Future<void> uploadDocuments({File file,String accessToken, attachmentTypeNo,String description,int regID,String username,String pickDate}) async {
+  Future<void> uploadDocuments({File file,String accessToken, attachmentTypeNo,String description,int regID,String username,String pickDate,String attachmentName}) async {
     SVProgressHUD.show(
       status: 'Uploading'
     );
@@ -21,10 +21,11 @@ class UploadDocumentsViewModel extends ChangeNotifier{
     };
     var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/create'));
     request.fields.addAll({
-      'reqobj': json.encode({"activeStatus":1,"attachmentTypeNo":"$attachmentTypeNo","reportDate":pickDate,"description":description,"referenceNo":regID,"attachmentName":"${file.path}","type":2,"regId":"$username"})
+      'reqobj': json.encode({"activeStatus":1,"attachmentTypeNo":"$attachmentTypeNo","reportDate":pickDate,"description":description,"referenceNo":regID,"attachmentName":"$attachmentName","type":2,"regId":"$username"})
     });
-    request.files.add(await http.MultipartFile.fromBytes('file', file.readAsBytesSync(),filename: file.path.split('/').last));
+    request.files.add(await http.MultipartFile.fromBytes('file', file.readAsBytesSync(),filename: attachmentName));
     print("Dile Pathh:::"+file.path.split('/').last);
+    print("Dile P:::"+attachmentName);
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -61,13 +62,13 @@ class UploadDocumentsViewModel extends ChangeNotifier{
   }
 
 
-  Future<void> deleteDocuments({int id,String attachmentName,String attachmentPath,int attachmentTypeNo,String description,int activeStatus,String regId,int type,String accessToken}) async {
+  Future<void> deleteDocuments({int id,String attachmentName,String attachmentPath,int attachmentTypeNo,String description,int activeStatus,int referenceNo,int referenceTypeNo,String regId,int type,String accessToken}) async {
 var headers = {
   'Authorization': 'Bearer $accessToken',
   'Content-Type': 'text/plain'
 };
 var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/delete'));
-request.body =json.encode(''' { "id": $id,"attachmentName": $attachmentName,"attachmentPath": $attachmentPath,"attachmentTypeNo": $attachmentTypeNo,"description": $description,"activeStatus": $activeStatus,"regId": $regId,"type": $type }''');
+request.body = ''' {\n           \n            "id": $id,\n            "attachmentName": "$attachmentName",\n            "attachmentPath": "$attachmentPath",\n            "attachmentTypeNo": $attachmentTypeNo,\n            "description": $description,\n            "activeStatus": $activeStatus,\n            "referenceNo": $referenceNo,\n            "referenceTypeNo": $referenceTypeNo,\n            "regId": "$regId",\n            "type": $type\n        },''';
 request.headers.addAll(headers);
 
 http.StreamedResponse response = await request.send();

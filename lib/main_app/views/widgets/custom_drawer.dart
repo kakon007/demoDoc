@@ -233,7 +233,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
             width: double.infinity,
             decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(0.3),
-                borderRadius: BorderRadius.all(Radius.circular(30))),
+                //borderRadius: BorderRadius.all(Radius.circular())
+            ),
           ),
         ),],
     );

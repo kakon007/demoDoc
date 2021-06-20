@@ -1003,23 +1003,23 @@ class _ShareDocumentState extends State<ShareDocument> {
                                       //color: AppTheme.appbarPrimary,
                                       shape: BoxShape.circle,
                                     ),
-                                    height: 50,
-                                    width: 50,
+                                    height: 45,
+                                    width: 45,
                                     child: Center(
-                                        child: loadProfileImage(photo, 45, 45,50)
+                                        child: loadProfileImage(photo, 40, 40,50)
                                     ))
                                     : Container(
                                     decoration: BoxDecoration(
                                       color: AppTheme.appbarPrimary,
                                       shape: BoxShape.circle,
                                     ),
-                                    height: 50,
-                                    width: 50,
+                                    height: 45,
+                                    width: 45,
                                     child: Center(
                                       child: Image.asset(
                                         'assets/icons/dct.png',
-                                        height: 40,
-                                        width: 40,
+                                        height: 35,
+                                        width: 35,
                                       ),
                                     )),
                             // SizedBox(

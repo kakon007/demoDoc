@@ -16,7 +16,7 @@ class VideoViewModel extends ChangeNotifier {
   String nextPageToken = '';
   int totalData = 0;
 
-  int _page = 1;
+  int page = 0;
 
   Future<void> refresh() {
     _videoList.clear();
@@ -39,7 +39,13 @@ class VideoViewModel extends ChangeNotifier {
       notifyListeners();
       return false;
     }, (r) {
+      totalData = r.maxData;
       _isFetchingData = false;
+      //     return result.fold((l) {
+      //       isFetchingMoreData= false;
+      //       hasMoreData = false;
+      //       logger.i(l);
+      //       notifyListeners();
       _videoList.addAll(r.dataList);
       notifyListeners();
       return true;
@@ -57,11 +63,6 @@ class VideoViewModel extends ChangeNotifier {
   //     isFetchingMoreData = true;
   //     Either<AppError, VideoListM> result =
   //     await VideoInfoRepository.getVideoInfo(pageToken:"CAUQAA");
-  //     return result.fold((l) {
-  //       isFetchingMoreData= false;
-  //       hasMoreData = false;
-  //       logger.i(l);
-  //       notifyListeners();
   //       return false;
   //     }, (r) {
   //       hasMoreData = r.moreData??false;
@@ -74,9 +75,9 @@ class VideoViewModel extends ChangeNotifier {
   // }
 
   // String _nextPageToken;
-  getMoreData(String pagrToken) async {
+  getMoreData() async {
     Either<AppError, VideoListM> result = await VideoInfoRepository.getVideoInfo(
-        pageToken: pagrToken == '' ? nextPageToken : pagrToken);
+        pageToken: nextPageToken);
 
     //_nextPageToken = res.nextPageToken;
     //_videoList.clear();
@@ -87,12 +88,13 @@ class VideoViewModel extends ChangeNotifier {
       notifyListeners();
       return false;
     }, (r) {
+      page++;
       totalData = r.maxData;
       nextPageToken = r.moreData;
       _videoListViewAll.addAll(r.dataList);
-      print("video lenth ${_videoListViewAll.length}");
+      print("video length ${_videoListViewAll.length}");
       print("MoreVideoList From Youtube:::" + _videoListViewAll.toString());
-      print("MoreVideoList From Youtube Lenth:::" + _videoListViewAll.length.toString());
+      print("MoreVideoList From Youtube Length:::" + _videoListViewAll.length.toString());
       //print("MoreVideoList From Youtube Token:::" + r.moreData);
       notifyListeners();
       return true;

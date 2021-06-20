@@ -68,6 +68,8 @@ dependencies:
   flutter_local_notifications: ^6.0.0
   recase: ^4.0.0
   driver_extensions: ^1.2.0+1
+  ffcache: ^1.0.0
+  mockito: ^5.0.10
   #searchable_dropdown: ^1.1.3
 
 

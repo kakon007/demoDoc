@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -56,7 +57,9 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
   void initState() {
     itemIndex = widget.pageNo;
     var vm = Provider.of<VideoViewModel>(context, listen: false);
-    vm.getMoreData('');
+    if(vm.page==0){
+      vm.getMoreData();
+    }
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData();
     var vm7 = Provider.of<NewsLogoViewModel>(context, listen: false);
@@ -70,7 +73,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent) {
         if(vm.videoListViewAll.length<vm.totalData){
-          vm.getMoreData(vm.nextPageToken);
+          vm.getMoreData();
         }
       }
     });
@@ -94,7 +97,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
           child: Text(
             "News, Blog & Video",
             style:
-                GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
+            GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ),
         SignUpFormField(
@@ -211,8 +214,8 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                 itemIndex == 2
                     ? "Health Video"
                     : itemIndex == 1
-                        ? "Health News"
-                        : "Health Blog",
+                    ? "Health News"
+                    : "Health Blog",
                 style: GoogleFonts.poppins(
                     fontSize: isTablet? 15 : 12, fontWeight: FontWeight.w500),
               ),
@@ -224,8 +227,8 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                   itemCount: itemIndex == 1
                       ? vm2.newsList.length
                       : itemIndex == 2
-                          ? vm.videoListViewAll.length
-                          : vm3.newsList.length,
+                      ? vm.videoListViewAll.length
+                      : vm3.newsList.length,
                   itemBuilder: (BuildContext context, int index) {
                     if(index==vm.videoListViewAll.length){
                       return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
@@ -238,40 +241,40 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                       if(itemIndex==1){
                         i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
                       }else{
-                          i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
+                        i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
                       }
 
                     }
-                     //int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
+                    //int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
                     // int i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
                     return itemIndex == 2
                         ? BlogVlogArticleCard(
-                            buttonName: "Watch Video",
-                            pageNo: "2",
-                            videoId: vm.videoListViewAll[index].snippet.resourceId
-                                .videoId,
-                            description:
-                                vm.videoListViewAll[index].snippet.description,
-                            title: vm.videoListViewAll[index].snippet.title,
+                      buttonName: "Watch Video",
+                      pageNo: "2",
+                      videoId: vm.videoListViewAll[index].snippet.resourceId
+                          .videoId,
+                      description:
+                      vm.videoListViewAll[index].snippet.description,
+                      title: vm.videoListViewAll[index].snippet.title,
                       logo: vm.videoListViewAll[index].snippet
                           .thumbnails.standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png':vm.videoListViewAll[index].snippet
                           .thumbnails.standard.url,
-                          )
+                    )
                         : itemIndex == 1
-                            ? BlogVlogArticleCard(
-                                title: vm2.newsList[index].title,
-                                buttonName: "Read News",
-                                image: loadLogo(vm7.newsLogoList[i].logo),
-                                pageNo: "1",
-                                url: vm2.newsList[index].newsLink,
-                              )
-                            : BlogVlogArticleCard(
-                                title: vm3.newsList[index].title,
-                                buttonName: "Read Blog",
-                                image: loadLogo(vm8.blogLogoList[i2].logo),
-                                pageNo: "0",
-                                blogDetails: vm3.newsList[index].blogDetail,
-                              );
+                        ? BlogVlogArticleCard(
+                      title: vm2.newsList[index].title,
+                      buttonName: "Read News",
+                      image: loadLogo(vm7.newsLogoList[i].logo),
+                      pageNo: "1",
+                      url: vm2.newsList[index].newsLink,
+                    )
+                        : BlogVlogArticleCard(
+                      title: vm3.newsList[index].title,
+                      buttonName: "Read Blog",
+                      image: loadLogo(vm8.blogLogoList[i2].logo),
+                      pageNo: "0",
+                      blogDetails: vm3.newsList[index].blogDetail,
+                    );
                   }),
             ),
           ],

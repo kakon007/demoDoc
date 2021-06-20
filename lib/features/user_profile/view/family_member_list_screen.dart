@@ -139,7 +139,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
             AlwaysStoppedAnimation<Color>(
                 AppTheme.appbarPrimary),)) : familyVm.familyMembersList.length==0 ? Container(
                 height: MediaQuery.of(context).size.height*.65,
-                child: Center(child: Text("No family member added yet!", style: GoogleFonts.poppins(fontSize: isTablet?20 : 16),))) :Expanded(
+                child: Center(child: Text("You have added no family members.", style: GoogleFonts.poppins(fontSize: isTablet?20 : 16),))) :Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: ListView.builder(

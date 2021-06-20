@@ -570,9 +570,8 @@ class _ShareDocumentState extends State<ShareDocument> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: _selectedSharedtype == null ||
-                    _selectedSharedtype == 'Share With All'
-                ?deviceWidth<=360 ? height*.65 :  height * .48
+            height: _selectedSharedtype == null
+                ?deviceWidth<=360 ? height*.65 :  height * .42
                 : deviceWidth<=360 ? height * .8 : height * .60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(

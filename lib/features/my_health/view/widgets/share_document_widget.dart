@@ -475,17 +475,27 @@ class _ShareDocumentState extends State<ShareDocument> {
               CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width:220,
-                  child: Text(
-                    vm2.doctorName==null?'Loading':vm2.doctorName,
-                    style: GoogleFonts.poppins(
-                        color: HexColor("#0D1231"),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                Row(
+                  children: [
+                    Container(
+                      width:220,
+                      child: Text(
+                        vm2.doctorName==null?'Loading':vm2.doctorName,
+                        style: GoogleFonts.poppins(
+                            color: HexColor("#0D1231"),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    GestureDetector(onTap: (){
+                      setState(() {
+                        vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
+                      });
+                      print('Tapped on cross');
+                    },child: Icon(Icons.close)),
+                  ],
                 ),
                 Container(
                   width:220,

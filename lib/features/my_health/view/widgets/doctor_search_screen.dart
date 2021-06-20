@@ -34,6 +34,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
   TextEditingController memberSearch = TextEditingController();
   List<Itemm> familyMembers= [];
   int selectedCard = -1;
+  bool isSelected = false;
 
   loadProfileImage(String image, double height, double width, double border) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
@@ -186,8 +187,9 @@ class _SearchDoctorState extends State<SearchDoctor> {
                         onTap: (){
                           setState(() {
                             selectedCard = index;
+                            isSelected = true;
                             Future.delayed(Duration.zero, () async {
-                              vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo,spName: familyMembers[index].specializationName,selectedCard:selectedCard);
+                              vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo,spName: familyMembers[index].specializationName,selectedCard:selectedCard,isSelected: isSelected);
 
                               Navigator.pop(context);
                             });

@@ -97,9 +97,9 @@ class _SearchDoctorState extends State<SearchDoctor> {
           width: isTablet? deviceWidth*.96 : deviceWidth*.89,
           height: 50,
           child: TextField(
-            textCapitalization: TextCapitalization.characters,
+            //textCapitalization: TextCapitalization.characters,
               onSubmitted: (value) {
-                membersSearch(value);
+                membersSearch(value.toUpperCase());
               },
               controller: memberSearch,
               decoration: new InputDecoration(
@@ -107,7 +107,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
                   Icons.search,
                   //color: HexColor("#8592E5"),
                 ),
-                hintText: "Name or Username",
+                hintText: "Search Doctor(s)",
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#8592E5"), width: 1.0),
                   // borderRadius: BorderRadius.only(

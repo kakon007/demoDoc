@@ -246,7 +246,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
       Stack(
           children:[
-            accessTokenVm.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: accessTokenVm.accessToken,),
+            // accessTokenVm.accessToken==null?DrawerScreen2():
+            DrawerScreen(accessToken: accessTokenVm.accessToken,),
 
             AnimatedPositioned(
               duration: duration,

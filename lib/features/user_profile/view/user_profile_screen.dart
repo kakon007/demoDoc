@@ -16,8 +16,8 @@ import 'package:myhealthbd_app/features/user_profile/view/widgets/search_family_
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
-import 'package:myhealthbd_app/features/user_profile/widgets/change_password_prompt.dart';
-import 'package:myhealthbd_app/features/user_profile/widgets/edit_profile_prompt.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/change_password_prompt.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/edit_profile_prompt.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:page_transition/page_transition.dart';

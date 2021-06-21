@@ -116,7 +116,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     return Image.memory(
       _bytesImage,
       fit: BoxFit.fill,
-      width: 80,
+      width: 60,
       height: 60,
       gaplessPlayback: true,
     );
@@ -798,7 +798,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                child: vm.upComingAppointmentList[index].photo!=null?loadLogo(vm.upComingAppointmentList[index].photo):Image.asset(
                                        "assets/icons/dct.png",
                                        fit: BoxFit.fitHeight,
-                                       width: 80,
+                                       width: 60,
                                        height: 60,
                                        ),
                                                              ),
@@ -829,7 +829,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                              //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
                                                              //   child: righticon,
                                                              // ):
-                                                             SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 10 : 6,),
+                                                             SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 16 : 12,),
                                                              GestureDetector(
                                                                onTap:(){
                                                                  getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
@@ -1383,7 +1383,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     "assets/icons/dct.png",
                                                                     fit: BoxFit
                                                                         .fitHeight,
-                                                                    width: 80,
+                                                                    width: 60,
                                                                     height: 60,
                                                                   ),
                                                           ),
@@ -1464,7 +1464,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                           //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
                                                           //   child: righticon,
                                                           // ):
-                                                          SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 10 : 6,),
+                                                          SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 21 : 15,),
                                                           Column(children: [
                                                             InkWell(
                                                               onTap:(){

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -196,7 +197,11 @@ class _EditDocAlertState extends State<EditDocAlert> {
                                           onPressed: () {
 
                                             if (_formKey.currentState.validate() && _selectedBlood!=null) {
+                                              SVProgressHUD.show(
+                                                  status: "Please Wait"
+                                              );
                                               vm3.editDocument(fileName: _username.text);
+                                              SVProgressHUD.dismiss();
                                               Fluttertoast.showToast(
                                                   msg: "Profile updated successfully!",
                                                   toastLength: Toast.LENGTH_SHORT,

@@ -829,7 +829,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                              //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
                                                              //   child: righticon,
                                                              // ):
-                                                             SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 16 : 12,),
+                                                             SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 10 : 6,),
                                                              GestureDetector(
                                                                onTap:(){
                                                                  getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
@@ -841,10 +841,10 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                                                  color:vm.upComingAppointmentList[index].consultationId==null?HexColor("#99A0C8"):HexColor("#354291"),
                                                                  child: SizedBox(
-                                                                   width: 113,
+                                                                   width: 127,
                                                                    height:  MediaQuery.of(context).size.width>650 ? 35 : 28,
                                                                    child: Center(
-                                                                     child: Text("Join Video Consultation",style: TextStyle(color: Colors.white,fontSize: 10,fontWeight: FontWeight.w500),),
+                                                                     child: Text("Join Video Consultation",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w500),),
                                                                    ),
                                                                  ),
                                                                ),

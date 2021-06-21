@@ -143,7 +143,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   ScrollController _scrollController = ScrollController();
 
-  // ScrollController _scrollController3 = ScrollController();
+   ScrollController _scrollController3 = ScrollController();
 
   Future<PrescriptionListModel> fetchedData;
 
@@ -320,20 +320,14 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         vm.getMoreData(accessTokenVm.accessToken);
       }
     });
-    // if (vm3.isInSearchMode) {
-    //   _searchFieldFocusNode.requestFocus();
-    // }
+    _scrollController3.addListener(() {
+      if (_scrollController3.position.pixels >=
+          _scrollController3.position.maxScrollExtent- 100) {
+        print('scrolklinggtatg');
+        vm3.getMoreData(accessTokenVm.accessToken);
+      }
 
-    // _scrollController3.addListener(() {
-    //
-    //
-    //   if (_scrollController3.position.pixels >=
-    //       _scrollController3.position.maxScrollExtent-100) {
-    //     print('scrolklinggtatg');
-    //     vm3.getMoreData(widget.accessToken);
-    //   }
-    //
-    // });
+    });
 
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -345,13 +339,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
   Future onSelectNotification(String payload) {
     debugPrint("payload : $payload");
-    // showDialog(
-    //   context: context,
-    //   builder: (_) => new AlertDialog(
-    //     title: new Text('Notification'),
-    //     content: new Text('$payload'),
-    //   ),
-    // );
     OpenFile.open(payload);
   }
 
@@ -1884,16 +1871,23 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               ),
                             )
                                 : ListView.builder(
-                              //controller: _scrollController3,
-                                itemCount: vm3.documentList.length,
+                                controller: _scrollController3,
+                                itemCount: vm3.documentList.length+1,
                                 shrinkWrap: true,
                                 itemBuilder:
                                     (BuildContext context, int index) {
-                                  // if(index==vm3.documentList.length){
-                                  //   return vm3.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
-                                  //   //return SizedBox(height: 15,);
-                                  //
-                                  // }
+                                      if (index ==
+                                          vm3.documentList.length) {
+                                        return vm3.isFetchingMoreData
+                                            ? SizedBox(
+                                            height: 60,
+                                            child: Center(
+                                                child:
+                                                CircularProgressIndicator()))
+                                            : SizedBox();
+                                        //return SizedBox(height: 15,);
+
+                                      }
                                   return MultiSelectItem(
                                     isSelecting:
                                     controller3.isSelecting,
@@ -2119,9 +2113,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                     : 150,
                                                                 child:
                                                                 Text(
-                                                                  vm3.documentList[index].attachmentName == null
-                                                                      ? 'Doc'
-                                                                      : vm3.documentList[index].attachmentName,
+                                                                   vm3.documentList[index]?.attachmentName??'',
                                                                   maxLines:
                                                                   1,
                                                                   overflow:

@@ -198,9 +198,11 @@ class DocumentViewModel extends ChangeNotifier{
       startIndex+=limit;
       _pageCount++;
       isFetchingMoreData = true;
-      Either<AppError, DocumentM> result =
-      await DocumentRepository().fetchDocumentsList(accessToken: accessToken,query: searchQuery,startIndex: startIndex);
-      return result.fold((l) {
+      //var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+      var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+      var res = await DocumentRepository().fetchDocumentsList(accessToken: accessToken,page: _pageCount,query: searchQuery,username: vm.userDetailsList.hospitalNumber,startIndex: startIndex);
+      notifyListeners();
+      return res.fold((l) {
         isFetchingMoreData= false;
         hasMoreData = false;
         logger.i(l);

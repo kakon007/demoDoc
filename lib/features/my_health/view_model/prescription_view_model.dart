@@ -50,7 +50,7 @@ class PrescriptionListViewModel extends ChangeNotifier{
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    _lastFetchTime = DateTime.now();
+    //_lastFetchTime = DateTime.now();
     var res = await PrescriptionRepository().fetchPrescriptionList(accessToken: accessToken,page: _pageCount,query: searchQuery,);
     notifyListeners();
     _prescriptionList.clear();

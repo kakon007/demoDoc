@@ -207,6 +207,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                           ),
                           Text(
                             "Switch to another account",
+                            key: Key('switchToAnotherAccountKey'),
                             style: GoogleFonts.poppins(
                                 color: AppTheme.appbarPrimary, fontSize: isTablet? 18 :13),
                           ),

@@ -61,6 +61,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Switch Account",
+          key: Key('switchAccountAppbarKey'),
           style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
         ),
       ),
@@ -100,6 +101,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                         width: 10,
                       ),
                       Text("Add New Account",
+                          key: Key('addNewAccountKey'),
                           style:
                               GoogleFonts.poppins(fontSize: isTablet? 18 : 15,color: HexColor("#354291"))),
                     ],

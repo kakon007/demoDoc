@@ -59,6 +59,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
       validator: Validator().nullFieldValidate,
       labelText: "Username",
       isRequired: true,
+      textFieldKey: Key('switchAccountUserNameKey'),
       controller: _username,
       //margin: EdgeInsets.all(8),
       contentPadding: EdgeInsets.all(15),
@@ -66,6 +67,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
     );
     var password = SignUpFormField(
       topPadding: 16,
+      textFieldKey: Key('switchAccountPasswordKey'),
       validator: Validator().nullFieldValidate,
       labelText: "Password",
       isRequired: true,
@@ -103,6 +105,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                         decoration: new BoxDecoration(),
                         child: new Text(
                           'Switch Account',
+                          key: Key("switchAccountTextKey"),
                           style: GoogleFonts.poppins(
                               color: AppTheme.appbarPrimary,
                               fontSize: isTablet? 18 : 15.0,
@@ -144,6 +147,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                                         width: 1)),
                                 child: Text(
                                   StringResources.cancelText,
+                                  key: Key('switchCancelButtonKey'),
                                   style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
                                 ),
                               ),
@@ -162,6 +166,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                                 ),
                                 child: Text(
                                   "Confirm",
+                                  key: Key('switchConfirmButtonKey'),
                                   style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
                                 ),
                               ),

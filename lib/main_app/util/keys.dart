@@ -43,6 +43,18 @@ class Keys{
   static final changePasswordCancelButtonKey = find.byValueKey('changePasswordCancelButtonKey');
   static final changePasswordPromptOkButton = find.byValueKey('changePasswordPromptOkButton');
 
+
+  //switch account keys
+  static final switchAccountAppbarKey = find.byValueKey('switchAccountAppbarKey');
+  static final switchToAnotherAccountKey = find.byValueKey('switchToAnotherAccountKey');
+  static final addNewAccountKey = find.byValueKey('addNewAccountKey');
+  static final switchAccountTextKey = find.byValueKey('switchAccountTextKey');
+  static final switchAccountUserNameKey = find.byValueKey('switchAccountUserNameKey');
+  static final switchAccountPasswordKey = find.byValueKey('switchAccountPasswordKey');
+  static final switchCancelButtonKey = find.byValueKey('switchCancelButtonKey');
+  static final switchConfirmButtonKey = find.byValueKey('switchConfirmButtonKey');
+
+
   // family members key
   static final familyMembersAppbarKey = find.byValueKey('familyMembersAppbarKey');
 

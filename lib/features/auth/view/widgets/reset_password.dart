@@ -34,6 +34,7 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
   bool isCurrentObSecure;
   bool isNewObSecure;
   bool isConfirmObSecure;
+  bool isValidCredential = true;
 
   @override
   void initState() {
@@ -115,7 +116,7 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                         : 300
                     : isTablet
                         ? 380
-                        : 350),
+                        : 360),
             child: Material(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -159,6 +160,7 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                                 children: [
                                   username,
                                   email,
+                                  isValidCredential ? SizedBox() : Container(color: Colors.red[100],child: Text('Invalid username or email', style: GoogleFonts.poppins(color: Colors.red),))
                                 ],
                               ),
                             ),
@@ -200,21 +202,22 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                                       textColor: Colors.white,
                                       onPressed: () async {
                                         if (_formKey.currentState.validate()) {
-                                          //BotToast.showLoading();
+                                          setState(() {
+                                            isExpanded = false;
+                                          });
                                           await vm.getResetInfo(
                                               widget.userName, _email.text);
                                           isExpanded = false;
-                                         // BotToast.closeAllLoading();
-                                          if (vm.resetInfo.emailSubject ==
-                                              "Forgot password recovery!!") {
+                                          print('abcd ${vm.resetInfo}');
+                                          if (vm.resetInfo ==
+                                              "Saved Successfully") {
                                             Navigator.pop(context);
-                                            _successAlert(context,
-                                                vm.resetInfo.emailBody);
-                                            print("abc");
+                                            _successAlert(context);
                                           }
                                         } else {
                                           setState(() {
                                             isExpanded = true;
+                                            isValidCredential = false;
                                           });
                                         }
                                       },
@@ -245,80 +248,72 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
     );
   }
 
-  void _successAlert(BuildContext context, String message) {
+  void _successAlert(BuildContext context) {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-              child: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                constraints: BoxConstraints(
-                    maxWidth: isTablet ? 500 : 400,
-                    maxHeight: !isExpanded
-                        ? isTablet
-                            ? 400
-                            : 360
-                        : isTablet
-                            ? 460
-                            : 430),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(begin: Alignment.topRight,
-                        // end: Alignment.topCenter,
-                        stops: [
-                          0.2,
-                          0.5,
-                        ], colors: [
-                      HexColor("#D6DCFF"),
-                      HexColor("#FFFFFF"),
-                    ]),
-                    //borderRadius: 10,
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, left: 15, right: 15),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            child: Html(
-                              data: message,
-                              style: {
-                                "body": Style(
-                                  fontSize: FontSize(isTablet ? 16.0 : 14),
-                                ),
-                              },
-                            ),
-                          ),
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                  height: isTablet ? 45 : 35,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      color: AppTheme.appbarPrimary,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Center(
-                                      child: Text(
-                                    "OK",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: isTablet ? 18 : 16,
-                                        color: Colors.white),
-                                  ))))
-                        ]),
-                  ),
+    showGeneralDialog(
+      barrierLabel: "Label",
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 700),
+      context: context,
+      pageBuilder: (context, anim1, anim2) {
+        return Align(
+          alignment: Alignment.center,
+          child: Material(
+            type: MaterialType.transparency,
+            child: Container(
+                height: 150,
+                width:  isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width<=330 ? 250 : 290,
+                // child: SizedBox.expand(child: FlutterLogo()),
+                //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  gradient: LinearGradient(begin: Alignment.topRight,
+                      // end: Alignment.topCenter,
+                      stops: [
+                        0.2,
+                        0.5,
+                      ], colors: [
+                        HexColor("#D6DCFF"),
+                        HexColor("#FFFFFF"),
+                      ]),
+                  //borderRadius: 10,
                 ),
-              ),
-            ),
-          ));
-        });
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text("An email has been sent to your email address with your password.", textAlign: TextAlign.center,style: GoogleFonts.poppins(),),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            minWidth: 120,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: AppTheme.appbarPrimary,
+                            child: Text(
+                              "OK",
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            ))
+                      ],
+                    )
+                  ],
+                )),
+          ),
+        );
+      },
+    );
   }
 }

@@ -8,7 +8,7 @@ class ResetPasswordViewModel extends ChangeNotifier {
   bool _isFetchingData = false;
   bool _isLoading = false;
   AppError _appError;
-  Obj _resetInfo;
+  String _resetInfo;
 
 
   Future<void> getResetInfo(String userName, String email) async {
@@ -22,7 +22,8 @@ class ResetPasswordViewModel extends ChangeNotifier {
       notifyListeners();
     }, (r) {
       _isFetchingMoreData = false;
-      _resetInfo= r.obj;
+      _resetInfo= r.message;
+      print(r.message);
       _isLoading = false;
       notifyListeners();
     });
@@ -36,5 +37,5 @@ class ResetPasswordViewModel extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  Obj get resetInfo =>  _resetInfo;
+  String get resetInfo =>  _resetInfo;
 }

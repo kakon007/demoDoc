@@ -149,21 +149,21 @@ class _SignInState extends State<SignIn> {
               Text(
                 StringResources.rememberMe,
                 style: GoogleFonts.roboto(
-                  color: HexColor('#141D53'),
-                  fontSize: isTablet? 17 : 15
+                    color: HexColor('#141D53'),
+                    fontSize: isTablet? 17 : 15
                 ),
               )
             ],
           ),
           GestureDetector(
             onTap:
-            (){
+                (){
               _resetPassword(context,_username.text);
             },
             child: Text(
               StringResources.forgetPassword,
               style: GoogleFonts.roboto(
-                color: HexColor('#141D53'),
+                  color: HexColor('#141D53'),
                   fontSize: isTablet? 17 : 15
               ),
             ),
@@ -236,9 +236,9 @@ class _SignInState extends State<SignIn> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(StringResources.dontHaveAccount,
-                style: GoogleFonts.roboto(
-                    fontSize: isTablet? 17 : 15,
-                    color: HexColor("#8592E5"), fontWeight: FontWeight.w300),
+              style: GoogleFonts.roboto(
+                  fontSize: isTablet? 17 : 15,
+                  color: HexColor("#8592E5"), fontWeight: FontWeight.w300),
             ),
             Text(
               StringResources.signUpText,
@@ -304,7 +304,7 @@ class _SignInState extends State<SignIn> {
                             ? Container(
                             color: Colors.red[100],
                             child: Text(
-                              "Invalid Credential",
+                              "Invalid username or password",
                               key: Key("invalidCredentialKey"),
                               style: GoogleFonts.poppins(color: Colors.red),
                             ))
@@ -319,14 +319,6 @@ class _SignInState extends State<SignIn> {
                                 });
                                 SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                                prefs.setString(
-                                    "username", _username.text);
-                                prefs.setString(
-                                    "usernameRemember", _username.text);
-                                prefs.setString(
-                                    "password", _password.text);
-                                prefs.setString(
-                                    "passwordRemember", _password.text);
                                 var vm5 = Provider.of<AuthViewModel>(context, listen: false);
                                 await vm5.getAuthData(_username.text, _password.text);
                                 if(vm5.accessToken!=null){
@@ -356,30 +348,45 @@ class _SignInState extends State<SignIn> {
                                   }
                                 }
                                 if (vm5.accessToken!=null) {
-                                    appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
-                                   Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              HomeScreen(
-                                                accessToken:
-                                                vm5.accessToken,
-                                              ),
-                                        ),
-                                            (Route<dynamic> route) => false);
-                                    if(this.value== true){
-                                      //print(_username.text);
-                                      prefs.setBool("value", true);
-                                    }
-                                    else{
-                                      // prefs.remove("username");
-                                      // prefs.remove("password");
-                                      prefs.setBool("value", false);
-                                    }
+                                  prefs.setString(
+                                      "username", _username.text);
+                                  prefs.setString(
+                                      "usernameRemember", _username.text);
+                                  prefs.setString(
+                                      "password", _password.text);
+                                  prefs.setString(
+                                      "passwordRemember", _password.text);
+                                  appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            HomeScreen(
+                                              accessToken:
+                                              vm5.accessToken,
+                                            ),
+                                      ),
+                                          (Route<dynamic> route) => false);
+                                  if(this.value== true){
+                                    //print(_username.text);
+                                    prefs.setBool("value", true);
+                                  }
+                                  else{
+                                    // prefs.remove("username");
+                                    // prefs.remove("password");
+                                    prefs.setBool("value", false);
+                                  }
 
                                 } else {
-
                                   SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
+                                  prefs.remove(
+                                      "username");
+                                  prefs.remove(
+                                      "usernameRemember");
+                                  prefs.remove(
+                                      "password");
+                                  prefs.remove(
+                                      "passwordRemember");
                                   if(this.value== true){
                                     print(_username.text);
                                     prefs.setBool("value", true);

@@ -126,10 +126,9 @@ class AuthRepository {
       BotToast.closeAllLoading();
       ResetPasswordModel data = resetPasswordModelFromJson(response.body);
       print("data $data");
-      return Right(ResetPasswordModel(
-       obj: data.obj
-      ));
+      return Right(data);
     } else {
+      print('abs');
       BotToast.closeAllLoading();
       // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);

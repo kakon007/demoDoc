@@ -59,7 +59,7 @@ Future<void> loginTest()async{
       await driver.tap(Keys.passwordKey);
       await driver.enterText('123123');
       await driver.tap(Keys.signInButton);
-      await expect(await driver.getText(Keys.invalidCredentialKey), 'Invalid Credential');
+      await expect(await driver.getText(Keys.invalidCredentialKey), 'Invalid username or password');
       await Future.delayed(const Duration(seconds: 2), () {});
     });
     test('When__try_to_login_wrong_password__should__get_invalid_credential_text', () async {
@@ -69,7 +69,7 @@ Future<void> loginTest()async{
       await driver.tap(Keys.passwordKey);
       await driver.enterText('1231234');
       await driver.tap(Keys.signInButton);
-      await expect(await driver.getText(Keys.invalidCredentialKey), 'Invalid Credential');
+      await expect(await driver.getText(Keys.invalidCredentialKey), 'Invalid username or password');
       await Future.delayed(const Duration(seconds: 2), () {});
     });
     test('When__try_to_login_wrong_password_and_wrong_username__should__get_invalid_credential_text', () async {
@@ -79,7 +79,7 @@ Future<void> loginTest()async{
       await driver.tap(Keys.passwordKey);
       await driver.enterText('1231234');
       await driver.tap(Keys.signInButton);
-      await expect(await driver.getText(Keys.invalidCredentialKey), 'Invalid Credential');
+      await expect(await driver.getText(Keys.invalidCredentialKey), 'Invalid username or password');
       await Future.delayed(const Duration(seconds: 2), () {});
     });
     test('When__try_to_click_visibility_on_button__should__show_password', () async {

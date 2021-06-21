@@ -24,14 +24,13 @@ class FamilyMembersList {
     print(response.body);
     try {
       if (response.statusCode == 200) {
-        print("aaaaaaaaaaadsdsdsdsdsa");
         print(response.body);
         GetFamilyMember data = getFamilyMemberFromJson(response.body);
         return Right(GetFamilyMember(
           items: data.items
         ));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
@@ -85,7 +84,7 @@ class FamilyMembersList {
             message: data.message
         ));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {

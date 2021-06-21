@@ -36,7 +36,7 @@ Future<void> loginTest()async{
         await driver.enterText('MH112105000309');
         await Future.delayed(const Duration(seconds: 2), () {});
         await driver.tap(Keys.passwordKey);
-        await driver.enterText('1231234');
+        await driver.enterText('123123');
         await driver.tap(Keys.signInButton);
         await Future.delayed(const Duration(seconds: 2), () {});
         await expect(await driver.getText(Keys.easyDoctorTextKey), "Easy Doctor Appointment");

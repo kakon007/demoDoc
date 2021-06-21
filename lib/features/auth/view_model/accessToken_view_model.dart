@@ -24,6 +24,7 @@ class AccessTokenProvider extends ChangeNotifier {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.remove("accessToken");
     await preferences.remove("password");
+    await preferences.remove("username");
     accessToken = null;
     notifyListeners();
     Navigator.of(appNavigator.context).pushAndRemoveUntil(

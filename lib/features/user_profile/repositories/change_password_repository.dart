@@ -33,7 +33,7 @@ class ChangePasswordRepository {
           message: data2.message,
         ));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+       // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {

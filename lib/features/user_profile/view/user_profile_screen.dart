@@ -361,120 +361,118 @@ class _UserProfileState extends State<UserProfile> {
                                     ],
                                   ),
                                 )
-                              : Expanded(
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount:
-                                          familyVm.familyMembersList.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        var photo = familyVm
-                                                .familyMembersList[index]
-                                                ?.photo ??
-                                            "";
-                                        return Container(
-                                          margin: EdgeInsets.only(right: isTablet? 10 : 6),
-                                          decoration: BoxDecoration(
-                                              color: HexColor('#F7F8FF'),
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          height: 50.0,
-                                          width: isTablet? 180 :150,
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              photo != ""
-                                                  ? Container(
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: AppTheme
-                                                                .appbarPrimary),
-                                                        //color: AppTheme.appbarPrimary,
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      height:
-                                                          isTablet ? 45 : 40,
-                                                      width: isTablet ? 45 : 40,
-                                                      child: Center(
-                                                          child: imageVm
-                                                              .loadProfileImage(
-                                                                  photo,
-                                                                  isTablet
-                                                                      ? 40
-                                                                      : 35,
-                                                                  isTablet
-                                                                      ? 40
-                                                                      : 35,
-                                                                  50)))
-                                                  : Container(
-                                                      decoration: BoxDecoration(
-                                                        color: AppTheme
-                                                            .appbarPrimary,
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      height:
-                                                          isTablet ? 45 : 40,
-                                                      width: isTablet ? 45 : 40,
-                                                      child: Center(
-                                                        child: Image.asset(
-                                                          'assets/images/dPro.png',
-                                                          height: isTablet
-                                                              ? 27
-                                                              : 22,
-                                                          width: isTablet
-                                                              ? 27
-                                                              : 22,
-                                                        ),
-                                                      )),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    width: 115,
-                                                    child: Text(
-                                                      familyVm
-                                                          .familyMembersList[
-                                                              index]
-                                                          .fmName,
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: GoogleFonts.roboto(
-                                                          color: HexColor(
-                                                              '#0D1231'),
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: isTablet? 14 : 11),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    familyVm
-                                                        .familyMembersList[
-                                                            index]
-                                                        .relationName,
-                                                    style: GoogleFonts.roboto(
-                                                        color:
-                                                            HexColor('#B8C2F8'),
-                                                        fontSize: isTablet? 13 : 10),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      familyVm.familyMembersList.length>=5 ? 5 : familyVm.familyMembersList.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    var photo = familyVm
+                                            .familyMembersList[index]
+                                            ?.photo ??
+                                        "";
+                                    return Container(
+                                      margin: EdgeInsets.only(right: isTablet? 10 : 6),
+                                      decoration: BoxDecoration(
+                                          color: HexColor('#F7F8FF'),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      height: 50.0,
+                                      width: isTablet? 180 :150,
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 5,
                                           ),
-                                        );
-                                      }),
-                                )),
+                                          photo != ""
+                                              ? Container(
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: AppTheme
+                                                            .appbarPrimary),
+                                                    //color: AppTheme.appbarPrimary,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  height:
+                                                      isTablet ? 45 : 40,
+                                                  width: isTablet ? 45 : 40,
+                                                  child: Center(
+                                                      child: imageVm
+                                                          .loadProfileImage(
+                                                              photo,
+                                                              isTablet
+                                                                  ? 40
+                                                                  : 35,
+                                                              isTablet
+                                                                  ? 40
+                                                                  : 35,
+                                                              50)))
+                                              : Container(
+                                                  decoration: BoxDecoration(
+                                                    color: AppTheme
+                                                        .appbarPrimary,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  height:
+                                                      isTablet ? 45 : 40,
+                                                  width: isTablet ? 45 : 40,
+                                                  child: Center(
+                                                    child: Image.asset(
+                                                      'assets/images/dPro.png',
+                                                      height: isTablet
+                                                          ? 27
+                                                          : 22,
+                                                      width: isTablet
+                                                          ? 27
+                                                          : 22,
+                                                    ),
+                                                  )),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                width:isTablet? 115 : 95,
+                                                child: Text(
+                                                  familyVm
+                                                      .familyMembersList[
+                                                          index]
+                                                      .fmName,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: GoogleFonts.roboto(
+                                                      color: HexColor(
+                                                          '#0D1231'),
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: isTablet? 14 : 11),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                familyVm
+                                                    .familyMembersList[
+                                                        index]
+                                                    .relationName,
+                                                style: GoogleFonts.roboto(
+                                                    color:
+                                                        HexColor('#B8C2F8'),
+                                                    fontSize: isTablet? 13 : 10),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  })),
                     ),
                     // InkWell(
                     //   onTap: (){

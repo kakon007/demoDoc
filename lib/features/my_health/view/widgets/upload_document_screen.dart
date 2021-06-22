@@ -254,7 +254,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     );
     var writeDetailsField = Container(
       width: isTablet? width*92 : MediaQuery.of(context).size.width * .89,
-      height: isTablet? 200 : 150,
+      height: isTablet? 200 : 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         //color: Colors.white,
@@ -262,29 +262,32 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 15),
-        child: TextField(
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
-            maxLength: 75,
-            maxLengthEnforced: false,
-            autofocus: false,
-            textInputAction: TextInputAction.newline,
-            focusNode: _searchFieldFocusNode2,
-            controller: _descriptionTextEditingController,
-            cursorColor: HexColor('#C5CAE8'),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              // hintText: 'Search here',
-              hintStyle: GoogleFonts.poppins(
-                  fontSize: isTablet? 15 : 11, fontWeight: FontWeight.w400),
-              fillColor: Colors.white,
-            ),
-            onSubmitted: (v) {
-              //vm2.search(_searchTextEditingController2.text,widget.accessToken);
-            },
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(75),
-            ]),
+        child: SizedBox(
+          height: 500,
+          child: TextField(
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              maxLength: 75,
+              maxLengthEnforced: false,
+              autofocus: false,
+              textInputAction: TextInputAction.newline,
+              focusNode: _searchFieldFocusNode2,
+              controller: _descriptionTextEditingController,
+              cursorColor: HexColor('#C5CAE8'),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                // hintText: 'Search here',
+                hintStyle: GoogleFonts.poppins(
+                    fontSize: isTablet? 15 : 11, fontWeight: FontWeight.w400),
+                fillColor: Colors.white,
+              ),
+              onSubmitted: (v) {
+                //vm2.search(_searchTextEditingController2.text,widget.accessToken);
+              },
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(75),
+              ]),
+        ),
       ),
     );
     final String assetName = "assets/images/camm.svg";

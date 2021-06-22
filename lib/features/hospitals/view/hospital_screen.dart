@@ -98,6 +98,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         hospitalSearch(value);
         // print(value);
       },
+      textFieldKey: Key('hospitalSearchFieldKey'),
       focusBorderColor:"#8592E5",
       controller: hospitalController,
       borderRadius: 30,
@@ -123,6 +124,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         backgroundColor: AppTheme.appbarPrimary,
         title: Text(
           StringResources.hospitalListAppbar,
+          key: Key('hospitalAppbarKey'),
           style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15),
         ),
         actions: <Widget>[
@@ -167,6 +169,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
               searchField,
               vm.shouldShowPageLoader||vm5.shouldShowPageLoader || vm6.shouldShowPageLoaderForImage? Loader():  Expanded(
                 child: ListView.builder(
+                    key: Key('listViewBuilderKey'),
                     shrinkWrap: true,
                     itemCount: hospitalItems.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -189,6 +192,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                         hospitalItems[index].companyId,
                         hospitalItems[index].ogNo.toString(),
                         hospitalItems[index].id.toString(),
+                        index.toString(),
                       );
                     }),
               ),

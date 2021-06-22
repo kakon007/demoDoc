@@ -78,4 +78,16 @@ class Keys{
   static final selectRelationKey = find.byValueKey('selectRelationKey');
   static final addAsFamilyMemberButtonKey = find.byValueKey('addAsFamilyMemberButtonKey');
 
+
+
+  // hospitals keys
+  static final hospitalBottomNavbarKey = find.byValueKey('hospitalBottomNavbarKey');
+  static final hospitalAppbarKey = find.byValueKey('hospitalAppbarKey');
+  static final getAppointmentKey1 = find.byValueKey('getAppointmentKey1');
+  static final getAppointmentKey8 = find.byValueKey('getAppointmentKey8');
+  static final listViewBuilderKey = find.byValueKey('listViewBuilderKey');
+  static final hospitalSearchFieldKey = find.byValueKey('hospitalSearchFieldKey');
+
+  // doctors key
+  static final doctorsKey = find.byValueKey('doctorsKey');
 }

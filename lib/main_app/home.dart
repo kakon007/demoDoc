@@ -217,6 +217,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     final String hospitaliconimag = "assets/icons/hospital_icon.svg";
     final Widget hospitalicon = SvgPicture.asset(
       hospitaliconimag,
+      key: Key('hospitalBottomNavbarKey'),
       width: 10,
       height: 20,
       color: currentIndex==2? HexColor('#354291'):HexColor('#969EC8'),

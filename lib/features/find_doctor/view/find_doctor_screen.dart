@@ -420,6 +420,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       Container(
                           margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
                           child: Text('Doctors',
+                              key: Key('doctorsKey'),
                               style: GoogleFonts.poppins(
                                   fontSize: isTablet? 18 : 15, fontWeight: FontWeight.w600))),
                       isFiltered == false

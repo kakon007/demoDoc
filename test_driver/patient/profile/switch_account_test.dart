@@ -5,9 +5,9 @@ import 'package:test/test.dart';
 //flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
 
 main(){
-  loginTest();
+  switchTest();
 }
-Future<void> loginTest()async{
+Future<void> switchTest()async{
 
   group('Switch Account Test', ()
   {

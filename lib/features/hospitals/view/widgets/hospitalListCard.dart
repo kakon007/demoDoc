@@ -19,8 +19,9 @@ class HospitalListCard extends StatelessWidget {
   String companyNo;
   String orgNo;
   String id;
+  String index;
 
-  HospitalListCard(@required this.image,@required this.backgroundImage,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
+  HospitalListCard(@required this.image,@required this.backgroundImage,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,this.index);
   @override
   Widget build(BuildContext context) {
     var cardHeight = MediaQuery.of(context).size.height * 0.1537;
@@ -80,6 +81,7 @@ class HospitalListCard extends StatelessWidget {
                         FocusScope.of(context).unfocus();
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,backgroundImage,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
                       },
+                      key: Key('getAppointmentKey$index'),
                       child: Material(
                         elevation: 0  ,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -206,12 +207,14 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
         addAccountValue=null;
       } else {
         var vm5 = Provider.of<AuthViewModel>(context, listen: false);
+        BotToast.showLoading();
         await vm5.getAuthData(_username.text, _password.text);
         if (vm5.accessToken != null) {
           var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
           var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
           await vm4.getSwitchData(vm5.accessToken);
           await vm3.switchImage(vm5.accessToken);
+          BotToast.closeAllLoading();
           if (accounts == null) {
             SwitchAccounts switchAccounts = new SwitchAccounts(
               name: vm4.userSwitchDetailsList.fname,
@@ -224,7 +227,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                   _username.clear(),
                   _password.clear(),
                   Fluttertoast.showToast(
-                      msg: "Data inserted",
+                      msg: "Account added successfully",
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.BOTTOM,
                       backgroundColor: Colors.green,
@@ -244,6 +247,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
         }
       }
     }else{
+      BotToast.closeAllLoading();
       setState(() {
         isEmpty= true;
       });

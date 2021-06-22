@@ -69,9 +69,15 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
           key: Key('familyMemberSearchKey'),
           controller: memberSearch,
           decoration: new InputDecoration(
-            suffixIcon: Icon(
-              Icons.search,
-              //color: HexColor("#8592E5"),
+            suffixIcon: GestureDetector(
+              onTap: (){
+                membersSearch(memberSearch.text);
+              },
+              key: Key('familyMemberSearchButtonKey'),
+              child: Icon(
+                Icons.search,
+                //color: HexColor("#8592E5"),
+              ),
             ),
             hintStyle: GoogleFonts.poppins(fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
             hintText: "Name or Username",
@@ -230,6 +236,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                     return AddFamilyMember(photo: photo,);
                                   }));
                                 },
+                                key: Key('addMemberKey$index'),
                                 child: Container(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

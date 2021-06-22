@@ -70,6 +70,7 @@ dependencies:
   driver_extensions: ^1.2.0+1
   ffcache: ^1.0.0
   mockito: ^5.0.10
+  encrypt: ^5.0.0
   #searchable_dropdown: ^1.1.3
 
 

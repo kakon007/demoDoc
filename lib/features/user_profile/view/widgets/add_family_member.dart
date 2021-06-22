@@ -62,6 +62,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                         width: isTablet? width*.87 : width*.75,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
+                            key: Key('selectRelationKey'),
                             decoration: InputDecoration(
                                 enabledBorder: InputBorder.none,
                               contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -105,6 +106,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Select Relationship",
+          key: Key('selectRelationShipAppbarKey'),
           style: GoogleFonts.poppins(fontSize: isTablet? 18  : 15),
         ),
       ),
@@ -240,7 +242,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             textColor: Colors.white,
-                            color: _selectedRelation!= null ? AppTheme.appbarPrimary : HexColor("#969EC8") ,child: Text("Add as Family Member",  style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ))),
+                            color: _selectedRelation!= null ? AppTheme.appbarPrimary : HexColor("#969EC8") ,child: Text("Add as Family Member",key: Key('addAsFamilyMemberButtonKey'),  style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ))),
                       ),
                     ),
                   )

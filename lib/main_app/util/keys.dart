@@ -72,5 +72,10 @@ class Keys{
   static final familyMemberDeleteKey2 = find.byValueKey('familyMemberDeleteKey2');
   static final familyMemberSearchAppbarKey = find.byValueKey('familyMemberSearchAppbarKey');
   static final familyMemberSearchKey = find.byValueKey('familyMemberSearchKey');
+  static final familyMemberSearchButtonKey = find.byValueKey('familyMemberSearchButtonKey');
+  static final addMemberKey1 = find.byValueKey('addMemberKey1');
+  static final selectRelationShipAppbarKey = find.byValueKey('selectRelationShipAppbarKey');
+  static final selectRelationKey = find.byValueKey('selectRelationKey');
+  static final addAsFamilyMemberButtonKey = find.byValueKey('addAsFamilyMemberButtonKey');
 
 }

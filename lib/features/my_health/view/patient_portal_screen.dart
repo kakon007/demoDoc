@@ -1391,833 +1391,317 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
                   //REPORT Screen
 
-                  WillPopScope(
-                    onWillPop: () async {
-                      //block app from quitting when selecting
-                      var before = !controller2.isSelecting;
-                      setState(() {
-                        controller2.deselectAll();
-                      });
-                      return before;
+                  RefreshIndicator(
+                    onRefresh: (){
+                      _searchTextEditingController2.clear();
+                      return Provider.of<ReportViewModel>(context,listen: false).refresh();
                     },
-                    child: Scaffold(
-                      // body:
-                      // Align(
-                      //   alignment: Alignment.center,
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(top:200.0),
-                      //     child: Container(
-                      //       child: Column(
-                      //         children: [
-                      //           pp,
-                      //           SizedBox(height: 10,),
-                      //           Text('You have no report available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                      //
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                        body: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.only(
-                                      left: isTablet? 20 :12.0, bottom: 20, top: 10),
-                                  child: Text(
-                                    "${vm2.totalCount.toString()} Report(s) found",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: isTablet ? 15 : 10),
+                    child: WillPopScope(
+                      onWillPop: () async {
+                        //block app from quitting when selecting
+                        var before = !controller2.isSelecting;
+                        setState(() {
+                          controller2.deselectAll();
+                        });
+                        return before;
+                      },
+                      child: Scaffold(
+                        // body:
+                        // Align(
+                        //   alignment: Alignment.center,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.only(top:200.0),
+                        //     child: Container(
+                        //       child: Column(
+                        //         children: [
+                        //           pp,
+                        //           SizedBox(height: 10,),
+                        //           Text('You have no report available now',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                        //
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                          body: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:  EdgeInsets.only(
+                                        left: isTablet? 20 :12.0, bottom: 20, top: 10),
+                                    child: Text(
+                                      "${vm2.totalCount.toString()} Report(s) found",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: isTablet ? 15 : 10),
+                                    ),
                                   ),
-                                ),
-                                Spacer(),
-                                if (vm2.isInSearchMode) searchFieldforReport,
-                                IconButton(
-                                  key: Key('featuredJButonKey'),
-                                  icon: Icon(
-                                    vm2.isInSearchMode ? Icons.close : Icons.search,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    _searchTextEditingController2?.clear();
-                                    vm2.toggleIsInSearchMode(
-                                        accessTokenVm.accessToken);
+                                  Spacer(),
+                                  if (vm2.isInSearchMode) searchFieldforReport,
+                                  IconButton(
+                                    key: Key('featuredJButonKey'),
+                                    icon: Icon(
+                                      vm2.isInSearchMode ? Icons.close : Icons.search,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      _searchTextEditingController2?.clear();
+                                      vm2.toggleIsInSearchMode(
+                                          accessTokenVm.accessToken);
 
-                                    if (vm2.isInSearchMode) {
-                                      _searchFieldFocusNode2.requestFocus();
-                                    } else {
-                                      _searchFieldFocusNode2.unfocus();
-                                    }
-                                  },
-                                ),
-                                SizedBox(width: isTablet? 20 : 0,)
-                              ],
-                            ),
-                            Expanded(
-                              child:
-                              // (vm2.reportList.length == 0 &&
-                              //     !vm2.isFetchingData) ? Loader():
-                              vm2.reportList.length == 0
-                                  ? Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    children: [
-                                      pp,
-                                      SizedBox(
-                                        height: isTablet ? 20 : 10,
-                                      ),
-                                      Text(
-                                        'You have no report available now',
-                                        style: GoogleFonts.poppins(
-                                            color: HexColor('#AEB0BA'),
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: isTablet ? 22 : 16),
-                                      ),
-                                    ],
+                                      if (vm2.isInSearchMode) {
+                                        _searchFieldFocusNode2.requestFocus();
+                                      } else {
+                                        _searchFieldFocusNode2.unfocus();
+                                      }
+                                    },
                                   ),
-                                ),
-                              )
-                                  : SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  physics: ScrollPhysics(),
-                                  child: Column(
-                                    children: [
-                                      ListView.builder(
-                                          physics:
-                                          NeverScrollableScrollPhysics(),
-                                          itemCount: vm2.reportList.length,
-                                          shrinkWrap: true,
-                                          itemBuilder:
-                                              (BuildContext context,
-                                              int index) {
-                                            return MultiSelectItem(
-                                              isSelecting:
-                                              controller2.isSelecting,
-                                              onSelected: () {
-                                                setState(() {
-                                                  controller2.toggle(index);
-                                                });
-                                              },
-                                              child: Stack(children: [
-                                                InkWell(
-                                                  onLongPress: () {
-                                                    setState(() {
-                                                      controller2
-                                                          .toggle(index);
-                                                    });
-                                                    print("tapped");
-                                                  },
-                                                  onTap: () {
-                                                    if (controller2
-                                                        .isSelecting) {
+                                  SizedBox(width: isTablet? 20 : 0,)
+                                ],
+                              ),
+                              Expanded(
+                                child:
+                                // (vm2.reportList.length == 0 &&
+                                //     !vm2.isFetchingData) ? Loader():
+                                vm2.reportList.length == 0
+                                    ? Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        pp,
+                                        SizedBox(
+                                          height: isTablet ? 20 : 10,
+                                        ),
+                                        Text(
+                                          'You have no report available now',
+                                          style: GoogleFonts.poppins(
+                                              color: HexColor('#AEB0BA'),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: isTablet ? 22 : 16),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                    : SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    physics: ScrollPhysics(),
+                                    child: Column(
+                                      children: [
+                                        ListView.builder(
+                                            physics:
+                                            NeverScrollableScrollPhysics(),
+                                            itemCount: vm2.reportList.length,
+                                            shrinkWrap: true,
+                                            itemBuilder:
+                                                (BuildContext context,
+                                                int index) {
+                                              return MultiSelectItem(
+                                                isSelecting:
+                                                controller2.isSelecting,
+                                                onSelected: () {
+                                                  setState(() {
+                                                    controller2.toggle(index);
+                                                  });
+                                                },
+                                                child: Stack(children: [
+                                                  InkWell(
+                                                    onLongPress: () {
                                                       setState(() {
                                                         controller2
                                                             .toggle(index);
                                                       });
-                                                    } else {
-                                                      Navigator.push(
-                                                        context,
-                                                        PageTransition(
-                                                          type: PageTransitionType
-                                                              .rightToLeft,
-                                                          child: PdfbyteViewerScreen(
-                                                              vm2
-                                                                  .reportList[
-                                                              index]
-                                                                  .attachmentPath,
-                                                              vm2
-                                                                  .reportList[
-                                                              index]
-                                                                  .attachmentName),
-                                                        ),
-                                                      );
-                                                    }
-                                                    print("tappeddd");
-                                                  },
-                                                  child: Container(
-                                                    height: isTablet
-                                                        ? 130
-                                                        : cardHeight * 0.5,
-                                                    margin: EdgeInsets.only(
-                                                        top: isTablet ? 8 : 8,
-                                                        bottom:
-                                                        isTablet ? 10 : 5,
-                                                        right: isTablet
-                                                            ? 20
-                                                            : 10,
-                                                        left: isTablet
-                                                            ? 20
-                                                            : 10),
-                                                    decoration:
-                                                    BoxDecoration(
-                                                      gradient: LinearGradient(
-                                                          begin: Alignment
-                                                              .bottomRight,
-                                                          stops: [
-                                                            1.0,
-                                                            // 1.0
-                                                          ],
-                                                          colors: [
-                                                            // HexColor(
-                                                            //     '#C5CAE8'),
-                                                            HexColor(
-                                                                '#E9ECFE'),
-                                                          ]),
-                                                      //color: Colors.white,
-                                                      // border: Border.all(
-                                                      //   color: HexColor("#E9ECFE"),
-                                                      //   width: 1,
-                                                      // ),
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(15),
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .only(
-                                                              top: 12.0,
-                                                              right: 8,
-                                                              bottom: 8,
-                                                              left: 6),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                            children: [
-                                                              SizedBox(
-                                                                height: 5,
-                                                              ),
-                                                              Text(
+                                                      print("tapped");
+                                                    },
+                                                    onTap: () {
+                                                      if (controller2
+                                                          .isSelecting) {
+                                                        setState(() {
+                                                          controller2
+                                                              .toggle(index);
+                                                        });
+                                                      } else {
+                                                        Navigator.push(
+                                                          context,
+                                                          PageTransition(
+                                                            type: PageTransitionType
+                                                                .rightToLeft,
+                                                            child: PdfbyteViewerScreen(
                                                                 vm2
                                                                     .reportList[
                                                                 index]
-                                                                    .attachmentTypeName,
-                                                                style: GoogleFonts.poppins(
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                                  color: HexColor(
-                                                                      '#354291'),
-                                                                  fontSize:
-                                                                  isTablet
-                                                                      ? 16
-                                                                      : width <= 330
-                                                                      ? 10
-                                                                      : 12,),
-                                                              ),
-                                                              Text(
-                                                                DateUtil().formattedDate(DateTime.parse(vm2
-                                                                    .reportList[index]
-                                                                    .reportDate)
-                                                                    .toLocal()),
-                                                                style: GoogleFonts.poppins(
+                                                                    .attachmentPath,
+                                                                vm2
+                                                                    .reportList[
+                                                                index]
+                                                                    .attachmentName),
+                                                          ),
+                                                        );
+                                                      }
+                                                      print("tappeddd");
+                                                    },
+                                                    child: Container(
+                                                      height: isTablet
+                                                          ? 130
+                                                          : cardHeight * 0.5,
+                                                      margin: EdgeInsets.only(
+                                                          top: isTablet ? 8 : 8,
+                                                          bottom:
+                                                          isTablet ? 10 : 5,
+                                                          right: isTablet
+                                                              ? 20
+                                                              : 10,
+                                                          left: isTablet
+                                                              ? 20
+                                                              : 10),
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        gradient: LinearGradient(
+                                                            begin: Alignment
+                                                                .bottomRight,
+                                                            stops: [
+                                                              1.0,
+                                                              // 1.0
+                                                            ],
+                                                            colors: [
+                                                              // HexColor(
+                                                              //     '#C5CAE8'),
+                                                              HexColor(
+                                                                  '#E9ECFE'),
+                                                            ]),
+                                                        //color: Colors.white,
+                                                        // border: Border.all(
+                                                        //   color: HexColor("#E9ECFE"),
+                                                        //   width: 1,
+                                                        // ),
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(15),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                top: 12.0,
+                                                                right: 8,
+                                                                bottom: 8,
+                                                                left: 6),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                SizedBox(
+                                                                  height: 5,
+                                                                ),
+                                                                Text(
+                                                                  vm2
+                                                                      .reportList[
+                                                                  index]
+                                                                      .attachmentTypeName,
+                                                                  style: GoogleFonts.poppins(
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
                                                                     color: HexColor(
-                                                                        '#141D53'),
+                                                                        '#354291'),
                                                                     fontSize:
                                                                     isTablet
-                                                                        ? 14
-                                                                        : width <= 330
-                                                                        ? 8
-                                                                        : 10,
-                                                                    fontWeight:
-                                                                    FontWeight.w500),
-                                                              ),
-                                                              // SizedBox(height: 8,),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     CircleAvatar(
-                                                              //       radius: 18,
-                                                              //       backgroundColor: HexColor('#354291').withOpacity(0.2),
-                                                              //       child: CircleAvatar(
-                                                              //         backgroundColor: Colors.white,
-                                                              //         backgroundImage: AssetImage('assets/images/ap.png'),
-                                                              //         radius: 17,
-                                                              //       ),
-                                                              //     ),
-                                                              //     SizedBox(width: 15,),
-                                                              //     Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
-                                                              //   ],
-                                                              // )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Spacer(),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(right:18.0),
-                                                        //   child: Stack(children: [
-                                                        //     Container(width:45,child: dx),
-                                                        //     Padding(
-                                                        //       padding: const EdgeInsets.only(left:30.0),
-                                                        //       child: righticon,
-                                                        //     ),
-                                                        //   ]),
-                                                        // ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right:18.0),
-                                                          child: Row(children: [
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(top:10.0,right: 5),
-                                                            //   child: Container(width:45,child: dx),
-                                                            // ),
-                                                            // (controller2.isSelected(index))?
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                            //   child: righticon,
-                                                            // ): (controller2.isSelecting)?Padding(
-                                                            //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                            //   child: greyright,
-                                                            // ):
-                                                            Padding(
-                                                              padding: EdgeInsets.only(right: 20,),
-                                                              child: InkWell(onTap: () async{
-                                                                await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
-
-                                                              },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary,)),
-                                                            ),
-
-                                                            SizedBox(width: 5,),
-                                                            GestureDetector(
-                                                                onTap: () async{
-                                                                  SVProgressHUD.show(
-                                                                      status: 'Please Wait'
-                                                                  );
-                                                                  await vm10.getData(fileNo: vm2.reportList[index].id);
-                                                                  await vm10.fileInfo(fileNo: vm2.reportList[index].id,regId: vm2.reportList[index].referenceNo);
-                                                                  SVProgressHUD.dismiss();
-                                                                  vm2.reportList[index].id==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!'): showModalBottomSheet(
-                                                                      backgroundColor: HexColor("#E9ECFE"),
-                                                                      shape: RoundedRectangleBorder(
-                                                                          borderRadius: BorderRadius.only(
-                                                                              topLeft: Radius.circular(25),
-                                                                              topRight: Radius.circular(25))),
-                                                                      context: context,
-                                                                      isScrollControlled: true,
-                                                                      builder: (context) {
-
-                                                                        return StatefulBuilder(
-                                                                            builder: (BuildContext context, StateSetter setState) {
-                                                                              var index = 0;
-                                                                              bool isTrue = false;
-                                                                              return FractionallySizedBox(
-                                                                                  heightFactor: 0.85,
-                                                                                  child:ShareDocument()
-                                                                              );
-                                                                            });
-                                                                      });
-                                                                  //print('CompanyName ${vm10.sharedFileList.last.companyName}');
-                                                                },
-                                                                // onTap: showNotification,
-                                                                child: Icon(Icons.share, color: AppTheme.appbarPrimary,)),
-                                                          ]),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]),
-                                            );
-                                          })
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        )),
-                  ),
-
-                  //Documentation Screen
-                  WillPopScope(
-                    onWillPop: () async {
-                      //block app from quitting when selecting
-                      var before = !controller3.isSelecting;
-                      setState(() {
-                        controller3.deselectAll();
-                      });
-                      return before;
-                    },
-                    child: Scaffold(
-                      floatingActionButton: Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0, right: 10),
-                        child:
-                        // UnicornDialer(
-                        //     backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
-                        //     parentButtonBackground: HexColor('#8592E5'),
-                        //     orientation: UnicornOrientation.VERTICAL,
-                        //     parentButton: Icon(Icons.add),
-                        //     childButtons: childButtons),
-
-                        FloatingActionButton(
-                          backgroundColor: HexColor('#8592E5'),
-                          child: Icon(Icons.add),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                child: UploadDocumentScreen(),
-                              ),
-                            ).then((value) {
-                              setState(() {
-                                vm3.getDataforDoc();
-                              });
-                            });
-                          },
-                        ),
-                      ),
-
-                      // body:
-                      // Align(
-                      //   alignment: Alignment.center,
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(top:200.0),
-                      //     child: Container(
-                      //       child: Column(
-                      //         children: [
-                      //           pp,
-                      //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                      //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-
-                      body: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding:  EdgeInsets.only(
-                                    left: isTablet? 20 : 12.0, bottom: 20),
-                                child: Text(
-                                  "${vm3.totalCount.toString()} Document(s) found",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: isTablet ? 15 : 10),
-                                ),
-                              ),
-                              Spacer(),
-                              if (vm3.isInSearchMode) searchFieldforDoc,
-                              IconButton(
-                                key: Key('featuredJButonKey'),
-                                icon: Icon(
-                                  vm3.isInSearchMode
-                                      ? Icons.close
-                                      : Icons.search,
-                                  color: Colors.grey,
-                                ),
-                                onPressed: () {
-                                  _searchTextEditingController3?.clear();
-                                  vm3.toggleIsInSearchMode(
-                                      accessTokenVm.accessToken);
-
-                                  if (vm3.isInSearchMode) {
-                                    _searchFieldFocusNode3.requestFocus();
-                                  } else {
-                                    _searchFieldFocusNode3.unfocus();
-                                  }
-                                },
-                              ),
-                              SizedBox(width: isTablet? 20 : 0,)
-                            ],
-                          ),
-                          Expanded(
-                            child:
-                            // (vm3.documentList.length == null &&
-                            //     !vm3.isFetchingData) ? Center(
-                            //   child: CircularProgressIndicator(  valueColor:
-                            //   AlwaysStoppedAnimation<Color>(
-                            //       AppTheme.appbarPrimary),),
-                            // ):
-                            vm3.documentList.length == 0
-                                ? Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
-                                  children: [
-                                    pp,
-                                    Text(
-                                      'Upload your documents here.',
-                                      style: GoogleFonts.poppins(
-                                          color: HexColor('#AEB0BA'),
-                                          fontWeight: FontWeight.w400,
-                                          fontSize:
-                                          isTablet ? 22 : 16),
-                                    ),
-                                    Text('(JPG,PNG,PDF only)',
-                                        style: GoogleFonts.poppins(
-                                            color:
-                                            HexColor('#AEB0BA'),
-                                            fontWeight:
-                                            FontWeight.w400,
-                                            fontSize:
-                                            isTablet ? 22 : 16)),
-                                  ],
-                                ),
-                              ),
-                            )
-                                : ListView.builder(
-                                controller: _scrollController3,
-                                itemCount: vm3.documentList.length+1,
-                                shrinkWrap: true,
-                                itemBuilder:
-                                    (BuildContext context, int index) {
-                                      if (index ==
-                                          vm3.documentList.length) {
-                                        return vm3.isFetchingMoreData
-                                            ? SizedBox(
-                                            height: 60,
-                                            child: Center(
-                                                child:
-                                                CircularProgressIndicator()))
-                                            : SizedBox();
-                                        //return SizedBox(height: 15,);
-
-                                      }
-                                  return MultiSelectItem(
-                                    isSelecting:
-                                    controller3.isSelecting,
-                                    onSelected: () {
-                                      setState(() {
-                                        controller3.toggle(index);
-                                      });
-                                    },
-                                    child: Stack(children: [
-                                      InkWell(
-                                        onLongPress: () {
-                                          setState(() {
-                                            controller3.toggle(index);
-                                          });
-                                          print("tapped");
-                                        },
-                                        onTap: () async {
-                                          if (controller3.isSelecting) {
-                                            setState(() {
-                                              controller3.toggle(index);
-                                            });
-                                          } else {
-                                            String fileExt = vm3
-                                                .documentList[index]
-                                                .attachmentPath
-                                                .split('.')
-                                                .last;
-                                            Navigator.push(
-                                              context,
-                                              PageTransition(
-                                                type: PageTransitionType
-                                                    .rightToLeft,
-                                                child: fileExt == 'pdf'
-                                                    ? PdfbyteViewerScreen(
-                                                    vm3
-                                                        .documentList[
-                                                    index]
-                                                        .attachmentPath,
-                                                    vm3
-                                                        .documentList[
-                                                    index]
-                                                        .attachmentName)
-                                                    : ImagebyteViewerScreen(
-                                                    vm3
-                                                        .documentList[
-                                                    index]
-                                                        .attachmentPath,
-                                                    vm3
-                                                        .documentList[
-                                                    index]
-                                                        .attachmentName),
-                                              ),
-                                            );
-
-                                            print('PDFPRESSEDFrom DOc');
-                                          }
-                                          print("tappeddd from Doc");
-                                        },
-                                        child:
-
-                                        // Container(
-                                        //   // height: cardHeight*0.7,
-                                        //   margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
-                                        //   decoration: BoxDecoration(
-                                        //     gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
-                                        //       1.0,
-                                        //     ], colors: [
-                                        //       //HexColor('#C5CAE8'),
-                                        //       HexColor('#E9ECFE'),
-                                        //
-                                        //     ]),
-                                        //     //color: Colors.white,
-                                        //     // border: Border.all(
-                                        //     //   color: HexColor("#E9ECFE"),
-                                        //     //   width: 1,
-                                        //     // ),
-                                        //     borderRadius: BorderRadius.circular(15),
-                                        //   ),
-                                        //   child: Row(
-                                        //     children: [
-                                        //       SizedBox(width: 10,),
-                                        //       Padding(
-                                        //         padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
-                                        //         child: Column(
-                                        //           crossAxisAlignment: CrossAxisAlignment.start,
-                                        //           children: [
-                                        //             SizedBox(height: 10,),
-                                        //             Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
-                                        //             SizedBox(height: 5,),
-                                        //             Row(
-                                        //               children: [
-                                        //                 Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
-                                        //                 SizedBox(width: 40,),
-                                        //                 Container(width: 100,child: Text(vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-                                        //               ],
-                                        //             ),
-                                        //             SizedBox(height: 5,),
-                                        //             InkWell(onTap: (){
-                                        //               setState(() {
-                                        //                 descTextShowFlag =!descTextShowFlag;
-                                        //               });
-                                        //               print('Taab $descTextShowFlag');
-                                        //             },child: Text('Description')),
-                                        //             vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
-                                        //             Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-                                        //
-                                        //             SizedBox(height: 5,),
-                                        //           ],
-                                        //         ),
-                                        //       ),
-                                        //
-                                        //       // Padding(
-                                        //       //   padding: const EdgeInsets.only(right:18.0),
-                                        //       //   child: Stack(children: [
-                                        //       //     Container(width:45,child: dx),
-                                        //       //     Padding(
-                                        //       //       padding: const EdgeInsets.only(left:30.0),
-                                        //       //       child: righticon,
-                                        //       //     ),
-                                        //       //   ]),
-                                        //       // ),
-                                        //       Padding(
-                                        //         padding: const EdgeInsets.only(left: 10),
-                                        //         child: Stack(children: [
-                                        //           Padding(
-                                        //             padding: const EdgeInsets.only(top:5.0,left: 30),
-                                        //             child: Container(width:45,child: jp),
-                                        //           ),
-                                        //           // (controller3.isSelected(index))?
-                                        //           // Padding(
-                                        //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                        //           //   child: righticon,
-                                        //           // ): (controller3.isSelecting)?
-                                        //           // Padding(
-                                        //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                        //           //   child: greyright,
-                                        //           // ):
-                                        //           // // Padding(
-                                        //           // //   padding: EdgeInsets.only(left: 40,top: 10),
-                                        //           // //   child: InkWell(onTap: () async{
-                                        //           // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
-                                        //           // //   },child: Icon(Icons.delete)),
-                                        //           // // ),
-                                        //           Padding(
-                                        //             padding: EdgeInsets.only(left: 90,top: 40),
-                                        //             child: InkWell(onTap: () async{
-                                        //               vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                        //               _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-                                        //
-                                        //             },child: Icon(Icons.edit,color: HexColor('#354291'),)),
-                                        //           ),
-                                        //         ]),
-                                        //       ),
-                                        //     ],
-                                        //   ),
-                                        // ),
-                                        Container(
-                                          height: isTablet
-                                              ? 130
-                                              : cardHeight * 0.8,
-                                          margin: EdgeInsets.only(
-                                              top: isTablet ? 8 : 8,
-                                              bottom:
-                                              isTablet ? 5 : 5,
-                                              right: isTablet
-                                                  ? 20
-                                                  : 10,
-                                              left: isTablet
-                                                  ? 20
-                                                  : 10),
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                                begin: Alignment
-                                                    .bottomRight,
-                                                stops: [
-                                                  1.0,
-                                                  1.0
-                                                ],
-                                                colors: [
-                                                  HexColor('#C5CAE8'),
-                                                  HexColor('#E9ECFE'),
-                                                ]),
-                                            //color: Colors.white,
-                                            // border: Border.all(
-                                            //   color: HexColor("#E9ECFE"),
-                                            //   width: 1,
-                                            // ),
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                15),
-                                          ),
-                                          clipBehavior:
-                                          Clip.antiAlias,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets
-                                                        .only(
-                                                        left:
-                                                        8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        SizedBox(
-                                                          height:
-                                                          3,
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Container(
-                                                                width: isTablet? deviceWidth*.72 : deviceWidth <=
-                                                                    330
-                                                                    ? 220
-                                                                    : 150,
-                                                                child:
-                                                                Text(
-                                                                   vm3.documentList[index]?.attachmentName??'',
-                                                                  maxLines:
-                                                                  1,
-                                                                  overflow:
-                                                                  TextOverflow.ellipsis,
-                                                                  style: GoogleFonts.poppins(
-                                                                    fontWeight: FontWeight.bold,
-                                                                    color: HexColor('#354291'),
-                                                                    fontSize:  isTablet
-                                                                        ? 15
+                                                                        ? 16
                                                                         : width <= 330
                                                                         ? 10
                                                                         : 12,),
-                                                                )),
-                                                            InkWell(onTap: () async{
-                                                              vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                              _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-
-                                                            },child: Icon(Icons.edit,color: HexColor('#354291'),)),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: isTablet? 3 : 1,
-                                                        ),
-                                                        Row(
-                                                          // crossAxisAlignment:
-                                                          //     CrossAxisAlignment
-                                                          //         .start
-                                                          //,
-                                                          children: [
-                                                            Text(
-                                                              '${vm3.documentList[index].attachmentTypeName == null ? '' : vm3.documentList[index].attachmentTypeName}',
-                                                              maxLines:
-                                                              1,
-                                                              overflow:
-                                                              TextOverflow.ellipsis,
-                                                              style: GoogleFonts.poppins(
-                                                                  color: HexColor('#141D53'),
-                                                                  fontSize:  isTablet
-                                                                      ? 14
-                                                                      : width <= 330
-                                                                      ? 8
-                                                                      : 10,
-                                                                  fontWeight: FontWeight.w500),
+                                                                ),
+                                                                Text(
+                                                                  DateUtil().formattedDate(DateTime.parse(vm2
+                                                                      .reportList[index]
+                                                                      .reportDate)
+                                                                      .toLocal()),
+                                                                  style: GoogleFonts.poppins(
+                                                                      color: HexColor(
+                                                                          '#141D53'),
+                                                                      fontSize:
+                                                                      isTablet
+                                                                          ? 14
+                                                                          : width <= 330
+                                                                          ? 8
+                                                                          : 10,
+                                                                      fontWeight:
+                                                                      FontWeight.w500),
+                                                                ),
+                                                                // SizedBox(height: 8,),
+                                                                // Row(
+                                                                //   children: [
+                                                                //     CircleAvatar(
+                                                                //       radius: 18,
+                                                                //       backgroundColor: HexColor('#354291').withOpacity(0.2),
+                                                                //       child: CircleAvatar(
+                                                                //         backgroundColor: Colors.white,
+                                                                //         backgroundImage: AssetImage('assets/images/ap.png'),
+                                                                //         radius: 17,
+                                                                //       ),
+                                                                //     ),
+                                                                //     SizedBox(width: 15,),
+                                                                //     Text(reportList[index].hosName,style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 12,fontWeight: FontWeight.w500)),
+                                                                //   ],
+                                                                // )
+                                                              ],
                                                             ),
-                                                            SizedBox(width: 10,),
-                                                            Text(
-                                                              '${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
-                                                              style: GoogleFonts.poppins(
-                                                                  color: HexColor('#141D53'),
-                                                                  fontSize:  isTablet
-                                                                      ? 12
-                                                                      : width <= 330
-                                                                      ? 8
-                                                                      : 10,
-                                                                  fontWeight: FontWeight.w500),
-                                                            ),
-                                                            //SizedBox(width: 5,),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Row(
-                                                          children: [
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(top:5.0,left: 30),
-                                                            //   child: Container(width:45,child: jp),
-                                                            // ),
-                                                            // (controller3.isSelected(index))?
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                            //   child: righticon,
-                                                            // ): (controller3.isSelecting)?
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                            //   child: greyright,
-                                                            // ):
-                                                            // // Padding(
-                                                            // //   padding: EdgeInsets.only(left: 40,top: 10),
-                                                            // //   child: InkWell(onTap: () async{
-                                                            // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
-                                                            // //   },child: Icon(Icons.delete)),
-                                                            // // ),
+                                                          ),
+                                                          Spacer(),
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(right:18.0),
+                                                          //   child: Stack(children: [
+                                                          //     Container(width:45,child: dx),
+                                                          //     Padding(
+                                                          //       padding: const EdgeInsets.only(left:30.0),
+                                                          //       child: righticon,
+                                                          //     ),
+                                                          //   ]),
+                                                          // ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(right:18.0),
+                                                            child: Row(children: [
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.only(top:10.0,right: 5),
+                                                              //   child: Container(width:45,child: dx),
+                                                              // ),
+                                                              // (controller2.isSelected(index))?
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                              //   child: righticon,
+                                                              // ): (controller2.isSelecting)?Padding(
+                                                              //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                              //   child: greyright,
+                                                              // ):
+                                                              Padding(
+                                                                padding: EdgeInsets.only(right: 20,),
+                                                                child: InkWell(onTap: () async{
+                                                                  await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
 
-                                                            Padding(
-                                                              padding: EdgeInsets.only(top: 25,right:10),
-                                                              child: InkWell(onTap: () async{
-                                                                await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
+                                                                },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary,)),
+                                                              ),
 
-                                                              },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary)),
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets.only(top: 25,right: 8),
-                                                              child: GestureDetector(
+                                                              SizedBox(width: 5,),
+                                                              GestureDetector(
                                                                   onTap: () async{
                                                                     SVProgressHUD.show(
                                                                         status: 'Please Wait'
                                                                     );
-                                                                    await vm10.getData(fileNo: vm3.documentList[index].id);
-                                                                    await vm10.fileInfo(fileNo: vm3.documentList[index].id,regId: vm3.documentList[index].referenceNo);
+                                                                    await vm10.getData(fileNo: vm2.reportList[index].id);
+                                                                    await vm10.fileInfo(fileNo: vm2.reportList[index].id,regId: vm2.reportList[index].referenceNo);
                                                                     SVProgressHUD.dismiss();
-                                                                    vm3.documentList[index].id==null?Fluttertoast.showToast(msg: 'No Documents Found'): showModalBottomSheet(
+                                                                    vm2.reportList[index].id==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!'): showModalBottomSheet(
                                                                         backgroundColor: HexColor("#E9ECFE"),
                                                                         shape: RoundedRectangleBorder(
                                                                             borderRadius: BorderRadius.only(
@@ -2241,222 +1725,750 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   },
                                                                   // onTap: showNotification,
                                                                   child: Icon(Icons.share, color: AppTheme.appbarPrimary,)),
-                                                            ),
-                                                            SizedBox(width: 5,),
-
-                                                            Padding(
-                                                              padding: EdgeInsets.only(top: 25,right:15),
-                                                              child: InkWell(onTap: () async{
-                                                                // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                                // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-                                                                SVProgressHUD.show(
-                                                                    status: 'Deleting'
-                                                                );
-                                                                await Provider.of<UploadDocumentsViewModel>(context, listen: false)
-                                                                    .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
-                                                                  setState(() {
-                                                                    vm3.getDataforDoc();
-                                                                  });
-                                                                });
-                                                                SVProgressHUD.dismiss();
-                                                              },child: Icon(Icons.delete,color: HexColor('#354291'),)),
-                                                            ),
-
-                                                          ]),
-                                                    ],)
-
-                                                  //SizedBox(height: 5,),
-                                                  // InkWell(onTap: (){
-                                                  //   setState(() {
-                                                  //     descTextShowFlag =!descTextShowFlag;
-                                                  //   });
-                                                  //   print('Taab $descTextShowFlag');
-                                                  // },child: Text('Description')),
-                                                  // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
-                                                  // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-
-                                                  // SizedBox(height: 5,),
-                                                ],
-                                              ),
-                                              // vm3.documentList[index]
-                                              //             .description ==
-                                              //         null
-                                              //     ? SizedBox()
-                                              //     : Padding(
-                                              //         padding:
-                                              //             const EdgeInsets
-                                              //                     .only(
-                                              //                 right:
-                                              //                     10.0,
-                                              //                 left:
-                                              //                     10),
-                                              //         child: Divider(
-                                              //           thickness: 1,
-                                              //         ),
-                                              //       ),
-                                              // vm3.documentList[index]
-                                              //             .description ==
-                                              //         null
-                                              //     ? SizedBox()
-                                              //     : ScrollOnExpand(
-                                              //         scrollOnExpand:
-                                              //             true,
-                                              //         scrollOnCollapse:
-                                              //             false,
-                                              //         child:
-                                              //             ExpandablePanel(
-                                              //           theme:
-                                              //               ExpandableThemeData(
-                                              //             headerAlignment:
-                                              //                 ExpandablePanelHeaderAlignment
-                                              //                     .center,
-                                              //             tapBodyToCollapse:
-                                              //                 true,
-                                              //           ),
-                                              //           header: Padding(
-                                              //               padding: EdgeInsets.all(10),
-                                              //               child: Text(
-                                              //                 "Description",
-                                              //                 style: GoogleFonts.poppins(
-                                              //                     color: HexColor(
-                                              //                         '#141D53'),
-                                              //                     fontSize:
-                                              //                     isTablet
-                                              //                         ? 14
-                                              //                         : width <= 330
-                                              //                         ? 8
-                                              //                         : 10,
-                                              //                     fontWeight:
-                                              //                         FontWeight.w500),
-                                              //               )),
-                                              //           // collapsed: Text(
-                                              //           //   vm3.documentList[index].description==null?"":vm3.documentList[index].description,
-                                              //           //   softWrap: true,
-                                              //           //   maxLines: 2,
-                                              //           //   overflow: TextOverflow.ellipsis,
-                                              //           // ),
-                                              //           expanded:
-                                              //               Container(
-                                              //             decoration:
-                                              //                 BoxDecoration(
-                                              //               color: Colors
-                                              //                   .white,
-                                              //               borderRadius:
-                                              //                   BorderRadius.circular(
-                                              //                       15),
-                                              //             ),
-                                              //             width: double
-                                              //                 .infinity,
-                                              //             child:
-                                              //                 Padding(
-                                              //               padding:
-                                              //                   const EdgeInsets.all(
-                                              //                       8.0),
-                                              //               child:
-                                              //                   Column(
-                                              //                 crossAxisAlignment:
-                                              //                     CrossAxisAlignment.start,
-                                              //                 children: <
-                                              //                     Widget>[
-                                              //                   //for (var _ in Iterable.generate(5))
-                                              //                   Text(
-                                              //                     vm3.documentList[index].description == null
-                                              //                         ? ""
-                                              //                         : vm3.documentList[index].description,
-                                              //                     softWrap:
-                                              //                         true,
-                                              //                     overflow:
-                                              //                         TextOverflow.fade,
-                                              //                     style: GoogleFonts.poppins( fontSize: isTablet
-                                              //                         ? 15
-                                              //                         : width <= 330
-                                              //                         ? 8
-                                              //                         : 12,),
-                                              //                   ),
-                                              //                 ],
-                                              //               ),
-                                              //             ),
-                                              //           ),
-                                              //           builder: (_,
-                                              //               collapsed,
-                                              //               expanded) {
-                                              //             return Padding(
-                                              //               padding: EdgeInsets.only(
-                                              //                   left:
-                                              //                       10,
-                                              //                   right:
-                                              //                       10,
-                                              //                   bottom:
-                                              //                       10),
-                                              //               child:
-                                              //                   Expandable(
-                                              //                 collapsed:
-                                              //                     collapsed,
-                                              //                 expanded:
-                                              //                     expanded,
-                                              //                 theme: const ExpandableThemeData(
-                                              //                     crossFadePoint:
-                                              //                         0),
-                                              //               ),
-                                              //             );
-                                              //           },
-                                              //         ),
-                                              //       ),
-                                              SizedBox(height: 5,),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left:8.0),
-                                                child: Text('Description', maxLines:
-                                                1,
-                                                  overflow:
-                                                  TextOverflow.ellipsis,
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: HexColor('#354291'),
-                                                    fontSize:  isTablet
-                                                        ? 15
-                                                        : width <= 330
-                                                        ? 10
-                                                        : 12,),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                const EdgeInsets.only(
-                                                  left:8.0,right:8,bottom:5,),
-                                                child:
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: <
-                                                      Widget>[
-                                                    //for (var _ in Iterable.generate(5))
-                                                    Text(
-                                                      vm3.documentList[index].description == null
-                                                          ? "No Description Found!"
-                                                          : vm3.documentList[index].description,
-                                                      softWrap:
-                                                      true,
-                                                      overflow:
-                                                      TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: GoogleFonts.poppins( fontSize: isTablet
-                                                          ? 15
-                                                          : width <= 330
-                                                          ? 8
-                                                          : 12,),
+                                                            ]),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
+                                                  ),
+                                                ]),
+                                              );
+                                            })
+                                      ],
+                                    )),
+                              ),
+                            ],
+                          )),
+                    ),
+                  ),
+
+                  //Documentation Screen
+                  RefreshIndicator(
+                    onRefresh: (){
+                      _searchTextEditingController3.clear();
+                      return Provider.of<DocumentViewModel>(context,listen: false).refresh();
+                    },
+                    child: WillPopScope(
+                      onWillPop: () async {
+                        //block app from quitting when selecting
+                        var before = !controller3.isSelecting;
+                        setState(() {
+                          controller3.deselectAll();
+                        });
+                        return before;
+                      },
+                      child: Scaffold(
+                        floatingActionButton: Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0, right: 10),
+                          child:
+                          // UnicornDialer(
+                          //     backgroundColor: Color.fromRGBO(255, 255, 255, 0.6),
+                          //     parentButtonBackground: HexColor('#8592E5'),
+                          //     orientation: UnicornOrientation.VERTICAL,
+                          //     parentButton: Icon(Icons.add),
+                          //     childButtons: childButtons),
+
+                          FloatingActionButton(
+                            backgroundColor: HexColor('#8592E5'),
+                            child: Icon(Icons.add),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: UploadDocumentScreen(),
+                                ),
+                              ).then((value) {
+                                setState(() {
+                                  vm3.getDataforDoc();
+                                });
+                              });
+                            },
+                          ),
+                        ),
+
+                        // body:
+                        // Align(
+                        //   alignment: Alignment.center,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.only(top:200.0),
+                        //     child: Container(
+                        //       child: Column(
+                        //         children: [
+                        //           pp,
+                        //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
+                        //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+
+                        body: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding:  EdgeInsets.only(
+                                      left: isTablet? 20 : 12.0, bottom: 20),
+                                  child: Text(
+                                    "${vm3.totalCount.toString()} Document(s) found",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: isTablet ? 15 : 10),
+                                  ),
+                                ),
+                                Spacer(),
+                                if (vm3.isInSearchMode) searchFieldforDoc,
+                                IconButton(
+                                  key: Key('featuredJButonKey'),
+                                  icon: Icon(
+                                    vm3.isInSearchMode
+                                        ? Icons.close
+                                        : Icons.search,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    _searchTextEditingController3?.clear();
+                                    vm3.toggleIsInSearchMode(
+                                        accessTokenVm.accessToken);
+
+                                    if (vm3.isInSearchMode) {
+                                      _searchFieldFocusNode3.requestFocus();
+                                    } else {
+                                      _searchFieldFocusNode3.unfocus();
+                                    }
+                                  },
+                                ),
+                                SizedBox(width: isTablet? 20 : 0,)
+                              ],
+                            ),
+                            Expanded(
+                              child:
+                              // (vm3.documentList.length == null &&
+                              //     !vm3.isFetchingData) ? Center(
+                              //   child: CircularProgressIndicator(  valueColor:
+                              //   AlwaysStoppedAnimation<Color>(
+                              //       AppTheme.appbarPrimary),),
+                              // ):
+                              vm3.documentList.length == 0
+                                  ? Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      pp,
+                                      Text(
+                                        'Upload your documents here.',
+                                        style: GoogleFonts.poppins(
+                                            color: HexColor('#AEB0BA'),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize:
+                                            isTablet ? 22 : 16),
+                                      ),
+                                      Text('(JPG,PNG,PDF only)',
+                                          style: GoogleFonts.poppins(
+                                              color:
+                                              HexColor('#AEB0BA'),
+                                              fontWeight:
+                                              FontWeight.w400,
+                                              fontSize:
+                                              isTablet ? 22 : 16)),
+                                    ],
+                                  ),
+                                ),
+                              )
+                                  : ListView.builder(
+                                  controller: _scrollController3,
+                                  itemCount: vm3.documentList.length+1,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                        if (index ==
+                                            vm3.documentList.length) {
+                                          return vm3.isFetchingMoreData
+                                              ? SizedBox(
+                                              height: 60,
+                                              child: Center(
+                                                  child:
+                                                  CircularProgressIndicator()))
+                                              : SizedBox();
+                                          //return SizedBox(height: 15,);
+
+                                        }
+                                    return MultiSelectItem(
+                                      isSelecting:
+                                      controller3.isSelecting,
+                                      onSelected: () {
+                                        setState(() {
+                                          controller3.toggle(index);
+                                        });
+                                      },
+                                      child: Stack(children: [
+                                        InkWell(
+                                          onLongPress: () {
+                                            setState(() {
+                                              controller3.toggle(index);
+                                            });
+                                            print("tapped");
+                                          },
+                                          onTap: () async {
+                                            if (controller3.isSelecting) {
+                                              setState(() {
+                                                controller3.toggle(index);
+                                              });
+                                            } else {
+                                              String fileExt = vm3
+                                                  .documentList[index]
+                                                  .attachmentPath
+                                                  .split('.')
+                                                  .last;
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  type: PageTransitionType
+                                                      .rightToLeft,
+                                                  child: fileExt == 'pdf'
+                                                      ? PdfbyteViewerScreen(
+                                                      vm3
+                                                          .documentList[
+                                                      index]
+                                                          .attachmentPath,
+                                                      vm3
+                                                          .documentList[
+                                                      index]
+                                                          .attachmentName)
+                                                      : ImagebyteViewerScreen(
+                                                      vm3
+                                                          .documentList[
+                                                      index]
+                                                          .attachmentPath,
+                                                      vm3
+                                                          .documentList[
+                                                      index]
+                                                          .attachmentName),
+                                                ),
+                                              );
+
+                                              print('PDFPRESSEDFrom DOc');
+                                            }
+                                            print("tappeddd from Doc");
+                                          },
+                                          child:
+
+                                          // Container(
+                                          //   // height: cardHeight*0.7,
+                                          //   margin: EdgeInsets.only(top: 8,bottom: 5,right: 10,left: 10),
+                                          //   decoration: BoxDecoration(
+                                          //     gradient: LinearGradient(begin: Alignment.bottomRight, stops: [
+                                          //       1.0,
+                                          //     ], colors: [
+                                          //       //HexColor('#C5CAE8'),
+                                          //       HexColor('#E9ECFE'),
+                                          //
+                                          //     ]),
+                                          //     //color: Colors.white,
+                                          //     // border: Border.all(
+                                          //     //   color: HexColor("#E9ECFE"),
+                                          //     //   width: 1,
+                                          //     // ),
+                                          //     borderRadius: BorderRadius.circular(15),
+                                          //   ),
+                                          //   child: Row(
+                                          //     children: [
+                                          //       SizedBox(width: 10,),
+                                          //       Padding(
+                                          //         padding: const EdgeInsets.only(top:8.0,right: 8,bottom: 8,left: 6),
+                                          //         child: Column(
+                                          //           crossAxisAlignment: CrossAxisAlignment.start,
+                                          //           children: [
+                                          //             SizedBox(height: 10,),
+                                          //             Container(width: 220,child: Text(vm3.documentList[index].attachmentName==null?'Doc':vm3.documentList[index].attachmentName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#354291'),fontSize: 12),)),
+                                          //             SizedBox(height: 5,),
+                                          //             Row(
+                                          //               children: [
+                                          //                 Text(DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal()),style: GoogleFonts.poppins(color: HexColor('#141D53'),fontSize: 10,fontWeight: FontWeight.w500),),
+                                          //                 SizedBox(width: 40,),
+                                          //                 Container(width: 100,child: Text(vm3.documentList[index].attachmentTypeName==null?'':vm3.documentList[index].attachmentTypeName,maxLines: 1,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+                                          //               ],
+                                          //             ),
+                                          //             SizedBox(height: 5,),
+                                          //             InkWell(onTap: (){
+                                          //               setState(() {
+                                          //                 descTextShowFlag =!descTextShowFlag;
+                                          //               });
+                                          //               print('Taab $descTextShowFlag');
+                                          //             },child: Text('Description')),
+                                          //             vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                          //             Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+                                          //
+                                          //             SizedBox(height: 5,),
+                                          //           ],
+                                          //         ),
+                                          //       ),
+                                          //
+                                          //       // Padding(
+                                          //       //   padding: const EdgeInsets.only(right:18.0),
+                                          //       //   child: Stack(children: [
+                                          //       //     Container(width:45,child: dx),
+                                          //       //     Padding(
+                                          //       //       padding: const EdgeInsets.only(left:30.0),
+                                          //       //       child: righticon,
+                                          //       //     ),
+                                          //       //   ]),
+                                          //       // ),
+                                          //       Padding(
+                                          //         padding: const EdgeInsets.only(left: 10),
+                                          //         child: Stack(children: [
+                                          //           Padding(
+                                          //             padding: const EdgeInsets.only(top:5.0,left: 30),
+                                          //             child: Container(width:45,child: jp),
+                                          //           ),
+                                          //           // (controller3.isSelected(index))?
+                                          //           // Padding(
+                                          //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                          //           //   child: righticon,
+                                          //           // ): (controller3.isSelecting)?
+                                          //           // Padding(
+                                          //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                          //           //   child: greyright,
+                                          //           // ):
+                                          //           // // Padding(
+                                          //           // //   padding: EdgeInsets.only(left: 40,top: 10),
+                                          //           // //   child: InkWell(onTap: () async{
+                                          //           // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
+                                          //           // //   },child: Icon(Icons.delete)),
+                                          //           // // ),
+                                          //           Padding(
+                                          //             padding: EdgeInsets.only(left: 90,top: 40),
+                                          //             child: InkWell(onTap: () async{
+                                          //               vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                          //               _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                          //
+                                          //             },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                          //           ),
+                                          //         ]),
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // ),
+                                          Container(
+                                            height: isTablet
+                                                ? 130
+                                                : cardHeight * 0.8,
+                                            margin: EdgeInsets.only(
+                                                top: isTablet ? 8 : 8,
+                                                bottom:
+                                                isTablet ? 5 : 5,
+                                                right: isTablet
+                                                    ? 20
+                                                    : 10,
+                                                left: isTablet
+                                                    ? 20
+                                                    : 10),
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                  begin: Alignment
+                                                      .bottomRight,
+                                                  stops: [
+                                                    1.0,
+                                                    1.0
+                                                  ],
+                                                  colors: [
+                                                    HexColor('#C5CAE8'),
+                                                    HexColor('#E9ECFE'),
+                                                  ]),
+                                              //color: Colors.white,
+                                              // border: Border.all(
+                                              //   color: HexColor("#E9ECFE"),
+                                              //   width: 1,
+                                              // ),
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  15),
+                                            ),
+                                            clipBehavior:
+                                            Clip.antiAlias,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .only(
+                                                          left:
+                                                          8.0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            height:
+                                                            3,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  width: isTablet? deviceWidth*.72 : deviceWidth <=
+                                                                      330
+                                                                      ? 220
+                                                                      : 150,
+                                                                  child:
+                                                                  Text(
+                                                                     vm3.documentList[index]?.attachmentName??'',
+                                                                    maxLines:
+                                                                    1,
+                                                                    overflow:
+                                                                    TextOverflow.ellipsis,
+                                                                    style: GoogleFonts.poppins(
+                                                                      fontWeight: FontWeight.bold,
+                                                                      color: HexColor('#354291'),
+                                                                      fontSize:  isTablet
+                                                                          ? 15
+                                                                          : width <= 330
+                                                                          ? 10
+                                                                          : 12,),
+                                                                  )),
+                                                              InkWell(onTap: () async{
+                                                                vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+
+                                                              },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: isTablet? 3 : 1,
+                                                          ),
+                                                          Row(
+                                                            // crossAxisAlignment:
+                                                            //     CrossAxisAlignment
+                                                            //         .start
+                                                            //,
+                                                            children: [
+                                                              Text(
+                                                                '${vm3.documentList[index].attachmentTypeName == null ? '' : vm3.documentList[index].attachmentTypeName}',
+                                                                maxLines:
+                                                                1,
+                                                                overflow:
+                                                                TextOverflow.ellipsis,
+                                                                style: GoogleFonts.poppins(
+                                                                    color: HexColor('#141D53'),
+                                                                    fontSize:  isTablet
+                                                                        ? 14
+                                                                        : width <= 330
+                                                                        ? 8
+                                                                        : 10,
+                                                                    fontWeight: FontWeight.w500),
+                                                              ),
+                                                              SizedBox(width: 10,),
+                                                              Text(
+                                                                '${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
+                                                                style: GoogleFonts.poppins(
+                                                                    color: HexColor('#141D53'),
+                                                                    fontSize:  isTablet
+                                                                        ? 12
+                                                                        : width <= 330
+                                                                        ? 8
+                                                                        : 10,
+                                                                    fontWeight: FontWeight.w500),
+                                                              ),
+                                                              //SizedBox(width: 5,),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Row(
+                                                            children: [
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.only(top:5.0,left: 30),
+                                                              //   child: Container(width:45,child: jp),
+                                                              // ),
+                                                              // (controller3.isSelected(index))?
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                              //   child: righticon,
+                                                              // ): (controller3.isSelecting)?
+                                                              // Padding(
+                                                              //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                              //   child: greyright,
+                                                              // ):
+                                                              // // Padding(
+                                                              // //   padding: EdgeInsets.only(left: 40,top: 10),
+                                                              // //   child: InkWell(onTap: () async{
+                                                              // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
+                                                              // //   },child: Icon(Icons.delete)),
+                                                              // // ),
+
+                                                              Padding(
+                                                                padding: EdgeInsets.only(top: 25,right:10),
+                                                                child: InkWell(onTap: () async{
+                                                                  await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
+
+                                                                },child: Icon(Icons.download_rounded,color: AppTheme.appbarPrimary)),
+                                                              ),
+                                                              Padding(
+                                                                padding: EdgeInsets.only(top: 25,right: 8),
+                                                                child: GestureDetector(
+                                                                    onTap: () async{
+                                                                      SVProgressHUD.show(
+                                                                          status: 'Please Wait'
+                                                                      );
+                                                                      await vm10.getData(fileNo: vm3.documentList[index].id);
+                                                                      await vm10.fileInfo(fileNo: vm3.documentList[index].id,regId: vm3.documentList[index].referenceNo);
+                                                                      SVProgressHUD.dismiss();
+                                                                      vm3.documentList[index].id==null?Fluttertoast.showToast(msg: 'No Documents Found'): showModalBottomSheet(
+                                                                          backgroundColor: HexColor("#E9ECFE"),
+                                                                          shape: RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                  topLeft: Radius.circular(25),
+                                                                                  topRight: Radius.circular(25))),
+                                                                          context: context,
+                                                                          isScrollControlled: true,
+                                                                          builder: (context) {
+
+                                                                            return StatefulBuilder(
+                                                                                builder: (BuildContext context, StateSetter setState) {
+                                                                                  var index = 0;
+                                                                                  bool isTrue = false;
+                                                                                  return FractionallySizedBox(
+                                                                                      heightFactor: 0.85,
+                                                                                      child:ShareDocument()
+                                                                                  );
+                                                                                });
+                                                                          });
+                                                                      //print('CompanyName ${vm10.sharedFileList.last.companyName}');
+                                                                    },
+                                                                    // onTap: showNotification,
+                                                                    child: Icon(Icons.share, color: AppTheme.appbarPrimary,)),
+                                                              ),
+                                                              SizedBox(width: 5,),
+
+                                                              Padding(
+                                                                padding: EdgeInsets.only(top: 25,right:15),
+                                                                child: InkWell(onTap: () async{
+                                                                  // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                  // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                                                  SVProgressHUD.show(
+                                                                      status: 'Deleting'
+                                                                  );
+                                                                  await Provider.of<UploadDocumentsViewModel>(context, listen: false)
+                                                                      .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
+                                                                    setState(() {
+                                                                      vm3.getDataforDoc();
+                                                                    });
+                                                                  });
+                                                                  SVProgressHUD.dismiss();
+                                                                },child: Icon(Icons.delete,color: HexColor('#354291'),)),
+                                                              ),
+
+                                                            ]),
+                                                      ],)
+
+                                                    //SizedBox(height: 5,),
+                                                    // InkWell(onTap: (){
+                                                    //   setState(() {
+                                                    //     descTextShowFlag =!descTextShowFlag;
+                                                    //   });
+                                                    //   print('Taab $descTextShowFlag');
+                                                    // },child: Text('Description')),
+                                                    // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                                    // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+
+                                                    // SizedBox(height: 5,),
                                                   ],
                                                 ),
-                                              ),
-                                            ],
+                                                // vm3.documentList[index]
+                                                //             .description ==
+                                                //         null
+                                                //     ? SizedBox()
+                                                //     : Padding(
+                                                //         padding:
+                                                //             const EdgeInsets
+                                                //                     .only(
+                                                //                 right:
+                                                //                     10.0,
+                                                //                 left:
+                                                //                     10),
+                                                //         child: Divider(
+                                                //           thickness: 1,
+                                                //         ),
+                                                //       ),
+                                                // vm3.documentList[index]
+                                                //             .description ==
+                                                //         null
+                                                //     ? SizedBox()
+                                                //     : ScrollOnExpand(
+                                                //         scrollOnExpand:
+                                                //             true,
+                                                //         scrollOnCollapse:
+                                                //             false,
+                                                //         child:
+                                                //             ExpandablePanel(
+                                                //           theme:
+                                                //               ExpandableThemeData(
+                                                //             headerAlignment:
+                                                //                 ExpandablePanelHeaderAlignment
+                                                //                     .center,
+                                                //             tapBodyToCollapse:
+                                                //                 true,
+                                                //           ),
+                                                //           header: Padding(
+                                                //               padding: EdgeInsets.all(10),
+                                                //               child: Text(
+                                                //                 "Description",
+                                                //                 style: GoogleFonts.poppins(
+                                                //                     color: HexColor(
+                                                //                         '#141D53'),
+                                                //                     fontSize:
+                                                //                     isTablet
+                                                //                         ? 14
+                                                //                         : width <= 330
+                                                //                         ? 8
+                                                //                         : 10,
+                                                //                     fontWeight:
+                                                //                         FontWeight.w500),
+                                                //               )),
+                                                //           // collapsed: Text(
+                                                //           //   vm3.documentList[index].description==null?"":vm3.documentList[index].description,
+                                                //           //   softWrap: true,
+                                                //           //   maxLines: 2,
+                                                //           //   overflow: TextOverflow.ellipsis,
+                                                //           // ),
+                                                //           expanded:
+                                                //               Container(
+                                                //             decoration:
+                                                //                 BoxDecoration(
+                                                //               color: Colors
+                                                //                   .white,
+                                                //               borderRadius:
+                                                //                   BorderRadius.circular(
+                                                //                       15),
+                                                //             ),
+                                                //             width: double
+                                                //                 .infinity,
+                                                //             child:
+                                                //                 Padding(
+                                                //               padding:
+                                                //                   const EdgeInsets.all(
+                                                //                       8.0),
+                                                //               child:
+                                                //                   Column(
+                                                //                 crossAxisAlignment:
+                                                //                     CrossAxisAlignment.start,
+                                                //                 children: <
+                                                //                     Widget>[
+                                                //                   //for (var _ in Iterable.generate(5))
+                                                //                   Text(
+                                                //                     vm3.documentList[index].description == null
+                                                //                         ? ""
+                                                //                         : vm3.documentList[index].description,
+                                                //                     softWrap:
+                                                //                         true,
+                                                //                     overflow:
+                                                //                         TextOverflow.fade,
+                                                //                     style: GoogleFonts.poppins( fontSize: isTablet
+                                                //                         ? 15
+                                                //                         : width <= 330
+                                                //                         ? 8
+                                                //                         : 12,),
+                                                //                   ),
+                                                //                 ],
+                                                //               ),
+                                                //             ),
+                                                //           ),
+                                                //           builder: (_,
+                                                //               collapsed,
+                                                //               expanded) {
+                                                //             return Padding(
+                                                //               padding: EdgeInsets.only(
+                                                //                   left:
+                                                //                       10,
+                                                //                   right:
+                                                //                       10,
+                                                //                   bottom:
+                                                //                       10),
+                                                //               child:
+                                                //                   Expandable(
+                                                //                 collapsed:
+                                                //                     collapsed,
+                                                //                 expanded:
+                                                //                     expanded,
+                                                //                 theme: const ExpandableThemeData(
+                                                //                     crossFadePoint:
+                                                //                         0),
+                                                //               ),
+                                                //             );
+                                                //           },
+                                                //         ),
+                                                //       ),
+                                                SizedBox(height: 5,),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left:8.0),
+                                                  child: Text('Description', maxLines:
+                                                  1,
+                                                    overflow:
+                                                    TextOverflow.ellipsis,
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: HexColor('#354291'),
+                                                      fontSize:  isTablet
+                                                          ? 15
+                                                          : width <= 330
+                                                          ? 10
+                                                          : 12,),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.only(
+                                                    left:8.0,right:8,bottom:5,),
+                                                  child:
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: <
+                                                        Widget>[
+                                                      //for (var _ in Iterable.generate(5))
+                                                      Text(
+                                                        vm3.documentList[index].description == null
+                                                            ? "No Description Found!"
+                                                            : vm3.documentList[index].description,
+                                                        softWrap:
+                                                        true,
+                                                        overflow:
+                                                        TextOverflow.ellipsis,
+                                                        maxLines: 2,
+                                                        style: GoogleFonts.poppins( fontSize: isTablet
+                                                            ? 15
+                                                            : width <= 330
+                                                            ? 8
+                                                            : 12,),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ]),
-                                  );
-                                }),
-                          ),
-                        ],
+                                      ]),
+                                    );
+                                  }),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

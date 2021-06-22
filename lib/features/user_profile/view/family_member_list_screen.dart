@@ -108,6 +108,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                   dashedLength: 15.0,
                   blankLength: 5.0,
                   child: Container(
+                    key: Key('addFamilyMemberKey'),
                     height: isTablet? 40 : 30,
                     width: width,
                     child: Row(
@@ -231,6 +232,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                        familyVm.getSelectedUserImage(relationId: familyVm.familyMembersList[index].relation.toString(),regId: familyVm.familyMembersList[index].regId,id: familyVm.familyMembersList[index].id.toString(),name: familyVm.familyMembersList[index].fmName,image: familyVm.familyMembersList[index].photo,userId: familyVm.familyMembersList[index].fmRegId,relationName: familyVm.familyMembersList[index].relationName, memberRegId: familyVm.familyMembersList[index].fmRegId);
                                      },
                                      child: Container(
+                                       key: Key('familyMemberEditButtonKey$index'),
                                         height: 16,
                                         child: Icon(Icons.edit, color: AppTheme.appbarPrimary,size: isTablet? 22 : 18,)),
                                    ),
@@ -238,6 +240,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                     width: width<=330 ? 12 : 16,
                                   ),
                                  GestureDetector(
+                                   key: Key('familyMemberDeleteKey$index'),
                                     child: Container(
                                       height: 16,
                                       child: Icon(Icons.delete_sweep,
@@ -359,6 +362,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                                                           decoration: BoxDecoration(),
                                                                           height: isTablet? 50 : 45,
                                                                           child: FlatButton(
+                                                                            key: Key('familyMemberCancelButtonKey'),
                                                                               onPressed: (){
                                                                                 Navigator.pop(context);
                                                                               },
@@ -368,7 +372,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                                                                       ,width: 1),
                                                                                   borderRadius: BorderRadius.circular(10)),
                                                                               textColor: AppTheme.appbarPrimary ,
-                                                                              color: Colors.white ,child: Text("Cancel",  style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
+                                                                              color: Colors.white ,child: Text("Cancel",style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
                                                                         ),
                                                                       ),
                                                                       Padding(
@@ -377,6 +381,7 @@ class _FamilyMemberListScreenState extends State<FamilyMemberListScreen> {
                                                                           width: isTablet? width*.22: width/3,
                                                                           height: isTablet? 50 : 45,
                                                                           child: FlatButton(
+                                                                            key: Key('familyMemberRemoveButtonKey'),
                                                                               onPressed: (){
                                                                                 Future.delayed(Duration.zero, () async {
                                                                                   await familyVm.deleteMember();

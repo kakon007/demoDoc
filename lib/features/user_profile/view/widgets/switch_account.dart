@@ -235,6 +235,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               GestureDetector(
+                                                key:  Key("switchButtonKey$index"),
                                                 child: Container(
                                                     height: isTablet? 18 : 16,
                                                     child: SvgPicture.asset(
@@ -324,6 +325,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                       onTap: () {
                                                                                         Navigator.pop(context);
                                                                                       },
+                                                                                      key: Key('switchAccountNoButtonKey'),
                                                                                       child: Material(
                                                                                         elevation: 0,
                                                                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: HexColor('#354291'))),
@@ -344,6 +346,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                       width: 15,
                                                                                     ),
                                                                                     GestureDetector(
+                                                                                      key: Key('switchAccountYesButtonKey'),
                                                                                       onTap: () async {
                                                                                         await vm5.getAuthData(st.username, st.password);
                                                                                         if (vm5.accessToken != null) {

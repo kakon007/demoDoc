@@ -53,9 +53,24 @@ class Keys{
   static final switchAccountPasswordKey = find.byValueKey('switchAccountPasswordKey');
   static final switchCancelButtonKey = find.byValueKey('switchCancelButtonKey');
   static final switchConfirmButtonKey = find.byValueKey('switchConfirmButtonKey');
+  static final switchButtonKey1 = find.byValueKey('switchButtonKey1');
+  static final switchButtonKey3 = find.byValueKey('switchButtonKey3');
+  static final switchAccountYesButtonKey = find.byValueKey('switchAccountYesButtonKey');
+  static final switchAccountNoButtonKey = find.byValueKey('switchAccountNoButtonKey');
 
 
   // family members key
   static final familyMembersAppbarKey = find.byValueKey('familyMembersAppbarKey');
+  static final familyMemberEditButtonKey2 = find.byValueKey('familyMemberEditButtonKey2');
+  static final familyMemberEditButtonKey3 = find.byValueKey('familyMemberEditButtonKey3');
+  static final familyMemberEditCancelKey = find.byValueKey('familyMemberEditCancelKey');
+  static final editMemberInfoKey = find.byValueKey('editMemberInfoKey');
+  static final familyMemberEditUpdateKey = find.byValueKey('familyMemberEditUpdateKey');
+  static final familyRelationUpdateKey = find.byValueKey('familyRelationUpdateKey');
+  static final familyMemberRemoveButtonKey = find.byValueKey('familyMemberRemoveButtonKey');
+  static final familyMemberCancelButtonKey = find.byValueKey('familyMemberCancelButtonKey');
+  static final familyMemberDeleteKey2 = find.byValueKey('familyMemberDeleteKey2');
+  static final familyMemberSearchAppbarKey = find.byValueKey('familyMemberSearchAppbarKey');
+  static final familyMemberSearchKey = find.byValueKey('familyMemberSearchKey');
 
 }

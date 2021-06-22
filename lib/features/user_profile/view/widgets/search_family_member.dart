@@ -66,6 +66,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
           onSubmitted: (value) {
             membersSearch(value);
           },
+          key: Key('familyMemberSearchKey'),
           controller: memberSearch,
           decoration: new InputDecoration(
             suffixIcon: Icon(
@@ -96,6 +97,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Search",
+          key: Key('familyMemberSearchAppbarKey'),
           style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
         ),
       ),

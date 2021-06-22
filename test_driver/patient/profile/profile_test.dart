@@ -70,18 +70,6 @@ Future<void> loginTest()async{
         await Future.delayed(const Duration(seconds: 2), () {});
       });
     });
-    test('When__try_to_tap_family_member_view_all_button__should__got_to_family_members_screen_and_get_family_members_text_on_appbar', () async {
-      await driver.runUnsynchronized(() async {
-        await driver.tap(Keys.addFamilyMemberKey);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.familyMembersAppbarKey), "Family Members");
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.tap(Keys.backButton);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.userProfileKey), "User Profile");
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
     test('When__try_to_tap_edit_profile__should__open_edit_prompt_get_edit_personal_info_text', () async {
       await driver.runUnsynchronized(() async {
         await driver.tap(Keys.editInfoKey);

@@ -73,6 +73,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                         width: isTablet ?400 :  width*.7,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
+                            key: Key('familyRelationUpdateKey'),
                             icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedRelation != null  ?  HexColor("#8592E5") : HexColor("#D2D2D2"),),
                             iconSize:25,
                             decoration: InputDecoration(
@@ -140,6 +141,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                             decoration: new BoxDecoration(),
                             child: new Text(
                               'Edit Family Member Info',
+                              key: Key('editMemberInfoKey'),
                               style: GoogleFonts.poppins(
                                   color: AppTheme.appbarPrimary,
                                   fontSize: isTablet? 18 : 15.0,
@@ -241,6 +243,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
+                                key: Key('familyMemberEditCancelKey'),
                                 shape: RoundedRectangleBorder(
                                     side: BorderSide(
                                         color: AppTheme.appbarPrimary,
@@ -257,8 +260,8 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                             child: AbsorbPointer(
                              absorbing: _selectedRelation!=null ? false : true,
                               child: FlatButton(
+                                key: Key('familyMemberEditUpdateKey'),
                                   onPressed: () {
-
                                     Future.delayed(Duration.zero, () async {
                                       await familyVm.updateMember(_selectedRelation);
                                       if(familyVm.updateMessage=="Update Successfully"){
@@ -272,7 +275,6 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                         Navigator.pop(context);
                                       }
                                     });
-
 
                                   },
                                   shape: RoundedRectangleBorder(

@@ -9,7 +9,7 @@ main(){
 }
 Future<void> loginTest()async{
 
-  group('Profile Test', ()
+  group('Switch Account Test', ()
   {
     FlutterDriver driver;
     setUpAll(() async {
@@ -140,7 +140,7 @@ Future<void> loginTest()async{
       await expect(await driver.getText(Keys.switchAccountTextKey), "Switch Account");
       await Future.delayed(const Duration(seconds: 2), () {});
     });
-    test('When__try_to_add_correct_password__should__open_add_account_prompt_and_switch_account_text_on_appbar', () async {
+    test('When__try_to_add_correct_password__should__save_and_switch_account_text_on_appbar', () async {
       await driver.tap(Keys.switchAccountUserNameKey);
       await driver.enterText('MH22012014368');
       await Future.delayed(const Duration(seconds: 2), () {});
@@ -151,6 +151,53 @@ Future<void> loginTest()async{
       await expect(await driver.getText(Keys.switchAccountAppbarKey), "Switch Account");
       await Future.delayed(const Duration(seconds: 2), () {});
     });
+    test('When__try_to_add_correct_password__should__save_and_switch_account_text_on_appbar', () async {
+      await driver.tap(Keys.addNewAccountKey);
+      await Future.delayed(const Duration(seconds: 2), () {});
+      await driver.tap(Keys.switchAccountUserNameKey);
+      await driver.enterText('MH112105000308');
+      await Future.delayed(const Duration(seconds: 2), () {});
+      await driver.tap(Keys.switchAccountPasswordKey);
+      await driver.enterText('123123');
+      await driver.tap(Keys.switchConfirmButtonKey);
+      await Future.delayed(const Duration(seconds: 2), () {});
+      await expect(await driver.getText(Keys.switchAccountAppbarKey), "Switch Account");
+      await Future.delayed(const Duration(seconds: 2), () {});
+    });
+    test('When__try_to_add_correct_password__should__save_and_switch_account_text_on_appbar', () async {
+      await driver.tap(Keys.addNewAccountKey);
+      await Future.delayed(const Duration(seconds: 2), () {});
+      await driver.tap(Keys.switchAccountUserNameKey);
+      await driver.enterText('MH112105000305');
+      await Future.delayed(const Duration(seconds: 2), () {});
+      await driver.tap(Keys.switchAccountPasswordKey);
+      await driver.enterText('123123');
+      await driver.tap(Keys.switchConfirmButtonKey);
+      await Future.delayed(const Duration(seconds: 2), () {});
+      await expect(await driver.getText(Keys.switchAccountAppbarKey), "Switch Account");
+      await Future.delayed(const Duration(seconds: 2), () {});
+    });
+    test('When__try_tap_switch_account_button_and_then_no_button__should__save_and_switch_account_text_on_appbar', () async {
+      await driver.runUnsynchronized(() async {
+        await driver.tap(Keys.switchButtonKey1);
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.switchAccountNoButtonKey);
+        await expect(await driver.getText(Keys.switchAccountAppbarKey), "Switch Account");
+        await Future.delayed(const Duration(seconds: 2), () {});
+      });
+    });
+    test('When__try_tap_switch_account_button_and_then_yes_button__should__save_and_switch_account_text_on_appbar', () async {
+      await driver.runUnsynchronized(() async {
+        await driver.tap(Keys.switchButtonKey3);
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.switchAccountYesButtonKey);
+        await expect(await driver.getText(Keys.switchAccountAppbarKey), "Switch Account");
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await expect(await driver.getText(Keys.easyDoctorTextKey), "Easy Doctor Appointment");
+        await Future.delayed(const Duration(seconds: 2), () {});
+      });
+    });
+
   });
 
 

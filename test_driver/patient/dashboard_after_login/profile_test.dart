@@ -5,9 +5,9 @@ import 'package:test/test.dart';
 //flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
 
 main(){
-  loginTest();
+  profileTest();
 }
-Future<void> loginTest()async{
+Future<void> profileTest()async{
 
   group('Profile Test', ()
   {

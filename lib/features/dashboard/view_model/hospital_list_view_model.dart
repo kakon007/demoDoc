@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
@@ -25,7 +26,12 @@ class HospitalListViewModel extends ChangeNotifier{
   }
 
   Future<void> getData() async {
-
+    CacheRepositories.loadCachedHospital().then((value) {
+      if(value!=null){
+        _hospitalList=value.items;
+        notifyListeners();
+      }
+    });
     _isFetchingData = true;
     //_lastFetchTime = DateTime.now();
     _isLoading = true;

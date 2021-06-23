@@ -35,6 +35,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_vi
 import 'package:myhealthbd_app/features/my_health/view_model/view_document_view_model.dart';
 import 'package:multi_select_item/multi_select_item.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
 import 'package:open_file/open_file.dart';
@@ -155,7 +156,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
-              'https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription'));
+              Urls.prescriptionViewUrl));
       request.fields.addAll(
           {'prescriptionId': index, 'pClient': 'aalok', 'pLayout': '1'});
 

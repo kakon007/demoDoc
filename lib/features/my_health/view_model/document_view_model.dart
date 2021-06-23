@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/document_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
@@ -51,6 +52,12 @@ class DocumentViewModel extends ChangeNotifier{
   }
 
   Future<bool> getDataforDoc() async {
+    CacheRepositories.loadCachedDocumentationList().then((value) {
+      if(value!=null){
+        _documentList=value.obj.data;
+        notifyListeners();
+      }
+    });
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
@@ -69,7 +76,7 @@ class DocumentViewModel extends ChangeNotifier{
     }, (r) {
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
-      _documentList.addAll(r.dataListOfDocuments);
+      _documentList=r.dataListOfDocuments;
       count = r.totalCount;
       print('DataaaaaaafromDocument:: ' + _documentList.length.toString());
       notifyListeners();

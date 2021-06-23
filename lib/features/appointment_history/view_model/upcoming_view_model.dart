@@ -4,6 +4,7 @@ import 'package:myhealthbd_app/features/appointment_history/models/upcoming_mode
 import 'package:myhealthbd_app/features/appointment_history/repositories/upcoming_repository.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,12 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
   }
 
   Future<bool> getData() async {
+    CacheRepositories.loadCachedAppointmentHistoryUpcoming().then((value){
+      if(value!=null){
+        _upComingList=value.obj.data;
+        notifyListeners();
+      }
+    });
     print("CalledfromUpcomingList");
     startIndex=0;
     _pageCount++;
@@ -61,7 +68,7 @@ class AppointmentUpcomingViewModel extends ChangeNotifier{
     }, (r) {
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
-      _upComingList.addAll(r.dataList);
+      _upComingList=r.dataList;
       count=r.totalCount;
       print('DataaaaaaaFromUpcominglist:: ' + _upComingList.toString());
       notifyListeners();

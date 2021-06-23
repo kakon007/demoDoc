@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/user_profile/models/get_family_member_model.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/add_family_member_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/family_members_list_repository.dart';
@@ -147,6 +148,12 @@ class FamilyMembersListViewModel extends ChangeNotifier {
   }
 
   Future<void> familyMembers(String regId) async {
+    CacheRepositories.loadCachedFamilyMembers().then((value) {
+      if (value!=null) {
+        _familyMembersList=value.items;
+        notifyListeners();
+      }
+    });
     var res = await FamilyMembersList().fetchFamilyMembersList(regId);
     notifyListeners();
     _isLoading = true;

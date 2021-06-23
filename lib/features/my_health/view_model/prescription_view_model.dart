@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 //import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
@@ -46,7 +46,15 @@ class PrescriptionListViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
+
+
   Future<bool> getData(String accessToken) async {
+    CacheRepositories.loadCachedPrescriptionList(0).then((value){
+      if(value!=null){
+        _prescriptionList=value.obj.data;
+        notifyListeners();
+      }
+    });
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
@@ -62,7 +70,7 @@ class PrescriptionListViewModel extends ChangeNotifier{
     }, (r) {
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
-      _prescriptionList.addAll(r.dataListofPrescription);
+      _prescriptionList=r.dataListofPrescription;
       count = r.totalCount;
       print('Dataaaaaaa2222222:: ' + _prescriptionList.toString());
       notifyListeners();

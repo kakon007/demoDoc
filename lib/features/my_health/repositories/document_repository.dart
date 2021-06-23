@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/my_health/models/documents_list_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,7 @@ class DocumentRepository {
       });
       if (response.statusCode == 200) {
         DocumentListModel data = documentListModelFromJson(response.body);
+        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.documentationList);
         //print('Dataaaaaaa:: ' + data.obj.data.first.consultationId);
 
         return Right(

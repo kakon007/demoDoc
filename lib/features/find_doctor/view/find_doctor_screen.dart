@@ -676,7 +676,27 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               ),
               GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    Future.delayed(Duration.zero, () async {
+                      var vm = Provider.of<DoctorListViewModel>(context, listen: false);
+                      await Navigator.pop(context);
+                      if(deptSelectedItem==null && specialSelectedItem==null){
+                        deptController.clear();
+                        departmentSearch('');
+                        specialityController.clear();
+                        specializationSearch('');
+                        _items3.clear();
+                        _items4.clear();
+                        _items1.clear();
+                        _items2.clear();
+                        isFiltered = false;
+                        await vm.getDoctor(
+                            widget.orgNo,
+                            widget.companyNo,
+                            null,
+                            null,
+                            doctorItem);
+                      }
+                    });
                   },
                   child: Icon(Icons.clear)),
             ],
@@ -741,6 +761,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           onTap: () {
             FocusScope.of(context).unfocus();
             showModalBottomSheet(
+              //enableDrag: false,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -1022,7 +1043,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                               _items1 = List.from(_items3);
                                               _items2 = List.from(_items4);
                                               Navigator.pop(context);
-                                              print(doctorSearchItem);
                                               vm.getDoctor(
                                                   widget.orgNo,
                                                   widget.companyNo,

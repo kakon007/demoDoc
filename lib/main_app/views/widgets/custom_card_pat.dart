@@ -40,7 +40,7 @@ class CustomCardPat extends StatelessWidget {
       child: Container(
         //height: 40,
         width: width,
-        height: isTablet? 150 : 130,
+        height: isTablet? 165 : 130,
         child: Card(
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -126,7 +126,7 @@ class CustomCardPat extends StatelessWidget {
                                 Row(
                                   children: [
                                     Container(
-                                      width: 3,
+                                      width: width<=330? 0 : 3,
                                       height: 20,
                                       color: HexColor("#354291"),
                                     ),
@@ -167,7 +167,7 @@ class CustomCardPat extends StatelessWidget {
                               Row(
                                 children: [
                                   Padding(
-                                    padding:  EdgeInsets.only( right: 15),
+                                    padding:  EdgeInsets.only( right: width<=330 ? 10 : 15),
                                     child: Column(
                                       children: [
                                         Row(
@@ -190,7 +190,7 @@ class CustomCardPat extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   width: 40,
-                                                  height: 65,
+                                                  height: isTablet? 68 : 65,
                                                   decoration: BoxDecoration(
                                                     color: HexColor("#8592E5"),
                                                     borderRadius: BorderRadius.only(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/user_profile/models/get_family_member_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/search_family_member.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
@@ -78,9 +79,38 @@ class _FamilyMembersState extends State<FamilyMembers> {
                   AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
                 ))
                 : familyVm.familyMembersList.length==0 ? Center(
-                  child: Container(
-                  //height: MediaQuery.of(context).size.height*.65,
-                  child: Text("No family member added yet!", style: GoogleFonts.poppins(fontSize: isTablet?20 : 16),)),
+                  child: Column(
+                    children: [
+                      Text(
+                        'You have added no family members.',
+                        style: GoogleFonts.poppins(
+                            fontSize: isTablet? 20 : 16,
+                            color: HexColor('#C7C8CF'
+                            )),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) {
+                                      return SearchFamilyMember();
+                                    })).then((value) {
+                                      setState(() {
+
+                                      });
+                            });
+                          },
+                          child: Text(
+                            'Add now',
+                            style: GoogleFonts.poppins(
+                                fontSize: isTablet? 17 : 15,
+                                color: HexColor('#8592E5')),
+                          ))
+                      ],
+                  ),
                 ) : Expanded(
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),

@@ -41,6 +41,7 @@ Future<void> doctorTest()async{
         await Future.delayed(const Duration(seconds: 2), () {});
       });
     });
+    //test cases are started from here
     test(
         'When__try_to_tap_hospitals_from_bottom_navbar__should__go_to_hospitals_screen_and_get_Hospitals_&_Diagnostics_on_appbar', () async {
       await driver.runUnsynchronized(() async {
@@ -188,7 +189,7 @@ Future<void> doctorTest()async{
       });
     });
     test(
-        'When__try_to_tap_clearr_button__should__get_showing_filtered_result_text', () async {
+        'When__try_to_tap_clear_button__should__get_Doctors_text', () async {
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 2), () {});
         await driver.tap(Keys.clearFilterButton);
@@ -209,7 +210,5 @@ Future<void> doctorTest()async{
 
   });
 
-
-  //test cases are started from here
 
 }

@@ -1230,7 +1230,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                             child: Container(
                                               height: isTablet
                                                   ? 130
-                                                  : deviceWidth<=360 ? 60 : cardHeight * 0.5,
+                                                  : deviceWidth<=360 ? 60 : cardHeight * 0.7,
                                               margin: EdgeInsets.only(
                                                   top: isTablet ? 8 : 8,
                                                   bottom:

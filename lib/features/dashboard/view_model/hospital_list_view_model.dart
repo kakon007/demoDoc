@@ -26,12 +26,12 @@ class HospitalListViewModel extends ChangeNotifier{
   }
 
   Future<void> getData() async {
-    CacheRepositories.loadCachedHospital().then((value) {
-      if(value!=null){
-        _hospitalList=value.items;
-        notifyListeners();
-      }
-    });
+    // CacheRepositories.loadCachedHospital().then((value) {
+    //   if(value!=null){
+    //     _hospitalList=value.items;
+    //     notifyListeners();
+    //   }
+    // });
     _isFetchingData = true;
     //_lastFetchTime = DateTime.now();
     _isLoading = true;

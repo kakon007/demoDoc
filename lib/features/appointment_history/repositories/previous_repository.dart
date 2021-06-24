@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:myhealthbd_app/features/appointment_history/models/previous_model.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 
@@ -27,6 +28,7 @@ class AppointmentPreviousRepository {
       });
       if (response.statusCode == 200) {
         AppointmentPreviousModel data = appointmentPreviousModelFromJson(response.body);
+        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.appointmentHistoryPreviousList);
         return Right(Previous(dataList: data.obj.data, totalCount: data.obj.recordsTotal));
       } else {
        // BotToast.showText(text: StringResources.somethingIsWrong);

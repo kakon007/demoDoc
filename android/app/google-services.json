@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "337257775957",
+    "project_id": "fcmpushnotification-9f708",
+    "storage_bucket": "fcmpushnotification-9f708.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337257775957:android:43df1475e795336a9de5dc",
+        "android_client_info": {
+          "package_name": "com.myhealthbd.myhealthbd_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337257775957-o17cv6ngb5qn4molek2btjt4cq3e3rim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeYaZAei5frvvBGf2M-Yx0danGjiv0_SM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337257775957-o17cv6ngb5qn4molek2btjt4cq3e3rim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

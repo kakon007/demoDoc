@@ -254,7 +254,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     );
     var writeDetailsField = Container(
       width: isTablet? width*92 : MediaQuery.of(context).size.width * .89,
-      height: isTablet? 200 : 150,
+      height: isTablet? 200 : 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         //color: Colors.white,
@@ -262,29 +262,32 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 15),
-        child: TextField(
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
-            maxLength: 75,
-            maxLengthEnforced: false,
-            autofocus: false,
-            textInputAction: TextInputAction.newline,
-            focusNode: _searchFieldFocusNode2,
-            controller: _descriptionTextEditingController,
-            cursorColor: HexColor('#C5CAE8'),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              // hintText: 'Search here',
-              hintStyle: GoogleFonts.poppins(
-                  fontSize: isTablet? 15 : 11, fontWeight: FontWeight.w400),
-              fillColor: Colors.white,
-            ),
-            onSubmitted: (v) {
-              //vm2.search(_searchTextEditingController2.text,widget.accessToken);
-            },
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(75),
-            ]),
+        child: SizedBox(
+          height: 500,
+          child: TextField(
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              maxLength: 75,
+              maxLengthEnforced: false,
+              autofocus: false,
+              textInputAction: TextInputAction.newline,
+              focusNode: _searchFieldFocusNode2,
+              controller: _descriptionTextEditingController,
+              cursorColor: HexColor('#C5CAE8'),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                // hintText: 'Search here',
+                hintStyle: GoogleFonts.poppins(
+                    fontSize: isTablet? 15 : 11, fontWeight: FontWeight.w400),
+                fillColor: Colors.white,
+              ),
+              onSubmitted: (v) {
+                //vm2.search(_searchTextEditingController2.text,widget.accessToken);
+              },
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(75),
+              ]),
+        ),
       ),
     );
     final String assetName = "assets/images/camm.svg";
@@ -558,64 +561,69 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   padding: const EdgeInsets.only(top: 8.0, left: 10, right: 10),
                   child: writeDetailsField,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 15.0, left: 10, right: 10, bottom: 10),
-                  child: InkWell(
-                    onTap: () async {
-                      var accessToken = await Provider.of<AccessTokenProvider>(
-                              appNavigator.context,
-                              listen: false)
-                          .getToken();
-                      var details = Provider.of<UserDetailsViewModel>(
-                          appNavigator.context,
-                          listen: false);
-                      await vm2.uploadDocuments(
-                          file: file == null ? _image : file,
-                          accessToken: accessToken,
-                          attachmentTypeNo: _selectedDocumentType,
-                          pickDate: _reportDate,
-                          regID: details.userDetailsList.id,
-                          username: details.userDetailsList.hospitalNumber,
-                          description: _descriptionTextEditingController.text,
-                        attachmentName: _username.text
-                      );
-                      print("Upload Doc tapped");
-                      // await Future.delayed(Duration(seconds: 3));
-                      // Future.delayed(Duration.zero, () async {
-                      //   setState(() {
-                      //     // file==null && _image==null?Loader():
-                      //     Navigator.of(context)
-                      //         .pushReplacement(MaterialPageRoute(
-                      //             builder: (BuildContext context) =>
-                      //                 // DoctorHomeScreen(
-                      //                 HomeScreen(
-                      //                   accessToken: accessToken,
-                      //                 )));
-                      //   });
-                      // });
-                      Navigator.pop(context);
-                    },
-                    child: Material(
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                      color: file == null && _image == null ||
-                              _selectedDocumentType == null ||
-                              _reportDate == null
-                          ? HexColor("#B8C2F8")
-                          : HexColor("#354291"),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height:
-                            isTablet? 55 : MediaQuery.of(context).size.width > 600 ? 35 : 40,
-                        child: Center(
-                          child: Text(
-                            "Upload Document",
-                            style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: isTablet? 20 : 13,
-                                fontWeight: FontWeight.w500),
+                AbsorbPointer(
+                  absorbing: file == null && _image == null ||
+                      _selectedDocumentType == null ||
+                      _reportDate == null?true:false,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 15.0, left: 10, right: 10, bottom: 10),
+                    child: InkWell(
+                      onTap: () async {
+                        var accessToken = await Provider.of<AccessTokenProvider>(
+                                appNavigator.context,
+                                listen: false)
+                            .getToken();
+                        var details = Provider.of<UserDetailsViewModel>(
+                            appNavigator.context,
+                            listen: false);
+                        await vm2.uploadDocuments(
+                            file: file == null ? _image : file,
+                            accessToken: accessToken,
+                            attachmentTypeNo: _selectedDocumentType,
+                            pickDate: _reportDate,
+                            regID: details.userDetailsList.id,
+                            username: details.userDetailsList.hospitalNumber,
+                            description: _descriptionTextEditingController.text,
+                          attachmentName: _username.text
+                        );
+                        print("Upload Doc tapped");
+                        // await Future.delayed(Duration(seconds: 3));
+                        // Future.delayed(Duration.zero, () async {
+                        //   setState(() {
+                        //     // file==null && _image==null?Loader():
+                        //     Navigator.of(context)
+                        //         .pushReplacement(MaterialPageRoute(
+                        //             builder: (BuildContext context) =>
+                        //                 // DoctorHomeScreen(
+                        //                 HomeScreen(
+                        //                   accessToken: accessToken,
+                        //                 )));
+                        //   });
+                        // });
+                        Navigator.pop(context);
+                      },
+                      child: Material(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        color: file == null && _image == null ||
+                                _selectedDocumentType == null ||
+                                _reportDate == null
+                            ? HexColor("#B8C2F8")
+                            : HexColor("#354291"),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height:
+                              isTablet? 55 : MediaQuery.of(context).size.width > 600 ? 35 : 40,
+                          child: Center(
+                            child: Text(
+                              "Upload Document",
+                              style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: isTablet? 20 : 13,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
                       ),

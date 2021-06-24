@@ -34,6 +34,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
   TextEditingController memberSearch = TextEditingController();
   List<Itemm> familyMembers= [];
   int selectedCard = -1;
+  bool isSelected = false;
 
   loadProfileImage(String image, double height, double width, double border) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
@@ -96,9 +97,9 @@ class _SearchDoctorState extends State<SearchDoctor> {
           width: isTablet? deviceWidth*.96 : deviceWidth*.89,
           height: 50,
           child: TextField(
-            textCapitalization: TextCapitalization.characters,
+            //textCapitalization: TextCapitalization.characters,
               onSubmitted: (value) {
-                membersSearch(value);
+                membersSearch(value.toUpperCase());
               },
               controller: memberSearch,
               decoration: new InputDecoration(
@@ -106,7 +107,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
                   Icons.search,
                   //color: HexColor("#8592E5"),
                 ),
-                hintText: "Name or Username",
+                hintText: "Search Doctor(s)",
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#8592E5"), width: 1.0),
                   // borderRadius: BorderRadius.only(
@@ -186,8 +187,9 @@ class _SearchDoctorState extends State<SearchDoctor> {
                         onTap: (){
                           setState(() {
                             selectedCard = index;
+                            isSelected = true;
                             Future.delayed(Duration.zero, () async {
-                              vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo,spName: familyMembers[index].specializationName,selectedCard:selectedCard);
+                              vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo,spName: familyMembers[index].specializationName,selectedCard:selectedCard,isSelected: isSelected);
 
                               Navigator.pop(context);
                             });

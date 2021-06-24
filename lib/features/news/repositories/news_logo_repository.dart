@@ -11,7 +11,7 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class NewsLogoRepository {
   Future<Either<AppError, NewsLogoM>> fetchNewsLogo() async {
     var url =
-        "${Urls.buildUrl}online-appointment-api/fapi/news-blogs/logo-list?blogType=1";
+        "${Urls.baseUrl}online-appointment-api/fapi/news-blogs/logo-list?blogType=1";
     // List<Item> dataList = new List<Item>();
 
     try {

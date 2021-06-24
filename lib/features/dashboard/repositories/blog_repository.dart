@@ -11,7 +11,7 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class BlogRepository {
   Future<Either<AppError, BlogList>> fetchBlog() async {
-    var url = "${Urls.buildUrl}online-appointment-api/fapi/news-blogs/list-by-type?blogType=2";
+    var url = "${Urls.baseUrl}online-appointment-api/fapi/news-blogs/list-by-type?blogType=2";
     try {
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
@@ -42,7 +42,7 @@ class BlogRepository {
 
   Future<Either<AppError, BlogLogoList>> fetchBlogLogo() async {
     var url =
-        "${Urls.buildUrl}online-appointment-api/fapi/news-blogs/logo-list?blogType=2";
+        "${Urls.baseUrl}online-appointment-api/fapi/news-blogs/logo-list?blogType=2";
     try {
       var client = http.Client();
       var response = await client.get(Uri.parse(url));

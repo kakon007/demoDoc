@@ -17,7 +17,7 @@ class AuthRepository {
     String password = 'secret';
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url =
-        "${Urls.buildUrl}auth-api/oauth/token?username=$user&password=$pass&grant_type=password";
+        "${Urls.baseUrl}auth-api/oauth/token?username=$user&password=$pass&grant_type=password";
     //BotToast.showLoading();
     var response =
         await http.post(Uri.parse(url), headers: <String, String>{'authorization': basicAuth});
@@ -36,7 +36,7 @@ class AuthRepository {
   }
 
   Future<Either<AppError, SignOutModel>> fetchSignOutInfo(String accessToken) async {
-    String url = "${Urls.buildUrl}auth-api/oauth/token/logout";
+    String url = "${Urls.baseUrl}auth-api/oauth/token/logout";
     var response = await http.delete(Uri.parse(url), headers: {
       'Authorization': 'Bearer $accessToken',
     });
@@ -113,7 +113,7 @@ class AuthRepository {
   Future<Either<AppError, ResetPasswordModel>> fetchResetInfo(String userName, String email) async {
     BotToast.showLoading();
     String url =
-        "${Urls.buildUrl}online-appointment-api/fapi/registration/forgot-password";
+        "${Urls.baseUrl}online-appointment-api/fapi/registration/forgot-password";
     final http.Response response = await http.post(
       Uri.parse(url),
       body: jsonEncode(<String, String>{

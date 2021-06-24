@@ -24,7 +24,7 @@ class AddFamilyMemberRepository {
       String relation, String relatedRegNo) async {
     var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
     var url =
-        "${Urls.buildUrl}diagnostic-api/api/familyMember/create";
+        "${Urls.baseUrl}diagnostic-api/api/familyMember/create";
     final http.Response response = await http.post(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',},body: jsonEncode(<String, String>{
       "regId":regId,
       "regNo":regNo,

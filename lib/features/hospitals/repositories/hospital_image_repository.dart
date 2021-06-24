@@ -12,7 +12,7 @@ class HospitalImagerepository {
   Future<Either<AppError, HospitalImageM>> fetchHospitalImage() async {
     try {
       var url =
-          "${Urls.buildUrl}online-appointment-api/fapi/appointment/companyImageList";
+          "${Urls.baseUrl}online-appointment-api/fapi/appointment/companyImageList";
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
       if (response.statusCode == 200) {

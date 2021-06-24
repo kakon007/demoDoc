@@ -148,10 +148,10 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                                         ?.patientName ??
                                                     "",
                                                 phoneNumber: vm.userDetailsList
-                                                    .phoneMobile,
+                                                    ?.phoneMobile??'',
                                                 address:
-                                                    vm.userDetailsList.address,
-                                                dob: vm.userDetailsList.dob,
+                                                    vm.userDetailsList?.address??'',
+                                                dob: vm.userDetailsList?.dob??'',
                                                 id: vm.userDetailsList
                                                     .hospitalNumber,
                                                 accessToken: vm2.accessToken,

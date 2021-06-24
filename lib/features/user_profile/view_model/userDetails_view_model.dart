@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
@@ -37,7 +38,7 @@ class UserDetailsViewModel extends ChangeNotifier{
     var headers = {
       'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
-    var request = http.MultipartRequest('PUT', Uri.parse('${Urls.buildUrl}diagnostic-api/api/opd-registration/update-with-image'));
+    var request = http.MultipartRequest('PUT', Uri.parse('${Urls.baseUrl}diagnostic-api/api/opd-registration/update-with-image'));
     request.fields.addAll({
       'reqobj':  json.encode({"opdReg":{"id":userId,"fname":name,"dob":birthDate,"gender":gender,"phoneMobile":number,"email":email,"address":address,"bloodGroup":blood,"hospitalNumber":hospitalNumber,"regDate":registrationDate,"organizationNo":1}})
     });
@@ -67,6 +68,12 @@ class UserDetailsViewModel extends ChangeNotifier{
 
   }
   Future<void> getPatData(String hospitalNumber) async {
+    CacheRepositories.loadCachedUserDetails().then((value){
+      if(value!=null){
+        _userDetailsList=value.obj;
+        notifyListeners();
+      }
+    });
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();

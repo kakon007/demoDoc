@@ -12,7 +12,7 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class FilterRepository {
   Future<Either<AppError, DepartmentListModel>> fetchDepartment(String companyNo) async {
     var url =
-        "${Urls.buildUrl}online-appointment-api/fapi/appointment/departmentList?companyNo=$companyNo&flagList=2,3";
+        "${Urls.baseUrl}online-appointment-api/fapi/appointment/departmentList?companyNo=$companyNo&flagList=2,3";
     try {
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
@@ -38,7 +38,7 @@ class FilterRepository {
   }
 
   Future<Either<AppError, SpecialistListModel>> fetchSpeciality(String id, String orgNo) async {
-    var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/specializationList";
+    var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/specializationList";
     try {
       final http.Response response = await http.post(
         Uri.parse(url),

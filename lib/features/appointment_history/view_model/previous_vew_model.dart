@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/features/appointment_history/models/previous_mode
 import 'package:myhealthbd_app/features/appointment_history/repositories/previous_repository.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,12 @@ class AppointmentPreviousViewModel extends ChangeNotifier{
   }
 
   Future<bool> getData() async {
+    CacheRepositories.loadCachedAppointmentHistoryPrevious().then((value){
+      if(value!=null){
+        _previousList=value.obj.data;
+        notifyListeners();
+      }
+    });
     print("CalledfromPreviousList");
    // print("HasMoreFromGetData ${hasMoreData}");
     startIndex=0;

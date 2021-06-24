@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
@@ -53,6 +54,7 @@ class UserDetailsRepository {
       print(response.body);
       if (response.statusCode == 200) {
         UserDetailsModel data2 = userDetailsModelFromJson(response.body);
+        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.userDetails);
         print('User Details Data:: ' + data2.obj.fname);
         print(response.body);
         return Right(UserM(

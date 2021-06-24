@@ -1004,184 +1004,69 @@ print(deviceWidth);
                                                               ),
 
                                                               // height: 60,
-                                                              //width: 20,
-                                                              child: vm
-                                                                  .upComingAppointmentList[
-                                                              index]
-                                                                  .photo !=
-                                                                  null
-                                                                  ? loadLogo(vm
-                                                                  .upComingAppointmentList[
-                                                              index]
-                                                                  .photo)
-                                                                  : Image.asset(
-                                                                "assets/icons/dct.png",
-                                                                fit: BoxFit
-                                                                    .fill,
-                                                                width: deviceWidth>650 ? 100 : deviceWidth<=360 ? 50 : 80,
-                                                                height: deviceWidth>650 ? 80 : deviceWidth<=360 ? 60 : 60,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  bottom: MediaQuery.of(context)
-                                                                      .size
-                                                                      .height >
-                                                                      650
-                                                                      ? 20
-                                                                      : 10,
-                                                                  left: 1),
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                                children: [
-                                                                  SizedBox(
-                                                                    height:
-                                                                    deviceWidth >
-                                                                        360
-                                                                        ? 8
-                                                                        : 3,
-                                                                  ),
-                                                                  Container(
-                                                                      width: deviceWidth <= 360 && deviceWidth>330? 160 :
-                                                                      deviceWidth <= 330 ? 130
-                                                                          : MediaQuery.of(context).size.width *
-                                                                          .40,
-                                                                      child: Text(
-                                                                        vm.upComingAppointmentList[index]
-                                                                            .doctorName,
-                                                                        maxLines:
-                                                                        1,
-                                                                        overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                        style: GoogleFonts.poppins(
-                                                                            fontWeight: FontWeight
-                                                                                .bold,
-                                                                            color: HexColor(
-                                                                                '#393939'),
-                                                                            fontSize:isTablet? 16 : deviceWidth<=360 ? 10 : 12),
-                                                                      )),
-                                                                  Text(
-                                                                    vm.upComingAppointmentList[index]
-                                                                        ?.doctorSpecialtyName ??
-                                                                        '',
-                                                                    style: GoogleFonts.poppins(
-                                                                        color: HexColor(
-                                                                            '#354291'),
-                                                                        fontSize:isTablet? 16 :
-                                                                        deviceWidth<=360 ? 10 : 12,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                                  ),
-                                                                  Container(
-                                                                      width: deviceWidth <=
-                                                                          360
-                                                                          ? 130
-                                                                          : MediaQuery.of(context).size.width *
-                                                                          .40,
-                                                                      child: Text(
-                                                                          vm
-                                                                              .upComingAppointmentList[
-                                                                          index]
-                                                                              .companyName,
-                                                                          maxLines:
-                                                                          deviceWidth <=
-                                                                              360? 2 : 1,
-                                                                          overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                          style: GoogleFonts.poppins(
-                                                                              color:
-                                                                              HexColor('#354291'),
-                                                                              fontSize:isTablet? 15 : deviceWidth<=360 ? 10 : 12))),
-                                                                  SizedBox(
-                                                                    width: MediaQuery.of(context)
-                                                                        .size
-                                                                        .width *
-                                                                        .44 >
-                                                                        600
-                                                                        ? 10
-                                                                        : 6,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],),
-                                                        ],),
-                                                            // Container(width:45,child: rx),
-                                                            // (controller.isSelecting)?
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                            //   child: righticon,
-                                                            // ):
+                                                               //width: 20,
+                                                               child: vm.upComingAppointmentList[index].photo!=null?loadLogo(vm.upComingAppointmentList[index].photo):Image.asset(
+                                       "assets/icons/dct.png",
+                                       fit: BoxFit.fitHeight,
+                                              width: deviceWidth>650 ? 100 : deviceWidth<=360 ? 50 : 60,
+                                              height: deviceWidth>650 ? 100 : deviceWidth<=360 ? 50 : 60,
+                                       ),
+                                                             ),
+                                                             SizedBox(width: 5,),
+                                                             Padding(
+                                                               padding: EdgeInsets.only(   bottom: MediaQuery.of(context)
+                                                                   .size
+                                                                   .height >
+                                                                   650
+                                                                   ? 20
+                                                                   : 10,
+                                                                   left: 1),
+                                                               child: Column(
+                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                                 children: [
+                                                                   SizedBox(height: deviceWidth >360? 8 : 3,),
+                                                                   Container(width:deviceWidth<=330? 180 :MediaQuery.of(context).size.width*.40,child: Text(vm.upComingAppointmentList[index].doctorName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#393939'),fontSize: isTablet? 16 :
+                                              deviceWidth<=360 ? 10 : 12,),)),
+                                                                   Text(vm.upComingAppointmentList[index]?.doctorSpecialtyName??'',style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: isTablet? 16 :
+                                              deviceWidth<=360 ? 10 : 12,,fontWeight: FontWeight.w500),),
+                                                                   Container(
+                                                                       width:deviceWidth<=330? 180 :MediaQuery.of(context).size.width*.40,child: Text(vm.upComingAppointmentList[index].companyName,maxLines: 1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: isTablet? 16 :
+                                              deviceWidth<=360 ? 10 : 12,))),
+                                                                 ],
+                                                               ),
 
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                getZoomLink(
-                                                                    con: vm
-                                                                        .upComingAppointmentList[
-                                                                            index]
-                                                                        .consultationId);
-                                                                vm5.zoomDetailsList ==
-                                                                        null
-                                                                    ? Fluttertoast
-                                                                        .showToast(
-                                                                            msg:
-                                                                                'No Consultation Available Yet.')
-                                                                    : UrlLauncherHelper
-                                                                        .launchUrl(
-                                                                            vm5.zoomDetailsList?.joinUrl ??
-                                                                                '');
-                                                              },
-                                                              child: Material(
-                                                                elevation: 2,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                5)),
-                                                                color: vm
-                                                                            .upComingAppointmentList[
-                                                                                index]
-                                                                            .consultationId ==
-                                                                        null
-                                                                    ? HexColor(
-                                                                        "#99A0C8")
-                                                                    : HexColor(
-                                                                        "#354291"),
-                                                                child: SizedBox(
-                                                                  width: isTablet? 170 :deviceWidth <= 360 && deviceWidth>330? 105 :
-                                                                  deviceWidth <= 330 ? 95
-                                                                      : 113,
-                                                                  height: deviceWidth >360
-                                                                      ? 35
-                                                                      : 28,
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      "Join Video Consultation",
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .white,
-                                                                          fontSize:isTablet? 15 :
-                                                                          deviceWidth <= 360 && deviceWidth>330? 9 :
-                                                                          deviceWidth <= 330 ? 8 : 10,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      //Divider(thickness: 1,),
+                                                             ),
+                                                             // Container(width:45,child: rx),
+                                                             // (controller.isSelecting)?
+                                                             // Padding(
+                                                             //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                             //   child: righticon,
+                                                             // ):
+                                                             SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 10 : 6,),
+                                                             GestureDetector(
+                                                               onTap:(){
+                                                                 getZoomLink(con: vm.upComingAppointmentList[index].consultationId);
+                                                                 vm5.zoomDetailsList==null?Fluttertoast.showToast(msg: 'No Consultation Available Yet.'):
+                                                                   UrlLauncherHelper.launchUrl(vm5.zoomDetailsList?.joinUrl??'');
+                                                               },
+                                                               child: Material(
+                                                                 elevation: 2  ,
+                                                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                 color:vm.upComingAppointmentList[index].consultationId==null?HexColor("#99A0C8"):HexColor("#354291"),
+                                                                 child: SizedBox(
+                                                                   width: 127,
+                                                                   height:  MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                                   child: Center(
+                                                                     child: Text("Join Video Consultation",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w500),),
+                                                                   ),
+                                                                 ),
+                                                               ),
+                                                             ),
+
+                                                           ],
+                                                         ),
+                                                       ),
+                                                       //Divider(thickness: 1,),
 
                                                       //SizedBox(height:  MediaQuery.of(context).size.width*.44 >600? 10 : 5,),
                                                     ],
@@ -1845,6 +1730,22 @@ print(deviceWidth);
                                                                     .previousAppointmentList[
                                                                 index]
                                                                     .photo)
+                                                                : Image.asset(
+                                                                    "assets/icons/dct.png",
+                                                                    fit: BoxFit
+                                                                        .fitHeight,
+                                                                    width: 60,
+                                                                    height: 60,
+                                                                  ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding: EdgeInsets.only(
+                                                                bottom: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height >
                                                                     : Image.asset(
                                                                   "assets/icons/dct.png",
                                                                   fit: BoxFit
@@ -1930,166 +1831,63 @@ print(deviceWidth);
                                                                             style: GoogleFonts.poppins(
                                                                                 color:
                                                                                 HexColor('#354291'),
-                                                                                fontSize:isTablet? 15 :deviceWidth<=360 ?10 : 12))),
-                                                                  ],
+                                                                            fontSize: 12))),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          // Container(width:45,child: rx),
+                                                          // (controller.isSelecting)?
+                                                          // Padding(
+                                                          //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
+                                                          //   child: righticon,
+                                                          // ):
+                                                          SizedBox(width:  MediaQuery.of(context).size.width*.44 >600? 21 : 15,),
+                                                          Column(children: [
+                                                            InkWell(
+                                                              onTap:(){
+                                                                Navigator.push(context,MaterialPageRoute(builder: (context){
+                                                                  return AppointmentScreen(
+                                                                    doctorNo: vm2.previousAppointmentList[index]?.doctorNo.toString(),companyNo:vm2.previousAppointmentList[index]?.companyNo.toString() ,orgNo:vm2.previousAppointmentList[index]?.organizationNo.toString() ,hospitalName:vm2.previousAppointmentList[index]?.companyName.toString() ,
+
+
+                                                                  );
+                                                                }));
+                                                              },
+                                                              child: Material(
+                                                                elevation: 0  ,
+                                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                color: HexColor("#354291"),
+                                                                child: SizedBox(
+                                                                  width: 110,
+                                                                  height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                                  child: Center(
+                                                                    child: Text("Rebook",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ],),
-                                                            // Container(width:45,child: rx),
-                                                            // (controller.isSelecting)?
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                            //   child: righticon,
-                                                            // ):
-                                                            SizedBox(
-                                                              width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width *
-                                                                          .44 >
-                                                                      600
-                                                                  ? 10
-                                                                  : 6,
                                                             ),
-                                                            Column(
-                                                              children: [
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    Navigator.push(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                            builder:
-                                                                                (context) {
-                                                                      return AppointmentScreen(
-                                                                        doctorNo: vm2
-                                                                            .previousAppointmentList[
-                                                                                index]
-                                                                            ?.doctorNo
-                                                                            .toString(),
-                                                                        companyNo: vm2
-                                                                            .previousAppointmentList[
-                                                                                index]
-                                                                            ?.companyNo
-                                                                            .toString(),
-                                                                        orgNo: vm2
-                                                                            .previousAppointmentList[
-                                                                                index]
-                                                                            ?.organizationNo
-                                                                            .toString(),
-                                                                        hospitalName: vm2
-                                                                            .previousAppointmentList[
-                                                                                index]
-                                                                            ?.companyName
-                                                                            .toString(),
-                                                                      );
-                                                                    }));
-                                                                  },
-                                                                  child: Material(
-                                                                    elevation: 0,
-                                                                    shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                5)),
-                                                                    color: HexColor(
-                                                                        "#354291"),
-                                                                    child:
-                                                                        SizedBox(
-                                                                          width: isTablet? 170 :deviceWidth <= 360 && deviceWidth>330? 105 :
-                                                                          deviceWidth <= 330 ? 95
-                                                                              : 113,height: deviceWidth<=360 ? 28
-                                                                          : 35,
-                                                                      child:
-                                                                          Center(
-                                                                        child:
-                                                                            Text(
-                                                                          "Rebook",
-                                                                          style: GoogleFonts.poppins(
-                                                                              color: Colors
-                                                                                  .white,
-                                                                              fontSize:isTablet? 15 :
-                                                                              deviceWidth <= 360 && deviceWidth>330? 9 :
-                                                                              deviceWidth <= 330 ? 8 : 10,
-                                                                              fontWeight:
-                                                                                  FontWeight.w600),
-                                                                        ),
-                                                                      ),
-                                                                    ),
+                                                            SizedBox(height: MediaQuery.of(context).size.height>650 ? 5 : 25,),
+                                                            InkWell(
+                                                              onTap: () async{
+                                                                print('ButtonPredfromAppointmentscreen');
+                                                                final file=await _createPdfFileFromString(vm2.previousAppointmentList[index].prescriptionNo.toString(),vm2.previousAppointmentList[index].companyAlias.toString());
+                                                                Navigator.push(context, PageTransition(
+                                                                  type: PageTransitionType.rightToLeft,
+                                                                  child:PdfFileViewerScreen(file),
+                                                                ),);
+                                                              },
+                                                              child: Material(
+                                                                elevation: 0  ,
+                                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                color:vm2.previousAppointmentList[index].prescriptionNo==null || vm2.previousAppointmentList[index].companyAlias==null? HexColor("#99A0C8"):HexColor("#354291"),
+                                                                child: SizedBox(
+                                                                  width: 110,
+                                                                  height: MediaQuery.of(context).size.width>650 ? 35 : 28,
+                                                                  child: Center(
+                                                                    child: Text("View Prescription",style:  GoogleFonts.poppins(color: Colors.white,fontSize: 11,fontWeight: FontWeight.w600),),
                                                                   ),
                                                                 ),
-                                                                SizedBox(
-                                                                  height: MediaQuery.of(context)
-                                                                              .size
-                                                                              .height >
-                                                                          650
-                                                                      ? 5
-                                                                      : 25,
-                                                                ),
-                                                                InkWell(
-                                                                  onTap:
-                                                                      () async {
-                                                                    print(
-                                                                        'ButtonPredfromAppointmentscreen');
-                                                                    final file = await _createPdfFileFromString(
-                                                                        vm2
-                                                                            .previousAppointmentList[
-                                                                                index]
-                                                                            .prescriptionNo
-                                                                            .toString(),
-                                                                        vm2
-                                                                            .previousAppointmentList[
-                                                                                index]
-                                                                            .companyAlias
-                                                                            .toString());
-                                                                    Navigator
-                                                                        .push(
-                                                                      context,
-                                                                      PageTransition(
-                                                                        type: PageTransitionType
-                                                                            .rightToLeft,
-                                                                        child: PdfFileViewerScreen(
-                                                                            file),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                  child: Material(
-                                                                    elevation: 0,
-                                                                    shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                5)),
-                                                                    color: vm2.previousAppointmentList[index].prescriptionNo ==
-                                                                                null ||
-                                                                            vm2.previousAppointmentList[index].companyAlias ==
-                                                                                null
-                                                                        ? HexColor(
-                                                                            "#99A0C8")
-                                                                        : HexColor(
-                                                                            "#354291"),
-                                                                    child:
-                                                                        SizedBox(
-                                                                          width:isTablet? 170 :deviceWidth <= 360 && deviceWidth>330? 105 :
-                                                                          deviceWidth <= 330 ? 95
-                                                                              : 113,
-                                                                          height: deviceWidth<=360 ? 28
-                                                                              : 35,
-                                                                      child:
-                                                                          Center(
-                                                                        child:
-                                                                            Text(
-                                                                          "View Prescription",
-                                                                          style: GoogleFonts.poppins(
-                                                                              color: Colors
-                                                                                  .white,
-                                                                              fontSize:isTablet? 15 :
-                                                                              deviceWidth <= 360 && deviceWidth>330? 9 :
-                                                                              deviceWidth <= 330 ? 8 : 10,
-                                                                              fontWeight:
-                                                                                  FontWeight.w600),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                              ),
                                                             ),
                                                           ],
                                                         ),

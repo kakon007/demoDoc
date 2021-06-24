@@ -561,9 +561,8 @@ class _ShareDocumentState extends State<ShareDocument> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: _selectedSharedtype == null ||
-                    _selectedSharedtype == 'Share With All'
-                ?deviceWidth<=360 ? height*.65 :  height * .48
+            height: _selectedSharedtype == null
+                ?deviceWidth<=360 ? height*.65 :  height * .42
                 : deviceWidth<=360 ? height * .8 : height * .60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -886,11 +885,11 @@ class _ShareDocumentState extends State<ShareDocument> {
                     // ),
 
                     AbsorbPointer(
-                      absorbing: _selectedSharedtype == null ||
-                              _selectedName == null ||
-                              vm2.doctorName == ''
-                          ? true
-                          : false,
+                      absorbing: _selectedSharedtype != null ||
+                              _selectedName != null ||
+                              vm2.doctorName != ''&&_selectedSharedtype == 'Share With All'
+                          ? false
+                          : true,
                       child: GestureDetector(
                         onTap: () async {
                           var accessToken =
@@ -899,38 +898,67 @@ class _ShareDocumentState extends State<ShareDocument> {
                                       listen: false)
                                   .getToken();
                           SVProgressHUD.show(status: "Sharing");
-                          await sharedFile(
-                              fileNoArr: vm10.fileNo,
-                              regNo: vm10.regId,
-                              shareType:
-                                  _selectedSharedtype == "Share With All" ? 1 : 2,
-                              doctorNoArr: vm2.doctorNo,
-                              note: _descriptionTextEditingController.text);
+                          if(_selectedSharedtype == "Share With Selective Doctor(s)"){
+                            _selectedName == null ||
+                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital Name and Doctor'):await sharedFile(
+                                fileNoArr: vm10.fileNo,
+                                regNo: vm10.regId,
+                                shareType:
+                                _selectedSharedtype == "Share With All" ? 1 : 2,
+                                doctorNoArr: vm2.doctorNo,
+                                note: _descriptionTextEditingController.text);
+                          }else{
+                            await sharedFile(
+                                fileNoArr: vm10.fileNo,
+                                regNo: vm10.regId,
+                                shareType:
+                                _selectedSharedtype == "Share With All" ? 1 : 2,
+                                doctorNoArr: vm2.doctorNo,
+                                note: _descriptionTextEditingController.text);
+                          }
                           SVProgressHUD.dismiss();
-                          Future.delayed(Duration.zero, () async {
-                            // setState(() {
-                            //   // file==null && _image==null?Loader():
-                            //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            //   //     builder: (BuildContext context) =>
-                            //   //     // DoctorHomeScreen(
-                            //   //     HomeScreen(
-                            //   //       accessToken: accessToken,
-                            //   //     )));
-                            //
-                            // });
+                          if(_selectedSharedtype == "Share With Selective Doctor(s)"){
+                            _selectedName == null ||
+                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital Name'):Future.delayed(Duration.zero, () async {
+                              // setState(() {
+                              //   // file==null && _image==null?Loader():
+                              //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              //   //     builder: (BuildContext context) =>
+                              //   //     // DoctorHomeScreen(
+                              //   //     HomeScreen(
+                              //   //       accessToken: accessToken,
+                              //   //     )));
+                              //
+                              // });
 
-                            Navigator.pop(context);
-                          });
+                              Navigator.pop(context);
+                            });
+                          }else{
+                            Future.delayed(Duration.zero, () async {
+                              // setState(() {
+                              //   // file==null && _image==null?Loader():
+                              //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              //   //     builder: (BuildContext context) =>
+                              //   //     // DoctorHomeScreen(
+                              //   //     HomeScreen(
+                              //   //       accessToken: accessToken,
+                              //   //     )));
+                              //
+                              // });
+
+                              Navigator.pop(context);
+                            });
+                          }
                         },
                         child: Material(
                           elevation: 2,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
-                          color: _selectedSharedtype == null ||
-                                  _selectedName == null ||
-                                  vm2.doctorName == ''
-                              ? HexColor("#969EC8")
-                              : AppTheme.appbarPrimary,
+                          color: _selectedSharedtype != null ||
+                                  _selectedName != null ||
+                                  vm2.doctorName != '' && _selectedSharedtype == "Share With All"
+                              ? AppTheme.appbarPrimary
+                              : HexColor("#969EC8"),
                           child: SizedBox(
                             width: isTablet? deviceWidth * .95 : MediaQuery.of(context).size.width * .87,
                             height:isTablet? 40 : deviceWidth>=360 ? 35 : 30,

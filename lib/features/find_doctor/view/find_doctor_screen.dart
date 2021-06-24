@@ -418,16 +418,16 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          margin: EdgeInsets.only(top: 8, bottom: 3, left: 25),
+                          margin: EdgeInsets.only(top: 5,left: 25),
                           child: Text('Doctors',
                               key: Key('doctorsKey'),
                               style: GoogleFonts.poppins(
                                   fontSize: isTablet? 18 : 15, fontWeight: FontWeight.w600))),
                       isFiltered == false
-                          ? SizedBox()
+                          ? SizedBox.shrink()
                           : Container(
                               margin:
-                                  EdgeInsets.only(top: 8, bottom: 3, right: 25),
+                                  EdgeInsets.only(top: 5,right: 25),
                               child: Text('Showing Filtered Result',
                                   key: Key('filteredResultKey'),
                                   style: GoogleFonts.poppins(

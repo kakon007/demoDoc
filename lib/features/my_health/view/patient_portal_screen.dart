@@ -1561,9 +1561,8 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       print("tappeddd");
                                                     },
                                                     child: Container(
-                                                      height: isTablet
-                                                          ? 130
-                                                          : cardHeight * 0.5,
+                                                      height:
+                                                          60,
                                                       margin: EdgeInsets.only(
                                                           top: isTablet ? 8 : 8,
                                                           bottom:
@@ -1754,7 +1753,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                             ),
                           ],
                         )),
-                  ),
+                  )),
 
                   //Documentation Screen
                   RefreshIndicator(

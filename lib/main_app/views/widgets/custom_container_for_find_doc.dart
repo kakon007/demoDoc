@@ -38,7 +38,7 @@ class CustomContainer extends StatelessWidget {
    print("height ${MediaQuery.of(context).size.width}");
     return Container(
       height: isTablet? 150 : width<350 ? 120 : 162,
-      margin: EdgeInsets.only(bottom: 6,right: 14,left: 14),
+      margin: EdgeInsets.only(bottom: 6,right: 13,left: 13),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(

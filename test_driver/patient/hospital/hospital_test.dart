@@ -30,6 +30,51 @@ Future<void> hospitalTest()async{
       });
     });
     test(
+        'When__try_to_searchField__should__get_Hospitals_&_Diagnostics_on_appbar', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.hospitalSearchFieldKey);
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await expect(await driver.getText(Keys.hospitalAppbarKey), "Hospitals & Diagnostics");
+      });
+    });
+    test(
+        'When__try_to_enter_lowercase_input__should__get_desired_output', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.enterText('aalok');
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await expect(await driver.getText(Keys.hospitalAppbarKey), "Hospitals & Diagnostics");
+      });
+    });
+    test(
+        'When__try_to_enter_uppercase_input__should__get_desired_output', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.enterText('Dhanmondi');
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await expect(await driver.getText(Keys.hospitalAppbarKey), "Hospitals & Diagnostics");
+      });
+    });
+    test(
+        'When__try_to_enter_wrong_name_input__should__not_get_desired_output', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.enterText('abcd');
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await expect(await driver.getText(Keys.hospitalAppbarKey), "Hospitals & Diagnostics");
+      });
+    });
+    test(
+        'When__try_to_enter_empty_name_input__should__not_show_whole_list', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.enterText('');
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await expect(await driver.getText(Keys.hospitalAppbarKey), "Hospitals & Diagnostics");
+      });
+    });
+    test(
         'When__try_to_scroll_down__should__scroll', () async {
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 2), () {});
@@ -40,21 +85,10 @@ Future<void> hospitalTest()async{
       });
     });
     test(
-        'When__try_to_scroll_up__should__scroll', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.scrollUntilVisible(Keys.getAppointmentKey8, Keys.getAppointmentKey1, dyScroll: -40);
-        //await driver.scrollUntilVisible(Keys.getAppointmentKey1, Keys.getAppointmentKey8, dyScroll: -100);
-        //await driver.tap(Keys.listViewBuilderKey);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        //await expect(await driver.getText(Keys.hospitalAppbarKey), "Hospitals & Diagnostics");
-      });
-    });
-    test(
-        'When__try_to_tap_get_appointment_on_second_index__should__go_to_doctors_screen_and_get_doctors_text', () async {
+        'When__try_to_tap_get_appointment_on_eighth_index__should__go_to_doctors_screen_and_get_doctors_text', () async {
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 5), () {});
-        await driver.tap(Keys.getAppointmentKey1);
+        await driver.tap(Keys.getAppointmentKey8);
         await Future.delayed(const Duration(seconds: 2), () {});
         await expect(await driver.getText(Keys.doctorsKey), "Doctors");
       });

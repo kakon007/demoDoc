@@ -84,10 +84,26 @@ class Keys{
   static final hospitalBottomNavbarKey = find.byValueKey('hospitalBottomNavbarKey');
   static final hospitalAppbarKey = find.byValueKey('hospitalAppbarKey');
   static final getAppointmentKey1 = find.byValueKey('getAppointmentKey1');
+  static final getAppointmentKey0 = find.byValueKey('getAppointmentKey0');
   static final getAppointmentKey8 = find.byValueKey('getAppointmentKey8');
   static final listViewBuilderKey = find.byValueKey('listViewBuilderKey');
   static final hospitalSearchFieldKey = find.byValueKey('hospitalSearchFieldKey');
 
   // doctors key
   static final doctorsKey = find.byValueKey('doctorsKey');
+  static final doctorListViewBuilderKey = find.byValueKey('doctorListViewBuilderKey');
+  static final findYourDoctorSearchKey = find.byValueKey('findYourDoctorSearchKey');
+  static final filterIconKey = find.byValueKey('filterIconKey');
+  static final filtersKey = find.byValueKey('filtersKey');
+  static final deptList2 = find.byValueKey('deptList2');
+  static final deptList5 = find.byValueKey('deptList5');
+  static final speciality2 = find.byValueKey('speciality2');
+  static final speciality3 = find.byValueKey('speciality3');
+  static final applyFilterButtonKey = find.byValueKey('applyFilterButtonKey');
+  static final filteredResultKey = find.byValueKey('filteredResultKey');
+  static final clearFilterButton = find.byValueKey('clearFilterButton');
+  //book your appointment key
+  static final bookNowKey0 = find.byValueKey('bookNowKey0');
+  static final bookNowKey8 = find.byValueKey('bookNowKey8');
+  static final bookYourAppointmentAppbarKey = find.byValueKey('bookYourAppointmentAppbarKey');
 }

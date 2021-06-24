@@ -434,7 +434,7 @@ class _ShareDocumentState extends State<ShareDocument> {
     ),
      // margin: EdgeInsets.only(top: 5, bottom: 5),
       height: 70,
-      width: MediaQuery.of(context).size.width*.89,
+      width: MediaQuery.of(context).size.width*.88,
       child:Row(
           children: [
             SizedBox(
@@ -448,8 +448,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                   //color: AppTheme.appbarPrimary,
                   shape: BoxShape.circle,
                 ),
-                height: 50,
-                width: 50,
+                height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+                width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
                 child: Center(
                     child: loadProfileImage(vm2.image, 45, 45,50)
                 ))
@@ -458,13 +458,13 @@ class _ShareDocumentState extends State<ShareDocument> {
                   color: AppTheme.appbarPrimary,
                   shape: BoxShape.circle,
                 ),
-                height: 50,
-                width: 50,
+                height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+                width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
                 child: Center(
                   child: Image.asset(
                     'assets/icons/dct.png',
-                    height: 40,
-                    width: 40,
+                    height:isTablet? 32 :deviceWidth<=330 ? 22 :  28,
+                    width: isTablet? 32 : width<=330 ? 22 : 28,
                   ),
                 )),
             SizedBox(
@@ -476,23 +476,24 @@ class _ShareDocumentState extends State<ShareDocument> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width:220,
+                  width:deviceWidth<=330?200: 220,
                   child: Text(
                     vm2.doctorName==null?'Loading':vm2.doctorName,
                     style: GoogleFonts.poppins(
                         color: HexColor("#0D1231"),
-                        fontSize: 16,
+                        fontSize: deviceWidth <=330? 12 : 16,
                         fontWeight: FontWeight.w500),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Container(
-                  width:220,
+                  width:deviceWidth<=330?200: 220,
                   child: Text(
 
                   vm2.spName==null?'Loading':vm2.spName,
                     style: GoogleFonts.poppins(
+                      fontSize: deviceWidth<=330? 12 : 15,
                       color: AppTheme.appbarPrimary,),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -511,7 +512,7 @@ class _ShareDocumentState extends State<ShareDocument> {
     ),
       // margin: EdgeInsets.only(top: 5, bottom: 5),
       height: 70,
-      width: MediaQuery.of(context).size.width*.89,
+      width: MediaQuery.of(context).size.width*.88,
       child:
       Center(
         child: Text(
@@ -666,7 +667,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                               });
                             },
                             child: Container(
-                              width: MediaQuery.of(context).size.width*.89,
+                              width: MediaQuery.of(context).size.width*.87,
                               height: 45,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
@@ -675,7 +676,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                                 border: Border.all(color: Colors.grey.withOpacity(0.3)),
                               ),
                               child: Container(
-                                width: MediaQuery.of(context).size.width * .72,
+                                width: MediaQuery.of(context).size.width * .7,
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 15.0,top: 5),
                                   child: Row(
@@ -969,7 +970,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                     children: <Widget>[
                       vm10.sharedFileList==null?Text("No Share History Yet."):ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
                         var photo = vm10.sharedFileList[index]?.photo ?? "";
-                        return  Padding(padding: EdgeInsets.all(5),child:
+                        return  Padding(padding: EdgeInsets.only(top: 5, bottom: 5),child:
                         Container(
                             height: 70,
                             width:
@@ -981,80 +982,84 @@ class _ShareDocumentState extends State<ShareDocument> {
                             ),
                             child: Row(
                               mainAxisAlignment:
-                              MainAxisAlignment.start,
+                              MainAxisAlignment.spaceBetween,
                               children: [
-                              SizedBox(
-                              width: 5,
-                            ),
-                                photo != ""
-                                    ? Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: AppTheme.appbarPrimary),
-                                      //color: AppTheme.appbarPrimary,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    height: 50,
-                                    width: 50,
-                                    child: Center(
-                                        child: loadProfileImage(photo, 45, 45,50)
-                                    ))
-                                    : Container(
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.appbarPrimary,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    height: 50,
-                                    width: 50,
-                                    child: Center(
-                                      child: Image.asset(
-                                        'assets/icons/dct.png',
-                                        height: 40,
-                                        width: 40,
+                                Row(children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  photo != ""
+                                      ? Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: AppTheme.appbarPrimary),
+                                        //color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
                                       ),
-                                    )),
+                                      height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+                                      width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
+                                      child: Center(
+                                          child: loadProfileImage(photo, 45, 45,50)
+                                      ))
+                                      : Container(
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+                                      width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
+                                      child: Center(
+                                        child: Image.asset(
+                                          'assets/icons/dct.png',
+                                          height:isTablet? 32 :deviceWidth<=330 ? 25 :  28,
+                                          width: isTablet? 32 : deviceWidth<=330 ? 25 : 28,
+                                        ),
+                                      )),
+                                  Container(
+                                      height: 50,
+                                      width: deviceWidth<=330 ? 135 : 160,
+                                      child: Center(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment
+                                                .start,
+                                            children: [
+                                              SizedBox(
+                                                height: 7,
+                                              ),
+                                              Container(
+                                                width: 120,
+                                                child: Text(
+                                                    vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: GoogleFonts
+                                                        .poppins(
+                                                        fontSize:deviceWidth<=330 ? 10 :  12,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w500)),
+                                              ),
+                                              Container(
+                                                width: 120,
+                                                child: Text(
+                                                    vm10.sharedFileList[index].companyName==null?'No Hospital Name Available':vm10.sharedFileList[index].companyName,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: GoogleFonts
+                                                        .poppins(
+                                                        fontSize: deviceWidth<=330 ? 10 : 12,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w500)),
+                                              )
+                                            ],
+                                          ))),
+                                ],),
+
                             // SizedBox(
                             //   width: 3,
                             // ),
-                            Container(
-                              height: 50,
-                              width: 160,
-                              child: Center(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                    SizedBox(
-                                    height: 7,
-                                  ),
-                                  Container(
-                                    width: 120,
-                                    child: Text(
-                                        vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts
-                                        .poppins(
-                                    fontSize: 12,
-                                    fontWeight:
-                                    FontWeight
-                                    .w500)),
-                                  ),
-                              Container(
-                                width: 120,
-                                child: Text(
-                                    vm10.sharedFileList[index].companyName==null?'No Hospital Name Available':vm10.sharedFileList[index].companyName,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts
-                                        .poppins(
-                                        fontSize: 12,
-                                        fontWeight:
-                                        FontWeight
-                                            .w500)),
-                              )
-                              ],
-                            ))),
+
                        isRemove? Row(
                          children: [
                            GestureDetector(
@@ -1088,13 +1093,13 @@ class _ShareDocumentState extends State<ShareDocument> {
                             borderRadius: BorderRadius.circular(8),
                             ),
                             height: 30,
-                            width: 55,
+                            width:deviceWidth<=330 ? 45: 55,
                             child: Center(
                             child: Text(
                             "Confirm",
                             style:
                             GoogleFonts.poppins(
-                            fontSize: 11,color:Colors.white ),
+                            fontSize: deviceWidth<=330 ? 9 : 11,color:Colors.white ),
                             ),
                             ),
                             ),
@@ -1115,13 +1120,13 @@ class _ShareDocumentState extends State<ShareDocument> {
                                  borderRadius: BorderRadius.circular(8),
                                ),
                                height: 30,
-                               width: 55,
+                               width: deviceWidth<=330 ? 45 : 55,
                                child: Center(
                                  child: Text(
                                    "Cancel",
                                    style:
                                    GoogleFonts.poppins(
-                                       fontSize: 11,color: Colors.white),
+                                       fontSize: deviceWidth<=330 ? 9: 11,color: Colors.white),
                                  ),
                                ),
                              ),
@@ -1143,13 +1148,13 @@ class _ShareDocumentState extends State<ShareDocument> {
                                borderRadius: BorderRadius.circular(8),
                              ),
                              height: 40,
-                             width: 100,
+                             width: deviceWidth<=330? 85 : 100,
                              child: Center(
                                child: Text(
                                  "Remove Access",
                                  style:
                                  GoogleFonts.poppins(
-                                     fontSize: 11,color: Colors.white),
+                                     fontSize: deviceWidth<=330 ?10 : 11,color: Colors.white),
                                ),
                              ),
                            ),

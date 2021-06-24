@@ -429,6 +429,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                               margin:
                                   EdgeInsets.only(top: 8, bottom: 3, right: 25),
                               child: Text('Showing Filtered Result',
+                                  key: Key('filteredResultKey'),
                                   style: GoogleFonts.poppins(
                                     fontSize: isTablet? 16 : 13,
                                   )))
@@ -444,6 +445,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       : vm.doctorList.length == 0
                           ? Center(child: Text("No doctors found!",style: GoogleFonts.poppins(fontSize: isTablet? 18 : 12 ),))
                           : ListView.builder(
+                    key: Key('doctorListViewBuilderKey'),
                               shrinkWrap: true,
                               itemCount: vm.doctorList.length + 1,
                               itemBuilder: (BuildContext context, int i) {
@@ -493,7 +495,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                       ? ""
                                       : vm.doctorList[i]?.ogNo.toString(),
                                   widget.title,
-                                  widget.phoneText
+                                  widget.phoneText,
+                                  i,
                                 );
                               }),
                 ],
@@ -672,6 +675,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
               verticalSpace,
               Text(
                 StringResources.filters,
+                key: Key('filtersKey'),
                 style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: isTablet? 18 : 15 ,),
               ),
               GestureDetector(
@@ -732,6 +736,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                     specialSelectedItem, doctorItem);
                 //doctorSearch(doctorItem);
               },
+              key: Key('findYourDoctorSearchKey'),
               controller: doctorController,
               decoration: new InputDecoration(
                 prefixIcon: Padding(
@@ -829,8 +834,10 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                                       .normal),
                                                         ),
                                                         value: item.isChecked,
+                                                        key: Key('deptList${deptItems.indexOf(item)}'),
                                                         onChanged: (bool val) {
                                                           setState(() {
+                                                           // print('${deptItems.indexOf(item)}');
                                                             val == true
                                                                 ? _items3.add(
                                                                     item.id)
@@ -915,6 +922,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                                       .normal),
                                                         ),
                                                         value: item.isChecked,
+                                                        key: Key('speciality${specialityItems.indexOf(item)}'),
                                                         onChanged: (bool val) {
                                                           setState(() {
                                                             val == true
@@ -1015,6 +1023,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                     width: 1)),
                                             child: Text(
                                               StringResources.clearFilterText,
+                                              key: Key('clearFilterButton'),
                                               style: GoogleFonts.poppins(),
                                             ),
                                           ),
@@ -1064,6 +1073,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                             ),
                                             child: Text(
                                               StringResources.applyFilterText,
+                                              key: Key('applyFilterButtonKey'),
                                               style: GoogleFonts.poppins(),
                                             ),
                                           ),
@@ -1085,6 +1095,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
             padding: const EdgeInsets.only(right: 18.0, bottom: 25),
             child: SvgPicture.asset(
               "assets/icons/fliter.svg",
+              key: Key('filterIconKey'),
               width: 10,
               height: 18,
               fit: BoxFit.fitWidth,

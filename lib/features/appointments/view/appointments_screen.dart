@@ -494,6 +494,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         appBar: new AppBar(
           title: new Text(
             "Book your appointment",
+            key: Key('bookYourAppointmentAppbarKey'),
             style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15),
           ),
           // actions: <Widget>[

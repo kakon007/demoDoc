@@ -23,7 +23,8 @@ class CustomContainer extends StatelessWidget {
   String orgNo;
   String hospitalName;
   String phoneText;
-  CustomContainer(@required this.jobTitle,@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName, this.phoneText);
+  int index;
+  CustomContainer(@required this.jobTitle,@required this.logo,@required this.titleText,@required this.subTitleText,@required this.undersubtitle,@required this.images, this.consultationFee,this.designation, this.doctorNo, this.companyNo, this.orgNo,this.hospitalName, this.phoneText, this.index);
   @override
   Widget build(BuildContext context) {
     var vm2 = Provider.of<AvailableSlotsViewModel>(context, listen: true);
@@ -107,6 +108,7 @@ class CustomContainer extends StatelessWidget {
                                   child: Center(
                                     child: Text(
                                       "Book Now",
+                                      key: Key('bookNowKey$index'),
                                       style: GoogleFonts.poppins(fontSize: isTablet? 15 : width <350 ? 8 : 10,color: Colors.white, fontWeight: FontWeight.w600),
                                     ),
                                   ),

@@ -467,14 +467,16 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                             child: Container(
                               height: isTablet ? 200 : cardHeight * 0.7,
                               width: isTablet ? 340 : width <= 360 ? width / 2.5 : 90,
-                              child: Text(
-                                file.toString().split('/').last,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: isTablet? 20 : width <= 360 ? 10 : 12,
+                              child: Center(
+                                child: Text(
+                                  file.toString().split('/').last,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: isTablet? 20 : width <= 360 ? 10 : 12,
+                                  ),
                                 ),
                               ),
                             ),

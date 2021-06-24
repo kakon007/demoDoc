@@ -425,84 +425,92 @@ class _ShareDocumentState extends State<ShareDocument> {
         ),
       ),
     );
-
     var doctorCard=
     Container( decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(10),
       border: Border.all(color: Colors.grey.withOpacity(0.3)),
     ),
-     // margin: EdgeInsets.only(top: 5, bottom: 5),
+      // margin: EdgeInsets.only(top: 5, bottom: 5),
       height: 70,
-      width: MediaQuery.of(context).size.width*.88,
+      width: MediaQuery.of(context).size.width*.89,
       child:Row(
-          children: [
-            SizedBox(
-              width: 10,
-            ),
-
-            vm2.image != null
-                ? Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppTheme.appbarPrimary),
-                  //color: AppTheme.appbarPrimary,
-                  shape: BoxShape.circle,
+        children: [
+          SizedBox(
+            width: 10,
+          ),
+          vm2.image != null
+              ? Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: AppTheme.appbarPrimary),
+                //color: AppTheme.appbarPrimary,
+                shape: BoxShape.circle,
+              ),
+              height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+              width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
+              child: Center(
+                  child: loadProfileImage(vm2.image, 45, 45,50)
+              ))
+              : Container(
+              decoration: BoxDecoration(
+                color: AppTheme.appbarPrimary,
+                shape: BoxShape.circle,
+              ),
+              height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+              width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
+              child: Center(
+                child: Image.asset(
+                  'assets/icons/dct.png',
+                  height:isTablet? 32 :deviceWidth<=330 ? 22 :  28,
+                  width: isTablet? 32 : width<=330 ? 22 : 28,
                 ),
-                height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
-                width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
-                child: Center(
-                    child: loadProfileImage(vm2.image, 45, 45,50)
-                ))
-                : Container(
-                decoration: BoxDecoration(
-                  color: AppTheme.appbarPrimary,
-                  shape: BoxShape.circle,
-                ),
-                height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
-                width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
-                child: Center(
-                  child: Image.asset(
-                    'assets/icons/dct.png',
-                    height:isTablet? 32 :deviceWidth<=330 ? 22 :  28,
-                    width: isTablet? 32 : width<=330 ? 22 : 28,
+              )),
+          SizedBox(
+            width: 20,
+          ),
+          Column(
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width:deviceWidth<=330?200: 220,
+                    child: Text(
+                      vm2.doctorName==null?'Loading':vm2.doctorName,
+                      style: GoogleFonts.poppins(
+                          color: HexColor("#0D1231"),
+                          fontSize:  deviceWidth <=330? 12 : 16,
+                          fontWeight: FontWeight.w500),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                )),
-            SizedBox(
-              width: 20,
-            ),
-            Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width:deviceWidth<=330?200: 220,
-                  child: Text(
-                    vm2.doctorName==null?'Loading':vm2.doctorName,
-                    style: GoogleFonts.poppins(
-                        color: HexColor("#0D1231"),
-                        fontSize: deviceWidth <=330? 12 : 16,
-                        fontWeight: FontWeight.w500),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Container(
-                  width:deviceWidth<=330?200: 220,
-                  child: Text(
-
+                  GestureDetector(onTap: (){
+                    setState(() {
+                      vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
+                    });
+                    print('Tapped on cross');
+                  },child: Icon(Icons.close)),
+                ],
+              ),
+              Container(
+                width:deviceWidth<=330?200: 220,
+                child: Text(
                   vm2.spName==null?'Loading':vm2.spName,
-                    style: GoogleFonts.poppins(
-                      fontSize: deviceWidth<=330? 12 : 15,
-                      color: AppTheme.appbarPrimary,),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )
-              ],
-            ),
-          ],
-        ) ,);
+                  style: GoogleFonts.poppins(
+                    fontSize:  deviceWidth <=330? 12 : 16,
+                    color: AppTheme.appbarPrimary,),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            ],
+          ),
+        ],
+      ) ,);
+
 
     var doctorCardForAllDoc = Container(
         decoration: BoxDecoration(

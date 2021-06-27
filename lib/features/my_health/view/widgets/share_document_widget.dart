@@ -74,7 +74,7 @@ class _ShareDocumentState extends State<ShareDocument> {
       {int fileNoArr,
       int regNo,
       int shareType,
-      int doctorNoArr,
+      List<int> doctorNoArr,
       String note}) async {
     var accessToken = await Provider.of<AccessTokenProvider>(
             appNavigator.context,
@@ -89,10 +89,11 @@ class _ShareDocumentState extends State<ShareDocument> {
         Uri.parse(
             'https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/create'));
     request.body =
-        '''{\n "fileNoArr": [$fileNoArr],\n "regNo": $regNo,\n "shareType": $shareType,\n "doctorNoArr": [$doctorNoArr],\n "activeStat": 1,\n "remarks": "$note"\n}\n''';
+        '''{\n "fileNoArr": [$fileNoArr],\n "regNo": $regNo,\n "shareType": $shareType,\n "doctorNoArr": $doctorNoArr,\n "activeStat": 1,\n "remarks": "$note"\n}\n''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
+    print('Resss:: ${response.statusCode}');
     print('Resss:: ${response.statusCode}');
     print('Resss:: $fileNoArr');
     print('Resss:: $shareType');
@@ -129,7 +130,8 @@ class _ShareDocumentState extends State<ShareDocument> {
     vm.getData();
     removeData();
     var vm2 = appNavigator.getProviderListener<SearchDoctorViewModel>();
-    vm2.docNull('');
+    vm2.doctorInfo.clear();
+    vm2.doctorNo.clear();
     // var vm2 = Provider.of<SearchDoctorViewModel>(context, listen: false);
     // vm2.getData();
     // Future.delayed(Duration.zero,()async{
@@ -425,91 +427,95 @@ class _ShareDocumentState extends State<ShareDocument> {
         ),
       ),
     );
+
+
     var doctorCard=
-    Container( decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: Colors.grey.withOpacity(0.3)),
-    ),
-      // margin: EdgeInsets.only(top: 5, bottom: 5),
-      height: 70,
-      width: MediaQuery.of(context).size.width*.89,
-      child:Row(
-        children: [
-          SizedBox(
-            width: 10,
-          ),
-          vm2.image != null
-              ? Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: AppTheme.appbarPrimary),
-                //color: AppTheme.appbarPrimary,
-                shape: BoxShape.circle,
-              ),
-              height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
-              width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
-              child: Center(
-                  child: loadProfileImage(vm2.image, 45, 45,50)
-              ))
-              : Container(
-              decoration: BoxDecoration(
-                color: AppTheme.appbarPrimary,
-                shape: BoxShape.circle,
-              ),
-              height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
-              width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
-              child: Center(
-                child: Image.asset(
-                  'assets/icons/dct.png',
-                  height:isTablet? 32 :deviceWidth<=330 ? 22 :  28,
-                  width: isTablet? 32 : width<=330 ? 22 : 28,
-                ),
-              )),
-          SizedBox(
-            width: 20,
-          ),
-          Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width:deviceWidth<=330?200: 220,
-                    child: Text(
-                      vm2.doctorName==null?'Loading':vm2.doctorName,
-                      style: GoogleFonts.poppins(
-                          color: HexColor("#0D1231"),
-                          fontSize:  deviceWidth <=330? 12 : 16,
-                          fontWeight: FontWeight.w500),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  GestureDetector(onTap: (){
-                    setState(() {
-                      vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
-                    });
-                    print('Tapped on cross');
-                  },child: Icon(Icons.close)),
-                ],
-              ),
-              Container(
-                width:deviceWidth<=330?200: 220,
-                child: Text(
-                  vm2.spName==null?'Loading':vm2.spName,
-                  style: GoogleFonts.poppins(
-                    fontSize:  deviceWidth <=330? 12 : 16,
-                    color: AppTheme.appbarPrimary,),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
-            ],
-          ),
-        ],
-      ) ,);
+   Container(height: 100,width: 326,child: ListView.builder(itemCount: vm2.doctorInfo.length,itemBuilder:(_,index){
+     return Container( decoration: BoxDecoration(
+       color: Colors.white,
+       borderRadius: BorderRadius.circular(10),
+       border: Border.all(color: Colors.grey.withOpacity(0.3)),
+     ),
+       // margin: EdgeInsets.only(top: 5, bottom: 5),
+       height: 70,
+       width: MediaQuery.of(context).size.width*.89,
+       child:Row(
+         children: [
+           SizedBox(
+             width: 10,
+           ),
+           vm2.image != null
+               ? Container(
+               decoration: BoxDecoration(
+                 border: Border.all(color: AppTheme.appbarPrimary),
+                 //color: AppTheme.appbarPrimary,
+                 shape: BoxShape.circle,
+               ),
+               height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+               width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
+               child: Center(
+                   child: loadProfileImage(vm2.image, 45, 45,50)
+               ))
+               : Container(
+               decoration: BoxDecoration(
+                 color: AppTheme.appbarPrimary,
+                 shape: BoxShape.circle,
+               ),
+               height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+               width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
+               child: Center(
+                 child: Image.asset(
+                   'assets/icons/dct.png',
+                   height:isTablet? 32 :deviceWidth<=330 ? 22 :  28,
+                   width: isTablet? 32 : width<=330 ? 22 : 28,
+                 ),
+               )),
+           SizedBox(
+             width: 20,
+           ),
+           Column(
+             crossAxisAlignment:
+             CrossAxisAlignment.start,
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Row(
+                 children: [
+                   Container(
+                     width:deviceWidth<=330?200: 220,
+                     child: Text(
+                       vm2.doctorInfo[index].doctorName==null?'Loading':vm2.doctorInfo[index].doctorName,
+                       style: GoogleFonts.poppins(
+                           color: HexColor("#0D1231"),
+                           fontSize:  deviceWidth <=330? 12 : 16,
+                           fontWeight: FontWeight.w500),
+                       maxLines: 1,
+                       overflow: TextOverflow.ellipsis,
+                     ),
+                   ),
+                   GestureDetector(onTap: (){
+                     setState(() {
+                       //vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
+                     });
+                     print('Tapped on cross');
+                   },child: Icon(Icons.close)),
+                 ],
+               ),
+               Container(
+                 width:deviceWidth<=330?200: 220,
+                 child: Text(
+                   vm2.doctorInfo[index].specializationName==null?'Loading':vm2.doctorInfo[index].specializationName,
+                   style: GoogleFonts.poppins(
+                     fontSize:  deviceWidth <=330? 12 : 16,
+                     color: AppTheme.appbarPrimary,),
+                   maxLines: 1,
+                   overflow: TextOverflow.ellipsis,
+                 ),
+               )
+             ],
+           ),
+         ],
+       ) ,);
+   }),);
 
 
     var doctorCardForAllDoc = Container(
@@ -759,7 +765,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                             //             }),
                             //       ),
                             // ),
-                           vm2.doctorName!='' || vm2.hospitalName!=''?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox.shrink(),
+                           vm2.doctorInfo!=null?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox.shrink(),
                             horizontalSpace,
                             writeDetailsField,
                             horizontalSpace,

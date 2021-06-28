@@ -130,6 +130,7 @@ class _ShareDocumentState extends State<ShareDocument> {
     vm.getData();
     removeData();
     var vm2 = appNavigator.getProviderListener<SearchDoctorViewModel>();
+    vm2.docNull('');
     vm2.doctorInfo.clear();
     vm2.doctorNo.clear();
     // var vm2 = Provider.of<SearchDoctorViewModel>(context, listen: false);
@@ -358,6 +359,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                             onChanged: (newValue) {
                               setState(() {
                                 vm2.docNull('');
+                                vm2.doctorInfo.clear();
+                                vm2.doctorNo.clear();
                                 _selectedName=null;
                                 _selectedSharedtype = newValue;
                                 print('SelectValue::::: $_selectedSharedtype');
@@ -430,7 +433,7 @@ class _ShareDocumentState extends State<ShareDocument> {
 
 
     var doctorCard=
-   Container(height: 100,width: 326,child: ListView.builder(itemCount: vm2.doctorInfo.length,itemBuilder:(_,index){
+   Container(height: 100,width: 338,child: ListView.builder(itemCount: vm2.doctorInfo.length,itemBuilder:(_,index){
      return Container( decoration: BoxDecoration(
        color: Colors.white,
        borderRadius: BorderRadius.circular(10),
@@ -577,7 +580,7 @@ class _ShareDocumentState extends State<ShareDocument> {
           Container(
             height: _selectedSharedtype == null
                 ?deviceWidth<=360 ? height*.65 :  height * .42
-                : deviceWidth<=360 ? height * .8 : height * .60,
+                : deviceWidth<=360 ? height * .8 : height * .62,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25), topRight: Radius.circular(25)),
@@ -765,8 +768,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                             //             }),
                             //       ),
                             // ),
-                           vm2.doctorInfo!=null?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox.shrink(),
-                            horizontalSpace,
+                            vm2.doctorName!='' || vm2.hospitalName!=''?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox.shrink(),
+                            _selectedSharedtype==null?SizedBox.shrink():horizontalSpace,
                             writeDetailsField,
                             horizontalSpace,
                           ],
@@ -914,7 +917,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                           SVProgressHUD.show(status: "Sharing");
                           if(_selectedSharedtype == "Share With Selective Doctor(s)"){
                             _selectedName == null ||
-                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital Name and Doctor'):await sharedFile(
+                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital and Doctor'):await sharedFile(
                                 fileNoArr: vm10.fileNo,
                                 regNo: vm10.regId,
                                 shareType:
@@ -933,7 +936,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                           SVProgressHUD.dismiss();
                           if(_selectedSharedtype == "Share With Selective Doctor(s)"){
                             _selectedName == null ||
-                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital Name'):Future.delayed(Duration.zero, () async {
+                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital and Doctor'):Future.delayed(Duration.zero, () async {
                               // setState(() {
                               //   // file==null && _image==null?Loader():
                               //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -1102,80 +1105,83 @@ class _ShareDocumentState extends State<ShareDocument> {
                             //   width: 3,
                             // ),
 
-                       isRemove? Row(
-                         children: [
-                           GestureDetector(
-                              onTap: ()async{
+                       isRemove? Padding(
+                         padding: const EdgeInsets.only(right:8.0),
+                         child: Row(
+                           children: [
+                             GestureDetector(
+                                onTap: ()async{
 
-                                var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
-                                SVProgressHUD.show(
-                                  status: 'Deleting'
-                                );
-                                await removeData(id:vm10.sharedFileList[index].id);
-                                SVProgressHUD.dismiss();
+                                  var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+                                  SVProgressHUD.show(
+                                    status: 'Deleting'
+                                  );
+                                  await removeData(id:vm10.sharedFileList[index].id);
+                                  SVProgressHUD.dismiss();
 
-                                Future.delayed(Duration.zero, () async {
-                                  setState(() {
-                                    // file==null && _image==null?Loader():
-                                    // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                    //     builder: (BuildContext context) =>
-                                    //     // DoctorHomeScreen(
-                                    //     HomeScreen(
-                                    //       accessToken: accessToken,
-                                    //     )));
-                                    Navigator.pop(context);
+                                  Future.delayed(Duration.zero, () async {
+                                    setState(() {
+                                      // file==null && _image==null?Loader():
+                                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                      //     builder: (BuildContext context) =>
+                                      //     // DoctorHomeScreen(
+                                      //     HomeScreen(
+                                      //       accessToken: accessToken,
+                                      //     )));
+                                      Navigator.pop(context);
+                                    });
+
                                   });
 
-                                });
+                                },
+                              child: Container(
+                              decoration: BoxDecoration(
+                              color: HexColor("#FFA7A7"),
+                              borderRadius: BorderRadius.circular(8),
+                              ),
+                              height: 30,
+                              width:deviceWidth<=330 ? 45: 55,
+                              child: Center(
+                              child: Text(
+                              "Confirm",
+                              style:
+                              GoogleFonts.poppins(
+                              fontSize: deviceWidth<=330 ? 9 : 11,color:Colors.white ),
+                              ),
+                              ),
+                              ),
+                              ),
 
-                              },
-                            child: Container(
-                            decoration: BoxDecoration(
-                            color: HexColor("#FFA7A7"),
-                            borderRadius: BorderRadius.circular(8),
-                            ),
-                            height: 30,
-                            width:deviceWidth<=330 ? 45: 55,
-                            child: Center(
-                            child: Text(
-                            "Confirm",
-                            style:
-                            GoogleFonts.poppins(
-                            fontSize: deviceWidth<=330 ? 9 : 11,color:Colors.white ),
-                            ),
-                            ),
-                            ),
-                            ),
+                              SizedBox(width: 5,),
+                             GestureDetector(
+                               onTap: ()async{
 
-                            SizedBox(width: 5,),
-                           GestureDetector(
-                             onTap: ()async{
+                                 setState(() {
+                                   isRemove=false;
+                                 });
 
-                               setState(() {
-                                 isRemove=false;
-                               });
-
-                             },
-                             child: Container(
-                               decoration: BoxDecoration(
-                                 color: HexColor("#8592E5"),
-                                 borderRadius: BorderRadius.circular(8),
-                               ),
-                               height: 30,
-                               width: deviceWidth<=330 ? 45 : 55,
-                               child: Center(
-                                 child: Text(
-                                   "Cancel",
-                                   style:
-                                   GoogleFonts.poppins(
-                                       fontSize: deviceWidth<=330 ? 9: 11,color: Colors.white),
+                               },
+                               child: Container(
+                                 decoration: BoxDecoration(
+                                   color: HexColor("#8592E5"),
+                                   borderRadius: BorderRadius.circular(8),
+                                 ),
+                                 height: 30,
+                                 width: deviceWidth<=330 ? 45 : 55,
+                                 child: Center(
+                                   child: Text(
+                                     "Cancel",
+                                     style:
+                                     GoogleFonts.poppins(
+                                         fontSize: deviceWidth<=330 ? 9: 11,color: Colors.white),
+                                   ),
                                  ),
                                ),
                              ),
-                           ),
-                         ],
+                           ],
+                         ),
                        ):Padding(
-                         padding: const EdgeInsets.only(left:8.0),
+                         padding: const EdgeInsets.only(right:8.0),
                          child: GestureDetector(
                            onTap: (){
 

@@ -497,7 +497,10 @@ class _ShareDocumentState extends State<ShareDocument> {
                    ),
                    GestureDetector(onTap: (){
                      setState(() {
-                       //vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
+                       // vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
+                       vm2.doctorInfo.clear();
+                       vm2.doctorNo.clear();
+                       vm2.docNull('');
                      });
                      print('Tapped on cross');
                    },child: Icon(Icons.close)),

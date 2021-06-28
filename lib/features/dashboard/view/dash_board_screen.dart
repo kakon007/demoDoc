@@ -120,6 +120,26 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   }
 
+  Future setDeviceTokenForNotification({String accessToken,String userNo,String userName,String doviceToken})async{
+    var headers = {
+      'Authorization': 'Bearer 592dd17f-04f7-4482-9e28-90ff95744f27',
+      'Content-Type': 'text/plain'
+    };
+    var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/auth-api/api/device/set-device-token'));
+    request.body = '''{\n"userNo" : "2000059",\n"userName" : "MH22012014368",\n"doviceToken" : "fOZeM5lTSHOT4i4saAN3k0:APA91bHtAfo3A2UIWCpTdLVhtKzwlKZVFGEZ6Z4NxMSTGy4WTuOpIMQlleKsGpORQ7f_FTZxA6GKiUTN9Icjs6oS17CYff-rJnJJL6mXuQREmtXnxcRVci1z24F6kIj2mWBVs5brG0fZ"\n\n}\n''';
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+  }
+
+
   @override
   void initState() {
     var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: false);
@@ -151,7 +171,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     vm8.getData();
 
 
-    lastTme();
+    //lastTme();
    // controller = CountdownTimerController(endTime: lasTtimerr!=null?lasTtimerr:DateTime.now().millisecondsSinceEpoch);
 
     super.initState();

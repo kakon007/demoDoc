@@ -62,6 +62,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Family Members",
+          key: Key('familyMemberAppbarKey'),
           style: GoogleFonts.poppins(fontSize:isTablet?18: 15),
         ),
       ),
@@ -160,6 +161,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                             });
                           });
                         },
+                        key:Key('selectFamilyMemberKey'),
                         child: Container(
                             decoration: BoxDecoration(
                               color: index % 2 == 0

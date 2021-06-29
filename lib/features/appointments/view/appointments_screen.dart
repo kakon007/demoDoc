@@ -233,6 +233,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               ),
             ],
           ),
+          key: Key('selectAppointmentDateKey'),
           onTap: () {
             selectAppointDate(context);
           },
@@ -288,6 +289,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     signInRequired(context);
                   }
                 },
+                key: Key('proceedButtonKey'),
                 textColor: Colors.white,
                 child: Text(
                   "Proceed",
@@ -321,6 +323,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   child: Center(
                       child: Text(
                     "For Me",
+                    key: Key('forMeKey'),
                     style:
                         GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: HexColor(vm.forMeTextColor)),
                   )),
@@ -343,6 +346,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     child: Center(
                         child: Text(
                       "Add patient",
+                      key: Key('addPatientKey'),
                       style: GoogleFonts.poppins(
                         fontSize: isTablet? 20 : 15,
                           color: HexColor(vm.addPatientTextColor)),
@@ -471,13 +475,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       SizedBox(
                         height: 3,
                       ),
-                      Text(
-                        "TK. " + consultFee.toString(),
-                        style: GoogleFonts.poppins(
-                          fontSize: isTablet? 17 : width<330 ? 13 : 15,
-                          color: AppTheme.appbarPrimary,
-                        ),
-                      ),
+                      // Text(
+                      //   "TK. " + consultFee.toString(),
+                      //   style: GoogleFonts.poppins(
+                      //     fontSize: isTablet? 17 : width<330 ? 13 : 15,
+                      //     color: AppTheme.appbarPrimary,
+                      //   ),
+                      // ),
                     ],
                   )
                 ],
@@ -664,6 +668,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                           .appointStatus;
                                                     });
                                                   },
+                                                      key: Key('availableSlot$index'),
                                                   child: Container(
                                                     decoration:
                                                         BoxDecoration(

@@ -102,8 +102,34 @@ class Keys{
   static final applyFilterButtonKey = find.byValueKey('applyFilterButtonKey');
   static final filteredResultKey = find.byValueKey('filteredResultKey');
   static final clearFilterButton = find.byValueKey('clearFilterButton');
+
+
+  
   //book your appointment key
   static final bookNowKey0 = find.byValueKey('bookNowKey0');
   static final bookNowKey8 = find.byValueKey('bookNowKey8');
   static final bookYourAppointmentAppbarKey = find.byValueKey('bookYourAppointmentAppbarKey');
+  static final selectAppointmentDateKey = find.byValueKey('selectAppointmentDateKey');
+  static final availableSlot0 = find.byValueKey('availableSlot0');
+  static final availableSlot10 = find.byValueKey('availableSlot10');
+  static final proceedButtonKey = find.byValueKey('proceedButtonKey');
+  static final forMeKey = find.byValueKey('forMeKey');
+  static final addPatientKey = find.byValueKey('addPatientKey');
+  static final consultTypeForMeKey = find.byValueKey('consultTypeForMeKey');
+  static final consultFeeFroMe = find.byValueKey('consultFeeFroMe');
+  static final confirmBookingKey = find.byValueKey('confirmBookingKey');
+  static final selectAddPatientType = find.byValueKey('selectAddPatientType');
+  static final familyMemberSelectKey = find.byValueKey('familyMemberSelectKey');
+  static final familyMemberAppbarKey = find.byValueKey('familyMemberAppbarKey');
+  static final selectFamilyMemberKey = find.byValueKey('selectFamilyMemberKey');
+  static final consultTypeAddPatientKey = find.byValueKey('consultTypeAddPatientKey');
+  static final consultFeeAddPatient = find.byValueKey('consultFeeAddPatient');
+  static final appointNameKey = find.byValueKey('appointNameKey');
+  static final appointEmailKey = find.byValueKey('appointEmailKey');
+  static final appointMobileKey = find.byValueKey('appointMobileKey');
+  static final appointAddressKey = find.byValueKey('appointAddressKey');
+  static final appointGenderKey = find.byValueKey('appointGenderKey');
+  static final appointBirthDateKey = find.byValueKey('appointBirthDateKey');
+
+
 }

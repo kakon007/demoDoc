@@ -145,6 +145,7 @@ class _AddPatientState extends State<AddPatient> {
       child: SignUpFormField(
         validator: Validator().nullFieldValidate,
         controller: _name,
+        textFieldKey: Key('appointNameKey'),
         margin: EdgeInsets.all(2),
         labelText: "Name",
         isRequired: true,
@@ -157,6 +158,7 @@ class _AddPatientState extends State<AddPatient> {
       child: SignUpFormField(
         validator: Validator().validateEmail,
         controller: _email,
+        textFieldKey: Key('appointEmailKey'),
         margin: EdgeInsets.only(bottom: 2),
         isRequired: true,
         labelText: "Email",
@@ -172,6 +174,7 @@ class _AddPatientState extends State<AddPatient> {
         margin: EdgeInsets.only(bottom: 2),
         isRequired: true,
         labelText: "Mobile",
+        textFieldKey: Key('appointMobileKey'),
         hintText: StringResources.mobileNumber,
         labelFontSize: isTablet? 15 : 12,
         hintSize: isTablet? 18 : 15,
@@ -183,6 +186,7 @@ class _AddPatientState extends State<AddPatient> {
         controller: _address,
         margin: EdgeInsets.only(bottom: 2),
         isRequired: true,
+        textFieldKey: Key('appointAddressKey'),
         labelText: "Address",
         hintText: StringResources.address,
         labelFontSize: isTablet? 15 : 12,
@@ -224,6 +228,7 @@ class _AddPatientState extends State<AddPatient> {
                       width: MediaQuery.of(context).size.width * .32,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
+                          key: Key('appointGenderKey'),
                           icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedGender != null  ?  Colors.black54: HexColor("#D2D2D2"),),
                           iconSize:isTablet? 30 : 25,
                           decoration:
@@ -340,6 +345,7 @@ class _AddPatientState extends State<AddPatient> {
               )
             ],
           ),
+          key: Key('appointBirthDateKey'),
           onTap: () {
             selectBirthDate(context);
           },
@@ -469,6 +475,7 @@ class _AddPatientState extends State<AddPatient> {
                             isExpanded: true,
                             hint: Text(
                               "Select Type",
+                              key: Key('selectAddPatientType'),
                               style: GoogleFonts.roboto(
                                   fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
                             ),
@@ -587,6 +594,7 @@ class _AddPatientState extends State<AddPatient> {
                               isExpanded: true,
                               hint: Text(
                                 "Select your family member",
+                                key: Key('familyMemberSelectKey'),
                                 style: GoogleFonts.roboto(
                                     fontSize: isTablet? 18 : 15, color: familyVm.isSelected && memberList ? Colors.white : HexColor("#D2D2D2")),
                               ),
@@ -694,6 +702,7 @@ class _AddPatientState extends State<AddPatient> {
                       width: isTablet? width*.82 : width * .73,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
+                          key: Key('consultTypeAddPatientKey'),
                           icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedConsultation != null ?  Colors.black54: HexColor("#D2D2D2"),),
                           iconSize:isTablet? 30 : 25,
                           hint: Text(
@@ -781,7 +790,7 @@ class _AddPatientState extends State<AddPatient> {
                       width: isTablet? width*.82 : width * .73,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
-
+key: Key('consultTypeForMeKey'),
                           icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedConsultationForMe != null  ?  Colors.black54: HexColor("#D2D2D2"),),
                           iconSize:isTablet? 30 : 25,
                           decoration:
@@ -865,6 +874,7 @@ class _AddPatientState extends State<AddPatient> {
               children: [
                 Text(
                   vm.consultationFee,
+                  key: Key('consultFeeAddPatient'),
                   style: GoogleFonts.poppins(
                       color: AppTheme.appbarPrimary,
                       fontSize: isTablet? 40: 30,
@@ -913,6 +923,7 @@ class _AddPatientState extends State<AddPatient> {
               children: [
                 Text(
                   vm.consultationFeeForMe,
+                  key: Key('consultFeeFroMe'),
                   style: GoogleFonts.poppins(
                       color: AppTheme.appbarPrimary,
                       fontSize: isTablet? 40: 30,
@@ -1090,6 +1101,7 @@ class _AddPatientState extends State<AddPatient> {
               });
             }
           },
+          key: Key('confirmBookingKey'),
           child: Container(
             child: Material(
               child: Container(
@@ -1130,8 +1142,8 @@ class _AddPatientState extends State<AddPatient> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           isTablet? SizedBox() : spaceBetween,
-                          //vm.forMe== false ? membersList : SizedBox(),
-                          vm.forMe ? patientTypeForMe : membersTypeList,
+                          //vm.forMe ? patientTypeForMe : membersTypeList,
+                          vm.forMe ? SizedBox() : membersTypeList,
                           selectedMemberType == "Family Member" || vm.forMe || (vm.addPatient && selectedMemberType=="") || (vm.addPatient && selectedMemberType=="Others")? spaceBetween : SizedBox(),
                           vm.forMe == false &&
                               selectedMemberType == "Family Member"
@@ -1150,9 +1162,9 @@ class _AddPatientState extends State<AddPatient> {
                               : selectedMemberType == "Others"
                               ? SizedBox()
                               : spaceBetween,
-                          vm.forMe == false && selectedMemberType != "" && familyVm.isSelected
-                              ? patientTypeAdd
-                              : SizedBox(),
+                          // vm.forMe == false && selectedMemberType != "" && familyVm.isSelected
+                          //     ? patientTypeAdd
+                          //     : SizedBox(),
                           selectedMemberType == ""
                               ? SizedBox()
                               : vm.forMe

@@ -41,9 +41,10 @@ import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'features/user_profile/view_model/family_members_view_model.dart';
 import 'features/user_profile/view_model/relationship_view_model.dart';
 import 'features/user_profile/view_model/user_image_view_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp();
 
   FlavorConfig(
       flavor: Flavor.DEV,

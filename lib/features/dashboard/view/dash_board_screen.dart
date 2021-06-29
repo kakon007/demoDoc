@@ -61,6 +61,8 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:plain_notification_token/plain_notification_token.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 class DashboardScreen extends StatefulWidget {
@@ -119,27 +121,78 @@ class _DashboardScreenState extends State<DashboardScreen>
     }
 
   }
+  final plainNotificationToken = PlainNotificationToken();
 
   Future setDeviceTokenForNotification({String accessToken,String userNo,String userName,String doviceToken})async{
+    print('Get called');
     var headers = {
-      'Authorization': 'Bearer 592dd17f-04f7-4482-9e28-90ff95744f27',
+      'Authorization': 'Bearer $accessToken',
       'Content-Type': 'text/plain'
     };
     var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/auth-api/api/device/set-device-token'));
-    request.body = '''{\n"userNo" : "2000059",\n"userName" : "MH22012014368",\n"doviceToken" : "fOZeM5lTSHOT4i4saAN3k0:APA91bHtAfo3A2UIWCpTdLVhtKzwlKZVFGEZ6Z4NxMSTGy4WTuOpIMQlleKsGpORQ7f_FTZxA6GKiUTN9Icjs6oS17CYff-rJnJJL6mXuQREmtXnxcRVci1z24F6kIj2mWBVs5brG0fZ"\n\n}\n''';
+    request.body = '''{\n"userNo" : "$userNo",\n"userName" : "$userName",\n"doviceToken" : "$doviceToken"\n\n}\n''';
     request.headers.addAll(headers);
+    print('Token'+doviceToken);
+    print('Token'+userName);
+    print('Token'+userNo);
 
     http.StreamedResponse response = await request.send();
-
+print("StatusCode ${response.statusCode}");
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      var body=await response.stream.bytesToString();
+      print('bodyyy:: $body');
+      return body;
     }
     else {
     print(response.reasonPhrase);
     }
   }
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+   getToken()async{
+    // // (iOS Only) Need requesting permission of Push Notification.
+    // if (Platform.isIOS) {
+    //   plainNotificationToken.requestPermission();
+    //
+    //   // If you want to wait until Permission dialog close,
+    //   // you need wait changing setting registered.
+    //   await plainNotificationToken.onIosSettingsRegistered.first;
+    // }
 
+     String token = await _firebaseMessaging.getToken();
+    print("Tokenfcm"+token);
+    return token;
+  }
 
+  // void firebaseCloudMessaging_Listeners() {
+  //   //if (Platform.isIOS) iOS_Permission();
+  //
+  //   _firebaseMessaging.getToken().then((token){
+  //     print(token);
+  //   });
+  //
+  //   _firebaseMessaging.configure(
+  //     onMessage: (Map<String, dynamic> message) async {
+  //       print('on message $message');
+  //     },
+  //     onResume: (Map<String, dynamic> message) async {
+  //       print('on resume $message');
+  //     },
+  //     onLaunch: (Map<String, dynamic> message) async {
+  //       print('on launch $message');
+  //     },
+  //   );
+  // }
+
+  // void iOS_Permission() {
+  //   _firebaseMessaging.requestPermission(
+  //       IosNotificationSettings(sound: true, badge: true, alert: true)
+  //   );
+  //   _firebaseMessaging.onIosSettingsRegistered
+  //       .listen((IosNotificationSettings settings)
+  //   {
+  //     print("Settings registered: $settings");
+  //   });
+  // }
   @override
   void initState() {
     var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: false);
@@ -150,8 +203,13 @@ class _DashboardScreenState extends State<DashboardScreen>
         await vm19.getData();
         var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
         await vm9.getData(vm19.userDetailsList.hospitalNumber);
+        if(accessTokenVm.accessToken!=null){
+          setDeviceTokenForNotification(doviceToken:await getToken(),accessToken: accessTokenVm.accessToken,userName: vm19.userDetailsList.hospitalNumber,userNo: vm19.userDetailsList.ssModifier.toString());
+        }
       });
     }
+    // var vm20 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+    // vm20.getData();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
@@ -169,6 +227,9 @@ class _DashboardScreenState extends State<DashboardScreen>
     vm7.getData();
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
+    // Future.delayed(Duration.zero, () async {
+    //
+    // });
 
 
     //lastTme();

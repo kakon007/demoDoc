@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_banner.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async{
-  await WidgetsFlutterBinding.ensureInitialized();
+   WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp();
   //await FlutterDownloader.initialize(debug: true);
   // user trust SSL certificate for jobxprss.com
 

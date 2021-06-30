@@ -47,13 +47,14 @@ class _AddPatientState extends State<AddPatient> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     accessToken = prefs.getString('accessToken');
   }
-
+  String formatBirthDate = 'Birthdate';
   final List<PatientItem> patientTypeList = List<PatientItem>();
   final List<ConsultType> consultTypeList = List<ConsultType>();
   DateTime pickBirthDate;
 
   Future<Null> selectBirthDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
+      //initialDatePickerMode: DatePickerMode.year,
       context: context,
       builder: (BuildContext context, Widget child) {
         return Theme(
@@ -73,6 +74,8 @@ class _AddPatientState extends State<AddPatient> {
 
     if (date != null && date != pickBirthDate) {
       setState(() {
+        birthDateBorderColor = "#EAEBED";
+        formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
         pickBirthDate = date;
       });
     }
@@ -83,6 +86,7 @@ class _AddPatientState extends State<AddPatient> {
   String _selectedGender;
   String color = "#EAEBED";
   var genderBorderColor = "#EAEBED";
+  var birthDateBorderColor = "#EAEBED";
   var memberBorderColor = "#EAEBED";
   var patientBorderColor = "#EAEBED";
   var consultBorderColor = "#EAEBED";
@@ -282,7 +286,6 @@ class _AddPatientState extends State<AddPatient> {
         ),
       ],
     );
-    String formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
     String birthDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
     var dateOfBirth = Row(
       children: [
@@ -311,7 +314,7 @@ class _AddPatientState extends State<AddPatient> {
                 width: MediaQuery.of(context).size.width * .36,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: HexColor(color)),
+                    border: Border.all(color: HexColor(birthDateBorderColor)),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -319,10 +322,10 @@ class _AddPatientState extends State<AddPatient> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Text(
-                        pickBirthDate == DateTime.now()
-                            ? "Date of birth"
-                            : "$formatBirthDate",
-                        style: TextStyle(fontSize: isTablet? 18 : 15),
+                             "$formatBirthDate",
+                        style: TextStyle(fontSize: isTablet? 18 : 15, color: formatBirthDate== 'Birthdate'
+                            ? HexColor("#D2D2D2")
+                              : Colors.black),
                       ),
                     ),
                     Padding(
@@ -335,14 +338,18 @@ class _AddPatientState extends State<AddPatient> {
                   ],
                 ),
               ),
-              genderBorderColor != "#FF0000"
+              birthDateBorderColor != "#FF0000"
                   ? SizedBox(
                 width: 2,
               )
                   : Padding(
-                padding: const EdgeInsets.only(left: 0, top: 8, right: 0),
-                child: Text(""),
-              )
+                  padding:
+                  const EdgeInsets.only(left: 16, top: 8, right: 0),
+                  child: Text(
+                    "This Field Is Required",
+                    style: GoogleFonts.poppins(
+                        color: Colors.red, fontSize: 11),
+                  )),
             ],
           ),
           key: Key('appointBirthDateKey'),
@@ -962,7 +969,7 @@ key: Key('consultTypeForMeKey'),
         GestureDetector(
           onTap: () async {
             //_showSuccessAlert(context);
-            if (selectedConsultationTypeForMe != "" ||
+            if (selectedConsultationTypeForMe != "" || formatBirthDate!='Birthdate' ||
                 (vm.forMe == false && selectedGender != "") || selectedConsultationType != "" ||
             (selectedConsultationType != "" &&
                     (vm.forMe == false && selectedMemberType != "") &&
@@ -970,6 +977,9 @@ key: Key('consultTypeForMeKey'),
               setState(() {
                 if (selectedGender != "") {
                   genderBorderColor = "#EAEBED";
+                }
+                if(formatBirthDate!='Birthdate'){
+                  birthDateBorderColor = "#EAEBED";
                 }
                 if (familyVm.familyMemName != "") {
                   memberBorderColor = "#EAEBED";
@@ -1086,8 +1096,12 @@ key: Key('consultTypeForMeKey'),
                 if (vm.forMe == false && selectedGender == "") {
                   genderBorderColor = "#FF0000";
                 }
+                if (vm.forMe == false && formatBirthDate == "Birthdate") {
+                  birthDateBorderColor = "#FF0000";
+                }
                 if (vm.forMe == false && selectedMemberType == "") {
                   patientBorderColor = "#FF0000";
+
                 }
                 if (vm.forMe == false && familyVm.familyMemName == "") {
                   memberBorderColor = "#FF0000";
@@ -1192,6 +1206,7 @@ key: Key('consultTypeForMeKey'),
                               Container(
                                 width: isTablet? width*.86  : width*.79,
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [

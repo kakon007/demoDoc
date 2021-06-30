@@ -35,12 +35,12 @@ class _CustomBlogWidgetState extends State<CustomBlogWidget> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  height: width<=1250 && width>=1000 ? 140 : width<=999 && width>=650?  115 : 100,
-                  width: width<=1250 && width>=1000 ? 110 : width<=999 && width>=650?  105 : 90,
+                  height: width<=1250 && width>=1000 ? 140 : width<=999 && width>=650?  115 : 80,
+                  width: width<=1250 && width>=1000 ? 110 : width<=999 && width>=650?  105 : 80,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.memory(widget.logo,gaplessPlayback: true,)),
+                  child: Image.memory(widget.logo,gaplessPlayback: true,fit: BoxFit.fill,)),
             ),
             Flexible(
               child: Padding(

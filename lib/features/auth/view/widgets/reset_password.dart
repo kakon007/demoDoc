@@ -114,10 +114,10 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                 maxHeight: !isExpanded
                     ? isTablet
                         ? 400
-                        : 300
+                        : isValidCredential? 285 : 305
                     : isTablet
                         ? 380
-                        : 360),
+                        : 305),
             child: Material(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -215,10 +215,12 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                                             Navigator.pop(context);
                                             _successAlert(context);
                                           }
+                                          else{
+                                            isValidCredential = false;
+                                          }
                                         } else {
                                           setState(() {
                                             isExpanded = true;
-                                            isValidCredential = false;
                                           });
                                         }
                                       },

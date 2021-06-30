@@ -156,7 +156,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var width = MediaQuery.of(context).size.width;
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
-    print(MediaQuery.of(context).size.width);
+    // print('shakil ${MediaQuery.of(context).size.width}');
     bool isMobile = Responsive.isMobile(context);
     int _crossAxisCount = width >850 ? 6 : width <=850 && width>=650 ? 5 : width> 360 ? 4 :width <= 360 && width >= 300 ? 3 : 2;
     double _crossAxisSpacing = isTablet? 12 : MediaQuery.of(context).size.height > 550? 8 : 3,
@@ -174,14 +174,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var jobTitle=   doctorInformation?.jobtitle??"";
     var photo= doctorInformation?.doctorPhoto??"";
     var consultFee= doctorInformation?.consultationFee??'';
-    // if (pickedAppointDate != pickedAppointDate2) {
-    //   vm.getSlots(
-    //       pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-    //   pickedAppointDate2 = pickedAppointDate;
-    //   //startTimer();
-    //   selectedCard = -1;
-    //   isSelected = false;
-    // }
     List<Items> list = vm.slotList;
     var spaceBetween = SizedBox(
       height: 10,

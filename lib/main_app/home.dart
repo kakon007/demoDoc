@@ -17,6 +17,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashBoard_prompt.d
 import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashboard_prompt_for_patient_profile.dart';
 import 'package:provider/provider.dart';
 import '../features/appointment_history/view/get_appointment_screen.dart';
+import 'package:location/location.dart';
 class HomeScreen extends StatefulWidget {
   String accessToken;
   bool connection;
@@ -51,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   // bool isNotNave;
   FocusNode f1=FocusNode();
 
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -82,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     ];
     //_animationController.forward();
     //screenShots=screens.values.toList();
+
   }
 
   @override

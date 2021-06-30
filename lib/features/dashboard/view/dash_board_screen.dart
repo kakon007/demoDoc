@@ -8,6 +8,7 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:myhealthbd_app/features/appointments/models/book_appointment_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -25,6 +26,7 @@ import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dar
     as hos;
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
@@ -65,12 +67,14 @@ import 'package:plain_notification_token/plain_notification_token.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 
+
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
   bool isDrawerOpen;
   String accessToken;
   final Function onTapFeaturedCompany;
   final Function onTapFeaturedAppointment;
+  //LocationData locationData;
 
 
   DashboardScreen(
@@ -79,6 +83,7 @@ class DashboardScreen extends StatefulWidget {
       this.accessToken,
       this.onTapFeaturedCompany,
       this.onTapFeaturedAppointment
+      //this.locationData
       });
 
   @override
@@ -87,6 +92,11 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen>
     with SingleTickerProviderStateMixin {
+  Location location = new Location();
+
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
+  LocationData _currentPosition;
   File imageData;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = new GlobalKey<ScaffoldState>();
@@ -121,7 +131,9 @@ class _DashboardScreenState extends State<DashboardScreen>
     }
 
   }
-  final plainNotificationToken = PlainNotificationToken();
+  //final plainNotificationToken = PlainNotificationToken();
+
+  //GetDeviceToken///
 
   Future setDeviceTokenForNotification({String accessToken,String userNo,String userName,String doviceToken})async{
     print('Get called');
@@ -193,6 +205,59 @@ print("StatusCode ${response.statusCode}");
   //     print("Settings registered: $settings");
   //   });
   // }
+
+  ////Location////
+
+
+
+  // getLocationPermission() async{
+  //   _serviceEnabled = await location.serviceEnabled();
+  //   if (!_serviceEnabled) {
+  //     _serviceEnabled = await location.requestService();
+  //     if (!_serviceEnabled) {
+  //       return;
+  //     }
+  //   }
+  //
+  //   _permissionGranted = await location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await location.requestPermission();
+  //     if (_permissionGranted != PermissionStatus.granted) {
+  //       return;
+  //     }
+  //   }
+  //  // locationData = await location.getLocation();
+  //   print('LocationData ${locationData.latitude}');
+  //   print('LocationData ${locationData.longitude}');
+  // }
+
+  getLocationPermission() async{
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _currentPosition = await location.getLocation();
+    var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
+    vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
+    print('Jahid ${_currentPosition?.longitude}');
+
+  }
+
   @override
   void initState() {
     var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: false);
@@ -227,6 +292,10 @@ print("StatusCode ${response.statusCode}");
     vm7.getData();
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
+    getLocationPermission();
+    // var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
+    // vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
+    // print('Jahid ${_currentPosition?.longitude}');
     // Future.delayed(Duration.zero, () async {
     //
     // });
@@ -285,6 +354,8 @@ print("StatusCode ${response.statusCode}");
     var vm6 = Provider.of<HospitalImageViewModel>(context);
     var vm7 = Provider.of<NewsLogoViewModel>(context);
     var vm8 = Provider.of<BLogLogoViewModel>(context);
+
+    var vm9 = appNavigator.getProviderListener<NearestHospitalViewModel>();
 
 
     // List<Item> list5 = vm5.hospitalLogoList;
@@ -705,6 +776,103 @@ print("StatusCode ${response.statusCode}");
                                     SizedBox(
                                       height: 10,
                                     ),
+                                    _currentPosition!=null?vm9.shouldShowPageLoader ||
+                                        vm5.shouldShowPageLoader ||
+                                        vm6.shouldShowPageLoaderForImage
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Container(
+                                          width: 1510,
+                                          height:  120.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.white,
+                                            child: Row(
+                                                children: List.generate(
+                                                    5,
+                                                        (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ),
+                                        ),
+                                      ),
+                                    ) : SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            ...List.generate(
+                                                vm9.hospitalList2.length,
+                                                    (i) {
+                                                  int index = vm5
+                                                      .hospitalLogoList
+                                                      .indexWhere((element) =>
+                                                  element.id ==
+                                                      vm9.hospitalList2[i].id);
+                                                  int imageindex = vm6
+                                                      .hospitalImageList
+                                                      .indexWhere((element) =>
+                                                  element.id ==
+                                                      vm9.hospitalList2[i].id);
+                                                  return CustomCard(
+                                                    loadLogo(vm5
+                                                        .hospitalLogoList[
+                                                    index]
+                                                        .photoLogo),
+                                                    vm6
+                                                        .hospitalImageList[
+                                                    imageindex]
+                                                        .photoImg !=
+                                                        null
+                                                        ? loadImage(vm6
+                                                        .hospitalImageList[
+                                                    imageindex]
+                                                        .photoImg)
+                                                        : loadLogo(vm5
+                                                        .hospitalLogoList[
+                                                    index]
+                                                        .photoLogo),
+                                                    vm9.hospitalList2[i].companyName,
+                                                    vm9.hospitalList2[i].companyAddress ==
+                                                        null
+                                                        ? "Mirpur,Dahaka,Bangladesh"
+                                                        : vm9.hospitalList2[i]
+                                                        .companyAddress,
+                                                    "60 Doctors",
+                                                    vm9.hospitalList2[i].companyPhone ==
+                                                        null
+                                                        ? "+880 1962823007"
+                                                        : vm9.hospitalList2[i]
+                                                        .companyPhone,
+                                                    vm9.hospitalList2[i].companyEmail ==
+                                                        null
+                                                        ? "info@mysoftitd.com"
+                                                        : vm9.hospitalList2[i]
+                                                        .companyEmail,
+                                                    vm9.hospitalList2[i].companyLogo,
+                                                    vm9.hospitalList2[i].companyId,
+                                                    vm9.hospitalList2[i].ogNo.toString(),
+                                                    vm9.hospitalList2[i].id.toString(),
+                                                  );
+                                                }),
+                                          ],
+                                        ),
+                                      ),
+                                    ):
                                     vm.shouldShowPageLoader ||
                                             vm5.shouldShowPageLoader ||
                                             vm6.shouldShowPageLoaderForImage

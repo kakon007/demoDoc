@@ -13,6 +13,7 @@ import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_
 import 'package:myhealthbd_app/features/dashboard/view_model/nearest_appointment_card_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/document_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/file_type_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
@@ -99,6 +100,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<SharedFileViewModel>(create: (context) =>  SharedFileViewModel()),
       ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) =>  SearchDoctorViewModel()),
       ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) =>  ResetPasswordViewModel()),
+      ChangeNotifierProvider<NearestHospitalViewModel>(create: (context) =>  NearestHospitalViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

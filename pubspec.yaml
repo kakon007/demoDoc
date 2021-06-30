@@ -73,6 +73,7 @@ dependencies:
   plain_notification_token: ^0.0.1
   firebase_messaging: ^10.0.2
   firebase_core: ^1.3.0
+  location: ^4.3.0
   #searchable_dropdown: ^1.1.3
 
 

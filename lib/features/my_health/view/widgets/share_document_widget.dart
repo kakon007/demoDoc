@@ -244,71 +244,7 @@ class _ShareDocumentState extends State<ShareDocument> {
       ],
     );
 
-    // var searchDropdown = Row(
-    //   children: [
-    //     GestureDetector(
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           // Container(
-    //           //     height: 35.0,
-    //           //     width: MediaQuery.of(context).size.width*.6,
-    //           //     child: Padding(
-    //           //       padding: const EdgeInsets.only(top:8.0,left:5,right:10),
-    //           //       child: Text("Document Type",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#333132'),fontSize: 12),),
-    //           //     )),
-    //           Container(
-    //             height: 70.0,
-    //             width:MediaQuery.of(context).size.width*.89,
-    //             decoration: BoxDecoration(
-    //                 color: Colors.transparent,
-    //                 border: Border.all(color: HexColor(color)),
-    //                 borderRadius: BorderRadius.circular(25)),
-    //             child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               children: [
-    //                 Stack(
-    //                   children: [
-    //                     Padding(
-    //                       padding: const EdgeInsets.only(left: 15.0),
-    //                       child: Container(
-    //                         width: 280,
-    //                         child:
-    //                         SearchableDropdown(
-    //                           items: StringResources.memberList.map((item) {
-    //                             return  DropdownMenuItem(
-    //                                 child: Text(item), value: item);
-    //                           }).toList(),
-    //                           isExpanded: true,
-    //                           value: selectedSearchValue,
-    //                           isCaseSensitiveSearch: true,
-    //                           searchHint:  Text(
-    //                             'Select ',
-    //                             style:  TextStyle(fontSize: 20),
-    //                           ),
-    //                           onChanged: (value) {
-    //                             setState(() {
-    //                               selectedSearchValue = value;
-    //                               print("search Value:: $selectedSearchValue");
-    //                             });
-    //                           },
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     // Padding(
-    //                     //   padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.75, top: 5),
-    //                     //   child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#8592E5"),size: 30,),
-    //                     // ),
-    //                   ],
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
+
 
     var shareType = Row(
       children: [
@@ -447,7 +383,7 @@ class _ShareDocumentState extends State<ShareDocument> {
            SizedBox(
              width: 10,
            ),
-           vm2.image != null
+           vm2.doctorInfo[index].photo != null
                ? Container(
                decoration: BoxDecoration(
                  border: Border.all(color: AppTheme.appbarPrimary),
@@ -457,7 +393,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
                width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
                child: Center(
-                   child: loadProfileImage(vm2.image, 45, 45,50)
+                   child: loadProfileImage(vm2.doctorInfo[index].photo, 45, 45,50)
                ))
                : Container(
                decoration: BoxDecoration(

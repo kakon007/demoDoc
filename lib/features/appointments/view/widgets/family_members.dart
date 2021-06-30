@@ -122,7 +122,6 @@ class _FamilyMembersState extends State<FamilyMembers> {
                     itemBuilder: (BuildContext context, int index) {
                       var photo =
                           familyVm.familyMembersList[index]?.photo ?? "";
-                      print("photo $photo");
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -161,7 +160,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                             });
                           });
                         },
-                        key:Key('selectFamilyMemberKey'),
+                        key:Key('selectFamilyMemberKey$index'),
                         child: Container(
                             decoration: BoxDecoration(
                               color: index % 2 == 0

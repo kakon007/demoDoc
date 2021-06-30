@@ -62,7 +62,7 @@ class _SignUpState extends State<SignUp> {
           child: child,
         );
       },
-      initialDate: DateTime.now(),
+      initialDate: pickedDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
@@ -81,7 +81,7 @@ class _SignUpState extends State<SignUp> {
       accountsList = await dbmManager.getAccountList();
     });
     super.initState();
-    pickedDate = DateTime(2003);
+    pickedDate = DateTime.now();
   }
 
   bool isTappedSignUpButton = false;
@@ -103,6 +103,7 @@ class _SignUpState extends State<SignUp> {
       controller: _name,
       validator: Validator().nullFieldValidate,
       margin: EdgeInsets.all(2),
+      textFieldKey: Key('signUpNameKey'),
       labelText: "Name",
       isRequired: true,
       labelFontSize: isTablet ? 15 : 12,
@@ -112,6 +113,7 @@ class _SignUpState extends State<SignUp> {
     var email = SignUpFormField(
       topPadding: isTablet ? 30 : 25,
       controller: _email,
+      textFieldKey: Key('signUpEmailKey'),
       validator: Validator().validateEmail,
       hintSize: isTablet ? 17 : 14,
       margin: EdgeInsets.only(bottom: 2),
@@ -123,6 +125,7 @@ class _SignUpState extends State<SignUp> {
     var mobile = SignUpFormField(
       topPadding: isTablet ? 30 : 25,
       controller: _mobile,
+      textFieldKey: Key('signUpMobileKey'),
       validator: Validator().validatePhoneNumber,
       labelFontSize: isTablet ? 15 : 12,
       hintSize: isTablet ? 17 : 14,
@@ -146,6 +149,7 @@ class _SignUpState extends State<SignUp> {
     var address = SignUpFormField(
       topPadding: isTablet ? 30 : 25,
       controller: _address,
+      textFieldKey: Key('signUpAddressKey'),
       validator: Validator().nullFieldValidate,
       labelFontSize: isTablet ? 15 : 12,
       hintSize: isTablet ? 17 : 14,
@@ -228,6 +232,7 @@ class _SignUpState extends State<SignUp> {
           onTap: () {
             selectDate(context);
           },
+          key: Key('signUpBirthDateKey'),
         ),
       ],
     );
@@ -271,6 +276,7 @@ class _SignUpState extends State<SignUp> {
                       width: width * .87,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
+                          key: Key('signUpGenderKey'),
                           icon: Icon(
                             Icons.keyboard_arrow_down_sharp,
                             color: _selectedGender != null
@@ -400,6 +406,7 @@ class _SignUpState extends State<SignUp> {
             });
           }
         },
+        key: Key('signUpButtonKey'),
         child: Material(
           elevation: 2,
           shape:
@@ -444,6 +451,7 @@ class _SignUpState extends State<SignUp> {
               onTap: () {
                 Navigator.pop(context);
               },
+              key: Key('signInKey'),
               child: Text(
                 StringResources.signInText,
                 style: TextStyle(
@@ -541,6 +549,7 @@ class _SignUpState extends State<SignUp> {
                               Center(
                                   child: Text(
                                 StringResources.createAccount,
+                                key: Key('createAnAccountKey'),
                                 style: TextStyle(
                                     color: HexColor("#0D1231"),
                                     fontSize: isTablet ? 25 : 20.0,
@@ -740,6 +749,7 @@ class _SignUpState extends State<SignUp> {
                             color: AppTheme.appbarPrimary,
                             child: Text(
                               "OK",
+                              key: Key('signUpOKButtonKey'),
                               style: GoogleFonts.poppins(color: Colors.white),
                             ))
                       ],

@@ -50,7 +50,7 @@ class _AddPatientState extends State<AddPatient> {
   String formatBirthDate = 'Birthdate';
   final List<PatientItem> patientTypeList = List<PatientItem>();
   final List<ConsultType> consultTypeList = List<ConsultType>();
-  DateTime pickBirthDate;
+  DateTime pickBirthDate= DateTime.now();
 
   Future<Null> selectBirthDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
@@ -67,7 +67,7 @@ class _AddPatientState extends State<AddPatient> {
           child: child,
         );
       },
-      initialDate: DateTime.now(),
+      initialDate: pickBirthDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
@@ -75,8 +75,8 @@ class _AddPatientState extends State<AddPatient> {
     if (date != null && date != pickBirthDate) {
       setState(() {
         birthDateBorderColor = "#EAEBED";
-        formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
         pickBirthDate = date;
+        formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
       });
     }
   }
@@ -199,6 +199,7 @@ class _AddPatientState extends State<AddPatient> {
     var gender = Row(
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
                 height: 20.0,
@@ -242,6 +243,7 @@ class _AddPatientState extends State<AddPatient> {
                           isExpanded: true,
                           hint: Text(
                             StringResources.gender,
+                            key: Key('genderHintTextKey'),
                             style: GoogleFonts.roboto(
                                 fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
                           ),
@@ -279,7 +281,7 @@ class _AddPatientState extends State<AddPatient> {
               child: Text(
                 "This Field Is Required",
                 style: GoogleFonts.poppins(
-                    color: Colors.red, fontSize: 12),
+                    color: Colors.red, fontSize: 11),
               ),
             )
           ],
@@ -323,7 +325,7 @@ class _AddPatientState extends State<AddPatient> {
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Text(
                              "$formatBirthDate",
-                        style: TextStyle(fontSize: isTablet? 18 : 15, color: formatBirthDate== 'Birthdate'
+                        style: TextStyle(fontSize: isTablet? 18 : 13, color: formatBirthDate== 'Birthdate'
                             ? HexColor("#D2D2D2")
                               : Colors.black),
                       ),
@@ -473,6 +475,7 @@ class _AddPatientState extends State<AddPatient> {
                         width: isTablet? width*.82 : width * .73,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
+                            key: Key('selectAddPatientType'),
                             icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedMemberType != null  ?  Colors.black54: HexColor("#D2D2D2"),),
                             iconSize: isTablet? 30 : 25,
                             decoration:
@@ -482,7 +485,7 @@ class _AddPatientState extends State<AddPatient> {
                             isExpanded: true,
                             hint: Text(
                               "Select Type",
-                              key: Key('selectAddPatientType'),
+                              key: Key('selectTypeHintKey'),
                               style: GoogleFonts.roboto(
                                   fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
                             ),
@@ -589,6 +592,7 @@ class _AddPatientState extends State<AddPatient> {
                           width: isTablet? width*.82 : width * .73,
                           child: DropdownButtonHideUnderline(
                             child: DropdownButtonFormField(
+                              key: Key('familyMemberSelectKey'),
                               icon: Icon(   familyVm.isSelected && memberList
                                   ? Icons.keyboard_arrow_right_outlined
                                   : Icons.keyboard_arrow_down_sharp,
@@ -601,7 +605,7 @@ class _AddPatientState extends State<AddPatient> {
                               isExpanded: true,
                               hint: Text(
                                 "Select your family member",
-                                key: Key('familyMemberSelectKey'),
+                                key: Key('familyMemberHintKey'),
                                 style: GoogleFonts.roboto(
                                     fontSize: isTablet? 18 : 15, color: familyVm.isSelected && memberList ? Colors.white : HexColor("#D2D2D2")),
                               ),
@@ -714,6 +718,7 @@ class _AddPatientState extends State<AddPatient> {
                           iconSize:isTablet? 30 : 25,
                           hint: Text(
                             StringResources.consultationTypeText,
+                            key: Key('consultTypeHintTextKey'),
                             style: GoogleFonts.roboto(
                                 fontSize: isTablet ? 18 : 15, color: HexColor("#D2D2D2")),
                           ),

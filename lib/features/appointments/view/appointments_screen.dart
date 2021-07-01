@@ -70,24 +70,23 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     if (date != null && date != pickedAppointDate) {
       setState(() {
         pickedAppointDate = date;
-        var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
-        Future.delayed(Duration.zero, () async {
-          await vm.getSlotGenerateInfo(
-              date, widget.companyNo, widget.doctorNo, widget.orgNo);
-          if(vm.slotGenerateMessage=='Slot Successfully Generated!'){
-            await vm.getSlots(
-                pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-          }
-          //pickedAppointDate2 = pickedAppointDate;
-          length= vm.slotList.length;
-          selectedCard = -1;
-          isSelected = false;
-        });
       });
     }
-    // if (pickedAppointDate != pickedAppointDate2) {
-    //
-    // }
+    if (pickedAppointDate != pickedAppointDate2) {
+      var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+      Future.delayed(Duration.zero, () async {
+        await vm.getSlotGenerateInfo(
+          date, widget.companyNo, widget.doctorNo, widget.orgNo);
+      if(vm.slotGenerateMessage=='Slot Successfully Generated!'){
+        await vm.getSlots(
+            pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      }
+        pickedAppointDate2 = pickedAppointDate;
+        length= vm.slotList.length;
+        selectedCard = -1;
+        isSelected = false;
+      });
+    }
   }
 
   int selectedCard = -1;
@@ -147,6 +146,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         await vm.getSlots(
             pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
       }
+
       doctorInformation = vm.doctorInfo;
       length = vm.slotList.length;
       vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");

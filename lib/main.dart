@@ -47,7 +47,6 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  FlavorConfig(
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     FlavorConfig(
       flavor: Flavor.DEV,

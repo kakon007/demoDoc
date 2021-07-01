@@ -52,11 +52,6 @@ class BLogLogoViewModel extends ChangeNotifier{
 
   bool get isFetchingMoreData => _isFetchingMoreData;
 
-  // bool get hasMoreData => _hasMoreData;
-  //
-  // bool get shouldFetchMoreData =>
-  //     _hasMoreData && !_isFetchingData && !_isFetchingMoreData;
-
   bool get shouldShowPageLoader =>
       _isFetchingData && _blogLogoList.length == 0;
 

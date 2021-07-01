@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:http/http.dart' as http;
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
 import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
+import 'package:myhealthbd_app/features/auth/model/reset_passwod_model.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_out_model.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_up_model.dart';
@@ -15,23 +17,26 @@ class AuthRepository {
     String password = 'secret';
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url =
-        "${Urls.buildUrl}auth-api/oauth/token?username=$user&password=$pass&grant_type=password";
+        "${Urls.baseUrl}auth-api/oauth/token?username=$user&password=$pass&grant_type=password";
+    //BotToast.showLoading();
     var response =
         await http.post(Uri.parse(url), headers: <String, String>{'authorization': basicAuth});
     if (response.statusCode == 200) {
       print(response.body);
       SignInModel data = signInModelFromJson(response.body);
+      //BotToast.closeAllLoading();
       return Right(SignInModel(
         accessToken: data.accessToken.toString(),
       ));
     } else {
+      //BotToast.closeAllLoading();
       // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }
   }
 
   Future<Either<AppError, SignOutModel>> fetchSignOutInfo(String accessToken) async {
-    String url = "${Urls.buildUrl}auth-api/oauth/token/logout";
+    String url = "${Urls.baseUrl}auth-api/oauth/token/logout";
     var response = await http.delete(Uri.parse(url), headers: {
       'Authorization': 'Bearer $accessToken',
     });
@@ -102,6 +107,31 @@ class AuthRepository {
       //   ));
       // } else {
       //   return Left(AppError.serverError);
+    }
+  }
+
+  Future<Either<AppError, ResetPasswordModel>> fetchResetInfo(String userName, String email) async {
+    BotToast.showLoading();
+    String url =
+        "${Urls.baseUrl}online-appointment-api/fapi/registration/forgot-password";
+    final http.Response response = await http.post(
+      Uri.parse(url),
+      body: jsonEncode(<String, String>{
+        "userName"  : userName,
+        "userEmail" : email
+      }),
+    );
+    if (response.statusCode == 200) {
+      print(response.body);
+      BotToast.closeAllLoading();
+      ResetPasswordModel data = resetPasswordModelFromJson(response.body);
+      print("data $data");
+      return Right(data);
+    } else {
+      print('abs');
+      BotToast.closeAllLoading();
+      // BotToast.showText(text: StringResources.somethingIsWrong);
+      return Left(AppError.serverError);
     }
   }
 }

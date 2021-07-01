@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/registered_membe
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
@@ -51,54 +52,63 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
   }
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<RegisteredMemberViewModel>(context, listen: true);
     var userVm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: true);
     var imageVm = Provider.of<UserImageViewModel>(appNavigator.context,listen: true);
-    var searchField =Theme(
-        data: Theme.of(context).copyWith(
-          primaryColor: HexColor("#8592E5"),
-        ),
-        child: Container(
-          width: MediaQuery.of(context).size.width*.91,
-          height: 50,
-          child: TextField(
-              onSubmitted: (value) {
-                membersSearch(value);
+    var width= MediaQuery.of(context).size.width;
+    var searchField =Container(
+      width: isTablet?width*.935 :  width*.91,
+      height: 50,
+      child: TextField(
+          onSubmitted: (value) {
+            membersSearch(value);
+          },
+          key: Key('familyMemberSearchKey'),
+          controller: memberSearch,
+          decoration: new InputDecoration(
+            suffixIcon: GestureDetector(
+              onTap: (){
+                membersSearch(memberSearch.text);
               },
-              controller: memberSearch,
-              decoration: new InputDecoration(
-                suffixIcon: Icon(
-                  Icons.search,
-                  //color: HexColor("#8592E5"),
-                ),
-                hintText: "Name or Username",
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: HexColor("#8592E5"), width: 1.0),
-                  // borderRadius: BorderRadius.only(
-                  //     topLeft: Radius.circular(25),
-                  //     bottomLeft: Radius.circular(25)),
-                    borderRadius: BorderRadius.circular(25),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: HexColor("#C7C8CF"), width: 1.0),
-                  borderRadius: BorderRadius.circular(25),
-                  // borderRadius: BorderRadius.only(
-                  //     topLeft: Radius.circular(25),
-                  //     bottomLeft: Radius.circular(25)),
-                ),
-                contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 30.0, 3.0),
-              )),
-        ));
+              key: Key('familyMemberSearchButtonKey'),
+              child: Icon(
+                Icons.search,
+                //color: HexColor("#8592E5"),
+              ),
+            ),
+            hintStyle: GoogleFonts.poppins(fontSize: isTablet? 18 : 15, color: HexColor("#D2D2D2")),
+            hintText: "Name or Username",
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor("#8592E5"), width: 1.0),
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(25),
+              //     bottomLeft: Radius.circular(25)),
+                borderRadius: BorderRadius.circular(25),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor("#C7C8CF"), width: 1.0),
+              borderRadius: BorderRadius.circular(25),
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(25),
+              //     bottomLeft: Radius.circular(25)),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 30.0, 3.0),
+          )),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Search",
-          style: GoogleFonts.poppins(fontSize: 15),
+          key: Key('familyMemberSearchAppbarKey'),
+          style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 15, top: 15),
+        padding:  EdgeInsets.only(left: isTablet? 24 : 14.0, right: isTablet? 24 : 14, top: 15),
         child: Column(
           children: [
             Row(
@@ -153,7 +163,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           margin: EdgeInsets.only(top: 5, bottom: 5),
-                          height: 70,
+                          height: isTablet? 85 : 70,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -170,43 +180,48 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                         //color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: 50,
-                                      width: 50,
+                                      height: isTablet? 55 : 50,
+                                      width: isTablet? 55 : 50,
                                       child: Center(
-                                          child: imageVm.loadProfileImage(photo, 45, 45,50)
+                                          child: imageVm.loadProfileImage(photo, isTablet? 50 : 45, isTablet? 50 : 45,50)
                                       ))
                                       : Container(
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: 50,
-                                      width: 50,
+                                      height: isTablet? 55 : 50,
+                                      width: isTablet? 55 : 50,
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height: 40,
-                                          width: 40,
+                                          height: isTablet? 32 : 27,
+                                          width: isTablet? 32 : 27,
                                         ),
                                       )),
                                   SizedBox(
-                                    width: 20,
+                                    width: isTablet? 25 : width<=330? 15 : 20,
                                   ),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        familyMembers[index].fname,
-                                        style: GoogleFonts.poppins(
-                                            color: HexColor("#0D1231"),
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
+                                      Container(
+                                        width: width*.4,
+                                        child: Text(
+                                          familyMembers[index].fname,
+                                          maxLines: 1,
+                                          style: GoogleFonts.poppins(
+                                              color: HexColor("#0D1231"),
+                                              fontSize: isTablet? 18 : 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
                                       ),
                                       Text(
                                         familyMembers[index].hospitalNumber,
                                         style: GoogleFonts.poppins(
+                                          fontSize: isTablet? 17 : 15,
                                           color: AppTheme.appbarPrimary,),
                                       )
                                     ],
@@ -221,6 +236,7 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                     return AddFamilyMember(photo: photo,);
                                   }));
                                 },
+                                key: Key('addMemberKey$index'),
                                 child: Container(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -228,20 +244,21 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                       Icon(
                                         Icons.person_add,
                                         color: HexColor("#4077BC"),
+                                        size: isTablet? 30 : 25,
                                       ),
                                       Text(
                                         "Add Member",
                                         style: GoogleFonts.poppins(
                                             color: HexColor("#4077BC"),
-                                            fontSize: 11),
+                                            fontSize: isTablet? 15 :11),
                                       )
                                     ],
                                   ),
                                   decoration: BoxDecoration(
                                       color: HexColor("#D2D9FF"),
                                       borderRadius: BorderRadius.circular(10)),
-                                  width: 90,
-                                  height: 70,
+                                  width: isTablet? 110 : width<=330 ? 85 : 90,
+                                  height: isTablet? 85 : 70,
                                 ),
                               ),
                             ],

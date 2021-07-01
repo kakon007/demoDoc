@@ -25,7 +25,7 @@ import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dar
     as hos;
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
 import 'package:myhealthbd_app/features/news/view/news_screen.dart';
@@ -46,6 +46,7 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view.dart';
@@ -121,16 +122,16 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   void initState() {
-
-    Future.delayed(Duration.zero, () async {
-      await Provider.of<UserImageViewModel>(context, listen: false).userImage();
-      var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
-      await vm19.getData();
-      var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
-     await vm9.getData(vm19.userDetailsList.hospitalNumber);
-    });
-
-    // TODO: implement initState
+    var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: false);
+    if(accessTokenVm.accessToken!=null){
+      Future.delayed(Duration.zero, () async {
+        await Provider.of<UserImageViewModel>(context, listen: false).userImage();
+        var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+        await vm19.getData();
+        var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
+        await vm9.getData(vm19.userDetailsList.hospitalNumber);
+      });
+    }
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
@@ -166,7 +167,10 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   Widget build(BuildContext context) {
-    var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
+    var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: true);
     var vm = appNavigator.getProviderListener<HospitalListViewModel>();
     List<hos.Item> list = vm.hospitalList;
     var lengthofHospitalList;
@@ -184,13 +188,16 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm3 = Provider.of<VideoViewModel>(context);
     List<video.Item> list3 = vm3.videoList;
     var lengthofVideoList = list3.length;
+
+
+    var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
     // MediaQuery.of(context).size.width > 600
     //     ? lengthofVideoList = list3.length < 5 ? list3.length : 6
     //     : lengthofVideoList = list3.length < 5 ? list3.length : 5;
     print('VideoLength:::::' + lengthofVideoList.toString());
 
     var deviceHeight = MediaQuery.of(context).size.height;
-    var deviceWidth = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
 
     var vm4 = Provider.of<BLogViewModel>(context);
     var vm5 = Provider.of<HospitalLogoViewModel>(context);
@@ -202,12 +209,12 @@ class _DashboardScreenState extends State<DashboardScreen>
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
 
-    var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
+    var contrainerWidth = width >= 400 ? double.infinity : 400.00;
 
     final String assetName1 = "assets/icons/sign_in.svg";
     final Widget svg = SvgPicture.asset(
       assetName1,
-      width: 8,
+      width: 9,
       height: 15,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
@@ -244,9 +251,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         Stack(
           children: <Widget>[
             Stack(children: [
-              widget.isDrawerOpen
-                  ? this._backgroundImage()
-                  : this._backgroundImage2(),
+              // widget.isDrawerOpen
+              //     ?
+              //this._backgroundImage(),
+                    this._backgroundImage2(),
               // Padding(
               //   padding: const EdgeInsets.only(top: 80.0, left: 70),
               //   child: Column(
@@ -310,14 +318,14 @@ class _DashboardScreenState extends State<DashboardScreen>
                   //     height: 10,
                   //     child: svg),
                   title:  Text(
-                    StringResources.dasboardAppBarText,
+                   vm19.userDetailsList==null?StringResources.dasboardAppBarText:'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
                     style: GoogleFonts.poppins(
-                        fontSize: 15, fontWeight: FontWeight.w600),
+                        fontSize: isTablet? 18 : width<=320 ? 13 : 15, fontWeight: FontWeight.w600),
                   ),
                   actions: [
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: vm9.accessToken == null
+                      child: accessTokenVm.accessToken == null
                           ? GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -348,9 +356,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 children: [
                                   Text(
                                     StringResources.dasboardAppBarSignInText,
+                                    key: Key('signInTextKey'),
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 10),
+                                        fontSize: isTablet? 16: 12),
                                   ),
                                   SizedBox(
                                     width: 3,
@@ -371,30 +380,31 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 showAlert(context);
                                 // showDialog(context: context, builder: (context) => carDialog);
                               },
+                        key: Key("userAvatarKey"),
                               child: photo != ""
                                   ? Container(
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: AppTheme.appbarPrimary),
+                                    border: Border.all(color: Colors.white),
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
-                                  height: 35,
-                                  width: 35,
+                                  height: isTablet? 40 :  width<=330 ? 30 : 35,
+                                  width: isTablet? 40 : width<=330 ? 30 : 35,
                                   child: Center(
-                                      child: vm10.loadProfileImage(photo, 33.5, 35,50)
+                                      child: vm10.loadProfileImage(photo, width<=330 ? 28.5 :33.5, width<=330 ? 30 :35,50)
                                   ))
                                   : Container(
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height: 32,
-                                      width: 32,
+                                      height:isTablet? 32 : width<=330 ? 27 :32,
+                                      width: isTablet? 32 : width<=330 ? 27 :32,
                                       child: Center(
                                         child: Image.asset(
                                           'assets/images/dPro.png',
-                                          height: 22,
-                                          width: 22,
+                                          height: isTablet? 22 :width<=330 ? 18 :22,
+                                          width: isTablet? 22 :width<=330 ? 18 : 22,
                                         ),
                                       )),
                             ),
@@ -417,6 +427,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                               })),
                 ),
                 body: DraggableScrollableSheet(
+                  expand: true,
                     // height: double.infinity,
                     // // minHeight: deviceHeight>=600?480:250,
                     // // maxHeight: 710,
@@ -439,9 +450,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     //       ),
                     //     ]),
 
-                    initialChildSize: 0.79,
+                    initialChildSize: isTablet? .81 : 0.79,
                     maxChildSize: 1.0,
-                    minChildSize: 0.79,
+                    minChildSize: isTablet? .81 : 0.79,
                     builder: (BuildContext context,
                         ScrollController scrollController) {
                       return Column(
@@ -481,18 +492,19 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             StringResources
                                                 .esayDoctorAppointmentText,
+                                            key: Key('easyDoctorTextKey'),
                                             style: GoogleFonts.poppins(
-                                                fontSize: 17,
+                                                fontSize: isTablet? 18 : width<330 ?  16 : 17,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Spacer(),
                                           Container(
-                                              width: MediaQuery.of(context)
+                                              width: isTablet? 110 :MediaQuery.of(context)
                                                           .size
                                                           .width <=
-                                                      450
-                                                  ? 70
-                                                  : 100,
+                                                      330
+                                                  ? 60
+                                                  : 85,
                                               child: Image.asset(
                                                   "assets/images/my_health_logo.png")),
                                         ],
@@ -535,7 +547,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                   StringResources.searchBoxHint,
                                                   style: TextStyle(
                                                     color: Colors.grey[400],
-                                                    fontSize: deviceWidth >= 400
+                                                    fontSize: width >= 400
                                                         ? 15
                                                         : 14,
                                                   ),
@@ -555,12 +567,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 15,
                                     ),
-                                    vm9.accessToken == null || vm15.nearestAppointmentDetails==null
+                                    accessTokenVm.accessToken == null || vm15.nearestAppointmentDetails==null
                                         ? Container()
                                         : CustomCardPat(
-                                      titleText: "You have an \nupcoming appointment.",
+                                      titleText: isTablet? "You have an upcoming appointment.":"You have an \nupcoming appointment.",
                                       subTitleText:  vm15.nearestAppointmentDetails==null?'Loading':DateUtil().formattedDate(DateTime.parse(vm15.nearestAppointmentDetails.startTime).toLocal()),
                                       serial: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.slotSl.toString(),
                                       countText: vm15.nearestAppointmentDetails==null?'Loading':vm15.nearestAppointmentDetails.doctorName,
@@ -570,7 +582,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       //controller
                                     ),
                                     SizedBox(
-                                      height: 10,
+                                      height: 15,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -581,7 +593,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             StringResources
                                                 .hospitalDiagnosticsText,
                                             style: GoogleFonts.poppins(
-                                                fontSize: 16,
+                                                fontSize: isTablet? 18 : MediaQuery.of(context)
+                                                    .size
+                                                    .width <=
+                                                    450
+                                                    ? 14
+                                                    : 16,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           Spacer(),
@@ -597,7 +614,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -715,7 +732,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD News",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -738,7 +755,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -844,7 +861,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD Blog",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -867,7 +884,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                 StringResources.viewAllText,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
-                                                    fontSize: 11,
+                                                    fontSize: isTablet? 15 : 11,
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )),
@@ -912,10 +929,10 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               left: 18.0,
                                             ),
                                             child: SizedBox(
-                                              height: 120,
+                                              height:width<=1250 && width>=1000 ? 175 : width<=999 && width>=650? 140 :120,
                                               child: ListView.builder(
                                                 itemBuilder:
-                                                    (BuildeContext, index) {
+                                                    (context, index) {
                                                   int i = vm8.blogLogoList
                                                       .indexWhere((element) =>
                                                           element.blogNo ==
@@ -947,7 +964,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           Text(
                                             "MyHealthBD Videos",
                                             style: GoogleFonts.poppins(
-                                                fontSize: MediaQuery.of(context)
+                                                fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
                                                             .width <=
                                                         450
@@ -970,7 +987,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               StringResources.viewAllText,
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#8592E5"),
-                                                  fontSize: 11,
+                                                  fontSize: isTablet? 15 : 11,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
@@ -1014,11 +1031,11 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               left: 18.0,
                                             ),
                                             child: SizedBox(
-                                              height: 120,
+                                              height:width<=1250 && width>=1000 ? 175 : width<=999 && width>=650? 140 :120,
                                               child: ListView.builder(
                                                 itemCount: lengthofVideoList,
                                                 itemBuilder:
-                                                    (BuildeContext, index) {
+                                                    (context, index) {
                                                   //int i = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm4.newsList[index].blogNo);
                                                   return CustomCardVideo(
                                                       list3[index]
@@ -1091,6 +1108,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   Widget _backgroundImage() {
+    var width = MediaQuery.of(context).size.width;
     return Container(
       // decoration: BoxDecoration(
       //     color: Colors.white,
@@ -1103,7 +1121,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: 250.0,
+      height: width<=1250 && width>=1000 ?  380: 250,
       //width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
@@ -1114,19 +1132,20 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   Widget _backgroundImage2() {
+    var width = MediaQuery.of(context).size.width;
     return Container(
       // decoration: BoxDecoration(
       //     color: Colors.white,
       //     borderRadius: BorderRadius.all(Radius.circular(30))),
 
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
         //borderRadius: BorderRadius.all(Radius.circular(30)),
         image: DecorationImage(
             image: AssetImage("assets/images/dashboardNoewImage.png"),
             fit: BoxFit.fill),
       ),
-      height: 250.0,
+      height: width<=1250 && width>=1000 ?  380 : width<=999 && width>=850? 305 : 250,
       // width: double.infinity,
       // child: FadeInImage(
       //   fit: BoxFit.cover,
@@ -1146,7 +1165,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+  static const DATE_FORMAT = 'yyyy-MM-dd   hh:mm a';
 
   String formattedDate(DateTime dateTime) {
     //print('dateTime ($dateTime)');

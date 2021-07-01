@@ -47,7 +47,7 @@ class UserImageViewModel extends ChangeNotifier {
     var request = http.MultipartRequest(
         'PUT',
         Uri.parse(
-            '${Urls.buildUrl}auth-api/api/coreUser/update-user-info'));
+            '${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
     request.fields.addAll({
       'reqobj': {
         "name": hospitalNo,
@@ -77,13 +77,13 @@ class UserImageViewModel extends ChangeNotifier {
         print(response.reasonPhrase);
       }
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong!!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 12.0);
+      // Fluttertoast.showToast(
+      //     msg: "Check Network Connection!!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 12.0);
     }
   }
 
@@ -99,7 +99,7 @@ class UserImageViewModel extends ChangeNotifier {
     var headers = {
       'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
-    var request = http.MultipartRequest('PUT', Uri.parse('${Urls.buildUrl}diagnostic-api/api/opd-registration/update-with-image'));
+    var request = http.MultipartRequest('PUT', Uri.parse('${Urls.baseUrl}diagnostic-api/api/opd-registration/update-with-image'));
     request.fields.addAll({
       'reqobj':  json.encode({"opdReg":{"id":userId,"fname":name,"dob":birthDate,"gender":gender,"phoneMobile":number,"email":email,"address":address,"bloodGroup":blood,"hospitalNumber":hospitalNumber,"regDate":registrationDate,"organizationNo":1}})
     });
@@ -128,25 +128,26 @@ class UserImageViewModel extends ChangeNotifier {
     var request = http.Request(
         'GET',
         Uri.parse(
-            '${Urls.buildUrl}auth-api/api/coreUser/user-details'));
+            '${Urls.baseUrl}auth-api/api/coreUser/user-details'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {
       if (response.statusCode == 200) {
         var res = await response.stream.bytesToString();
-        print(res);
+        print("shakil ${res}");
         UserImageModel data = userImageModelFromJson(res);
         _details = data.obj;
+        print("details $_details");
         notifyListeners();
       } else {}
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong!!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 12.0);
+      // Fluttertoast.showToast(
+      //     msg: "Check Network Connection!!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 12.0);
     }
   }
   Future<void> switchImage(var accessToken) async {
@@ -159,7 +160,7 @@ class UserImageViewModel extends ChangeNotifier {
     var request = http.Request(
         'GET',
         Uri.parse(
-            '${Urls.buildUrl}auth-api/api/coreUser/user-details'));
+            '${Urls.baseUrl}auth-api/api/coreUser/user-details'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {
@@ -171,13 +172,13 @@ class UserImageViewModel extends ChangeNotifier {
         notifyListeners();
       } else {}
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: "Something went wrong!!",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 12.0);
+      // Fluttertoast.showToast(
+      //     msg: "Check Network Connection!!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Colors.red,
+      //     textColor: Colors.white,
+      //     fontSize: 12.0);
     }
   }
   AppError get appError => _appError;

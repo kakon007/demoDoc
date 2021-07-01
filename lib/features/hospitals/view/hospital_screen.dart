@@ -3,12 +3,14 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
@@ -16,6 +18,9 @@ import 'package:provider/provider.dart';
 import 'package:after_layout/after_layout.dart';
 
 class HospitalScreen extends StatefulWidget {
+  //bool isNotNave;
+  FocusNode f1;
+  HospitalScreen({this.f1});
   @override
   _HospitalScreenState createState() => _HospitalScreenState();
 }
@@ -65,7 +70,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     if(query.isNotEmpty) {
       List<Item> initialHospitalSearchItems = List<Item>();
       initialHospitalSearch.forEach((item) {
-        if(item.companyName.contains(query)) {
+        if(item.companyName.contains(query.toLowerCase())) {
           initialHospitalSearchItems.add(item);
         }
       });
@@ -84,19 +89,27 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var searchField = SignUpFormField(
+      focusNode: widget.f1,
       onChanged: (value) {
         hospitalSearch(value);
         // print(value);
       },
+      textFieldKey: Key('hospitalSearchFieldKey'),
+      focusBorderColor:"#8592E5",
       controller: hospitalController,
       borderRadius: 30,
+      minimizeBottomPadding: true,
+      hintSize : isTablet? 17 : 12,
       hintText: StringResources.searchBoxHint,
       suffixIcon: Padding(
         padding: const EdgeInsets.only(right: 20.0),
         child: Icon(
           Icons.search_rounded,
-          color: Colors.grey,
+          //color: Colors.grey,
         ),
       ),
     );
@@ -111,7 +124,8 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         backgroundColor: AppTheme.appbarPrimary,
         title: Text(
           StringResources.hospitalListAppbar,
-          style: GoogleFonts.poppins(fontSize: 15),
+          key: Key('hospitalAppbarKey'),
+          style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15),
         ),
         actions: <Widget>[
           accessToken != null
@@ -148,20 +162,21 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
               .refresh();
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8),
+          padding: EdgeInsets.only(left: isTablet? 18 : 8.0, right: isTablet? 18 : 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               searchField,
-              vm.shouldShowPageLoader||vm5.shouldShowPageLoader? Loader():  Expanded(
+              vm.shouldShowPageLoader||vm5.shouldShowPageLoader || vm6.shouldShowPageLoaderForImage? Loader():  Expanded(
                 child: ListView.builder(
+                    key: Key('listViewBuilderKey'),
                     shrinkWrap: true,
                     itemCount: hospitalItems.length,
                     itemBuilder: (BuildContext context, int index) {
-                      int ind = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
-                      int imageindex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
-                      return HospitalListCard(loadImage(vm5.hospitalLogoList[ind].photoLogo),
-                        vm6.hospitalImageList[imageindex].photoImg!=null?loadImage(vm6.hospitalImageList[imageindex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                      int logoIndex = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      int imageIndex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      return HospitalListCard(loadImage(vm5.hospitalLogoList[logoIndex].photoLogo),
+                        vm6.hospitalImageList[imageIndex].photoImg!=null?loadImage(vm6.hospitalImageList[imageIndex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
                         hospitalItems[index].companyName,
                         hospitalItems[index].companyAddress == null
                             ? "Mirpur,Dahaka,Bangladesh"
@@ -177,6 +192,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                         hospitalItems[index].companyId,
                         hospitalItems[index].ogNo.toString(),
                         hospitalItems[index].id.toString(),
+                        index.toString(),
                       );
                     }),
               ),

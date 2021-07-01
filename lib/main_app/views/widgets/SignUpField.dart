@@ -7,11 +7,13 @@ class SignUpFormField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final TextEditingController controller;
   final String labelText;
+  final double labelFontSize;
   final String hintText;
   final String errorText;
   final TextInputType keyboardType;
   final int maxLines;
   final int minLines;
+  final bool minimizeBottomPadding;
   final EdgeInsetsGeometry contentPadding;
   final EdgeInsetsGeometry margin;
   final FocusNode focusNode;
@@ -32,8 +34,13 @@ class SignUpFormField extends StatelessWidget {
   final double borderRadius;
   final bool obSecure;
   final double topPadding;
+  final double hintSize;
+  final String focusBorderColor;
 
   const SignUpFormField({
+    this.labelFontSize =12,
+    this.focusBorderColor="#D6DCFF",
+    this.minimizeBottomPadding = false,
     this.readOnly = false,
     this.enabled = true,
     this.maxLength,
@@ -46,6 +53,7 @@ class SignUpFormField extends StatelessWidget {
     this.controller,
     this.onFieldSubmitted,
     this.focusNode,
+    this.hintSize = 15,
     this.isRequired = false,
     this.autofocus = false,
     this.labelText,
@@ -81,7 +89,7 @@ class SignUpFormField extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text("  ${labelText ?? ""}",
-                        style: GoogleFonts.roboto(fontSize: 12)),
+                        style: GoogleFonts.roboto(fontSize: labelFontSize)),
                   ),
                   if (isRequired)
                     Text(
@@ -117,9 +125,9 @@ class SignUpFormField extends StatelessWidget {
               prefixIcon: prefixIcon,
               prefix: prefix,
               border: InputBorder.none,
-              hintStyle: TextStyle(fontSize: 15, color: HexColor("#D2D2D2")),
+              hintStyle: GoogleFonts.poppins(fontSize: hintSize, color: HexColor("#D2D2D2")),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderSide: BorderSide(color: HexColor(focusBorderColor), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               contentPadding: EdgeInsets.fromLTRB(15.0, topPadding, 40.0, 0.0),
@@ -139,11 +147,12 @@ class SignUpFormField extends StatelessWidget {
             ),
           ),
           errorText == null
-              ? Text("")
+              ? minimizeBottomPadding ? SizedBox(height: 2,) : Text("")
               : Padding(
                   padding: const EdgeInsets.only(left: 38, top: 0, right: 38),
                   child: Text(
                     errorText,
+                    key: Key('requiredFieldKey'),
                     style: TextStyle(color: Colors.red),
                   ),
                 )

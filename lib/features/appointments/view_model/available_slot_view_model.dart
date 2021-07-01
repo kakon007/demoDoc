@@ -79,6 +79,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   String _doctorNo;
   String _doctorName;
   String _appointDate;
+  String _phoneNumber;
   String _shiftdtlNo;
   String _shift;
   String _slotNo;
@@ -124,15 +125,17 @@ class AvailableSlotsViewModel extends ChangeNotifier {
       String remarks,
       String appointStatus,
       String companyNo,
-      String ogNo) {
+      String ogNo,
+      String phoneNumber
+      ) {
     print(doctorNo);
     print(ssCreator);
     print(ssCreatedOn);
     print(slotSplited);
     print(slotSl);
+    _phoneNumber = phoneNumber;
     _doctorNo = _doctorName;
     _doctorName = doctorName;
-    _appointDate = appointDate;
     _shiftdtlNo = shiftdtlNo;
     _shift = shift;
     _slotNo = slotNo;
@@ -148,7 +151,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
     _appointStatus = appointStatus;
     _companyNo = companyNo;
     _ogNo = ogNo;
-
+    _appointDate = appointDate;
     notifyListeners();
   }
 
@@ -168,11 +171,11 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   }
 
   Future<void> getSlots(DateTime pickedAppointDate, String companyNo,
-      String docotrNo, String orgNo) async {
-    _isLoading = true;
+      String doctorNo, String orgNo) async {
     var res = await AvailableSlotsRepository()
-        .fetchSlotInfo(pickedAppointDate, companyNo, docotrNo, orgNo);
+        .fetchSlotInfo(pickedAppointDate, companyNo, doctorNo, orgNo);
     _slots.clear();
+    _isLoading = true;
     notifyListeners();
     res.fold((l) {
       _appError = l;
@@ -189,6 +192,7 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   Future<void> getDoctorInfo(String companyNo,
       String doctorNo, String orgNo) async {
     _isLoading = true;
+    _doctors= null;
     var res = await AvailableSlotsRepository()
         .fetchDoctorInfo(companyNo, doctorNo, orgNo);
     notifyListeners();
@@ -414,4 +418,5 @@ String get patNo => _patNo;
   String get comNo => _comNo;
   String get docNo => _docNo;
   String get patOther => _patOther;
+  String get phoneNumber => _phoneNumber;
 }

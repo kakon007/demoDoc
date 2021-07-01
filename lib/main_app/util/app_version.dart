@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:package_info/package_info.dart';
 class AppInfoRepository {
   Future<String> getAppVersion() async {
@@ -50,13 +51,17 @@ class AppVersionWidgetSmallForSettings extends StatelessWidget {
 class AppVersionWidgetLowerCase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
+
       child: FutureBuilder(
         future: AppInfoRepository().getAppVersion(),
         builder: (c,snapshot){
           if(snapshot.hasData){
-            return Text("v ${snapshot.data}",style: TextStyle(color: Colors.grey),);
+            return Text("v${snapshot.data}",style: TextStyle(color: Colors.grey, fontSize: isTablet? 20 : 15),);
           }
           return SizedBox();
         },

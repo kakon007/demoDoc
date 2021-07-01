@@ -22,7 +22,7 @@ class RegisteredMembersRepository{
     }
     var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
     var url =
-        "${Urls.buildUrl}diagnostic-api/api/opd-registration/patientListByIdName";
+        "${Urls.baseUrl}diagnostic-api/api/opd-registration/patientListByIdName";
     final http.Response response = await http.post(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',}, body: jsonEncode(<String, String>{
       "regId":regId,
       "patientName":patName

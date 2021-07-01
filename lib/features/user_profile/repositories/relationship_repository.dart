@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/features/user_profile/models/relationship_model.dart';
@@ -20,12 +21,13 @@ import 'package:provider/provider.dart';
 class RelationshipRepository{
   Future<Either<AppError,RelationshipModel>> fetchRelationship(String accessToken) async {
     var url =
-        "${Urls.buildUrl}diagnostic-api/api/relations/list";
+        "${Urls.baseUrl}diagnostic-api/api/relations/list";
     try{
       var client = http.Client();
       var response = await client.get(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',});
       if (response.statusCode == 200) {
         RelationshipModel data = relationshipModelFromJson(response.body) ;
+        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.familyMemberRelationList);
         print("shakil" + response.body);
         return Right(
           RelationshipModel(

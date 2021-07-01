@@ -46,14 +46,12 @@ class HospitalImageViewModel extends ChangeNotifier{
       _appError = l;
       _isFetchingMoreData = false;
       notifyListeners();
-      print('Not Data found');
     }, (r) {
       _isLoading= false;
       _isFetchingMoreData = false;
       _hospitalImageList.addAll(r.dataList2);
       _hospitalImageList.removeAt(0);
       notifyListeners();
-      print("DATA fromImage List:::::" + _hospitalImageList.last.id.toString());
     });
   }
 

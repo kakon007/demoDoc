@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/features/appointment_history/models/upcoming_model.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -25,9 +26,10 @@ class AppointmentUpcomingRepository {
       });
       if (response.statusCode == 200) {
         AppointmentUpcomingModel data = appointmentUpcomingModelFromJson(response.body);
+        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.appointmentHistoryUpcomingList);
         return Right(Upcoming(dataList: data.obj.data, totalCount: data.obj.recordsTotal));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
@@ -36,7 +38,7 @@ class AppointmentUpcomingRepository {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
-      BotToast.showText(text: StringResources.somethingIsWrong);
+      //BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

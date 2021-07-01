@@ -17,6 +17,8 @@ import 'package:myhealthbd_app/features/my_health/view_model/document_view_model
 import 'package:myhealthbd_app/features/my_health/view_model/file_type_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/report_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/search_doctor_view_model.dart';
+import 'package:myhealthbd_app/features/my_health/view_model/shared_file_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/upload_documents_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/view_document_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dart';
@@ -32,6 +34,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'features/appointments/view_model/book_appointment_view_model.dart';
 import 'features/auth/view_model/auth_view_model.dart';
+import 'features/auth/view_model/reset_password_view_model.dart';
 import 'features/auth/view_model/sign_out_view_model.dart';
 import 'features/auth/view_model/sign_up_view_model.dart';
 import 'features/find_doctor/view_model/doctor_list_view_model.dart';
@@ -92,6 +95,9 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<UploadDocumentsViewModel>(create: (context) =>  UploadDocumentsViewModel()),
       ChangeNotifierProvider<ViewDocumentViewModel>(create: (context) =>  ViewDocumentViewModel()),
       ChangeNotifierProvider<NearestAppointmentViewModel>(create: (context) =>  NearestAppointmentViewModel()),
+      ChangeNotifierProvider<SharedFileViewModel>(create: (context) =>  SharedFileViewModel()),
+      ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) =>  SearchDoctorViewModel()),
+      ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) =>  ResetPasswordViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

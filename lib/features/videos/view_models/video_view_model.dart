@@ -7,7 +7,7 @@ import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
 
 class VideoViewModel extends ChangeNotifier {
   List<Item> _videoList = [];
-
+  List<Item> _videoListViewAll = [];
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
@@ -16,7 +16,7 @@ class VideoViewModel extends ChangeNotifier {
   String nextPageToken = '';
   int totalData = 0;
 
-  int _page = 1;
+  int page = 0;
 
   Future<void> refresh() {
     _videoList.clear();
@@ -30,7 +30,6 @@ class VideoViewModel extends ChangeNotifier {
     //       CommonServiceRule.onLoadPageReloadTime) return;
     // }
     _isFetchingData = true;
-   // _lastFetchTime = DateTime.now();
     var res = await VideoInfoRepository.getVideoInfo();
     notifyListeners();
     _videoList.clear();
@@ -38,15 +37,19 @@ class VideoViewModel extends ChangeNotifier {
       _appError = l;
       _isFetchingData = false;
       notifyListeners();
-      print("VideoTileVMError:::::::  $l");
       return false;
     }, (r) {
+      totalData = r.maxData;
       _isFetchingData = false;
+      //     return result.fold((l) {
+      //       isFetchingMoreData= false;
+      //       hasMoreData = false;
+      //       logger.i(l);
+      //       notifyListeners();
       _videoList.addAll(r.dataList);
       notifyListeners();
       return true;
     });
-    print("VideoTileFromVM:::::::" + _videoList?.first?.snippet?.title);
   }
 
   // getMoreData() async {
@@ -60,11 +63,6 @@ class VideoViewModel extends ChangeNotifier {
   //     isFetchingMoreData = true;
   //     Either<AppError, VideoListM> result =
   //     await VideoInfoRepository.getVideoInfo(pageToken:"CAUQAA");
-  //     return result.fold((l) {
-  //       isFetchingMoreData= false;
-  //       hasMoreData = false;
-  //       logger.i(l);
-  //       notifyListeners();
   //       return false;
   //     }, (r) {
   //       hasMoreData = r.moreData??false;
@@ -77,9 +75,9 @@ class VideoViewModel extends ChangeNotifier {
   // }
 
   // String _nextPageToken;
-  getMoreData(String pagrToken) async {
+  getMoreData() async {
     Either<AppError, VideoListM> result = await VideoInfoRepository.getVideoInfo(
-        pageToken: pagrToken == '' ? nextPageToken : pagrToken);
+        pageToken: nextPageToken);
 
     //_nextPageToken = res.nextPageToken;
     //_videoList.clear();
@@ -90,12 +88,14 @@ class VideoViewModel extends ChangeNotifier {
       notifyListeners();
       return false;
     }, (r) {
+      page++;
       totalData = r.maxData;
       nextPageToken = r.moreData;
-      _videoList.addAll(r.dataList);
-      print("MoreVideoList From Youtube:::" + _videoList.toString());
-      print("MoreVideoList From Youtube Lenth:::" + _videoList.length.toString());
-      print("MoreVideoList From Youtube Token:::" + r.moreData);
+      _videoListViewAll.addAll(r.dataList);
+      print("video length ${_videoListViewAll.length}");
+      print("MoreVideoList From Youtube:::" + _videoListViewAll.toString());
+      print("MoreVideoList From Youtube Length:::" + _videoListViewAll.length.toString());
+      //print("MoreVideoList From Youtube Token:::" + r.moreData);
       notifyListeners();
       return true;
     });
@@ -122,4 +122,5 @@ class VideoViewModel extends ChangeNotifier {
   bool get shouldShowPageLoader => _isFetchingData && _videoList.length == 0;
 
   List<Item> get videoList => _videoList;
+  List<Item> get videoListViewAll => _videoListViewAll;
 }

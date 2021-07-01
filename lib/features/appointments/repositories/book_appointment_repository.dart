@@ -123,7 +123,7 @@ class BookAppointmentRepository {
     String paymodeNo,
     String regNo,
   ) async {
-    var url = "${Urls.buildUrl}online-appointment-api/fapi/appointment/bookAppointment";
+    var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/bookAppointment";
     print("Shakil" + regNo);
     try {
       final http.Response response = await http.post(
@@ -144,7 +144,7 @@ class BookAppointmentRepository {
           "ssCreatedOn": ssCreatedOn,
           "ssCreator": ssCreator,
           "remarks": remarks,
-          "appointStatus": appointStatus,
+          "appointStatus": "1",
           "companyNo": companyNo,
           "ogNo": ogNo,
           "patientType": patientType,

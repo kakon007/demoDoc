@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -13,6 +14,7 @@ import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dar
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/blog_vlog_article_card.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
 import 'package:provider/provider.dart';
@@ -46,12 +48,6 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
   ScrollController _scrollController2 = ScrollController();
   ScrollController _scrollController3 = ScrollController();
 
-  // void onPageChange(int index, CarouselPageChangedReason changeReason) {
-  //   setState(() {
-  //     itemIndex = index;
-  //   });
-  // }
-
   loadLogo(String image){
     Uint8List  _bytesImage = Base64Decoder().convert(image);
     return _bytesImage;
@@ -61,7 +57,9 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
   void initState() {
     itemIndex = widget.pageNo;
     var vm = Provider.of<VideoViewModel>(context, listen: false);
-    vm.getMoreData('');
+    if(vm.page==0){
+      vm.getMoreData();
+    }
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
     vm2.getData();
     var vm7 = Provider.of<NewsLogoViewModel>(context, listen: false);
@@ -73,19 +71,19 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent-100) {
-        print("Scrolling:::::::");
-        if(vm.videoList.length<=vm.totalData){
-          vm.getMoreData(vm.nextPageToken);
+          _scrollController.position.maxScrollExtent) {
+        if(vm.videoListViewAll.length<vm.totalData){
+          vm.getMoreData();
         }
-
       }
-
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     void onPageChange(int index, CarouselPageChangedReason changeReason) {
       setState(() {
         itemIndex = index;
@@ -99,11 +97,12 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
           child: Text(
             "News, Blog & Video",
             style:
-                GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
+            GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ),
         SignUpFormField(
           borderRadius: 30,
+          hintSize: isTablet? 18: 15,
           hintText: "Search here",
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -162,22 +161,23 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                         padding: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 18.0),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             SizedBox(
-                              width: 5,
+                              width: isTablet? 0 : 5,
                             ),
                             Container(
-                              width: 115,
+                              width: isTablet? 240 : 115,
                               child: Text(
                                 list[a].name,
                                 style: GoogleFonts.poppins(
-                                    fontSize: 18,
+                                    fontSize: isTablet? 22 : 18,
                                     fontWeight: FontWeight.w700,
                                     color: HexColor("#354291")),
                               ),
                             ),
                             SizedBox(
-                              width: 10,
+                              width: isTablet?0 : 10,
                             ),
                             Flexible(
                               child: Container(
@@ -195,10 +195,11 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                 );
               },
               options: CarouselOptions(
-                height: 125,
+                height: isTablet? 160 : 125,
                 initialPage: itemIndex,
                 enlargeCenterPage: true,
                 aspectRatio: 16 / 9,
+                disableCenter: false,
                 onPageChanged: onPageChange,
                 //autoPlay: true,
               ),
@@ -213,10 +214,10 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                 itemIndex == 2
                     ? "Health Video"
                     : itemIndex == 1
-                        ? "Health News"
-                        : "Health Blog",
+                    ? "Health News"
+                    : "Health Blog",
                 style: GoogleFonts.poppins(
-                    fontSize: 12, fontWeight: FontWeight.w500),
+                    fontSize: isTablet? 15 : 12, fontWeight: FontWeight.w500),
               ),
             ),
             Expanded(
@@ -226,10 +227,10 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                   itemCount: itemIndex == 1
                       ? vm2.newsList.length
                       : itemIndex == 2
-                          ? vm.videoList.length
-                          : vm3.newsList.length,
+                      ? vm.videoListViewAll.length
+                      : vm3.newsList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    if(index==vm.videoList.length){
+                    if(index==vm.videoListViewAll.length){
                       return vm.isFetchingMoreData?SizedBox(height:60 ,child: Center(child: CircularProgressIndicator())):SizedBox();
                       //return SizedBox(height: 15,);
 
@@ -240,157 +241,49 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                       if(itemIndex==1){
                         i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
                       }else{
-                          i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
+                        i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
                       }
 
                     }
-                     //int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
+                    //int i = vm7.newsLogoList.indexWhere((element) => element.blogNo==vm2.newsList[index].blogNo);
                     // int i2 = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm3.newsList[index].blogNo);
                     return itemIndex == 2
                         ? BlogVlogArticleCard(
-                            buttonName: "Watch Video",
-                            pageNo: "2",
-                            videoId: vm.videoList[index].snippet.resourceId
-                                .videoId,
-                            description:
-                                vm.videoList[index].snippet.description,
-                            title: vm.videoList[index].snippet.title,
-                      logo: vm.videoList[index].snippet
-                          .thumbnails.standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png':vm.videoList[index].snippet
+                      buttonName: "Watch Video",
+                      pageNo: "2",
+                      videoId: vm.videoListViewAll[index].snippet.resourceId
+                          .videoId,
+                      description:
+                      vm.videoListViewAll[index].snippet.description,
+                      title: vm.videoListViewAll[index].snippet.title,
+                      logo: vm.videoListViewAll[index].snippet
+                          .thumbnails.standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png':vm.videoListViewAll[index].snippet
                           .thumbnails.standard.url,
-                          )
+                    )
                         : itemIndex == 1
-                            ? BlogVlogArticleCard(
-                                title: vm2.newsList[index].title,
-                                buttonName: "Read News",
-                                image: loadLogo(vm7.newsLogoList[i].logo),
-                                pageNo: "1",
-                                url: vm2.newsList[index].newsLink,
-                              )
-                            : BlogVlogArticleCard(
-                                title: vm3.newsList[index].title,
-                                buttonName: "Read Blog",
-                                image: loadLogo(vm8.blogLogoList[i2].logo),
-                                pageNo: "0",
-                                blogDetails: vm3.newsList[index].blogDetail,
-                              );
+                        ? BlogVlogArticleCard(
+                      title: vm2.newsList[index].title,
+                      buttonName: "Read News",
+                      image: loadLogo(vm7.newsLogoList[i].logo),
+                      pageNo: "1",
+                      url: vm2.newsList[index].newsLink,
+                    )
+                        : BlogVlogArticleCard(
+                      title: vm3.newsList[index].title,
+                      buttonName: "Read Blog",
+                      image: loadLogo(vm8.blogLogoList[i2].logo),
+                      pageNo: "0",
+                      blogDetails: vm3.newsList[index].blogDetail,
+                    );
                   }),
-
-              // return BlogVlogArticleCard(
-              //   buttonName: "Read News",
-              //   title: vm2.newsList[index].title==null? "" : vm2.newsList[index].title,
-              //   image: vm2.newsList[index].image== null? "": vm2.newsList[index].image,
-              //   url: vm2.newsList[index].newsLink== null? "": vm2.newsList[index].newsLink,
-              //   pageNo: widget.pageNo.toString(),
-              // );
             ),
           ],
         ),
       ),
-
-      // Column(
-      //   children: <Widget>[
-      //     CarouselSlider.builder(
-      //       itemCount: imageSliders.length,
-      //       itemBuilder: (BuildContext context, int a, int i) {
-      //         return imageSliders[a];
-      //
-      //       },
-      //       options: CarouselOptions(
-      //         initialPage: itemIndex,
-      //         enlargeCenterPage: true,
-      //         aspectRatio: 16/9,
-      //         onPageChanged: onPageChange,
-      //         //autoPlay: true,
-      //       ),
-      //       carouselController: _controller,
-      //     ),
-      //     Center(
-      //       child: Expanded(
-      //         child: Column(children: [
-      //           itemIndex== 1 ? SingleChildScrollView(
-      //         scrollDirection: Axis.vertical,
-      //           child: Padding(
-      //             padding: const EdgeInsets.only(left:18.0,),
-      //             child:
-      //             Column(
-      //               children: [
-      //                 ...List.generate(
-      //                   vm.videoList.length,
-      //                       (i) => CustomCardVideo(vm.videoList[i].snippet.thumbnails.standard.url,vm.videoList[i].snippet.title,vm.videoList[i].snippet.resourceId.videoId,vm.videoList[i].snippet.description),
-      //                 ),
-      //               ],
-      //             ),
-      //           ),
-      //         ) : Text("Prity")
-      //           //Text(),
-      //         ],),
-      //       ),
-      //     )
-      //   ],
-      // )
     );
   }
 }
 
-// import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-//
-// class HealthVideoAll extends StatefulWidget {
-//   @override
-//   _HealthVideoAllState createState() => _HealthVideoAllState();
-// }
-//
-// class _HealthVideoAllState extends State<HealthVideoAll> {
-//   var list = [
-//     vlog(name: "Blog", image: "assets/images/vlog.png"),
-//     vlog(name: "Vlog", image: "assets/images/vlog.png"),
-//     vlog(name: "Article", image: "assets/images/article.png"),
-//   ];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     var searchField = Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.only(left: 8.0),
-//           child: Text(
-//             "Blog, Article & Vlog",
-//             style: GoogleFonts.poppins(fontSize: 20),
-//           ),
-//         ),
-//         SignUpFormField(
-//           borderRadius: 30,
-//           hintText: "Search here",
-//           suffixIcon: Padding(
-//             padding: const EdgeInsets.only(right: 20.0),
-//             child: Icon(
-//               Icons.search_rounded,
-//               color: Colors.grey,
-//             ),
-//           ),
-//         )
-//       ],
-//     );
-//     return Scaffold(
-//       appBar: AppBar(
-//         leading: BackButton(color: Colors.black),
-//         backgroundColor: Colors.transparent,
-//         elevation: 0.0,
-//       ),
-//       body: ListView(
-//         children: <Widget>[
-//           CarouselSlider(items: , )
-//         ],
-//       )
-//     );
-//   }
-// }
-//
 class BlogVideoNews {
   String name;
   String image;
@@ -398,25 +291,3 @@ class BlogVideoNews {
 
   BlogVideoNews({this.name, this.image, this.color});
 }
-// // Container(
-// //   height: 150,
-// //   child: Expanded(
-// //      child:  ListView.builder(
-// //          scrollDirection: Axis.horizontal,
-// //          itemCount: list.length,
-// //          itemBuilder: (BuildContext context, int index) {
-// //            return Container(
-// //              margin: EdgeInsets.all(8),
-// //              height: 120,
-// //              width: MediaQuery.of(context).size.width*.7,
-// //              color: Colors.grey,
-// //              child: Row(children: [
-// //                SizedBox(width: 30,),
-// //                Text(list[index].name, style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),),
-// //                SizedBox(width: 20,),
-// //                Container(height: 100, width: 130, child: Image.asset(list[index].image, fit: BoxFit.fill,),)
-// //              ],),
-// //            );
-// //          }),
-// //   ),
-// // ),

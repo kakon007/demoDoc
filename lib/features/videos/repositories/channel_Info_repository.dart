@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 class VideoInfoRepository{
   static const Channel_Id="UCRNBfqATYKXvy6c7gxndDUA";
   static const _baseURL="youtube.googleapis.com";
+  static int i = 0;
   static Future<Either<AppError,VideoListM>> getVideoInfo({String pageToken}) async {
     Map<String,String> params={
       'part' : 'snippet,contentDetails',
@@ -21,7 +22,7 @@ class VideoInfoRepository{
       'key' : Constants.API_key,
     };
     Uri uri=Uri.https(_baseURL, '/youtube/v3/playlistItems',params);
-
+i++;
     try{
       var client = http.Client();
       var response = await client.get(uri);
@@ -33,7 +34,7 @@ class VideoInfoRepository{
         print('Enter data::: ${data.items.first.snippet.title}');
 
         //print('DataFromYoutubeAPI::::::: ' + data.items[1].snippet.title);
-
+        print("iteration $i");
         return Right(
             VideoListM(
               dataList: data.items,
@@ -43,8 +44,8 @@ class VideoInfoRepository{
 
         );
       }else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
-        print('DataaaaaaafromAPIError::::::: ' );
+       // BotToast.showText(text: StringResources.somethingIsWrong);
+        //print('DataaaaaaafromAPIError::::::: ' );
         return Left(AppError.serverError);
       }
     }on SocketException catch (e){
@@ -53,8 +54,8 @@ class VideoInfoRepository{
       return Left(AppError.networkError);
     }catch (e) {
       //logger.e(e);
-      print('DataaaaaaafromAPIcatch::::::: $e' );
-      BotToast.showText(text: StringResources.somethingIsWrong);
+      //print('DataaaaaaafromAPIcatch::::::: $e' );
+     // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
 

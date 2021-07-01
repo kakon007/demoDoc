@@ -2,24 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/features/after_sign_in.dart';
-import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
-import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
-import 'package:myhealthbd_app/features/constant.dart';
-import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
-import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
-import 'package:myhealthbd_app/features/hospitals/repositories/hospital_list_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
-import 'package:myhealthbd_app/features/my_health/view/my_health_screen.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
-import 'package:myhealthbd_app/features/my_health/view/widgets/switch_account.dart';
-import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
-import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_Sign_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer.dart';
@@ -27,12 +16,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_drawer_2.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashBoard_prompt.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashboard_prompt_for_patient_profile.dart';
 import 'package:provider/provider.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../features/appointment_history/view/get_appointment_screen.dart';
-import 'views/widgets/default_screen.dart';
-
 class HomeScreen extends StatefulWidget {
   String accessToken;
   bool connection;
@@ -62,8 +46,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   );
   List<Widget> screenShots;
   Map<int,Widget> screens;
+  Map<int,Widget> screens2;
 
-
+  // bool isNotNave;
+  FocusNode f1=FocusNode();
 
   @override
   void initState() {
@@ -110,17 +96,34 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
-      1: accessTokenVm.accessToken==null?SignInPrompt("To access your Appointments,",'Appointments'):GetAppointment(),
-      2: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
-      3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
-      4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //5:NotificationScreen(),
+      3:SettingScreen(accessToken: accessTokenVm.accessToken,),
+      // 6:FamilyMemberListScreen(),
+      // 7:SwitchAccount(),
+    };
+    screens2= {
+      0: DashboardScreen(menuCallBack: (){
+        setState(() {
+          isDrawerOpen=true;
+          _animationController.forward();
+          print("Heeoollo");
+        });
+      },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
+      //5:NotificationScreen(),
+      3:FamilyMemberListScreen(),
+      4:SwitchAccount(),
       5:SettingScreen(accessToken: accessTokenVm.accessToken,),
-      6:FamilyMemberListScreen(),
-      7:SwitchAccount(),
     };
 
-    screenShots=screens.values.toList();
+    screenShots=accessTokenVm.accessToken==null?screens.values.toList():screens2.values.toList();
 
     Widget buildStackedScreen(int position){
       var deviceWidth=MediaQuery.of(context).size.width;
@@ -168,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           DrawerScreen(accessToken: accessTokenVm.accessToken,menuCallBack:(selectedIndex) {
             setState(() {
               //isSelected=true;
-              screenShots=screens.values.toList();
+              screenShots=accessTokenVm.accessToken==null?screens.values.toList():screens2.values.toList();
               final selectedWidget=screenShots.removeAt(selectedIndex);
               screenShots.insert(0, selectedWidget);
               // ignore: unnecessary_statements
@@ -214,6 +217,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     final String hospitaliconimag = "assets/icons/hospital_icon.svg";
     final Widget hospitalicon = SvgPicture.asset(
       hospitaliconimag,
+      key: Key('hospitalBottomNavbarKey'),
       width: 10,
       height: 20,
       color: currentIndex==2? HexColor('#354291'):HexColor('#969EC8'),
@@ -243,7 +247,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
       Stack(
           children:[
-            accessTokenVm.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: accessTokenVm.accessToken,),
+            // accessTokenVm.accessToken==null?DrawerScreen2():
+            DrawerScreen(accessToken: accessTokenVm.accessToken,),
 
             AnimatedPositioned(
               duration: duration,
@@ -277,15 +282,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       print("Heeoollo");
                     });
                   },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,onTapFeaturedCompany: () {
+                    f1.requestFocus();
                     _moveTo(2);
-                    // _paeViewController.animateToPage(2,
-                    //     duration: const Duration(milliseconds: 400),
-                    //     curve: Curves.easeInOut);
                   },onTapFeaturedAppointment: () {
                     _moveTo(1);
-                    // _paeViewController.animateToPage(2,
-                    //     duration: const Duration(milliseconds: 400),
-                    //     curve: Curves.easeInOut);
                   },),
                 ),
               ),
@@ -300,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         //     duration: const Duration(milliseconds: 400),
         //     curve: Curves.easeInOut);
       }),
-      HospitalScreen(),
+      HospitalScreen(f1: f1,),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(
       //     children:[
@@ -349,6 +349,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     //BottomNavBar
     var bottomNavBar=BottomNavigationBar(
         onTap: (int index){
+          f1.unfocus();
           if(currentIndex !=index)
           {
             _moveTo(index);

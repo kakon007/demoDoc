@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/user_profile/models/relationship_model.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/relationship_repository.dart';
@@ -26,6 +27,11 @@ class RelationShipViewModel extends ChangeNotifier{
 
 
   Future<void> getRelationShip() async {
+    CacheRepositories.loadCachedFamilyMemberRelationList().then((value) {
+      if(value!=null){
+        _relations=value.items;
+      }
+    });
     _isFetchingData = true;
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     var res = await RelationshipRepository().fetchRelationship(accessToken);

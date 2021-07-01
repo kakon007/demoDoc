@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
+import 'package:myhealthbd_app/features/auth/view/widgets/reset_password.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
@@ -17,6 +18,7 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
@@ -47,8 +49,8 @@ class _SignInState extends State<SignIn> {
   var pass;
   Future<void> getUSerDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    user= prefs.getString("username");
-    pass= prefs.getString("password");
+    user= prefs.getString("usernameRemember");
+    pass= prefs.getString("passwordRemember");
     var rememberMe= prefs.getBool("value");
     accounts=null;
     if(rememberMe==true){
@@ -74,6 +76,10 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     print(height);
@@ -81,13 +87,17 @@ class _SignInState extends State<SignIn> {
       height: height >= 700 ? 10.0 : 5.0,
     );
     var userName = SignUpFormField(
+      textFieldKey: Key("userNameKey"),
+      topPadding: isTablet? 30 : 25,
       validator: Validator().nullFieldValidate,
+      hintSize:isTablet? 17 : 15  ,
       controller: _username,
       margin: EdgeInsets.only(top: 3, left: 8, right: 8),
       contentPadding: EdgeInsets.all(15),
       hintText: StringResources.usernameHint,
     );
     var password = SignUpFormField(
+      textFieldKey: Key("passwordKey"),
       validator: Validator().nullFieldValidate,
       // validator: (value) {
       //   if (value == null || value.isEmpty) {
@@ -95,7 +105,10 @@ class _SignInState extends State<SignIn> {
       //   }
       //   return null;
       // },
+      topPadding: isTablet? 30 : 25,
+      hintSize:isTablet? 17 : 15 ,
       suffixIcon: IconButton(
+        key: Key("visibleButtonKey"),
         icon: isObSecure == true
             ? Icon(
             Icons.visibility_off,
@@ -136,15 +149,23 @@ class _SignInState extends State<SignIn> {
               Text(
                 StringResources.rememberMe,
                 style: GoogleFonts.roboto(
-                  color: HexColor('#141D53'),
+                    color: HexColor('#141D53'),
+                    fontSize: isTablet? 17 : 15
                 ),
               )
             ],
           ),
-          Text(
-            StringResources.forgetPassword,
-            style: GoogleFonts.roboto(
-              color: HexColor('#141D53'),
+          GestureDetector(
+            onTap:
+                (){
+              _resetPassword(context,_username.text);
+            },
+            child: Text(
+              StringResources.forgetPassword,
+              style: GoogleFonts.roboto(
+                  color: HexColor('#141D53'),
+                  fontSize: isTablet? 17 : 15
+              ),
             ),
           )
         ],
@@ -157,13 +178,14 @@ class _SignInState extends State<SignIn> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: AppTheme.signInSignUpColor,
         child: SizedBox(
-          height: height*.07,
+          height: isTablet? 50 : height*.07,
           width: MediaQuery.of(context).size.width / .2,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 StringResources.signInButton,
+                key: Key("signInButtonKey"),
                 style: GoogleFonts.roboto(fontSize: 18, color: Colors.white),
               ),
             ),
@@ -214,13 +236,17 @@ class _SignInState extends State<SignIn> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(StringResources.dontHaveAccount,
-                style: GoogleFonts.roboto(
-                    color: HexColor("#8592E5"), fontWeight: FontWeight.w300)),
+              style: GoogleFonts.roboto(
+                  fontSize: isTablet? 17 : 15,
+                  color: HexColor("#8592E5"), fontWeight: FontWeight.w300),
+            ),
             Text(
               StringResources.signUpText,
               style: GoogleFonts.roboto(
                   color: AppTheme.signInSignUpColor,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,
+                  fontSize: isTablet? 17 : 15
+              ),
             )
           ],
         ));
@@ -253,7 +279,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ]),
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 25, left: 15),
+                    padding:  EdgeInsets.only(right: isTablet? 45 : 15, left: isTablet? 45 : 15),
                     child: Column(
                       children: [
                         spaceBetween,
@@ -263,18 +289,23 @@ class _SignInState extends State<SignIn> {
                         Center(
                             child: Text(
                               StringResources.welcomeBack,
+                              key: Key("welcomeBackTextKey"),
                               style: GoogleFonts.roboto(
                                   color: HexColor("#0D1231"),
                                   fontSize: height*.03,
                                   fontWeight: FontWeight.w600),
                             )),
+                        SizedBox(
+                          height: width>360 ? 15 : 10,
+                        ),
                         userName,
                         password,
                         validUser == false
                             ? Container(
                             color: Colors.red[100],
                             child: Text(
-                              "Invalid Credential",
+                              "Invalid username or password",
+                              key: Key("invalidCredentialKey"),
                               style: GoogleFonts.poppins(color: Colors.red),
                             ))
                             : SizedBox(),
@@ -288,10 +319,6 @@ class _SignInState extends State<SignIn> {
                                 });
                                 SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                                prefs.setString(
-                                    "username", _username.text);
-                                prefs.setString(
-                                    "password", _password.text);
                                 var vm5 = Provider.of<AuthViewModel>(context, listen: false);
                                 await vm5.getAuthData(_username.text, _password.text);
                                 if(vm5.accessToken!=null){
@@ -308,7 +335,7 @@ class _SignInState extends State<SignIn> {
                                     print("abcd");
                                     SwitchAccounts switchAccounts = new SwitchAccounts(
                                       name: vm4.userSwitchDetailsList.fname,
-                                      relation: vm3.switchDetails.photo,
+                                      relation: vm3.switchDetails?.photo==null? "" : vm3.switchDetails.photo,
                                       username: _username.text,
                                       password: _password.text,
                                     );
@@ -318,34 +345,48 @@ class _SignInState extends State<SignIn> {
                                     });
                                   }
                                   else{
-                                    print("prity");
                                   }
                                 }
                                 if (vm5.accessToken!=null) {
-                                    appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
-                                   Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              HomeScreen(
-                                                accessToken:
-                                                vm5.accessToken,
-                                              ),
-                                        ),
-                                            (Route<dynamic> route) => false);
-                                    if(this.value== true){
-                                      //print(_username.text);
-                                      prefs.setBool("value", true);
-                                    }
-                                    else{
-                                      // prefs.remove("username");
-                                      // prefs.remove("password");
-                                      prefs.setBool("value", false);
-                                    }
+                                  prefs.setString(
+                                      "username", _username.text);
+                                  prefs.setString(
+                                      "usernameRemember", _username.text);
+                                  prefs.setString(
+                                      "password", _password.text);
+                                  prefs.setString(
+                                      "passwordRemember", _password.text);
+                                  appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            HomeScreen(
+                                              accessToken:
+                                              vm5.accessToken,
+                                            ),
+                                      ),
+                                          (Route<dynamic> route) => false);
+                                  if(this.value== true){
+                                    //print(_username.text);
+                                    prefs.setBool("value", true);
+                                  }
+                                  else{
+                                    // prefs.remove("username");
+                                    // prefs.remove("password");
+                                    prefs.setBool("value", false);
+                                  }
 
                                 } else {
-
                                   SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
+                                  prefs.remove(
+                                      "username");
+                                  prefs.remove(
+                                      "usernameRemember");
+                                  prefs.remove(
+                                      "password");
+                                  prefs.remove(
+                                      "passwordRemember");
                                   if(this.value== true){
                                     print(_username.text);
                                     prefs.setBool("value", true);
@@ -385,14 +426,24 @@ class _SignInState extends State<SignIn> {
       ]),
     );
   }
-
   Widget _backgroundImage() {
-    return Container(
-      height: MediaQuery.of(context).size.height*.47,
-      width: MediaQuery.of(context).size.width,
-      child: Image.asset(kMyHealthLogo,
-        fit: BoxFit.fill,
+    bool isTablet = Responsive.isTablet(context);
+    return Padding(
+      padding:  EdgeInsets.only(left: isTablet? MediaQuery.of(context).size.width*.15 : 0 ),
+      child: Container(
+        height: isTablet? MediaQuery.of(context).size.height*.52: MediaQuery.of(context).size.height*.47,
+        width: isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width,
+        child: Image.asset(kMyHealthLogo,
+          fit: BoxFit.fill,
+        ),
       ),
     );
+  }
+
+  void _resetPassword(BuildContext context, String userName) {
+    showDialog(context: context, builder: (context){
+      return ResetPasswordAlert(userName: userName,);
+    });
+
   }
 }

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
+import 'package:myhealthbd_app/features/appointments/models/doctor_info_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/add_patient.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/available_slots.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/no_available_slots.dart';
@@ -14,14 +15,17 @@ import 'package:myhealthbd_app/features/appointments/view_model/available_slot_v
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AppointmentScreen extends StatefulWidget {
   String doctorNo;
   String companyNo;
   String orgNo;
   String hospitalName;
+  String phoneNumber;
 
   AppointmentScreen(
       {
@@ -29,6 +33,7 @@ class AppointmentScreen extends StatefulWidget {
         this.doctorNo,
         this.orgNo,
         this.hospitalName,
+        this.phoneNumber
       });
 
 
@@ -46,14 +51,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     final DateTime date = await showDatePicker(
       context: context,
       builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppTheme.appbarPrimary,
-            accentColor: AppTheme.appbarPrimary,
-            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        return Container(
+          child: Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: AppTheme.appbarPrimary,
+              accentColor: AppTheme.appbarPrimary,
+              colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child,
           ),
-          child: child,
         );
       },
       initialDate: pickedAppointDate,
@@ -63,6 +70,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     if (date != null && date != pickedAppointDate) {
       setState(() {
         pickedAppointDate = date;
+      });
+    }
+    if (pickedAppointDate != pickedAppointDate2) {
+      var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+      Future.delayed(Duration.zero, () async {
+        await vm.getSlots(
+            pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+        pickedAppointDate2 = pickedAppointDate;
+        length= vm.slotList.length;
+        selectedCard = -1;
+        isSelected = false;
       });
     }
   }
@@ -85,53 +103,43 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   var appointStatus;
   bool isLoading = false;
   bool isStatusOk;
-
-  //double _crossAxisSpacing = 4, _mainAxisSpacing = 8, _aspectRatio = .5;
-
   AvailableSlotModel slotItem;
   var selectedPatientType = "";
   var selectedConsultationType = "";
   String color = "#EAEBED";
-
-  startTimer() {
-    Timer.periodic(const Duration(milliseconds: 2000), (t) {
-      if (mounted) setState(() {});
-      t.cancel();
-    });
-  }
-
-  var accessToken;
-
-  Future<void> accesstoken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    accessToken = prefs.getString('accessToken');
-  }
+  // var accessToken;
+  // Future<void> accesstoken() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   accessToken = prefs.getString('accessToken');
+  // }
   loadLogo(String image) {
     Uint8List _bytesImage = Base64Decoder().convert(image);
-
     return Image.memory(
       _bytesImage,
-      fit: BoxFit.cover,
-      width: 110,
-      height: 160,
+      fit: BoxFit.fill,
       gaplessPlayback: true,
     );
   }
+  var length;
+  Obj doctorInformation;
   @override
   void initState() {
-    accesstoken();
     status = "Not Ok";
     isClicked = false;
     isStatusOk = false;
     isSelected = false;
     pickedAppointDate = DateTime.now();
     pickedAppointDate2 = DateTime.now();
+    var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
+    doctorInformation = null;
     Future.delayed(Duration.zero, () async {
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       await vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
       await vm.getSlots(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      doctorInformation = vm.doctorInfo;
+      length = vm.slotList.length;
       vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
       vm.getAppointType(true, false);
     });
@@ -145,38 +153,40 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.height);
-    int _crossAxisCount = MediaQuery.of(context).size.height > 650 ? 4 :MediaQuery.of(context).size.height > 550 ? 3 : 2;
-    double _crossAxisSpacing =MediaQuery.of(context).size.height > 550? 8 : 3,
-        _mainAxisSpacing =MediaQuery.of(context).size.height > 550? 8 : 3,
+    var width = MediaQuery.of(context).size.width;
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    print(MediaQuery.of(context).size.width);
+    bool isMobile = Responsive.isMobile(context);
+    int _crossAxisCount = width >850 ? 6 : width <=850 && width>=650 ? 5 : width> 360 ? 4 :width <= 360 && width >= 300 ? 3 : 2;
+    double _crossAxisSpacing = isTablet? 12 : MediaQuery.of(context).size.height > 550? 8 : 3,
+        _mainAxisSpacing = isTablet? 12 :  MediaQuery.of(context).size.height > 550? 8 : 3,
         _aspectRatio = MediaQuery.of(context).size.height > 650 ? .6:.5;
     var height = MediaQuery.of(context).size.height;
     var vm = Provider.of<AvailableSlotsViewModel>(context, listen: true);
-
     var accessTokenVM = Provider.of<AccessTokenProvider>(context, listen: false);
     var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var profileImage = userImageVm.details?.photo ?? "";
-
-    var length= vm.slotList.length;
-    var doctorDegree=  vm.doctorInfo?.docDegree == null
+    //length= vm.slotList.length;
+    var doctorDegree=  doctorInformation?.docDegree == null
         ? ""
         : vm.doctorInfo?.docDegree;
-    var jobTitle=   vm.doctorInfo?.jobtitle??"";
-    var photo= vm.doctorInfo?.doctorPhoto??"";
-    var consultFee= vm.doctorInfo?.consultationFee??'';
-    if (pickedAppointDate != pickedAppointDate2) {
-      vm.getSlots(
-          pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-      pickedAppointDate2 = pickedAppointDate;
-      //startTimer();
-      selectedCard = -1;
-      isSelected = false;
-    }
+    var jobTitle=   doctorInformation?.jobtitle??"";
+    var photo= doctorInformation?.doctorPhoto??"";
+    var consultFee= doctorInformation?.consultationFee??'';
+    // if (pickedAppointDate != pickedAppointDate2) {
+    //   vm.getSlots(
+    //       pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+    //   pickedAppointDate2 = pickedAppointDate;
+    //   //startTimer();
+    //   selectedCard = -1;
+    //   isSelected = false;
+    // }
     List<Items> list = vm.slotList;
     var spaceBetween = SizedBox(
       height: 10,
     );
-    String _formatDate = DateFormat("yyyy-MM-dd").format(pickedAppointDate);
+    String _formatDate = DateFormat("dd-MM-yyyy").format(pickedAppointDate);
     var appointmentDate = Row(
       children: [
         GestureDetector(
@@ -190,13 +200,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     children: [
                       Text("Select Date",
                           style: GoogleFonts.poppins(
-                              fontSize: 14, fontWeight: FontWeight.w600)),
+                              fontSize: isTablet? 18 : 14, fontWeight: FontWeight.w600)),
                     ],
                   )),
               spaceBetween,
               Container(
                 height: 45.0,
-                width: MediaQuery.of(context).size.width * .85,
+                width: isTablet? width*.94 : MediaQuery.of(context).size.width * .85,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#D6DCFF")),
@@ -209,7 +219,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       Text(
                         "$_formatDate",
                         style: GoogleFonts.poppins(
-                            color: AppTheme.signInSignUpColor, fontSize: 13.0),
+                            color: AppTheme.signInSignUpColor, fontSize: isTablet? 18 : 13.0),
                       ),
                       Container(
                           height: 18,
@@ -233,7 +243,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         ? SizedBox()
         : Container(
             width: MediaQuery.of(context).size.width,
-            height: 45,
+            height: isTablet? 60 : 45,
             child: AbsorbPointer(
               absorbing: isSelected == false ? true : false,
               child: FlatButton(
@@ -243,7 +253,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     ? HexColor("#969EC8")
                     : AppTheme.appbarPrimary,
                 onPressed: () async {
-                  if (accessToken != null) {
+                  if (accessTokenVM.accessToken != null) {
                     await vm.getSlotStatus(
                         slotNo.toString(), widget.companyNo, widget.orgNo);
                     setState(() {
@@ -270,6 +280,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             appointStatus.toString(),
                             widget.companyNo,
                             widget.orgNo,
+                              widget.phoneNumber
                           );
                         });
                     });
@@ -281,78 +292,105 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 child: Text(
                   "Proceed",
                   style: GoogleFonts.poppins(
-                      fontSize: height <= 600 ? 15 : 15,
+                      fontSize: isTablet? 20 : height <= 600 ? 15 : 15,
                       color: Colors.white,
                       fontWeight: FontWeight.w600),
                 ),
               ),
             ),
           );
-    var selectType = Container(
-      height: 65.0,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          color: HexColor("#E9ECFE"), borderRadius: BorderRadius.circular(13)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10.0, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: HexColor(vm.forMeBackColor),
-                    borderRadius: BorderRadius.circular(10)),
-                height: MediaQuery.of(context).size.height * 0.06,
-                width: MediaQuery.of(context).size.width * .4,
-                child: Center(
-                    child: Text(
-                  "For Me",
-                  style:
-                      GoogleFonts.poppins(color: HexColor(vm.forMeTextColor)),
-                )),
-              ),
-              onTap: () {
-                vm.getAppointType(true, false);
-                if (vm.addPatient == false) {
-                  vm.getButtonColor(
-                      "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
-                }
-              },
-            ),
-            InkWell(
-              child: Container(
+    var selectType = Padding(
+      padding:  EdgeInsets.only(left: isTablet? 15 : 0, right: isTablet? 15 : 0),
+      child: Container(
+        height: isTablet? 90 : 65.0,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: HexColor("#E9ECFE"), borderRadius: BorderRadius.circular(13)),
+        child: Padding(
+          padding:  EdgeInsets.only(left: isTablet? 30 : 10.0, right: isTablet? 30 : 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                child: Container(
                   decoration: BoxDecoration(
-                      color: HexColor(vm.addPatientBackColor),
+                      color: HexColor(vm.forMeBackColor),
                       borderRadius: BorderRadius.circular(10)),
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: isTablet? 60 : MediaQuery.of(context).size.height * 0.06,
                   width: MediaQuery.of(context).size.width * .4,
                   child: Center(
                       child: Text(
-                    "Add patient",
-                    style: GoogleFonts.poppins(
-                        color: HexColor(vm.addPatientTextColor)),
-                  ))),
-              onTap: () {
-                vm.getAppointType(false, true);
-                if (vm.forMe == false) {
-                  vm.getButtonColor(
-                      "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");
-                }
-              },
-            )
-          ],
+                    "For Me",
+                    style:
+                        GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: HexColor(vm.forMeTextColor)),
+                  )),
+                ),
+                onTap: () {
+                  vm.getAppointType(true, false);
+                  if (vm.addPatient == false) {
+                    vm.getButtonColor(
+                        "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
+                  }
+                },
+              ),
+              InkWell(
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: HexColor(vm.addPatientBackColor),
+                        borderRadius: BorderRadius.circular(10)),
+                    height: isTablet? 65 : MediaQuery.of(context).size.height * 0.06,
+                    width: MediaQuery.of(context).size.width * .4,
+                    child: Center(
+                        child: Text(
+                      "Add patient",
+                      style: GoogleFonts.poppins(
+                        fontSize: isTablet? 20 : 15,
+                          color: HexColor(vm.addPatientTextColor)),
+                    ))),
+                onTap: () {
+                  vm.getAppointType(false, true);
+                  if (vm.forMe == false) {
+                    vm.getButtonColor(
+                        "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
-    var doctorCard = Positioned(
+    var doctorCard = doctorInformation==null? Positioned(
       top: 10,
       left: 0,
       right: 0,
       child: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+        padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
         child: Container(
-          height: 120,
+          height:isTablet? 140 : 120,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+          ),
+          child: Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.white,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey[300],
+               ),
+              height:isTablet? 140 : 120,
+            ),
+          ),
+        ),
+      ),) : Positioned(
+      top: 10,
+      left: 0,
+      right: 0,
+      child: Padding(
+        padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
+        child: Container(
+          height:isTablet? 140 : 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -369,8 +407,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               Row(
                 children: [
                   Container(
-                    height: 120,
-                    width: 108,
+                    height: isTablet ? 140 : 120,
+                    width: isTablet? 180 : width<330 ? 90 : 108,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
@@ -379,31 +417,29 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           ? loadLogo(vm.doctorInfo.doctorPhoto)
                           : Image.asset(
                         "assets/icons/dct.png",
-                        fit: BoxFit.cover,
-                        width: 110,
-                        height: 160,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: 20,
+                    width: width < 350 ? 15 : 20,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        vm.doctorInfo?.specializationName??"",
+                        doctorInformation?.specializationName??"",
                         style: GoogleFonts.poppins(
                             height: 1.5,
                             color: AppTheme.appbarPrimary,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w600, fontSize: isTablet? 18 : width < 330 ? 13 : 15 ),
                       ),
                       Container(
-                          width: 185,
+                          width: width< 330 ? width*.54 : width*.5,
                           child: Text(
-                            vm.doctorInfo?.doctorName??"",
+                            doctorInformation?.doctorName??"",
                             style: GoogleFonts.poppins(
-                                fontSize: 12, fontWeight: FontWeight.w700),
+                                fontSize: isTablet? 18 : width< 330 ? 11 : 12, fontWeight: FontWeight.w700),
                           )),
                       SizedBox(
                         height: 1,
@@ -422,13 +458,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           //       GoogleFonts.poppins(height: 0.7, fontSize: 11)),
                           // ),
                           Container(
-                            width: 185,
+                            width: isTablet?width*.65 :  width < 330 ? 170 : 185,
                             child: Text(
                                 jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style:
-                                GoogleFonts.poppins(height: 1.2, fontSize: 11)),
+                                GoogleFonts.poppins(height: 1.2, fontSize:isTablet? 15 :  11)),
                           ),
                         ],
                       ),
@@ -438,6 +474,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       Text(
                         "TK. " + consultFee.toString(),
                         style: GoogleFonts.poppins(
+                          fontSize: isTablet? 17 : width<330 ? 13 : 15,
                           color: AppTheme.appbarPrimary,
                         ),
                       ),
@@ -457,48 +494,49 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         appBar: new AppBar(
           title: new Text(
             "Book your appointment",
-            style: GoogleFonts.poppins(fontSize: 15),
+            key: Key('bookYourAppointmentAppbarKey'),
+            style: GoogleFonts.poppins(fontSize: isTablet? 20 : 15),
           ),
-          actions: <Widget>[
-            // IconButton(
-            //   icon: Icon(
-            //     Icons.notifications,
-            //     color: Colors.white,
-            //     size: 20,
-            //   ),
-            // ),
-            accessTokenVM.accessToken!=null?
-            Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  //color: AppTheme.appbarPrimary,
-                  shape: BoxShape.circle,
-                ),
-                height: 32,
-                width: 32,
-                child: Center(
-                    child: userImageVm.loadProfileImage(profileImage, 31.5, 32,50)
-                ))
-                : SizedBox(),
-            // isLoggedIn == false
-            //     ? Container(
-            //         //margin: EdgeInsets.all(100.0),
-            //         decoration: BoxDecoration(
-            //           shape: BoxShape.circle,
-            //           border: Border.all(
-            //             color: Colors.white,
-            //           ),
-            //         ),
-            //         child: CircleAvatar(
-            //           backgroundImage: AssetImage("assets/images/alok.png"),
-            //           radius: 15.0,
-            //         ),
-            //       )
-            //     : SizedBox(),
-            SizedBox(
-              width: 10,
-            )
-          ],
+          // actions: <Widget>[
+          //   // IconButton(
+          //   //   icon: Icon(
+          //   //     Icons.notifications,
+          //   //     color: Colors.white,
+          //   //     size: 20,
+          //   //   ),
+          //   // ),
+          //   accessTokenVM.accessToken!=null?
+          //   Container(
+          //       decoration: BoxDecoration(
+          //         border: Border.all(color: Colors.white),
+          //         //color: AppTheme.appbarPrimary,
+          //         shape: BoxShape.circle,
+          //       ),
+          //       height: 32,
+          //       width: 32,
+          //       child: Center(
+          //           child: userImageVm.loadProfileImage(profileImage, 31.5, 32,50)
+          //       ))
+          //       : SizedBox(),
+          //   // isLoggedIn == false
+          //   //     ? Container(
+          //   //         //margin: EdgeInsets.all(100.0),
+          //   //         decoration: BoxDecoration(
+          //   //           shape: BoxShape.circle,
+          //   //           border: Border.all(
+          //   //             color: Colors.white,
+          //   //           ),
+          //   //         ),
+          //   //         child: CircleAvatar(
+          //   //           backgroundImage: AssetImage("assets/images/alok.png"),
+          //   //           radius: 15.0,
+          //   //         ),
+          //   //       )
+          //   //     : SizedBox(),
+          //   SizedBox(
+          //     width: 10,
+          //   )
+          // ],
           // leading: IconButton(
           //     icon: Icon(Icons.notes),
           //     onPressed: () => _scaffoldKey.currentState.openDrawer())
@@ -508,7 +546,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           children: <Widget>[
             Positioned(
               child: Padding(
-                padding: const EdgeInsets.only(top: 90.0),
+                padding:  EdgeInsets.only(top: 90.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -530,6 +568,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       child: isStatusOk == true
                           ? Column(
                               children: [
+                                isTablet? SizedBox(height: 40,): SizedBox(),
                                 selectType,
                                 AddPatient(
                                     doctorNo: widget.doctorNo,
@@ -541,11 +580,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                isTablet? SizedBox(height: 40,): SizedBox(),
                                 appointmentDate,
                                 spaceBetween,
                                 Text("Available Slots",
                                     style: GoogleFonts.poppins(
-                                        fontSize: 14,
+                                        fontSize: isTablet? 18 : 14,
                                         fontWeight: FontWeight.w600)),
 
 
@@ -679,7 +719,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                                   .slotSl
                                                                   .toString(),
                                                               style: GoogleFonts.poppins(
-                                                              fontSize:
+                                                              fontSize: isTablet? 18 :
                                                                   MediaQuery.of(context).size.height > 650
                                                                       ? 14 :
                                                                   MediaQuery.of(context).size.height > 550 ? 12: 10,
@@ -707,7 +747,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                                       .toString())
                                                                   .toLocal()),
                                                               style: GoogleFonts.poppins(
-                                                              fontSize:
+                                                              fontSize: isTablet? 18 :
                                                               MediaQuery.of(context).size.height > 650
                                                                   ? 14 :
                                                               MediaQuery.of(context).size.height > 550 ? 12: 10,

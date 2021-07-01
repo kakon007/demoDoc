@@ -35,7 +35,7 @@ class StringResources {
 
   static String passwordChangeSuccessful =
       "Your password has been changed successfully";
-  static String appName = "JobXprss";
+  static String appName = "MyHealthBD";
   static String appNameDev = "$appName Dev";
   static String appNameBeta = "$appName Beta";
   static String appNameQA = "$appName  QA";
@@ -85,6 +85,9 @@ class StringResources {
   ];
   static List<String> memberList = [
    "Family Member", "Others"
+  ];
+  static List<String> ShareType = [
+   "Share With All", "Share With Selective Doctor(s)"
   ];
   static List<String> memberNameList = [
    "Feroz Alam", "Shakil", "Jahid","Monir","Akram"

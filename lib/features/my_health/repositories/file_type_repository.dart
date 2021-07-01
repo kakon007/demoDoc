@@ -25,7 +25,7 @@ class FileTypeRepository {
           dataList: data2.items,
         ));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+       // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
@@ -34,7 +34,7 @@ class FileTypeRepository {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
-      BotToast.showText(text: StringResources.somethingIsWrong);
+     // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

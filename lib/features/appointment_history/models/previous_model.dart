@@ -81,6 +81,8 @@ class Item {
     this.consultationNo,
     this.consultationId,
     this.status,
+    this.companyNo,
+    this.organizationNo,
     this.statusArr,
     this.photo,
   });
@@ -108,6 +110,8 @@ class Item {
   int consultationNo;
   String consultationId;
   int status;
+  int companyNo;
+  int organizationNo;
   dynamic statusArr;
   String photo;
 
@@ -135,6 +139,8 @@ class Item {
     consultationNo: json["consultationNo"],
     consultationId: json["consultationId"],
     status: json["status"],
+    companyNo: json["companyNo"] == null ? null : json["companyNo"],
+    organizationNo: json["organizationNo"] == null ? null : json["organizationNo"],
     statusArr: json["statusArr"],
     photo: json["photo"] == null ? null : json["photo"],
   );
@@ -163,6 +169,8 @@ class Item {
     "consultationNo": consultationNo,
     "consultationId": consultationId,
     "status": status,
+    "companyNo": companyNo == null ? null : companyNo,
+    "organizationNo": organizationNo == null ? null : organizationNo,
     "statusArr": statusArr,
     "photo": photo == null ? null : photo,
   };

@@ -74,7 +74,7 @@ class DashboardScreen extends StatefulWidget {
   String accessToken;
   final Function onTapFeaturedCompany;
   final Function onTapFeaturedAppointment;
-  //LocationData locationData;
+  LocationData locationData;
 
 
   DashboardScreen(
@@ -82,8 +82,8 @@ class DashboardScreen extends StatefulWidget {
       this.isDrawerOpen,
       this.accessToken,
       this.onTapFeaturedCompany,
-      this.onTapFeaturedAppointment
-      //this.locationData
+      this.onTapFeaturedAppointment,
+      this.locationData
       });
 
   @override
@@ -92,11 +92,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen>
     with SingleTickerProviderStateMixin {
-  Location location = new Location();
 
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _currentPosition;
   File imageData;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = new GlobalKey<ScaffoldState>();
@@ -231,32 +227,7 @@ print("StatusCode ${response.statusCode}");
   //   print('LocationData ${locationData.longitude}');
   // }
 
-  getLocationPermission() async{
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    _currentPosition = await location.getLocation();
-    var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
-    vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
-    print('Jahid ${_currentPosition?.longitude}');
-
-  }
 
   @override
   void initState() {
@@ -292,7 +263,7 @@ print("StatusCode ${response.statusCode}");
     vm7.getData();
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
-    getLocationPermission();
+
     // var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
     // vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
     // print('Jahid ${_currentPosition?.longitude}');
@@ -776,7 +747,7 @@ print("StatusCode ${response.statusCode}");
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    _currentPosition!=null?vm9.shouldShowPageLoader ||
+                                    widget.locationData!=null?vm9.shouldShowPageLoader ||
                                         vm5.shouldShowPageLoader ||
                                         vm6.shouldShowPageLoaderForImage
                                         ? SingleChildScrollView(

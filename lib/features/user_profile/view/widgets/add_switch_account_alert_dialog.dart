@@ -237,6 +237,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                 });
           }
         } else {
+          BotToast.closeAllLoading();
           Fluttertoast.showToast(
               msg: "Invalid username/password!",
               toastLength: Toast.LENGTH_SHORT,

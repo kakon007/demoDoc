@@ -1,15 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
-import 'package:myhealthbd_app/features/dashboard/repositories/hospital_list_repository.dart';
-import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/repositories/nearest_hospital_repository.dart';
+import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
 import 'package:provider/provider.dart';
 
 
-class HospitalListViewModel extends ChangeNotifier{
+class NearestHospitalViewModel extends ChangeNotifier{
   List<Item> _hospitalList =[];
 
   AppError _appError;
@@ -21,33 +20,39 @@ class HospitalListViewModel extends ChangeNotifier{
 
   Future<void> refresh(){
     _page = 0;
-  _hospitalList.clear();
+    _hospitalList.clear();
     return getData();
   }
 
-  Future<void> getData() async {
-    CacheRepositories.loadCachedHospital().then((value) {
-      if(value!=null){
-        _hospitalList=value.items;
-        _hospitalList.removeAt(0);
-        notifyListeners();
-      }
-    });
+  Future<void> getData({var userLatitude,var userLongitude}) async {
+    // CacheRepositories.loadCachedHospital().then((value) {
+    //   if(value!=null){
+    //     _hospitalList=value.items;
+    //     _hospitalList.removeAt(0);
+    //     notifyListeners();
+    //   }
+    // });
+    print('Nesrestcall');
+    // print('Hospital :: ' + userLatitude);
+    // print('Hospital :: ' + userLongitude);
     _isFetchingData = true;
     //_lastFetchTime = DateTime.now();
     _isLoading = true;
-    var res = await HospitalListRepositry().fetchHospitalList();
+    var res = await NearestHospitalRepositry().fetchNearestHospitalList(userLatitude: userLatitude,userLongitude: userLongitude);
+    print('Nesrestcallllk');
     notifyListeners();
-   _hospitalList.clear();
+    _hospitalList.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
+      print('worng');
       notifyListeners();
     }, (r) {
       _isLoading= false;
       _isFetchingMoreData = false;
       _hospitalList.addAll(r.dataList);
-      _hospitalList.removeAt(0);
+      print('right');
+      //_hospitalList.removeAt(0);
       notifyListeners();
     });
   }
@@ -69,6 +74,6 @@ class HospitalListViewModel extends ChangeNotifier{
       _isFetchingData && _hospitalList.length == 0;
   bool get isLoading=> _isLoading;
 
-  List<Item> get hospitalList => _hospitalList;
+  List<Item> get hospitalList2 => _hospitalList;
 
 }

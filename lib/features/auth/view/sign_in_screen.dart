@@ -232,6 +232,7 @@ class _SignInState extends State<SignIn> {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => SignUp()));
         },
+        key: Key('signUpKey'),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

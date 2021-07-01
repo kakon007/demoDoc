@@ -4,10 +4,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:location/location.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -20,7 +23,8 @@ import 'package:after_layout/after_layout.dart';
 class HospitalScreen extends StatefulWidget {
   //bool isNotNave;
   FocusNode f1;
-  HospitalScreen({this.f1});
+  LocationData locationData;
+  HospitalScreen({this.f1,this.locationData});
   @override
   _HospitalScreenState createState() => _HospitalScreenState();
 }
@@ -116,6 +120,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     var vm = Provider.of<HospitalListViewModel>(context);
     var vm5 = Provider.of<HospitalLogoViewModel>(context);
     var vm6 = Provider.of<HospitalImageViewModel>(context);
+    var vm9 = appNavigator.getProviderListener<NearestHospitalViewModel>();
     List<Item> list = vm.hospitalList;
     var length = list.length;
     return Scaffold(
@@ -167,6 +172,35 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               searchField,
+              widget.locationData!=null?
+              vm9.shouldShowPageLoader||vm5.shouldShowPageLoader || vm6.shouldShowPageLoaderForImage? Loader():  Expanded(
+    child: ListView.builder(
+    key: Key('listViewBuilderKey'),
+    shrinkWrap: true,
+    itemCount: vm9.hospitalList2.length,
+    itemBuilder: (BuildContext context, int index) {
+    int logoIndex = vm5.hospitalLogoList.indexWhere((element) => element.id==vm9.hospitalList2[index].id);
+    int imageIndex = vm6.hospitalImageList.indexWhere((element) => element.id==vm9.hospitalList2[index].id);
+    return HospitalListCard(loadImage(vm5.hospitalLogoList[logoIndex].photoLogo),
+    vm6.hospitalImageList[imageIndex].photoImg!=null?loadImage(vm6.hospitalImageList[imageIndex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
+      vm9.hospitalList2[index].companyName,
+      vm9.hospitalList2[index].companyAddress == null
+    ? "Mirpur,Dahaka,Bangladesh"
+        : vm9.hospitalList2[index].companyAddress,
+    "60 Doctors",
+      vm9.hospitalList2[index].companyPhone == null
+    ? "+880 1962823007"
+        : vm9.hospitalList2[index].companyPhone,
+      vm9.hospitalList2[index].companyEmail == null
+    ? "info@mysoftitd.com"
+        : list[index].companyEmail,
+      vm9.hospitalList2[index].companyLogo,
+      vm9.hospitalList2[index].companyId,
+      vm9.hospitalList2[index].ogNo.toString(),
+      vm9.hospitalList2[index].id.toString(),
+    index.toString(),
+    );
+    })):
               vm.shouldShowPageLoader||vm5.shouldShowPageLoader || vm6.shouldShowPageLoaderForImage? Loader():  Expanded(
                 child: ListView.builder(
                     key: Key('listViewBuilderKey'),

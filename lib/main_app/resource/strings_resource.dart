@@ -64,7 +64,7 @@ class StringResources {
   static String password= "Password";
   static String confirmPassword= "Confirm password";
   static String address= "Type your address";
-  static String gender ="Gender";
+  static String gender ="Select Gender";
   static String bloodGroup ="Blood Group";
   static String relation ="Relation";
   static String signUpButton= "SIGN UP";

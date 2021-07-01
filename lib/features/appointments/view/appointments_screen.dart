@@ -75,8 +75,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     if (pickedAppointDate != pickedAppointDate2) {
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       Future.delayed(Duration.zero, () async {
+        await vm.getSlotGenerateInfo(
+          date, widget.companyNo, widget.doctorNo, widget.orgNo);
+      if(vm.slotGenerateMessage=='Slot Successfully Generated!'){
         await vm.getSlots(
             pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      }
         pickedAppointDate2 = pickedAppointDate;
         length= vm.slotList.length;
         selectedCard = -1;
@@ -136,8 +140,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
       var vm = Provider.of<AvailableSlotsViewModel>(context, listen: false);
       await vm.getDoctorInfo(widget.companyNo, widget.doctorNo, widget.orgNo);
-      await vm.getSlots(
+      await vm.getSlotGenerateInfo(
           pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      if(vm.slotGenerateMessage=='Slot Successfully Generated!'){
+        await vm.getSlots(
+            pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
+      }
+
       doctorInformation = vm.doctorInfo;
       length = vm.slotList.length;
       vm.getButtonColor("#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
@@ -156,7 +165,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var width = MediaQuery.of(context).size.width;
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
-    print(MediaQuery.of(context).size.width);
+    // print('shakil ${MediaQuery.of(context).size.width}');
     bool isMobile = Responsive.isMobile(context);
     int _crossAxisCount = width >850 ? 6 : width <=850 && width>=650 ? 5 : width> 360 ? 4 :width <= 360 && width >= 300 ? 3 : 2;
     double _crossAxisSpacing = isTablet? 12 : MediaQuery.of(context).size.height > 550? 8 : 3,
@@ -174,14 +183,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var jobTitle=   doctorInformation?.jobtitle??"";
     var photo= doctorInformation?.doctorPhoto??"";
     var consultFee= doctorInformation?.consultationFee??'';
-    // if (pickedAppointDate != pickedAppointDate2) {
-    //   vm.getSlots(
-    //       pickedAppointDate, widget.companyNo, widget.doctorNo, widget.orgNo);
-    //   pickedAppointDate2 = pickedAppointDate;
-    //   //startTimer();
-    //   selectedCard = -1;
-    //   isSelected = false;
-    // }
     List<Items> list = vm.slotList;
     var spaceBetween = SizedBox(
       height: 10,
@@ -206,7 +207,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               spaceBetween,
               Container(
                 height: 45.0,
-                width: isTablet? width*.94 : MediaQuery.of(context).size.width * .85,
+                width: isTablet? width*.94 : MediaQuery.of(context).size.width * .87,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#D6DCFF")),
@@ -233,6 +234,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               ),
             ],
           ),
+          key: Key('selectAppointmentDateKey'),
           onTap: () {
             selectAppointDate(context);
           },
@@ -288,6 +290,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     signInRequired(context);
                   }
                 },
+                key: Key('proceedButtonKey'),
                 textColor: Colors.white,
                 child: Text(
                   "Proceed",
@@ -321,6 +324,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   child: Center(
                       child: Text(
                     "For Me",
+                    key: Key('forMeKey'),
                     style:
                         GoogleFonts.poppins(fontSize: isTablet? 20 : 15,color: HexColor(vm.forMeTextColor)),
                   )),
@@ -343,6 +347,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     child: Center(
                         child: Text(
                       "Add patient",
+                      key: Key('addPatientKey'),
                       style: GoogleFonts.poppins(
                         fontSize: isTablet? 20 : 15,
                           color: HexColor(vm.addPatientTextColor)),
@@ -471,13 +476,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       SizedBox(
                         height: 3,
                       ),
-                      Text(
-                        "TK. " + consultFee.toString(),
-                        style: GoogleFonts.poppins(
-                          fontSize: isTablet? 17 : width<330 ? 13 : 15,
-                          color: AppTheme.appbarPrimary,
-                        ),
-                      ),
+                      // Text(
+                      //   "TK. " + consultFee.toString(),
+                      //   style: GoogleFonts.poppins(
+                      //     fontSize: isTablet? 17 : width<330 ? 13 : 15,
+                      //     color: AppTheme.appbarPrimary,
+                      //   ),
+                      // ),
                     ],
                   )
                 ],
@@ -664,6 +669,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                                           .appointStatus;
                                                     });
                                                   },
+                                                      key: Key('availableSlot$index'),
                                                   child: Container(
                                                     decoration:
                                                         BoxDecoration(

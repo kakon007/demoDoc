@@ -13,6 +13,7 @@ import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_
 import 'package:myhealthbd_app/features/dashboard/view_model/nearest_appointment_card_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/document_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/file_type_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view_model/prescription_view_model.dart';
@@ -41,17 +42,22 @@ import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'features/user_profile/view_model/family_members_view_model.dart';
 import 'features/user_profile/view_model/relationship_view_model.dart';
 import 'features/user_profile/view_model/user_image_view_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-
-  FlavorConfig(
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    FlavorConfig(
       flavor: Flavor.DEV,
       color: Colors.deepOrange,
-  );
-  runApp(
+    );
+    runApp(
       ChangeNotifierProvider(create: (context)=>AccessTokenProvider(),child: MyHealthBdApp()),
-  );
+    );
+  });
+
+
 }
 
 class MyHealthBdApp extends StatelessWidget {
@@ -98,6 +104,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<SharedFileViewModel>(create: (context) =>  SharedFileViewModel()),
       ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) =>  SearchDoctorViewModel()),
       ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) =>  ResetPasswordViewModel()),
+      ChangeNotifierProvider<NearestHospitalViewModel>(create: (context) =>  NearestHospitalViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

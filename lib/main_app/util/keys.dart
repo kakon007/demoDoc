@@ -4,6 +4,19 @@ class Keys{
   //common keys
   static final backButton = find.byTooltip('Back');
 
+  // sign up keys
+  static final signUpKey = find.byValueKey('signUpKey');
+  static final createAnAccountKey = find.byValueKey('createAnAccountKey');
+  static final signInKey = find.byValueKey('signInKey');
+  static final signUpButtonKey = find.byValueKey('signUpButtonKey');
+  static final signUpNameKey = find.byValueKey('signUpNameKey');
+  static final signUpBirthDateKey = find.byValueKey('signUpBirthDateKey');
+  static final signUpGenderKey = find.byValueKey('signUpGenderKey');
+  static final signUpAddressKey = find.byValueKey('signUpAddressKey');
+  static final signUpMobileKey = find.byValueKey('signUpMobileKey');
+  static final signUpEmailKey = find.byValueKey('signUpEmailKey');
+  static final signUpOKButtonKey = find.byValueKey('signUpOKButtonKey');
+
   //sign in keys
   static final signInText = find.byValueKey('signInTextKey');
   static final signInButton = find.byValueKey('signInButtonKey');
@@ -102,8 +115,39 @@ class Keys{
   static final applyFilterButtonKey = find.byValueKey('applyFilterButtonKey');
   static final filteredResultKey = find.byValueKey('filteredResultKey');
   static final clearFilterButton = find.byValueKey('clearFilterButton');
+
+
+  
   //book your appointment key
   static final bookNowKey0 = find.byValueKey('bookNowKey0');
   static final bookNowKey8 = find.byValueKey('bookNowKey8');
   static final bookYourAppointmentAppbarKey = find.byValueKey('bookYourAppointmentAppbarKey');
+  static final selectAppointmentDateKey = find.byValueKey('selectAppointmentDateKey');
+  static final availableSlot0 = find.byValueKey('availableSlot0');
+  static final availableSlot10 = find.byValueKey('availableSlot10');
+  static final proceedButtonKey = find.byValueKey('proceedButtonKey');
+  static final forMeKey = find.byValueKey('forMeKey');
+  static final addPatientKey = find.byValueKey('addPatientKey');
+  static final consultTypeForMeKey = find.byValueKey('consultTypeForMeKey');
+  static final consultFeeFroMe = find.byValueKey('consultFeeFroMe');
+  static final confirmBookingKey = find.byValueKey('confirmBookingKey');
+  static final selectAddPatientType = find.byValueKey('selectAddPatientType');
+  static final selectTypeHintKey = find.byValueKey('selectTypeHintKey');
+  static final familyMemberSelectKey = find.byValueKey('familyMemberSelectKey');
+  static final familyMemberHintKey = find.byValueKey('familyMemberHintKey');
+  static final familyMemberAppbarKey = find.byValueKey('familyMemberAppbarKey');
+  static final selectFamilyMemberKey0 = find.byValueKey('selectFamilyMemberKey0');
+  static final consultTypeAddPatientKey = find.byValueKey('consultTypeAddPatientKey');
+  static final consultTypeHintTextKey = find.byValueKey('consultTypeHintTextKey');
+  static final consultFeeAddPatient = find.byValueKey('consultFeeAddPatient');
+  static final appointNameKey = find.byValueKey('appointNameKey');
+  static final appointEmailKey = find.byValueKey('appointEmailKey');
+  static final appointMobileKey = find.byValueKey('appointMobileKey');
+  static final appointAddressKey = find.byValueKey('appointAddressKey');
+  static final appointGenderKey = find.byValueKey('appointGenderKey');
+  static final genderHintTextKey = find.byValueKey('genderHintTextKey');
+  static final appointBirthDateKey = find.byValueKey('appointBirthDateKey');
+  static final appointmentSuccessOkButtonKey = find.byValueKey('appointmentSuccessOkButtonKey');
+
+
 }

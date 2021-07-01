@@ -935,7 +935,7 @@ class _UserProfileState extends State<UserProfile> {
                           child: SizedBox(
                             width: isTablet
                                 ? MediaQuery.of(context).size.width * .95
-                                : 350,
+                                : MediaQuery.of(context).size.width * .95,
                             height: isTablet ? 50 : 40,
                             child: Center(
                               child: Row(

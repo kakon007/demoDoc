@@ -35,8 +35,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   SwitchAccounts switchAccounts;
   List<SwitchAccounts> accountsList;
   var username;
+  bool isExpanded = false;
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
+      //initialDatePickerMode: DatePickerMode.year,
       context: context,
       builder: (BuildContext context, Widget child) {
         return Theme(
@@ -101,7 +103,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
-    maxHeight = isTablet? 665 : 635;
+    maxHeight = !isExpanded ? isTablet? 665 : 635 : isTablet? 685 : 655  ;
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var userId = vm.userDetailsList.id;
@@ -299,6 +301,18 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             ],
           ),
         ),
+        bloodBorderColor != "#FF0000"
+            ? SizedBox(
+          width: 2,
+        )
+            : Padding(
+            padding:
+            const EdgeInsets.only(left: 16, top: 8, right: 0),
+            child: Text(
+              "This Field Is Required",
+              style: GoogleFonts.poppins(
+                  color: Colors.red, fontSize: 11),
+            )),
       ],
     );
     //String formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
@@ -409,6 +423,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                             address,
                             dateOfBirth,
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 gender,
@@ -453,6 +468,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                       onPressed: () {
                                         if (_formKey.currentState.validate() &&
                                             _selectedBlood != null) {
+                                          setState(() {
+                                            isExpanded = false;
+                                          });
                                           vm.updateProfile(
                                               userId.toString(),
                                               _username.text,
@@ -489,17 +507,21 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                           });
                                           Navigator.pop(context);
                                         } else {
-                                          maxHeight = isTablet? 755 : 680;
-                                          if (_selectedBlood == null) {
-                                            setState(() {
-                                              bloodBorderColor = "FF0000";
-                                            });
-                                          }
-                                          if (_selectedBlood != null) {
-                                            setState(() {
-                                              bloodBorderColor = "EAEBED";
-                                            });
-                                          }
+                                          setState(() {
+                                            isExpanded = true;
+                                            maxHeight = isTablet? 755 : 680;
+                                            if (_selectedBlood == null) {
+                                              setState(() {
+                                                bloodBorderColor = "#FF0000";
+                                              });
+                                              if (_selectedBlood != null) {
+                                                setState(() {
+                                                  bloodBorderColor = "#EAEBED";
+                                                });
+                                              }
+                                            }
+                                          });
+
                                         }
                                       },
                                       color: AppTheme.appbarPrimary,

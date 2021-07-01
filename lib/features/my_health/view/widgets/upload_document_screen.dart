@@ -343,7 +343,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                     InkWell(
                       onTap: () {
                         getImage().then((value) => {
-                        _username.text=_image.toString().split('/').last,
+                        _username.text=_image.path.toString().split('/').last,
                         });
                       },
                       child: Container(
@@ -422,7 +422,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           filesize = file.lengthSync();
                           setState(() {});
                         }
-                        _username.text=file.toString().split('/').last;
+                        _username.text=file.path.split('/').last;
                         print('FileTapped:::');
                       },
                       child: Container(
@@ -472,7 +472,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                               width: isTablet ? 340 : width <= 360 ? width / 2.5 : 90,
                               child: Center(
                                 child: Text(
-                                  file.toString().split('/').last,
+                                  file.path.toString().split('/').last,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.poppins(

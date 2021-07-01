@@ -1129,7 +1129,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     .upComingAppointmentList[
                                                                 index]
                                                                     .consultationId);
-                                                            vm5.zoomDetailsList ==
+                                                            vm.upComingAppointmentList[index].consultationId ==
                                                                 null
                                                                 ? Fluttertoast
                                                                 .showToast(

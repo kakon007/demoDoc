@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
@@ -17,6 +18,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashBoard_prompt.d
 import 'package:myhealthbd_app/main_app/views/widgets/sign_in_dashboard_prompt_for_patient_profile.dart';
 import 'package:provider/provider.dart';
 import '../features/appointment_history/view/get_appointment_screen.dart';
+import 'package:location/location.dart';
 class HomeScreen extends StatefulWidget {
   String accessToken;
   bool connection;
@@ -32,6 +34,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   bool isDrawerOpen = false;
   bool isSelected=false;
   int currentIndex=0;
+  Location location = new Location();
+
+
+  LocationData _currentPosition;
   List<Animation> scaleAnimations;
   _moveTo(int index){
     currentIndex=index;
@@ -50,6 +56,34 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   // bool isNotNave;
   FocusNode f1=FocusNode();
+
+////Location///
+  getLocationPermission() async{
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _currentPosition = await location.getLocation();
+    var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
+    vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
+    print('Jahid ${_currentPosition?.longitude}');
+
+  }
 
   @override
   void initState() {
@@ -82,6 +116,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     ];
     //_animationController.forward();
     //screenShots=screens.values.toList();
+    getLocationPermission();
+
   }
 
   @override
@@ -95,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           _animationController.forward();
           print("Heeoollo");
         });
-      },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
+      },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,locationData: _currentPosition,),
       1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
       2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
@@ -112,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           _animationController.forward();
           print("Heeoollo");
         });
-      },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,),
+      },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,locationData: _currentPosition,),
       1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
       2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
@@ -286,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     _moveTo(2);
                   },onTapFeaturedAppointment: () {
                     _moveTo(1);
-                  },),
+                  },locationData: _currentPosition,),
                 ),
               ),
             )]),
@@ -300,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         //     duration: const Duration(milliseconds: 400),
         //     curve: Curves.easeInOut);
       }),
-      HospitalScreen(f1: f1,),
+      HospitalScreen(f1: f1,locationData: _currentPosition,),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(
       //     children:[

@@ -5,11 +5,11 @@ import 'package:test/test.dart';
 //flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
 
 main(){
-  loginTest();
+  signInTest();
 }
-Future<void> loginTest()async{
+Future<void> signInTest()async{
 
-  group('Login Test', ()
+  group('Signin Test', ()
   {
     FlutterDriver driver;
     setUpAll(() async {

@@ -48,12 +48,17 @@ void main() async{
   await Firebase.initializeApp();
 
   FlavorConfig(
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    FlavorConfig(
       flavor: Flavor.DEV,
       color: Colors.deepOrange,
-  );
-  runApp(
+    );
+    runApp(
       ChangeNotifierProvider(create: (context)=>AccessTokenProvider(),child: MyHealthBdApp()),
-  );
+    );
+  });
+
+
 }
 
 class MyHealthBdApp extends StatelessWidget {

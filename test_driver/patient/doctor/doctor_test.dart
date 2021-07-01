@@ -2,6 +2,9 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:myhealthbd_app/main_app/util/keys.dart';
 import 'package:test/test.dart';
 
+import '../auth/sign_in_common_test.dart';
+import '../hospital/hospital_doctor_page_navigate_test.dart';
+
 //flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
 
 main(){
@@ -20,56 +23,9 @@ Future<void> doctorTest()async{
         driver.close();
       }
     });
-    test(
-        'When__try_to_tap_sign_in__should__go_to_sign_in_page', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 3), () {});
-        await driver.tap(Keys.signInText);
-        await Future.delayed(const Duration(seconds: 3), () {});
-      });
-    });
-    test('When__try_to_login_correct_password_and_correct_username__should__login_and_get_easy_doctor_text', () async {
-      await driver.runUnsynchronized(() async {
-        await driver.tap(Keys.userNameKey);
-        await driver.enterText('MH112105000309');
-        await Future.delayed(const Duration(seconds: 3), () {});
-        await driver.tap(Keys.passwordKey);
-        await driver.enterText('123123');
-        await driver.tap(Keys.signInButton);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.easyDoctorTextKey), "Easy Doctor Appointment");
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
+    signInCommonTest(); //sign in
     //test cases are started from here
-    test(
-        'When__try_to_tap_hospitals_from_bottom_navbar__should__go_to_hospitals_screen_and_get_Hospitals_&_Diagnostics_on_appbar', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.tap(Keys.hospitalBottomNavbarKey);
-        await Future.delayed(const Duration(seconds: 5), () {});
-        await expect(await driver.getText(Keys.hospitalAppbarKey), "Hospitals & Diagnostics");
-      });
-    });
-
-    test(
-        'When__try_to_tap_get_appointment_on_first_index__should__go_to_doctors_screen_and_get_doctors_text', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 5), () {});
-        await driver.tap(Keys.getAppointmentKey0);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.doctorsKey), "Doctors");
-      });
-    });
-    test(
-        'When__try_to_tap_book_now_button_first_index__should__go_to_book_your_appointment_screen_screen_and_get_book_your_appointment_screen', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 5), () {});
-        await driver.tap(Keys.bookNowKey0);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.bookYourAppointmentAppbarKey), "Book your appointment");
-      });
-    });
+    hospitalDoctorCommonTest(); //navigate till book appointment page
     test(
         'When__try_to_tap_back_button__should__go_to_doctors_screen_and_get_doctors_text', () async {
       await driver.runUnsynchronized(() async {

@@ -95,7 +95,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
-            "News, Blog & Video",
+            itemIndex==2? 'Video' : itemIndex==1 ? 'News' :  "Blog",
             style:
             GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
           ),
@@ -122,6 +122,9 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
 
     return Scaffold(
       appBar: AppBar(
+         title: Text(itemIndex==2? 'Video' : itemIndex==1 ? 'News' :  "Blog",
+           style:
+           GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),),
         leading: BackButton(color: Colors.black),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -131,7 +134,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            searchField,
+            //searchField,
             CarouselSlider.builder(
               itemCount: list.length,
               itemBuilder: (BuildContext context, int a, int i) {
@@ -208,16 +211,18 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
             SizedBox(
               height: 8,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                itemIndex == 2
-                    ? "Health Video"
-                    : itemIndex == 1
-                    ? "Health News"
-                    : "Health Blog",
-                style: GoogleFonts.poppins(
-                    fontSize: isTablet? 15 : 12, fontWeight: FontWeight.w500),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  itemIndex == 2
+                      ? "Health Video"
+                      : itemIndex == 1
+                      ? "Health News"
+                      : "Health Blog",
+                  style: GoogleFonts.poppins(
+                      fontSize: isTablet? 15 : 12, fontWeight: FontWeight.w500),
+                ),
               ),
             ),
             Expanded(

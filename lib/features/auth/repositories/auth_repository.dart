@@ -108,6 +108,9 @@ class AuthRepository {
       // } else {
       //   return Left(AppError.serverError);
     }
+    else{
+      BotToast.closeAllLoading();
+    }
   }
 
   Future<Either<AppError, ResetPasswordModel>> fetchResetInfo(String userName, String email) async {

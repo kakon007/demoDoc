@@ -185,6 +185,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                   color: AppTheme.appbarPrimary,
                                   child: Text(
                                     "OK",
+                                    key:Key('appointmentSuccessOkButtonKey'),
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
                                     fontSize: isTablet? 17 : 14

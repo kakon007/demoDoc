@@ -29,6 +29,7 @@ class Keys{
   static final userAvatarKey = find.byValueKey('userAvatarKey');
   static final dashboardWelcomeText = find.byValueKey('dashboardWelcomeText');
   static final easyDoctorTextKey = find.byValueKey('easyDoctorTextKey');
+  static final thisFieldisRequired = find.text('This Field Is Required');
 
 
   // profile keys

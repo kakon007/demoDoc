@@ -43,15 +43,17 @@ import 'features/user_profile/view_model/relationship_view_model.dart';
 import 'features/user_profile/view_model/user_image_view_model.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-
-
-  FlavorConfig(
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    FlavorConfig(
       flavor: Flavor.DEV,
       color: Colors.deepOrange,
-  );
-  runApp(
+    );
+    runApp(
       ChangeNotifierProvider(create: (context)=>AccessTokenProvider(),child: MyHealthBdApp()),
-  );
+    );
+  });
+
+
 }
 
 class MyHealthBdApp extends StatelessWidget {

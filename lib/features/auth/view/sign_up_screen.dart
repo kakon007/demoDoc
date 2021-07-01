@@ -26,7 +26,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  String _formatBirthDate = 'Birthdate';
+  String _formatBirthDate = 'Select Date';
   List<String> selectedList;
   String selectedDuration;
   String birthDateBorderColor = "#EAEBED";
@@ -200,7 +200,7 @@ class _SignUpState extends State<SignUp> {
                         "$_formatBirthDate",
                         style: TextStyle(
                             fontSize: isTablet ? 17 : 14,
-                            color: _formatBirthDate == 'Birthdate'
+                            color: _formatBirthDate == 'Select Date'
                                 ? HexColor("#D2D2D2")
                                 : Colors.black),
                       ),
@@ -338,7 +338,7 @@ class _SignUpState extends State<SignUp> {
         onTap: () async {
           //signUp(_name.text,_email.text, _mobile.text, _address.text, _selectedGender,_formatDate2);
           //showAlert(context);
-          if (_formKey.currentState.validate() && _selectedGender != null && _formatBirthDate!='Birthdate') {
+          if (_formKey.currentState.validate() && _selectedGender != null && _formatBirthDate!='Select Date') {
             setState(() {
               isTappedSignUpButton = true;
             });
@@ -400,7 +400,7 @@ class _SignUpState extends State<SignUp> {
               if (_selectedGender == null) {
                 genderBorderColor = "#FF0000";
               }
-              if (_formatBirthDate == 'Birthdate') {
+              if (_formatBirthDate == 'Select Date') {
                 birthDateBorderColor = "#FF0000";
               }
             });

@@ -1,47 +1,3 @@
-// import 'package:flutter/cupertino.dart';
-// import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
-// import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
-// import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-// import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
-// import 'package:myhealthbd_app/main_app/failure/app_error.dart';
-//
-// class AvailableSlotsViewModel extends ChangeNotifier{
-//   List<Items> _slots =[];
-//   AppError _appError;
-//   DateTime _lastFetchTime;
-//   bool _isFetchingMoreData = false;
-//   bool _isFetchingData = false;
-//
-//
-//   Future<void> getSlots(DateTime pickedAppointDate, String companyNo, String doctorNo, String orgNo) async {
-//     var res = await AvailableSlotsRepository().fetchSpecializationList(pickedAppointDate, companyNo, doctorNo, orgNo);
-//     notifyListeners();
-//     _slots.clear();
-//     res.fold((l) {
-//       _appError = l;
-//       _isFetchingMoreData = false;
-//       notifyListeners();
-//     }, (r) {
-//       _isFetchingMoreData = false;
-//       _slots.addAll(r.slotList);
-//       notifyListeners();
-//     });
-//   }
-//
-//
-//   AppError get appError => _appError;
-//
-//   bool get isFetchingData => _isFetchingData;
-//
-//   bool get isFetchingMoreData => _isFetchingMoreData;
-//
-//
-//   bool get shouldShowPageLoader =>
-//       _isFetchingData && _slots.length == 0;
-//
-//   List<Items> get slotList => _slots;
-//
-// }
 
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
@@ -54,6 +10,7 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 class AvailableSlotsViewModel extends ChangeNotifier {
   List<Items> _slots = [];
   Obj _doctors;
+  String _slotGenerateMessage;
   List<PatientItem> _patientItem = [];
   String _patNo;
   String _patOther;
@@ -169,9 +126,27 @@ class AvailableSlotsViewModel extends ChangeNotifier {
     _addPatientTextColor = addPatientTextColor;
     notifyListeners();
   }
-
+  Future<void> getSlotGenerateInfo(DateTime pickedAppointDate, String companyNo,
+      String doctorNo, String orgNo) async {
+    var res = await AvailableSlotsRepository()
+        .fetchSlotGenerateInfo(pickedAppointDate, companyNo, doctorNo, orgNo);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isFetchingMoreData = false;
+      notifyListeners();
+    }, (r) {
+      _slotGenerateMessage=r.message;
+      _isLoading = false;
+      notifyListeners();
+    });
+  }
   Future<void> getSlots(DateTime pickedAppointDate, String companyNo,
       String doctorNo, String orgNo) async {
+    print("date $pickedAppointDate");
+    print("company $companyNo");
+    print("doctorNo $doctorNo");
+    print("orgNo $orgNo");
     var res = await AvailableSlotsRepository()
         .fetchSlotInfo(pickedAppointDate, companyNo, doctorNo, orgNo);
     _slots.clear();
@@ -419,4 +394,5 @@ String get patNo => _patNo;
   String get docNo => _docNo;
   String get patOther => _patOther;
   String get phoneNumber => _phoneNumber;
+  String get slotGenerateMessage => _slotGenerateMessage;
 }

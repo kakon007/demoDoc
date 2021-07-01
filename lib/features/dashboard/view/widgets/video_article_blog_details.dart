@@ -122,6 +122,9 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
 
     return Scaffold(
       appBar: AppBar(
+         title: Text(itemIndex==2? 'Video' : itemIndex==1 ? 'News' :  "Blog",
+           style:
+           GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),),
         leading: BackButton(color: Colors.black),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -131,7 +134,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            searchField,
+            //searchField,
             CarouselSlider.builder(
               itemCount: list.length,
               itemBuilder: (BuildContext context, int a, int i) {

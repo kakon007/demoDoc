@@ -1134,17 +1134,18 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 //     ? lengthofPrescriptionList
                                 //
                                 //     :
-                                (vm.prescriptionList.length == 0 &&
-                                    !vm.isFetchingData)
-                                    ? Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor:
-                                    AlwaysStoppedAnimation<Color>(
-                                        AppTheme.appbarPrimary),
-                                  ),
-                                )
-                                    : lengthofPrescriptionList == 0
-                                    ? Align(
+                                vm.prescriptionList.length == 0
+                                    ?
+                                // Center(
+                                //   child: CircularProgressIndicator(
+                                //     valueColor:
+                                //     AlwaysStoppedAnimation<Color>(
+                                //         AppTheme.appbarPrimary),
+                                //   ),
+                                // )
+                                //     : lengthofPrescriptionList == 0
+                                //     ?
+                                Align(
                                   alignment: Alignment.center,
                                   child: Container(
                                     child: Column(

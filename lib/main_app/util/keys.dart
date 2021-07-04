@@ -148,6 +148,8 @@ class Keys{
   static final genderHintTextKey = find.byValueKey('genderHintTextKey');
   static final appointBirthDateKey = find.byValueKey('appointBirthDateKey');
   static final appointmentSuccessOkButtonKey = find.byValueKey('appointmentSuccessOkButtonKey');
+  static final noFamilyMemberKey = find.byValueKey('noFamilyMemberKey');
+  static final addNowButtonKey = find.byValueKey('addNowButtonKey');
 
 
 }

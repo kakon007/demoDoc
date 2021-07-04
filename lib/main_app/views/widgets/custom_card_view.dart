@@ -20,7 +20,8 @@ class CustomCard extends StatelessWidget {
   String companyNo;
   String orgNo;
   String id;
-  CustomCard(@required this.image,@required this.backgroundImage,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
+  String index;
+  CustomCard(@required this.image,@required this.backgroundImage,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,this.index);
   @override
   Widget build(BuildContext context) {
     bool isDesktop = Responsive.isDesktop(context);
@@ -80,6 +81,7 @@ class CustomCard extends StatelessWidget {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,backgroundImage,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
                       },
+                      key: Key('dashboardGetAppointmentButtonKey$index'),
                       child: Material(
                         elevation: 0  ,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

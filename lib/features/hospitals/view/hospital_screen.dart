@@ -96,6 +96,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
+    print('Width ${MediaQuery.of(context).size.width}');
     var searchField = SignUpFormField(
       focusNode: widget.f1,
       onChanged: (value) {

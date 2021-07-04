@@ -735,6 +735,7 @@ print("StatusCode ${response.statusCode}");
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('hospitalViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -838,6 +839,7 @@ print("StatusCode ${response.statusCode}");
                                                     vm9.hospitalList2[i].companyId,
                                                     vm9.hospitalList2[i].ogNo.toString(),
                                                     vm9.hospitalList2[i].id.toString(),
+                                                    i.toString()
                                                   );
                                                 }),
                                           ],
@@ -935,6 +937,7 @@ print("StatusCode ${response.statusCode}");
                                                       list[i].companyId,
                                                       list[i].ogNo.toString(),
                                                       list[i].id.toString(),
+                                                      i.toString()
                                                     );
                                                   }),
                                                 ],
@@ -973,6 +976,7 @@ print("StatusCode ${response.statusCode}");
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('newsViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -1062,7 +1066,9 @@ print("StatusCode ${response.statusCode}");
                                                                       .toLocal()),
                                                               list2[i].title,
                                                               list2[i]
-                                                                  .newsLink);
+                                                                  .newsLink,
+                                                          index.toString()
+                                                          );
                                                         },
                                                       ),
                                                     ],

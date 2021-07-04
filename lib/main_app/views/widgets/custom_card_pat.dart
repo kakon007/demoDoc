@@ -229,6 +229,7 @@ class CustomCardPat extends StatelessWidget {
                                         SizedBox(height: 15),
                                         GestureDetector(
                                           onTap: onTapFeaturedAppointment,
+                                          key: Key('viewAllAppointmentKey'),
                                           child: Material(
                                             elevation: 2,
                                             shape: RoundedRectangleBorder(

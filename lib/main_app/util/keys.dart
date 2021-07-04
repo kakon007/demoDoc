@@ -4,6 +4,17 @@ class Keys{
   //common keys
   static final backButton = find.byTooltip('Back');
 
+
+  // dashboard keys
+  static final viewAllAppointmentKey = find.byValueKey('viewAllAppointmentKey');
+  static final dashboardBottomNavbarKey = find.byValueKey('dashboardBottomNavbarKey');
+  static final readNewsButtonKey0 = find.byValueKey('readNewsButtonKey0');
+  static final readNewsButtonKey3 = find.byValueKey('readNewsButtonKey3');
+  static final dashboardGetAppointmentButtonKey0 = find.byValueKey('dashboardGetAppointmentButtonKey0');
+  static final dashboardGetAppointmentButtonKey3 = find.byValueKey('dashboardGetAppointmentButtonKey3');
+  static final hospitalViewAllKey = find.byValueKey('hospitalViewAllKey');
+  static final newsViewAllKey = find.byValueKey('newsViewAllKey');
+  static final blogVlogNewsAppbarKey = find.byValueKey('blogVlogNewsAppbarKey');
   // sign up keys
   static final signUpKey = find.byValueKey('signUpKey');
   static final createAnAccountKey = find.byValueKey('createAnAccountKey');
@@ -117,7 +128,10 @@ class Keys{
   static final clearFilterButton = find.byValueKey('clearFilterButton');
 
 
-  
+  //appointment history
+  static final appointmentBottomNavbarKey = find.byValueKey('appointmentBottomNavbarKey');
+  static final appointmentsAppbarKey = find.byValueKey('appointmentsAppbarKey');
+
   //book your appointment key
   static final bookNowKey0 = find.byValueKey('bookNowKey0');
   static final bookNowKey8 = find.byValueKey('bookNowKey8');

@@ -305,6 +305,7 @@ class _GetAppointmentState extends State<GetAppointment> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           'Appointments',
+          key: Key('appointmentsAppbarKey'),
           style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
         ),
         actions: [

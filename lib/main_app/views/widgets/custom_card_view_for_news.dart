@@ -15,7 +15,8 @@ class CustomCardNews extends StatelessWidget {
   String titleText;
   String subTitleText;
   String url;
-  CustomCardNews(@required this.image,@required this.titleText,@required this.subTitleText,@required this.url,);
+  String index;
+  CustomCardNews(@required this.image,@required this.titleText,@required this.subTitleText,@required this.url,this.index);
   @override
   Widget build(BuildContext context) {
     bool isDesktop = Responsive.isDesktop(context);
@@ -87,7 +88,9 @@ class CustomCardNews extends StatelessWidget {
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Read News",style:  GoogleFonts.poppins(color: Colors.white,fontSize:  width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  13 :11,fontWeight: FontWeight.w600),),
+                              child: Text("Read News",
+                                key: Key('readNewsButtonKey$index'),
+                                style:  GoogleFonts.poppins(color: Colors.white,fontSize:  width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  13 :11,fontWeight: FontWeight.w600),),
                             ),
                           ),
                         ),

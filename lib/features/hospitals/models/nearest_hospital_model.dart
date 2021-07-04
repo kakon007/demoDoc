@@ -28,7 +28,7 @@ class NrearestHospitalModel {
   bool valid;
   dynamic id;
   dynamic model;
-  List<Item> items;
+  List<Items> items;
   dynamic obj;
 
   factory NrearestHospitalModel.fromJson(Map<String, dynamic> json) => NrearestHospitalModel(
@@ -39,7 +39,7 @@ class NrearestHospitalModel {
     valid: json["valid"] == null ? null : json["valid"],
     id: json["id"],
     model: json["model"],
-    items: json["items"] == null ? null : List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+    items: json["items"] == null ? null : List<Items>.from(json["items"].map((x) => Items.fromJson(x))),
     obj: json["obj"],
   );
 
@@ -56,8 +56,8 @@ class NrearestHospitalModel {
   };
 }
 
-class Item {
-  Item({
+class Items {
+  Items({
     this.id,
     this.companyId,
     this.companyName,
@@ -153,7 +153,7 @@ class Item {
   dynamic photoLogo;
   double placeDistance;
 
-  factory Item.fromJson(Map<String, dynamic> json) => Item(
+  factory Items.fromJson(Map<String, dynamic> json) => Items(
     id: json["id"] == null ? null : json["id"],
     companyId: json["companyId"] == null ? null : json["companyId"],
     companyName: json["companyName"] == null ? null : json["companyName"],

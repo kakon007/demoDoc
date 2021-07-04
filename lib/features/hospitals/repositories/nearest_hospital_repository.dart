@@ -48,6 +48,6 @@ class NearestHospitalRepositry {
 }
 
 class HospitalListM {
-  List<Item> dataList =  List<Item>();
+  List<Items> dataList =  List<Items>();
   HospitalListM({this.dataList});
 }

@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
+import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
 
   LocationData _currentPosition;
+  List<Items> hospitalList2;
   List<Animation> scaleAnimations;
   _moveTo(int index){
     currentIndex=index;
@@ -81,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _currentPosition = await location.getLocation();
     var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
     vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
+    hospitalList2=vm9.hospitalList2;
     print('Jahid ${_currentPosition?.longitude}');
 
   }
@@ -336,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         //     duration: const Duration(milliseconds: 400),
         //     curve: Curves.easeInOut);
       }),
-      HospitalScreen(f1: f1,locationData: _currentPosition,),
+      HospitalScreen(f1: f1,locationData: _currentPosition,hospitalList2: hospitalList2,),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(
       //     children:[

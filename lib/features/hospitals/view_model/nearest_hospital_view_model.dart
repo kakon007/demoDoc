@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 
 class NearestHospitalViewModel extends ChangeNotifier{
-  List<Item> _hospitalList =[];
+  List<Items> _hospitalList =[];
 
   AppError _appError;
   DateTime _lastFetchTime;
@@ -74,6 +74,6 @@ class NearestHospitalViewModel extends ChangeNotifier{
       _isFetchingData && _hospitalList.length == 0;
   bool get isLoading=> _isLoading;
 
-  List<Item> get hospitalList2 => _hospitalList;
+  List<Items> get hospitalList2 => _hospitalList;
 
 }

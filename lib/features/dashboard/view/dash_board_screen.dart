@@ -668,6 +668,7 @@ print("StatusCode ${response.statusCode}");
                                               children: [
                                                 Text(
                                                   StringResources.searchBoxHint,
+                                                  key: Key('dashboardSearchKey'),
                                                   style: TextStyle(
                                                     color: Colors.grey[400],
                                                     fontSize: width >= 400
@@ -1086,6 +1087,7 @@ print("StatusCode ${response.statusCode}");
                                         children: [
                                           Text(
                                             "MyHealthBD Blog",
+                                            key: Key('myHealthBolgKey'),
                                             style: GoogleFonts.poppins(
                                                 fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
@@ -1108,6 +1110,7 @@ print("StatusCode ${response.statusCode}");
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('blogViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -1171,6 +1174,7 @@ print("StatusCode ${response.statusCode}");
                                                         .newsList[index].title,
                                                     news: vm4.newsList[index]
                                                         .blogDetail,
+                                                    index:  i.toString(),
                                                   );
                                                 },
                                                 scrollDirection:
@@ -1189,6 +1193,7 @@ print("StatusCode ${response.statusCode}");
                                         children: [
                                           Text(
                                             "MyHealthBD Videos",
+                                            key: Key('myHealthVideoKey'),
                                             style: GoogleFonts.poppins(
                                                 fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
@@ -1211,6 +1216,7 @@ print("StatusCode ${response.statusCode}");
                                             },
                                             child: Text(
                                               StringResources.viewAllText,
+                                              key: Key('videoViewAllKey'),
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#8592E5"),
                                                   fontSize: isTablet? 15 : 11,
@@ -1280,7 +1286,9 @@ print("StatusCode ${response.statusCode}");
                                                           .videoId,
                                                       list3[index]
                                                           .snippet
-                                                          .description);
+                                                          .description,
+                                                  index.toString()
+                                                  );
                                                 },
                                                 scrollDirection:
                                                     Axis.horizontal,

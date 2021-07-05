@@ -11,7 +11,8 @@ class CustomBlogWidget extends StatefulWidget {
   String title;
   String news;
   String author;
-  CustomBlogWidget({this.logo,this.title, this.image, this.author, this.news});
+  String index;
+  CustomBlogWidget({this.logo,this.title, this.image, this.author, this.news, this.index});
   @override
   _CustomBlogWidgetState createState() => _CustomBlogWidgetState();
 }
@@ -69,7 +70,7 @@ class _CustomBlogWidgetState extends State<CustomBlogWidget> {
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("Read Blog",style:  GoogleFonts.poppins(color: Colors.white,fontSize:width<=1250 && width>=1000 ? 14 : width<=999 && width>=650? 13 :11,fontWeight: FontWeight.w600),),
+                              child: Text("Read Blog", key: Key('readBlogButtonKey${widget.index}'),style:  GoogleFonts.poppins(color: Colors.white,fontSize:width<=1250 && width>=1000 ? 14 : width<=999 && width>=650? 13 :11,fontWeight: FontWeight.w600),),
                             ),
                           ),
                         ),

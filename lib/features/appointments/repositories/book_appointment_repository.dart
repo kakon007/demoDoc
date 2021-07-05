@@ -123,11 +123,12 @@ class BookAppointmentRepository {
     String paymodeNo,
     String regNo,
   ) async {
-    var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/bookAppointment";
+    var url = "${Urls.baseUrl}diagnostic-api/api/opd-appointments/create";
     print("Shakil" + regNo);
+    print('slotNo $slotNo');
     try {
       final http.Response response = await http.post(
-        Uri.parse(url),
+        Uri.parse(url),headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',},
         body: jsonEncode(<String, dynamic>{
           "doctorNo": doctorNo,
           "doctorName": doctorName,
@@ -163,7 +164,10 @@ class BookAppointmentRepository {
           "regNo": regNo,
         }),
       );
+      print('status ${response.statusCode}');
+      print('body ${response.body}');
       if (response.statusCode == 200) {
+        print('abcd');
         print(response.body);
         BookAppointmentModel data = bookAppointmentModelFromJson(response.body);
         //BotToast.closeAllLoading();

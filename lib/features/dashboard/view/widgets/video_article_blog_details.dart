@@ -96,7 +96,6 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
             itemIndex==2? 'Video' : itemIndex==1 ? 'News' :  "Blog",
-            key: Key('blogVlogNewsAppbarKey'),
             style:
             GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
           ),
@@ -124,6 +123,7 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
     return Scaffold(
       appBar: AppBar(
          title: Text(itemIndex==2? 'Video' : itemIndex==1 ? 'News' :  "Blog",
+           key: Key('blogVlogNewsAppbarKey'),
            style:
            GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.black),),
         leading: BackButton(color: Colors.black),

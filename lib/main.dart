@@ -110,7 +110,8 @@ class MyHealthBdApp extends StatelessWidget {
       child: MultiProvider(
         providers: providers,
         child: MaterialApp(
-            themeMode: ThemeMode.light,
+            themeMode:ThemeMode.light,
+          theme: ThemeData(brightness: Brightness.light),
           builder: BotToastInit(),
              navigatorObservers: [BotToastNavigatorObserver()],
              navigatorKey: appNavigator.navigatorKey,

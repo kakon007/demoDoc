@@ -1223,7 +1223,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 final file= vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!') :await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
                                                 vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!') :Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
-                                                  child:PdfFileViewerScreen(file),
+                                                  child:PdfFileViewerScreen(file,vm.prescriptionList[index].consultationId),
                                                 ),);
                                               }
                                               print("tappeddd");

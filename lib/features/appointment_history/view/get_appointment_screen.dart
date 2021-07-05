@@ -2047,7 +2047,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     type: PageTransitionType
                                                                         .rightToLeft,
                                                                     child: PdfFileViewerScreen(
-                                                                        file),
+                                                                        file,vm2.previousAppointmentList[index].consultationId),
                                                                   ),
                                                                 );
                                                               },

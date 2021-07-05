@@ -955,7 +955,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                   vm10.sharedFileList==null?Center(child: Text("No Share History Yet.")):
                   Column(
                     children: <Widget>[
-                      vm10.sharedFileList==null?Text("No Share History Yet."):ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
+                      vm10.sharedFileList==null?Text("No Share History Yet."):
+                      ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
                         var photo = vm10.sharedFileList[index]?.photo ?? "";
                         return  Padding(padding: EdgeInsets.only(top: 5, bottom: 5),child:
                         Container(
@@ -1046,8 +1047,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                             // SizedBox(
                             //   width: 3,
                             // ),
-
-                       isRemove? Padding(
+                                vm10.sharedFileList[index].isEdit? Padding(
                          padding: const EdgeInsets.only(right:8.0),
                          child: Row(
                            children: [
@@ -1099,7 +1099,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                                onTap: ()async{
 
                                  setState(() {
-                                   isRemove=false;
+                                   //isRemove=false;
+                                   vm10.isEdit(index);
                                  });
 
                                },
@@ -1128,7 +1129,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                            onTap: (){
 
                              setState(() {
-                               isRemove=true;
+                               //isRemove=true;
+                               vm10.isEdit(index);
                              });
 
                            },

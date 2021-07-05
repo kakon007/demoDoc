@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
@@ -22,19 +23,32 @@ class PdfFileViewerScreen extends StatefulWidget {
 }
 
 class _PdfFileViewerScreenState extends State<PdfFileViewerScreen> {
-
+  PDFDocument document;
+  bool _isLoading = true;
+  loadDocument() async {
+    document = await PDFDocument.fromFile(widget.file);
+    setState(() => _isLoading = false);
+  }
+  @override
+  void initState() {
+    super.initState();
+    loadDocument();
+  }
   @override
   Widget build(BuildContext context) {
-    final name=basename(widget.file.path);
+    //final name=basename(widget.file.path);
     return Scaffold(
-      backgroundColor: Colors.grey,
-      appBar: AppBar(
-        title: Text(name),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: PDFView(
-          filePath: widget.file.path,
+      // backgroundColor: Colors.grey,
+      // appBar: AppBar(
+      //   title: Text('Exp'),
+      // ),
+      body: Center(
+        child: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            :PDFViewer(
+          //filePath: widget.file.path,
+          document: document,
+          zoomSteps: 1,
         ),
       ),
     );

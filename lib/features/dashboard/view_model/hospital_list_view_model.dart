@@ -26,6 +26,7 @@ class HospitalListViewModel extends ChangeNotifier{
   }
 
   Future<void> getData() async {
+    print('Hits');
     CacheRepositories.loadCachedHospital().then((value) {
       if(value!=null){
         _hospitalList=value.items;
@@ -36,18 +37,21 @@ class HospitalListViewModel extends ChangeNotifier{
     _isFetchingData = true;
     //_lastFetchTime = DateTime.now();
     _isLoading = true;
+    print('Hitss');
     var res = await HospitalListRepositry().fetchHospitalList();
     notifyListeners();
    _hospitalList.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingMoreData = false;
+      print('Hitss worng');
       notifyListeners();
     }, (r) {
       _isLoading= false;
       _isFetchingMoreData = false;
       _hospitalList.addAll(r.dataList);
       _hospitalList.removeAt(0);
+      print('Hitss right');
       notifyListeners();
     });
   }

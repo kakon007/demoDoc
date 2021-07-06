@@ -123,12 +123,12 @@ class BookAppointmentRepository {
     String paymodeNo,
     String regNo,
   ) async {
-    var url = "${Urls.baseUrl}diagnostic-api/api/opd-appointments/create";
+    var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/bookAppointment";
     print("Shakil" + regNo);
     print('slotNo $slotNo');
     try {
       final http.Response response = await http.post(
-        Uri.parse(url),headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',},
+        Uri.parse(url),
         body: jsonEncode(<String, dynamic>{
           "doctorNo": doctorNo,
           "doctorName": doctorName,

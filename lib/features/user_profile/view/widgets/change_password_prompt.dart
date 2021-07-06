@@ -294,8 +294,11 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
   }
 
   void showAlert(BuildContext context, String message) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var changePassViewModel =
-        Provider.of<PasswordChangeViewModel>(context, listen: false);
+    Provider.of<PasswordChangeViewModel>(context, listen: false);
     showGeneralDialog(
       barrierLabel: "Label",
       barrierDismissible: false,
@@ -303,18 +306,15 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
       transitionDuration: Duration(milliseconds: 700),
       context: context,
       pageBuilder: (context, anim1, anim2) {
-        return Material(
-          type: MaterialType.transparency,
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 2.8,
-                bottom: MediaQuery.of(context).size.height / 2.8,
-                right: 20,
-                left: 20),
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(
-                height: 120,
+        return Align(
+          alignment: Alignment.center,
+          child: Material(
+            type: MaterialType.transparency,
+            child: Container(
+                height: 150,
+                width:  isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width<=330 ? 250 : 290,
+                // child: SizedBox.expand(child: FlutterLogo()),
+                //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   gradient: LinearGradient(begin: Alignment.topRight,
@@ -323,54 +323,51 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                         0.2,
                         0.5,
                       ], colors: [
-                    HexColor("#D6DCFF"),
-                    HexColor("#FFFFFF"),
-                  ]),
+                        HexColor("#D6DCFF"),
+                        HexColor("#FFFFFF"),
+                      ]),
                   //borderRadius: 10,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: Column(
-                      //crossAxisAlignment: CrossAxisAlignment.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                  width: 260,
-                                  child: Text(changePassViewModel.message,textAlign: TextAlign.center,)),
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: 260,
+                              child: Text(changePassViewModel.message,textAlign: TextAlign.center,)),
                         ),
-                        //Text(changePassViewModel.message),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FlatButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                minWidth: 120,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                                color: AppTheme.appbarPrimary,
-                                child: Text(
-                                  "OK",
-                                  key: Key('changePasswordPromptOkButton'),
-                                  style:
-                                      GoogleFonts.poppins(color: Colors.white),
-                                ))
-                          ],
-                        )
-                      ]),
-                ),
-              ),
-            ),
+                      ],
+                    ),
+                    //Text(changePassViewModel.message),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FlatButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            minWidth: 120,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            color: AppTheme.appbarPrimary,
+                            child: Text(
+                              "OK",
+                              key: Key('changePasswordPromptOkButton'),
+                              style:
+                              GoogleFonts.poppins(color: Colors.white),
+                            ))
+                      ],
+                    )
+                  ],
+                )),
           ),
         );
       },

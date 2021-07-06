@@ -141,6 +141,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 print("Presssss");
               },
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
@@ -156,14 +157,21 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         child: Center(
                             child: vm10.loadProfileImage(photo, 60, 60,50)
                         ))
-                        : CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/dPro.png'),
-                        radius: 27,
-                      ),
-                    ),
+                        : Container(
+                        decoration: BoxDecoration(
+                            color: AppTheme.signInSignUpColor,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white)
+                        ),
+                        height:55,
+                        width: 55,
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/dPro.png',
+                            height: 30,
+                            width:30,
+                          ),
+                        )),
                   ),
                   SizedBox(
                     width: 10,

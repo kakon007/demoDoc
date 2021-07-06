@@ -113,11 +113,11 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                 maxWidth: isTablet ? 500 : 400,
                 maxHeight: !isExpanded
                     ? isTablet
-                        ? 400
-                        : isValidCredential? 285 : 305
+                        ? 410
+                        : isValidCredential? 295 : 315
                     : isTablet
-                        ? 380
-                        : 305),
+                        ? 390
+                        : 315),
             child: Material(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -160,6 +160,7 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   username,
+                                  SizedBox(height: isTablet?10 : 10,),
                                   email,
                                   isValidCredential ? SizedBox() : Container(color: Colors.red[100],child: Text('Invalid username or email', style: GoogleFonts.poppins(color: Colors.red),))
                                 ],

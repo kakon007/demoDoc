@@ -520,6 +520,7 @@ print("StatusCode ${response.statusCode}");
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
+                                          border: Border.all(color: Colors.white)
                                       ),
                                       height:isTablet? 32 : width<=330 ? 27 :32,
                                       width: isTablet? 32 : width<=330 ? 27 :32,

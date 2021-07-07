@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart' as logo;
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
@@ -18,6 +19,7 @@ class HospitalLogoRepository {
         //Map<String, dynamic> jsonMap = json.decode(response.body);
         //data = jsonMap["items"];
         logo.CompanyLogoModel data = logo.companyLogoModelFromJson(response.body);
+        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalLogo);
 
         return Right(HospiitalLogoM(
           dataList: data.items,

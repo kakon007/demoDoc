@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/hospitals/models/company_image_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
@@ -17,6 +18,7 @@ class HospitalImagerepository {
       var response = await client.get(Uri.parse(url));
       if (response.statusCode == 200) {
         CompanyImageModel data2 = companyImageModelFromJson(response.body);
+        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalImage);
         print("image repository::");
         return Right(HospitalImageM(
           dataList2: data2.items,

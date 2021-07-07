@@ -71,7 +71,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           //vm22.getData();
           hospitalList2=widget.hospitalList2;
           hospitalItems2.addAll(hospitalList2);
-          print('List of Item ${hospitalItems2.first.companyName}');
+          //print('List of Item ${hospitalItems2.first.companyName}');
         }
 
     });

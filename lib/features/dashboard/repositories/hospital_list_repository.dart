@@ -22,10 +22,10 @@ class HospitalListRepositry {
       if (response.statusCode == 200) {
         print('Hits enterrr');
         HospitalListModel data = hospitalListModelFromJson(response.body);
-        print('Hospital Data:: ${data.items[5].companyAddress}' );
+        //print('Hospital Data:: ${data.items[5].companyAddress}' );
         print('Hits entnt');
         CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalList);
-        print('Hospital Data:: ' + data.items[5].companyAddress);
+        //print('Hospital Data:: ' + data.items[5].companyAddress);
         // return data;
 
         return Right(HospiitalListM(

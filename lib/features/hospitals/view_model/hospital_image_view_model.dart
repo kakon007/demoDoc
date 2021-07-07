@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/hospitals/models/company_image_model.dart';
 import 'package:myhealthbd_app/features/hospitals/repositories/hospital_image_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/repositories/hospital_logo_repository.dart';
@@ -35,6 +36,14 @@ class HospitalImageViewModel extends ChangeNotifier{
     //       CommonServiceRule.onLoadPageReloadTime) return;
     // }
 
+
+    CacheRepositories.loadCachedHospitalImage().then((value) {
+      if(value!=null){
+        _hospitalImageList=value.items;
+        _hospitalImageList.removeAt(0);
+        notifyListeners();
+      }
+    });
     print("DATA fromImage List:::::");
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();

@@ -352,23 +352,28 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     width: 5,
                                   ),
                                   Container(
-                                    //width: 105,
-                                    child: SelectableText.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                              text: widget.emailText,
-                                              style: GoogleFonts.poppins(
-                                                color: HexColor('#141D53'),
-                                                fontSize: isTablet? 15 : width <350  ? 9 :11,
-                                              ),
-                                              recognizer: TapGestureRecognizer()
-                                                ..onTap = () {
-                                                  launch(
-                                                      ('mailto://${widget.emailText}'));
-                                                }),
-                                        ],
-                                      ),
+                                    width: 105,
+                                    child: RichText(
+                                      maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                text:
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: widget.emailText,
+                                                style: GoogleFonts.poppins(
+                                                  color: HexColor('#141D53'),
+                                                  fontSize: isTablet? 15 : width <350  ? 9 :11,
+                                                ),
+                                                recognizer: TapGestureRecognizer()
+                                                  ..onTap = () {
+                                                    launch(
+                                                        ('mailto://${widget.emailText}'));
+                                                  }),
+                                          ],
+                                        ),
+
+
                                     ),
                                   ),
                                 ],

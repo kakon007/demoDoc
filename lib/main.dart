@@ -25,6 +25,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/view_document_view_
 import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/filter_view_model.dart';
+import 'package:myhealthbd_app/features/notification/view_model/notification_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/registered_member_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
@@ -105,6 +106,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) =>  SearchDoctorViewModel()),
       ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) =>  ResetPasswordViewModel()),
       ChangeNotifierProvider<NearestHospitalViewModel>(create: (context) =>  NearestHospitalViewModel()),
+      ChangeNotifierProvider<NotificationViewModel>(create: (context) =>  NotificationViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

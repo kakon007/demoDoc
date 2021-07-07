@@ -40,6 +40,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     // "Documents",
     "Family Members",
     "Switch Account",
+    "Notifications",
     "More",
   ];
 

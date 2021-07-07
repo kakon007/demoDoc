@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
@@ -159,7 +160,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       //5:NotificationScreen(),
       3:FamilyMemberListScreen(),
       4:SwitchAccount(),
-      5:SettingScreen(accessToken: accessTokenVm.accessToken,),
+      5:NotificationScreen(),
+      6:SettingScreen(accessToken: accessTokenVm.accessToken,),
     };
 
     screenShots=accessTokenVm.accessToken==null?screens.values.toList():screens2.values.toList();

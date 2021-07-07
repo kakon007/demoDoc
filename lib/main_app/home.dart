@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
     vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
     hospitalList2=vm9.hospitalList2;
-    print('Jahid ${_currentPosition?.longitude}');
+    //print('Jahid ${_currentPosition?.longitude}');
 
   }
 

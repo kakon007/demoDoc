@@ -237,8 +237,13 @@ print("StatusCode ${response.statusCode}");
         await Provider.of<UserImageViewModel>(context, listen: false).userImage();
         var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
         await vm19.getData();
-        var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
-        await vm9.getData(vm19.userDetailsList.hospitalNumber);
+        if (this.mounted) {
+
+            var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
+            await vm9.getData(vm19.userDetailsList.hospitalNumber);
+
+        }
+
         if(accessTokenVm.accessToken!=null){
           setDeviceTokenForNotification(doviceToken:await getToken(),accessToken: accessTokenVm.accessToken,userName: vm19.userDetailsList.hospitalNumber,userNo: vm19.userDetailsList.ssModifier.toString());
         }

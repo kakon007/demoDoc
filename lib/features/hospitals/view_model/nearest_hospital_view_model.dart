@@ -26,12 +26,12 @@ class NearestHospitalViewModel extends ChangeNotifier{
   }
 
   Future<void> getData({var userLatitude,var userLongitude}) async {
-    CacheRepositories.loadCachedNearestHospital().then((value) {
-      if(value!=null){
-        _hospitalList=value.items;
-        notifyListeners();
-      }
-    });
+    // CacheRepositories.loadCachedNearestHospital().then((value) {
+    //   if(value!=null){
+    //     _hospitalList=value.items;
+    //     notifyListeners();
+    //   }
+    // });
     print('Nesrestcall');
     // print('Hospital :: ' + userLatitude);
     // print('Hospital :: ' + userLongitude);

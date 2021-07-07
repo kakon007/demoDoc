@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.da
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 
@@ -120,6 +121,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
+    var width = MediaQuery.of(context).size.width;
     var vm = Provider.of<UserDetailsViewModel>(context);
     var vm9 = Provider.of<AccessTokenProvider>(context, listen: false);
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
@@ -152,10 +157,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           //color: AppTheme.appbarPrimary,
                           shape: BoxShape.circle,
                         ),
-                        height: 60,
-                        width: 60,
+                        height: 50,
+                        width: 50,
                         child: Center(
-                            child: vm10.loadProfileImage(photo, 60, 60,50)
+                            child: vm10.loadProfileImage(photo, 45, 45,50)
                         ))
                         : Container(
                         decoration: BoxDecoration(
@@ -163,13 +168,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.white)
                         ),
-                        height:55,
-                        width: 55,
+                        height:45,
+                        width: 45,
                         child: Center(
                           child: Image.asset(
                             'assets/images/dPro.png',
-                            height: 30,
-                            width:30,
+                            height: 25,
+                            width:25,
                           ),
                         )),
                   ),
@@ -188,12 +193,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                 AppTheme.appbarPrimary),),
                           ):
                            Container(
-                                  width: devicewidth*0.5,
+                             width: width<=400? 140 : double.infinity,
                                   child: Text(
                                     userDetails?.fname??'',
-                                      maxLines:1,overflow:TextOverflow.ellipsis,
+                                      maxLines:2,overflow:TextOverflow.ellipsis,
                                     style: GoogleFonts.roboto(
-                                        fontSize: 18,
+                                        fontSize: isTablet? 18 : width<=360 ? 12 : 16,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white),
                                   ),
@@ -204,7 +209,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         ],
                       ),
                       SizedBox(height: 5,),
-                      Text(userDetails?.address??"Dhaka", style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: 12)),
+                      Container(
+                          width: width<=400? 140 : double.infinity,
+                          child: Text(userDetails?.address??"Dhaka",maxLines: 2, style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: isTablet? 16 : width<=360 ? 10 : 14,))),
                       SizedBox(height: 8,),
                       Container(
                         width: 120,

@@ -129,10 +129,14 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                     fontSize: isTablet? 20 :width < 330 ? 16 : 18,
                                     fontWeight: FontWeight.w400),
                               ),
-                              Text(
-                                vm.userDetailsList?.address ?? '',
-                                style: GoogleFonts.poppins(
-                                    color: HexColor("#8592E5"), fontSize: isTablet? 16 :13),
+                              Container(
+                                width: 190,
+                                child: Text(
+                                  vm.userDetailsList?.address ?? '',
+                                  maxLines: 1,
+                                  style: GoogleFonts.poppins(
+                                      color: HexColor("#8592E5"), fontSize: isTablet? 16 :13),
+                                ),
                               ),
                               SizedBox(
                                 height: isTablet? 10 :width < 330 ? 5 : 8,

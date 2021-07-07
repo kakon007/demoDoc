@@ -150,7 +150,7 @@ class _SignInState extends State<SignIn> {
                 StringResources.rememberMe,
                 style: GoogleFonts.roboto(
                     color: HexColor('#141D53'),
-                    fontSize: isTablet? 17 : 15
+                    fontSize: isTablet? 17 : width<=330? 13 : 15
                 ),
               )
             ],
@@ -164,7 +164,7 @@ class _SignInState extends State<SignIn> {
               StringResources.forgetPassword,
               style: GoogleFonts.roboto(
                   color: HexColor('#141D53'),
-                  fontSize: isTablet? 17 : 15
+                  fontSize: isTablet? 17 : width<=330? 13 : 15
               ),
             ),
           )
@@ -238,7 +238,7 @@ class _SignInState extends State<SignIn> {
           children: [
             Text(StringResources.dontHaveAccount,
               style: GoogleFonts.roboto(
-                  fontSize: isTablet? 17 : 15,
+                  fontSize: isTablet? 17 :width<=330? 13 :  15,
                   color: HexColor("#8592E5"), fontWeight: FontWeight.w300),
             ),
             Text(
@@ -246,7 +246,7 @@ class _SignInState extends State<SignIn> {
               style: GoogleFonts.roboto(
                   color: AppTheme.signInSignUpColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: isTablet? 17 : 15
+                  fontSize: isTablet? 17 :width<=330? 13 :  15
               ),
             )
           ],

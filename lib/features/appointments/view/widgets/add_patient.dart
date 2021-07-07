@@ -1091,6 +1091,38 @@ class _AddPatientState extends State<AddPatient> {
                       }
                     });
                     if (_formKey.currentState.validate()) {
+
+                      // await vm2.getAppointData(
+                      //
+                      //   startTime: vm.startTime.toString(),
+                      //   slotSl: vm.slotSl.toString(),
+                      //   slotNo: vm.slotNo.toString(),
+                      //   salutation: 'Mr.',
+                      //   remarks: vm.remarks.toString(),
+                      //   phoneMobile: vm.phoneNumber.toString(),
+                      //   mStatus: vm3.userDetailsList.maritalStatus==null? '' : vm3.userDetailsList.maritalStatus,
+                      //   gender: vm3.userDetailsList.gender,
+                      //   fname: vm3.userDetailsList.fname,
+                      //   endTime: vm.endTime.toString(),
+                      //   email: vm3.userDetailsList.email,
+                      //   dob: vm3.userDetailsList.dob.toString(),
+                      //   consultationType:selectedConsultationTypeForMe.toString()
+                      //     ,
+                      //   bloodGroup: vm3.userDetailsList.bloodGroup==null? '' : vm3.userDetailsList.bloodGroup,
+                      //   appointType: '',
+                      //   appointStatus: "1",
+                      //   appFromFlag: '',
+                      //   ageYy: vm3.userDetailsList.ageYy==null? '':vm3.userDetailsList.ageYy.toString(),
+                      //   ageMm: vm3.userDetailsList.ageMm==null ?'': vm3.userDetailsList.ageMm.toString(),
+                      //   ageDd: vm3.userDetailsList.ageDd==null ?'': vm3.userDetailsList.ageDd.toString(),
+                      //   address: vm3.userDetailsList.address,
+                      //   patientType: vm.patNo.toString(),
+                      //   regNo: vm3.userDetailsList.id.toString(),
+                      //   shiftdtlNo: vm.shiftdtlNo.toString(),
+                      //   appointDate: vm.appointDate.toString(),
+                      //   doctorNo: widget.doctorNo
+                      //
+                      // );
                       await vm2.getAppointData(
                         widget.doctorNo,
                         vm.doctorName,

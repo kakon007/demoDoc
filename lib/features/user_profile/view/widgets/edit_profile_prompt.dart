@@ -110,6 +110,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;
     var width = MediaQuery.of(context).size.width * 0.44;
+    var deviceWidth = MediaQuery.of(context).size.width;
     var name = SignUpFormField(
       labelFontSize: isTablet? 15 : 12,
       hintSize: isTablet? 17 : 15,
@@ -192,7 +193,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               Padding(
                 padding: EdgeInsets.only(left: 15.0),
                 child: Container(
-                  width: isTablet ? 180  : width * .78,
+                  width: isTablet ? 180  :deviceWidth<=330?width*.76: width * .78,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
                       key: Key("profileGenderKey"),
@@ -264,7 +265,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               Padding(
                 padding: EdgeInsets.only(left: 18.0),
                 child: Container(
-                  width: isTablet ? 180  : width * .76,
+                  width: isTablet ? 180  : deviceWidth<=330? width*.75 : width * .76,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
                       key: Key("profileBloodGroupKey"),
@@ -324,7 +325,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             children: [
               Container(
                   height: 20.0,
-                  width: width*.5,
+                  width: deviceWidth<=330?width*.58 : width*.5,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -340,7 +341,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 48.0,
-                width: isTablet ? 438:MediaQuery.of(context).size.width * 0.82,
+                width: isTablet ? 438: deviceWidth<=330?deviceWidth*.8: deviceWidth * 0.82,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),

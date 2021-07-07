@@ -194,7 +194,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         : vm9.hospitalList2[index].companyPhone,
       vm9.hospitalList2[index].companyEmail == null
     ? "info@mysoftitd.com"
-        : list[index].companyEmail,
+        : vm9.hospitalList2[index].companyEmail,
       vm9.hospitalList2[index].companyLogo,
       vm9.hospitalList2[index].companyId,
       vm9.hospitalList2[index].ogNo.toString(),

@@ -777,10 +777,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     );
     var searchField = Container(
       //height: 40,
-        width: 200,
+        width: deviceWidth<=360? 135 : 200,
         height: 60,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 20.0, right: 12),
+          padding: const EdgeInsets.only(bottom: 20.0, right: 0),
           child:
           // Stack(
           //     children:[
@@ -823,7 +823,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
     var searchFieldforDoc = Container(
       //height: 40,
-        width: 200,
+        width: deviceWidth<=360? 135 : 200,
         height: 60,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20.0, right: 12),
@@ -872,7 +872,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
     var searchFieldforReport = Container(
       //height: 40,
-        width: 200,
+        width: deviceWidth<=360? 135 : 200,
         height: 60,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20.0, right: 12),
@@ -1096,10 +1096,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                     child: Text(
                                       "${vm.totalCount.toString()} Prescription(s) found",
                                       style: GoogleFonts.poppins(
-                                          fontSize: isTablet ? 15 : 10),
+                                          fontSize: isTablet ? 15 :deviceWidth<=360? 10 :11),
                                     ),
                                   ),
                                   Spacer(),
+                                  SizedBox(width: 10,),
                                   if (vm.isInSearchMode) searchField,
                                   IconButton(
                                     key: Key('featuredJobSearchToggleButtonKey'),
@@ -1448,10 +1449,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                     child: Text(
                                       "${vm2.totalCount.toString()} Report(s) found",
                                       style: GoogleFonts.poppins(
-                                          fontSize: isTablet ? 15 : 10),
+                                          fontSize: isTablet ? 15 :deviceWidth<=360? 10 :11),
                                     ),
                                   ),
                                   Spacer(),
+                                  SizedBox(width: 15,),
                                   if (vm2.isInSearchMode) searchFieldforReport,
                                   IconButton(
                                     key: Key('featuredJButonKey'),
@@ -1827,7 +1829,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   child: Text(
                                     "${vm3.totalCount.toString()} Document(s) found",
                                     style: GoogleFonts.poppins(
-                                        fontSize: isTablet ? 15 : 10),
+                                        fontSize: isTablet ? 15 :deviceWidth<=360 ? 10 : 11),
                                   ),
                                 ),
                                 Spacer(),
@@ -2129,12 +2131,13 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                             3,
                                                           ),
                                                           Row(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
                                                               Container(
                                                                   width: isTablet? deviceWidth*.72 : deviceWidth <=
                                                                       330
-                                                                      ? 220
-                                                                      : 150,
+                                                                      ? 140
+                                                                      : 220,
                                                                   child:
                                                                   Text(
                                                                      vm3.documentList[index]?.attachmentName??'',
@@ -2155,7 +2158,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
                                                                 _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
 
-                                                              },child: Icon(Icons.edit,color: HexColor('#354291'),)),
+                                                              },child: Icon(Icons.edit,size:isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: HexColor('#354291'),)),
                                                             ],
                                                           ),
                                                           SizedBox(

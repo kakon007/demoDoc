@@ -208,7 +208,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
       child: Container(
-        width: MediaQuery.of(context).size.width * .49,
+        width: deviceWidth<=360? deviceWidth*.38 : MediaQuery.of(context).size.width * .49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -250,7 +250,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField2 = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
       child: Container(
-        width: MediaQuery.of(context).size.width * .49,
+        width: deviceWidth<=360? deviceWidth*.38: MediaQuery.of(context).size.width * .49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -382,7 +382,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             left: 12.0, bottom: 20),
                                         child: Text(
                                           "${vm.totalCount.toString()} Appointment(s) found",
-                                          style: GoogleFonts.poppins(fontSize: isTablet? 13 : 10),
+                                          style: GoogleFonts.poppins(fontSize: isTablet? 13 :deviceWidth<=360?9: 10),
                                         ),
                                       ),
                                       Spacer(),
@@ -1220,7 +1220,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             left: 12.0, bottom: 20),
                                         child: Text(
                                           "${vm2.totalCount.toString()} Appointment(s) found",
-                                          style: GoogleFonts.poppins(fontSize: isTablet? 13 :10),
+                                          style: GoogleFonts.poppins(fontSize: isTablet? 13 :deviceWidth<=360? 9 :10),
                                         ),
                                       ),
                                       Spacer(),

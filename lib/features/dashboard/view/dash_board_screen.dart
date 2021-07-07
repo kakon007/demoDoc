@@ -443,7 +443,7 @@ print("StatusCode ${response.statusCode}");
                   title:  Text(
                    vm19.userDetailsList==null?StringResources.dasboardAppBarText:'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
                     style: GoogleFonts.poppins(
-                        fontSize: isTablet? 18 : width<=320 ? 13 : 15, fontWeight: FontWeight.w600),
+                        fontSize: isTablet? 18 : width<=330 ? 10 : 15, fontWeight: FontWeight.w600),
                   ),
                   actions: [
                     Padding(

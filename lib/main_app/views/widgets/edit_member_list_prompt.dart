@@ -59,7 +59,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ?425 : width<=330 ? width*.76 :  width*.79,
+                width: isTablet ?425 : width<=330 ? width*.72 :  width*.75,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: _selectedRelation!=null ? HexColor("#8592E5") : HexColor("D2D2D2")),
@@ -236,7 +236,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: isTablet?190 :  width / 2.6,
+                            width: isTablet?190 :  width / 3,
                             decoration: BoxDecoration(),
                             height: isTablet? 50 : 45,
                             child: FlatButton(
@@ -255,7 +255,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                     style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
                           ),
                           Container(
-                            width: isTablet?190: width / 2.6,
+                            width: isTablet?190: width / 3,
                             height: isTablet? 50 : 45,
                             child: AbsorbPointer(
                              absorbing: _selectedRelation!=null ? false : true,

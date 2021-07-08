@@ -476,7 +476,7 @@ class StringResources {
   static var signUpWithEmailText = "Sign Up with email";
   static var emailAlreadyExistText =
       "Email Already exist! Try login or rest password";
-  static var somethingIsWrong = "Something is wrong ! \nTry again later";
+  static var somethingIsWrong = "Unable To reach server! \nTry again after some time.";
   static var somethingIsWrongPleaseUserDifferentGoogleAccount = "Something is wrong,\nPlease use different google account";
   static var somethingIsWrongSingleLine = "Something is wrong!";
   static var unauthorizedText = "Unauthorized";

@@ -2365,20 +2365,23 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                               children: <
                                                                   Widget>[
                                                                 //for (var _ in Iterable.generate(5))
-                                                                Text(
-                                                                  vm3.documentList[index].description == null
-                                                                      ? "No Description Found!"
-                                                                      : vm3.documentList[index].description,
-                                                                  softWrap:
-                                                                  true,
-                                                                  overflow:
-                                                                  TextOverflow.ellipsis,
-                                                                  maxLines: 2,
-                                                                  style: GoogleFonts.poppins( fontSize: isTablet
-                                                                      ? 15
-                                                                      : width <= 330
-                                                                      ? 8
-                                                                      : 12,),
+                                                                Container(
+                                                                  width: 220,
+                                                                  child: Text(
+                                                                    vm3.documentList[index].description == null
+                                                                        ? "No Description Found!"
+                                                                        : vm3.documentList[index].description,
+                                                                    softWrap:
+                                                                    true,
+                                                                    overflow:
+                                                                    TextOverflow.ellipsis,
+                                                                    maxLines: 1,
+                                                                    style: GoogleFonts.poppins( fontSize: isTablet
+                                                                        ? 15
+                                                                        : width <= 330
+                                                                        ? 8
+                                                                        : 12,),
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),

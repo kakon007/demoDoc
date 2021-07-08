@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -126,6 +127,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       hintText: 'Name',
     );
     var email = SignUpFormField(
+      inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
+      keyboardType: TextInputType.emailAddress,
       labelFontSize: isTablet? 15 : 12,
       hintSize: isTablet? 17 : 15,
       textFieldKey: Key("profileEmailKey"),
@@ -138,6 +141,11 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       hintText: 'Email',
     );
     var mobile = SignUpFormField(
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(11),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+      ],
+      keyboardType: TextInputType.number,
       textFieldKey: Key("profileMobileNumberKey"),
       labelFontSize: isTablet? 15 : 12,
       hintSize: isTablet? 17 : 15,

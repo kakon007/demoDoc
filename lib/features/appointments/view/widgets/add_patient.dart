@@ -1,5 +1,6 @@
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -167,6 +168,8 @@ class _AddPatientState extends State<AddPatient> {
     var email = Container(
       width: isTablet ? width * .86 : width * .79,
       child: SignUpFormField(
+        inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
+        keyboardType: TextInputType.emailAddress,
         validator: Validator().validateEmail,
         controller: _email,
         textFieldKey: Key('appointEmailKey'),
@@ -181,6 +184,11 @@ class _AddPatientState extends State<AddPatient> {
     var mobile = Container(
       width: isTablet ? width * .86 : width * .79,
       child: SignUpFormField(
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(11),
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+        ],
+        keyboardType: TextInputType.number,
         validator: Validator().validatePhoneNumber,
         controller: _mobile,
         margin: EdgeInsets.only(bottom: 2),

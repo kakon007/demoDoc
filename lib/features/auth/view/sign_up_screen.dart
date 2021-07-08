@@ -113,6 +113,7 @@ class _SignUpState extends State<SignUp> {
     );
     var email = SignUpFormField(
       inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
+      keyboardType: TextInputType.emailAddress,
       topPadding: isTablet ? 30 : 25,
       controller: _email,
       textFieldKey: Key('signUpEmailKey'),

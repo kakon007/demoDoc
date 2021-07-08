@@ -270,7 +270,7 @@ class _AddPatientState extends State<AddPatient> {
                             StringResources.gender,
                             key: Key('genderHintTextKey'),
                             style: GoogleFonts.roboto(
-                                fontSize: isTablet ? 18 : 15,
+                                fontSize: isTablet ? 18 :width<330?12:  15,
                                 color: HexColor("#D2D2D2")),
                           ),
                           // Not necessary for Option 1
@@ -1281,7 +1281,7 @@ class _AddPatientState extends State<AddPatient> {
         child: Column(
           children: [
             Expanded(
-              child: width>=380? SingleChildScrollView(
+              child: width>360? SingleChildScrollView(
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   //mainAxisAlignment: MainAxisAlignment.start,

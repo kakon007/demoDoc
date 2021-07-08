@@ -494,7 +494,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     );
 
     return Scaffold(
-        resizeToAvoidBottomInset:width<=330? true :  false,
+        resizeToAvoidBottomInset:width<=380? true :  true,
         //key: _scaffoldKey,
         appBar: new AppBar(
           title: new Text(
@@ -547,7 +547,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           //     onPressed: () => _scaffoldKey.currentState.openDrawer())
         ),
         //drawer: Drawer(),
-        body:width>380?  Stack(
+        body:width>360?  Stack(
           children: <Widget>[
             Positioned(
               child: Padding(
@@ -851,7 +851,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                       AppTheme.appbarPrimary),
                                 ))
                                 : Container(
-                              height: width<=330? 140 : 180,
+                              height: width<=330? 140 : 158,
                                   child: length == 0
                                       ? NoAvailableSlots()
                                       : GridView.builder(

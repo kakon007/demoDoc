@@ -9,10 +9,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
+import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -26,9 +29,11 @@ import 'package:path_provider/path_provider.dart' as pp;
 
 class GetAppointment extends StatefulWidget {
   String accessToken;
-  final Function onTapFeaturedCompany;
+  //final Function onTapFeaturedCompany;
+  LocationData locationData;
+  List<Items> hospitalList2;
 
-  GetAppointment({this.accessToken, this.onTapFeaturedCompany});
+  GetAppointment({this.accessToken,this.locationData,this.hospitalList2});
 
   @override
   _GetAppointmentState createState() => _GetAppointmentState();
@@ -685,8 +690,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           height: 30,
                                         ),
                                         GestureDetector(
-                                          onTap:
-                                          widget.onTapFeaturedCompany,
+                                          onTap:(){
+                                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                        builder: (context) =>
+                                        HospitalScreen(locationData: widget.locationData,hospitalList2: widget.hospitalList2,)));
+                                        },
                                           child: Material(
                                             elevation: 2,
                                             shape: RoundedRectangleBorder(
@@ -1525,8 +1535,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           height: 30,
                                         ),
                                         GestureDetector(
-                                          onTap:
-                                          widget.onTapFeaturedCompany,
+                                          onTap:(){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HospitalScreen(locationData: widget.locationData,hospitalList2: widget.hospitalList2,)));
+                                          },
                                           child: Material(
                                             elevation: 2,
                                             shape: RoundedRectangleBorder(

@@ -737,7 +737,7 @@ print("StatusCode ${response.statusCode}");
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            HospitalScreen()));
+                                                            HospitalScreen(locationData: widget.locationData,hospitalList2: vm9.hospitalList2,)));
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,

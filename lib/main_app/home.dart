@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,locationData: _currentPosition,),
-      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(locationData: _currentPosition,hospitalList2: hospitalList2,),
       2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,locationData: _currentPosition,),
-      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(locationData: _currentPosition,hospitalList2: hospitalList2,),
       2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
@@ -335,12 +335,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       //       children: [
       //         widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
       //         DashboardScreen(accessToken: widget.accessToken,) ]),
-      accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(accessToken: accessTokenVm.accessToken,onTapFeaturedCompany: () {
-        _moveTo(2);
-        // _paeViewController.animateToPage(2,
-        //     duration: const Duration(milliseconds: 400),
-        //     curve: Curves.easeInOut);
-      }),
+      accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(accessToken: accessTokenVm.accessToken,
+      //     onTapFeaturedCompany: () {
+      //   _moveTo(2);
+      //   // _paeViewController.animateToPage(2,
+      //   //     duration: const Duration(milliseconds: 400),
+      //   //     curve: Curves.easeInOut);
+      // }
+        locationData: _currentPosition,hospitalList2: hospitalList2,
+      ),
       HospitalScreen(f1: f1,locationData: _currentPosition,hospitalList2: hospitalList2,),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(

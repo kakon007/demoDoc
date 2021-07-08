@@ -1281,7 +1281,7 @@ class _AddPatientState extends State<AddPatient> {
         child: Column(
           children: [
             Expanded(
-              child: SingleChildScrollView(
+              child: width>=380? SingleChildScrollView(
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   //mainAxisAlignment: MainAxisAlignment.start,
@@ -1374,6 +1374,110 @@ class _AddPatientState extends State<AddPatient> {
                                     ),
                                   ],
                                 )
+                              : SizedBox(),
+                          spaceBetween,
+                          spaceBetween,
+                          spaceBetween,
+                        ],
+                      ),
+                    ),
+                    vm.forMe ? consultFeeForMe : consultFeeAdd,
+                  ],
+                ),
+              ):
+              SingleChildScrollView(
+                child: Column(
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  //mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    spaceBetween,
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width / 24,
+                          left: MediaQuery.of(context).size.width / 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          isTablet ? SizedBox() : spaceBetween,
+                          //vm.forMe ? patientTypeForMe : membersTypeList,
+                          vm.forMe ? SizedBox() : membersTypeList,
+                          selectedMemberType == "Family Member" ||
+                              vm.forMe ||
+                              (vm.addPatient && selectedMemberType == "") ||
+                              (vm.addPatient &&
+                                  selectedMemberType == "Others")
+                              ? spaceBetween
+                              : SizedBox(),
+                          vm.forMe == false &&
+                              selectedMemberType == "Family Member"
+                              ? membersNameList
+                              : SizedBox(),
+                          familyVm.isSelected &&
+                              vm.addPatient &&
+                              selectedMemberType == "Family Member"
+                              ? spaceBetween
+                              : SizedBox(),
+                          familyVm.isSelected && vm.addPatient && memberList
+                              ? memberDetail
+                              : SizedBox(),
+                          selectedMemberType == ""
+                              ? SizedBox()
+                              : vm.forMe
+                              ? SizedBox()
+                              : selectedMemberType == "Others"
+                              ? SizedBox()
+                              : spaceBetween,
+                          // vm.forMe == false && selectedMemberType != "" && familyVm.isSelected
+                          //     ? patientTypeAdd
+                          //     : SizedBox(),
+                          selectedMemberType == ""
+                              ? SizedBox()
+                              : vm.forMe
+                              ? SizedBox()
+                              : selectedMemberType != ""
+                              ? spaceBetween
+                              : SizedBox(),
+                          vm.forMe ? consultationTypeForMe : SizedBox(),
+                          vm.addPatient &&
+                              ((selectedMemberType == "Family Member" &&
+                                  familyVm.isSelected) ||
+                                  selectedMemberType == "Others")
+                              ? consultationTypeAdd
+                              : SizedBox(),
+                          isTablet && _selectedMemberType == "Family Member"
+                              ? SizedBox(
+                            height: 40,
+                          )
+                              : SizedBox(),
+                          spaceBetween,
+                          vm.forMe == false && selectedMemberType == "Others"
+                              ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              name,
+                              email,
+                              mobile,
+                              //password,
+                              //confirmPassword,
+                              address,
+                              spaceBetween,
+                              Container(
+                                width:
+                                isTablet ? width * .86 : width * .79,
+                                child: Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    gender,
+                                    dateOfBirth,
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
                               : SizedBox(),
                           spaceBetween,
                           spaceBetween,

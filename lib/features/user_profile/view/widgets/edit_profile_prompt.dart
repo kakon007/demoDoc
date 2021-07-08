@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -28,7 +29,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   final _mobile = TextEditingController();
   final _address = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
-
   DateTime pickBirthDate;
   String abc = "#EAEBED";
   double maxHeight;
@@ -127,6 +127,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       hintText: 'Name',
     );
     var email = SignUpFormField(
+      inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
+      keyboardType: TextInputType.emailAddress,
       labelFontSize: isTablet? 15 : 12,
       hintSize: isTablet? 17 : 15,
       textFieldKey: Key("profileEmailKey"),
@@ -139,6 +141,11 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       hintText: 'Email',
     );
     var mobile = SignUpFormField(
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(11),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+      ],
+      keyboardType: TextInputType.number,
       textFieldKey: Key("profileMobileNumberKey"),
       labelFontSize: isTablet? 15 : 12,
       hintSize: isTablet? 17 : 15,
@@ -194,7 +201,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               Padding(
                 padding: EdgeInsets.only(left: 15.0),
                 child: Container(
-                  width: isTablet ? 180  : width * .78,
+                  width: isTablet ? 180  :deviceWidth<=330?width*.76: width * .78,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
                       key: Key("profileGenderKey"),
@@ -326,7 +333,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             children: [
               Container(
                   height: 20.0,
-                  width: width*.5,
+                  width: deviceWidth<=330?width*.58 : width*.5,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -342,7 +349,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 48.0,
-                width: isTablet ? 438:MediaQuery.of(context).size.width * 0.78,
+                width: isTablet ? 438: deviceWidth<=330?deviceWidth*.8: deviceWidth * 0.82,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),

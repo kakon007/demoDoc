@@ -81,7 +81,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             SizedBox(height: 15,),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Description*",style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w500),),
+              child: Text("Description*",key: Key('descriptionTextKey'),style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w500),),
             ),
             SizedBox(height: 5,),
             Expanded(flex:2,child: SingleChildScrollView(child: Container(child:widget.descriptions==null?Center(child: Text('No Descriptions'),): Padding(

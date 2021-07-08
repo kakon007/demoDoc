@@ -135,7 +135,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                 ),
                               ),
                               Container(
-                                width: 200,
+                                width: 190,
                                 child: Text(
                                   vm.userDetailsList?.address ?? '',
                                   style: GoogleFonts.poppins(

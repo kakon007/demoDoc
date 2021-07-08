@@ -353,7 +353,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                     GestureDetector(
                                                                                       key: Key('switchAccountYesButtonKey'),
                                                                                       onTap: () async {
-                                                                                        await vm5.getAuthData(st.username, st.password);
+                                                                                        await vm5.getAuthData(st.username, st.password,switchAccount: true);
                                                                                         if (vm5.accessToken != null) {
                                                                                           BotToast.showLoading();
                                                                                           var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
@@ -369,6 +369,9 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                           dbmManager.updateStudent(switchAccounts).then((value) => {
                                                                                                 setState(() {}),
                                                                                               });
+                                                                                        }
+                                                                                        else{
+                                                                                          print('shakil');
                                                                                         }
                                                                                         //BotToast.closeAllLoading();
                                                                                         if (vm5.accessToken != null) {

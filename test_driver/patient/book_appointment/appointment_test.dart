@@ -5,6 +5,7 @@ import 'package:test/test.dart';
 import '../auth/sign_in_common_test.dart';
 import 'appointment_family_member_test.dart';
 import 'appointment_for_me_test.dart';
+import 'appointment_no_family_test.dart';
 import 'appointment_others_test.dart';
 import 'appointment_slot_test.dart';
 
@@ -31,7 +32,8 @@ Future<void> appointmentTest()async{
     selectSlotTest();
     appointForMeTest();
     selectSlotTest();
-    appointmentFamilyTest();
+    appointmentNoFamilyMemberTest(); /* run this when no family member is available*/
+    //appointmentFamilyTest(); /* run this when family member is available*/
     selectSlotTest();
     appointOthersTest();
   });

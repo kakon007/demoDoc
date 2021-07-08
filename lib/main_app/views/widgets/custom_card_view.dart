@@ -20,7 +20,8 @@ class CustomCard extends StatelessWidget {
   String companyNo;
   String orgNo;
   String id;
-  CustomCard(@required this.image,@required this.backgroundImage,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,);
+  String index;
+  CustomCard(@required this.image,@required this.backgroundImage,@required this.titleText,@required this.addressText,@required this.countText,this.phoneText,this.emailText,this.logo,this.companyNo,  this.orgNo,this.id,this.index);
   @override
   Widget build(BuildContext context) {
     bool isDesktop = Responsive.isDesktop(context);
@@ -80,18 +81,16 @@ class CustomCard extends StatelessWidget {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>FindYourDoctorScreen(image,backgroundImage,titleText,phoneText,emailText,addressText,orgNo, companyNo , id)));
                       },
+                      key: Key('dashboardGetAppointmentButtonKey$index'),
                       child: Material(
                         elevation: 0  ,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
                         child: SizedBox(
-                          width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 130,
+                          width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 160,
                           height: width<=1250 && width>=1000 ? 40 : width<=999 && width>=650? 35: 30,
                           child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?   13 :11,fontWeight: FontWeight.w600),),
-                            ),
+                            child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?   13 :11,fontWeight: FontWeight.w600),),
                           ),
                         ),
                       ),

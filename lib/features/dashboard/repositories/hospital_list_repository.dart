@@ -11,21 +11,16 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class HospitalListRepositry {
   Future<Either<AppError, HospiitalListM>> fetchHospitalList() async {
-    print('Hits enter');
     var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/companyList";
     // List<Item> dataList = new List<Item>();
 
     try {
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
-      print('Hits ${response.statusCode}');
       if (response.statusCode == 200) {
-        print('Hits enterrr');
         HospitalListModel data = hospitalListModelFromJson(response.body);
-        //print('Hospital Data:: ${data.items[5].companyAddress}' );
-        print('Hits entnt');
         CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalList);
-        //print('Hospital Data:: ' + data.items[5].companyAddress);
+       // print('Hospital Data:: ' + data.items[5].companyAddress);
         // return data;
 
         return Right(HospiitalListM(
@@ -33,6 +28,7 @@ class HospitalListRepositry {
         ));
         //print(data[0]['companySlogan']);
       } else {
+        print('some1');
         BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
@@ -42,6 +38,7 @@ class HospitalListRepositry {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
+      print('some2');
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }

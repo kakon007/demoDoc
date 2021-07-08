@@ -84,6 +84,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                     children: [
                       Text(
                         'You have added no family members.',
+                        key: Key('noFamilyMemberKey'),
                         style: GoogleFonts.poppins(
                             fontSize: isTablet? 20 : 16,
                             color: HexColor('#C7C8CF'
@@ -106,6 +107,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                           },
                           child: Text(
                             'Add now',
+                            key: Key('addNowButtonKey'),
                             style: GoogleFonts.poppins(
                                 fontSize: isTablet? 17 : 15,
                                 color: HexColor('#8592E5')),

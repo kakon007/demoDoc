@@ -239,6 +239,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
+      key: Key('dashboardBottomNavbarKey'),
       //semanticsLabel: 'Acme Logo'
     );
 
@@ -252,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
+      key: Key('appointmentBottomNavbarKey'),
       //semanticsLabel: 'Acme Logo'
     );
 

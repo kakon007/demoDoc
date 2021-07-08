@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -111,6 +112,8 @@ class _SignUpState extends State<SignUp> {
       hintText: StringResources.name,
     );
     var email = SignUpFormField(
+      inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
+      keyboardType: TextInputType.emailAddress,
       topPadding: isTablet ? 30 : 25,
       controller: _email,
       textFieldKey: Key('signUpEmailKey'),
@@ -123,6 +126,11 @@ class _SignUpState extends State<SignUp> {
       hintText: StringResources.email,
     );
     var mobile = SignUpFormField(
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(11),
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+      ],
+      keyboardType: TextInputType.number,
       topPadding: isTablet ? 30 : 25,
       controller: _mobile,
       textFieldKey: Key('signUpMobileKey'),

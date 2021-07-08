@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -55,6 +56,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
     var userName = SignUpFormField(
+      inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
       topPadding: 16,
       labelFontSize: isTablet ? 15 : 12,
       hintSize: isTablet ? 18 : 15,

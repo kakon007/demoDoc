@@ -122,12 +122,17 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                vm.userDetailsList?.fname ?? '',
-                                style: GoogleFonts.poppins(
-                                    color: AppTheme.appbarPrimary,
-                                    fontSize: isTablet? 20 :width < 330 ? 16 : 18,
-                                    fontWeight: FontWeight.w400),
+                              Container(
+                                width: 200,
+                                child: Text(
+                                  vm.userDetailsList?.fname ?? '',
+                                  style: GoogleFonts.poppins(
+                                      color: AppTheme.appbarPrimary,
+                                      fontSize: isTablet? 20 :width < 330 ? 16 : 18,
+                                      fontWeight: FontWeight.w400),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
                               ),
                               Container(
                                 width: 200,

@@ -813,6 +813,8 @@ class _UserProfileState extends State<UserProfile> {
                           style: GoogleFonts.roboto(
                               color: HexColor('#141D53'),
                               fontSize: isTablet ? 17 : 15),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),

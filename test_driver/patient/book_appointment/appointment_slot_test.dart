@@ -29,7 +29,7 @@ Future<void> selectSlotTest()async{
       await driver.runUnsynchronized(() async {
         await driver.tap(Keys.selectAppointmentDateKey);
         await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.tap(find.text('30'));
+        await driver.tap(find.text('5'));
         await Future.delayed(const Duration(seconds: 2), () {});
         await driver.tap(find.text('OK'));
         await Future.delayed(const Duration(seconds: 2), () {});

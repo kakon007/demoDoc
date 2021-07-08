@@ -134,7 +134,7 @@ class SearchDoctorViewModel extends ChangeNotifier{
     _isSelected = isSelected;
     _doctorName= doctorName;
     _hospitalName=hospitalName;
-    _doctorNo.add(doctorNo) ;
+    _doctorNo.add(doctorInfo.doctorNo) ;
     _image= image;
     _spName= spName;
     print("regId $doctorName");

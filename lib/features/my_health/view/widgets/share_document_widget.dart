@@ -434,9 +434,12 @@ class _ShareDocumentState extends State<ShareDocument> {
                    GestureDetector(onTap: (){
                      setState(() {
                        // vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
-                       vm2.doctorInfo.clear();
-                       vm2.doctorNo.clear();
-                       vm2.docNull('');
+                       vm2.doctorInfo.removeAt(index);
+                       vm2.doctorNo.removeAt(index);
+                       // vm2.doctorNo.clear();
+                        if(vm2.doctorInfo.length==0){
+                          vm2.docNull('');
+                        }
                      });
                      print('Tapped on cross');
                    },child: Icon(Icons.close)),
@@ -952,7 +955,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                   vm10.sharedFileList==null?Center(child: Text("No Share History Yet.")):
                   Column(
                     children: <Widget>[
-                      vm10.sharedFileList==null?Text("No Share History Yet."):ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
+                      vm10.sharedFileList==null?Text("No Share History Yet."):
+                      ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
                         var photo = vm10.sharedFileList[index]?.photo ?? "";
                         return  Padding(padding: EdgeInsets.only(top: 5, bottom: 5),child:
                         Container(
@@ -1043,8 +1047,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                             // SizedBox(
                             //   width: 3,
                             // ),
-
-                       isRemove? Padding(
+                                vm10.sharedFileList[index].isEdit? Padding(
                          padding: const EdgeInsets.only(right:8.0),
                          child: Row(
                            children: [
@@ -1096,7 +1099,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                                onTap: ()async{
 
                                  setState(() {
-                                   isRemove=false;
+                                   //isRemove=false;
+                                   vm10.isEdit(index);
                                  });
 
                                },
@@ -1125,7 +1129,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                            onTap: (){
 
                              setState(() {
-                               isRemove=true;
+                               //isRemove=true;
+                               vm10.isEdit(index);
                              });
 
                            },

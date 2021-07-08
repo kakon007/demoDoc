@@ -237,8 +237,13 @@ print("StatusCode ${response.statusCode}");
         await Provider.of<UserImageViewModel>(context, listen: false).userImage();
         var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
         await vm19.getData();
-        var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
-        await vm9.getData(vm19.userDetailsList.hospitalNumber);
+        if (this.mounted) {
+
+            var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
+            await vm9.getData(vm19.userDetailsList.hospitalNumber);
+
+        }
+
         if(accessTokenVm.accessToken!=null){
           setDeviceTokenForNotification(doviceToken:await getToken(),accessToken: accessTokenVm.accessToken,userName: vm19.userDetailsList.hospitalNumber,userNo: vm19.userDetailsList.ssModifier.toString());
         }
@@ -443,7 +448,7 @@ print("StatusCode ${response.statusCode}");
                   title:  Text(
                    vm19.userDetailsList==null?StringResources.dasboardAppBarText:'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
                     style: GoogleFonts.poppins(
-                        fontSize: isTablet? 18 : width<=320 ? 13 : 15, fontWeight: FontWeight.w600),
+                        fontSize: isTablet? 18 : width<=330 ? 10 : 15, fontWeight: FontWeight.w600),
                   ),
                   actions: [
                     Padding(
@@ -520,6 +525,7 @@ print("StatusCode ${response.statusCode}");
                                       decoration: BoxDecoration(
                                         color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
+                                          border: Border.all(color: Colors.white)
                                       ),
                                       height:isTablet? 32 : width<=330 ? 27 :32,
                                       width: isTablet? 32 : width<=330 ? 27 :32,
@@ -668,6 +674,7 @@ print("StatusCode ${response.statusCode}");
                                               children: [
                                                 Text(
                                                   StringResources.searchBoxHint,
+                                                  key: Key('dashboardSearchKey'),
                                                   style: TextStyle(
                                                     color: Colors.grey[400],
                                                     fontSize: width >= 400
@@ -731,10 +738,11 @@ print("StatusCode ${response.statusCode}");
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            HospitalScreen()));
+                                                            HospitalScreen(locationData: widget.locationData,hospitalList2: vm9.hospitalList2,)));
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('hospitalViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -838,6 +846,7 @@ print("StatusCode ${response.statusCode}");
                                                     vm9.hospitalList2[i].companyId,
                                                     vm9.hospitalList2[i].ogNo.toString(),
                                                     vm9.hospitalList2[i].id.toString(),
+                                                    i.toString()
                                                   );
                                                 }),
                                           ],
@@ -935,6 +944,7 @@ print("StatusCode ${response.statusCode}");
                                                       list[i].companyId,
                                                       list[i].ogNo.toString(),
                                                       list[i].id.toString(),
+                                                      i.toString()
                                                     );
                                                   }),
                                                 ],
@@ -942,7 +952,7 @@ print("StatusCode ${response.statusCode}");
                                             ),
                                           ),
                                     SizedBox(
-                                      height: 20,
+                                      height: 10,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -973,6 +983,7 @@ print("StatusCode ${response.statusCode}");
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('newsViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -1062,7 +1073,9 @@ print("StatusCode ${response.statusCode}");
                                                                       .toLocal()),
                                                               list2[i].title,
                                                               list2[i]
-                                                                  .newsLink);
+                                                                  .newsLink,
+                                                          index.toString()
+                                                          );
                                                         },
                                                       ),
                                                     ],
@@ -1080,6 +1093,7 @@ print("StatusCode ${response.statusCode}");
                                         children: [
                                           Text(
                                             "MyHealthBD Blog",
+                                            key: Key('myHealthBolgKey'),
                                             style: GoogleFonts.poppins(
                                                 fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
@@ -1102,6 +1116,7 @@ print("StatusCode ${response.statusCode}");
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('blogViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -1165,6 +1180,7 @@ print("StatusCode ${response.statusCode}");
                                                         .newsList[index].title,
                                                     news: vm4.newsList[index]
                                                         .blogDetail,
+                                                    index:  i.toString(),
                                                   );
                                                 },
                                                 scrollDirection:
@@ -1183,6 +1199,7 @@ print("StatusCode ${response.statusCode}");
                                         children: [
                                           Text(
                                             "MyHealthBD Videos",
+                                            key: Key('myHealthVideoKey'),
                                             style: GoogleFonts.poppins(
                                                 fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
@@ -1205,6 +1222,7 @@ print("StatusCode ${response.statusCode}");
                                             },
                                             child: Text(
                                               StringResources.viewAllText,
+                                              key: Key('videoViewAllKey'),
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#8592E5"),
                                                   fontSize: isTablet? 15 : 11,
@@ -1274,7 +1292,9 @@ print("StatusCode ${response.statusCode}");
                                                           .videoId,
                                                       list3[index]
                                                           .snippet
-                                                          .description);
+                                                          .description,
+                                                  index.toString()
+                                                  );
                                                 },
                                                 scrollDirection:
                                                     Axis.horizontal,

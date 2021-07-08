@@ -38,7 +38,7 @@ class ViewDocumentRepository{
         );
         //print(data[0]['companySlogan']);
       }else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+       // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     }on SocketException catch (e){
@@ -46,7 +46,7 @@ class ViewDocumentRepository{
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     }catch (e) {
-      BotToast.showText(text: StringResources.somethingIsWrong);
+      //BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
 

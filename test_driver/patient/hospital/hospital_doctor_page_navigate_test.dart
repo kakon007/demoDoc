@@ -9,7 +9,7 @@ main(){
 }
 Future<void> hospitalDoctorCommonTest()async{
 
-  group('Family list Test', ()
+  group('Hospital list Test', ()
   {
     FlutterDriver driver;
     setUpAll(() async {
@@ -33,7 +33,7 @@ Future<void> hospitalDoctorCommonTest()async{
     test(
         'When__try_to_tap_get_appointment_on_first_index__should__go_to_doctors_screen_and_get_doctors_text', () async {
       await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 5), () {});
+        await Future.delayed(const Duration(seconds: 20), () {});
         await driver.tap(Keys.getAppointmentKey0);
         await Future.delayed(const Duration(seconds: 2), () {});
         await expect(await driver.getText(Keys.doctorsKey), "Doctors");

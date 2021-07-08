@@ -8,6 +8,7 @@ import 'package:location/location.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
@@ -24,7 +25,8 @@ class HospitalScreen extends StatefulWidget {
   //bool isNotNave;
   FocusNode f1;
   LocationData locationData;
-  HospitalScreen({this.f1,this.locationData});
+  List<Items> hospitalList2;
+  HospitalScreen({this.f1,this.locationData,this.hospitalList2});
   @override
   _HospitalScreenState createState() => _HospitalScreenState();
 }
@@ -45,8 +47,11 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
   }
 
   TextEditingController hospitalController = TextEditingController();
+  TextEditingController hospitalController2 = TextEditingController();
   List<Item> hospitalList;
+  List<Items> hospitalList2;
   var hospitalItems = List<Item>();
+  var hospitalItems2 = List<Items>();
   @override
   void afterFirstLayout(BuildContext context) {
     _scrollController = ScrollController();
@@ -61,6 +66,13 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       await vm.getData();
       hospitalList = vm.hospitalList;
         hospitalItems.addAll(hospitalList);
+        if(widget.locationData!=null){
+          //var vm22 = Provider.of<NearestHospitalViewModel>(context, listen: false);
+          //vm22.getData();
+          hospitalList2=widget.hospitalList2;
+          hospitalItems2.addAll(hospitalList2);
+          //print('List of Item ${hospitalItems2.first.companyName}');
+        }
 
     });
   }
@@ -91,6 +103,32 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     }
   }
 
+  void nearestHospitalSearch(String query) {
+    print(query);
+    List<Items> initialHospitalSearch = List<Items>();
+    hospitalList2.forEach((element) {
+      initialHospitalSearch.add(element);
+    });
+    if(query.isNotEmpty) {
+      List<Items> initialHospitalSearchItems2 = List<Items>();
+      initialHospitalSearch.forEach((item) {
+        if(item.companyName.contains(query.toLowerCase())) {
+          initialHospitalSearchItems2.add(item);
+        }
+      });
+      setState(() {
+        hospitalItems2.clear();
+        hospitalItems2.addAll(initialHospitalSearchItems2);
+      });
+      return;
+    } else {
+      setState(() {
+        hospitalItems2.clear();
+        hospitalItems2.addAll(hospitalList2);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isDesktop = Responsive.isDesktop(context);
@@ -99,12 +137,33 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     var searchField = SignUpFormField(
       focusNode: widget.f1,
       onChanged: (value) {
-        hospitalSearch(value);
+       hospitalSearch(value);
         // print(value);
       },
       textFieldKey: Key('hospitalSearchFieldKey'),
       focusBorderColor:"#8592E5",
       controller: hospitalController,
+      borderRadius: 30,
+      minimizeBottomPadding: true,
+      hintSize : isTablet? 17 : 12,
+      hintText: StringResources.searchBoxHint,
+      suffixIcon: Padding(
+        padding: const EdgeInsets.only(right: 20.0),
+        child: Icon(
+          Icons.search_rounded,
+          //color: Colors.grey,
+        ),
+      ),
+    );
+    var searchField2 = SignUpFormField(
+      focusNode: widget.f1,
+      onChanged: (value) {
+        nearestHospitalSearch(value);
+        // print(value);
+      },
+      textFieldKey: Key('hospitalSearchFieldKey2'),
+      focusBorderColor:"#8592E5",
+      controller: hospitalController2,
       borderRadius: 30,
       minimizeBottomPadding: true,
       hintSize : isTablet? 17 : 12,
@@ -171,33 +230,33 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              searchField,
+              widget.locationData!=null?searchField2:searchField,
               widget.locationData!=null?
               vm9.shouldShowPageLoader||vm5.shouldShowPageLoader || vm6.shouldShowPageLoaderForImage? Loader():  Expanded(
     child: ListView.builder(
-    key: Key('listViewBuilderKey'),
+    key: Key('listViewBuilderKey2'),
     shrinkWrap: true,
-    itemCount: vm9.hospitalList2.length,
+    itemCount: hospitalItems2.length,
     itemBuilder: (BuildContext context, int index) {
-    int logoIndex = vm5.hospitalLogoList.indexWhere((element) => element.id==vm9.hospitalList2[index].id);
-    int imageIndex = vm6.hospitalImageList.indexWhere((element) => element.id==vm9.hospitalList2[index].id);
+    int logoIndex = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems2[index].id);
+    int imageIndex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems2[index].id);
     return HospitalListCard(loadImage(vm5.hospitalLogoList[logoIndex].photoLogo),
     vm6.hospitalImageList[imageIndex].photoImg!=null?loadImage(vm6.hospitalImageList[imageIndex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
-      vm9.hospitalList2[index].companyName,
-      vm9.hospitalList2[index].companyAddress == null
+      hospitalItems2[index].companyName,
+      hospitalItems2[index].companyAddress == null
     ? "Mirpur,Dahaka,Bangladesh"
-        : vm9.hospitalList2[index].companyAddress,
+        : hospitalItems2[index].companyAddress,
     "60 Doctors",
-      vm9.hospitalList2[index].companyPhone == null
+      hospitalItems2[index].companyPhone == null
     ? "+880 1962823007"
-        : vm9.hospitalList2[index].companyPhone,
-      vm9.hospitalList2[index].companyEmail == null
+        : hospitalItems2[index].companyPhone,
+      hospitalItems2[index].companyEmail == null
     ? "info@mysoftitd.com"
-        : list[index].companyEmail,
-      vm9.hospitalList2[index].companyLogo,
-      vm9.hospitalList2[index].companyId,
-      vm9.hospitalList2[index].ogNo.toString(),
-      vm9.hospitalList2[index].id.toString(),
+        : hospitalItems2[index].companyEmail,
+      hospitalItems2[index].companyLogo,
+      hospitalItems2[index].companyId,
+      hospitalItems2[index].ogNo.toString(),
+      hospitalItems2[index].id.toString(),
     index.toString(),
     );
     })):

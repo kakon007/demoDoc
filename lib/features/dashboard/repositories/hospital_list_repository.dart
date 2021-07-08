@@ -20,7 +20,7 @@ class HospitalListRepositry {
       if (response.statusCode == 200) {
         HospitalListModel data = hospitalListModelFromJson(response.body);
         CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalList);
-        print('Hospital Data:: ' + data.items[5].companyAddress);
+       // print('Hospital Data:: ' + data.items[5].companyAddress);
         // return data;
 
         return Right(HospiitalListM(
@@ -28,6 +28,7 @@ class HospitalListRepositry {
         ));
         //print(data[0]['companySlogan']);
       } else {
+        print('some1');
         BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
@@ -37,6 +38,7 @@ class HospitalListRepositry {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
+      print('some2');
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }

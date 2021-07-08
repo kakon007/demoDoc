@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/hospitals/repositories/nearest_hospital_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
@@ -9,7 +10,7 @@ import 'package:provider/provider.dart';
 
 
 class NearestHospitalViewModel extends ChangeNotifier{
-  List<Item> _hospitalList =[];
+  List<Items> _hospitalList =[];
 
   AppError _appError;
   DateTime _lastFetchTime;
@@ -25,10 +26,9 @@ class NearestHospitalViewModel extends ChangeNotifier{
   }
 
   Future<void> getData({var userLatitude,var userLongitude}) async {
-    // CacheRepositories.loadCachedHospital().then((value) {
+    // CacheRepositories.loadCachedNearestHospital().then((value) {
     //   if(value!=null){
     //     _hospitalList=value.items;
-    //     _hospitalList.removeAt(0);
     //     notifyListeners();
     //   }
     // });
@@ -74,6 +74,6 @@ class NearestHospitalViewModel extends ChangeNotifier{
       _isFetchingData && _hospitalList.length == 0;
   bool get isLoading=> _isLoading;
 
-  List<Item> get hospitalList2 => _hospitalList;
+  List<Items> get hospitalList2 => _hospitalList;
 
 }

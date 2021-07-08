@@ -9,10 +9,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
+import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -26,9 +29,11 @@ import 'package:path_provider/path_provider.dart' as pp;
 
 class GetAppointment extends StatefulWidget {
   String accessToken;
-  final Function onTapFeaturedCompany;
+  //final Function onTapFeaturedCompany;
+  LocationData locationData;
+  List<Items> hospitalList2;
 
-  GetAppointment({this.accessToken, this.onTapFeaturedCompany});
+  GetAppointment({this.accessToken,this.locationData,this.hospitalList2});
 
   @override
   _GetAppointmentState createState() => _GetAppointmentState();
@@ -208,7 +213,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
       child: Container(
-        width: MediaQuery.of(context).size.width * .49,
+        width: deviceWidth<=360? deviceWidth*.38 : MediaQuery.of(context).size.width * .49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -250,7 +255,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField2 = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
       child: Container(
-        width: MediaQuery.of(context).size.width * .49,
+        width: deviceWidth<=360? deviceWidth*.38: MediaQuery.of(context).size.width * .49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -305,6 +310,7 @@ class _GetAppointmentState extends State<GetAppointment> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           'Appointments',
+          key: Key('appointmentsAppbarKey'),
           style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
         ),
         actions: [
@@ -381,7 +387,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             left: 12.0, bottom: 20),
                                         child: Text(
                                           "${vm.totalCount.toString()} Appointment(s) found",
-                                          style: GoogleFonts.poppins(fontSize: isTablet? 13 : 10),
+                                          style: GoogleFonts.poppins(fontSize: isTablet? 13 :deviceWidth<=360?9: 10),
                                         ),
                                       ),
                                       Spacer(),
@@ -685,8 +691,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           height: 30,
                                         ),
                                         GestureDetector(
-                                          onTap:
-                                          widget.onTapFeaturedCompany,
+                                          onTap:(){
+                                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                        builder: (context) =>
+                                        HospitalScreen(locationData: widget.locationData,hospitalList2: widget.hospitalList2,)));
+                                        },
                                           child: Material(
                                             elevation: 2,
                                             shape: RoundedRectangleBorder(
@@ -700,7 +711,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                   .size
                                                   .width >
                                                   600
-                                                  ? 35
+                                                  ? 335
                                                   : 300,
                                               height:
                                               MediaQuery.of(context)
@@ -975,7 +986,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                     ],
                                                   ),
                                                   SizedBox(
-                                                    height:
+                                                    height:isTablet? 5 :
                                                     MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -1219,7 +1230,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             left: 12.0, bottom: 20),
                                         child: Text(
                                           "${vm2.totalCount.toString()} Appointment(s) found",
-                                          style: GoogleFonts.poppins(fontSize: isTablet? 13 :10),
+                                          style: GoogleFonts.poppins(fontSize: isTablet? 13 :deviceWidth<=360? 9 :10),
                                         ),
                                       ),
                                       Spacer(),
@@ -1525,8 +1536,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           height: 30,
                                         ),
                                         GestureDetector(
-                                          onTap:
-                                          widget.onTapFeaturedCompany,
+                                          onTap:(){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HospitalScreen(locationData: widget.locationData,hospitalList2: widget.hospitalList2,)));
+                                          },
                                           child: Material(
                                             elevation: 2,
                                             shape: RoundedRectangleBorder(
@@ -1540,7 +1556,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                   .size
                                                   .width >
                                                   600
-                                                  ? 35
+                                                  ? 335
                                                   : 300,
                                               height:
                                               MediaQuery.of(context)
@@ -1816,7 +1832,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                     ],
                                                   ),
                                                   SizedBox(
-                                                    height:
+                                                    height: isTablet? 3 :
                                                     MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -2047,7 +2063,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     type: PageTransitionType
                                                                         .rightToLeft,
                                                                     child: PdfFileViewerScreen(
-                                                                        file),
+                                                                        file,vm2.previousAppointmentList[index].consultationId),
                                                                   ),
                                                                 );
                                                               },

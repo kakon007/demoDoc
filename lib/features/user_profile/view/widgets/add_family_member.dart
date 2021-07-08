@@ -166,13 +166,13 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                               regMemberVm.name,
                               style: GoogleFonts.poppins(
                                   color: HexColor("#0D1231"),
-                                  fontSize: isTablet? 18 :16,
+                                  fontSize: isTablet? 18 :width<=360 ? 13:16,
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
                               "Username: ${regMemberVm.relatedRegId}",
                               style: GoogleFonts.poppins(
-                                fontSize: isTablet? 18 :16,
+                                fontSize: isTablet? 18 : width<=360 ? 13 : 16,
                                 color: AppTheme.appbarPrimary,),
                             )
                           ],

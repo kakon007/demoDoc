@@ -21,8 +21,8 @@ class AuthRepository {
     //BotToast.showLoading();
     var response =
         await http.post(Uri.parse(url), headers: <String, String>{'authorization': basicAuth});
+    print(response.body);
     if (response.statusCode == 200) {
-      print(response.body);
       SignInModel data = signInModelFromJson(response.body);
       //BotToast.closeAllLoading();
       return Right(SignInModel(

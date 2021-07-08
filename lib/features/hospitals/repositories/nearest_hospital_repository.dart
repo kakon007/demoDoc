@@ -23,7 +23,7 @@ class NearestHospitalRepositry {
       print('Code:::: '+ response.statusCode.toString());
       if (response.statusCode == 200) {
         NrearestHospitalModel data = nrearestHospitalModelFromJson(response.body);
-        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalList);
+        //CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.nearestHospital);
         print('Hospital Data:: ${response.body}');
         // return data;
 
@@ -48,6 +48,6 @@ class NearestHospitalRepositry {
 }
 
 class HospitalListM {
-  List<Item> dataList =  List<Item>();
+  List<Items> dataList =  List<Items>();
   HospitalListM({this.dataList});
 }

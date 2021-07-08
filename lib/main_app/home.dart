@@ -4,9 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
+import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
@@ -38,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
 
   LocationData _currentPosition;
+  List<Items> hospitalList2;
   List<Animation> scaleAnimations;
   _moveTo(int index){
     currentIndex=index;
@@ -81,7 +84,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _currentPosition = await location.getLocation();
     var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
     vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
-    print('Jahid ${_currentPosition?.longitude}');
+    hospitalList2=vm9.hospitalList2;
+    //print('Jahid ${_currentPosition?.longitude}');
 
   }
 
@@ -132,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,locationData: _currentPosition,),
-      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(locationData: _currentPosition,hospitalList2: hospitalList2,),
       2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
@@ -149,14 +153,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           print("Heeoollo");
         });
       },isDrawerOpen: isDrawerOpen,accessToken: accessTokenVm.accessToken,locationData: _currentPosition,),
-      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(),
+      1: accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(locationData: _currentPosition,hospitalList2: hospitalList2,),
       2: accessTokenVm.accessToken==null?SignInDashboardForPatientPrompt("To access your Patient Portal,"):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //3: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //4: accessTokenVm.accessToken==null?SignInPrompt("To access your Patient Portal,",'Patient Portal'):PrescriptionListScreen(accessToken: accessTokenVm.accessToken,),
       //5:NotificationScreen(),
       3:FamilyMemberListScreen(),
       4:SwitchAccount(),
-      5:SettingScreen(accessToken: accessTokenVm.accessToken,),
+      5:NotificationScreen(),
+      6:SettingScreen(accessToken: accessTokenVm.accessToken,),
     };
 
     screenShots=accessTokenVm.accessToken==null?screens.values.toList():screens2.values.toList();
@@ -234,6 +239,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
+      key: Key('dashboardBottomNavbarKey'),
       //semanticsLabel: 'Acme Logo'
     );
 
@@ -247,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
+      key: Key('appointmentBottomNavbarKey'),
       //semanticsLabel: 'Acme Logo'
     );
 
@@ -330,13 +337,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       //       children: [
       //         widget.accessToken==null?DrawerScreen2():DrawerScreen(accessToken: widget.accessToken,),
       //         DashboardScreen(accessToken: widget.accessToken,) ]),
-      accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(accessToken: accessTokenVm.accessToken,onTapFeaturedCompany: () {
-        _moveTo(2);
-        // _paeViewController.animateToPage(2,
-        //     duration: const Duration(milliseconds: 400),
-        //     curve: Curves.easeInOut);
-      }),
-      HospitalScreen(f1: f1,locationData: _currentPosition,),
+      accessTokenVm.accessToken==null?SignInDashboardForAppoinmentPrompt("To access your Appointments,"):GetAppointment(accessToken: accessTokenVm.accessToken,
+      //     onTapFeaturedCompany: () {
+      //   _moveTo(2);
+      //   // _paeViewController.animateToPage(2,
+      //   //     duration: const Duration(milliseconds: 400),
+      //   //     curve: Curves.easeInOut);
+      // }
+        locationData: _currentPosition,hospitalList2: hospitalList2,
+      ),
+      HospitalScreen(f1: f1,locationData: _currentPosition,hospitalList2: hospitalList2,),
       // isDrawerOpen?Stack(children:finalStack(),):
       // Stack(
       //     children:[

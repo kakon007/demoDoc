@@ -4,6 +4,27 @@ class Keys{
   //common keys
   static final backButton = find.byTooltip('Back');
 
+
+  // dashboard keys
+  static final viewAllAppointmentKey = find.byValueKey('viewAllAppointmentKey');
+  static final dashboardBottomNavbarKey = find.byValueKey('dashboardBottomNavbarKey');
+  static final readNewsButtonKey0 = find.byValueKey('readNewsButtonKey0');
+  static final readNewsButtonKey3 = find.byValueKey('readNewsButtonKey3');
+  static final dashboardGetAppointmentButtonKey0 = find.byValueKey('dashboardGetAppointmentButtonKey0');
+  static final dashboardGetAppointmentButtonKey3 = find.byValueKey('dashboardGetAppointmentButtonKey3');
+  static final hospitalViewAllKey = find.byValueKey('hospitalViewAllKey');
+  static final blogViewAllKey = find.byValueKey('blogViewAllKey');
+  static final newsViewAllKey = find.byValueKey('newsViewAllKey');
+  static final videoViewAllKey = find.byValueKey('videoViewAllKey');
+  static final blogVlogNewsAppbarKey = find.byValueKey('blogVlogNewsAppbarKey');
+  static final myHealthBlogKey = find.byValueKey('myHealthBlogKey');
+  static final myHealthVideoKey = find.byValueKey('myHealthVideoKey');
+  static final readBlogButtonKey0 = find.byValueKey('readBlogButtonKey0');
+  static final readBlogButtonKey3 = find.byValueKey('readBlogButtonKey3');
+  static final watchVideoButtonKey0 = find.byValueKey('watchVideoButtonKey0');
+  static final watchVideoButtonKey3 = find.byValueKey('watchVideoButtonKey3');
+  static final descriptionTextKey = find.byValueKey('descriptionTextKey');
+  static final dashboardSearchKey = find.byValueKey('dashboardSearchKey');
   // sign up keys
   static final signUpKey = find.byValueKey('signUpKey');
   static final createAnAccountKey = find.byValueKey('createAnAccountKey');
@@ -118,7 +139,10 @@ class Keys{
   static final clearFilterButton = find.byValueKey('clearFilterButton');
 
 
-  
+  //appointment history
+  static final appointmentBottomNavbarKey = find.byValueKey('appointmentBottomNavbarKey');
+  static final appointmentsAppbarKey = find.byValueKey('appointmentsAppbarKey');
+
   //book your appointment key
   static final bookNowKey0 = find.byValueKey('bookNowKey0');
   static final bookNowKey8 = find.byValueKey('bookNowKey8');
@@ -149,6 +173,8 @@ class Keys{
   static final genderHintTextKey = find.byValueKey('genderHintTextKey');
   static final appointBirthDateKey = find.byValueKey('appointBirthDateKey');
   static final appointmentSuccessOkButtonKey = find.byValueKey('appointmentSuccessOkButtonKey');
+  static final noFamilyMemberKey = find.byValueKey('noFamilyMemberKey');
+  static final addNowButtonKey = find.byValueKey('addNowButtonKey');
 
 
 }

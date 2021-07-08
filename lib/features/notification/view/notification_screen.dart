@@ -167,7 +167,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   // int logoIndex = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems2[index].id);
                   // int imageIndex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems2[index].id);
                   return ListTile(
-                        title: Text(vm.notificationList[index].messageTitle,style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: HexColor('#8592E5')),),
+                        title: Text(vm.notificationList[index].messageTitle,style: TextStyle(fontSize: isTablet ? 15:12,fontWeight: FontWeight.bold,color: HexColor('#8592E5')),),
                         subtitle:Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -177,7 +177,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 children: [
                                   TextSpan(
                                     text: vm.notificationList[index].messageBody,
-                                      style: TextStyle(fontSize: 10,color: Colors.black)
+                                      style: TextStyle(fontSize: isTablet ? 13:10,color: Colors.black)
                                   ),
                                   // TextSpan(
                                   //   text: '8:30 pm.',
@@ -192,7 +192,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               child: Text(DateUtil().formattedDate(DateTime.parse(vm
                                   .notificationList[index]
                                   .sendDate)
-                                  .toLocal()),style: TextStyle(fontSize: 10,color: HexColor('#D2D2D2')),),
+                                  .toLocal()),style: TextStyle(fontSize: isTablet ? 13:10,color: HexColor('#D2D2D2')),),
                             ),
                           ],
                         ) ,

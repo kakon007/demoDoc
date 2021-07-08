@@ -247,7 +247,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       children: [
         Container(
             height: 20.0,
-            width: isTablet ? 200 : width * .87,
+            width: isTablet ? 200 : deviceWidth<=330? width*.9 : width * .87,
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Row(
@@ -263,7 +263,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             )),
         Container(
           height: 50.0,
-          width: isTablet ? 200 : width * .87,
+          width: isTablet ? 200 : deviceWidth<=330? width*.9 : width * .87,
           decoration: BoxDecoration(
               border: Border.all(color: HexColor(bloodBorderColor)),
               borderRadius: BorderRadius.circular(10)),

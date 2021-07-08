@@ -176,7 +176,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                 width <= 330 ? 28 : 34,
                                                 50)),
                                         SizedBox(
-                                          width: width <= 330 ? 10 : 20,
+                                          width: width <= 330 ? 10 :width<=360 && width>330? 15 :  20,
                                         ),
                                         Column(
                                           crossAxisAlignment:
@@ -185,7 +185,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                           MainAxisAlignment.center,
                                           children: [
                                             Container(
-                                              width: width<=330 ? 120 :width<=430 && width>330? 150:  200,
+                                              width: width<=330 ? 120 : width<=360 && width>330? 130: width<=430 && width>360? 150:  200,
                                               child: Text(
                                                 st.name,
                                                 maxLines: 1,

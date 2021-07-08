@@ -242,7 +242,7 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        SizedBox(width: 10,),
                         SizedBox(
                           width: isTablet? 200 : width<=360? width*.7 : width * .8,
                           height: isTablet ? 50 : width * .25,

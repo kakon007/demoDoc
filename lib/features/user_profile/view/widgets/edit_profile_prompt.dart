@@ -349,7 +349,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   )),
               Container(
                 height: 48.0,
-                width: isTablet ? 438: deviceWidth<=330?deviceWidth*.8: deviceWidth * 0.82,
+                width: isTablet ? 438: deviceWidth<=330?deviceWidth*.8: deviceWidth * 0.78,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),

@@ -92,7 +92,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         contentPadding: EdgeInsets.only(top: 10.0),
         content: Container(
-          width: isTablet? 500 : deviceWidth<=330? 250 : 320,
+         // width: isTablet? 500 : deviceWidth<=330? 250 : 320,
           height: !isEmpty
               ? isTablet
                   ? 275
@@ -154,6 +154,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                               ),
                             ),
                           ),
+                          SizedBox(width: 15,),
                           SizedBox(
                             width: isTablet ? 200 :deviceWidth<=330? width*.7 : width * .8,
                             height: isTablet ? 50 : width * .25,

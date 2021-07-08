@@ -2173,7 +2173,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                     height: isTablet? 3 : 1,
                                                                   ),
                                                                   Container(
-                                                                    width: MediaQuery.of(context).size.width*.92,
+                                                                    width: MediaQuery.of(context).size.width*.88,
                                                                     child: Row(
                                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                       children: [

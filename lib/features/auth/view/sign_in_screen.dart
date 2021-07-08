@@ -378,16 +378,16 @@ class _SignInState extends State<SignIn> {
                                   }
 
                                 } else {
-                                  SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                                  prefs.remove(
-                                      "username");
-                                  prefs.remove(
-                                      "usernameRemember");
-                                  prefs.remove(
-                                      "password");
-                                  prefs.remove(
-                                      "passwordRemember");
+                                  // SharedPreferences prefs =
+                                  // await SharedPreferences.getInstance();
+                                  // prefs.remove(
+                                  //     "username");
+                                  // prefs.remove(
+                                  //     "usernameRemember");
+                                  // prefs.remove(
+                                  //     "password");
+                                  // prefs.remove(
+                                  //     "passwordRemember");
                                   if(this.value== true){
                                     print(_username.text);
                                     prefs.setBool("value", true);

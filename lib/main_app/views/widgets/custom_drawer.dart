@@ -193,7 +193,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                 AppTheme.appbarPrimary),),
                           ):
                            Container(
-                             width: width<=400? 140 : double.infinity,
+                             width: 140,
                                   child: Text(
                                     userDetails?.fname??'',
                                       maxLines:2,overflow:TextOverflow.ellipsis,
@@ -210,7 +210,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       ),
                       SizedBox(height: 5,),
                       Container(
-                          width: width<=400? 140 : double.infinity,
+                          width: 140,
                           child: Text(userDetails?.address??"Dhaka",maxLines: 2, style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: isTablet? 16 : width<=360 ? 10 : 14,))),
                       SizedBox(height: 8,),
                       Container(

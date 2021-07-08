@@ -102,10 +102,7 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
                           width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 130,
                           height: width<=1250 && width>=1000 ? 40 : width<=999 && width>=650? 35: 30,
                           child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("Watch Video",key: Key('watchVideoButtonKey${widget.index}'),style:  GoogleFonts.poppins(color: Colors.white,fontSize:  width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  13  : 11,fontWeight: FontWeight.w600),),
-                            ),
+                            child: Text("Watch Video",key: Key('watchVideoButtonKey${widget.index}'),style:  GoogleFonts.poppins(color: Colors.white,fontSize:  width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  13  : 11,fontWeight: FontWeight.w600),),
                           ),
                         ),
                       ),

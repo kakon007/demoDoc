@@ -390,7 +390,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           child: Center(
                             child: Container(
                               height: isTablet ? 200 : cardHeight * 0.7,
-                              width: isTablet ? 340 : width <= 360 ? width / 2.5 : 140,
+                              width: isTablet ? 340 : width <= 360 ? width / 2.5 : 150,
                               child: Text(
                                 _image.toString().split('/').last,
                                 maxLines: 2,
@@ -427,7 +427,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       },
                       child: Container(
                         height: isTablet ? 200 : cardHeight * 0.9,
-                        width: isTablet ? 340 : width <= 360 ? width / 2.5 : 160,
+                        width: isTablet ? 340 : width <= 360 ? width / 2.5 : 150,
                         margin: EdgeInsets.only(
                             top: 8, bottom: 5, right: 10, left: 10),
                         decoration: BoxDecoration(

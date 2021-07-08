@@ -701,7 +701,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                   .size
                                                   .width >
                                                   600
-                                                  ? 35
+                                                  ? 335
                                                   : 300,
                                               height:
                                               MediaQuery.of(context)
@@ -976,7 +976,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                     ],
                                                   ),
                                                   SizedBox(
-                                                    height:
+                                                    height:isTablet? 5 :
                                                     MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -1541,7 +1541,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                   .size
                                                   .width >
                                                   600
-                                                  ? 35
+                                                  ? 335
                                                   : 300,
                                               height:
                                               MediaQuery.of(context)
@@ -1817,7 +1817,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                     ],
                                                   ),
                                                   SizedBox(
-                                                    height:
+                                                    height: isTablet? 3 :
                                                     MediaQuery.of(context)
                                                         .size
                                                         .width *

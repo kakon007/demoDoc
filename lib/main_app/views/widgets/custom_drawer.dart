@@ -230,14 +230,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
         Padding(
           padding: const EdgeInsets.only(top:150.0,left: 210),
           child: Container(
-            height:450,
+            height:MediaQuery.of(context).size.height>=700?450:350,
             width: double.infinity,
             decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(0.3),
                 //borderRadius: BorderRadius.all(Radius.circular())
             ),
           ),
-        ),],
+        ),
+      ],
     );
   }
 }

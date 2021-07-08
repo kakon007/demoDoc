@@ -908,7 +908,7 @@ class _AddPatientState extends State<AddPatient> {
                           hint: Text(
                             StringResources.consultationTypeText,
                             style: GoogleFonts.roboto(
-                                fontSize: isTablet ? 18 : 15,
+                                fontSize: isTablet ? 18 : width <=330? 12: 15,
                                 color: HexColor("#D2D2D2")),
                           ),
                           // Not necessary for Option 1

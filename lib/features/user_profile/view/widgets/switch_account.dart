@@ -184,12 +184,16 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                           mainAxisAlignment:
                                           MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              st.name,
-                                              style: GoogleFonts.poppins(
-                                                  color: HexColor("#0D1231"),
-                                                  fontSize: isTablet? 18 : 14,
-                                                  fontWeight: FontWeight.w400),
+                                            Container(
+                                              width: width<=330 ? 120 :width<=430 && width>330? 150:  200,
+                                              child: Text(
+                                                st.name,
+                                                maxLines: 1,
+                                                style: GoogleFonts.poppins(
+                                                    color: HexColor("#0D1231"),
+                                                    fontSize: isTablet? 18 : 14,
+                                                    fontWeight: FontWeight.w400),
+                                              ),
                                             ),
                                             Text(
                                               st.username,

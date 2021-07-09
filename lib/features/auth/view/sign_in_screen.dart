@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
@@ -87,6 +88,7 @@ class _SignInState extends State<SignIn> {
       height: height >= 700 ? 10.0 : 5.0,
     );
     var userName = SignUpFormField(
+      inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
       textFieldKey: Key("userNameKey"),
       topPadding: isTablet? 30 : 25,
       validator: Validator().nullFieldValidate,

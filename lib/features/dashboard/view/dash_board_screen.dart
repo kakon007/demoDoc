@@ -651,7 +651,7 @@ print("StatusCode ${response.statusCode}");
                                                   ? 60
                                                   : 85,
                                               child: Image.asset(
-                                                  "assets/images/my_health_logo.png")),
+                                                  "assets/images/newlogoimage.png")),
                                         ],
                                       ),
                                     ),

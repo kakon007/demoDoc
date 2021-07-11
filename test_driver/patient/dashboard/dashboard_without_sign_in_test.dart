@@ -7,10 +7,10 @@ import '../auth/sign_in_common_test.dart';
 //flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
 
 main() {
-  dashBoardSignedTest();
+  dashBoardUnsignedTest();
 }
 
-Future<void> dashBoardSignedTest() async {
+Future<void> dashBoardUnsignedTest() async {
   group('Dashboard Test', () {
     FlutterDriver driver;
     setUpAll(() async {
@@ -21,30 +21,60 @@ Future<void> dashBoardSignedTest() async {
         driver.close();
       }
     });
-    signInCommonTest();
     //test cases are started from here
-    test('When__try_to_tap_view_all_appointments__should__get_easy_doctor_text',
-        () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.tap(Keys.viewAllAppointmentKey);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(
-            await driver.getText(Keys.appointmentsAppbarKey), "Appointments");
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
     test(
         'When__try_to_tap_dashboard_from_bottom_navbar__should__get_appointments_text',
-        () async {
-      await driver.runUnsynchronized(() async {
-        await driver.tap(Keys.dashboardBottomNavbarKey);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.easyDoctorTextKey),
-            "Easy Doctor Appointment");
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
+            () async {
+          await driver.runUnsynchronized(() async {
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.easyDoctorTextKey),
+                "Easy Doctor Appointment");
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test(
+        'When__try_to_tap_dashboard_from_bottom_navbar__should__access_appointment_text',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await driver.tap(Keys.appointmentBottomNavbarKey);
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.wantToAccessAppointKey),
+                'Want to manage your appointments?');
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test('When__try_to_tap_search__should__get_hospital_Diagnostics_text_text',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await driver.tap(Keys.hospitalBottomNavbarKey);
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.hospitalAppbarKey),
+                "Hospitals & Diagnostics");
+          });
+        });
+    test(
+        'When__try_to_tap_dashboard_from_bottom_navbar__access_prescription_text',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await driver.tap(Keys.myHealthBottomNavbarKey);
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.wantToAccessPresKey),
+                'Want to access your Prescriptions?');
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test(
+        'When__try_to_tap_dashboard_from_bottom_navbar__should__get_appointments_text',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await driver.tap(Keys.dashboardBottomNavbarKey);
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.easyDoctorTextKey),
+                "Easy Doctor Appointment");
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
     test('When__try_to_tap_search__should__get_hospital_Diagnostics_text_text',
             () async {
           await driver.runUnsynchronized(() async {

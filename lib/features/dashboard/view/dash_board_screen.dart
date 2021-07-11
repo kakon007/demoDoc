@@ -27,6 +27,7 @@ import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dar
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
@@ -56,6 +57,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.
 import 'package:myhealthbd_app/main_app/views/widgets/failure_widget.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -503,40 +505,54 @@ print("StatusCode ${response.statusCode}");
                                   // ),
                                 ],
                               ))
-                          : GestureDetector(
-                              onTap: () {
-                                showAlert(context);
-                                // showDialog(context: context, builder: (context) => carDialog);
-                              },
-                        key: Key("userAvatarKey"),
-                              child: photo != ""
-                                  ? Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white),
-                                    //color: AppTheme.appbarPrimary,
-                                    shape: BoxShape.circle,
+                          : Row(
+                            children: [
+                              GestureDetector(onTap: (){
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: NotificationScreen(),
                                   ),
-                                  height: isTablet? 40 :  width<=330 ? 30 : 35,
-                                  width: isTablet? 40 : width<=330 ? 30 : 35,
-                                  child: Center(
-                                      child: vm10.loadProfileImage(photo, width<=330 ? 28.5 :33.5, width<=330 ? 30 :35,50)
-                                  ))
-                                  : Container(
+                                );
+                              },child: Icon(Icons.notifications)),
+                              SizedBox(width: 10,),
+                              GestureDetector(
+                                  onTap: () {
+                                    showAlert(context);
+                                    // showDialog(context: context, builder: (context) => carDialog);
+                                  },
+                        key: Key("userAvatarKey"),
+                                  child: photo != ""
+                                      ? Container(
                                       decoration: BoxDecoration(
-                                        color: AppTheme.appbarPrimary,
+                                        border: Border.all(color: Colors.white),
+                                        //color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
-                                          border: Border.all(color: Colors.white)
                                       ),
-                                      height:isTablet? 32 : width<=330 ? 27 :32,
-                                      width: isTablet? 32 : width<=330 ? 27 :32,
+                                      height: isTablet? 40 :  width<=330 ? 25 : 30,
+                                      width: isTablet? 40 : width<=330 ? 25 : 30,
                                       child: Center(
-                                        child: Image.asset(
-                                          'assets/images/dPro.png',
-                                          height: isTablet? 22 :width<=330 ? 18 :22,
-                                          width: isTablet? 22 :width<=330 ? 18 : 22,
-                                        ),
-                                      )),
-                            ),
+                                          child: vm10.loadProfileImage(photo, width<=330 ? 28.5 :33.5, width<=330 ? 30 :35,50)
+                                      ))
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.appbarPrimary,
+                                            shape: BoxShape.circle,
+                                              border: Border.all(color: Colors.white)
+                                          ),
+                                          height:isTablet? 32 : width<=330 ? 25 :30,
+                                          width: isTablet? 32 : width<=330 ? 25 :30,
+                                          child: Center(
+                                            child: Image.asset(
+                                              'assets/images/dPro.png',
+                                              height: isTablet? 22 :width<=330 ? 18 :22,
+                                              width: isTablet? 22 :width<=330 ? 18 : 22,
+                                            ),
+                                          )),
+                                ),
+                            ],
+                          ),
                     )
                   ],
                   backgroundColor: Colors.transparent,

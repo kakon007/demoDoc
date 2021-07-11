@@ -57,15 +57,15 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     _scrollController = ScrollController();
     Future.delayed(Duration.zero,() async{
       var vm = Provider.of<HospitalListViewModel>(context, listen: false);
-      vm.getData();
-      print(vm.hospitalList.length);
+      //vm.getData();
+      //print(vm.hospitalList.length);
       var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
       vm5.getData();
       var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
       vm6.getImageData();
-      await vm.getData();
+      //await vm.getData();
       hospitalList = vm.hospitalList;
-        hospitalItems.addAll(hospitalList);
+        //hospitalItems.addAll(hospitalList);
         if(widget.locationData!=null){
           //var vm22 = Provider.of<NearestHospitalViewModel>(context, listen: false);
           //vm22.getData();
@@ -264,27 +264,22 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                 child: ListView.builder(
                     key: Key('listViewBuilderKey'),
                     shrinkWrap: true,
-                    itemCount: hospitalItems.length,
+                    itemCount: hospitalItems.length==0? list.length : hospitalItems.length,
                     itemBuilder: (BuildContext context, int index) {
-                      int logoIndex = vm5.hospitalLogoList.indexWhere((element) => element.id==hospitalItems[index].id);
-                      int imageIndex = vm6.hospitalImageList.indexWhere((element) => element.id==hospitalItems[index].id);
+                      var id= hospitalItems.length==0? list[index].id:hospitalItems[index].id;
+                      int logoIndex = vm5.hospitalLogoList.indexWhere((element) => element.id==id);
+                      int imageIndex = vm6.hospitalImageList.indexWhere((element) => element.id==id);
                       return HospitalListCard(loadImage(vm5.hospitalLogoList[logoIndex].photoLogo),
                         vm6.hospitalImageList[imageIndex].photoImg!=null?loadImage(vm6.hospitalImageList[imageIndex].photoImg):loadLogo(vm5.hospitalLogoList[index].photoLogo),
-                        hospitalItems[index].companyName,
-                        hospitalItems[index].companyAddress == null
-                            ? "Mirpur,Dahaka,Bangladesh"
-                            : hospitalItems[index].companyAddress,
+                        hospitalItems.length==0? list[index].companyName : hospitalItems[index].companyName,
+                       hospitalItems.length==0? list[index].companyAddress==null? "Mirpur,Dahaka,Bangladesh" :list[index].companyAddress : hospitalItems[index].companyAddress==null?"Mirpur,Dahaka,Bangladesh": hospitalItems[index].companyAddress,
                         "60 Doctors",
-                        hospitalItems[index].companyPhone == null
-                            ? "+880 1962823007"
-                            : hospitalItems[index].companyPhone,
-                        hospitalItems[index].companyEmail == null
-                            ? "info@mysoftitd.com"
-                            : list[index].companyEmail,
-                        hospitalItems[index].companyLogo,
-                        hospitalItems[index].companyId,
-                        hospitalItems[index].ogNo.toString(),
-                        hospitalItems[index].id.toString(),
+                        hospitalItems.length==0? list[index].companyPhone==null? "+880 1962823007" : list[index].companyPhone : hospitalItems[index].companyPhone==null? "+880 1962823007" : hospitalItems[index].companyPhone,
+                        hospitalItems.length==0? list[index].companyEmail==null? "info@mysoftitd.com": list[index].companyEmail:  hospitalItems[index].companyEmail==null? "info@mysoftitd.com" : hospitalItems[index].companyEmail,
+                        hospitalItems.length==0? list[index].companyLogo: hospitalItems[index].companyLogo,
+                        hospitalItems.length==0? list[index].companyId: hospitalItems[index].companyId,
+                        hospitalItems.length==0? list[index].ogNo.toString(): hospitalItems[index].ogNo.toString(),
+                        hospitalItems.length==0?list[index].id.toString(): hospitalItems[index].id.toString(),
                         index.toString(),
                       );
                     }),

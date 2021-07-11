@@ -54,7 +54,7 @@ class AvailableSlotsRepository {
   }
   Future<Either<AppError, AutoSlotGenerateModel>> fetchSlotGenerateInfo(
       DateTime pickedAppointDate, String companyNo, String doctorNo, String orgNo) async {
-    String date =   DateFormat("dd-MM-yyyy").format(DateTime.parse(pickedAppointDate.toString()));
+    String date =   DateFormat("dd/MM/yyyy").format(DateTime.parse(pickedAppointDate.toString()));
     print(date);
     var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/autoSlotGenerate";
     final http.Response response = await http.post(

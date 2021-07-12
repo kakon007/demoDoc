@@ -255,7 +255,7 @@ class _SignInState extends State<SignIn> {
         ));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: HexColor("#F1F9FF"),
+      backgroundColor: HexColor("#3E5B9B"),
       body: Stack(children: <Widget>[
         this._backgroundImage(),
         Scaffold(
@@ -432,11 +432,11 @@ class _SignInState extends State<SignIn> {
   Widget _backgroundImage() {
     bool isTablet = Responsive.isTablet(context);
     return Padding(
-      padding:  EdgeInsets.only(left: isTablet? MediaQuery.of(context).size.width*.15 : 0 ),
+      padding:  EdgeInsets.only(left: isTablet? MediaQuery.of(context).size.width*.15 : 0 ,top: 70),
       child: Container(
-        height: isTablet? MediaQuery.of(context).size.height*.52: MediaQuery.of(context).size.height*.47,
+        height: isTablet? MediaQuery.of(context).size.height*.52: MediaQuery.of(context).size.height*.85,
         width: isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width,
-        child: Image.asset(kMyHealthLogo,
+        child: Image.asset(kMyHealthLogos,
           fit: BoxFit.fill,
         ),
       ),

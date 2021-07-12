@@ -652,7 +652,7 @@ print("StatusCode ${response.statusCode}");
                                                   ? 60
                                                   : 85,
                                               child: Image.asset(
-                                                  "assets/images/newlogoimage.png")),
+                                                  "assets/images/official_logo.png")),
                                         ],
                                       ),
                                     ),

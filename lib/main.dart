@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view
 import 'package:myhealthbd_app/features/appointments/view_model/available_slot_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/auth/view_model/term_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
@@ -109,6 +110,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) =>  ResetPasswordViewModel()),
       ChangeNotifierProvider<NearestHospitalViewModel>(create: (context) =>  NearestHospitalViewModel()),
       ChangeNotifierProvider<NotificationViewModel>(create: (context) =>  NotificationViewModel()),
+      ChangeNotifierProvider<TermsViewModel>(create: (context) =>  TermsViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

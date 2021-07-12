@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view/terms_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
@@ -487,12 +488,21 @@ class _SignUpState extends State<SignUp> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              StringResources.terms,
-              style: GoogleFonts.roboto(
-                  color: AppTheme.signInSignUpColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: isTablet ? 16 : 13),
+            InkWell(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return Terms();
+                        }));
+              },
+              child: Text(
+                StringResources.terms,
+                style: GoogleFonts.roboto(
+                    color: AppTheme.signInSignUpColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: isTablet ? 16 : 13),
+              ),
             ),
             Text(
               " and  ",
@@ -517,7 +527,7 @@ class _SignUpState extends State<SignUp> {
     );
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: HexColor("#F1F9FF"),
+      backgroundColor: HexColor("#3E5B9B"),
       body: Stack(children: <Widget>[
         this._backgroundImage(),
         Scaffold(
@@ -644,7 +654,7 @@ class _SignUpState extends State<SignUp> {
     return Stack(
       children: [
         Positioned(
-          top: isTablet ? 35 : MediaQuery.of(context).size.width * .15,
+          top: isTablet ? 35 : MediaQuery.of(context).size.width * .13,
           left: MediaQuery.of(context).size.width * .32,
           right: MediaQuery.of(context).size.width * .32,
           child: Container(

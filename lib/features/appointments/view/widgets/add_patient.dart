@@ -532,6 +532,7 @@ class _AddPatientState extends State<AddPatient> {
             ),
           ],
         ));
+    print('width ${width}');
     var membersTypeList = Row(
       children: [
         GestureDetector(
@@ -1386,6 +1387,7 @@ class _AddPatientState extends State<AddPatient> {
                 ),
               ):
               SingleChildScrollView(
+                
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   //mainAxisAlignment: MainAxisAlignment.start,

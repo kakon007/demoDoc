@@ -501,7 +501,7 @@ class _SignUpState extends State<SignUp> {
             ),
             GestureDetector(
               onTap: (){
-                UrlLauncherHelper.launchUrl('https://qa.myhealthbd.com:9096/medicare-web-client-v2/#/myhealthbd/contact');
+                UrlLauncherHelper.launchUrl('https://myhealthbd.com/medicare-web-client-v2/#/myhealthbd/policy');
               },
               child: Text(
                 StringResources.policy,

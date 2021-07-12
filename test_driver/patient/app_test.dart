@@ -6,6 +6,7 @@ import 'auth/forgot_password_test.dart';
 import 'auth/sign_up_test.dart';
 import 'auth/signin_test.dart';
 import 'dashboard/dashboard_after_sign_in_test.dart';
+import 'dashboard/dashboard_without_sign_in_test.dart';
 
 //flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
 

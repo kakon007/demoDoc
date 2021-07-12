@@ -43,7 +43,7 @@ class BookAppointmentRepository {
 //   String endTime,
 // }
 //       ) async {
-//     var url = "https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-appointments/create";
+//     var url = "${Urls.baseUrl}diagnostic-api/api/opd-appointments/create";
 //     print("Abir" + appointDate);
 //     try {
 //       final http.Response response = await http.post(Uri.parse(url),headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',}, body: jsonEncode(<String, dynamic>{

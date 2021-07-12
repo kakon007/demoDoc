@@ -49,6 +49,7 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
@@ -139,7 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen>
       'Authorization': 'Bearer $accessToken',
       'Content-Type': 'text/plain'
     };
-    var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/auth-api/api/device/set-device-token'));
+    var request = http.Request('POST', Uri.parse('${Urls.baseUrl}auth-api/api/device/set-device-token'));
     request.body = '''{\n"userNo" : "$userNo",\n"userName" : "$userName",\n"doviceToken" : "$doviceToken"\n\n}\n''';
     request.headers.addAll(headers);
     print('Token'+doviceToken);

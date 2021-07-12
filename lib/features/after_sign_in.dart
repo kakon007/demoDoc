@@ -52,7 +52,7 @@
 //   // double scaleFactor2 = 1;
 //   // Future<hos.HospitalListModel> fetchHospitalList() async {
 //   //   var url =
-//   //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+//   //       "${Urls.baseUrl}online-appointment-api/fapi/appointment/companyList";
 //   //   var client = http.Client();
 //   //   var response = await client.get(Uri.parse(url));
 //   //   if (response.statusCode == 200) {
@@ -74,7 +74,7 @@
 //
 //   // Future<HospitalListModel> fetchHospitalLogo() async {
 //   //   var url =
-//   //       "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyLogoList";
+//   //       "${Urls.baseUrl}online-appointment-api/fapi/appointment/companyLogoList";
 //   //   var client = http.Client();
 //   //   var response = await client.get(Uri.parse(url));
 //   //   if (response.statusCode == 200) {
@@ -96,7 +96,7 @@
 //
 //
 //   // Future<NewsUpdatedModel> fetchNewspdate() async{
-//   //   var url='https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
+//   //   var url='${Urls.baseUrl}online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
 //   //   var res=await http.get(Uri.parse(url));
 //   //   if(res.statusCode==200){
 //   //     NewsUpdatedModel data2=newsUpdatedModelFromJson(res.body);
@@ -758,7 +758,7 @@
 // //
 // //   Future<hos.HospitalListModel> fetchHospitalList() async {
 // //     var url =
-// //         "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyList";
+// //         "${Urls.baseUrl}online-appointment-api/fapi/appointment/companyList";
 // //     var client = http.Client();
 // //     var response = await client.get(Uri.parse(url));
 // //     if (response.statusCode == 200) {
@@ -780,7 +780,7 @@
 // //
 // //   Future<FindHospitalNumberModel> fetchUserDetails() async {
 // //     var url =
-// //         "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
+// //         "${Urls.baseUrl}diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
 // //     final body={};
 // //     var client = http.Client();
 // //     var response = await client.post(Uri.parse(url),headers: {'Authorization': 'Bearer ${signInData.accessToken}',});
@@ -805,7 +805,7 @@
 // //
 // //   Future<PrescriptionListModel> fetchpres() async {
 // //     var url =
-// //         "https://qa.myhealthbd.com:9096/diagnostic-api/api/pat-investigation-report/patient-prescription-list?draw=1&columns%5B0%5D%5Bdata%5D=consultationId&columns%5B0%5D%5Bname%5D=consultationId&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=prescriptionDateTime&columns%5B1%5D%5Bname%5D=prescriptionDateTime&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=doctorName&columns%5B2%5D%5Bname%5D=doctorName&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=companyName&columns%5B3%5D%5Bname%5D=companyName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1617439318994";
+// //         "${Urls.baseUrl}diagnostic-api/api/pat-investigation-report/patient-prescription-list?draw=1&columns%5B0%5D%5Bdata%5D=consultationId&columns%5B0%5D%5Bname%5D=consultationId&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=prescriptionDateTime&columns%5B1%5D%5Bname%5D=prescriptionDateTime&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=doctorName&columns%5B2%5D%5Bname%5D=doctorName&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=companyName&columns%5B3%5D%5Bname%5D=companyName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1617439318994";
 // //     var client = http.Client();
 // //     var response = await client.get(Uri.parse(url));
 // //     if (response.statusCode == 200) {
@@ -829,7 +829,7 @@
 // //   }
 // //
 // //   Future<NewsUpdatedModel> fetchNewspdate() async{
-// //     var url='https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
+// //     var url='${Urls.baseUrl}online-appointment-api/fapi/news-blogs/list-by-type?blogType=1';
 // //     var res=await http.get(Uri.parse(url));
 // //     if(res.statusCode==200){
 // //       NewsUpdatedModel data2=newsUpdatedModelFromJson(res.body);

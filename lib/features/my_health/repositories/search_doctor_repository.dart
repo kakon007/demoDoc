@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/features/my_health/models/search_doctor_model.dar
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class SearchDoctorRepository {
   Future<Either<AppError, SearchDoctorM>> fetchDoctorList(
@@ -17,7 +18,7 @@ class SearchDoctorRepository {
         'Authorization': 'Bearer $accessToken',
         'Content-Type': 'text/plain'
       };
-      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/searchDoctor'));
+      var request = http.Request('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-shared/searchDoctor'));
       request.body = '''{"doctorName":"$name","companyNo":$companyNo}''';
       request.headers.addAll(headers);
       print('Name $name');

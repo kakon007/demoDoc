@@ -73,7 +73,7 @@ class AuthRepository {
     var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-            'https://qa.myhealthbd.com:9096/online-appointment-api/fapi/registration/create-with-image'));
+            '${Urls.baseUrl}online-appointment-api/fapi/registration/create-with-image'));
     request.fields.addAll({
       'reqobj': json.encode({
         "opdReg": {

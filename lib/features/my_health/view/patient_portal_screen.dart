@@ -232,7 +232,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       var request = http.Request(
           'POST',
           Uri.parse(
-              'https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+              '${Urls.baseUrl}diagnostic-api/api/file-attachment/file-by-name'));
       request.body = json.encode({"attachmentPath": filePath});
       print("Fillleeee:::: $filePath");
       request.headers.addAll(headers);
@@ -2200,7 +2200,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                             ),
                                                                             SizedBox(width: 10,),
                                                                             Text(
-                                                                              '${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
+                                                                                vm3.documentList[index].reportDate==null?'${DateTime.now()}':'${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
                                                                               style: GoogleFonts.poppins(
                                                                                   color: HexColor('#141D53'),
                                                                                   fontSize:  isTablet

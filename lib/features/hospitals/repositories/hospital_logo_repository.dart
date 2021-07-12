@@ -7,12 +7,13 @@ import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class HospitalLogoRepository {
   Future<Either<AppError, HospiitalLogoM>> fetchHospitalLogo() async {
     try {
       var url =
-          "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/appointment/companyLogoList";
+          "${Urls.baseUrl}online-appointment-api/fapi/appointment/companyLogoList";
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
       if (response.statusCode == 200) {

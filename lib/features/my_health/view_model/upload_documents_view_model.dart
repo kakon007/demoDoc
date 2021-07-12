@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class UploadDocumentsViewModel extends ChangeNotifier{
 
@@ -19,7 +20,7 @@ class UploadDocumentsViewModel extends ChangeNotifier{
     var headers = {
       'Authorization': 'Bearer $accessToken'
     };
-    var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/create'));
+    var request = http.MultipartRequest('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/create'));
     request.fields.addAll({
       'reqobj': json.encode({"activeStatus":1,"attachmentTypeNo":"$attachmentTypeNo","reportDate":pickDate,"description":description,"referenceNo":regID,"attachmentName":"$attachmentName","type":2,"regId":"$username"})
     });
@@ -67,7 +68,7 @@ var headers = {
   'Authorization': 'Bearer $accessToken',
   'Content-Type': 'text/plain'
 };
-var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/delete'));
+var request = http.Request('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/delete'));
 request.body = ''' {\n           \n            "id": $id,\n            "attachmentName": "$attachmentName",\n            "attachmentPath": "$attachmentPath",\n            "attachmentTypeNo": $attachmentTypeNo,\n            "description": $description,\n            "activeStatus": $activeStatus,\n            "referenceNo": $referenceNo,\n            "referenceTypeNo": $referenceTypeNo,\n            "regId": "$regId",\n            "type": $type\n        },''';
 request.headers.addAll(headers);
 
@@ -109,7 +110,7 @@ http.StreamedResponse response = await request.send();
   //     'Authorization': 'Bearer $_accessToken'
   //   };
   //   print('idddddddeeeeee:: $_accessToken');
-  //   var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/edit'));
+  //   var request = http.MultipartRequest('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/edit'));
   //   request.fields.addAll({
   //     'reqobj':json.encode({"id":_id,"attachmentName":"$fileName"})
   //   });

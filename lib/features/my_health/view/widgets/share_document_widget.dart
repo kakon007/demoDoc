@@ -369,7 +369,8 @@ class _ShareDocumentState extends State<ShareDocument> {
 
 
     var doctorCard=
-   Container(height: 100,width: 338,child: ListView.builder(itemCount: vm2.doctorInfo.length,itemBuilder:(_,index){
+   Container(
+     height:deviceWidth<=330?90:100,width: deviceWidth<=330?275:338,child: ListView.builder(itemCount: vm2.doctorInfo.length,itemBuilder:(_,index){
      return Container( decoration: BoxDecoration(
        color: Colors.white,
        borderRadius: BorderRadius.circular(10),
@@ -420,7 +421,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                Row(
                  children: [
                    Container(
-                     width:deviceWidth<=330?200: 220,
+                     width:deviceWidth<=330?160: 220,
                      child: Text(
                        vm2.doctorInfo[index].doctorName==null?'Loading':vm2.doctorInfo[index].doctorName,
                        style: GoogleFonts.poppins(

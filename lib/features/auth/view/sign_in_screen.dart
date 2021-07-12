@@ -261,164 +261,166 @@ class _SignInState extends State<SignIn> {
         Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
-          body: Form(
-            key: _formKey,
-            child: Padding(
-              padding:  EdgeInsets.only(top: height>=700 ? height*.52: height*.41),
-              child: new Container(
-                height:  height>=700 ? MediaQuery.of(context).size.height * .48 : MediaQuery.of(context).size.height * .6,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                    color: HexColor("#FFFFFF"),
-                    boxShadow: [
-                      BoxShadow(
-                        color: HexColor("#0D1231").withOpacity(0.08),
-                        spreadRadius: 10,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ]),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding:  EdgeInsets.only(right: isTablet? 45 : 15, left: isTablet? 45 : 15),
-                    child: Column(
-                      children: [
-                        spaceBetween,
-                        SizedBox(
-                          height: height>=700 ? 15 : 5,
+          body: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding:  EdgeInsets.only(top: height>=700 ? height*.52: height*.41),
+                child: new Container(
+                  height:  height>=700 ? MediaQuery.of(context).size.height * .48 : MediaQuery.of(context).size.height * .6,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25)),
+                      color: HexColor("#FFFFFF"),
+                      boxShadow: [
+                        BoxShadow(
+                          color: HexColor("#0D1231").withOpacity(0.08),
+                          spreadRadius: 10,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
                         ),
-                        Center(
-                            child: Text(
-                              StringResources.welcomeBack,
-                              key: Key("welcomeBackTextKey"),
-                              style: GoogleFonts.roboto(
-                                  color: HexColor("#0D1231"),
-                                  fontSize: height*.03,
-                                  fontWeight: FontWeight.w600),
-                            )),
-                        SizedBox(
-                          height: width>360 ? 15 : 10,
-                        ),
-                        userName,
-                        password,
-                        validUser == false
-                            ? Container(
-                            color: Colors.red[100],
-                            child: Text(
-                              "Invalid username or password",
-                              key: Key("invalidCredentialKey"),
-                              style: GoogleFonts.poppins(color: Colors.red),
-                            ))
-                            : SizedBox(),
-                        rememberMe,
-                        isClicked == false
-                            ? GestureDetector(
-                            onTap: () async {
-                              if (_formKey.currentState.validate()){
-                                setState(() {
-                                  isClicked = true;
-                                });
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                                var vm5 = Provider.of<AuthViewModel>(context, listen: false);
-                                await vm5.getAuthData(_username.text, _password.text);
-                                if(vm5.accessToken!=null){
-                                  accountsList.forEach((item) {
-                                    if(item.username.contains(_username.text)) {
-                                      addAccountValue = _username.text;
-                                    }
+                      ]),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding:  EdgeInsets.only(right: isTablet? 45 : 15, left: isTablet? 45 : 15),
+                      child: Column(
+                        children: [
+                          spaceBetween,
+                          SizedBox(
+                            height: height>=700 ? 15 : 5,
+                          ),
+                          Center(
+                              child: Text(
+                                StringResources.welcomeBack,
+                                key: Key("welcomeBackTextKey"),
+                                style: GoogleFonts.roboto(
+                                    color: HexColor("#0D1231"),
+                                    fontSize: height*.03,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                          SizedBox(
+                            height: width>360 ? 15 : 10,
+                          ),
+                          userName,
+                          password,
+                          validUser == false
+                              ? Container(
+                              color: Colors.red[100],
+                              child: Text(
+                                "Invalid username or password",
+                                key: Key("invalidCredentialKey"),
+                                style: GoogleFonts.poppins(color: Colors.red),
+                              ))
+                              : SizedBox(),
+                          rememberMe,
+                          isClicked == false
+                              ? GestureDetector(
+                              onTap: () async {
+                                if (_formKey.currentState.validate()){
+                                  setState(() {
+                                    isClicked = true;
                                   });
-                                  if(addAccountValue==null){
-                                    var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
-                                    var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
-                                    await vm4.getSwitchData(vm5.accessToken);
-                                    await vm3.switchImage(vm5.accessToken);
-                                    print("abcd");
-                                    SwitchAccounts switchAccounts = new SwitchAccounts(
-                                      name: vm4.userSwitchDetailsList.fname,
-                                      relation: vm3.switchDetails?.photo==null? "" : vm3.switchDetails.photo,
-                                      username: _username.text,
-                                      password: _password.text,
-                                    );
-                                    dbmManager.insertStudent(switchAccounts).then((id) => {
-                                      print("name" + vm4.userSwitchDetailsList.fname),
-                                      print("photo" + vm3.switchDetails.photo),
+                                  SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                                  var vm5 = Provider.of<AuthViewModel>(context, listen: false);
+                                  await vm5.getAuthData(_username.text, _password.text);
+                                  if(vm5.accessToken!=null){
+                                    accountsList.forEach((item) {
+                                      if(item.username.contains(_username.text)) {
+                                        addAccountValue = _username.text;
+                                      }
+                                    });
+                                    if(addAccountValue==null){
+                                      var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
+                                      var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
+                                      await vm4.getSwitchData(vm5.accessToken);
+                                      await vm3.switchImage(vm5.accessToken);
+                                      print("abcd");
+                                      SwitchAccounts switchAccounts = new SwitchAccounts(
+                                        name: vm4.userSwitchDetailsList.fname,
+                                        relation: vm3.switchDetails?.photo==null? "" : vm3.switchDetails.photo,
+                                        username: _username.text,
+                                        password: _password.text,
+                                      );
+                                      dbmManager.insertStudent(switchAccounts).then((id) => {
+                                        print("name" + vm4.userSwitchDetailsList.fname),
+                                        print("photo" + vm3.switchDetails.photo),
+                                      });
+                                    }
+                                    else{
+                                    }
+                                  }
+                                  if (vm5.accessToken!=null) {
+                                    prefs.setString(
+                                        "username", _username.text);
+                                    prefs.setString(
+                                        "usernameRemember", _username.text);
+                                    prefs.setString(
+                                        "password", _password.text);
+                                    prefs.setString(
+                                        "passwordRemember", _password.text);
+                                    appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              HomeScreen(
+                                                accessToken:
+                                                vm5.accessToken,
+                                              ),
+                                        ),
+                                            (Route<dynamic> route) => false);
+                                    if(this.value== true){
+                                      //print(_username.text);
+                                      prefs.setBool("value", true);
+                                    }
+                                    else{
+                                      // prefs.remove("username");
+                                      // prefs.remove("password");
+                                      prefs.setBool("value", false);
+                                    }
+
+                                  } else {
+                                    // SharedPreferences prefs =
+                                    // await SharedPreferences.getInstance();
+                                    // prefs.remove(
+                                    //     "username");
+                                    // prefs.remove(
+                                    //     "usernameRemember");
+                                    // prefs.remove(
+                                    //     "password");
+                                    // prefs.remove(
+                                    //     "passwordRemember");
+                                    if(this.value== true){
+                                      print(_username.text);
+                                      prefs.setBool("value", true);
+                                    }
+                                    else{
+                                      prefs.setBool("value", false);
+                                    }
+                                    setState(() {
+                                      if (validUser == true) {
+                                        validUser = false;
+                                      }
+                                      if (isClicked == true) {
+                                        isClicked = false;
+                                      }
                                     });
                                   }
-                                  else{
-                                  }
                                 }
-                                if (vm5.accessToken!=null) {
-                                  prefs.setString(
-                                      "username", _username.text);
-                                  prefs.setString(
-                                      "usernameRemember", _username.text);
-                                  prefs.setString(
-                                      "password", _password.text);
-                                  prefs.setString(
-                                      "passwordRemember", _password.text);
-                                  appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            HomeScreen(
-                                              accessToken:
-                                              vm5.accessToken,
-                                            ),
-                                      ),
-                                          (Route<dynamic> route) => false);
-                                  if(this.value== true){
-                                    //print(_username.text);
-                                    prefs.setBool("value", true);
-                                  }
-                                  else{
-                                    // prefs.remove("username");
-                                    // prefs.remove("password");
-                                    prefs.setBool("value", false);
-                                  }
 
-                                } else {
-                                  // SharedPreferences prefs =
-                                  // await SharedPreferences.getInstance();
-                                  // prefs.remove(
-                                  //     "username");
-                                  // prefs.remove(
-                                  //     "usernameRemember");
-                                  // prefs.remove(
-                                  //     "password");
-                                  // prefs.remove(
-                                  //     "passwordRemember");
-                                  if(this.value== true){
-                                    print(_username.text);
-                                    prefs.setBool("value", true);
-                                  }
-                                  else{
-                                    prefs.setBool("value", false);
-                                  }
-                                  setState(() {
-                                    if (validUser == true) {
-                                      validUser = false;
-                                    }
-                                    if (isClicked == true) {
-                                      isClicked = false;
-                                    }
-                                  });
-                                }
-                              }
-
-                            },
-                            child: signInButton)
-                            : CircularProgressIndicator(
-                          valueColor:
-                          AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
-                        ),
-                        spaceBetween,
-                        // socialSignIn,
-                        spaceBetween,
-                        signUp
-                      ],
+                              },
+                              child: signInButton)
+                              : CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation<Color>(AppTheme.appbarPrimary),
+                          ),
+                          spaceBetween,
+                          // socialSignIn,
+                          spaceBetween,
+                          signUp
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -432,7 +432,7 @@ class _SignInState extends State<SignIn> {
   Widget _backgroundImage() {
     bool isTablet = Responsive.isTablet(context);
     return Padding(
-      padding:  EdgeInsets.only(left: isTablet? MediaQuery.of(context).size.width*.15 : 0 ,top: 70),
+      padding:  EdgeInsets.only(left: isTablet? MediaQuery.of(context).size.width*.15 : 0 ,top:MediaQuery.of(context).size.width>=450?70:50),
       child: Container(
         height: isTablet? MediaQuery.of(context).size.height*.52: MediaQuery.of(context).size.height*.85,
         width: isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width,

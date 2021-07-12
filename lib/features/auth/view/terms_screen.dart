@@ -33,7 +33,7 @@ class _TermsState extends State<Terms> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child:vm.terms==null?Text('Loading'):Text(
+            child:vm.terms==null?Center(child: Text('Loading......')):Text(
               vm.terms
             ),
           ),

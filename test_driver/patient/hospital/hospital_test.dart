@@ -30,7 +30,7 @@ Future<void> hospitalTest()async{
       });
     });
     test(
-        'When__try_to_searchField__should__get_Hospitals_&_Diagnostics_on_appbar', () async {
+        'When__try_to_tap_searchField__should__get_Hospitals_&_Diagnostics_on_appbar', () async {
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 2), () {});
         await driver.tap(Keys.hospitalSearchFieldKey);

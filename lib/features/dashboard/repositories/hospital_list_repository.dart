@@ -17,6 +17,8 @@ class HospitalListRepositry {
     try {
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
+      print('hospital list ${response.body}');
+      print('hospital status ${response.statusCode}');
       if (response.statusCode == 200) {
         HospitalListModel data = hospitalListModelFromJson(response.body);
         CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalList);

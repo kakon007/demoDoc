@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart'
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
+import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -498,12 +499,17 @@ class _SignUpState extends State<SignUp> {
               style: GoogleFonts.roboto(
                   color: HexColor("#8592E5"), fontSize: isTablet ? 16 : 13),
             ),
-            Text(
-              StringResources.policy,
-              style: GoogleFonts.roboto(
-                  color: AppTheme.signInSignUpColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: isTablet ? 16 : 13),
+            GestureDetector(
+              onTap: (){
+                UrlLauncherHelper.launchUrl('https://qa.myhealthbd.com:9096/medicare-web-client-v2/#/myhealthbd/contact');
+              },
+              child: Text(
+                StringResources.policy,
+                style: GoogleFonts.roboto(
+                    color: AppTheme.signInSignUpColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: isTablet ? 16 : 13),
+              ),
             ),
           ],
         )
@@ -638,7 +644,7 @@ class _SignUpState extends State<SignUp> {
     return Stack(
       children: [
         Positioned(
-          top: isTablet ? 35 : MediaQuery.of(context).size.width * .12,
+          top: isTablet ? 35 : MediaQuery.of(context).size.width * .15,
           left: MediaQuery.of(context).size.width * .32,
           right: MediaQuery.of(context).size.width * .32,
           child: Container(
@@ -646,7 +652,7 @@ class _SignUpState extends State<SignUp> {
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
               fit: BoxFit.fitHeight,
-              image: AssetImage("assets/images/myhealth.png"),
+              image: AssetImage("assets/images/logo_new.png"),
               placeholder: AssetImage(''),
             ),
           ),

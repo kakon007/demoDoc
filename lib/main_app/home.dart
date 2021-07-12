@@ -281,6 +281,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
+      key: Key('myHealthBottomNavbarKey'),
       //semanticsLabel: 'Acme Logo'
     );
 

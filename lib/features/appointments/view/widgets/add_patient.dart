@@ -254,6 +254,9 @@ class _AddPatientState extends State<AddPatient> {
                       width: MediaQuery.of(context).size.width * .32,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
+                          onTap: (){
+                            FocusManager.instance.primaryFocus.unfocus();
+                          },
                           key: Key('appointGenderKey'),
                           icon: Icon(
                             Icons.keyboard_arrow_down_sharp,
@@ -388,6 +391,7 @@ class _AddPatientState extends State<AddPatient> {
           ),
           key: Key('appointBirthDateKey'),
           onTap: () {
+              FocusManager.instance.primaryFocus.unfocus();
             selectBirthDate(context);
           },
         ),
@@ -532,6 +536,7 @@ class _AddPatientState extends State<AddPatient> {
             ),
           ],
         ));
+    print('width ${width}');
     var membersTypeList = Row(
       children: [
         GestureDetector(
@@ -1386,6 +1391,7 @@ class _AddPatientState extends State<AddPatient> {
                 ),
               ):
               SingleChildScrollView(
+                
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   //mainAxisAlignment: MainAxisAlignment.start,

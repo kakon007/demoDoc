@@ -240,6 +240,7 @@ class _SignUpState extends State<SignUp> {
             ],
           ),
           onTap: () {
+            FocusManager.instance.primaryFocus.unfocus();
             selectDate(context);
           },
           key: Key('signUpBirthDateKey'),
@@ -286,6 +287,9 @@ class _SignUpState extends State<SignUp> {
                       width: width * .87,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
+                          onTap: (){
+                            FocusManager.instance.primaryFocus.unfocus();
+                          },
                           key: Key('signUpGenderKey'),
                           icon: Icon(
                             Icons.keyboard_arrow_down_sharp,

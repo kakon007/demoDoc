@@ -50,8 +50,7 @@ import 'features/dashboard/view_model/blog_logo_view_model.dart';
 void main() async{
    WidgetsFlutterBinding.ensureInitialized();
    await Firebase.initializeApp();
-  //await FlutterDownloader.initialize(debug: true);
-  // user trust SSL certificate for jobxprss.com
+
 
  // if (!Platform.isWindows)   _loadCertificate();
 

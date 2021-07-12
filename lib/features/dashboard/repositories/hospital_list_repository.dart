@@ -40,7 +40,7 @@ class HospitalListRepositry {
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
-      print('some2');
+      print(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }

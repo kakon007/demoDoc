@@ -51,16 +51,18 @@ class FilterRepository {
           specialList: data.specializationItem,
         ));
       } else {
-        BotToast.showText(text: StringResources.somethingIsWrong);
+        print('abcd2');
+     //   BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
       //logger.e(e);
+      print('abcd');
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
       //logger.e(e);
-      BotToast.showText(text: StringResources.somethingIsWrong);
+    //  BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

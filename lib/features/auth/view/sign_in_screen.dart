@@ -261,26 +261,26 @@ class _SignInState extends State<SignIn> {
         Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding:  EdgeInsets.only(top: height>=700 ? height*.52: height*.41),
-                child: new Container(
-                  height:  height>=700 ? MediaQuery.of(context).size.height * .48 : MediaQuery.of(context).size.height * .6,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25)),
-                      color: HexColor("#FFFFFF"),
-                      boxShadow: [
-                        BoxShadow(
-                          color: HexColor("#0D1231").withOpacity(0.08),
-                          spreadRadius: 10,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ]),
+          body: Form(
+            key: _formKey,
+            child: Padding(
+              padding:  EdgeInsets.only(top: height>=700 ? height*.52: height*.41),
+              child: new Container(
+                height:  height>=700 ? MediaQuery.of(context).size.height * .48 : MediaQuery.of(context).size.height * .6,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25)),
+                    color: HexColor("#FFFFFF"),
+                    boxShadow: [
+                      BoxShadow(
+                        color: HexColor("#0D1231").withOpacity(0.08),
+                        spreadRadius: 10,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ]),
+                child: SingleChildScrollView(
                   child: Padding(
                     padding:  EdgeInsets.only(right: isTablet? 45 : 15, left: isTablet? 45 : 15),
                     child: Column(

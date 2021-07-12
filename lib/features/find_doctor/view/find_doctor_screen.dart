@@ -825,9 +825,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             ListTileControlAffinity
                                                                 .leading,
                                                         title: Text(
-                                                          Validator()
-                                                              .capitalizeTheFirstLetterOfEachWord(
-                                                                  item.buName),
+                                                                  item.buName.titleCase,
                                                           style: GoogleFonts.poppins(
                                                               fontSize: isTablet? 18 : 15,
                                                               fontWeight: item

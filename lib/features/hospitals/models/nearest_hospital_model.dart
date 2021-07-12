@@ -156,7 +156,7 @@ class Items {
   factory Items.fromJson(Map<String, dynamic> json) => Items(
     id: json["id"] == null ? null : json["id"],
     companyId: json["companyId"] == null ? null : json["companyId"],
-    companyName: json["companyName"] == null ? null : json["companyName"],
+    companyName: json["companyName"].toString().toLowerCase(),
     companyAlias: json["companyAlias"] == null ? null : json["companyAlias"],
     companySlogan: json["companySlogan"] == null ? null : json["companySlogan"],
     companyAddress: json["companyAddress"] == null ? null : json["companyAddress"],

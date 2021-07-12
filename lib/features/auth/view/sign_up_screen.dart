@@ -644,7 +644,7 @@ class _SignUpState extends State<SignUp> {
     return Stack(
       children: [
         Positioned(
-          top: isTablet ? 35 : MediaQuery.of(context).size.width * .12,
+          top: isTablet ? 35 : MediaQuery.of(context).size.width * .15,
           left: MediaQuery.of(context).size.width * .32,
           right: MediaQuery.of(context).size.width * .32,
           child: Container(
@@ -652,7 +652,7 @@ class _SignUpState extends State<SignUp> {
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
               fit: BoxFit.fitHeight,
-              image: AssetImage("assets/images/myhealth.png"),
+              image: AssetImage("assets/images/logo_new.png"),
               placeholder: AssetImage(''),
             ),
           ),

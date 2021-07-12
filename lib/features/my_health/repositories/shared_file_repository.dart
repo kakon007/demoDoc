@@ -7,16 +7,17 @@ import 'package:myhealthbd_app/features/my_health/models/shared_file_model.dart'
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class SharedFileRepository{
 Future<Either<AppError,SharedFileM>> fetchSharedFile({String accessToken,int fileNo})async{
-  //String url='https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/getListByFileNo';
+  //String url='${Urls.baseUrl}diagnostic-api/api/file-shared/getListByFileNo';
   print('Enter Shared Repo');
   try{
     var headers = {
       'Authorization': 'Bearer $accessToken',
       'Content-Type': 'text/plain'
     };
-    var request = http.Request('GET', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/getListByFileNo'));
+    var request = http.Request('GET', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-shared/getListByFileNo'));
     request.body = '''{\n"fileNo":  $fileNo\n}\n''';
     request.headers.addAll(headers);
 

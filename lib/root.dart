@@ -1,4 +1,5 @@
 import 'dart:async';
+//import 'package:dartz/dartz_streaming.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -90,26 +91,49 @@ class _RootState extends State<Root> {
       backgroundColor: HexColor('#F1F9FF'),
       body: Center(
         child: Container(
+          decoration: new BoxDecoration(
+              gradient: new LinearGradient(
+                  colors: [
+                    HexColor('#419FCE'),
+                    HexColor('#3A0057'),
+                  ],
+                  stops: [0.0, 1.0],
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  tileMode: TileMode.repeated
+              )
+          ),
           height: height,
           width: width,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              SizedBox(),
-              SizedBox(),
-              SizedBox(),
-              SizedBox(),
-              Container(
-                  child: Center(
-                    child: Container(
-                      height: isTablet? 650 : 420,
-                      child: Image.asset(kMyHealthLogo,
-                        fit: BoxFit.cover,
-                      ),
+             //SizedBox(height: 10,),
+              // SizedBox(),
+              // SizedBox(),
+              // SizedBox(),
+              Padding(
+                padding:  EdgeInsets.only(top:width>=450?330.0:250),
+                child: Center(
+                  child: Container(
+                    //height: isTablet? 650 : 50,
+                    width: isTablet? 650 : 300,
+                    child: Image.asset(kMyHealthLogo,
+                      fit: BoxFit.cover,
                     ),
-                  )),
-              //  appLogoText,
+                  ),
+                ),
+              ),
+              Container(
+                child: Text("Virtual Hospital of Bangladesh",style: TextStyle(color: Colors.white, fontSize: isTablet? 20 : 18),)
+              ),              //  appLogoText,
+              SizedBox(),
+              SizedBox(),
+              SizedBox(),
+              SizedBox(),
+              SizedBox(),
+              SizedBox(),
               SizedBox(),
 
               AppVersionWidgetLowerCase(),

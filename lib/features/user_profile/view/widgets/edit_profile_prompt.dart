@@ -28,6 +28,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
   final _email = TextEditingController();
   final _mobile = TextEditingController();
   final _address = TextEditingController();
+
   final _formKey = new GlobalKey<FormState>();
   DateTime pickBirthDate;
   String abc = "#EAEBED";
@@ -52,6 +53,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: child,
         );
       },
+
       initialDate: pickBirthDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
@@ -81,6 +83,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       _address.text = vm.userDetailsList.address;
       accountsList = await dbmManager.getAccountList();
     });
+
     pickBirthDate = vm.userDetailsList.dob != null
         ? DateFormat("yyyy-MM-dd")
             .parse(vm.userDetailsList.dob)
@@ -98,6 +101,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     // TODO: implement initState
     super.initState();
   }
+
   //File _image;
   @override
   Widget build(BuildContext context) {
@@ -204,6 +208,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   width: isTablet ? 180  :deviceWidth<=330?width*.76: width * .78,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
+                      onTap: (){
+                        FocusManager.instance.primaryFocus.unfocus();
+                      },
                       key: Key("profileGenderKey"),
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -219,6 +226,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                       ),
                       value: _selectedGender,
                       onChanged: (newValue) {
+
                         setState(() {
                           _selectedGender = newValue;
                         });
@@ -276,6 +284,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   width: isTablet ? 180  : deviceWidth<=330? width*.75 : width * .71,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
+                      onTap: (){
+                        FocusManager.instance.primaryFocus.unfocus();
+                      },
                       key: Key("profileBloodGroupKey"),
                       icon: Icon(Icons.keyboard_arrow_down_sharp,color: _selectedBlood != null  ?  Colors.black54: HexColor("#D2D2D2"),),
                       iconSize:25,
@@ -379,6 +390,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           ),
           onTap: () {
             selectDate(context);
+              FocusManager.instance.primaryFocus.unfocus();
           },
         ),
       ],

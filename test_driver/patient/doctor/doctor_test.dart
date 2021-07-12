@@ -46,7 +46,7 @@ Future<void> doctorTest()async{
       });
     });
     test(
-        'When__try_to_search_mahmud__should__not_get_desired_name', () async {
+        'When__try_to_search_mahmud__should__get_desired_name', () async {
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 2), () {});
         await driver.tap(Keys.findYourDoctorSearchKey);
@@ -56,7 +56,7 @@ Future<void> doctorTest()async{
          });
     });
     test(
-        'When__try_to_search_debnath__should__not_get_desired_name', () async {
+        'When__try_to_search_debnath__should__get_desired_name', () async {
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 2), () {});
         await driver.tap(Keys.findYourDoctorSearchKey);
@@ -66,7 +66,7 @@ Future<void> doctorTest()async{
       });
     });
     test(
-        'When__try_to_search_e,pty__should__not_get_all_doctor', () async {
+        'When__try_to_search_empty__should__not_get_all_doctor', () async {
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 2), () {});
         await driver.tap(Keys.findYourDoctorSearchKey);

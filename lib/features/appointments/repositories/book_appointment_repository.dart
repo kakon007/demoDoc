@@ -43,7 +43,7 @@ class BookAppointmentRepository {
 //   String endTime,
 // }
 //       ) async {
-//     var url = "https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-appointments/create";
+//     var url = "${Urls.baseUrl}diagnostic-api/api/opd-appointments/create";
 //     print("Abir" + appointDate);
 //     try {
 //       final http.Response response = await http.post(Uri.parse(url),headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',}, body: jsonEncode(<String, dynamic>{
@@ -243,7 +243,7 @@ class BookAppointmentRepository {
     try {
       final http.Response response = await http.post(
         Uri.parse(url),headers: {'Authorization': 'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}',},
-        body: jsonEncode(<String, dynamic>{
+        body: regNo!=''? jsonEncode(<String, dynamic>{
           "doctorNo": doctorNo,
           "doctorName": doctorName,
           "appointDate": appointDate,
@@ -276,7 +276,39 @@ class BookAppointmentRepository {
           "paymentArray": [],
           "appointType": "Online",
           "regNo": regNo,
-        }),
+        }) : jsonEncode(<String, dynamic>{
+          "doctorNo": doctorNo,
+          "doctorName": doctorName,
+          "appointDate": appointDate,
+          "shiftdtlNo": shiftdtlNo,
+          "shift": shift,
+          "slotNo": slotNo,
+          "slotSl": slotSl,
+          "startTime": startTime,
+          "endTime": endTime,
+          "durationMin": durationMin,
+          "extraSlot": extraSlot,
+          "slotSplited": slotSplited,
+          "ssCreatedOn": ssCreatedOn,
+          "ssCreator": ssCreator,
+          "remarks": remarks,
+          "appointStatus": "1",
+          "companyNo": companyNo,
+          "ogNo": ogNo,
+          "patientType": patientType,
+          "consultationType": consultationType,
+          "opdConsultationFee": opdConsultationFee,
+          "fname": fname,
+          //"ageYy": "30",
+          "phoneMobile": phoneMobile,
+          "gender": gender,
+          "address": address,
+          "email": email,
+          "dob": dob,
+          "paymodeNo": paymodeNo,
+          "paymentArray": [],
+          "appointType": "Online",
+        }) ,
       );
       print('status ${response.statusCode}');
       print('body ${response.body}');

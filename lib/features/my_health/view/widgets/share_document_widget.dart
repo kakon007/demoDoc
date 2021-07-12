@@ -19,6 +19,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/search_doctor_view_
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:myhealthbd_app/features/my_health/models/shared_file_model.dart';
@@ -55,7 +56,7 @@ class _ShareDocumentState extends State<ShareDocument> {
     var headers = {
       'Authorization': 'Bearer $accessToken'
     };
-    var request = http.MultipartRequest('DELETE', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/delete?id=$id'));
+    var request = http.MultipartRequest('DELETE', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-shared/delete?id=$id'));
 
     request.headers.addAll(headers);
 
@@ -87,7 +88,7 @@ class _ShareDocumentState extends State<ShareDocument> {
     var request = http.Request(
         'POST',
         Uri.parse(
-            'https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/create'));
+            '${Urls.baseUrl}diagnostic-api/api/file-shared/create'));
     request.body =
         '''{\n "fileNoArr": [$fileNoArr],\n "regNo": $regNo,\n "shareType": $shareType,\n "doctorNoArr": $doctorNoArr,\n "activeStat": 1,\n "remarks": "$note"\n}\n''';
     request.headers.addAll(headers);
@@ -369,7 +370,8 @@ class _ShareDocumentState extends State<ShareDocument> {
 
 
     var doctorCard=
-   Container(height: 100,width: 338,child: ListView.builder(itemCount: vm2.doctorInfo.length,itemBuilder:(_,index){
+   Container(
+     height:deviceWidth<=330?90:100,width: deviceWidth<=330?275:338,child: ListView.builder(itemCount: vm2.doctorInfo.length,itemBuilder:(_,index){
      return Container( decoration: BoxDecoration(
        color: Colors.white,
        borderRadius: BorderRadius.circular(10),
@@ -420,7 +422,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                Row(
                  children: [
                    Container(
-                     width:deviceWidth<=330?200: 220,
+                     width:deviceWidth<=330?160: 220,
                      child: Text(
                        vm2.doctorInfo[index].doctorName==null?'Loading':vm2.doctorInfo[index].doctorName,
                        style: GoogleFonts.poppins(

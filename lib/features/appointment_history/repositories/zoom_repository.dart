@@ -7,11 +7,12 @@ import 'package:myhealthbd_app/features/appointment_history/models/zoom_model.da
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class ZoomRepository {
   Future<Either<AppError, ZoomM>> fetchZoomLink({String accessToken, String consultationId}) async {
     var url =
-        'https://qa.myhealthbd.com:9096/diagnostic-api/api/videoConference/getMeetingByConsultationID';
+        '${Urls.baseUrl}diagnostic-api/api/videoConference/getMeetingByConsultationID';
     var headers = {
       'Authorization': 'Bearer $accessToken',
     };

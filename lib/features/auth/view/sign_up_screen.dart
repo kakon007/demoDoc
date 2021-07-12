@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view/terms_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
@@ -12,6 +13,7 @@ import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart'
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
+import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -238,6 +240,7 @@ class _SignUpState extends State<SignUp> {
             ],
           ),
           onTap: () {
+            FocusManager.instance.primaryFocus.unfocus();
             selectDate(context);
           },
           key: Key('signUpBirthDateKey'),
@@ -284,6 +287,9 @@ class _SignUpState extends State<SignUp> {
                       width: width * .87,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
+                          onTap: (){
+                            FocusManager.instance.primaryFocus.unfocus();
+                          },
                           key: Key('signUpGenderKey'),
                           icon: Icon(
                             Icons.keyboard_arrow_down_sharp,
@@ -486,24 +492,38 @@ class _SignUpState extends State<SignUp> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              StringResources.terms,
-              style: GoogleFonts.roboto(
-                  color: AppTheme.signInSignUpColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: isTablet ? 16 : 13),
+            InkWell(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return Terms();
+                        }));
+              },
+              child: Text(
+                StringResources.terms,
+                style: GoogleFonts.roboto(
+                    color: AppTheme.signInSignUpColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: isTablet ? 16 : 13),
+              ),
             ),
             Text(
               " and  ",
               style: GoogleFonts.roboto(
                   color: HexColor("#8592E5"), fontSize: isTablet ? 16 : 13),
             ),
-            Text(
-              StringResources.policy,
-              style: GoogleFonts.roboto(
-                  color: AppTheme.signInSignUpColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: isTablet ? 16 : 13),
+            GestureDetector(
+              onTap: (){
+                UrlLauncherHelper.launchUrl('https://myhealthbd.com/medicare-web-client-v2/#/myhealthbd/policy');
+              },
+              child: Text(
+                StringResources.policy,
+                style: GoogleFonts.roboto(
+                    color: AppTheme.signInSignUpColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: isTablet ? 16 : 13),
+              ),
             ),
           ],
         )
@@ -511,7 +531,7 @@ class _SignUpState extends State<SignUp> {
     );
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: HexColor("#F1F9FF"),
+      backgroundColor: HexColor("#3E5B9B"),
       body: Stack(children: <Widget>[
         this._backgroundImage(),
         Scaffold(
@@ -638,7 +658,7 @@ class _SignUpState extends State<SignUp> {
     return Stack(
       children: [
         Positioned(
-          top: isTablet ? 35 : MediaQuery.of(context).size.width * .12,
+          top: isTablet ? 35 : MediaQuery.of(context).size.width * .13,
           left: MediaQuery.of(context).size.width * .32,
           right: MediaQuery.of(context).size.width * .32,
           child: Container(
@@ -646,7 +666,7 @@ class _SignUpState extends State<SignUp> {
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
               fit: BoxFit.fitHeight,
-              image: AssetImage("assets/images/myhealth.png"),
+              image: AssetImage("assets/images/logo_new.png"),
               placeholder: AssetImage(''),
             ),
           ),

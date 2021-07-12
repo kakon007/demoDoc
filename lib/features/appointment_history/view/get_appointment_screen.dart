@@ -19,6 +19,7 @@ import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
@@ -81,7 +82,7 @@ class _GetAppointmentState extends State<GetAppointment> {
       var request = http.MultipartRequest(
           'POST',
           Uri.parse(
-              'https://qa.myhealthbd.com:9096/prescription-service-api/api/report/prescription'));
+              '${Urls.baseUrl}prescription-service-api/api/report/prescription'));
       request.fields.addAll({
         'prescriptionId': prescriptionNo,
         'pClient': companyAlias,

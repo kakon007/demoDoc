@@ -17,7 +17,7 @@ class Keys{
   static final newsViewAllKey = find.byValueKey('newsViewAllKey');
   static final videoViewAllKey = find.byValueKey('videoViewAllKey');
   static final blogVlogNewsAppbarKey = find.byValueKey('blogVlogNewsAppbarKey');
-  static final myHealthBlogKey = find.byValueKey('myHealthBlogKey');
+  static final myHealthBlogKey = find.byValueKey('myHealthBolgKey');
   static final myHealthVideoKey = find.byValueKey('myHealthVideoKey');
   static final readBlogButtonKey0 = find.byValueKey('readBlogButtonKey0');
   static final readBlogButtonKey3 = find.byValueKey('readBlogButtonKey3');
@@ -25,6 +25,10 @@ class Keys{
   static final watchVideoButtonKey3 = find.byValueKey('watchVideoButtonKey3');
   static final descriptionTextKey = find.byValueKey('descriptionTextKey');
   static final dashboardSearchKey = find.byValueKey('dashboardSearchKey');
+  static final wantToAccessPresKey = find.byValueKey('wantToAccessPresKey');
+  static final wantToAccessAppointKey = find.byValueKey('wantToAccessAppointKey');
+  static final myHealthBottomNavbarKey = find.byValueKey('myHealthBottomNavbarKey');
+
   // sign up keys
   static final signUpKey = find.byValueKey('signUpKey');
   static final createAnAccountKey = find.byValueKey('createAnAccountKey');

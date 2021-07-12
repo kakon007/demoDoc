@@ -164,7 +164,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330? 11: 13,),
                                   ),
                                   Text(
-                                    "    confirm this appointment",
+                                    "    to confirm this appointment.",
                                     style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330? 11:  13,),
                                   ),
                                 ],

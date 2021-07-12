@@ -61,7 +61,7 @@ class AppVersionWidgetLowerCase extends StatelessWidget {
         future: AppInfoRepository().getAppVersion(),
         builder: (c,snapshot){
           if(snapshot.hasData){
-            return Text("v${snapshot.data}",style: TextStyle(color: Colors.grey, fontSize: isTablet? 20 : 15),);
+            return Text("v${snapshot.data}",style: TextStyle(color: Colors.white, fontSize: isTablet? 20 : 13),);
           }
           return SizedBox();
         },

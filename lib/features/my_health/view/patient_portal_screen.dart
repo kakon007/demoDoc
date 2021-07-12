@@ -232,7 +232,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       var request = http.Request(
           'POST',
           Uri.parse(
-              'https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+              '${Urls.baseUrl}diagnostic-api/api/file-attachment/file-by-name'));
       request.body = json.encode({"attachmentPath": filePath});
       print("Fillleeee:::: $filePath");
       request.headers.addAll(headers);
@@ -1146,36 +1146,33 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 // )
                                 //     : lengthofPrescriptionList == 0
                                 //     ?
-                                SingleChildScrollView(
-                                  child:   Align(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        children: [
-                                          pp,
-                                          SizedBox(
-                                            height: isTablet ? 20 : 10,
-                                          ),
-                                          Text(
-                                            'You have no prescription available now',
-                                            style: GoogleFonts.poppins(
-                                                color:
-                                                HexColor('#AEB0BA'),
-                                                fontWeight:
-                                                FontWeight.w400,
-                                                fontSize:
-                                                isTablet ? 22 : 16),
-                                          ),
-                                        ],
-                                      ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        pp,
+                                        SizedBox(
+                                          height: isTablet ? 20 : 10,
+                                        ),
+                                        Text(
+                                          'You have no prescription available now',
+                                          style: GoogleFonts.poppins(
+                                              color:
+                                              HexColor('#AEB0BA'),
+                                              fontWeight:
+                                              FontWeight.w400,
+                                              fontSize:
+                                              isTablet ? 22 : 16),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 )
-
                                     : ListView.builder(
                                     controller: _scrollController,
                                     shrinkWrap: true,
@@ -1485,32 +1482,30 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 // (vm2.reportList.length == 0 &&
                                 //     !vm2.isFetchingData) ? Loader():
                                 vm2.reportList.length == 0
-                                    ? SingleChildScrollView(
-                                      child: Align(
+                                    ? Align(
                                   alignment: Alignment.center,
                                   child: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        children: [
-                                          pp,
-                                          SizedBox(
-                                            height: isTablet ? 20 : 10,
-                                          ),
-                                          Text(
-                                            'You have no report available now',
-                                            style: GoogleFonts.poppins(
-                                                color: HexColor('#AEB0BA'),
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: isTablet ? 22 : 16),
-                                          ),
-                                        ],
-                                      ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        pp,
+                                        SizedBox(
+                                          height: isTablet ? 20 : 10,
+                                        ),
+                                        Text(
+                                          'You have no report available now',
+                                          style: GoogleFonts.poppins(
+                                              color: HexColor('#AEB0BA'),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: isTablet ? 22 : 16),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                    )
+                                )
                                     : SingleChildScrollView(
                                     scrollDirection: Axis.vertical,
                                     physics: ScrollPhysics(),
@@ -1872,38 +1867,36 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               //       AppTheme.appbarPrimary),),
                               // ):
                               vm3.documentList.length == 0
-                                  ? SingleChildScrollView(
-                                    child: Align(
+                                  ? Align(
                                 alignment: Alignment.center,
                                 child: Container(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: [
-                                        pp,
-                                        Text(
-                                          'Upload your documents here.',
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      pp,
+                                      Text(
+                                        'Upload your documents here.',
+                                        style: GoogleFonts.poppins(
+                                            color: HexColor('#AEB0BA'),
+                                            fontWeight: FontWeight.w400,
+                                            fontSize:
+                                            isTablet ? 22 : 16),
+                                      ),
+                                      Text('(JPG,PNG,PDF only)',
                                           style: GoogleFonts.poppins(
-                                              color: HexColor('#AEB0BA'),
-                                              fontWeight: FontWeight.w400,
+                                              color:
+                                              HexColor('#AEB0BA'),
+                                              fontWeight:
+                                              FontWeight.w400,
                                               fontSize:
-                                              isTablet ? 22 : 16),
-                                        ),
-                                        Text('(JPG,PNG,PDF only)',
-                                            style: GoogleFonts.poppins(
-                                                color:
-                                                HexColor('#AEB0BA'),
-                                                fontWeight:
-                                                FontWeight.w400,
-                                                fontSize:
-                                                isTablet ? 22 : 16)),
-                                      ],
-                                    ),
+                                              isTablet ? 22 : 16)),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                                  )
+                              )
                                   : ListView.builder(
                                   controller: _scrollController3,
                                   itemCount: vm3.documentList.length+1,
@@ -2207,7 +2200,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                             ),
                                                                             SizedBox(width: 10,),
                                                                             Text(
-                                                                              '${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
+                                                                                vm3.documentList[index].reportDate==null?'${DateTime.now()}':'${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
                                                                               style: GoogleFonts.poppins(
                                                                                   color: HexColor('#141D53'),
                                                                                   fontSize:  isTablet

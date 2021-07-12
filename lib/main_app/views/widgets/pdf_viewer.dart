@@ -9,6 +9,7 @@ import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/my_health/models/view_document_model.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
@@ -89,7 +90,7 @@ class _PdfbyteViewerScreenState extends State<PdfbyteViewerScreen> {
         'Authorization': 'Bearer $accessToken',
         'Content-Type': 'text/plain'
       };
-      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+      var request = http.Request('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/file-by-name'));
       request.body =json.encode({"attachmentPath" : filePath});
       print("Fillleeee:::: $filePath");
       request.headers.addAll(headers);
@@ -210,7 +211,7 @@ class _ImagebyteViewerScreenState extends State<ImagebyteViewerScreen> {
         'Authorization': 'Bearer $accessToken',
         'Content-Type': 'text/plain'
       };
-      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+      var request = http.Request('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/file-by-name'));
       request.body =json.encode({"attachmentPath" : filePath});
       print("Fillleeee:::: $filePath");
       request.headers.addAll(headers);

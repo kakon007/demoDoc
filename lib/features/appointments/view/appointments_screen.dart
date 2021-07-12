@@ -494,7 +494,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     );
 
     return Scaffold(
-        resizeToAvoidBottomInset:width<=380? true :  true,
+        resizeToAvoidBottomInset:width<=360? true :  true,
         //key: _scaffoldKey,
         appBar: new AppBar(
           title: new Text(
@@ -794,257 +794,259 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             ),
             doctorCard,
           ],
-        ):SingleChildScrollView(
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                child: Padding(
-                  padding:  EdgeInsets.only(top: 90.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height:400,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25)),
-                        color: HexColor("#FFFFFF"),
-                        boxShadow: [
-                          BoxShadow(
-                            color: HexColor("#0D1231").withOpacity(0.08),
-                            spreadRadius: 10,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ]),
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 20.0, right: 20, top: 60),
-                        child: isStatusOk == true
-                            ? Column(
-                          children: [
-                            isTablet? SizedBox(height: 40,): SizedBox(),
-                            selectType,
-                            AddPatient(
-                                doctorNo: widget.doctorNo,
-                                companyNo: widget.companyNo,
-                                orgNo: widget.orgNo,
-                                hospitalName: widget.hospitalName),
-                          ],
-                        )
-                            : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            isTablet? SizedBox(height: 40,): SizedBox(),
-                            appointmentDate,
-                            spaceBetween,
-                            Text("Available Slots",
-                                style: GoogleFonts.poppins(
-                                    fontSize: isTablet? 18 : 14,
-                                    fontWeight: FontWeight.w600)),
+        ):ListView(
+          children: [
+            Stack(
+              children: <Widget>[
+                Positioned(
+                  child: Padding(
+                    padding:  EdgeInsets.only(top: 90.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height:400,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(25),
+                              topRight: Radius.circular(25)),
+                          color: HexColor("#FFFFFF"),
+                          boxShadow: [
+                            BoxShadow(
+                              color: HexColor("#0D1231").withOpacity(0.08),
+                              spreadRadius: 10,
+                              blurRadius: 7,
+                              offset: Offset(0, 3), // changes position of shadow
+                            ),
+                          ]),
+                      child: Padding(
+                          padding: EdgeInsets.only(left: 20.0, right: 20, top: 60),
+                          child: isStatusOk == true
+                              ? Column(
+                            children: [
+                              isTablet? SizedBox(height: 40,): SizedBox(),
+                              selectType,
+                              AddPatient(
+                                  doctorNo: widget.doctorNo,
+                                  companyNo: widget.companyNo,
+                                  orgNo: widget.orgNo,
+                                  hospitalName: widget.hospitalName),
+                            ],
+                          )
+                              : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              isTablet? SizedBox(height: 40,): SizedBox(),
+                              appointmentDate,
+                              spaceBetween,
+                              Text("Available Slots",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: isTablet? 18 : 14,
+                                      fontWeight: FontWeight.w600)),
 
 
-                            spaceBetween,
-                            vm.isLoading == true
-                                ? Center(
-                                child: CircularProgressIndicator(
-                                  valueColor:
-                                  AlwaysStoppedAnimation<Color>(
-                                      AppTheme.appbarPrimary),
-                                ))
-                                : Container(
-                              height: width<=330? 140 : 158,
-                                  child: length == 0
-                                      ? NoAvailableSlots()
-                                      : GridView.builder(
-                                    scrollDirection:
-                                    Axis.horizontal,
-                                    itemCount: list.length,
-                                    itemBuilder: (context, index) =>
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              isSelected = true;
-                                              selectedCard = index;
-                                              slotNo = vm
-                                                  .slotList[index]
-                                                  .slotNo;
-                                              print(slotNo);
-                                              slotSl = vm
-                                                  .slotList[index]
-                                                  .slotSl;
-                                              appointDate = DateFormat(
-                                                  "yyyy-MM-dd")
-                                                  .format(DateTime.parse(vm
-                                                  .slotList[
-                                              index]
-                                                  .appointDate
-                                                  .toString())
-                                                  .toLocal());
-                                              shiftdtlNo = vm
-                                                  .slotList[index]
-                                                  .shiftdtlNo;
-                                              shift = vm.slotList[index]
-                                                  .shift;
-                                              startTime = vm
-                                                  .slotList[index]
-                                                  .startTime;
-                                              endTime = vm
-                                                  .slotList[index]
-                                                  .endTime;
-                                              durationMin = vm
-                                                  .slotList[index]
-                                                  .durationMin;
-                                              extraSlot = vm
-                                                  .slotList[index]
-                                                  .extraSlot;
-                                              slotSplited = vm
-                                                  .slotList[index]
-                                                  .slotSplited;
-                                              ssCreatedOn = DateFormat(
-                                                  "yyyy-MM-dd")
-                                                  .format(DateTime.parse(vm
-                                                  .slotList[
-                                              index]
-                                                  .ssCreatedOn
-                                                  .toString())
-                                                  .toLocal());
-                                              ssCreator = vm
-                                                  .slotList[index]
-                                                  .ssCreator;
-                                              remarks = vm
-                                                  .slotList[index]
-                                                  .remarks;
-                                              appointStatus = vm
-                                                  .slotList[index]
-                                                  .appointStatus;
-                                            });
-                                          },
-                                          key: Key('availableSlot$index'),
-                                          child: Container(
-                                            decoration:
-                                            BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment
-                                                      .bottomRight,
-                                                  stops: [
-                                                    1.0,
-                                                    1.0
-                                                  ],
-                                                  colors: [
-                                                    isSelected== false ? HexColor(
-                                                        "#8592E5") : selectedCard ==
-                                                        index
-                                                        ? HexColor(
-                                                        "#8592E5")
-                                                        : HexColor(
-                                                        "#C1C8F1"),
-                                                    isSelected== false ? HexColor(
-                                                        "#F6F8FB") : selectedCard ==
-                                                        index
-                                                        ? HexColor(
-                                                        "#F6F8FB")
-                                                        : HexColor(
-                                                        "#FAFBFC"),
-                                                  ]),
-                                              border: Border.all(
-                                                color: isSelected== false ? HexColor(
-                                                    "#8592E5") : selectedCard ==
-                                                    index
-                                                    ? HexColor(
-                                                    "#8592E5" )
-                                                    : HexColor(
-                                                    "#C1C8F1"),
-                                                width: 1,
+                              spaceBetween,
+                              vm.isLoading == true
+                                  ? Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor:
+                                    AlwaysStoppedAnimation<Color>(
+                                        AppTheme.appbarPrimary),
+                                  ))
+                                  : Container(
+                                height: width<=330? 140 : 158,
+                                    child: length == 0
+                                        ? NoAvailableSlots()
+                                        : GridView.builder(
+                                      scrollDirection:
+                                      Axis.horizontal,
+                                      itemCount: list.length,
+                                      itemBuilder: (context, index) =>
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                isSelected = true;
+                                                selectedCard = index;
+                                                slotNo = vm
+                                                    .slotList[index]
+                                                    .slotNo;
+                                                print(slotNo);
+                                                slotSl = vm
+                                                    .slotList[index]
+                                                    .slotSl;
+                                                appointDate = DateFormat(
+                                                    "yyyy-MM-dd")
+                                                    .format(DateTime.parse(vm
+                                                    .slotList[
+                                                index]
+                                                    .appointDate
+                                                    .toString())
+                                                    .toLocal());
+                                                shiftdtlNo = vm
+                                                    .slotList[index]
+                                                    .shiftdtlNo;
+                                                shift = vm.slotList[index]
+                                                    .shift;
+                                                startTime = vm
+                                                    .slotList[index]
+                                                    .startTime;
+                                                endTime = vm
+                                                    .slotList[index]
+                                                    .endTime;
+                                                durationMin = vm
+                                                    .slotList[index]
+                                                    .durationMin;
+                                                extraSlot = vm
+                                                    .slotList[index]
+                                                    .extraSlot;
+                                                slotSplited = vm
+                                                    .slotList[index]
+                                                    .slotSplited;
+                                                ssCreatedOn = DateFormat(
+                                                    "yyyy-MM-dd")
+                                                    .format(DateTime.parse(vm
+                                                    .slotList[
+                                                index]
+                                                    .ssCreatedOn
+                                                    .toString())
+                                                    .toLocal());
+                                                ssCreator = vm
+                                                    .slotList[index]
+                                                    .ssCreator;
+                                                remarks = vm
+                                                    .slotList[index]
+                                                    .remarks;
+                                                appointStatus = vm
+                                                    .slotList[index]
+                                                    .appointStatus;
+                                              });
+                                            },
+                                            key: Key('availableSlot$index'),
+                                            child: Container(
+                                              decoration:
+                                              BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment
+                                                        .bottomRight,
+                                                    stops: [
+                                                      1.0,
+                                                      1.0
+                                                    ],
+                                                    colors: [
+                                                      isSelected== false ? HexColor(
+                                                          "#8592E5") : selectedCard ==
+                                                          index
+                                                          ? HexColor(
+                                                          "#8592E5")
+                                                          : HexColor(
+                                                          "#C1C8F1"),
+                                                      isSelected== false ? HexColor(
+                                                          "#F6F8FB") : selectedCard ==
+                                                          index
+                                                          ? HexColor(
+                                                          "#F6F8FB")
+                                                          : HexColor(
+                                                          "#FAFBFC"),
+                                                    ]),
+                                                border: Border.all(
+                                                  color: isSelected== false ? HexColor(
+                                                      "#8592E5") : selectedCard ==
+                                                      index
+                                                      ? HexColor(
+                                                      "#8592E5" )
+                                                      : HexColor(
+                                                      "#C1C8F1"),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(15),
                                               ),
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(15),
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      "Serial - " +
-                                                          list[index]
-                                                              .slotSl
-                                                              .toString(),
-                                                      style: GoogleFonts.poppins(
-                                                          fontSize: isTablet? 18 :
-                                                          MediaQuery.of(context).size.height > 650
-                                                              ? 14 :
-                                                          MediaQuery.of(context).size.height > 550 ? 12: 10,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w600,
-                                                          color:  isSelected== false ?  HexColor(
-                                                              "#354291" ) : selectedCard ==
-                                                              index
-                                                              ? HexColor(
-                                                              "#354291"    )
-                                                              : HexColor(
-                                                              "#999FC7" )),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        "Serial - " +
+                                                            list[index]
+                                                                .slotSl
+                                                                .toString(),
+                                                        style: GoogleFonts.poppins(
+                                                            fontSize: isTablet? 18 :
+                                                            MediaQuery.of(context).size.height > 650
+                                                                ? 14 :
+                                                            MediaQuery.of(context).size.height > 550 ? 12: 10,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w600,
+                                                            color:  isSelected== false ?  HexColor(
+                                                                "#354291" ) : selectedCard ==
+                                                                index
+                                                                ? HexColor(
+                                                                "#354291"    )
+                                                                : HexColor(
+                                                                "#999FC7" )),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: Container(
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      "Time : " +
-                                                          DateFormat("hh:mm a").format(DateTime.parse(list[index]
-                                                              .startTime
-                                                              .toString())
-                                                              .toLocal()),
-                                                      style: GoogleFonts.poppins(
-                                                          fontSize: isTablet? 18 :
-                                                          MediaQuery.of(context).size.height > 650
-                                                              ? 14 :
-                                                          MediaQuery.of(context).size.height > 550 ? 12: 10,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w600,
-                                                          color: Colors
-                                                              .white),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        "Time : " +
+                                                            DateFormat("hh:mm a").format(DateTime.parse(list[index]
+                                                                .startTime
+                                                                .toString())
+                                                                .toLocal()),
+                                                        style: GoogleFonts.poppins(
+                                                            fontSize: isTablet? 18 :
+                                                            MediaQuery.of(context).size.height > 650
+                                                                ? 14 :
+                                                            MediaQuery.of(context).size.height > 550 ? 12: 10,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w600,
+                                                            color: Colors
+                                                                .white),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                    gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount:
-                                      _crossAxisCount,
-                                      crossAxisSpacing:
-                                      _crossAxisSpacing,
-                                      mainAxisSpacing:
-                                      _mainAxisSpacing,
-                                      childAspectRatio:
-                                      _aspectRatio,
+                                      gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount:
+                                        _crossAxisCount,
+                                        crossAxisSpacing:
+                                        _crossAxisSpacing,
+                                        mainAxisSpacing:
+                                        _mainAxisSpacing,
+                                        childAspectRatio:
+                                        _aspectRatio,
+                                      ),
                                     ),
                                   ),
-                                ),
-                            //  AvailableSlots(selectDate: _formatDate,doctorNo: widget.doctorNo, orgNo: widget.orgNo,companyNo: widget.companyNo,),
-                            spaceBetween,
-                            vm.slotList.length == 0
-                                ? SizedBox()
-                                : proceedButton,
-                            spaceBetween,
-                          ],
-                        )),
+                              //  AvailableSlots(selectDate: _formatDate,doctorNo: widget.doctorNo, orgNo: widget.orgNo,companyNo: widget.companyNo,),
+                              spaceBetween,
+                              vm.slotList.length == 0
+                                  ? SizedBox()
+                                  : proceedButton,
+                              spaceBetween,
+                            ],
+                          )),
+                    ),
                   ),
                 ),
-              ),
-              doctorCard,
-            ],
-          ),
+                doctorCard,
+              ],
+            ),
+          ],
         )
         );
   }

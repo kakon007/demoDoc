@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/features/notification/models/notification_model.d
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class NotificationRepository {
   Future<Either<AppError, NotificationM>> fetchNotificationList(
@@ -19,7 +20,7 @@ class NotificationRepository {
         'Authorization': 'Bearer $accessToken',
         'Content-Type': 'text/plain'
       };
-      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/notification/notification-list-by-user'));
+      var request = http.Request('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/notification/notification-list-by-user'));
       request.body = '''{\n        "userName": "$userName",\n        "deviceToken": "$deviceToken"   \n}\n\n''';
       request.headers.addAll(headers);
 

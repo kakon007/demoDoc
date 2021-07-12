@@ -255,32 +255,32 @@ class _SignInState extends State<SignIn> {
         ));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: HexColor("#F1F9FF"),
+      backgroundColor: HexColor("#3E5B9B"),
       body: Stack(children: <Widget>[
         this._backgroundImage(),
         Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
-          body: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding:  EdgeInsets.only(top: height>=700 ? height*.52: height*.41),
-                child: new Container(
-                  height:  height>=700 ? MediaQuery.of(context).size.height * .48 : MediaQuery.of(context).size.height * .6,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25)),
-                      color: HexColor("#FFFFFF"),
-                      boxShadow: [
-                        BoxShadow(
-                          color: HexColor("#0D1231").withOpacity(0.08),
-                          spreadRadius: 10,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ]),
+          body: Form(
+            key: _formKey,
+            child: Padding(
+              padding:  EdgeInsets.only(top: height>=700 ? height*.52: height*.41),
+              child: new Container(
+                height:  height>=700 ? MediaQuery.of(context).size.height * .48 : MediaQuery.of(context).size.height * .6,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25)),
+                    color: HexColor("#FFFFFF"),
+                    boxShadow: [
+                      BoxShadow(
+                        color: HexColor("#0D1231").withOpacity(0.08),
+                        spreadRadius: 10,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ]),
+                child: SingleChildScrollView(
                   child: Padding(
                     padding:  EdgeInsets.only(right: isTablet? 45 : 15, left: isTablet? 45 : 15),
                     child: Column(
@@ -432,11 +432,11 @@ class _SignInState extends State<SignIn> {
   Widget _backgroundImage() {
     bool isTablet = Responsive.isTablet(context);
     return Padding(
-      padding:  EdgeInsets.only(left: isTablet? MediaQuery.of(context).size.width*.15 : 0 ),
+      padding:  EdgeInsets.only(left: isTablet? MediaQuery.of(context).size.width*.15 : 0 ,top:MediaQuery.of(context).size.width>=450?70:50),
       child: Container(
-        height: isTablet? MediaQuery.of(context).size.height*.52: MediaQuery.of(context).size.height*.47,
+        height: isTablet? MediaQuery.of(context).size.height*.52: MediaQuery.of(context).size.height*.85,
         width: isTablet? MediaQuery.of(context).size.width*.7 : MediaQuery.of(context).size.width,
-        child: Image.asset(kMyHealthLogo,
+        child: Image.asset(kMyHealthLogos,
           fit: BoxFit.fill,
         ),
       ),

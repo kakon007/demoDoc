@@ -45,7 +45,7 @@ Future<void> selectSlotTest()async{
         //await expect(await driver.getText(Keys.hospitalAppbarKey), "Hospitals & Diagnostics");
       });
     });
-    test( 'When__try_to_tap_proceed_button_date__should__get_for_me_text', () async {
+    test( 'When__try_to_tap_proceed_button__should__get_for_me_text', () async {
       await driver.runUnsynchronized(() async {
         await driver.tap(Keys.availableSlot10);
         await Future.delayed(const Duration(seconds: 2), () {});

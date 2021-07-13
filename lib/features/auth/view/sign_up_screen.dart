@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view/policy_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/terms_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -515,7 +516,11 @@ class _SignUpState extends State<SignUp> {
             ),
             GestureDetector(
               onTap: (){
-                UrlLauncherHelper.launchUrl('https://myhealthbd.com/medicare-web-client-v2/#/myhealthbd/policy');
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return Policy();
+                        }));
               },
               child: Text(
                 StringResources.policy,

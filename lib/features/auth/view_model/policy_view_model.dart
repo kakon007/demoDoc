@@ -1,11 +1,8 @@
-
-
-
 import 'package:flutter/cupertino.dart';
-import 'package:myhealthbd_app/features/auth/repositories/term_repository.dart';
+import 'package:myhealthbd_app/features/auth/repositories/policy_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
-class TermsViewModel extends ChangeNotifier{
+class PolicyViewModel extends ChangeNotifier{
   var _hospitalList ;
 
   AppError _appError;
@@ -25,7 +22,7 @@ class TermsViewModel extends ChangeNotifier{
     _isFetchingData = true;
     //_lastFetchTime = DateTime.now();
     _isLoading = true;
-    var res = await TermsRepositry().fetchTerms();
+    var res = await PolicyRepositry().fetchPolicy();
     print('Nesrestcallllk');
     notifyListeners();
     //_hospitalList.clear();
@@ -61,6 +58,6 @@ class TermsViewModel extends ChangeNotifier{
   //     _isFetchingData && _hospitalList.length == 0;
   bool get isLoading=> _isLoading;
 
-  String get terms => _hospitalList;
+  String get policy => _hospitalList;
 
 }

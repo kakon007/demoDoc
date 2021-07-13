@@ -300,7 +300,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
         isEmpty = false;
       });
       accountsList.forEach((item) {
-        if (item.username.contains(_username.text)) {
+        if (item.username.contains(_username.text.toUpperCase())) {
           addAccountValue = _username.text;
         }
       });
@@ -327,7 +327,7 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
             SwitchAccounts switchAccounts = new SwitchAccounts(
               name: vm4.userSwitchDetailsList.fname,
               relation: vm3.switchDetails.photo,
-              username: _username.text,
+              username: _username.text.toUpperCase(),
               password: _password.text,
             );
             dbmManager.insertStudent(switchAccounts).then((id) => {

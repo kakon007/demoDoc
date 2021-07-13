@@ -45,7 +45,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
           child: Stack(
             children: [
               Container(
-                height: isTablet? 500 : 400,
+                height: isTablet? 500 : 380,
                 width: isTablet? 450 : 355,
                 //color: Colors.red,
                 child: Center(
@@ -77,7 +77,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     "Booked Successfully!",
                                     style: GoogleFonts.poppins(
                                         color: HexColor("#037BB7"),
-                                        fontSize: isTablet? 20 :width<=330? 15 :  18,
+                                        fontSize: isTablet? 20 : 15 ,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   SizedBox(
@@ -88,12 +88,12 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                       Text(
                                         "Serial No ",
                                         style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w600,fontSize: isTablet? 15 :width<=330?12: 12),
+                                            fontWeight: FontWeight.w600,fontSize: isTablet? 15 : 12),
                                       ),
                                       Text(
                                         "#" + widget.slotSl.toString(),
                                         style: GoogleFonts.poppins(
-                                        fontSize: isTablet? 15 :width<=330?12: 12,
+                                        fontSize: isTablet? 15 : 12,
                                             fontWeight: FontWeight.w600,
                                             color: HexColor("#037BB7")),
                                       ),
@@ -103,14 +103,14 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     children: [
                                       Text(
                                         "Date : ",
-                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330?12: 12,),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 : 12,),
                                       ),
                                       Text(
                                         DateFormat("dd/MM/yyyy").format(
                                             DateTime.parse(widget.appointDate
                                                     .toString())
                                                 .toLocal()),
-                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330?12: 12,),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 : 12,),
                                       ),
                                     ],
                                   ),
@@ -118,14 +118,14 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     children: [
                                       Text(
                                         "Time : ",
-                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330?12: 12,),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 : 12,),
                                       ),
                                       Text(
                                         DateFormat("hh:mm a").format(
                                             DateTime.parse(
                                                     widget.startTime.toString())
                                                 .toLocal()),
-                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330?12: 12,),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 : 12,),
                                       ),
                                     ],
                                   ),
@@ -139,7 +139,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     widget.hospitalName,
                                     style: GoogleFonts.poppins(
                                         color: HexColor("#037BB7"),
-                                      fontSize: isTablet? 15 :width<=330?12: 13,),
+                                      fontSize: isTablet? 15 : 13,),
                                   ),
                                   Row(
                                     children: [
@@ -150,7 +150,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                       Text(
                                         widget.phoneText.toString()==null? "" : widget.phoneText.toString(),
                                         style: GoogleFonts.poppins(
-                                            fontSize: isTablet? 15 :width<=330?12: 13,
+                                            fontSize: isTablet? 15 : 13,
                                             //fontWeight: FontWeight.w600,
                                             color: HexColor("#037BB7")),
                                       ),
@@ -161,11 +161,11 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                   ),
                                   Text(
                                     " * Please proceed with the payment",
-                                    style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330? 11: 13,),
+                                    style: GoogleFonts.poppins(fontSize: isTablet? 15 : 13,),
                                   ),
                                   Text(
                                     "    to confirm this appointment.",
-                                    style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330? 11:  13,),
+                                    style: GoogleFonts.poppins(fontSize: isTablet? 15 : 13,),
                                   ),
                                 ],
                               ),

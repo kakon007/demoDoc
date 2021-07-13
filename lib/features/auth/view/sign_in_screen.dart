@@ -50,7 +50,7 @@ class _SignInState extends State<SignIn> {
   var pass;
   Future<void> getUSerDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    user= prefs.getString("usernameRemember");
+    user= prefs.getString("usernameRemember").toUpperCase();
     pass= prefs.getString("passwordRemember");
     var rememberMe= prefs.getBool("value");
     accounts=null;
@@ -327,7 +327,7 @@ class _SignInState extends State<SignIn> {
                                   await vm5.getAuthData(_username.text, _password.text);
                                   if(vm5.accessToken!=null){
                                     accountsList.forEach((item) {
-                                      if(item.username.contains(_username.text)) {
+                                      if(item.username.contains(_username.text.toUpperCase())) {
                                         addAccountValue = _username.text;
                                       }
                                     });
@@ -340,7 +340,7 @@ class _SignInState extends State<SignIn> {
                                       SwitchAccounts switchAccounts = new SwitchAccounts(
                                         name: vm4.userSwitchDetailsList.fname,
                                         relation: vm3.switchDetails?.photo==null? "" : vm3.switchDetails.photo,
-                                        username: _username.text,
+                                        username: _username.text.toUpperCase(),
                                         password: _password.text,
                                       );
                                       dbmManager.insertStudent(switchAccounts).then((id) => {

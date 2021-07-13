@@ -1,40 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:myhealthbd_app/features/auth/view_model/term_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/policy_view_model.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
-class Terms extends StatefulWidget {
-
+class Policy extends StatefulWidget {
   @override
-  _TermsState createState() => _TermsState();
+  _PolicyState createState() => _PolicyState();
 }
 
-class _TermsState extends State<Terms> {
+class _PolicyState extends State<Policy> {
 
 
   @override
   void initState() {
     // TODO: implement initState
-    var vm = Provider.of<TermsViewModel>(context, listen: false);
+    var vm = Provider.of<PolicyViewModel>(context, listen: false);
     vm.getData();
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-
-    var vm = Provider.of<TermsViewModel>(context);
+    var vm = Provider.of<PolicyViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Terms of Service'
+            'Privacy Policy'
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            child:vm.terms==null?Center(child: Loader()):Text(
-              vm.terms
+            child:vm.policy==null?Center(child: Loader()):Text(
+                vm.policy
             ),
           ),
         ),

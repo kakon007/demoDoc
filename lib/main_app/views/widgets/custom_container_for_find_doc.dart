@@ -82,7 +82,7 @@ class CustomContainer extends StatelessWidget {
                       Container(
                           height: isTablet? 30 : 39,
                           width: width,
-                          child: Text(titleText, style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<350 ? 10 : 14, fontWeight: FontWeight.w700),)),
+                          child: Text(titleText, style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<350 ? 10 : 12, fontWeight: FontWeight.w700),)),
                       Container(height: 18,child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: isTablet? 15 : width <350 ? 8 : 10,fontWeight: FontWeight.bold ),)),
                       Container(height: 30,child: Text(designation, style: GoogleFonts.poppins(fontSize:  isTablet? 15 : width <350 ? 8 :10, color: HexColor('#757577')),)),
 

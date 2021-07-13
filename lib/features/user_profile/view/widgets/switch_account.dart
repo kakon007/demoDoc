@@ -34,7 +34,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
 
   Future<void> getUSerDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    username = prefs.getString("username");
+    username = prefs.getString("username").toUpperCase();
   }
 
   @override

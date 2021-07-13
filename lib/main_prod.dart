@@ -9,9 +9,11 @@ import 'package:myhealthbd_app/features/appointments/view_model/book_appointment
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/policy_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/reset_password_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/term_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/nearest_appointment_card_view_model.dart';
@@ -113,6 +115,8 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) =>  ResetPasswordViewModel()),
       ChangeNotifierProvider<NearestHospitalViewModel>(create: (context) =>  NearestHospitalViewModel()),
       ChangeNotifierProvider<NotificationViewModel>(create: (context) =>  NotificationViewModel()),
+      ChangeNotifierProvider<TermsViewModel>(create: (context) =>  TermsViewModel()),
+      ChangeNotifierProvider<PolicyViewModel>(create: (context) =>  PolicyViewModel()),
     ];
     return  AuthViewWrapper(
       child: MultiProvider(

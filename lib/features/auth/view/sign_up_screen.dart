@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/auth/view/policy_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/terms_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -16,6 +17,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
@@ -515,7 +517,11 @@ class _SignUpState extends State<SignUp> {
             ),
             GestureDetector(
               onTap: (){
-                UrlLauncherHelper.launchUrl('https://myhealthbd.com/medicare-web-client-v2/#/myhealthbd/policy');
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return Policy();
+                        }));
               },
               child: Text(
                 StringResources.policy,
@@ -666,7 +672,7 @@ class _SignUpState extends State<SignUp> {
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
               fit: BoxFit.fitHeight,
-              image: AssetImage("assets/images/logo_new.png"),
+              image: AssetImage(kMyHealthLogo),
               placeholder: AssetImage(''),
             ),
           ),

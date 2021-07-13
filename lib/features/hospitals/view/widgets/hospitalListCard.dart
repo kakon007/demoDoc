@@ -56,11 +56,11 @@ class HospitalListCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        height: isTablet? 47 : 37,
+                        height: isTablet? 47 : 42,
                         child: Text(titleText.titleCase,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: isTablet? 18 :  width<330 ? 10 : 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start)),
                     SizedBox(height:isTablet? 3 : width<330 ? 1 :  2,),
                     Container(height: cardHeight*.12,child: Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize:isTablet? 13 :  height <= 600 ? 9 : 10,),textAlign:TextAlign.start)),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 5,),
                     // Container(
                     //   height: 11.5,
                     //   child: Row(

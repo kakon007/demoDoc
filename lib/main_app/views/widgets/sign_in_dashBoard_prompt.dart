@@ -63,14 +63,11 @@ class _SignInDashboardForAppoinmentPromptState extends State<SignInDashboardForA
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right:20.0),
-                child: Container(
-                    width: 250,
-                    height: isTablet ? 90 : MediaQuery.of(context).size.height>600 ? 70 : MediaQuery.of(context).size.height<550? 60 :  70,
-                    child: Image.asset(
-                        "assets/images/my_health_logo.png")),
-              ),
+              Container(
+                  width: 220,
+                  height: isTablet ? 90 : MediaQuery.of(context).size.height>600 ? 70 : MediaQuery.of(context).size.height<550? 60 :  70,
+                  child: Image.asset(
+                      "assets/images/logo_new.png")),
               SizedBox(height: 10,),
               appoinIcon,
               SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10,),

@@ -23,6 +23,7 @@ import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class UserProfile extends StatefulWidget {
   String fName;
@@ -114,16 +115,42 @@ class _UserProfileState extends State<UserProfile> {
 
   Future getImage() async {
     final pickedFile = await picker.getImage(
-        source: ImageSource.gallery,
-        maxHeight: 500,
-        maxWidth: 500,
-        imageQuality: 50);
+        source: ImageSource.gallery
+    );
+
+    // if (pickedFile != null) {
+    //   _image = File(pickedFile.path);
+    //   print("ish ${await _image.length()}");
+    //   setState(() {
+    //     isEdit = true;
+    //   });
+    // } else {
+    //   print('No image selected.');
+    // }
 
     if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      print("ish ${await _image.length()}");
-      setState(() {
-        isEdit = true;
+//      var compressedImage = await ImageCompressUtil.compressImage(file, 80);
+      Future<File> croppedFile = ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Theme.of(context).primaryColor,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ));
+
+      croppedFile.then((value) async{
+          _image = value;
+          //print("ish ${await _image.length()}");
+          setState(() {
+            isEdit = true;
+          });
       });
     } else {
       print('No image selected.');

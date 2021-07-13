@@ -1364,29 +1364,29 @@ print("StatusCode ${response.statusCode}");
     );
   }
 
-  Widget _backgroundImage() {
-    var width = MediaQuery.of(context).size.width;
-    return Container(
-      // decoration: BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: BorderRadius.all(Radius.circular(30))),
-
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        image: DecorationImage(
-            image: AssetImage("assets/images/dashboardNoewImage.png"),
-            fit: BoxFit.fill),
-      ),
-      height: width<=1250 && width>=1000 ?  380: 250,
-      //width: double.infinity,
-      // child: FadeInImage(
-      //   fit: BoxFit.cover,
-      //   image:AssetImage("assets/images/dashboard_back.png"),
-      //   placeholder: AssetImage(''),
-      // ),
-    );
-  }
+  // Widget _backgroundImage() {
+  //   var width = MediaQuery.of(context).size.width;
+  //   return Container(
+  //     // decoration: BoxDecoration(
+  //     //     color: Colors.white,
+  //     //     borderRadius: BorderRadius.all(Radius.circular(30))),
+  //
+  //     decoration: const BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.all(Radius.circular(30)),
+  //       image: DecorationImage(
+  //           image: AssetImage("assets/images/dashboardNoewImage.png"),
+  //           fit: BoxFit.fill),
+  //     ),
+  //     height: width<=1250 && width>=1000 ?  380: 250,
+  //     //width: double.infinity,
+  //     // child: FadeInImage(
+  //     //   fit: BoxFit.cover,
+  //     //   image:AssetImage("assets/images/dashboard_back.png"),
+  //     //   placeholder: AssetImage(''),
+  //     // ),
+  //   );
+  // }
 
   Widget _backgroundImage2() {
     var width = MediaQuery.of(context).size.width;

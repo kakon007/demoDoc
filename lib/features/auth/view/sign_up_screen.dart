@@ -17,6 +17,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
@@ -671,7 +672,7 @@ class _SignUpState extends State<SignUp> {
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
               fit: BoxFit.fitHeight,
-              image: AssetImage("assets/images/logo_new.png"),
+              image: AssetImage(kMyHealthLogo),
               placeholder: AssetImage(''),
             ),
           ),

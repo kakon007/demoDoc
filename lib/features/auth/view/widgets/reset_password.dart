@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/reset_password_view_model.dart';
@@ -186,6 +187,13 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                                 Navigator.pop(context);
                                 _successAlert(context);
                               } else {
+                                Fluttertoast.showToast(
+                                    msg: "Invalid username or email",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
                                 isValidCredential = false;
                               }
                             } else {

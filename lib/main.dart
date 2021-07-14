@@ -41,71 +41,74 @@ import 'features/find_doctor/view_model/doctor_list_view_model.dart';
 import 'features/user_profile/view_model/family_members_view_model.dart';
 import 'features/user_profile/view_model/relationship_view_model.dart';
 import 'features/user_profile/view_model/user_image_view_model.dart';
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-
   FlavorConfig(
-      flavor: Flavor.DEV,
-      color: Colors.deepOrange,
+    flavor: Flavor.DEV,
+    color: Colors.deepOrange,
   );
   runApp(
-      ChangeNotifierProvider(create: (context)=>AccessTokenProvider(),child: MyHealthBdApp()),
+    ChangeNotifierProvider(create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
   );
 }
 
 class MyHealthBdApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    var providers=[
-
-      ChangeNotifierProvider<FilterViewModel>(
-          create: (context)=>FilterViewModel()),
+    var providers = [
+      ChangeNotifierProvider<FilterViewModel>(create: (context) => FilterViewModel()),
       ChangeNotifierProvider<HospitalListViewModel>(create: (context) => HospitalListViewModel()),
       ChangeNotifierProvider<NewsViewModel>(create: (context) => NewsViewModel()),
-      ChangeNotifierProvider<DoctorListViewModel>(
-          create: (context)=>DoctorListViewModel()),
+      ChangeNotifierProvider<DoctorListViewModel>(create: (context) => DoctorListViewModel()),
       ChangeNotifierProvider<AvailableSlotsViewModel>(
-          create: (context)=>AvailableSlotsViewModel()),
-      ChangeNotifierProvider<PrescriptionListViewModel>(create: (context) => PrescriptionListViewModel()),
+          create: (context) => AvailableSlotsViewModel()),
+      ChangeNotifierProvider<PrescriptionListViewModel>(
+          create: (context) => PrescriptionListViewModel()),
       ChangeNotifierProvider<VideoViewModel>(create: (context) => VideoViewModel()),
-      ChangeNotifierProvider< UserDetailsViewModel>(create: (context) =>  UserDetailsViewModel()),
-      ChangeNotifierProvider< BLogViewModel>(create: (context) =>  BLogViewModel()),
-      ChangeNotifierProvider<HospitalLogoViewModel>(create: (context) =>  HospitalLogoViewModel()),
-      ChangeNotifierProvider<HospitalImageViewModel>(create: (context) =>  HospitalImageViewModel()),
-      ChangeNotifierProvider<NewsLogoViewModel>(create: (context) =>  NewsLogoViewModel()),
-      ChangeNotifierProvider<BLogLogoViewModel>(create: (context) =>  BLogLogoViewModel()),
-      ChangeNotifierProvider<PasswordChangeViewModel>(create: (context) =>  PasswordChangeViewModel()),
-      ChangeNotifierProvider< AuthViewModel>(create: (context) =>  AuthViewModel()),
-      ChangeNotifierProvider< BookAppointmentViewModel>(create: (context) =>  BookAppointmentViewModel()),
-      ChangeNotifierProvider< SignOutViewModel>(create: (context) =>  SignOutViewModel()),
-      ChangeNotifierProvider< SignUpViewModel>(create: (context) =>  SignUpViewModel()),
-      ChangeNotifierProvider<AppointmentUpcomingViewModel>(create: (context) =>  AppointmentUpcomingViewModel()),
-      ChangeNotifierProvider<AppointmentPreviousViewModel>(create: (context) =>  AppointmentPreviousViewModel()),
-      ChangeNotifierProvider<ZoomViewModel>(create: (context) =>  ZoomViewModel()),
-      ChangeNotifierProvider<UserImageViewModel>(create: (context) =>  UserImageViewModel()),
-      ChangeNotifierProvider<RelationShipViewModel>(create: (context) =>  RelationShipViewModel()),
-      ChangeNotifierProvider<RegisteredMemberViewModel>(create: (context) =>  RegisteredMemberViewModel()),
-       ChangeNotifierProvider<FamilyMembersListViewModel>(create: (context) =>  FamilyMembersListViewModel()),
-
-      ChangeNotifierProvider<ReportViewModel>(create: (context) =>  ReportViewModel()),
-      ChangeNotifierProvider<DocumentViewModel>(create: (context) =>  DocumentViewModel()),
-      ChangeNotifierProvider<FileTypeViewModel>(create: (context) =>  FileTypeViewModel()),
-      ChangeNotifierProvider<UploadDocumentsViewModel>(create: (context) =>  UploadDocumentsViewModel()),
-      ChangeNotifierProvider<ViewDocumentViewModel>(create: (context) =>  ViewDocumentViewModel()),
-      ChangeNotifierProvider<NearestAppointmentViewModel>(create: (context) =>  NearestAppointmentViewModel()),
-      ChangeNotifierProvider<SharedFileViewModel>(create: (context) =>  SharedFileViewModel()),
-      ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) =>  SearchDoctorViewModel()),
-      ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) =>  ResetPasswordViewModel()),
+      ChangeNotifierProvider<UserDetailsViewModel>(create: (context) => UserDetailsViewModel()),
+      ChangeNotifierProvider<BLogViewModel>(create: (context) => BLogViewModel()),
+      ChangeNotifierProvider<HospitalLogoViewModel>(create: (context) => HospitalLogoViewModel()),
+      ChangeNotifierProvider<HospitalImageViewModel>(create: (context) => HospitalImageViewModel()),
+      ChangeNotifierProvider<NewsLogoViewModel>(create: (context) => NewsLogoViewModel()),
+      ChangeNotifierProvider<BLogLogoViewModel>(create: (context) => BLogLogoViewModel()),
+      ChangeNotifierProvider<PasswordChangeViewModel>(
+          create: (context) => PasswordChangeViewModel()),
+      ChangeNotifierProvider<AuthViewModel>(create: (context) => AuthViewModel()),
+      ChangeNotifierProvider<BookAppointmentViewModel>(
+          create: (context) => BookAppointmentViewModel()),
+      ChangeNotifierProvider<SignOutViewModel>(create: (context) => SignOutViewModel()),
+      ChangeNotifierProvider<SignUpViewModel>(create: (context) => SignUpViewModel()),
+      ChangeNotifierProvider<AppointmentUpcomingViewModel>(
+          create: (context) => AppointmentUpcomingViewModel()),
+      ChangeNotifierProvider<AppointmentPreviousViewModel>(
+          create: (context) => AppointmentPreviousViewModel()),
+      ChangeNotifierProvider<ZoomViewModel>(create: (context) => ZoomViewModel()),
+      ChangeNotifierProvider<UserImageViewModel>(create: (context) => UserImageViewModel()),
+      ChangeNotifierProvider<RelationShipViewModel>(create: (context) => RelationShipViewModel()),
+      ChangeNotifierProvider<RegisteredMemberViewModel>(
+          create: (context) => RegisteredMemberViewModel()),
+      ChangeNotifierProvider<FamilyMembersListViewModel>(
+          create: (context) => FamilyMembersListViewModel()),
+      ChangeNotifierProvider<ReportViewModel>(create: (context) => ReportViewModel()),
+      ChangeNotifierProvider<DocumentViewModel>(create: (context) => DocumentViewModel()),
+      ChangeNotifierProvider<FileTypeViewModel>(create: (context) => FileTypeViewModel()),
+      ChangeNotifierProvider<UploadDocumentsViewModel>(
+          create: (context) => UploadDocumentsViewModel()),
+      ChangeNotifierProvider<ViewDocumentViewModel>(create: (context) => ViewDocumentViewModel()),
+      ChangeNotifierProvider<NearestAppointmentViewModel>(
+          create: (context) => NearestAppointmentViewModel()),
+      ChangeNotifierProvider<SharedFileViewModel>(create: (context) => SharedFileViewModel()),
+      ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) => SearchDoctorViewModel()),
+      ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) => ResetPasswordViewModel()),
     ];
-    return  AuthViewWrapper(
+    return AuthViewWrapper(
       child: MultiProvider(
         providers: providers,
         child: MaterialApp(
-          builder: BotToastInit(),
-             navigatorObservers: [BotToastNavigatorObserver()],
-             navigatorKey: appNavigator.navigatorKey,
+            builder: BotToastInit(),
+            navigatorObservers: [BotToastNavigatorObserver()],
+            navigatorKey: appNavigator.navigatorKey,
             debugShowCheckedModeBanner: false,
             home: Root()),
       ),

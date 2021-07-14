@@ -273,6 +273,12 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       children: [
         Container(
             height: 20.0,
+            constraints: BoxConstraints(minWidth: isTablet
+                ? 200
+                : deviceWidth <= 330
+                ?width * .8
+                : width * .8,),
+
             width: isTablet
                 ? 200
                 : deviceWidth <= 330
@@ -309,11 +315,12 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               Padding(
                 padding: EdgeInsets.only(left: 18.0),
                 child: Container(
+                 // constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
                   width: isTablet
                       ? 180
                       : deviceWidth <= 330
                           ?width*.655
-                          : width * .68,
+                          : width * .683,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
                       onTap: () {
@@ -379,7 +386,8 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             children: [
               Container(
                   height: 20.0,
-                  width: deviceWidth <= 330 ? width * .58 : width * .5,
+                  constraints: BoxConstraints(minWidth: deviceWidth <= 330 ? width * .58 : width * .5, ),
+                  //width: deviceWidth <= 330 ? width * .58 : width * .5,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -445,7 +453,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           contentPadding: EdgeInsets.only(top: 10.0),
           content: Container(
-            height: maxHeight,
+            constraints: BoxConstraints(minHeight: maxHeight,),
+
+         //   height: maxHeight,
             //width: isTablet? 500 : 500,
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 0),

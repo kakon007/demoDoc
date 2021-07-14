@@ -1161,6 +1161,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                         ),
                                         Text(
                                           'You have no prescription available now',
+                                         textAlign: TextAlign.center,
                                           style: GoogleFonts.poppins(
                                               color:
                                               HexColor('#AEB0BA'),
@@ -1564,8 +1565,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       print("tappeddd");
                                                     },
                                                     child: Container(
-                                                      height:
-                                                          isTablet? 75 : 60,
+                                                      constraints: BoxConstraints(minHeight: isTablet? 75 : 60,),
+                                                      // height:
+                                                      //     isTablet? 75 : 60,
                                                       margin: EdgeInsets.only(
                                                           top: isTablet ? 8 : 8,
                                                           bottom:
@@ -2072,9 +2074,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                           //   ),
                                           // ),
                                           Container(
+
                                             height: isTablet
                                                 ? 130 : deviceWidth<=360 ? 90
-                                                : 95,
+                                                : 100,
                                             margin: EdgeInsets.only(
                                                 top: isTablet ? 8 : 8,
                                                 bottom:

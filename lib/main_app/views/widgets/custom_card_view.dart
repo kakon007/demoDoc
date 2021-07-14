@@ -86,8 +86,9 @@ class CustomCard extends StatelessWidget {
                         elevation: 0  ,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         color: HexColor("#354291"),
-                        child: SizedBox(
-                          width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 160,
+                        child: Container(
+
+                          width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 170,
                           height: width<=1250 && width>=1000 ? 40 : width<=999 && width>=650? 35: 30,
                           child: Center(
                             child: Text("Get An Appointment",style:  GoogleFonts.poppins(color: Colors.white,fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?   13 :11,fontWeight: FontWeight.w600),),

@@ -196,7 +196,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       )),
                 ),
                 backgroundColor: HexColor('#354291'),
-                expandedHeight: isTablet? 220 : 150.0,
+                expandedHeight: isTablet? 220 : 165.0,
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
@@ -224,7 +224,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 18.0,
+                                      fontSize: 12.0,
                                     )),
                               ),
                               Spacer(),

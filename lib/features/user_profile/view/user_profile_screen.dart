@@ -793,8 +793,9 @@ class _UserProfileState extends State<UserProfile> {
                                 _showAlertDialogForEditProfile(context);
                               },
                               child: Container(
+                                constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
                                 height: isTablet ? 25 : 20,
-                                width: isTablet ? 70 : 60,
+                               // width: isTablet ? 70 : 60,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: HexColor('#354291')),
                                   borderRadius: BorderRadius.circular(5),

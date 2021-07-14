@@ -95,19 +95,31 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
         contentPadding: EdgeInsets.only(top: 10.0),
         content: Container(
          // width: isTablet? 500 : deviceWidth<=330? 250 : 320,
-          height: !isEmpty
+          constraints: BoxConstraints(minHeight: !isEmpty
               ? isTablet
-                  ? 275
-                  //:355
-                  : deviceWidth <= 330
-                      ? 245
-                      : 255
-              : isTablet
-                  ? 315
-                  //:395,
-                  : deviceWidth <= 330
-                      ? 285
-                      : 295,
+              ? 275
+          //:355
+              : deviceWidth <= 330
+              ? 245
+              : 255  : isTablet
+              ? 315
+          //:395,
+              : deviceWidth <= 330
+              ? 285
+              : 295,),
+          // height: !isEmpty
+          //     ? isTablet
+          //         ? 275
+          //         //:355
+          //         : deviceWidth <= 330
+          //             ? 245
+          //             : 255
+          //     : isTablet
+          //         ? 315
+          //         //:395,
+          //         : deviceWidth <= 330
+          //             ? 285
+          //             : 295,
           child: Form(
               key: _formKey,
               child: Padding(

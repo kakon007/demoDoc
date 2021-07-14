@@ -120,7 +120,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
           padding: EdgeInsets.symmetric(
             horizontal: 16,
           ),
-          constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, maxHeight: isTablet? 360 : 320),
+          constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, minHeight: isTablet? 360 : 320),
           child: Material(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -155,7 +155,8 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                         height: 10,
                       ),
                       Container(
-                        height: isTablet? 90 : 75,
+                        constraints: BoxConstraints(minHeight: isTablet? 90 : 75,),
+                      //  height: isTablet? 90 : 75,
                         width: isTablet? 425 : width*.79,
                         decoration: BoxDecoration(
                           color: HexColor("#F0F2FF"),
@@ -184,7 +185,9 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                       color: AppTheme.appbarPrimary,
                                       shape: BoxShape.circle,
                                     ),
-                                    height: isTablet? 55 : 50,
+                                constraints: BoxConstraints(minHeight: isTablet? 55 : 50,),
+
+                               // height: isTablet? 55 : 50,
                                     width: isTablet? 55 : 50,
                                     child: Center(
                                       child: Image.asset(

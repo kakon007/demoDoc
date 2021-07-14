@@ -24,9 +24,9 @@ class CustomCardNews extends StatelessWidget {
     bool isMobile = Responsive.isMobile(context);
     var width = MediaQuery.of(context).size.width;
     return Container(
-      //height: 40,
+      constraints: BoxConstraints(minHeight: width<=1250 && width>=1000 ? 175 : width<=999 && width>=650? 140 :120,),
       width: width<=1250 && width>=1000 ? 380 : width<=999 && width>=650? 340 :300,
-      height:width<=1250 && width>=1000 ? 175 : width<=999 && width>=650? 140 :120,
+     // height:width<=1250 && width>=1000 ? 175 : width<=999 && width>=650? 140 :120,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -49,7 +49,9 @@ class CustomCardNews extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: width<=1250 && width>=1000 ? 70 : 55,
+                      constraints: BoxConstraints(minHeight:  isTablet? 35 : width <350 ? 20 :30,),
+
+                     // height: width<=1250 && width>=1000 ? 70 : 55,
                       child: Column(children: [
                         Row(
                           children: [
@@ -67,7 +69,7 @@ class CustomCardNews extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: width<=1250 && width>=1000 ? 10 : 5,),
-                        Text(subTitleText,style: TextStyle(fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?   12 :11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
+                        Text(subTitleText,maxLines:3, style: TextStyle(fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?   12 :11,fontWeight: FontWeight.w500),textAlign:TextAlign.start),
                       ],),
                     ),
                     SizedBox(height: width<=1250 && width>=1000 ? 20 : width<=999 && width>=650?  15 : 10,),

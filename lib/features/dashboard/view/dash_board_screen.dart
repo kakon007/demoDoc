@@ -635,13 +635,16 @@ print("StatusCode ${response.statusCode}");
                                           top: 18, left: 20.0, right: 20),
                                       child: Row(
                                         children: [
-                                          Text(
-                                            StringResources
-                                                .esayDoctorAppointmentText,
-                                            key: Key('easyDoctorTextKey'),
-                                            style: GoogleFonts.poppins(
-                                                fontSize: isTablet? 18 : width<330 ?  16 : 17,
-                                                fontWeight: FontWeight.w600),
+                                          Container(
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*.65),
+                                            child: Text(
+                                              StringResources
+                                                  .esayDoctorAppointmentText,
+                                              key: Key('easyDoctorTextKey'),
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: isTablet? 18 : width<330 ?  16 : 17,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
                                           ),
                                           Spacer(),
                                           Container(
@@ -717,7 +720,7 @@ print("StatusCode ${response.statusCode}");
                                       height: 15,
                                     ),
                                     accessTokenVm.accessToken == null || vm15.nearestAppointmentDetails==null
-                                        ? Container()
+                                        ? SizedBox()
                                         : CustomCardPat(
                                       titleText: isTablet? "You have an upcoming appointment.":"You have an \nupcoming appointment.",
                                       subTitleText:  vm15.nearestAppointmentDetails==null?'Loading':DateUtil().formattedDate(DateTime.parse(vm15.nearestAppointmentDetails.startTime).toLocal()),

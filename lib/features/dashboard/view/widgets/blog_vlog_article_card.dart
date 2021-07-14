@@ -43,10 +43,11 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
+    var width=  MediaQuery.of(context).size.width;
     return Container(
       //height: 40,
       width: 200,
-      height: isTablet ? 140 : 120,
+      height: isTablet ? 140 : width<=360? 100 : 120,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -56,8 +57,8 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
               padding: const EdgeInsets.all(8.0),
               child: widget.image != null
                   ? Container(
-                      height: 110,
-                      width: isTablet ? 140 : 100,
+                      height: width<=360? 90 : 110,
+                      width: isTablet ? 140 : width<=360? 80 : 100,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                       ),
@@ -67,8 +68,8 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                         fit: BoxFit.fill,
                       ))
                   : Container(
-                      height: 110,
-                      width: isTablet ? 140 : 100,
+                      height: width<=360? 90 :110,
+                      width: isTablet ? 140 : width<=360? 80 : 100,
                       child: ClipRRect(
                         child: CachedNetworkImage(
                           imageUrl: widget.logo,
@@ -88,12 +89,13 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                     Container(
                         height: isTablet ? 40 : 30,
                         child: Text(widget.title,
+                            maxLines: 2,
                             style: TextStyle(
-                                fontSize: isTablet ? 15 : 11,
+                                fontSize: isTablet ? 15 : width<=360? 10 : 11,
                                 fontWeight: FontWeight.w500),
                             textAlign: TextAlign.start)),
                     SizedBox(
-                      height: 15,
+                      height: width<=360? 5 : 15,
                     ),
                     Row(
                       mainAxisAlignment: isTablet
@@ -137,8 +139,8 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                                     borderRadius: BorderRadius.circular(5)),
                                 color: HexColor("#354291"),
                                 child: SizedBox(
-                                  width: isTablet ? 200 : 130,
-                                  height: isTablet ? 45 : 40,
+                                  width: isTablet ? 200 : width<=360? 120: 130,
+                                  height: isTablet ? 45 :width<=360?35 : 40,
                                   child: Center(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),

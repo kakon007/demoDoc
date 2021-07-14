@@ -4,9 +4,9 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 enum Flavor { DEV, QA, PRODUCTION }
 
 class FlavorValues {
-  FlavorValues({@required this.baseUrl});
+ // FlavorValues({@required this.baseUrl});
 
-  final String baseUrl;
+  //final String baseUrl;
 //Add other flavor specific values, e.g database name
 }
 

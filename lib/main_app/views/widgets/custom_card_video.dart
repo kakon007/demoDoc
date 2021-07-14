@@ -12,7 +12,8 @@ class CustomCardVideo extends StatefulWidget {
   String title;
   String videoId;
   String description;
-  CustomCardVideo(this.image,this.title,this.videoId,this.description);
+  String index;
+  CustomCardVideo(this.image,this.title,this.videoId,this.description, this.index);
   @override
   _CustomCardVideoState createState() => _CustomCardVideoState();
 }
@@ -100,11 +101,8 @@ class _CustomCardVideoState extends State<CustomCardVideo> {
                         child: SizedBox(
                           width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 130,
                           height: width<=1250 && width>=1000 ? 40 : width<=999 && width>=650? 35: 30,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("Watch Video",style:  GoogleFonts.poppins(color: Colors.white,fontSize:  width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  13  : 11,fontWeight: FontWeight.w600),),
-                            ),
+                           child: Center(
+                            child: Text("Watch Video",key: Key('watchVideoButtonKey${widget.index}'),style:  GoogleFonts.poppins(color: Colors.white,fontSize:  width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  13  : 11,fontWeight: FontWeight.w600),),
                           ),
                         ),
                       ),

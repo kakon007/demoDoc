@@ -21,8 +21,8 @@ class AuthRepository {
     //BotToast.showLoading();
     var response =
         await http.post(Uri.parse(url), headers: <String, String>{'authorization': basicAuth});
+    print(response.body);
     if (response.statusCode == 200) {
-      print(response.body);
       SignInModel data = signInModelFromJson(response.body);
       //BotToast.closeAllLoading();
       return Right(SignInModel(
@@ -73,7 +73,7 @@ class AuthRepository {
     var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-            'https://qa.myhealthbd.com:9096/online-appointment-api/fapi/registration/create-with-image'));
+            '${Urls.baseUrl}online-appointment-api/fapi/registration/create-with-image'));
     request.fields.addAll({
       'reqobj': json.encode({
         "opdReg": {
@@ -107,6 +107,9 @@ class AuthRepository {
       //   ));
       // } else {
       //   return Left(AppError.serverError);
+    }
+    else{
+      BotToast.closeAllLoading();
     }
   }
 

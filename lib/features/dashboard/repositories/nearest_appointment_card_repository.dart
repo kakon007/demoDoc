@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/features/dashboard/model/nearest_appointment_card_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class NearestAppointmentRepository {
   Future<Either<AppError, NearestAppointmentM>> fetchNearestAppointmentDetails({String accessToken,String regID}) async {
     print('Hellollll');
@@ -13,7 +14,7 @@ class NearestAppointmentRepository {
       'Authorization': 'Bearer $accessToken',
       'Content-Type': 'text/plain'
     };
-    var request = http.Request('GET', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/opd-appointments/nearest-appointment'));
+    var request = http.Request('GET', Uri.parse('${Urls.baseUrl}diagnostic-api/api/opd-appointments/nearest-appointment'));
     request.body = '''{\n    "regId": "$regID"\n}\n''';
     request.headers.addAll(headers);
 

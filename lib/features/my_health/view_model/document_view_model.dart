@@ -10,6 +10,7 @@ import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/document_repository.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:provider/provider.dart';
 import 'package:myhealthbd_app/features/my_health/models/documents_list_model.dart';
 import 'package:http/http.dart' as http;
@@ -89,7 +90,7 @@ class DocumentViewModel extends ChangeNotifier{
   //   var headers = {
   //     'Authorization': 'Bearer 43deaf1a-0ff8-459f-80b1-c66b37a1e73c'
   //   };
-  //   var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/create'));
+  //   var request = http.MultipartRequest('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/create'));
   //   request.fields.addAll({
   //     'reqobj': json.encode({"activeStatus":1,"attachmentTypeNo":"105","reportDate":"2021-05-01T12:11:27.000Z","description":"Test","referenceNo":2200000086431,"attachmentName":"bill.pdf","type":2,"regId":"MH22012014368"})
   //   });
@@ -137,7 +138,7 @@ class DocumentViewModel extends ChangeNotifier{
       'Authorization': 'Bearer $_accessToken'
     };
     print('idddddddeeeeee:: $_accessToken');
-    var request = http.MultipartRequest('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/edit'));
+    var request = http.MultipartRequest('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/edit'));
     request.fields.addAll({
       'reqobj':json.encode({"id":_id,"attachmentName":"$fileName"})
     });

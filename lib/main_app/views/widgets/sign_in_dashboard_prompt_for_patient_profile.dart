@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class SignInDashboardForPatientPrompt extends StatefulWidget {
@@ -62,18 +63,14 @@ class _SignInDashboardForPatientPromptState extends State<SignInDashboardForPati
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right:20.0),
-                child: Container(
-                    width: 250,
-                    height: isTablet ? 90 : MediaQuery.of(context).size.height>600 ? 70 : MediaQuery.of(context).size.height<550? 60 :  70,
-                    child: Image.asset(
-                        "assets/images/my_health_logo.png")),
-              ),
+              Container(
+                  width: 220,
+                  height: isTablet ? 90 : MediaQuery.of(context).size.height>600 ? 70 : MediaQuery.of(context).size.height<550? 60 :  70,
+                  child: Image.asset(kMyHealthLogo)),
               SizedBox(height: 10,),
               appoinIcon,
               SizedBox(height: MediaQuery.of(context).size.height>600 ? 20 : 10,),
-              Text('Want to access your Prescriptions?',textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize: isTablet ? 20 :  MediaQuery.of(context).size.height<=600 ? 13 : 16 ,fontWeight: FontWeight.w500),),
+              Text('Want to access your Prescriptions?', key: Key('wantToAccessPresKey'),textAlign: TextAlign.center,style: GoogleFonts.poppins(fontSize: isTablet ? 20 :  MediaQuery.of(context).size.height<=600 ? 13 : 16 ,fontWeight: FontWeight.w500),),
               SizedBox(height:isTablet? 25  : MediaQuery.of(context).size.height>600 ? 20 :10,),
               GestureDetector(
                 onTap: (){

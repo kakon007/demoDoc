@@ -72,7 +72,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                             hint: Text(
                               "Select here",
                               style: GoogleFonts.roboto(
-                                  fontSize: isTablet? 18 :15, color: HexColor("#D2D2D2")),
+                                  fontSize: isTablet? 18 :12, color: HexColor("#D2D2D2")),
                             ),
                             value: _selectedRelation,
                             onChanged: (newValue) {
@@ -120,7 +120,8 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: EdgeInsets.only(top: 5, bottom: 5),
-                height: isTablet? 85 :  70,
+                constraints: BoxConstraints(minHeight: isTablet? 85 :  70,),
+                //height: isTablet? 85 :  70,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -166,14 +167,18 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                               regMemberVm.name,
                               style: GoogleFonts.poppins(
                                   color: HexColor("#0D1231"),
-                                  fontSize: isTablet? 18 :16,
+                                  fontSize: isTablet? 18 :width<=360 ? 13:16,
                                   fontWeight: FontWeight.w500),
                             ),
-                            Text(
-                              "Username: ${regMemberVm.relatedRegId}",
-                              style: GoogleFonts.poppins(
-                                fontSize: isTablet? 18 :16,
-                                color: AppTheme.appbarPrimary,),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*.7),
+                              child: Text(
+                                "Username: ${regMemberVm.relatedRegId}",
+                                maxLines: 2,
+                                style: GoogleFonts.poppins(
+                                  fontSize: isTablet? 18 : width<=360 ? 13 : 16,
+                                  color: AppTheme.appbarPrimary,),
+                              ),
                             )
                           ],
                         ),

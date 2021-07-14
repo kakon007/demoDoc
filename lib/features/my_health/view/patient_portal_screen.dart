@@ -232,7 +232,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
       var request = http.Request(
           'POST',
           Uri.parse(
-              'https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+              '${Urls.baseUrl}diagnostic-api/api/file-attachment/file-by-name'));
       request.body = json.encode({"attachmentPath": filePath});
       print("Fillleeee:::: $filePath");
       request.headers.addAll(headers);
@@ -777,10 +777,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
     );
     var searchField = Container(
       //height: 40,
-        width: 200,
+        width: deviceWidth<=360? 135 : 200,
         height: 60,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 20.0, right: 12),
+          padding: const EdgeInsets.only(bottom: 20.0, right: 0),
           child:
           // Stack(
           //     children:[
@@ -823,7 +823,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
     var searchFieldforDoc = Container(
       //height: 40,
-        width: 200,
+        width: deviceWidth<=360? 135 : 200,
         height: 60,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20.0, right: 12),
@@ -872,7 +872,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 
     var searchFieldforReport = Container(
       //height: 40,
-        width: 200,
+        width: deviceWidth<=360? 135 : 200,
         height: 60,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20.0, right: 12),
@@ -1096,10 +1096,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                     child: Text(
                                       "${vm.totalCount.toString()} Prescription(s) found",
                                       style: GoogleFonts.poppins(
-                                          fontSize: isTablet ? 15 : 10),
+                                          fontSize: isTablet ? 15 :deviceWidth<=360? 10 :11),
                                     ),
                                   ),
                                   Spacer(),
+                                  SizedBox(width: 10,),
                                   if (vm.isInSearchMode) searchField,
                                   IconButton(
                                     key: Key('featuredJobSearchToggleButtonKey'),
@@ -1134,17 +1135,18 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 //     ? lengthofPrescriptionList
                                 //
                                 //     :
-                                (vm.prescriptionList.length == 0 &&
-                                    !vm.isFetchingData)
-                                    ? Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor:
-                                    AlwaysStoppedAnimation<Color>(
-                                        AppTheme.appbarPrimary),
-                                  ),
-                                )
-                                    : lengthofPrescriptionList == 0
-                                    ? Align(
+                                vm.prescriptionList.length == 0
+                                    ?
+                                // Center(
+                                //   child: CircularProgressIndicator(
+                                //     valueColor:
+                                //     AlwaysStoppedAnimation<Color>(
+                                //         AppTheme.appbarPrimary),
+                                //   ),
+                                // )
+                                //     : lengthofPrescriptionList == 0
+                                //     ?
+                                Align(
                                   alignment: Alignment.center,
                                   child: Container(
                                     child: Column(
@@ -1159,6 +1161,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                         ),
                                         Text(
                                           'You have no prescription available now',
+                                         textAlign: TextAlign.center,
                                           style: GoogleFonts.poppins(
                                               color:
                                               HexColor('#AEB0BA'),
@@ -1222,7 +1225,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 final file= vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!') :await _createPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString());
                                                 vm.prescriptionList[index].prescriptionNo==null?Fluttertoast.showToast(msg: 'Prescription Not Saved yet!') :Navigator.push(context, PageTransition(
                                                   type: PageTransitionType.rightToLeft,
-                                                  child:PdfFileViewerScreen(file),
+                                                  child:PdfFileViewerScreen(file,vm.prescriptionList[index].consultationId),
                                                 ),);
                                               }
                                               print("tappeddd");
@@ -1448,10 +1451,11 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                     child: Text(
                                       "${vm2.totalCount.toString()} Report(s) found",
                                       style: GoogleFonts.poppins(
-                                          fontSize: isTablet ? 15 : 10),
+                                          fontSize: isTablet ? 15 :deviceWidth<=360? 10 :11),
                                     ),
                                   ),
                                   Spacer(),
+                                  SizedBox(width: 15,),
                                   if (vm2.isInSearchMode) searchFieldforReport,
                                   IconButton(
                                     key: Key('featuredJButonKey'),
@@ -1561,8 +1565,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       print("tappeddd");
                                                     },
                                                     child: Container(
-                                                      height:
-                                                          60,
+                                                      constraints: BoxConstraints(minHeight: isTablet? 75 : 60,),
+                                                      // height:
+                                                      //     isTablet? 75 : 60,
                                                       margin: EdgeInsets.only(
                                                           top: isTablet ? 8 : 8,
                                                           bottom:
@@ -1827,7 +1832,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   child: Text(
                                     "${vm3.totalCount.toString()} Document(s) found",
                                     style: GoogleFonts.poppins(
-                                        fontSize: isTablet ? 15 : 10),
+                                        fontSize: isTablet ? 15 :deviceWidth<=360 ? 10 : 11),
                                   ),
                                 ),
                                 Spacer(),
@@ -2069,9 +2074,10 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                           //   ),
                                           // ),
                                           Container(
+
                                             height: isTablet
-                                                ? 130
-                                                : cardHeight * 0.8,
+                                                ? 130 : deviceWidth<=360 ? 90
+                                                : 100,
                                             margin: EdgeInsets.only(
                                                 top: isTablet ? 8 : 8,
                                                 bottom:
@@ -2105,203 +2111,288 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                             ),
                                             clipBehavior:
                                             Clip.antiAlias,
-                                            child: Column(
+                                            child: Row(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .only(
-                                                          left:
-                                                          8.0),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          SizedBox(
-                                                            height:
-                                                            3,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Container(
-                                                                  width: isTablet? deviceWidth*.72 : deviceWidth <=
-                                                                      330
-                                                                      ? 220
-                                                                      : 150,
-                                                                  child:
-                                                                  Text(
-                                                                     vm3.documentList[index]?.attachmentName??'',
-                                                                    maxLines:
-                                                                    1,
-                                                                    overflow:
-                                                                    TextOverflow.ellipsis,
-                                                                    style: GoogleFonts.poppins(
-                                                                      fontWeight: FontWeight.bold,
-                                                                      color: HexColor('#354291'),
-                                                                      fontSize:  isTablet
-                                                                          ? 15
-                                                                          : width <= 330
-                                                                          ? 10
-                                                                          : 12,),
-                                                                  )),
-                                                              InkWell(onTap: () async{
-                                                                vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                                _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        alignment: Alignment.center,
+                                                        child:  Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left:
+                                                                  8.0),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    height:
+                                                                    3,
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    children: [
+                                                                      Container(
+                                                                          width: isTablet? deviceWidth*.72 : deviceWidth <=
+                                                                              330
+                                                                              ? 140
+                                                                              : 220,
+                                                                          child:
+                                                                          Text(
+                                                                            vm3.documentList[index]?.attachmentName??'',
+                                                                            maxLines:
+                                                                            1,
+                                                                            overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                            style: GoogleFonts.poppins(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: HexColor('#354291'),
+                                                                              fontSize:  isTablet
+                                                                                  ? 15
+                                                                                  : width <= 330
+                                                                                  ? 10
+                                                                                  : 12,),
+                                                                          )),
+                                                                      InkWell(onTap: () async{
+                                                                        vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                        _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
 
-                                                              },child: Icon(Icons.edit,color: HexColor('#354291'),)),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: isTablet? 3 : 1,
-                                                          ),
-                                                          Row(
-                                                            // crossAxisAlignment:
-                                                            //     CrossAxisAlignment
-                                                            //         .start
-                                                            //,
-                                                            children: [
-                                                              Text(
-                                                                '${vm3.documentList[index].attachmentTypeName == null ? '' : vm3.documentList[index].attachmentTypeName}',
-                                                                maxLines:
-                                                                1,
-                                                                overflow:
-                                                                TextOverflow.ellipsis,
-                                                                style: GoogleFonts.poppins(
-                                                                    color: HexColor('#141D53'),
-                                                                    fontSize:  isTablet
-                                                                        ? 14
-                                                                        : width <= 330
-                                                                        ? 8
-                                                                        : 10,
-                                                                    fontWeight: FontWeight.w500),
+                                                                      },child: Icon(Icons.edit,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: HexColor('#354291'),)),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: isTablet? 3 : 1,
+                                                                  ),
+                                                                  Container(
+                                                                    width: MediaQuery.of(context).size.width*.88,
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                      children: [
+                                                                        Row(
+                                                                          // crossAxisAlignment:
+                                                                          //     CrossAxisAlignment
+                                                                          //         .start
+                                                                          //,
+                                                                          children: [
+                                                                            Text(
+                                                                              '${vm3.documentList[index].attachmentTypeName == null ? '' : vm3.documentList[index].attachmentTypeName}',
+                                                                              maxLines:
+                                                                              1,
+                                                                              overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                              style: GoogleFonts.poppins(
+                                                                                  color: HexColor('#141D53'),
+                                                                                  fontSize:  isTablet
+                                                                                      ? 14
+                                                                                      : width <= 330
+                                                                                      ? 8
+                                                                                      : 10,
+                                                                                  fontWeight: FontWeight.w500),
+                                                                            ),
+                                                                            SizedBox(width: 10,),
+                                                                            Text(
+                                                                                vm3.documentList[index].reportDate==null?'${DateTime.now()}':'${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
+                                                                              style: GoogleFonts.poppins(
+                                                                                  color: HexColor('#141D53'),
+                                                                                  fontSize:  isTablet
+                                                                                      ? 12
+                                                                                      : width <= 330
+                                                                                      ? 8
+                                                                                      : 10,
+                                                                                  fontWeight: FontWeight.w500),
+                                                                            ),
+                                                                            //SizedBox(width: 5,),
+                                                                          ],
+                                                                        ),
+                                                                       Row(children: [
+                                                                         Padding(
+                                                                           padding: EdgeInsets.only(top: 0,right:0),
+                                                                           child: InkWell(onTap: () async{
+                                                                             await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
+
+                                                                           },child: Icon(Icons.download_rounded,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: AppTheme.appbarPrimary)),
+                                                                         ),
+                                                                         SizedBox(width: 5,),
+                                                                         Padding(
+                                                                           padding: EdgeInsets.only(top: 0,right: 8),
+                                                                           child: GestureDetector(
+                                                                               onTap: () async{
+                                                                                 SVProgressHUD.show(
+                                                                                     status: 'Please Wait'
+                                                                                 );
+                                                                                 await vm10.getData(fileNo: vm3.documentList[index].id);
+                                                                                 await vm10.fileInfo(fileNo: vm3.documentList[index].id,regId: vm3.documentList[index].referenceNo);
+                                                                                 SVProgressHUD.dismiss();
+                                                                                 vm3.documentList[index].id==null?Fluttertoast.showToast(msg: 'No Documents Found'): showModalBottomSheet(
+                                                                                     backgroundColor: HexColor("#E9ECFE"),
+                                                                                     shape: RoundedRectangleBorder(
+                                                                                         borderRadius: BorderRadius.only(
+                                                                                             topLeft: Radius.circular(25),
+                                                                                             topRight: Radius.circular(25))),
+                                                                                     context: context,
+                                                                                     isScrollControlled: true,
+                                                                                     builder: (context) {
+
+                                                                                       return StatefulBuilder(
+                                                                                           builder: (BuildContext context, StateSetter setState) {
+                                                                                             var index = 0;
+                                                                                             bool isTrue = false;
+                                                                                             return FractionallySizedBox(
+                                                                                                 heightFactor: 0.85,
+                                                                                                 child:ShareDocument()
+                                                                                             );
+                                                                                           });
+                                                                                     });
+                                                                                 //print('CompanyName ${vm10.sharedFileList.last.companyName}');
+                                                                               },
+                                                                               // onTap: showNotification,
+                                                                               child: Icon(Icons.share,size:  isTablet? 25 :deviceWidth<=360? 18 : 18 , color: AppTheme.appbarPrimary,)),
+                                                                         ),
+                                                                         SizedBox(width: 5,),
+                                                                         Padding(
+                                                                           padding: EdgeInsets.only(top: 0,right:0),
+                                                                           child: InkWell(onTap: () async{
+                                                                             // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                             // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                                                             SVProgressHUD.show(
+                                                                                 status: 'Deleting'
+                                                                             );
+                                                                             await Provider.of<UploadDocumentsViewModel>(context, listen: false)
+                                                                                 .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
+                                                                               setState(() {
+                                                                                 vm3.getDataforDoc();
+                                                                               });
+                                                                             });
+                                                                             SVProgressHUD.dismiss();
+                                                                           },child: Icon(Icons.delete,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: HexColor('#354291'),)),
+                                                                         ),
+                                                                       ],)
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                              SizedBox(width: 10,),
-                                                              Text(
-                                                                '${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
-                                                                style: GoogleFonts.poppins(
-                                                                    color: HexColor('#141D53'),
-                                                                    fontSize:  isTablet
-                                                                        ? 12
-                                                                        : width <= 330
-                                                                        ? 8
-                                                                        : 10,
-                                                                    fontWeight: FontWeight.w500),
-                                                              ),
-                                                              //SizedBox(width: 5,),
-                                                            ],
-                                                          ),
-                                                        ],
+                                                            ),
+                                                            // Row(
+                                                            //   children: [
+                                                            //     Row(
+                                                            //         children: [
+                                                            //           // Padding(
+                                                            //           //   padding: const EdgeInsets.only(top:5.0,left: 30),
+                                                            //           //   child: Container(width:45,child: jp),
+                                                            //           // ),
+                                                            //           // (controller3.isSelected(index))?
+                                                            //           // Padding(
+                                                            //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                            //           //   child: righticon,
+                                                            //           // ): (controller3.isSelecting)?
+                                                            //           // Padding(
+                                                            //           //   padding: const EdgeInsets.only(left:38.0,top: 10),
+                                                            //           //   child: greyright,
+                                                            //           // ):
+                                                            //           // // Padding(
+                                                            //           // //   padding: EdgeInsets.only(left: 40,top: 10),
+                                                            //           // //   child: InkWell(onTap: () async{
+                                                            //           // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
+                                                            //           // //   },child: Icon(Icons.delete)),
+                                                            //           // // ),
+                                                            //
+                                                            //
+                                                            //
+                                                            //
+                                                            //
+                                                            //
+                                                            //         ]),
+                                                            //   ],)
+
+                                                            //SizedBox(height: 5,),
+                                                            // InkWell(onTap: (){
+                                                            //   setState(() {
+                                                            //     descTextShowFlag =!descTextShowFlag;
+                                                            //   });
+                                                            //   print('Taab $descTextShowFlag');
+                                                            // },child: Text('Description')),
+                                                            // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
+                                                            // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
+
+                                                            // SizedBox(height: 5,),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                    Row(
-                                                      children: [
-                                                        Row(
-                                                            children: [
-                                                              // Padding(
-                                                              //   padding: const EdgeInsets.only(top:5.0,left: 30),
-                                                              //   child: Container(width:45,child: jp),
-                                                              // ),
-                                                              // (controller3.isSelected(index))?
-                                                              // Padding(
-                                                              //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                              //   child: righticon,
-                                                              // ): (controller3.isSelecting)?
-                                                              // Padding(
-                                                              //   padding: const EdgeInsets.only(left:38.0,top: 10),
-                                                              //   child: greyright,
-                                                              // ):
-                                                              // // Padding(
-                                                              // //   padding: EdgeInsets.only(left: 40,top: 10),
-                                                              // //   child: InkWell(onTap: () async{
-                                                              // //   await  vm6.deleteDocuments(accessToken: widget.accessToken,id:  vm3.documentList[index].id,attachmentName:  vm3.documentList[index].attachmentName,attachmentPath:  vm3.documentList[index].attachmentPath,attachmentTypeNo:  vm3.documentList[index].attachmentTypeNo,description:  vm3.documentList[index].description,activeStatus:  vm3.documentList[index].activeStatus,regId:  vm3.documentList[index].regId,type:  vm3.documentList[index].type,);
-                                                              // //   },child: Icon(Icons.delete)),
-                                                              // // ),
-
-                                                              Padding(
-                                                                padding: EdgeInsets.only(top: 25,right:10),
-                                                                child: InkWell(onTap: () async{
-                                                                  await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
-
-                                                              },child: Icon(Icons.download_rounded,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: AppTheme.appbarPrimary)),
+                                                    Expanded(
+                                                        flex: 1,
+                                                        child: Container(
+                                                            alignment: Alignment.center,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                              SizedBox(height: 5,),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left:8.0),
+                                                            child: Text('Description', maxLines:
+                                                            1,
+                                                              overflow:
+                                                              TextOverflow.ellipsis,
+                                                              style: GoogleFonts.poppins(
+                                                                fontWeight: FontWeight.bold,
+                                                                color: HexColor('#354291'),
+                                                                fontSize:  isTablet
+                                                                    ? 15
+                                                                    : width <= 330
+                                                                    ? 10
+                                                                    : 12,),
                                                             ),
-                                                            Padding(
-                                                              padding: EdgeInsets.only(top: 25,right: 8),
-                                                              child: GestureDetector(
-                                                                  onTap: () async{
-                                                                    SVProgressHUD.show(
-                                                                        status: 'Please Wait'
-                                                                    );
-                                                                    await vm10.getData(fileNo: vm3.documentList[index].id);
-                                                                    await vm10.fileInfo(fileNo: vm3.documentList[index].id,regId: vm3.documentList[index].referenceNo);
-                                                                    SVProgressHUD.dismiss();
-                                                                    vm3.documentList[index].id==null?Fluttertoast.showToast(msg: 'No Documents Found'): showModalBottomSheet(
-                                                                        backgroundColor: HexColor("#E9ECFE"),
-                                                                        shape: RoundedRectangleBorder(
-                                                                            borderRadius: BorderRadius.only(
-                                                                                topLeft: Radius.circular(25),
-                                                                                topRight: Radius.circular(25))),
-                                                                        context: context,
-                                                                        isScrollControlled: true,
-                                                                        builder: (context) {
-
-                                                                          return StatefulBuilder(
-                                                                              builder: (BuildContext context, StateSetter setState) {
-                                                                                var index = 0;
-                                                                                bool isTrue = false;
-                                                                                return FractionallySizedBox(
-                                                                                    heightFactor: 0.85,
-                                                                                    child:ShareDocument()
-                                                                                );
-                                                                              });
-                                                                        });
-                                                                    //print('CompanyName ${vm10.sharedFileList.last.companyName}');
-                                                                  },
-                                                                  // onTap: showNotification,
-                                                                  child: Icon(Icons.share,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 , color: AppTheme.appbarPrimary,)),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets.only(
+                                                              left:8.0,right:8,bottom:5,),
+                                                            child:
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment.start,
+                                                              children: <
+                                                                  Widget>[
+                                                                //for (var _ in Iterable.generate(5))
+                                                                Container(
+                                                                  width: 220,
+                                                                  child: Text(
+                                                                    vm3.documentList[index].description == null
+                                                                        ? "No Description Found!"
+                                                                        : vm3.documentList[index].description,
+                                                                    softWrap:
+                                                                    true,
+                                                                    overflow:
+                                                                    TextOverflow.ellipsis,
+                                                                    maxLines: 1,
+                                                                    style: GoogleFonts.poppins( fontSize: isTablet
+                                                                        ? 15
+                                                                        : width <= 330
+                                                                        ? 8
+                                                                        : 12,),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            SizedBox(width: 5,),
-
-                                                              Padding(
-                                                                padding: EdgeInsets.only(top: 25,right:15),
-                                                                child: InkWell(onTap: () async{
-                                                                  // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                                  // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-                                                                  SVProgressHUD.show(
-                                                                      status: 'Deleting'
-                                                                  );
-                                                                  await Provider.of<UploadDocumentsViewModel>(context, listen: false)
-                                                                      .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
-                                                                    setState(() {
-                                                                      vm3.getDataforDoc();
-                                                                    });
-                                                                  });
-                                                                  SVProgressHUD.dismiss();
-                                                                },child: Icon(Icons.delete,color: HexColor('#354291'),)),
-                                                              ),
-
-                                                            ]),
-                                                      ],)
-
-                                                    //SizedBox(height: 5,),
-                                                    // InkWell(onTap: (){
-                                                    //   setState(() {
-                                                    //     descTextShowFlag =!descTextShowFlag;
-                                                    //   });
-                                                    //   print('Taab $descTextShowFlag');
-                                                    // },child: Text('Description')),
-                                                    // vm3.documentList[index].description==null||descTextShowFlag==false?SizedBox():
-                                                    // Container(width: 200,child: Text(vm3.documentList[index].description,maxLines: 2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(color: HexColor('#354291'),fontSize: 10),)),
-
-                                                    // SizedBox(height: 5,),
+                                                          ),
+                                                       ] ))),
                                                   ],
                                                 ),
+
                                                 // vm3.documentList[index]
                                                 //             .description ==
                                                 //         null
@@ -2426,52 +2517,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                 //           },
                                                 //         ),
                                                 //       ),
-                                                SizedBox(height: 5,),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left:8.0),
-                                                  child: Text('Description', maxLines:
-                                                  1,
-                                                    overflow:
-                                                    TextOverflow.ellipsis,
-                                                    style: GoogleFonts.poppins(
-                                                      fontWeight: FontWeight.bold,
-                                                      color: HexColor('#354291'),
-                                                      fontSize:  isTablet
-                                                          ? 15
-                                                          : width <= 330
-                                                          ? 10
-                                                          : 12,),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                  const EdgeInsets.only(
-                                                    left:8.0,right:8,bottom:5,),
-                                                  child:
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: <
-                                                        Widget>[
-                                                      //for (var _ in Iterable.generate(5))
-                                                      Text(
-                                                        vm3.documentList[index].description == null
-                                                            ? "No Description Found!"
-                                                            : vm3.documentList[index].description,
-                                                        softWrap:
-                                                        true,
-                                                        overflow:
-                                                        TextOverflow.ellipsis,
-                                                        maxLines: 2,
-                                                        style: GoogleFonts.poppins( fontSize: isTablet
-                                                            ? 15
-                                                            : width <= 330
-                                                            ? 8
-                                                            : 12,),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
+
                                               ],
                                             ),
                                           ),

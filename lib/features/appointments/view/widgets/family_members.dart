@@ -62,13 +62,13 @@ class _FamilyMembersState extends State<FamilyMembers> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Family Members",
+          key: Key('familyMemberAppbarKey'),
           style: GoogleFonts.poppins(fontSize:isTablet?18: 15),
         ),
       ),
       body: Padding(
         padding: EdgeInsets.only(left: 15, right: 15, top: 15),
         child: Column(
-
            crossAxisAlignment: familyVm.familyMembersList.length==0 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -80,9 +80,13 @@ class _FamilyMembersState extends State<FamilyMembers> {
                 ))
                 : familyVm.familyMembersList.length==0 ? Center(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'You have added no family members.',
+                        textAlign: TextAlign.center,
+                        key: Key('noFamilyMemberKey'),
                         style: GoogleFonts.poppins(
                             fontSize: isTablet? 20 : 16,
                             color: HexColor('#C7C8CF'
@@ -105,6 +109,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                           },
                           child: Text(
                             'Add now',
+                            key: Key('addNowButtonKey'),
                             style: GoogleFonts.poppins(
                                 fontSize: isTablet? 17 : 15,
                                 color: HexColor('#8592E5')),
@@ -121,7 +126,6 @@ class _FamilyMembersState extends State<FamilyMembers> {
                     itemBuilder: (BuildContext context, int index) {
                       var photo =
                           familyVm.familyMembersList[index]?.photo ?? "";
-                      print("photo $photo");
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -160,6 +164,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                             });
                           });
                         },
+                        key:Key('selectFamilyMemberKey$index'),
                         child: Container(
                             decoration: BoxDecoration(
                               color: index % 2 == 0

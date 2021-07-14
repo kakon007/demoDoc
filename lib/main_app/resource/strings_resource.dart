@@ -43,7 +43,8 @@ class StringResources {
   static String signInButtonText = "Sign In";
   static String loginSuccessMessage = "Sign in Successful";
   static String loginUnsuccessfulMessage = "Sign in unsuccessful";
-  static String unableToReachServerMessage = "Unable To Reach Server";
+  static String unableToReachServerMessage = "Showing previous data. \nPlease check your internet connection.";
+  //static String net = "Unable To Reach Server";
   static String forgotPassword = "Forgot Password ?";
   static String loginToYourExistingAccount = "Sign in to your existing account";
   //Hospital List
@@ -64,7 +65,7 @@ class StringResources {
   static String password= "Password";
   static String confirmPassword= "Confirm password";
   static String address= "Type your address";
-  static String gender ="Gender";
+  static String gender ="Select Gender";
   static String bloodGroup ="Blood Group";
   static String relation ="Relation";
   static String signUpButton= "SIGN UP";
@@ -476,7 +477,7 @@ class StringResources {
   static var signUpWithEmailText = "Sign Up with email";
   static var emailAlreadyExistText =
       "Email Already exist! Try login or rest password";
-  static var somethingIsWrong = "Something is wrong ! \nTry again later";
+  static var somethingIsWrong = "Unable to reach the server! \nPlease try again after some time.";
   static var somethingIsWrongPleaseUserDifferentGoogleAccount = "Something is wrong,\nPlease use different google account";
   static var somethingIsWrongSingleLine = "Something is wrong!";
   static var unauthorizedText = "Unauthorized";

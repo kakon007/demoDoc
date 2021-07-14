@@ -169,6 +169,14 @@ class SharedFileViewModel extends ChangeNotifier{
 
 
   List<Item> get sharedFileList => _sharedFileList;
+  set sharedFileList(List<Item> value) {
+   this._sharedFileList= value;
+    notifyListeners();
+  }
+
+  void isEdit(int index){
+    _sharedFileList[index].isEdit=!_sharedFileList[index].isEdit;
+  }
   int get fileNo=>_fileNo;
   int get regId=>_regId;
 }

@@ -6,11 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class NewsRepository {
   Future<Either<AppError, NewsListM>> fetchNewspdate() async {
     var url =
-        "https://qa.myhealthbd.com:9096/online-appointment-api/fapi/news-blogs/list-by-type?blogType=1";
+        "${Urls.baseUrl}online-appointment-api/fapi/news-blogs/list-by-type?blogType=1";
     // List<Item> dataList = new List<Item>();
 
     try {

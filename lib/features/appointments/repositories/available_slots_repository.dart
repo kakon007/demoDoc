@@ -4,6 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/features/appointments/models/auto_slot_generate_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/doctor_info_model.dart';
@@ -18,20 +19,20 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class AvailableSlotsRepository {
   Future<Either<AppError, AvailableSlotListModel>> fetchSlotInfo(
       DateTime pickedAppointDate, String companyNo, String doctorNo, String orgNo) async {
+    String date =   DateFormat("yyyy-MM-dd").format(DateTime.parse(pickedAppointDate.toLocal().toString()));
     var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/getAvailableSlot";
     final http.Response response = await http.post(
       Uri.parse(url),
       body: jsonEncode(<String, String>{
-        "appointDate": DateFormat("yyyy-MM-dd").format(pickedAppointDate).toString(),
+        "appointDate": date,
         "companyNo": companyNo,
         "doctorNo": doctorNo,
         "ogNo": orgNo
       }),
     );
-    print(response.body);
+    print('monir ${response.body}');
     try {
       if (response.statusCode == 200) {
-        print("aaaaaaaaaaadsdsdsdsdsa");
         print(response.body);
         AvailableSlotModel data = availableSlotModelFromJson(response.body);
         return Right(AvailableSlotListModel(
@@ -51,7 +52,40 @@ class AvailableSlotsRepository {
       return Left(AppError.unknownError);
     }
   }
-
+  Future<Either<AppError, AutoSlotGenerateModel>> fetchSlotGenerateInfo(
+      DateTime pickedAppointDate, String companyNo, String doctorNo, String orgNo) async {
+    String date =   DateFormat("dd/MM/yyyy").format(DateTime.parse(pickedAppointDate.toString()));
+    print(date);
+    var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/autoSlotGenerate";
+    final http.Response response = await http.post(
+      Uri.parse(url),
+      body: jsonEncode(<String, String>{
+        "appointDate":date,
+        "companyNo": companyNo,
+        "doctorNo": doctorNo,
+        "ogNo": orgNo
+      }),
+    );
+    print("akram ${response.body}");
+    try {
+      if (response.statusCode == 200) {
+        print(response.body);
+        AutoSlotGenerateModel data = autoSlotGenerateModelFromJson(response.body);
+        return Right(data);
+      } else {
+        BotToast.showText(text: StringResources.somethingIsWrong);
+        return Left(AppError.serverError);
+      }
+    } on SocketException catch (e) {
+      //logger.e(e);
+      BotToast.showText(text: StringResources.unableToReachServerMessage);
+      return Left(AppError.networkError);
+    } catch (e) {
+      //logger.e(e);
+      // BotToast.showText(text: StringResources.somethingIsWrong);
+      return Left(AppError.unknownError);
+    }
+  }
   Future<Either<AppError, DoctorInfoModel>> fetchDoctorInfo(
       String companyNo, String doctorNo, String orgNo) async {
     var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/getDoctorInfo";

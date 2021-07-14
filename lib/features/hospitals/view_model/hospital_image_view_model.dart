@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/hospitals/models/company_image_model.dart';
 import 'package:myhealthbd_app/features/hospitals/repositories/hospital_image_repository.dart';
 import 'package:myhealthbd_app/features/hospitals/repositories/hospital_logo_repository.dart';
@@ -28,31 +29,43 @@ class HospitalImageViewModel extends ChangeNotifier{
   }
 
 
-  Future<void> getImageData() async {
+  Future<void> getImageData({bool force=false}) async {
     // if (isFromOnPageLoad) {
     //   if (_lastFetchTime != null) if (_lastFetchTime
     //       .difference(DateTime.now()) <
     //       CommonServiceRule.onLoadPageReloadTime) return;
     // }
 
-    print("DATA fromImage List:::::");
-    _isFetchingData = true;
-    _lastFetchTime = DateTime.now();
-    _isLoading = true;
-    var res = await HospitalImagerepository().fetchHospitalImage();
-    notifyListeners();
-    _hospitalImageList.clear();
-    res.fold((l) {
-      _appError = l;
-      _isFetchingMoreData = false;
+
+    if(_hospitalImageList.isEmpty || force){
+    if(_hospitalImageList.isEmpty){
+      CacheRepositories.loadCachedHospitalImage().then((value) {
+        if(value!=null){
+          _hospitalImageList=value.items;
+          _hospitalImageList.removeAt(0);
+          notifyListeners();
+        }
+      });
+    }
+      print("DATA fromImage List:::::");
+      _isFetchingData = true;
+      _lastFetchTime = DateTime.now();
+      _isLoading = true;
+      var res = await HospitalImagerepository().fetchHospitalImage();
       notifyListeners();
-    }, (r) {
-      _isLoading= false;
-      _isFetchingMoreData = false;
-      _hospitalImageList.addAll(r.dataList2);
-      _hospitalImageList.removeAt(0);
-      notifyListeners();
-    });
+      _hospitalImageList.clear();
+      res.fold((l) {
+        _appError = l;
+        _isFetchingMoreData = false;
+        notifyListeners();
+      }, (r) {
+        _isLoading= false;
+        _isFetchingMoreData = false;
+        _hospitalImageList.addAll(r.dataList2);
+        _hospitalImageList.removeAt(0);
+        notifyListeners();
+      });
+    }
   }
 
   AppError get appError => _appError;

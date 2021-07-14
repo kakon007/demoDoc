@@ -25,11 +25,12 @@ class SearchDoctorViewModel extends ChangeNotifier{
   bool _isLoading = false;
   String _doctorName;
   String _hospitalName;
-  int _doctorNo;
+  List<int> _doctorNo=[];
   String _image;
   String _spName;
   int _selectedCard=-1;
   bool _isSelected = false;
+  List<Itemm> _doctorInfo=[];
 
 
   void resetPageCounter() {
@@ -117,6 +118,7 @@ class SearchDoctorViewModel extends ChangeNotifier{
   //   }
   // }
   adDoctorsInfo({
+    Itemm doctorInfo,
     int selectedCard,
     bool isSelected,
     String doctorName,
@@ -126,18 +128,32 @@ class SearchDoctorViewModel extends ChangeNotifier{
     String spName,
 
   }){
-    print("regId $doctorName");
-    print("regNo $hospitalName");
-    print("relatedRegId $doctorNo");
+
+    _doctorInfo.add(doctorInfo);
     _selectedCard=selectedCard;
     _isSelected = isSelected;
     _doctorName= doctorName;
     _hospitalName=hospitalName;
-    _doctorNo= doctorNo;
+    _doctorNo.add(doctorInfo.doctorNo) ;
     _image= image;
     _spName= spName;
+    print("regId $doctorName");
+    print("regNo $hospitalName");
+    print("relatedRegId ${_doctorNo.length}");
 
   }
+  // adDoctorsInfo({Itemm doctorInfo,String image,int selectedCard,
+  //   bool isSelected,}){
+  //
+  //   // print("regNo $hospitalName");
+  //   // print("relatedRegId $doctorNo");
+  //   _doctorInfo.add(doctorInfo);
+  //   _image= image;
+  //   _selectedCard=selectedCard;
+  //   _isSelected = isSelected;
+  //
+  //   print("regId ${_doctorInfo.length}");
+  // }
 
   Future<bool> refresh(String accessToke) async {
     _pageCount = 1;
@@ -201,7 +217,8 @@ class SearchDoctorViewModel extends ChangeNotifier{
   String get hospitalName=>_hospitalName;
   int get selectedCard => _selectedCard;
   String get spName=>_spName;
-  int get doctorNo=>_doctorNo;
+  List<int> get doctorNo=>_doctorNo;
   String get image => _image;
   bool get isSelected => _isSelected;
+  List<Itemm> get doctorInfo=>_doctorInfo;
 }

@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/features/user_profile/repositories/change_passwor
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:http/http.dart' as http;
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 
 import 'package:bot_toast/bot_toast.dart';
@@ -198,7 +199,7 @@ class PasswordChangeViewModel with ChangeNotifier {
       };
 
       try {
-        var url = "https://qa.myhealthbd.com:9096/auth-api/api/changePassword";
+        var url = "${Urls.baseUrl}auth-api/api/changePassword";
         var client = http.Client();
         var accessToken =
             Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;

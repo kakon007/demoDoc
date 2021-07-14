@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,6 +36,7 @@ class SignUpFormField extends StatelessWidget {
   final bool obSecure;
   final double topPadding;
   final double hintSize;
+  final List<TextInputFormatter> inputFormatters;
   final String focusBorderColor;
 
   const SignUpFormField({
@@ -71,6 +73,7 @@ class SignUpFormField extends StatelessWidget {
     this.maxLines = 1,
     this.textFieldKey,
     this.topPadding=25,
+    this.inputFormatters
   });
 
   @override
@@ -103,6 +106,7 @@ class SignUpFormField extends StatelessWidget {
             height: 1,
           ),
           TextFormField(
+            inputFormatters: inputFormatters,
             obscureText: obSecure,
             key: textFieldKey,
             onTap: onTap,

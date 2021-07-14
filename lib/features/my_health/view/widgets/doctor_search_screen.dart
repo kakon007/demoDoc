@@ -189,7 +189,7 @@ class _SearchDoctorState extends State<SearchDoctor> {
                             selectedCard = index;
                             isSelected = true;
                             Future.delayed(Duration.zero, () async {
-                              vm2.adDoctorsInfo(doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo,spName: familyMembers[index].specializationName,selectedCard:selectedCard,isSelected: isSelected);
+                              vm2.adDoctorsInfo(doctorInfo: familyMembers[index],doctorName: familyMembers[index].doctorName,hospitalName:familyMembers[index].companyName,doctorNo: familyMembers[index].doctorNo,image: photo,spName: familyMembers[index].specializationName,selectedCard:selectedCard,isSelected: isSelected);
 
                               Navigator.pop(context);
                             });

@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/user_profile/models/registered_members_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/add_family_member.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/registered_member_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
@@ -13,6 +15,7 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constant.dart';
 
@@ -32,6 +35,9 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
     var userVm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
     // TODO: implement initState
     userVm.getData();
+    getUSerDetails();
+    var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
+    familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
   });
 
   super.initState();
@@ -50,8 +56,15 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
       familyMembers=vm.members;
     }
   }
+  var user;
+  var pass;
+  Future<void> getUSerDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    user= prefs.getString("usernameRemember").toUpperCase();
+  }
   @override
   Widget build(BuildContext context) {
+    var familyVm = Provider.of<FamilyMembersListViewModel>(context,listen: false);
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
@@ -163,7 +176,8 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           margin: EdgeInsets.only(top: 5, bottom: 5),
-                          height: isTablet? 85 : 70,
+                          constraints: BoxConstraints(minHeight: isTablet? 85 : 70,),
+                        //  height: isTablet? 85 : 70,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -230,11 +244,40 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  vm.addFamilyMemberInfo(name: vm.members[index].fname, regId: userVm.userDetailsList.hospitalNumber.toString(), regNo: userVm.userDetailsList.id.toString(), relatedRegNo:vm.members[index].id.toString(),image:photo,relatedRegId: familyMembers[index].hospitalNumber);
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return AddFamilyMember(photo: photo,);
-                                  }));
+                                  var memberRegId;
+                                  var relation;
+                                  print(familyMembers[index].hospitalNumber);
+                                  familyVm.familyMembersList.forEach((item) {
+                                    if (item.fmRegId.contains(familyMembers[index].hospitalNumber)) {
+                                      memberRegId=familyMembers[index].hospitalNumber;
+                                      relation =item.relationName;
+                                    }
+                                  });
+                                  if(user==familyMembers[index].hospitalNumber){
+                                    Fluttertoast.showToast(
+                                        msg: 'You cannot add yourself as your family member.',
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 12.0);
+                                  }
+                                  else if(memberRegId==null && familyMembers[index].hospitalNumber!=user){
+                                    vm.addFamilyMemberInfo(name: vm.members[index].fname, regId: userVm.userDetailsList.hospitalNumber.toString(), regNo: userVm.userDetailsList.id.toString(), relatedRegNo:vm.members[index].id.toString(),image:photo,relatedRegId: familyMembers[index].hospitalNumber);
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) {
+                                          return AddFamilyMember(photo: photo,);
+                                        }));
+                                  }
+                                  else{
+                                    Fluttertoast.showToast(
+                                        msg: 'The user is already added in your list as your $relation',
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 12.0);
+                                  }
                                 },
                                 key: Key('addMemberKey$index'),
                                 child: Container(
@@ -258,7 +301,8 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                       color: HexColor("#D2D9FF"),
                                       borderRadius: BorderRadius.circular(10)),
                                   width: isTablet? 110 : width<=330 ? 85 : 90,
-                                  height: isTablet? 85 : 70,
+                                  constraints: BoxConstraints(minHeight:isTablet? 85 : 70,),
+                                  //height: isTablet? 85 : 70,
                                 ),
                               ),
                             ],

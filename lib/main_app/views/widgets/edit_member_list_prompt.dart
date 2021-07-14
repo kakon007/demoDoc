@@ -59,7 +59,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ?425 : width<=330 ? width*.76 :  width*.79,
+                width: isTablet ?425 : width<=330 ? width*.72 :  width*.75,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: _selectedRelation!=null ? HexColor("#8592E5") : HexColor("D2D2D2")),
@@ -120,7 +120,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
           padding: EdgeInsets.symmetric(
             horizontal: 16,
           ),
-          constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, maxHeight: isTablet? 360 : 320),
+          constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, minHeight: isTablet? 360 : 320),
           child: Material(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -155,7 +155,8 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                         height: 10,
                       ),
                       Container(
-                        height: isTablet? 90 : 75,
+                        constraints: BoxConstraints(minHeight: isTablet? 90 : 75,),
+                      //  height: isTablet? 90 : 75,
                         width: isTablet? 425 : width*.79,
                         decoration: BoxDecoration(
                           color: HexColor("#F0F2FF"),
@@ -184,7 +185,9 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                       color: AppTheme.appbarPrimary,
                                       shape: BoxShape.circle,
                                     ),
-                                    height: isTablet? 55 : 50,
+                                constraints: BoxConstraints(minHeight: isTablet? 55 : 50,),
+
+                               // height: isTablet? 55 : 50,
                                     width: isTablet? 55 : 50,
                                     child: Center(
                                       child: Image.asset(
@@ -200,12 +203,16 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  familyVm.name,
-                                  style: GoogleFonts.poppins(
-                                      color: HexColor("#0D1231"),
-                                      fontSize: isTablet? 18 : 16,
-                                      fontWeight: FontWeight.w500),
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*.55),
+
+                                  child: Text(
+                                    familyVm.name,
+                                    style: GoogleFonts.poppins(
+                                        color: HexColor("#0D1231"),
+                                        fontSize: isTablet? 18 : 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                                 Text(
                                   familyVm.userId,
@@ -236,7 +243,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: isTablet?190 :  width / 2.6,
+                            width: isTablet?190 :  width / 3,
                             decoration: BoxDecoration(),
                             height: isTablet? 50 : 45,
                             child: FlatButton(
@@ -255,7 +262,7 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                                     style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
                           ),
                           Container(
-                            width: isTablet?190: width / 2.6,
+                            width: isTablet?190: width / 3,
                             height: isTablet? 50 : 45,
                             child: AbsorbPointer(
                              absorbing: _selectedRelation!=null ? false : true,

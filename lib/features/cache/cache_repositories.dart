@@ -1,7 +1,10 @@
 import 'package:ffcache/ffcache.dart';
 import 'package:myhealthbd_app/features/appointment_history/models/previous_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/models/upcoming_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/company_image_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/company_logo_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
+import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/features/my_health/models/documents_list_model.dart';
 import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
 import 'package:myhealthbd_app/features/user_profile/models/get_family_member_model.dart';
@@ -17,6 +20,9 @@ class CacheKeys {
   static final String appointmentHistoryPreviousList='appointmentHistoryPreviousList';
   static final String hospitalList='hospitalList';
   static final String userDetails='userDetails';
+  static final String nearestHospital='nearestHospital';
+  static final String hospitalLogo='hospitalLogo';
+  static final String hospitalImage='hospitalImage';
 }
 
 class CacheRepositories {
@@ -84,6 +90,46 @@ static Future<DocumentListModel> loadCachedDocumentationList() async{
       var stringData=await FFCache().getString(CacheKeys.hospitalList);
       if (stringData!=null) {
         var data=hospitalListModelFromJson(stringData);
+        return data;
+      }
+    }catch(e){
+      print(e);
+    }
+    return null;
+  }
+  //NearestHospital List/////
+
+  static Future<NrearestHospitalModel> loadCachedNearestHospital()async{
+    try{
+      var stringData=await FFCache().getString(CacheKeys.nearestHospital);
+      if (stringData!=null) {
+        var data=nrearestHospitalModelFromJson(stringData);
+        return data;
+      }
+    }catch(e){
+      print(e);
+    }
+    return null;
+  }
+  //Hospital Logo//
+  static Future<CompanyLogoModel> loadCachedHospitalLogo()async{
+    try{
+      var stringData=await FFCache().getString(CacheKeys.hospitalLogo);
+      if (stringData!=null) {
+        var data=companyLogoModelFromJson(stringData);
+        return data;
+      }
+    }catch(e){
+      print(e);
+    }
+    return null;
+  }
+  //Hospital Image//
+  static Future<CompanyImageModel> loadCachedHospitalImage()async{
+    try{
+      var stringData=await FFCache().getString(CacheKeys.hospitalImage);
+      if (stringData!=null) {
+        var data=companyImageModelFromJson(stringData);
         return data;
       }
     }catch(e){

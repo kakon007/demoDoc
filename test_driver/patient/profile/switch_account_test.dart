@@ -2,12 +2,14 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:myhealthbd_app/main_app/util/keys.dart';
 import 'package:test/test.dart';
 
+import '../auth/sign_in_common_test.dart';
+
 //flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
 
 main(){
-  switchTest();
+  switchAccountTest();
 }
-Future<void> switchTest()async{
+Future<void> switchAccountTest()async{
 
   group('Switch Account Test', ()
   {
@@ -21,28 +23,7 @@ Future<void> switchTest()async{
       }
     });
 
-    //sign in
-    test(
-        'When__try_to_tap_sign_in__should__go_to_sign_in_page', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 3), () {});
-        await driver.tap(Keys.signInText);
-        await Future.delayed(const Duration(seconds: 3), () {});
-      });
-    });
-    test('When__try_to_login_correct_password_and_correct_username__should__login_and_get_easy_doctor_text', () async {
-      await driver.runUnsynchronized(() async {
-        await driver.tap(Keys.userNameKey);
-        await driver.enterText('MH112105000309');
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.tap(Keys.passwordKey);
-        await driver.enterText('123123');
-        await driver.tap(Keys.signInButton);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.easyDoctorTextKey), "Easy Doctor Appointment");
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
+    signInCommonTest(); //sign in
     test('When__try_to_tap_profile_avatar___should__open_accounts_prompt_and_get_accounts_text', () async {
       await driver.runUnsynchronized(() async {
         await driver.tap(Keys.userAvatarKey);

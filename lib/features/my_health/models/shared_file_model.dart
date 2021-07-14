@@ -78,6 +78,7 @@ class Item {
     this.doctorName,
     this.photo,
     this.companyName,
+    this.isEdit=false
   });
 
   int ssCreator;
@@ -100,6 +101,7 @@ class Item {
   dynamic doctorName;
   String photo;
   String companyName;
+  bool isEdit;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     ssCreator: json["ssCreator"] == null ? null : json["ssCreator"],
@@ -122,6 +124,7 @@ class Item {
     doctorName: json["doctorName"],
     photo: json["photo"] == null ? null : json["photo"],
     companyName: json["companyName"] == null ? null : json["companyName"],
+    isEdit: false,
   );
 
   Map<String, dynamic> toJson() => {

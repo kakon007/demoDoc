@@ -2,39 +2,60 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/my_health/models/view_document_model.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:path_provider/path_provider.dart' as pp;
+import 'package:file_saver/file_saver.dart';
+import 'package:path/path.dart' as path;
+
 
 
 class PdfFileViewerScreen extends StatefulWidget {
   File file;
-  PdfFileViewerScreen(this.file);
+  var fileName;
+  PdfFileViewerScreen(this.file,this.fileName);
   @override
   _PdfFileViewerScreenState createState() => _PdfFileViewerScreenState();
 }
 
 class _PdfFileViewerScreenState extends State<PdfFileViewerScreen> {
-
+  PDFDocument document;
+  bool _isLoading = true;
+  loadDocument() async {
+    document = await PDFDocument.fromFile(widget.file);
+    setState(() => _isLoading = false);
+  }
+  @override
+  void initState() {
+    super.initState();
+    loadDocument();
+  }
   @override
   Widget build(BuildContext context) {
-    final name=basename(widget.file.path);
+    //final name=basename(widget.file.path);
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: AppBar(
-        title: Text(name),
+        title: Text(widget.fileName),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: PDFView(
-          filePath: widget.file.path,
+      body: Center(
+        child: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            :PDFViewer(
+          //filePath: widget.file.path,
+          document: document,
+          zoomSteps: 1,
         ),
       ),
     );
@@ -61,7 +82,7 @@ class PdfbyteViewerScreen extends StatefulWidget {
 
 class _PdfbyteViewerScreenState extends State<PdfbyteViewerScreen> {
 
-  Uint8List byteArray;
+  File pdfFile;
   Future<String> fetchDocFile(String filePath) async{
     var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     try {
@@ -69,7 +90,7 @@ class _PdfbyteViewerScreenState extends State<PdfbyteViewerScreen> {
         'Authorization': 'Bearer $accessToken',
         'Content-Type': 'text/plain'
       };
-      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+      var request = http.Request('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/file-by-name'));
       request.body =json.encode({"attachmentPath" : filePath});
       print("Fillleeee:::: $filePath");
       request.headers.addAll(headers);
@@ -101,24 +122,50 @@ class _PdfbyteViewerScreenState extends State<PdfbyteViewerScreen> {
 
 
 
-  Future<Uint8List> _createPdfFileFrombase(String filePath) async {
+  Future<File> _createPdfFileFrombase(String filePath) async {
     String docFilee= await fetchDocFile(filePath);
     Uint8List bytes = base64.decode(docFilee);
-    // print('objjjjj:::: $bytes');
-    // newFile= File.fromRawPath(bytes);
-    // print('objjjjjbb:::: $newFile');
-    return bytes;
+    // var filePathh=await FileSaver.instance.saveFile(path.basenameWithoutExtension(widget.attachmentName), bytes, 'pdf',mimeType: MimeType.PDF);
+    // // print('objjjjj:::: $bytes');
+    // // newFile= File.fromRawPath(bytes);
+    // // print('objjjjjbb:::: $newFile');
+    // return filePathh;
+
+    //SVProgressHUD.show(status: 'Opening Pdf');
+    String dir = (await pp.getApplicationDocumentsDirectory()).path;
+    File file = File(
+       path.join( dir , "${widget.attachmentName}"));
+    return file.writeAsBytes( bytes, flush: true);
+    // print("FILEEEEE" + file.toString());
+    // //SVProgressHUD.dismiss();
+    //  file;
+  }
+
+  PDFDocument document;
+  bool _isLoading = true;
+  loadDocument() async {
+    document = await PDFDocument.fromFile(pdfFile);
+
+    setState(() => _isLoading = false);
+    print('Localizeed'+pdfFile.toString());
   }
   @override
   void initState() {
     // TODO: implement initState
     _createPdfFileFrombase(widget.attachmentUrl).then((value){
-      byteArray=value;
-      setState(() {
 
-      });
+      if(value!=null){
+       pdfFile=value;
+       setState(() {
+         loadDocument();
+       });
+      }
+
+      //print('Localize'+pdfFile.toString());
     });
+
     super.initState();
+
   }
 
   @override
@@ -129,11 +176,13 @@ class _PdfbyteViewerScreenState extends State<PdfbyteViewerScreen> {
       appBar: AppBar(
         title: Text(name),
       ),
-      body:byteArray==null?Loader(): Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: PDFView(
-         // filePath: widget.file.path,
-          pdfData: byteArray,
+      body: Center(
+        child: _isLoading
+            ? Center(child: CircularProgressIndicator())
+            :PDFViewer(
+          //filePath: widget.file.path,
+          document: document,
+          zoomSteps: 1,
         ),
       ),
     );
@@ -162,7 +211,7 @@ class _ImagebyteViewerScreenState extends State<ImagebyteViewerScreen> {
         'Authorization': 'Bearer $accessToken',
         'Content-Type': 'text/plain'
       };
-      var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/file-by-name'));
+      var request = http.Request('POST', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-attachment/file-by-name'));
       request.body =json.encode({"attachmentPath" : filePath});
       print("Fillleeee:::: $filePath");
       request.headers.addAll(headers);

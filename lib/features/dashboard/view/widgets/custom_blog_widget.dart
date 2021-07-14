@@ -11,7 +11,8 @@ class CustomBlogWidget extends StatefulWidget {
   String title;
   String news;
   String author;
-  CustomBlogWidget({this.logo,this.title, this.image, this.author, this.news});
+  String index;
+  CustomBlogWidget({this.logo,this.title, this.image, this.author, this.news, this.index});
   @override
   _CustomBlogWidgetState createState() => _CustomBlogWidgetState();
 }
@@ -35,12 +36,12 @@ class _CustomBlogWidgetState extends State<CustomBlogWidget> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  height: width<=1250 && width>=1000 ? 140 : width<=999 && width>=650?  115 : 100,
-                  width: width<=1250 && width>=1000 ? 110 : width<=999 && width>=650?  105 : 90,
+                  height: width<=1250 && width>=1000 ? 140 : width<=999 && width>=650?  115 : 80,
+                  width: width<=1250 && width>=1000 ? 110 : width<=999 && width>=650?  105 : 80,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Image.memory(widget.logo,gaplessPlayback: true,)),
+                  child: Image.memory(widget.logo,gaplessPlayback: true,fit: BoxFit.fill,)),
             ),
             Flexible(
               child: Padding(
@@ -67,10 +68,7 @@ class _CustomBlogWidgetState extends State<CustomBlogWidget> {
                           width: width<=1250 && width>=1000 ? 170 : width<=999 && width>=650?  155 : 130,
                           height: width<=1250 && width>=1000 ? 40 : width<=999 && width>=650? 35: 30,
                           child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("Read Blog",style:  GoogleFonts.poppins(color: Colors.white,fontSize:width<=1250 && width>=1000 ? 14 : width<=999 && width>=650? 13 :11,fontWeight: FontWeight.w600),),
-                            ),
+                            child: Text("Read Blog", key: Key('readBlogButtonKey${widget.index}'),style:  GoogleFonts.poppins(color: Colors.white,fontSize:width<=1250 && width>=1000 ? 14 : width<=999 && width>=650? 13 :11,fontWeight: FontWeight.w600),),
                           ),
                         ),
                       ),

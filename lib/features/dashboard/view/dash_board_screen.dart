@@ -8,6 +8,7 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:myhealthbd_app/features/appointments/models/book_appointment_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -25,6 +26,8 @@ import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dar
     as hos;
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
+import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
@@ -46,6 +49,7 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_pat.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_card_video.dart';
@@ -54,6 +58,7 @@ import 'package:myhealthbd_app/main_app/views/widgets/custom_card_view_for_news.
 import 'package:myhealthbd_app/main_app/views/widgets/failure_widget.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/search_bar_viw_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -61,6 +66,9 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:plain_notification_token/plain_notification_token.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 
 class DashboardScreen extends StatefulWidget {
@@ -69,6 +77,7 @@ class DashboardScreen extends StatefulWidget {
   String accessToken;
   final Function onTapFeaturedCompany;
   final Function onTapFeaturedAppointment;
+  LocationData locationData;
 
 
   DashboardScreen(
@@ -76,7 +85,8 @@ class DashboardScreen extends StatefulWidget {
       this.isDrawerOpen,
       this.accessToken,
       this.onTapFeaturedCompany,
-      this.onTapFeaturedAppointment
+      this.onTapFeaturedAppointment,
+      this.locationData
       });
 
   @override
@@ -85,6 +95,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen>
     with SingleTickerProviderStateMixin {
+
   File imageData;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldState> _scaffoldKey2 = new GlobalKey<ScaffoldState>();
@@ -119,6 +130,107 @@ class _DashboardScreenState extends State<DashboardScreen>
     }
 
   }
+  //final plainNotificationToken = PlainNotificationToken();
+
+  //GetDeviceToken///
+
+  Future setDeviceTokenForNotification({String accessToken,String userNo,String userName,String doviceToken})async{
+    print('Get called');
+    var headers = {
+      'Authorization': 'Bearer $accessToken',
+      'Content-Type': 'text/plain'
+    };
+    var request = http.Request('POST', Uri.parse('${Urls.baseUrl}auth-api/api/device/set-device-token'));
+    request.body = '''{\n"userNo" : "$userNo",\n"userName" : "$userName",\n"doviceToken" : "$doviceToken"\n\n}\n''';
+    request.headers.addAll(headers);
+    print('Token'+doviceToken);
+    print('Token'+userName);
+    print('Token'+userNo);
+
+    http.StreamedResponse response = await request.send();
+print("StatusCode ${response.statusCode}");
+    if (response.statusCode == 200) {
+      var body=await response.stream.bytesToString();
+      print('bodyyy:: $body');
+      return body;
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+  }
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+   getToken()async{
+    // // (iOS Only) Need requesting permission of Push Notification.
+    // if (Platform.isIOS) {
+    //   plainNotificationToken.requestPermission();
+    //
+    //   // If you want to wait until Permission dialog close,
+    //   // you need wait changing setting registered.
+    //   await plainNotificationToken.onIosSettingsRegistered.first;
+    // }
+
+     String token = await _firebaseMessaging.getToken();
+    print("Tokenfcm"+token);
+    return token;
+  }
+
+  // void firebaseCloudMessaging_Listeners() {
+  //   //if (Platform.isIOS) iOS_Permission();
+  //
+  //   _firebaseMessaging.getToken().then((token){
+  //     print(token);
+  //   });
+  //
+  //   _firebaseMessaging.configure(
+  //     onMessage: (Map<String, dynamic> message) async {
+  //       print('on message $message');
+  //     },
+  //     onResume: (Map<String, dynamic> message) async {
+  //       print('on resume $message');
+  //     },
+  //     onLaunch: (Map<String, dynamic> message) async {
+  //       print('on launch $message');
+  //     },
+  //   );
+  // }
+
+  // void iOS_Permission() {
+  //   _firebaseMessaging.requestPermission(
+  //       IosNotificationSettings(sound: true, badge: true, alert: true)
+  //   );
+  //   _firebaseMessaging.onIosSettingsRegistered
+  //       .listen((IosNotificationSettings settings)
+  //   {
+  //     print("Settings registered: $settings");
+  //   });
+  // }
+
+  ////Location////
+
+
+
+  // getLocationPermission() async{
+  //   _serviceEnabled = await location.serviceEnabled();
+  //   if (!_serviceEnabled) {
+  //     _serviceEnabled = await location.requestService();
+  //     if (!_serviceEnabled) {
+  //       return;
+  //     }
+  //   }
+  //
+  //   _permissionGranted = await location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await location.requestPermission();
+  //     if (_permissionGranted != PermissionStatus.granted) {
+  //       return;
+  //     }
+  //   }
+  //  // locationData = await location.getLocation();
+  //   print('LocationData ${locationData.latitude}');
+  //   print('LocationData ${locationData.longitude}');
+  // }
+
+
 
   @override
   void initState() {
@@ -128,10 +240,20 @@ class _DashboardScreenState extends State<DashboardScreen>
         await Provider.of<UserImageViewModel>(context, listen: false).userImage();
         var vm19 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
         await vm19.getData();
-        var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
-        await vm9.getData(vm19.userDetailsList.hospitalNumber);
+        if (this.mounted) {
+
+            var vm9 = Provider.of<NearestAppointmentViewModel>(context, listen: false);
+            await vm9.getData(vm19.userDetailsList.hospitalNumber);
+
+        }
+
+        if(accessTokenVm.accessToken!=null){
+          setDeviceTokenForNotification(doviceToken:await getToken(),accessToken: accessTokenVm.accessToken,userName: vm19.userDetailsList.hospitalNumber,userNo: vm19.userDetailsList.ssModifier.toString());
+        }
       });
     }
+    // var vm20 = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
+    // vm20.getData();
     var vm = Provider.of<HospitalListViewModel>(context, listen: false);
     vm.getData();
     var vm2 = Provider.of<NewsViewModel>(context, listen: false);
@@ -150,8 +272,15 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm8 = Provider.of<BLogLogoViewModel>(context, listen: false);
     vm8.getData();
 
+    // var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
+    // vm9.getData(userLatitude: _currentPosition?.latitude,userLongitude: _currentPosition?.longitude);
+    // print('Jahid ${_currentPosition?.longitude}');
+    // Future.delayed(Duration.zero, () async {
+    //
+    // });
 
-    lastTme();
+
+    //lastTme();
    // controller = CountdownTimerController(endTime: lasTtimerr!=null?lasTtimerr:DateTime.now().millisecondsSinceEpoch);
 
     super.initState();
@@ -204,6 +333,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     var vm6 = Provider.of<HospitalImageViewModel>(context);
     var vm7 = Provider.of<NewsLogoViewModel>(context);
     var vm8 = Provider.of<BLogLogoViewModel>(context);
+
+    var vm9 = appNavigator.getProviderListener<NearestHospitalViewModel>();
 
 
     // List<Item> list5 = vm5.hospitalLogoList;
@@ -320,7 +451,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   title:  Text(
                    vm19.userDetailsList==null?StringResources.dasboardAppBarText:'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
                     style: GoogleFonts.poppins(
-                        fontSize: isTablet? 18 : width<=320 ? 13 : 15, fontWeight: FontWeight.w600),
+                        fontSize: isTablet? 18 : width<=330 ? 10 : 15, fontWeight: FontWeight.w600),
                   ),
                   actions: [
                     Padding(
@@ -375,39 +506,54 @@ class _DashboardScreenState extends State<DashboardScreen>
                                   // ),
                                 ],
                               ))
-                          : GestureDetector(
-                              onTap: () {
-                                showAlert(context);
-                                // showDialog(context: context, builder: (context) => carDialog);
-                              },
-                        key: Key("userAvatarKey"),
-                              child: photo != ""
-                                  ? Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white),
-                                    //color: AppTheme.appbarPrimary,
-                                    shape: BoxShape.circle,
+                          : Row(
+                            children: [
+                              GestureDetector(onTap: (){
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: NotificationScreen(),
                                   ),
-                                  height: isTablet? 40 :  width<=330 ? 30 : 35,
-                                  width: isTablet? 40 : width<=330 ? 30 : 35,
-                                  child: Center(
-                                      child: vm10.loadProfileImage(photo, width<=330 ? 28.5 :33.5, width<=330 ? 30 :35,50)
-                                  ))
-                                  : Container(
+                                );
+                              },child: Icon(Icons.notifications)),
+                              SizedBox(width: 10,),
+                              GestureDetector(
+                                  onTap: () {
+                                    showAlert(context);
+                                    // showDialog(context: context, builder: (context) => carDialog);
+                                  },
+                        key: Key("userAvatarKey"),
+                                  child: photo != ""
+                                      ? Container(
                                       decoration: BoxDecoration(
-                                        color: AppTheme.appbarPrimary,
+                                        border: Border.all(color: Colors.white),
+                                        //color: AppTheme.appbarPrimary,
                                         shape: BoxShape.circle,
                                       ),
-                                      height:isTablet? 32 : width<=330 ? 27 :32,
-                                      width: isTablet? 32 : width<=330 ? 27 :32,
+                                      height: isTablet? 40 :  width<=330 ? 25 : 30,
+                                      width: isTablet? 40 : width<=330 ? 25 : 30,
                                       child: Center(
-                                        child: Image.asset(
-                                          'assets/images/dPro.png',
-                                          height: isTablet? 22 :width<=330 ? 18 :22,
-                                          width: isTablet? 22 :width<=330 ? 18 : 22,
-                                        ),
-                                      )),
-                            ),
+                                          child: vm10.loadProfileImage(photo, width<=330 ? 28.5 :33.5, width<=330 ? 30 :35,50)
+                                      ))
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.appbarPrimary,
+                                            shape: BoxShape.circle,
+                                              border: Border.all(color: Colors.white)
+                                          ),
+                                          height:isTablet? 32 : width<=330 ? 25 :30,
+                                          width: isTablet? 32 : width<=330 ? 25 :30,
+                                          child: Center(
+                                            child: Image.asset(
+                                              'assets/images/dPro.png',
+                                              height: isTablet? 22 :width<=330 ? 18 :22,
+                                              width: isTablet? 22 :width<=330 ? 18 : 22,
+                                            ),
+                                          )),
+                                ),
+                            ],
+                          ),
                     )
                   ],
                   backgroundColor: Colors.transparent,
@@ -489,13 +635,16 @@ class _DashboardScreenState extends State<DashboardScreen>
                                           top: 18, left: 20.0, right: 20),
                                       child: Row(
                                         children: [
-                                          Text(
-                                            StringResources
-                                                .esayDoctorAppointmentText,
-                                            key: Key('easyDoctorTextKey'),
-                                            style: GoogleFonts.poppins(
-                                                fontSize: isTablet? 18 : width<330 ?  16 : 17,
-                                                fontWeight: FontWeight.w600),
+                                          Container(
+                                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*.65),
+                                            child: Text(
+                                              StringResources
+                                                  .esayDoctorAppointmentText,
+                                              key: Key('easyDoctorTextKey'),
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: isTablet? 18 : width<330 ?  16 : 17,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
                                           ),
                                           Spacer(),
                                           Container(
@@ -506,7 +655,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                   ? 60
                                                   : 85,
                                               child: Image.asset(
-                                                  "assets/images/my_health_logo.png")),
+                                                  "assets/images/official_logo.png")),
                                         ],
                                       ),
                                     ),
@@ -545,6 +694,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               children: [
                                                 Text(
                                                   StringResources.searchBoxHint,
+                                                  key: Key('dashboardSearchKey'),
                                                   style: TextStyle(
                                                     color: Colors.grey[400],
                                                     fontSize: width >= 400
@@ -570,7 +720,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                       height: 15,
                                     ),
                                     accessTokenVm.accessToken == null || vm15.nearestAppointmentDetails==null
-                                        ? Container()
+                                        ? SizedBox()
                                         : CustomCardPat(
                                       titleText: isTablet? "You have an upcoming appointment.":"You have an \nupcoming appointment.",
                                       subTitleText:  vm15.nearestAppointmentDetails==null?'Loading':DateUtil().formattedDate(DateTime.parse(vm15.nearestAppointmentDetails.startTime).toLocal()),
@@ -608,10 +758,11 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            HospitalScreen()));
+                                                            HospitalScreen(locationData: widget.locationData,hospitalList2: vm9.hospitalList2,)));
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('hospitalViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -624,6 +775,104 @@ class _DashboardScreenState extends State<DashboardScreen>
                                     SizedBox(
                                       height: 10,
                                     ),
+                                    widget.locationData!=null?vm9.shouldShowPageLoader ||
+                                        vm5.shouldShowPageLoader ||
+                                        vm6.shouldShowPageLoaderForImage
+                                        ? SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Container(
+                                          width: 1510,
+                                          height:  120.0,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.grey[300],
+                                            highlightColor: Colors.white,
+                                            child: Row(
+                                                children: List.generate(
+                                                    5,
+                                                        (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ),
+                                        ),
+                                      ),
+                                    ) : SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 18.0,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            ...List.generate(
+                                                vm9.hospitalList2.length,
+                                                    (i) {
+                                                  int index = vm5
+                                                      .hospitalLogoList
+                                                      .indexWhere((element) =>
+                                                  element.id ==
+                                                      vm9.hospitalList2[i].id);
+                                                  int imageindex = vm6
+                                                      .hospitalImageList
+                                                      .indexWhere((element) =>
+                                                  element.id ==
+                                                      vm9.hospitalList2[i].id);
+                                                  return CustomCard(
+                                                    loadLogo(vm5
+                                                        .hospitalLogoList[
+                                                    index]
+                                                        .photoLogo),
+                                                    vm6
+                                                        .hospitalImageList[
+                                                    imageindex]
+                                                        .photoImg !=
+                                                        null
+                                                        ? loadImage(vm6
+                                                        .hospitalImageList[
+                                                    imageindex]
+                                                        .photoImg)
+                                                        : loadLogo(vm5
+                                                        .hospitalLogoList[
+                                                    index]
+                                                        .photoLogo),
+                                                    vm9.hospitalList2[i].companyName,
+                                                    vm9.hospitalList2[i].companyAddress ==
+                                                        null
+                                                        ? "Mirpur,Dahaka,Bangladesh"
+                                                        : vm9.hospitalList2[i]
+                                                        .companyAddress,
+                                                    "60 Doctors",
+                                                    vm9.hospitalList2[i].companyPhone ==
+                                                        null
+                                                        ? "+880 1962823007"
+                                                        : vm9.hospitalList2[i]
+                                                        .companyPhone,
+                                                    vm9.hospitalList2[i].companyEmail ==
+                                                        null
+                                                        ? "info@mysoftitd.com"
+                                                        : vm9.hospitalList2[i]
+                                                        .companyEmail,
+                                                    vm9.hospitalList2[i].companyLogo,
+                                                    vm9.hospitalList2[i].companyId,
+                                                    vm9.hospitalList2[i].ogNo.toString(),
+                                                    vm9.hospitalList2[i].id.toString(),
+                                                    i.toString()
+                                                  );
+                                                }),
+                                          ],
+                                        ),
+                                      ),
+                                    ):
                                     vm.shouldShowPageLoader ||
                                             vm5.shouldShowPageLoader ||
                                             vm6.shouldShowPageLoaderForImage
@@ -715,6 +964,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                       list[i].companyId,
                                                       list[i].ogNo.toString(),
                                                       list[i].id.toString(),
+                                                      i.toString()
                                                     );
                                                   }),
                                                 ],
@@ -722,7 +972,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             ),
                                           ),
                                     SizedBox(
-                                      height: 20,
+                                      height: 10,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -753,6 +1003,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('newsViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -842,7 +1093,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                                       .toLocal()),
                                                               list2[i].title,
                                                               list2[i]
-                                                                  .newsLink);
+                                                                  .newsLink,
+                                                          index.toString()
+                                                          );
                                                         },
                                                       ),
                                                     ],
@@ -860,6 +1113,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         children: [
                                           Text(
                                             "MyHealthBD Blog",
+                                            key: Key('myHealthBolgKey'),
                                             style: GoogleFonts.poppins(
                                                 fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
@@ -882,6 +1136,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                               },
                                               child: Text(
                                                 StringResources.viewAllText,
+                                                key: Key('blogViewAllKey'),
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("#8592E5"),
                                                     fontSize: isTablet? 15 : 11,
@@ -945,6 +1200,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                         .newsList[index].title,
                                                     news: vm4.newsList[index]
                                                         .blogDetail,
+                                                    index:  i.toString(),
                                                   );
                                                 },
                                                 scrollDirection:
@@ -963,6 +1219,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                         children: [
                                           Text(
                                             "MyHealthBD Videos",
+                                            key: Key('myHealthVideoKey'),
                                             style: GoogleFonts.poppins(
                                                 fontSize: isTablet? 18 :MediaQuery.of(context)
                                                             .size
@@ -985,6 +1242,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                             },
                                             child: Text(
                                               StringResources.viewAllText,
+                                              key: Key('videoViewAllKey'),
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("#8592E5"),
                                                   fontSize: isTablet? 15 : 11,
@@ -1054,7 +1312,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                           .videoId,
                                                       list3[index]
                                                           .snippet
-                                                          .description);
+                                                          .description,
+                                                  index.toString()
+                                                  );
                                                 },
                                                 scrollDirection:
                                                     Axis.horizontal,
@@ -1107,29 +1367,29 @@ class _DashboardScreenState extends State<DashboardScreen>
     );
   }
 
-  Widget _backgroundImage() {
-    var width = MediaQuery.of(context).size.width;
-    return Container(
-      // decoration: BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: BorderRadius.all(Radius.circular(30))),
-
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        image: DecorationImage(
-            image: AssetImage("assets/images/dashboardNoewImage.png"),
-            fit: BoxFit.fill),
-      ),
-      height: width<=1250 && width>=1000 ?  380: 250,
-      //width: double.infinity,
-      // child: FadeInImage(
-      //   fit: BoxFit.cover,
-      //   image:AssetImage("assets/images/dashboard_back.png"),
-      //   placeholder: AssetImage(''),
-      // ),
-    );
-  }
+  // Widget _backgroundImage() {
+  //   var width = MediaQuery.of(context).size.width;
+  //   return Container(
+  //     // decoration: BoxDecoration(
+  //     //     color: Colors.white,
+  //     //     borderRadius: BorderRadius.all(Radius.circular(30))),
+  //
+  //     decoration: const BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.all(Radius.circular(30)),
+  //       image: DecorationImage(
+  //           image: AssetImage("assets/images/dashboardNoewImage.png"),
+  //           fit: BoxFit.fill),
+  //     ),
+  //     height: width<=1250 && width>=1000 ?  380: 250,
+  //     //width: double.infinity,
+  //     // child: FadeInImage(
+  //     //   fit: BoxFit.cover,
+  //     //   image:AssetImage("assets/images/dashboard_back.png"),
+  //     //   placeholder: AssetImage(''),
+  //     // ),
+  //   );
+  // }
 
   Widget _backgroundImage2() {
     var width = MediaQuery.of(context).size.width;

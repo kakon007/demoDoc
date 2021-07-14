@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view
 import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/app_version.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,9 +41,9 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String url1='https://qa.myhealthbd.com:9096/medicare-web-client-v2/#/myhealthbd/contact';
-    String url2='https://qa.myhealthbd.com:9096/medicare-web-client-v2/#/myhealthbd/policy';
-    String url3='https://qa.myhealthbd.com:9096/medicare-web-client-v2/#/myhealthbd/about';
+    String url1='${Urls.baseUrl}medicare-web-client-v2/#/myhealthbd/contact';
+    String url2='${Urls.baseUrl}medicare-web-client-v2/#/myhealthbd/policy';
+    String url3='${Urls.baseUrl}medicare-web-client-v2/#/myhealthbd/about';
     var vm = Provider.of<UserDetailsViewModel>(context);
     Obj userDetails = vm.userDetailsList;
     return Scaffold(

@@ -6,10 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/features/my_health/models/file_type_model.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class FileTypeRepository {
   Future<Either<AppError, FileM>> fetchFileType(String accessToken) async {
-    var url = "https://qa.myhealthbd.com:9096/diagnostic-api/api/file-attachment/type-list";
+    var url = "${Urls.baseUrl}diagnostic-api/api/file-attachment/type-list";
     // List<Item> dataList = new List<Item>();
 
     try {

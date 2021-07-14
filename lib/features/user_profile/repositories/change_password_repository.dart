@@ -9,16 +9,17 @@ import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.da
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 
 class ChangePasswordRepository {
   Future<Either<AppError, ChangePasswordModel>> fetchPassword(String accessToken,
       String newPassword, String confirmPassword, String currentPassword) async {
-    var url = 'https://qa.myhealthbd.com:9096/auth-api/api/changePassword';
+    var url = '${Urls.baseUrl}auth-api/api/changePassword';
     var headers = {'Authorization': 'Bearer $accessToken', 'Content-Type': 'application/json'};
 
     try {
       final http.Response response = await http.post(
-        Uri.parse('https://qa.myhealthbd.com:9096/auth-api/api/changePassword'),
+        Uri.parse('${Urls.baseUrl}auth-api/api/changePassword'),
         headers: headers,
         body: jsonEncode(<String, String>{
           "newPassword": newPassword,

@@ -47,6 +47,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
             20,
           )),
       width: isTablet? 420 : width < 330 ? 300 : 320.0,
+          constraints: BoxConstraints(minHeight: isTablet? 165 : 130,),
       height: isTablet? 400  : width < 330 ? 280 : 300.0,
       child: Stack(
         children: [
@@ -59,7 +60,8 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                     bottom: BorderSide(width: 0.5, color: Colors.grey),
                   ),
                 ),
-                height: isTablet? 200  : width < 330 ? 140 : 150.0,
+                constraints: BoxConstraints(minHeight: isTablet? 200  : width < 330 ? 140 : 150.0,),
+              //  height: isTablet? 200  : width < 330 ? 140 : 150.0,
                 child: Padding(
                   padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
                   child: Column(
@@ -122,17 +124,27 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                vm.userDetailsList?.fname ?? '',
-                                style: GoogleFonts.poppins(
-                                    color: AppTheme.appbarPrimary,
-                                    fontSize: isTablet? 20 :width < 330 ? 16 : 18,
-                                    fontWeight: FontWeight.w400),
+                              Container(
+                                width: 200,
+                                child: Text(
+                                  vm.userDetailsList?.fname ?? '',
+                                  style: GoogleFonts.poppins(
+                                      color: AppTheme.appbarPrimary,
+                                      fontSize: isTablet? 20 :width < 330 ? 16 : 18,
+                                      fontWeight: FontWeight.w400),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
                               ),
-                              Text(
-                                vm.userDetailsList?.address ?? '',
-                                style: GoogleFonts.poppins(
-                                    color: HexColor("#8592E5"), fontSize: isTablet? 16 :13),
+                              Container(
+                                width: 190,
+                                child: Text(
+                                  vm.userDetailsList?.hospitalNumber ?? 'Loading....',
+                                  style: GoogleFonts.poppins(
+                                      color: HexColor("#8592E5"), fontSize: isTablet? 16 :13),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
                               ),
                               SizedBox(
                                 height: isTablet? 10 :width < 330 ? 5 : 8,
@@ -158,7 +170,8 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                               )));
                                 },
                                 child: Container(
-                                  width: isTablet? 200 :width<330 ? 150 : 160,
+                                  constraints: BoxConstraints(minWidth: isTablet? 200 :width<330 ? 150 : 160,),
+                                  //width: isTablet? 200 :width<330 ? 150 : 160,
                                   height: isTablet? 35 :26,
                                   decoration: BoxDecoration(
                                     border: Border.all(

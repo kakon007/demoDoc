@@ -19,6 +19,7 @@ import 'package:myhealthbd_app/features/my_health/view_model/search_doctor_view_
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:myhealthbd_app/features/my_health/models/shared_file_model.dart';
@@ -55,7 +56,7 @@ class _ShareDocumentState extends State<ShareDocument> {
     var headers = {
       'Authorization': 'Bearer $accessToken'
     };
-    var request = http.MultipartRequest('DELETE', Uri.parse('https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/delete?id=$id'));
+    var request = http.MultipartRequest('DELETE', Uri.parse('${Urls.baseUrl}diagnostic-api/api/file-shared/delete?id=$id'));
 
     request.headers.addAll(headers);
 
@@ -74,7 +75,7 @@ class _ShareDocumentState extends State<ShareDocument> {
       {int fileNoArr,
       int regNo,
       int shareType,
-      int doctorNoArr,
+      List<int> doctorNoArr,
       String note}) async {
     var accessToken = await Provider.of<AccessTokenProvider>(
             appNavigator.context,
@@ -87,12 +88,13 @@ class _ShareDocumentState extends State<ShareDocument> {
     var request = http.Request(
         'POST',
         Uri.parse(
-            'https://qa.myhealthbd.com:9096/diagnostic-api/api/file-shared/create'));
+            '${Urls.baseUrl}diagnostic-api/api/file-shared/create'));
     request.body =
-        '''{\n "fileNoArr": [$fileNoArr],\n "regNo": $regNo,\n "shareType": $shareType,\n "doctorNoArr": [$doctorNoArr],\n "activeStat": 1,\n "remarks": "$note"\n}\n''';
+        '''{\n "fileNoArr": [$fileNoArr],\n "regNo": $regNo,\n "shareType": $shareType,\n "doctorNoArr": $doctorNoArr,\n "activeStat": 1,\n "remarks": "$note"\n}\n''';
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
+    print('Resss:: ${response.statusCode}');
     print('Resss:: ${response.statusCode}');
     print('Resss:: $fileNoArr');
     print('Resss:: $shareType');
@@ -130,6 +132,8 @@ class _ShareDocumentState extends State<ShareDocument> {
     removeData();
     var vm2 = appNavigator.getProviderListener<SearchDoctorViewModel>();
     vm2.docNull('');
+    vm2.doctorInfo.clear();
+    vm2.doctorNo.clear();
     // var vm2 = Provider.of<SearchDoctorViewModel>(context, listen: false);
     // vm2.getData();
     // Future.delayed(Duration.zero,()async{
@@ -241,71 +245,7 @@ class _ShareDocumentState extends State<ShareDocument> {
       ],
     );
 
-    // var searchDropdown = Row(
-    //   children: [
-    //     GestureDetector(
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           // Container(
-    //           //     height: 35.0,
-    //           //     width: MediaQuery.of(context).size.width*.6,
-    //           //     child: Padding(
-    //           //       padding: const EdgeInsets.only(top:8.0,left:5,right:10),
-    //           //       child: Text("Document Type",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: HexColor('#333132'),fontSize: 12),),
-    //           //     )),
-    //           Container(
-    //             height: 70.0,
-    //             width:MediaQuery.of(context).size.width*.89,
-    //             decoration: BoxDecoration(
-    //                 color: Colors.transparent,
-    //                 border: Border.all(color: HexColor(color)),
-    //                 borderRadius: BorderRadius.circular(25)),
-    //             child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               children: [
-    //                 Stack(
-    //                   children: [
-    //                     Padding(
-    //                       padding: const EdgeInsets.only(left: 15.0),
-    //                       child: Container(
-    //                         width: 280,
-    //                         child:
-    //                         SearchableDropdown(
-    //                           items: StringResources.memberList.map((item) {
-    //                             return  DropdownMenuItem(
-    //                                 child: Text(item), value: item);
-    //                           }).toList(),
-    //                           isExpanded: true,
-    //                           value: selectedSearchValue,
-    //                           isCaseSensitiveSearch: true,
-    //                           searchHint:  Text(
-    //                             'Select ',
-    //                             style:  TextStyle(fontSize: 20),
-    //                           ),
-    //                           onChanged: (value) {
-    //                             setState(() {
-    //                               selectedSearchValue = value;
-    //                               print("search Value:: $selectedSearchValue");
-    //                             });
-    //                           },
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     // Padding(
-    //                     //   padding: EdgeInsets.only(left: MediaQuery.of(context).size.width*.75, top: 5),
-    //                     //   child: Icon(Icons.keyboard_arrow_down_sharp, color: HexColor("#8592E5"),size: 30,),
-    //                     // ),
-    //                   ],
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
+
 
     var shareType = Row(
       children: [
@@ -356,6 +296,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                             onChanged: (newValue) {
                               setState(() {
                                 vm2.docNull('');
+                                vm2.doctorInfo.clear();
+                                vm2.doctorNo.clear();
                                 _selectedName=null;
                                 _selectedSharedtype = newValue;
                                 print('SelectValue::::: $_selectedSharedtype');
@@ -425,91 +367,102 @@ class _ShareDocumentState extends State<ShareDocument> {
         ),
       ),
     );
+
+
     var doctorCard=
-    Container( decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: Colors.grey.withOpacity(0.3)),
-    ),
-      // margin: EdgeInsets.only(top: 5, bottom: 5),
-      height: 70,
-      width: MediaQuery.of(context).size.width*.89,
-      child:Row(
-        children: [
-          SizedBox(
-            width: 10,
-          ),
-          vm2.image != null
-              ? Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: AppTheme.appbarPrimary),
-                //color: AppTheme.appbarPrimary,
-                shape: BoxShape.circle,
-              ),
-              height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
-              width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
-              child: Center(
-                  child: loadProfileImage(vm2.image, 45, 45,50)
-              ))
-              : Container(
-              decoration: BoxDecoration(
-                color: AppTheme.appbarPrimary,
-                shape: BoxShape.circle,
-              ),
-              height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
-              width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
-              child: Center(
-                child: Image.asset(
-                  'assets/icons/dct.png',
-                  height:isTablet? 32 :deviceWidth<=330 ? 22 :  28,
-                  width: isTablet? 32 : width<=330 ? 22 : 28,
-                ),
-              )),
-          SizedBox(
-            width: 20,
-          ),
-          Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width:deviceWidth<=330?200: 220,
-                    child: Text(
-                      vm2.doctorName==null?'Loading':vm2.doctorName,
-                      style: GoogleFonts.poppins(
-                          color: HexColor("#0D1231"),
-                          fontSize:  deviceWidth <=330? 12 : 16,
-                          fontWeight: FontWeight.w500),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  GestureDetector(onTap: (){
-                    setState(() {
-                      vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
-                    });
-                    print('Tapped on cross');
-                  },child: Icon(Icons.close)),
-                ],
-              ),
-              Container(
-                width:deviceWidth<=330?200: 220,
-                child: Text(
-                  vm2.spName==null?'Loading':vm2.spName,
-                  style: GoogleFonts.poppins(
-                    fontSize:  deviceWidth <=330? 12 : 16,
-                    color: AppTheme.appbarPrimary,),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
-            ],
-          ),
-        ],
-      ) ,);
+   Container(
+     height:deviceWidth<=330?90:100,width: deviceWidth<=330?275:338,child: ListView.builder(itemCount: vm2.doctorInfo.length,itemBuilder:(_,index){
+     return Container( decoration: BoxDecoration(
+       color: Colors.white,
+       borderRadius: BorderRadius.circular(10),
+       border: Border.all(color: Colors.grey.withOpacity(0.3)),
+     ),
+       // margin: EdgeInsets.only(top: 5, bottom: 5),
+       height: 70,
+       width: MediaQuery.of(context).size.width*.89,
+       child:Row(
+         children: [
+           SizedBox(
+             width: 10,
+           ),
+           vm2.doctorInfo[index].photo != null
+               ? Container(
+               decoration: BoxDecoration(
+                 border: Border.all(color: AppTheme.appbarPrimary),
+                 //color: AppTheme.appbarPrimary,
+                 shape: BoxShape.circle,
+               ),
+               height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+               width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
+               child: Center(
+                   child: loadProfileImage(vm2.doctorInfo[index].photo, 45, 45,50)
+               ))
+               : Container(
+               decoration: BoxDecoration(
+                 color: AppTheme.appbarPrimary,
+                 shape: BoxShape.circle,
+               ),
+               height: isTablet? 55 :deviceWidth<=330 ? 40 : 50,
+               width:isTablet? 55 :deviceWidth<=330 ? 40 :  50,
+               child: Center(
+                 child: Image.asset(
+                   'assets/icons/dct.png',
+                   height:isTablet? 32 :deviceWidth<=330 ? 22 :  28,
+                   width: isTablet? 32 : width<=330 ? 22 : 28,
+                 ),
+               )),
+           SizedBox(
+             width: 20,
+           ),
+           Column(
+             crossAxisAlignment:
+             CrossAxisAlignment.start,
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Row(
+                 children: [
+                   Container(
+                     width:deviceWidth<=330?160: 220,
+                     child: Text(
+                       vm2.doctorInfo[index].doctorName==null?'Loading':vm2.doctorInfo[index].doctorName,
+                       style: GoogleFonts.poppins(
+                           color: HexColor("#0D1231"),
+                           fontSize:  deviceWidth <=330? 12 : 16,
+                           fontWeight: FontWeight.w500),
+                       maxLines: 1,
+                       overflow: TextOverflow.ellipsis,
+                     ),
+                   ),
+                   GestureDetector(onTap: (){
+                     setState(() {
+                       // vm2.adDoctorsInfo(isSelected: false,selectedCard: -1,doctorNo: null,hospitalName: '',doctorName: '',image: '',spName: '');
+                       vm2.doctorInfo.removeAt(index);
+                       vm2.doctorNo.removeAt(index);
+                       // vm2.doctorNo.clear();
+                        if(vm2.doctorInfo.length==0){
+                          vm2.docNull('');
+                        }
+                     });
+                     print('Tapped on cross');
+                   },child: Icon(Icons.close)),
+                 ],
+               ),
+               Container(
+                 width:deviceWidth<=330?200: 220,
+                 child: Text(
+                   vm2.doctorInfo[index].specializationName==null?'Loading':vm2.doctorInfo[index].specializationName,
+                   style: GoogleFonts.poppins(
+                     fontSize:  deviceWidth <=330? 12 : 16,
+                     color: AppTheme.appbarPrimary,),
+                   maxLines: 1,
+                   overflow: TextOverflow.ellipsis,
+                 ),
+               )
+             ],
+           ),
+         ],
+       ) ,);
+   }),);
 
 
     var doctorCardForAllDoc = Container(
@@ -571,7 +524,7 @@ class _ShareDocumentState extends State<ShareDocument> {
           Container(
             height: _selectedSharedtype == null
                 ?deviceWidth<=360 ? height*.65 :  height * .42
-                : deviceWidth<=360 ? height * .8 : height * .60,
+                : deviceWidth<=360 ? height * .8 : height * .62,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25), topRight: Radius.circular(25)),
@@ -759,8 +712,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                             //             }),
                             //       ),
                             // ),
-                           vm2.doctorName!='' || vm2.hospitalName!=''?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox.shrink(),
-                            horizontalSpace,
+                            vm2.doctorName!='' || vm2.hospitalName!=''?doctorCard:_selectedSharedtype=='Share With All'?doctorCardForAllDoc:SizedBox.shrink(),
+                            _selectedSharedtype==null?SizedBox.shrink():horizontalSpace,
                             writeDetailsField,
                             horizontalSpace,
                           ],
@@ -908,7 +861,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                           SVProgressHUD.show(status: "Sharing");
                           if(_selectedSharedtype == "Share With Selective Doctor(s)"){
                             _selectedName == null ||
-                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital Name and Doctor'):await sharedFile(
+                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital and Doctor'):await sharedFile(
                                 fileNoArr: vm10.fileNo,
                                 regNo: vm10.regId,
                                 shareType:
@@ -927,7 +880,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                           SVProgressHUD.dismiss();
                           if(_selectedSharedtype == "Share With Selective Doctor(s)"){
                             _selectedName == null ||
-                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital Name'):Future.delayed(Duration.zero, () async {
+                                vm2.doctorName == ''?Fluttertoast.showToast(msg: 'Please Select Hospital and Doctor'):Future.delayed(Duration.zero, () async {
                               // setState(() {
                               //   // file==null && _image==null?Loader():
                               //   // Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -1004,7 +957,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                   vm10.sharedFileList==null?Center(child: Text("No Share History Yet.")):
                   Column(
                     children: <Widget>[
-                      vm10.sharedFileList==null?Text("No Share History Yet."):ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
+                      vm10.sharedFileList==null?Text("No Share History Yet."):
+                      ListView.builder(physics: NeverScrollableScrollPhysics(),itemCount: vm10.sharedFileList.length,shrinkWrap: true,itemBuilder: (BuildContext context,index){
                         var photo = vm10.sharedFileList[index]?.photo ?? "";
                         return  Padding(padding: EdgeInsets.only(top: 5, bottom: 5),child:
                         Container(
@@ -1050,8 +1004,10 @@ class _ShareDocumentState extends State<ShareDocument> {
                                           width: isTablet? 32 : deviceWidth<=330 ? 25 : 28,
                                         ),
                                       )),
+                                  SizedBox(width: 5,),
                                   Container(
-                                      height: 50,
+                                      constraints: BoxConstraints(minHeight: 50,),
+                                      // height: 50,
                                       width: deviceWidth<=330 ? 135 : 160,
                                       child: Center(
                                           child: Column(
@@ -1063,7 +1019,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                                                 height: 7,
                                               ),
                                               Container(
-                                                width: 120,
+                                                constraints: BoxConstraints(minWidth: 120,),
+                                                //width: 120,
                                                 child: Text(
                                                     vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
                                                     maxLines: 1,
@@ -1076,7 +1033,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                                                             .w500)),
                                               ),
                                               Container(
-                                                width: 120,
+                                                constraints: BoxConstraints(minWidth: 120,),
                                                 child: Text(
                                                     vm10.sharedFileList[index].companyName==null?'No Hospital Name Available':vm10.sharedFileList[index].companyName,
                                                     maxLines: 1,
@@ -1095,86 +1052,91 @@ class _ShareDocumentState extends State<ShareDocument> {
                             // SizedBox(
                             //   width: 3,
                             // ),
+                                vm10.sharedFileList[index].isEdit? Padding(
+                         padding: const EdgeInsets.only(right:8.0),
+                         child: Row(
+                           children: [
+                             GestureDetector(
+                                onTap: ()async{
 
-                       isRemove? Row(
-                         children: [
-                           GestureDetector(
-                              onTap: ()async{
+                                  var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+                                  SVProgressHUD.show(
+                                    status: 'Deleting'
+                                  );
+                                  await removeData(id:vm10.sharedFileList[index].id);
+                                  SVProgressHUD.dismiss();
 
-                                var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
-                                SVProgressHUD.show(
-                                  status: 'Deleting'
-                                );
-                                await removeData(id:vm10.sharedFileList[index].id);
-                                SVProgressHUD.dismiss();
+                                  Future.delayed(Duration.zero, () async {
+                                    setState(() {
+                                      // file==null && _image==null?Loader():
+                                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                      //     builder: (BuildContext context) =>
+                                      //     // DoctorHomeScreen(
+                                      //     HomeScreen(
+                                      //       accessToken: accessToken,
+                                      //     )));
+                                      Navigator.pop(context);
+                                    });
 
-                                Future.delayed(Duration.zero, () async {
-                                  setState(() {
-                                    // file==null && _image==null?Loader():
-                                    // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                                    //     builder: (BuildContext context) =>
-                                    //     // DoctorHomeScreen(
-                                    //     HomeScreen(
-                                    //       accessToken: accessToken,
-                                    //     )));
-                                    Navigator.pop(context);
                                   });
 
-                                });
+                                },
+                              child: Container(
+                              decoration: BoxDecoration(
+                              color: HexColor("#FFA7A7"),
+                              borderRadius: BorderRadius.circular(8),
+                              ),
+                                constraints: BoxConstraints(minWidth: deviceWidth<=330 ? 45: 55,),
+                              height: 30,
+                             // width:deviceWidth<=330 ? 45: 55,
+                              child: Center(
+                              child: Text(
+                              "Confirm",
+                              style:
+                              GoogleFonts.poppins(
+                              fontSize: deviceWidth<=330 ? 9 : 11,color:Colors.white ),
+                              ),
+                              ),
+                              ),
+                              ),
 
-                              },
-                            child: Container(
-                            decoration: BoxDecoration(
-                            color: HexColor("#FFA7A7"),
-                            borderRadius: BorderRadius.circular(8),
-                            ),
-                            height: 30,
-                            width:deviceWidth<=330 ? 45: 55,
-                            child: Center(
-                            child: Text(
-                            "Confirm",
-                            style:
-                            GoogleFonts.poppins(
-                            fontSize: deviceWidth<=330 ? 9 : 11,color:Colors.white ),
-                            ),
-                            ),
-                            ),
-                            ),
+                              SizedBox(width: 5,),
+                             GestureDetector(
+                               onTap: ()async{
 
-                            SizedBox(width: 5,),
-                           GestureDetector(
-                             onTap: ()async{
+                                 setState(() {
+                                   //isRemove=false;
+                                   vm10.isEdit(index);
+                                 });
 
-                               setState(() {
-                                 isRemove=false;
-                               });
-
-                             },
-                             child: Container(
-                               decoration: BoxDecoration(
-                                 color: HexColor("#8592E5"),
-                                 borderRadius: BorderRadius.circular(8),
-                               ),
-                               height: 30,
-                               width: deviceWidth<=330 ? 45 : 55,
-                               child: Center(
-                                 child: Text(
-                                   "Cancel",
-                                   style:
-                                   GoogleFonts.poppins(
-                                       fontSize: deviceWidth<=330 ? 9: 11,color: Colors.white),
+                               },
+                               child: Container(
+                                 decoration: BoxDecoration(
+                                   color: HexColor("#8592E5"),
+                                   borderRadius: BorderRadius.circular(8),
+                                 ),
+                                 height: 30,
+                                 width: deviceWidth<=330 ? 45 : 55,
+                                 child: Center(
+                                   child: Text(
+                                     "Cancel",
+                                     style:
+                                     GoogleFonts.poppins(
+                                         fontSize: deviceWidth<=330 ? 9: 11,color: Colors.white),
+                                   ),
                                  ),
                                ),
                              ),
-                           ),
-                         ],
+                           ],
+                         ),
                        ):Padding(
-                         padding: const EdgeInsets.only(left:8.0),
+                         padding: const EdgeInsets.only(right:8.0),
                          child: GestureDetector(
                            onTap: (){
 
                              setState(() {
-                               isRemove=true;
+                               //isRemove=true;
+                               vm10.isEdit(index);
                              });
 
                            },
@@ -1183,8 +1145,9 @@ class _ShareDocumentState extends State<ShareDocument> {
                                color: HexColor("#FFA7A7"),
                                borderRadius: BorderRadius.circular(8),
                              ),
-                             height: 40,
-                             width: deviceWidth<=330? 85 : 100,
+                             constraints: BoxConstraints(minWidth:deviceWidth<=330? 85 : 100,),
+                              height: 40,
+                             //width: deviceWidth<=330? 85 : 100,
                              child: Center(
                                child: Text(
                                  "Remove Access",

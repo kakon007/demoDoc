@@ -123,7 +123,52 @@ class BookAppointmentViewModel extends ChangeNotifier {
   //     notifyListeners();
   //   });
   // }
-
+//   Future<void> getAppointData(
+//   {
+//     String doctorNo,
+//     String appointDate,
+//     String shiftdtlNo,
+//     String regNo,
+//     String patientType,
+//     String salutation,
+//     String fname,
+//     String phoneMobile,
+//     String email,
+//     String dob,
+//     String ageDd,
+//     String ageMm,
+//     String ageYy,
+//     String gender,
+//     String mStatus,
+//     String bloodGroup,
+//     String address,
+//     String consultationType,
+//     String appointType,
+//     String appointStatus,
+//     String appFromFlag,
+//     String remarks,
+//     String slotNo,
+//     String slotSl,
+//     String startTime,
+//     String endTime
+// }
+//       ) async {
+//     _isLoading = true;
+//     var res = await BookAppointmentRepository().fetchAppointmentData(doctorNo: doctorNo, appointDate: appointDate, shiftdtlNo: shiftdtlNo, regNo: regNo,patientType: patientType,address: address,ageDd: ageDd,ageMm: ageMm,ageYy: ageYy,appFromFlag: appFromFlag, appointStatus: appointStatus,appointType: appointType,bloodGroup: bloodGroup,consultationType: consultationType, dob: dob,email: email,endTime: endTime,fname: fname,gender: gender,mStatus: mStatus,phoneMobile: phoneMobile,remarks: remarks,salutation: salutation,slotNo: slotNo, slotSl: slotSl,startTime: startTime,);
+//     notifyListeners();
+//     res.fold((l) {
+//       _appError = l;
+//       _isLoading = false;
+//       _isFetchingMoreData = false;
+//       _isLoading= false;
+//       notifyListeners();
+//     }, (r) {
+//       _isFetchingMoreData = false;
+//       _message= r.message;
+//       _isLoading = false;
+//       notifyListeners();
+//     });
+//   }
   Future<void> getAppointData(
       String doctorNo,
       String doctorName,

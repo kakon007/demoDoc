@@ -196,7 +196,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                       )),
                 ),
                 backgroundColor: HexColor('#354291'),
-                expandedHeight: isTablet? 220 : 150.0,
+                expandedHeight: isTablet? 220 : 165.0,
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
@@ -224,7 +224,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 18.0,
+                                      fontSize: 12.0,
                                     )),
                               ),
                               Spacer(),
@@ -352,23 +352,28 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                     width: 5,
                                   ),
                                   Container(
-                                    //width: 105,
-                                    child: SelectableText.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                              text: widget.emailText,
-                                              style: GoogleFonts.poppins(
-                                                color: HexColor('#141D53'),
-                                                fontSize: isTablet? 15 : width <350  ? 9 :11,
-                                              ),
-                                              recognizer: TapGestureRecognizer()
-                                                ..onTap = () {
-                                                  launch(
-                                                      ('mailto://${widget.emailText}'));
-                                                }),
-                                        ],
-                                      ),
+                                    width: 105,
+                                    child: RichText(
+                                      maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                text:
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: widget.emailText,
+                                                style: GoogleFonts.poppins(
+                                                  color: HexColor('#141D53'),
+                                                  fontSize: isTablet? 15 : width <350  ? 9 :11,
+                                                ),
+                                                recognizer: TapGestureRecognizer()
+                                                  ..onTap = () {
+                                                    launch(
+                                                        ('mailto://${widget.emailText}'));
+                                                  }),
+                                          ],
+                                        ),
+
+
                                     ),
                                   ),
                                 ],
@@ -820,9 +825,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             ListTileControlAffinity
                                                                 .leading,
                                                         title: Text(
-                                                          Validator()
-                                                              .capitalizeTheFirstLetterOfEachWord(
-                                                                  item.buName),
+                                                                  item.buName.titleCase,
                                                           style: GoogleFonts.poppins(
                                                               fontSize: isTablet? 18 : 15,
                                                               fontWeight: item

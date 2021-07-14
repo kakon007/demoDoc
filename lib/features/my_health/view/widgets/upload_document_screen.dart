@@ -343,11 +343,12 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                     InkWell(
                       onTap: () {
                         getImage().then((value) => {
-                        _username.text=_image.toString().split('/').last,
+                        _username.text=_image.path.toString().split('/').last,
                         });
                       },
                       child: Container(
-                        height: isTablet ? 200 : cardHeight * 0.9,
+                        constraints: BoxConstraints(minHeight: isTablet ? 200 : cardHeight * 0.9,),
+                        //height: isTablet ? 200 : cardHeight * 0.9,
                         width: isTablet ? 340 : width <= 360 ? width / 2.5 : 160,
                         margin: EdgeInsets.only(
                             top: 8, bottom: 5, right: 12, left: 12),
@@ -390,7 +391,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           child: Center(
                             child: Container(
                               height: isTablet ? 200 : cardHeight * 0.7,
-                              width: isTablet ? 340 : width <= 360 ? width / 2.5 : 140,
+                              width: isTablet ? 340 : width <= 360 ? width / 2.5 : 150,
                               child: Text(
                                 _image.toString().split('/').last,
                                 maxLines: 2,
@@ -422,12 +423,13 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           filesize = file.lengthSync();
                           setState(() {});
                         }
-                        _username.text=file.toString().split('/').last;
+                        _username.text=file.path.split('/').last;
                         print('FileTapped:::');
                       },
                       child: Container(
-                        height: isTablet ? 200 : cardHeight * 0.9,
-                        width: isTablet ? 340 : width <= 360 ? width / 2.5 : 160,
+                        constraints: BoxConstraints(minHeight: isTablet ? 200 : cardHeight * 0.9,),
+                       // height: isTablet ? 200 : cardHeight * 0.9,
+                        width: isTablet ? 340 : width <= 360 ? width / 2.5 : 150,
                         margin: EdgeInsets.only(
                             top: 8, bottom: 5, right: 10, left: 10),
                         decoration: BoxDecoration(
@@ -447,7 +449,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                           // ),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child:file==null? Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -464,27 +466,28 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                               ),
                             )
                           ],
-                        ):Padding(
-                          padding: const EdgeInsets.only(top:40.0),
-                          child: Center(
-                            child: Container(
-                              height: isTablet ? 200 : cardHeight * 0.7,
-                              width: isTablet ? 340 : width <= 360 ? width / 2.5 : 90,
-                              child: Center(
-                                child: Text(
-                                  file.toString().split('/').last,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: isTablet? 20 : width <= 360 ? 10 : 12,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        )
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top:40.0),
+                        //   child: Center(
+                        //     child: Container(
+                        //       height: isTablet ? 200 : cardHeight * 0.7,
+                        //       width: isTablet ? 340 : width <= 360 ? width / 2.5 : 90,
+                        //       child: Center(
+                        //         child: Text(
+                        //           file.path.toString().split('/').last,
+                        //           maxLines: 2,
+                        //           overflow: TextOverflow.ellipsis,
+                        //           style: GoogleFonts.poppins(
+                        //             fontWeight: FontWeight.bold,
+                        //             color: Colors.white,
+                        //             fontSize: isTablet? 20 : width <= 360 ? 10 : 12,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ),
                     ),
                   ],

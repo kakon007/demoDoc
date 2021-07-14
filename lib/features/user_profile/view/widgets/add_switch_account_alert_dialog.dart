@@ -188,10 +188,11 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                                     fontSize: isTablet ? 18 : 15),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
+                    SizedBox(height: 10,),
                   ],
                 ),
               )),

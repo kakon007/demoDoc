@@ -840,7 +840,7 @@ class _UserProfileState extends State<UserProfile> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 22.0, top: 10),
                           child: Text(
-                            "UserName           : ${vm.userDetailsList?.hospitalNumber ?? ""}",
+                            "Username            : ${vm.userDetailsList?.hospitalNumber ?? ""}",
                             style: GoogleFonts.roboto(
                                 color: HexColor('#141D53'),
                                 fontSize: isTablet ? 17 : 15),

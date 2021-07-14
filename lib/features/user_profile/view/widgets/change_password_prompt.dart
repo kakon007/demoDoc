@@ -299,14 +299,12 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                               style: GoogleFonts.poppins(),
                             ),
                           ),
-                        )
-
-                        // submitButton
+                        ), // submitButton
                       ],
                     )
                   ],),
                   ),
-
+                  SizedBox(height: 10,),
                 ],
               ),
             ),

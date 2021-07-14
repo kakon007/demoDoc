@@ -217,6 +217,7 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
                       // submitButton
                     ],
                   ),
+                  SizedBox(height: 10,),
                 ],
               ),
             ),

@@ -203,12 +203,16 @@ class _EditMemberListPromptState extends State<EditMemberListPrompt> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  familyVm.name,
-                                  style: GoogleFonts.poppins(
-                                      color: HexColor("#0D1231"),
-                                      fontSize: isTablet? 18 : 16,
-                                      fontWeight: FontWeight.w500),
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*.55),
+
+                                  child: Text(
+                                    familyVm.name,
+                                    style: GoogleFonts.poppins(
+                                        color: HexColor("#0D1231"),
+                                        fontSize: isTablet? 18 : 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                                 Text(
                                   familyVm.userId,

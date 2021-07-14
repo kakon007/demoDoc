@@ -601,6 +601,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 10,),
                   ],
                 ),
               ),

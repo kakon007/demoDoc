@@ -226,7 +226,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       body: RefreshIndicator(
         onRefresh: () {
           return Provider.of<HospitalListViewModel>(context, listen: false)
-              .refresh();
+              .refresh(force: true);
         },
         child: Padding(
           padding: EdgeInsets.only(

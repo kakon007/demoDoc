@@ -834,6 +834,20 @@ class _UserProfileState extends State<UserProfile> {
                         height: 10,
                       ),
                       Container(
+                        color: HexColor('#F7F8FF'),
+                        height: 40.0,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 22.0, top: 10),
+                          child: Text(
+                            "UserName           : ${vm.userDetailsList?.hospitalNumber ?? ""}",
+                            style: GoogleFonts.roboto(
+                                color: HexColor('#141D53'),
+                                fontSize: isTablet ? 17 : 15),
+                          ),
+                        ),
+                      ),
+                      Container(
                         color: Colors.white,
                         height: 40.0,
                         width: double.infinity,

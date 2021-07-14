@@ -18,11 +18,11 @@ class AppointSuccess extends StatefulWidget {
 
   AppointSuccess(
       {this.startTime,
-      this.slotSl,
-      this.hospitalName,
-      this.doctorName,
-      this.appointDate,
-      this.phoneText
+        this.slotSl,
+        this.hospitalName,
+        this.doctorName,
+        this.appointDate,
+        this.phoneText
       });
 
   @override
@@ -59,9 +59,9 @@ class _AppointSuccessState extends State<AppointSuccess> {
                             0.2,
                             0.5,
                           ], colors: [
-                        HexColor("#D6DCFF"),
-                        HexColor("#FFFFFF"),
-                      ]),
+                            HexColor("#D6DCFF"),
+                            HexColor("#FFFFFF"),
+                          ]),
                     ),
                     child: Column(
                       children: [
@@ -80,7 +80,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(text:  "Booked Successfully!",),
-                                     ],
+                                    ],
                                   ),
                                 ),
                                 // Text(
@@ -155,7 +155,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                 //   ],
                                 // ),
                                 RichText(
-                                  textAlign: TextAlign.center,
+                                  // textAlign: TextAlign.center,
                                   text:  TextSpan(
                                     style:  GoogleFonts.poppins(
                                       fontSize: isTablet? 15 :width<=330?12: 13,
@@ -195,7 +195,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(text:   widget.doctorName,style: GoogleFonts.poppins(color: HexColor('#037BB7')),),
-                                         ],
+                                    ],
                                   ),
                                 ),
                                 // Text(
@@ -205,7 +205,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                 //     fontSize: isTablet? 15 :width<=330?12: 13,),
                                 // ),
                                 RichText(
-                                  textAlign: TextAlign.center,
+                                  // textAlign: TextAlign.center,
                                   text:  TextSpan(
                                     style:  GoogleFonts.poppins(
                                       fontSize: isTablet? 15 :width<=330?12: 13,
@@ -223,7 +223,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                 //     fontSize: isTablet? 15 :width<=330?12: 13,),
                                 // ),
                                 RichText(
-                                  textAlign: TextAlign.center,
+                                  // textAlign: TextAlign.center,
                                   text:  TextSpan(
                                     style:  GoogleFonts.poppins(
                                       fontSize: isTablet? 15 :width<=330?12: 13,
@@ -254,15 +254,15 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                   height: 8,
                                 ),
                                 RichText(
-                                  textAlign: TextAlign.center,
+                                  //textAlign: TextAlign.center,
                                   text:  TextSpan(
                                     style:  GoogleFonts.poppins(
                                       fontSize: isTablet? 15 :width<=330?12: 13,
                                       color: Colors.black,
                                     ),
                                     children: <TextSpan>[
-                                      TextSpan(text:    " * Please proceed with the payment",style: GoogleFonts.poppins(color: HexColor('#037BB7')),),
-                                      TextSpan(text:    "    to confirm this appointment.",style: GoogleFonts.poppins(color: HexColor('#037BB7')),),
+                                      TextSpan(text: " * Please proceed with the payment",style: GoogleFonts.poppins(color: HexColor('#037BB7')),),
+                                      TextSpan(text: "    to confirm this appointment.",style: GoogleFonts.poppins(color: HexColor('#037BB7')),),
                                     ],
                                   ),
                                 ),
@@ -279,7 +279,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                           ),
                         ),
                         SizedBox(
-                          height:width<=330? 15 :  8,
+                          height:width<=330? 8 :  8,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -297,7 +297,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                   key:Key('appointmentSuccessOkButtonKey'),
                                   style: GoogleFonts.poppins(
                                       color: Colors.white,
-                                  fontSize: isTablet? 17 : 14
+                                      fontSize: isTablet? 17 : 14
                                   ),
                                 ))
                           ],

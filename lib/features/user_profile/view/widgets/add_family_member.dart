@@ -72,7 +72,7 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                             hint: Text(
                               "Select here",
                               style: GoogleFonts.roboto(
-                                  fontSize: isTablet? 18 :15, color: HexColor("#D2D2D2")),
+                                  fontSize: isTablet? 18 :12, color: HexColor("#D2D2D2")),
                             ),
                             value: _selectedRelation,
                             onChanged: (newValue) {

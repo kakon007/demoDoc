@@ -273,7 +273,7 @@ class _AddPatientState extends State<AddPatient> {
                             StringResources.gender,
                             key: Key('genderHintTextKey'),
                             style: GoogleFonts.roboto(
-                                fontSize: isTablet ? 18 :width<330?12:  15,
+                                fontSize: isTablet ? 18 :width<330?12:  14,
                                 color: HexColor("#D2D2D2")),
                           ),
                           // Not necessary for Option 1
@@ -327,7 +327,8 @@ class _AddPatientState extends State<AddPatient> {
             children: [
               Container(
                   height: 20.0,
-                  width: MediaQuery.of(context).size.width * .25,
+                  constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width * .25,),
+                //  width: MediaQuery.of(context).size.width * .25,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Row(
@@ -973,7 +974,8 @@ class _AddPatientState extends State<AddPatient> {
       dashedLength: 10.0,
       blankLength: 2.0,
       child: Container(
-        height: isTablet ? 100 : 90.0,
+        constraints: BoxConstraints(minHeight: isTablet ? 100 : 90.0,),
+        //height: isTablet ? 100 : 90.0,
         width: isTablet ? width * .3 : width * .5,
         child: vm.consultFee == null || selectedConsultationType == ""
             ? SizedBox()
@@ -1021,7 +1023,8 @@ class _AddPatientState extends State<AddPatient> {
       dashedLength: 10.0,
       blankLength: 2.0,
       child: Container(
-        height: isTablet ? 100 : 90.0,
+        constraints: BoxConstraints(minHeight: isTablet ? 100 : 90.0,),
+        // height: isTablet ? 100 : 90.0,
         width: isTablet ? width * .3 : width * .5,
         child: vm.consultationFeeForMe == null ||
                 selectedConsultationTypeForMe == ""
@@ -1286,7 +1289,7 @@ class _AddPatientState extends State<AddPatient> {
         child: Column(
           children: [
             Expanded(
-              child: width>360? SingleChildScrollView(
+              child: width>650? SingleChildScrollView(
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   //mainAxisAlignment: MainAxisAlignment.start,
@@ -1391,7 +1394,6 @@ class _AddPatientState extends State<AddPatient> {
                 ),
               ):
               SingleChildScrollView(
-                
                 child: Column(
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   //mainAxisAlignment: MainAxisAlignment.start,

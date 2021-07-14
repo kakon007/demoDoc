@@ -14,7 +14,7 @@ import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart'
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
-import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
+import 'package:myhealthbd_app/main_app/util/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -41,8 +41,8 @@ class _SignUpState extends State<SignUp> {
   TextEditingController _email = TextEditingController();
   TextEditingController _mobile = TextEditingController();
   TextEditingController _address = TextEditingController();
-  BorderRadiusGeometry radius = BorderRadius.only(
-      topLeft: Radius.circular(25), topRight: Radius.circular(25));
+  BorderRadiusGeometry radius =
+      BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25));
 
 // Option 2
   String _selectedGender;
@@ -116,7 +116,9 @@ class _SignUpState extends State<SignUp> {
       hintText: StringResources.name,
     );
     var email = SignUpFormField(
-      inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
+      inputFormatters: [
+        FilteringTextInputFormatter.deny(RegExp("[ ]")),
+      ],
       keyboardType: TextInputType.emailAddress,
       topPadding: isTablet ? 30 : 25,
       controller: _email,
@@ -185,13 +187,11 @@ class _SignUpState extends State<SignUp> {
                     child: Row(
                       children: [
                         Text(StringResources.dateOfBirth,
-                            style: GoogleFonts.roboto(
-                                fontSize: isTablet ? 15 : 12)),
+                            style: GoogleFonts.roboto(fontSize: isTablet ? 15 : 12)),
                         Text(
                           " *",
                           style: GoogleFonts.roboto(
-                              fontSize: isTablet ? 15 : 12,
-                              color: HexColor("#FF5B71")),
+                              fontSize: isTablet ? 15 : 12, color: HexColor("#FF5B71")),
                         )
                       ],
                     ),
@@ -220,9 +220,7 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Container(
-                          height: 18,
-                          child:
-                              Image.asset("assets/images/calender_icon.png")),
+                          height: 18, child: Image.asset("assets/images/calender_icon.png")),
                     ),
                   ],
                 ),
@@ -232,12 +230,10 @@ class _SignUpState extends State<SignUp> {
                       width: 2,
                     )
                   : Padding(
-                      padding:
-                          const EdgeInsets.only(left: 16, top: 8, right: 0),
+                      padding: const EdgeInsets.only(left: 16, top: 8, right: 0),
                       child: Text(
                         "This Field Is Required",
-                        style: GoogleFonts.poppins(
-                            color: Colors.red, fontSize: 11),
+                        style: GoogleFonts.poppins(color: Colors.red, fontSize: 11),
                       )),
             ],
           ),
@@ -262,13 +258,11 @@ class _SignUpState extends State<SignUp> {
                   child: Row(
                     children: [
                       Text(StringResources.gender,
-                          style:
-                              GoogleFonts.roboto(fontSize: isTablet ? 15 : 12)),
+                          style: GoogleFonts.roboto(fontSize: isTablet ? 15 : 12)),
                       Text(
                         " *",
                         style: GoogleFonts.roboto(
-                            fontSize: isTablet ? 15 : 12,
-                            color: HexColor("#FF5B71")),
+                            fontSize: isTablet ? 15 : 12, color: HexColor("#FF5B71")),
                       )
                     ],
                   ),
@@ -289,15 +283,13 @@ class _SignUpState extends State<SignUp> {
                       width: width * .87,
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField(
-                          onTap: (){
+                          onTap: () {
                             FocusManager.instance.primaryFocus.unfocus();
                           },
                           key: Key('signUpGenderKey'),
                           icon: Icon(
                             Icons.keyboard_arrow_down_sharp,
-                            color: _selectedGender != null
-                                ? Colors.black54
-                                : HexColor("#D2D2D2"),
+                            color: _selectedGender != null ? Colors.black54 : HexColor("#D2D2D2"),
                           ),
                           iconSize: 25,
                           decoration: InputDecoration(
@@ -307,8 +299,7 @@ class _SignUpState extends State<SignUp> {
                           hint: Text(
                             StringResources.gender,
                             style: GoogleFonts.roboto(
-                                fontSize: isTablet ? 17 : 15,
-                                color: HexColor("#D2D2D2")),
+                                fontSize: isTablet ? 17 : 15, color: HexColor("#D2D2D2")),
                           ),
                           value: _selectedGender,
                           onChanged: (newValue) {
@@ -341,8 +332,7 @@ class _SignUpState extends State<SignUp> {
                     padding: const EdgeInsets.only(left: 16, top: 8, right: 0),
                     child: Text(
                       "This Field Is Required",
-                      style:
-                          GoogleFonts.poppins(color: Colors.red, fontSize: 11),
+                      style: GoogleFonts.poppins(color: Colors.red, fontSize: 11),
                     )),
           ],
         ),
@@ -354,13 +344,15 @@ class _SignUpState extends State<SignUp> {
         onTap: () async {
           //signUp(_name.text,_email.text, _mobile.text, _address.text, _selectedGender,_formatDate2);
           //showAlert(context);
-          if (_formKey.currentState.validate() && _selectedGender != null && _formatBirthDate!='Select Date') {
+          if (_formKey.currentState.validate() &&
+              _selectedGender != null &&
+              _formatBirthDate != 'Select Date') {
             setState(() {
               isTappedSignUpButton = true;
             });
             BotToast.showLoading();
-            await vm.getSignUpInfo(_name.text, _email.text, _mobile.text,
-                _address.text, _selectedGender, _formatDate);
+            await vm.getSignUpInfo(
+                _name.text, _email.text, _mobile.text, _address.text, _selectedGender, _formatDate);
             if (vm.message == "Saved Successfully") {
               var vm5 = Provider.of<AuthViewModel>(context, listen: false);
               await vm5.getAuthData(vm.username, vm.password);
@@ -371,17 +363,13 @@ class _SignUpState extends State<SignUp> {
                   }
                 });
                 if (addAccountValue == null) {
-                  var vm3 =
-                      Provider.of<UserImageViewModel>(context, listen: false);
-                  var vm4 =
-                      Provider.of<UserDetailsViewModel>(context, listen: false);
+                  var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
+                  var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
                   await vm4.getSwitchData(vm5.accessToken);
                   await vm3.switchImage(vm5.accessToken);
                   SwitchAccounts switchAccounts = new SwitchAccounts(
                     name: vm4.userSwitchDetailsList.fname,
-                    relation: vm3.switchDetails?.photo == null
-                        ? ""
-                        : vm3.switchDetails.photo,
+                    relation: vm3.switchDetails?.photo == null ? "" : vm3.switchDetails.photo,
                     username: vm.username,
                     password: vm.password,
                   );
@@ -391,9 +379,7 @@ class _SignUpState extends State<SignUp> {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setString("username", vm.username);
                 prefs.setString("password", vm.password);
-                appNavigator
-                    .getProvider<AccessTokenProvider>()
-                    .setToken(vm5.accessToken);
+                appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (BuildContext context) => HomeScreen(
@@ -425,8 +411,7 @@ class _SignUpState extends State<SignUp> {
         key: Key('signUpButtonKey'),
         child: Material(
           elevation: 2,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           color: AppTheme.signInSignUpColor,
           child: SizedBox(
             height: height >= 600 ? 50 : 40,
@@ -488,19 +473,16 @@ class _SignUpState extends State<SignUp> {
         ),
         Text(
           StringResources.agreeToTerms,
-          style: GoogleFonts.roboto(
-              color: HexColor("#8592E5"), fontSize: isTablet ? 16 : 14),
+          style: GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: isTablet ? 16 : 14),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) {
-                          return Terms();
-                        }));
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Terms();
+                }));
               },
               child: Text(
                 StringResources.terms,
@@ -512,16 +494,13 @@ class _SignUpState extends State<SignUp> {
             ),
             Text(
               " and  ",
-              style: GoogleFonts.roboto(
-                  color: HexColor("#8592E5"), fontSize: isTablet ? 16 : 13),
+              style: GoogleFonts.roboto(color: HexColor("#8592E5"), fontSize: isTablet ? 16 : 13),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) {
-                          return Policy();
-                        }));
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Policy();
+                }));
               },
               child: Text(
                 StringResources.policy,
@@ -552,31 +531,27 @@ class _SignUpState extends State<SignUp> {
           body: Form(
             key: _formKey,
             child: Padding(
-              padding:
-                  EdgeInsets.only(top: MediaQuery.of(context).size.width * .04),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * .04),
               child: Column(
                 children: [
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25),
-                              topRight: Radius.circular(25)),
+                              topLeft: Radius.circular(25), topRight: Radius.circular(25)),
                           color: HexColor("#FFFFFF"),
                           boxShadow: [
                             BoxShadow(
                               color: HexColor("#0D1231").withOpacity(0.08),
                               spreadRadius: 10,
                               blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3), // changes position of shadow
                             ),
                           ]),
                       child: SingleChildScrollView(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              right: isTablet ? 35 : 15.0,
-                              left: isTablet ? 35 : 15),
+                              right: isTablet ? 35 : 15.0, left: isTablet ? 35 : 15),
                           child: Column(
                             children: [
                               spaceBetween,
@@ -597,8 +572,7 @@ class _SignUpState extends State<SignUp> {
                               //confirmPassword,
                               address,
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   gender,
@@ -778,8 +752,7 @@ class _SignUpState extends State<SignUp> {
                               Navigator.pop(context);
                             },
                             minWidth: 120,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                             color: AppTheme.appbarPrimary,
                             child: Text(
                               "OK",

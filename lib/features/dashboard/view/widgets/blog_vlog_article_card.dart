@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/blog_details.dart';
 import 'package:myhealthbd_app/features/videos/view/video_player_screen.dart';
-import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
+import 'package:myhealthbd_app/main_app/util/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -43,11 +43,15 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
-    var width=  MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;
     return Container(
       //height: 40,
       width: 200,
-      height: isTablet ? 140 : width<=360? 100 : 120,
+      height: isTablet
+          ? 140
+          : width <= 360
+              ? 100
+              : 120,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -57,8 +61,12 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
               padding: const EdgeInsets.all(8.0),
               child: widget.image != null
                   ? Container(
-                      height: width<=360? 90 : 110,
-                      width: isTablet ? 140 : width<=360? 80 : 100,
+                      height: width <= 360 ? 90 : 110,
+                      width: isTablet
+                          ? 140
+                          : width <= 360
+                              ? 80
+                              : 100,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                       ),
@@ -68,8 +76,12 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                         fit: BoxFit.fill,
                       ))
                   : Container(
-                      height: width<=360? 90 :110,
-                      width: isTablet ? 140 : width<=360? 80 : 100,
+                      height: width <= 360 ? 90 : 110,
+                      width: isTablet
+                          ? 140
+                          : width <= 360
+                              ? 80
+                              : 100,
                       child: ClipRRect(
                         child: CachedNetworkImage(
                           imageUrl: widget.logo,
@@ -91,16 +103,19 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                         child: Text(widget.title,
                             maxLines: 2,
                             style: TextStyle(
-                                fontSize: isTablet ? 15 : width<=360? 10 : 11,
+                                fontSize: isTablet
+                                    ? 15
+                                    : width <= 360
+                                        ? 10
+                                        : 11,
                                 fontWeight: FontWeight.w500),
                             textAlign: TextAlign.start)),
                     SizedBox(
-                      height: width<=360? 5 : 15,
+                      height: width <= 360 ? 5 : 15,
                     ),
                     Row(
-                      mainAxisAlignment: isTablet
-                          ? MainAxisAlignment.spaceBetween
-                          : MainAxisAlignment.start,
+                      mainAxisAlignment:
+                          isTablet ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.height * .12,
@@ -108,8 +123,7 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                         InkWell(
                           onTap: () {
                             if (widget.pageNo == "0") {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (BuildContext) {
+                              Navigator.push(context, MaterialPageRoute(builder: (BuildContext) {
                                 return BlogDetails(
                                   title: widget.title,
                                   details: widget.blogDetails,
@@ -117,16 +131,15 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                               }));
                             } else if (widget.pageNo == "1") {
                               if (widget.url != null) {
-                                if (widget.url.isNotEmpty)
-                                  UrlLauncherHelper.launchUrl(widget.url);
+                                if (widget.url.isNotEmpty) UrlLauncherHelper.launchUrl(widget.url);
                               }
                             } else {
                               Navigator.push(
                                 context,
                                 PageTransition(
                                   type: PageTransitionType.rightToLeft,
-                                  child: VideoPlayerScreen(widget.videoId,
-                                      widget.title, widget.description),
+                                  child: VideoPlayerScreen(
+                                      widget.videoId, widget.title, widget.description),
                                 ),
                               );
                             }
@@ -135,12 +148,20 @@ class _BlogVlogArticleCardState extends State<BlogVlogArticleCard> {
                             children: [
                               Material(
                                 elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
+                                shape:
+                                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                 color: HexColor("#354291"),
                                 child: SizedBox(
-                                  width: isTablet ? 200 : width<=360? 120: 130,
-                                  height: isTablet ? 45 :width<=360?35 : 40,
+                                  width: isTablet
+                                      ? 200
+                                      : width <= 360
+                                          ? 120
+                                          : 130,
+                                  height: isTablet
+                                      ? 45
+                                      : width <= 360
+                                          ? 35
+                                          : 40,
                                   child: Center(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),

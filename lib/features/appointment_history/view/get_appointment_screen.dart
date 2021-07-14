@@ -16,7 +16,7 @@ import 'package:myhealthbd_app/features/appointments/view/appointments_screen.da
 import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
-import 'package:myhealthbd_app/main_app/api_helper/url_launcher_helper.dart';
+import 'package:myhealthbd_app/main_app/util/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -80,14 +80,9 @@ class _GetAppointmentState extends State<GetAppointment> {
       print('INDEX' + prescriptionNo);
       var headers = {'Authorization': 'Bearer ${widget.accessToken}'};
       var request = http.MultipartRequest(
-          'POST',
-          Uri.parse(
-              '${Urls.baseUrl}prescription-service-api/api/report/prescription'));
-      request.fields.addAll({
-        'prescriptionId': prescriptionNo,
-        'pClient': companyAlias,
-        'pLayout': '1'
-      });
+          'POST', Uri.parse('${Urls.baseUrl}prescription-service-api/api/report/prescription'));
+      request.fields
+          .addAll({'prescriptionId': prescriptionNo, 'pClient': companyAlias, 'pLayout': '1'});
 
       request.headers.addAll(headers);
 
@@ -109,13 +104,10 @@ class _GetAppointmentState extends State<GetAppointment> {
     }
   }
 
-  Future<File> _createPdfFileFromString(
-      String prescriptionNo, String companyAlias) async {
+  Future<File> _createPdfFileFromString(String prescriptionNo, String companyAlias) async {
     String dir = (await pp.getApplicationDocumentsDirectory()).path;
-    File file = File(
-        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
-    await file.writeAsBytes(await fetchPDF(prescriptionNo, companyAlias),
-        flush: true);
+    File file = File("$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+    await file.writeAsBytes(await fetchPDF(prescriptionNo, companyAlias), flush: true);
     print("FILEEEEE" + file.toString());
     return file;
   }
@@ -167,16 +159,14 @@ class _GetAppointmentState extends State<GetAppointment> {
     super.initState();
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 500) {
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 500) {
         print('scrolklinggtatg');
         vm.getMoreData();
       }
     });
 
     _scrollController2.addListener(() {
-      if (_scrollController2.position.pixels >=
-          _scrollController2.position.maxScrollExtent - 500) {
+      if (_scrollController2.position.pixels >= _scrollController2.position.maxScrollExtent - 500) {
         print('scrolklinggtatg');
         vm2.getMoreData(widget.accessToken);
       }
@@ -222,9 +212,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
       child: Container(
-        width: deviceWidth <= 360
-            ? deviceWidth * .38
-            : MediaQuery.of(context).size.width * .49,
+        width: deviceWidth <= 360 ? deviceWidth * .38 : MediaQuery.of(context).size.width * .49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -242,8 +230,7 @@ class _GetAppointmentState extends State<GetAppointment> {
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Search here',
-                hintStyle: GoogleFonts.poppins(
-                    fontSize: 11, fontWeight: FontWeight.w400),
+                hintStyle: GoogleFonts.poppins(fontSize: 11, fontWeight: FontWeight.w400),
                 fillColor: Colors.white,
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -251,8 +238,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                     color: Colors.grey,
                   ),
                   onPressed: () {
-                    vm.search(
-                        _searchTextEditingController1.text, widget.accessToken);
+                    vm.search(_searchTextEditingController1.text, widget.accessToken);
                   },
                 )),
             onSubmitted: (v) {
@@ -266,9 +252,7 @@ class _GetAppointmentState extends State<GetAppointment> {
     var searchField2 = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
       child: Container(
-        width: deviceWidth <= 360
-            ? deviceWidth * .38
-            : MediaQuery.of(context).size.width * .49,
+        width: deviceWidth <= 360 ? deviceWidth * .38 : MediaQuery.of(context).size.width * .49,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -286,8 +270,7 @@ class _GetAppointmentState extends State<GetAppointment> {
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Search here',
-                hintStyle: GoogleFonts.poppins(
-                    fontSize: 11, fontWeight: FontWeight.w400),
+                hintStyle: GoogleFonts.poppins(fontSize: 11, fontWeight: FontWeight.w400),
                 fillColor: Colors.white,
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -295,13 +278,11 @@ class _GetAppointmentState extends State<GetAppointment> {
                     color: Colors.grey,
                   ),
                   onPressed: () {
-                    vm2.search(
-                        _searchTextEditingController2.text, widget.accessToken);
+                    vm2.search(_searchTextEditingController2.text, widget.accessToken);
                   },
                 )),
             onSubmitted: (v) {
-              vm2.search(
-                  _searchTextEditingController2.text, widget.accessToken);
+              vm2.search(_searchTextEditingController2.text, widget.accessToken);
             },
           ),
         ),
@@ -370,8 +351,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                           child: Text(
                         'Completed',
                         style: GoogleFonts.roboto(
-                            color: HexColor('#354291'),
-                            fontWeight: FontWeight.w500),
+                            color: HexColor('#354291'), fontWeight: FontWeight.w500),
                       )),
                     ),
                   ],
@@ -390,16 +370,14 @@ class _GetAppointmentState extends State<GetAppointment> {
                           body: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: isTablet ? 20 : 0,
-                                right: isTablet ? 20 : 0),
+                            padding:
+                                EdgeInsets.only(left: isTablet ? 20 : 0, right: isTablet ? 20 : 0),
                             child: Container(
                               height: 50,
                               child: Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 12.0, bottom: 20),
+                                    padding: const EdgeInsets.only(left: 12.0, bottom: 20),
                                     child: Text(
                                       "${vm.totalCount.toString()} Appointment(s) found",
                                       style: GoogleFonts.poppins(
@@ -414,15 +392,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   if (vm.isInSearchMode) searchField,
                                   IconButton(
                                     icon: Icon(
-                                      vm.isInSearchMode
-                                          ? Icons.close
-                                          : Icons.search,
+                                      vm.isInSearchMode ? Icons.close : Icons.search,
                                       color: Colors.grey,
                                     ),
                                     onPressed: () {
                                       _searchTextEditingController1?.clear();
-                                      vm.toggleIsInSearchMode(
-                                          widget.accessToken);
+                                      vm.toggleIsInSearchMode(widget.accessToken);
 
                                       if (vm.isInSearchMode) {
                                         _searchFieldFocusNode.requestFocus();
@@ -685,16 +660,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                           Expanded(
                             child: vm.shouldShowPageLoader
                                 ? Loader()
-                                : vm.upComingAppointmentList.length == 0 &&
-                                        !vm.isInSearchMode
+                                : vm.upComingAppointmentList.length == 0 && !vm.isInSearchMode
                                     ? Align(
                                         alignment: Alignment.center,
                                         child: Container(
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 'You have no pending or waiting \nappointment.',
@@ -702,9 +674,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor('#333132'),
                                                     fontWeight: FontWeight.w500,
-                                                    fontSize: deviceWidth <= 330
-                                                        ? 14
-                                                        : 17),
+                                                    fontSize: deviceWidth <= 330 ? 14 : 17),
                                               ),
                                               SizedBox(
                                                 height: 30,
@@ -718,46 +688,30 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              HospitalScreen(
-                                                                locationData: widget
-                                                                    .locationData,
-                                                                hospitalList2:
-                                                                    widget
-                                                                        .hospitalList2,
+                                                          builder: (context) => HospitalScreen(
+                                                                locationData: widget.locationData,
+                                                                hospitalList2: widget.hospitalList2,
                                                               )));
                                                 },
                                                 child: Material(
                                                   elevation: 2,
                                                   shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
+                                                      borderRadius: BorderRadius.circular(5)),
                                                   color: HexColor("#354291"),
                                                   child: SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 335
-                                                            : 300,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 35
-                                                            : 45,
+                                                    width: MediaQuery.of(context).size.width > 600
+                                                        ? 335
+                                                        : 300,
+                                                    height: MediaQuery.of(context).size.width > 600
+                                                        ? 35
+                                                        : 45,
                                                     child: Center(
                                                       child: Text(
                                                         "Get an appointment",
                                                         style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
+                                                            fontWeight: FontWeight.w500),
                                                       ),
                                                     ),
                                                   ),
@@ -770,21 +724,15 @@ class _GetAppointmentState extends State<GetAppointment> {
                                     : ListView.builder(
                                         controller: _scrollController,
                                         shrinkWrap: true,
-                                        itemCount:
-                                            vm.upComingAppointmentList.length +
-                                                1,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
+                                        itemCount: vm.upComingAppointmentList.length + 1,
+                                        itemBuilder: (BuildContext context, int index) {
                                           //print("LIIIISSSYYSY:::" + list[index].consultationId);
-                                          if (index ==
-                                              vm.upComingAppointmentList
-                                                  .length) {
+                                          if (index == vm.upComingAppointmentList.length) {
                                             return vm.isFetchingMoreData
                                                 ? SizedBox(
                                                     height: 60,
-                                                    child: Center(
-                                                        child:
-                                                            CircularProgressIndicator()))
+                                                    child:
+                                                        Center(child: CircularProgressIndicator()))
                                                 : SizedBox();
                                             //return SizedBox(height: 15,);
 
@@ -797,28 +745,21 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                     right: isTablet ? 20 : 0),
                                                 child: Container(
                                                   constraints: BoxConstraints(
-                                                    minHeight:
-                                                        isTablet ? 185 : 165,
+                                                    minHeight: isTablet ? 185 : 165,
                                                   ),
                                                   //height: isTablet? 185 : 165,
                                                   margin: EdgeInsets.only(
-                                                      top: 8,
-                                                      bottom: 5,
-                                                      right: 10,
-                                                      left: 10),
+                                                      top: 8, bottom: 5, right: 10, left: 10),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
+                                                    borderRadius: BorderRadius.circular(15),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.1),
+                                                        color: Colors.grey.withOpacity(0.1),
                                                         spreadRadius: 5,
                                                         blurRadius: 7,
-                                                        offset: Offset(0,
-                                                            1), // changes position of shadow
+                                                        offset: Offset(
+                                                            0, 1), // changes position of shadow
                                                       ),
                                                     ],
                                                   ),
@@ -827,23 +768,15 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                       Stack(
                                                         children: [
                                                           Container(
-                                                            constraints:
-                                                                BoxConstraints(
-                                                              minHeight:
-                                                                  isTablet
-                                                                      ? 80
-                                                                      : 70,
+                                                            constraints: BoxConstraints(
+                                                              minHeight: isTablet ? 80 : 70,
                                                             ),
                                                             // height: isTablet? 80 : 70,
                                                             // margin: EdgeInsets.only(bottom: 5,right: 10,left: 10),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: HexColor(
-                                                                  '#F0F2FF'),
+                                                            decoration: BoxDecoration(
+                                                              color: HexColor('#F0F2FF'),
                                                               borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15),
+                                                                  BorderRadius.circular(15),
                                                             ),
                                                             child: Padding(
                                                               padding: EdgeInsets.only(
@@ -851,14 +784,10 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   right: 5,
                                                                   bottom: 8,
                                                                   left:
-                                                                      deviceHeight >
-                                                                              650
-                                                                          ? 5
-                                                                          : 10),
+                                                                      deviceHeight > 650 ? 5 : 10),
                                                               child: Column(
                                                                 crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
+                                                                    CrossAxisAlignment.start,
                                                                 children: [
                                                                   SizedBox(
                                                                     height: 5,
@@ -870,8 +799,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     children: [
                                                                       Text(
                                                                         "Serial No: ",
-                                                                        style: GoogleFonts
-                                                                            .poppins(
+                                                                        style: GoogleFonts.poppins(
                                                                           fontWeight:
                                                                               FontWeight.w500,
                                                                           color:
@@ -884,10 +812,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         ),
                                                                       ),
                                                                       SizedBox(
-                                                                        width: MediaQuery.of(context).size.width >
-                                                                                350
-                                                                            ? 10
-                                                                            : 5,
+                                                                        width:
+                                                                            MediaQuery.of(context)
+                                                                                        .size
+                                                                                        .width >
+                                                                                    350
+                                                                                ? 10
+                                                                                : 5,
                                                                       ),
                                                                       Row(
                                                                         children: [
@@ -895,27 +826,42 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                             "Date: ",
                                                                             style:
                                                                                 GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: HexColor('#354291'),
+                                                                              fontWeight:
+                                                                                  FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
                                                                               fontSize: isTablet
                                                                                   ? 16
-                                                                                  : deviceWidth <= 360
+                                                                                  : deviceWidth <=
+                                                                                          360
                                                                                       ? 10
                                                                                       : 12,
                                                                             ),
                                                                           ),
                                                                           Container(
-                                                                            constraints:
-                                                                                BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .165),
-                                                                            child:
-                                                                                Text(
-                                                                              DateUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].appointDate).toLocal()),
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                            constraints: BoxConstraints(
+                                                                                maxWidth: MediaQuery.of(
+                                                                                            context)
+                                                                                        .size
+                                                                                        .width *
+                                                                                    .165),
+                                                                            child: Text(
+                                                                              DateUtil().formattedDate(
+                                                                                  DateTime.parse(vm
+                                                                                          .upComingAppointmentList[
+                                                                                              index]
+                                                                                          .appointDate)
+                                                                                      .toLocal()),
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
@@ -924,10 +870,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         ],
                                                                       ),
                                                                       SizedBox(
-                                                                        width: MediaQuery.of(context).size.width >
-                                                                                350
-                                                                            ? 10
-                                                                            : 5,
+                                                                        width:
+                                                                            MediaQuery.of(context)
+                                                                                        .size
+                                                                                        .width >
+                                                                                    350
+                                                                                ? 10
+                                                                                : 5,
                                                                       ),
                                                                       Row(
                                                                         children: [
@@ -935,27 +884,40 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                             "Type: ",
                                                                             style:
                                                                                 GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: HexColor('#354291'),
+                                                                              fontWeight:
+                                                                                  FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
                                                                               fontSize: isTablet
                                                                                   ? 16
-                                                                                  : deviceWidth <= 360
+                                                                                  : deviceWidth <=
+                                                                                          360
                                                                                       ? 10
                                                                                       : 12,
                                                                             ),
                                                                           ),
                                                                           Container(
-                                                                            constraints:
-                                                                                BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .25),
-                                                                            child:
-                                                                                Text(
-                                                                              vm.upComingAppointmentList[index].consultTypeName,
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                            constraints: BoxConstraints(
+                                                                                maxWidth: MediaQuery.of(
+                                                                                            context)
+                                                                                        .size
+                                                                                        .width *
+                                                                                    .25),
+                                                                            child: Text(
+                                                                              vm
+                                                                                  .upComingAppointmentList[
+                                                                                      index]
+                                                                                  .consultTypeName,
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
@@ -966,11 +928,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     ],
                                                                   ),
                                                                   SizedBox(
-                                                                    height:
-                                                                        MediaQuery.of(context).size.width >
-                                                                                600
-                                                                            ? 10
-                                                                            : 5,
+                                                                    height: MediaQuery.of(context)
+                                                                                .size
+                                                                                .width >
+                                                                            600
+                                                                        ? 10
+                                                                        : 5,
                                                                   ),
                                                                   Row(
                                                                     mainAxisAlignment:
@@ -979,10 +942,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     children: [
                                                                       Padding(
                                                                         padding:
-                                                                            const EdgeInsets.only(left: 20.0),
-                                                                        child:
-                                                                            Text(
-                                                                          vm.upComingAppointmentList[index]
+                                                                            const EdgeInsets.only(
+                                                                                left: 20.0),
+                                                                        child: Text(
+                                                                          vm
+                                                                              .upComingAppointmentList[
+                                                                                  index]
                                                                               .slotSl
                                                                               .toString(),
                                                                           style:
@@ -1001,30 +966,43 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       ),
                                                                       Padding(
                                                                         padding:
-                                                                            const EdgeInsets.only(left: 15.0),
-                                                                        child:
-                                                                            Row(
+                                                                            const EdgeInsets.only(
+                                                                                left: 15.0),
+                                                                        child: Row(
                                                                           children: [
                                                                             Text(
                                                                               "Time: ",
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
                                                                             ),
                                                                             Text(
-                                                                              TimeUtil().formattedDate(DateTime.parse(vm.upComingAppointmentList[index].startTime).toLocal()),
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                              TimeUtil().formattedDate(
+                                                                                  DateTime.parse(vm
+                                                                                          .upComingAppointmentList[
+                                                                                              index]
+                                                                                          .startTime)
+                                                                                      .toLocal()),
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
@@ -1034,30 +1012,49 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       ),
                                                                       Padding(
                                                                         padding:
-                                                                            const EdgeInsets.only(right: 21.0),
-                                                                        child:
-                                                                            Row(
+                                                                            const EdgeInsets.only(
+                                                                                right: 21.0),
+                                                                        child: Row(
                                                                           children: [
                                                                             Text(
                                                                               "Status: ",
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
                                                                             ),
                                                                             Text(
-                                                                              vm.upComingAppointmentList[index].status == 1 ? "Waiting" : "Pending",
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: vm.upComingAppointmentList[index].status == 1 ? HexColor('#EEB329') : HexColor('#FFA7A7'),
+                                                                              vm.upComingAppointmentList[index]
+                                                                                          .status ==
+                                                                                      1
+                                                                                  ? "Waiting"
+                                                                                  : "Pending",
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: vm
+                                                                                            .upComingAppointmentList[
+                                                                                                index]
+                                                                                            .status ==
+                                                                                        1
+                                                                                    ? HexColor(
+                                                                                        '#EEB329')
+                                                                                    : HexColor(
+                                                                                        '#FFA7A7'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
@@ -1076,55 +1073,57 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                       SizedBox(
                                                         height: isTablet
                                                             ? 5
-                                                            : MediaQuery.of(context)
-                                                                            .size
-                                                                            .width *
+                                                            : MediaQuery.of(context).size.width *
                                                                         .44 >
                                                                     600
                                                                 ? 10
                                                                 : 7,
                                                       ),
                                                       Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                right: 5.0,
-                                                                left: 5),
+                                                        padding: const EdgeInsets.only(
+                                                            right: 5.0, left: 5),
                                                         child: Row(
                                                           mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
+                                                              MainAxisAlignment.spaceBetween,
                                                           children: [
                                                             Column(
                                                               children: [
                                                                 Row(
                                                                   children: [
                                                                     Container(
-                                                                      decoration:
-                                                                          BoxDecoration(
+                                                                      decoration: BoxDecoration(
                                                                         //color:HexColor('#F0F2FF'),
                                                                         borderRadius:
-                                                                            BorderRadius.circular(15),
+                                                                            BorderRadius.circular(
+                                                                                15),
                                                                       ),
 
                                                                       // height: 60,
                                                                       //width: 20,
-                                                                      child: vm.upComingAppointmentList[index].photo !=
+                                                                      child: vm
+                                                                                  .upComingAppointmentList[
+                                                                                      index]
+                                                                                  .photo !=
                                                                               null
                                                                           ? loadLogo(vm
-                                                                              .upComingAppointmentList[index]
+                                                                              .upComingAppointmentList[
+                                                                                  index]
                                                                               .photo)
                                                                           : Image.asset(
                                                                               "assets/icons/dct.png",
                                                                               fit: BoxFit.fill,
-                                                                              width: deviceWidth > 650
+                                                                              width: deviceWidth >
+                                                                                      650
                                                                                   ? 100
-                                                                                  : deviceWidth <= 360
+                                                                                  : deviceWidth <=
+                                                                                          360
                                                                                       ? 50
                                                                                       : 60,
-                                                                              height: deviceWidth > 650
+                                                                              height: deviceWidth >
+                                                                                      650
                                                                                   ? 100
-                                                                                  : deviceWidth <= 360
+                                                                                  : deviceWidth <=
+                                                                                          360
                                                                                       ? 50
                                                                                       : 60,
                                                                             ),
@@ -1134,57 +1133,101 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     ),
                                                                     Padding(
                                                                       padding: EdgeInsets.only(
-                                                                          bottom: MediaQuery.of(context).size.height > 650
-                                                                              ? 20
-                                                                              : 10,
-                                                                          left:
-                                                                              1),
-                                                                      child:
-                                                                          Column(
+                                                                          bottom:
+                                                                              MediaQuery.of(context)
+                                                                                          .size
+                                                                                          .height >
+                                                                                      650
+                                                                                  ? 20
+                                                                                  : 10,
+                                                                          left: 1),
+                                                                      child: Column(
                                                                         crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
+                                                                            CrossAxisAlignment
+                                                                                .start,
                                                                         children: [
                                                                           SizedBox(
-                                                                            height: deviceWidth > 360
-                                                                                ? 8
-                                                                                : 3,
+                                                                            height:
+                                                                                deviceWidth > 360
+                                                                                    ? 8
+                                                                                    : 3,
                                                                           ),
                                                                           Container(
-                                                                              width: deviceWidth <= 360 && deviceWidth > 330
+                                                                              width: deviceWidth <=
+                                                                                          360 &&
+                                                                                      deviceWidth >
+                                                                                          330
                                                                                   ? 160
-                                                                                  : deviceWidth <= 330
+                                                                                  : deviceWidth <=
+                                                                                          330
                                                                                       ? 130
-                                                                                      : MediaQuery.of(context).size.width * .40,
+                                                                                      : MediaQuery.of(
+                                                                                                  context)
+                                                                                              .size
+                                                                                              .width *
+                                                                                          .40,
                                                                               child: Text(
-                                                                                vm.upComingAppointmentList[index].doctorName,
+                                                                                vm
+                                                                                    .upComingAppointmentList[
+                                                                                        index]
+                                                                                    .doctorName,
                                                                                 maxLines: 1,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                style: GoogleFonts.poppins(
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    color: HexColor('#393939'),
-                                                                                    fontSize: isTablet
-                                                                                        ? 16
-                                                                                        : deviceWidth <= 360
-                                                                                            ? 10
-                                                                                            : 12),
+                                                                                overflow:
+                                                                                    TextOverflow
+                                                                                        .ellipsis,
+                                                                                style: GoogleFonts
+                                                                                    .poppins(
+                                                                                        fontWeight:
+                                                                                            FontWeight
+                                                                                                .bold,
+                                                                                        color: HexColor(
+                                                                                            '#393939'),
+                                                                                        fontSize: isTablet
+                                                                                            ? 16
+                                                                                            : deviceWidth <= 360
+                                                                                                ? 10
+                                                                                                : 12),
                                                                               )),
                                                                           Text(
-                                                                            vm.upComingAppointmentList[index]?.doctorSpecialtyName ??
+                                                                            vm.upComingAppointmentList[index]
+                                                                                    ?.doctorSpecialtyName ??
                                                                                 '',
-                                                                            style: GoogleFonts.poppins(
-                                                                                color: HexColor('#354291'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <= 360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                                fontWeight: FontWeight.w500),
+                                                                            style:
+                                                                                GoogleFonts.poppins(
+                                                                                    color: HexColor(
+                                                                                        '#354291'),
+                                                                                    fontSize:
+                                                                                        isTablet
+                                                                                            ? 16
+                                                                                            : deviceWidth <=
+                                                                                                    360
+                                                                                                ? 10
+                                                                                                : 12,
+                                                                                    fontWeight:
+                                                                                        FontWeight
+                                                                                            .w500),
                                                                           ),
                                                                           Container(
-                                                                              width: deviceWidth <= 360 ? 130 : MediaQuery.of(context).size.width * .40,
-                                                                              child: Text(vm.upComingAppointmentList[index].companyName,
-                                                                                  maxLines: deviceWidth <= 360 ? 2 : 1,
-                                                                                  overflow: TextOverflow.ellipsis,
+                                                                              width: deviceWidth <=
+                                                                                      360
+                                                                                  ? 130
+                                                                                  : MediaQuery.of(context)
+                                                                                          .size
+                                                                                          .width *
+                                                                                      .40,
+                                                                              child: Text(
+                                                                                  vm
+                                                                                      .upComingAppointmentList[
+                                                                                          index]
+                                                                                      .companyName,
+                                                                                  maxLines:
+                                                                                      deviceWidth <=
+                                                                                              360
+                                                                                          ? 2
+                                                                                          : 1,
+                                                                                  overflow:
+                                                                                      TextOverflow
+                                                                                          .ellipsis,
                                                                                   style: GoogleFonts.poppins(
                                                                                       color: HexColor('#354291'),
                                                                                       fontSize: isTablet
@@ -1193,7 +1236,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                                               ? 10
                                                                                               : 12))),
                                                                           SizedBox(
-                                                                            width: MediaQuery.of(context).size.width * .44 > 600
+                                                                            width: MediaQuery.of(
+                                                                                                context)
+                                                                                            .size
+                                                                                            .width *
+                                                                                        .44 >
+                                                                                    600
                                                                                 ? 10
                                                                                 : 6,
                                                                           ),
@@ -1226,44 +1274,36 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         .upComingAppointmentList[
                                                                             index]
                                                                         .consultationId);
-                                                                vm.upComingAppointmentList[index].consultationId ==
+                                                                vm.upComingAppointmentList[index]
+                                                                            .consultationId ==
                                                                         null
-                                                                    ? Fluttertoast
-                                                                        .showToast(
-                                                                            msg:
-                                                                                'No Consultation Available Yet.')
-                                                                    : UrlLauncherHelper.launchUrl(vm5
-                                                                            .zoomDetailsList
-                                                                            ?.joinUrl ??
-                                                                        '');
+                                                                    ? Fluttertoast.showToast(
+                                                                        msg:
+                                                                            'No Consultation Available Yet.')
+                                                                    : UrlLauncherHelper.launchUrl(
+                                                                        vm5.zoomDetailsList
+                                                                                ?.joinUrl ??
+                                                                            '');
                                                               },
                                                               child: Material(
                                                                 elevation: 2,
                                                                 shape: RoundedRectangleBorder(
                                                                     borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5)),
-                                                                color: vm
-                                                                            .upComingAppointmentList[
-                                                                                index]
-                                                                            .consultationId ==
-                                                                        null
-                                                                    ? HexColor(
-                                                                        "#99A0C8")
-                                                                    : HexColor(
-                                                                        "#354291"),
-                                                                child:
-                                                                    Container(
-                                                                  constraints:
-                                                                      BoxConstraints(
+                                                                        BorderRadius.circular(5)),
+                                                                color:
+                                                                    vm.upComingAppointmentList[index]
+                                                                                .consultationId ==
+                                                                            null
+                                                                        ? HexColor("#99A0C8")
+                                                                        : HexColor("#354291"),
+                                                                child: Container(
+                                                                  constraints: BoxConstraints(
                                                                     minHeight:
-                                                                        deviceWidth >
-                                                                                360
-                                                                            ? 35
-                                                                            : 28,
+                                                                        deviceWidth > 360 ? 35 : 28,
                                                                     maxWidth: isTablet
                                                                         ? 170
-                                                                        : deviceWidth <= 360 && deviceWidth > 330
+                                                                        : deviceWidth <= 360 &&
+                                                                                deviceWidth > 330
                                                                             ? 105
                                                                             : deviceWidth <= 330
                                                                                 ? 95
@@ -1282,17 +1322,19 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                           color: Colors.white,
                                                                           fontSize: isTablet
                                                                               ? 15
-                                                                              : deviceWidth <= 360 && deviceWidth > 330
+                                                                              : deviceWidth <=
+                                                                                          360 &&
+                                                                                      deviceWidth >
+                                                                                          330
                                                                                   ? 9
-                                                                                  : deviceWidth <= 330
+                                                                                  : deviceWidth <=
+                                                                                          330
                                                                                       ? 8
                                                                                       : 11,
-                                                                          fontWeight: FontWeight.w500),
-                                                                      maxLines:
-                                                                          2,
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                      maxLines: 2,
+                                                                      textAlign: TextAlign.center,
                                                                     ),
                                                                   ),
                                                                 ),
@@ -1328,16 +1370,14 @@ class _GetAppointmentState extends State<GetAppointment> {
                           body: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: isTablet ? 20 : 0,
-                                right: isTablet ? 20 : 0),
+                            padding:
+                                EdgeInsets.only(left: isTablet ? 20 : 0, right: isTablet ? 20 : 0),
                             child: Container(
                               height: 50,
                               child: Row(
                                 children: [
                                   Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 12.0, bottom: 20),
+                                    padding: EdgeInsets.only(left: 12.0, bottom: 20),
                                     child: Text(
                                       "${vm2.totalCount.toString()} Appointment(s) found",
                                       style: GoogleFonts.poppins(
@@ -1351,18 +1391,14 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   Spacer(),
                                   if (vm2.isInSearchMode) searchField2,
                                   IconButton(
-                                    key:
-                                        Key('featuredJobSearchToggleButtonKey'),
+                                    key: Key('featuredJobSearchToggleButtonKey'),
                                     icon: Icon(
-                                      vm2.isInSearchMode
-                                          ? Icons.close
-                                          : Icons.search,
+                                      vm2.isInSearchMode ? Icons.close : Icons.search,
                                       color: Colors.grey,
                                     ),
                                     onPressed: () {
                                       _searchTextEditingController2?.clear();
-                                      vm2.toggleIsInSearchMode(
-                                          widget.accessToken);
+                                      vm2.toggleIsInSearchMode(widget.accessToken);
 
                                       if (vm2.isInSearchMode) {
                                         _searchFieldFocusNode2.requestFocus();
@@ -1625,16 +1661,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                           Expanded(
                             child: vm2.shouldShowPageLoader
                                 ? Loader()
-                                : vm2.previousAppointmentList.length == 0 &&
-                                        !vm2.isInSearchMode
+                                : vm2.previousAppointmentList.length == 0 && !vm2.isInSearchMode
                                     ? Align(
                                         alignment: Alignment.center,
                                         child: Container(
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 'You have no completed \nappointment.',
@@ -1642,9 +1675,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor('#333132'),
                                                     fontWeight: FontWeight.w500,
-                                                    fontSize: deviceWidth <= 330
-                                                        ? 14
-                                                        : 17),
+                                                    fontSize: deviceWidth <= 330 ? 14 : 17),
                                               ),
                                               SizedBox(
                                                 height: 30,
@@ -1658,46 +1689,30 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              HospitalScreen(
-                                                                locationData: widget
-                                                                    .locationData,
-                                                                hospitalList2:
-                                                                    widget
-                                                                        .hospitalList2,
+                                                          builder: (context) => HospitalScreen(
+                                                                locationData: widget.locationData,
+                                                                hospitalList2: widget.hospitalList2,
                                                               )));
                                                 },
                                                 child: Material(
                                                   elevation: 2,
                                                   shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
+                                                      borderRadius: BorderRadius.circular(5)),
                                                   color: HexColor("#354291"),
                                                   child: SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 335
-                                                            : 300,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .width >
-                                                                600
-                                                            ? 35
-                                                            : 45,
+                                                    width: MediaQuery.of(context).size.width > 600
+                                                        ? 335
+                                                        : 300,
+                                                    height: MediaQuery.of(context).size.width > 600
+                                                        ? 35
+                                                        : 45,
                                                     child: Center(
                                                       child: Text(
                                                         "Get an appointment",
                                                         style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
+                                                            fontWeight: FontWeight.w500),
                                                       ),
                                                     ),
                                                   ),
@@ -1710,21 +1725,15 @@ class _GetAppointmentState extends State<GetAppointment> {
                                     : ListView.builder(
                                         controller: _scrollController2,
                                         shrinkWrap: true,
-                                        itemCount:
-                                            vm2.previousAppointmentList.length +
-                                                1,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
+                                        itemCount: vm2.previousAppointmentList.length + 1,
+                                        itemBuilder: (BuildContext context, int index) {
                                           //print("LIIIISSSYYSY:::" + list[index].consultationId);
-                                          if (index ==
-                                              vm2.previousAppointmentList
-                                                  .length) {
+                                          if (index == vm2.previousAppointmentList.length) {
                                             return vm2.isFetchingMoreData
                                                 ? SizedBox(
                                                     height: 60,
-                                                    child: Center(
-                                                        child:
-                                                            CircularProgressIndicator()))
+                                                    child:
+                                                        Center(child: CircularProgressIndicator()))
                                                 : SizedBox();
                                             //return SizedBox(height: 15,);
 
@@ -1737,28 +1746,21 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                     right: isTablet ? 20 : 0),
                                                 child: Container(
                                                   constraints: BoxConstraints(
-                                                    minHeight:
-                                                        isTablet ? 185 : 165,
+                                                    minHeight: isTablet ? 185 : 165,
                                                   ),
                                                   //height: isTablet? 185 : 165,
                                                   margin: EdgeInsets.only(
-                                                      top: 8,
-                                                      bottom: 5,
-                                                      right: 10,
-                                                      left: 10),
+                                                      top: 8, bottom: 5, right: 10, left: 10),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
+                                                    borderRadius: BorderRadius.circular(15),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.1),
+                                                        color: Colors.grey.withOpacity(0.1),
                                                         spreadRadius: 5,
                                                         blurRadius: 7,
-                                                        offset: Offset(0,
-                                                            1), // changes position of shadow
+                                                        offset: Offset(
+                                                            0, 1), // changes position of shadow
                                                       ),
                                                     ],
                                                   ),
@@ -1767,24 +1769,16 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                       Stack(
                                                         children: [
                                                           Container(
-                                                            constraints:
-                                                                BoxConstraints(
-                                                              minHeight:
-                                                                  isTablet
-                                                                      ? 80
-                                                                      : 70,
+                                                            constraints: BoxConstraints(
+                                                              minHeight: isTablet ? 80 : 70,
                                                             ),
 
                                                             //height: isTablet? 80 : 70,
                                                             // margin: EdgeInsets.only(bottom: 5,right: 10,left: 10),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: HexColor(
-                                                                  '#F0F2FF'),
+                                                            decoration: BoxDecoration(
+                                                              color: HexColor('#F0F2FF'),
                                                               borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15),
+                                                                  BorderRadius.circular(15),
                                                             ),
                                                             child: Padding(
                                                               padding: EdgeInsets.only(
@@ -1792,14 +1786,10 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   right: 5,
                                                                   bottom: 8,
                                                                   left:
-                                                                      deviceHeight >
-                                                                              650
-                                                                          ? 5
-                                                                          : 10),
+                                                                      deviceHeight > 650 ? 5 : 10),
                                                               child: Column(
                                                                 crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
+                                                                    CrossAxisAlignment.start,
                                                                 children: [
                                                                   SizedBox(
                                                                     height: 5,
@@ -1811,8 +1801,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     children: [
                                                                       Text(
                                                                         "Serial No: ",
-                                                                        style: GoogleFonts
-                                                                            .poppins(
+                                                                        style: GoogleFonts.poppins(
                                                                           fontWeight:
                                                                               FontWeight.w500,
                                                                           color:
@@ -1825,10 +1814,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         ),
                                                                       ),
                                                                       SizedBox(
-                                                                        width: MediaQuery.of(context).size.width >
-                                                                                350
-                                                                            ? 10
-                                                                            : 5,
+                                                                        width:
+                                                                            MediaQuery.of(context)
+                                                                                        .size
+                                                                                        .width >
+                                                                                    350
+                                                                                ? 10
+                                                                                : 5,
                                                                       ),
                                                                       Row(
                                                                         children: [
@@ -1836,27 +1828,42 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                             "Date: ",
                                                                             style:
                                                                                 GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: HexColor('#354291'),
+                                                                              fontWeight:
+                                                                                  FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
                                                                               fontSize: isTablet
                                                                                   ? 16
-                                                                                  : deviceWidth <= 360
+                                                                                  : deviceWidth <=
+                                                                                          360
                                                                                       ? 10
                                                                                       : 12,
                                                                             ),
                                                                           ),
                                                                           Container(
-                                                                            constraints:
-                                                                                BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .165),
-                                                                            child:
-                                                                                Text(
-                                                                              DateUtil().formattedDate(DateTime.parse(vm2.previousAppointmentList[index].appointDate).toLocal()),
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                            constraints: BoxConstraints(
+                                                                                maxWidth: MediaQuery.of(
+                                                                                            context)
+                                                                                        .size
+                                                                                        .width *
+                                                                                    .165),
+                                                                            child: Text(
+                                                                              DateUtil().formattedDate(
+                                                                                  DateTime.parse(vm2
+                                                                                          .previousAppointmentList[
+                                                                                              index]
+                                                                                          .appointDate)
+                                                                                      .toLocal()),
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
@@ -1865,10 +1872,13 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         ],
                                                                       ),
                                                                       SizedBox(
-                                                                        width: MediaQuery.of(context).size.width >
-                                                                                350
-                                                                            ? 10
-                                                                            : 5,
+                                                                        width:
+                                                                            MediaQuery.of(context)
+                                                                                        .size
+                                                                                        .width >
+                                                                                    350
+                                                                                ? 10
+                                                                                : 5,
                                                                       ),
                                                                       Row(
                                                                         children: [
@@ -1876,25 +1886,41 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                             "Type: ",
                                                                             style:
                                                                                 GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.w500,
-                                                                              color: HexColor('#354291'),
+                                                                              fontWeight:
+                                                                                  FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
                                                                               fontSize: isTablet
                                                                                   ? 16
-                                                                                  : deviceWidth <= 360
+                                                                                  : deviceWidth <=
+                                                                                          360
                                                                                       ? 10
                                                                                       : 12,
                                                                             ),
                                                                           ),
                                                                           Container(
-                                                                            constraints:
-                                                                                BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .25),
-                                                                            child:
-                                                                                Text(
-                                                                              vm2.previousAppointmentList[index].consultTypeName,
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
-                                                                                fontSize: deviceWidth <= 360 ? 10 : 12,
+                                                                            constraints: BoxConstraints(
+                                                                                maxWidth: MediaQuery.of(
+                                                                                            context)
+                                                                                        .size
+                                                                                        .width *
+                                                                                    .25),
+                                                                            child: Text(
+                                                                              vm2
+                                                                                  .previousAppointmentList[
+                                                                                      index]
+                                                                                  .consultTypeName,
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
+                                                                                fontSize:
+                                                                                    deviceWidth <=
+                                                                                            360
+                                                                                        ? 10
+                                                                                        : 12,
                                                                               ),
                                                                             ),
                                                                           ),
@@ -1903,11 +1929,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     ],
                                                                   ),
                                                                   SizedBox(
-                                                                    height:
-                                                                        MediaQuery.of(context).size.width >
-                                                                                600
-                                                                            ? 10
-                                                                            : 5,
+                                                                    height: MediaQuery.of(context)
+                                                                                .size
+                                                                                .width >
+                                                                            600
+                                                                        ? 10
+                                                                        : 5,
                                                                   ),
                                                                   Row(
                                                                     mainAxisAlignment:
@@ -1916,10 +1943,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                     children: [
                                                                       Padding(
                                                                         padding:
-                                                                            const EdgeInsets.only(left: 20.0),
-                                                                        child:
-                                                                            Text(
-                                                                          vm2.previousAppointmentList[index]
+                                                                            const EdgeInsets.only(
+                                                                                left: 20.0),
+                                                                        child: Text(
+                                                                          vm2
+                                                                              .previousAppointmentList[
+                                                                                  index]
                                                                               .slotSl
                                                                               .toString(),
                                                                           style:
@@ -1938,30 +1967,43 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       ),
                                                                       Padding(
                                                                         padding:
-                                                                            const EdgeInsets.only(left: 15.0),
-                                                                        child:
-                                                                            Row(
+                                                                            const EdgeInsets.only(
+                                                                                left: 15.0),
+                                                                        child: Row(
                                                                           children: [
                                                                             Text(
                                                                               "Time: ",
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
                                                                             ),
                                                                             Text(
-                                                                              TimeUtil().formattedDate(DateTime.parse(vm2.previousAppointmentList[index].endTime).toLocal()),
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                              TimeUtil().formattedDate(
+                                                                                  DateTime.parse(vm2
+                                                                                          .previousAppointmentList[
+                                                                                              index]
+                                                                                          .endTime)
+                                                                                      .toLocal()),
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
@@ -1971,30 +2013,42 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       ),
                                                                       Padding(
                                                                         padding:
-                                                                            const EdgeInsets.only(right: 8.0),
-                                                                        child:
-                                                                            Row(
+                                                                            const EdgeInsets.only(
+                                                                                right: 8.0),
+                                                                        child: Row(
                                                                           children: [
                                                                             Text(
                                                                               "Status: ",
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#354291'),
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#354291'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
                                                                             ),
                                                                             Text(
-                                                                              vm2.previousAppointmentList[index].status == 2 ? "Completed" : '',
-                                                                              style: GoogleFonts.poppins(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                color: HexColor('#32C974'),
+                                                                              vm2.previousAppointmentList[index]
+                                                                                          .status ==
+                                                                                      2
+                                                                                  ? "Completed"
+                                                                                  : '',
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                fontWeight:
+                                                                                    FontWeight.w500,
+                                                                                color: HexColor(
+                                                                                    '#32C974'),
                                                                                 fontSize: isTablet
                                                                                     ? 16
-                                                                                    : deviceWidth <= 360
+                                                                                    : deviceWidth <=
+                                                                                            360
                                                                                         ? 10
                                                                                         : 12,
                                                                               ),
@@ -2013,41 +2067,36 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                       SizedBox(
                                                         height: isTablet
                                                             ? 3
-                                                            : MediaQuery.of(context)
-                                                                            .size
-                                                                            .width *
+                                                            : MediaQuery.of(context).size.width *
                                                                         .44 >
                                                                     600
                                                                 ? 10
                                                                 : 7,
                                                       ),
                                                       Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                right: 5.0,
-                                                                left: 5),
+                                                        padding: const EdgeInsets.only(
+                                                            right: 5.0, left: 5),
                                                         child: Row(
                                                           mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
+                                                              MainAxisAlignment.spaceBetween,
                                                           children: [
                                                             Row(
                                                               children: [
                                                                 Container(
                                                                   //height: 60,
                                                                   //width: 20,
-                                                                  child: vm2.previousAppointmentList[index].photo !=
+                                                                  child: vm2
+                                                                              .previousAppointmentList[
+                                                                                  index]
+                                                                              .photo !=
                                                                           null
                                                                       ? loadLogo(vm2
                                                                           .previousAppointmentList[
                                                                               index]
                                                                           .photo)
-                                                                      : Image
-                                                                          .asset(
+                                                                      : Image.asset(
                                                                           "assets/icons/dct.png",
-                                                                          fit: BoxFit
-                                                                              .fill,
+                                                                          fit: BoxFit.fill,
                                                                           width: deviceWidth > 650
                                                                               ? 100
                                                                               : deviceWidth <= 360
@@ -2065,19 +2114,19 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                 ),
                                                                 Padding(
                                                                   padding: EdgeInsets.only(
-                                                                      bottom: MediaQuery.of(context).size.height >
+                                                                      bottom: MediaQuery.of(context)
+                                                                                  .size
+                                                                                  .height >
                                                                               650
                                                                           ? 20
                                                                           : 10,
                                                                       left: 1),
                                                                   child: Column(
                                                                     crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
+                                                                        CrossAxisAlignment.start,
                                                                     children: [
                                                                       SizedBox(
-                                                                        height:
-                                                                            8,
+                                                                        height: 8,
                                                                       ),
                                                                       Container(
                                                                         width: deviceWidth <= 360 &&
@@ -2085,53 +2134,78 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                             ? 160
                                                                             : deviceWidth <= 330
                                                                                 ? 130
-                                                                                : MediaQuery.of(context).size.width * .40,
-                                                                        child:
-                                                                            Text(
-                                                                          vm2.previousAppointmentList[index]
+                                                                                : MediaQuery.of(
+                                                                                            context)
+                                                                                        .size
+                                                                                        .width *
+                                                                                    .40,
+                                                                        child: Text(
+                                                                          vm2
+                                                                              .previousAppointmentList[
+                                                                                  index]
                                                                               .doctorName,
-                                                                          style: GoogleFonts.poppins(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              color: HexColor('#393939'),
-                                                                              fontSize: isTablet
-                                                                                  ? 16
-                                                                                  : deviceWidth <= 360
-                                                                                      ? 10
-                                                                                      : 12),
-                                                                          maxLines:
-                                                                              1,
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                                  fontWeight:
+                                                                                      FontWeight
+                                                                                          .bold,
+                                                                                  color: HexColor(
+                                                                                      '#393939'),
+                                                                                  fontSize: isTablet
+                                                                                      ? 16
+                                                                                      : deviceWidth <=
+                                                                                              360
+                                                                                          ? 10
+                                                                                          : 12),
+                                                                          maxLines: 1,
                                                                           overflow:
                                                                               TextOverflow.ellipsis,
                                                                         ),
                                                                       ),
                                                                       Text(
-                                                                        vm2.previousAppointmentList[index]?.doctorSpecialtyName ??
+                                                                        vm2
+                                                                                .previousAppointmentList[
+                                                                                    index]
+                                                                                ?.doctorSpecialtyName ??
                                                                             '',
                                                                         style: GoogleFonts.poppins(
-                                                                            color: HexColor('#354291'),
+                                                                            color:
+                                                                                HexColor('#354291'),
                                                                             fontSize: isTablet
                                                                                 ? 16
                                                                                 : deviceWidth <= 360
                                                                                     ? 10
                                                                                     : 12,
-                                                                            fontWeight: FontWeight.w500),
+                                                                            fontWeight:
+                                                                                FontWeight.w500),
                                                                       ),
                                                                       Container(
                                                                           width: deviceWidth <= 360
                                                                               ? 130
-                                                                              : MediaQuery.of(context).size.width *
+                                                                              : MediaQuery.of(context)
+                                                                                      .size
+                                                                                      .width *
                                                                                   .40,
                                                                           child: Text(
-                                                                              vm2.previousAppointmentList[index].companyName,
-                                                                              maxLines: deviceWidth <= 360 ? 2 : 1,
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              style: GoogleFonts.poppins(
-                                                                                  color: HexColor('#354291'),
-                                                                                  fontSize: isTablet
-                                                                                      ? 15
-                                                                                      : deviceWidth <= 360
-                                                                                          ? 10
-                                                                                          : 12))),
+                                                                              vm2
+                                                                                  .previousAppointmentList[
+                                                                                      index]
+                                                                                  .companyName,
+                                                                              maxLines:
+                                                                                  deviceWidth <= 360
+                                                                                      ? 2
+                                                                                      : 1,
+                                                                              overflow: TextOverflow
+                                                                                  .ellipsis,
+                                                                              style: GoogleFonts
+                                                                                  .poppins(
+                                                                                      color: HexColor(
+                                                                                          '#354291'),
+                                                                                      fontSize: isTablet
+                                                                                          ? 15
+                                                                                          : deviceWidth <= 360
+                                                                                              ? 10
+                                                                                              : 12))),
                                                                     ],
                                                                   ),
                                                                 ),
@@ -2156,67 +2230,73 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                               children: [
                                                                 InkWell(
                                                                   onTap: () {
-                                                                    Navigator.push(
-                                                                        context,
-                                                                        MaterialPageRoute(builder:
-                                                                            (context) {
+                                                                    Navigator.push(context,
+                                                                        MaterialPageRoute(
+                                                                            builder: (context) {
                                                                       return AppointmentScreen(
                                                                         doctorNo: vm2
-                                                                            .previousAppointmentList[index]
+                                                                            .previousAppointmentList[
+                                                                                index]
                                                                             ?.doctorNo
                                                                             .toString(),
                                                                         companyNo: vm2
-                                                                            .previousAppointmentList[index]
+                                                                            .previousAppointmentList[
+                                                                                index]
                                                                             ?.companyNo
                                                                             .toString(),
                                                                         orgNo: vm2
-                                                                            .previousAppointmentList[index]
+                                                                            .previousAppointmentList[
+                                                                                index]
                                                                             ?.organizationNo
                                                                             .toString(),
                                                                         hospitalName: vm2
-                                                                            .previousAppointmentList[index]
+                                                                            .previousAppointmentList[
+                                                                                index]
                                                                             ?.companyName
                                                                             .toString(),
                                                                       );
                                                                     }));
                                                                   },
-                                                                  child:
-                                                                      Material(
-                                                                    elevation:
-                                                                        0,
+                                                                  child: Material(
+                                                                    elevation: 0,
                                                                     shape: RoundedRectangleBorder(
                                                                         borderRadius:
-                                                                            BorderRadius.circular(5)),
-                                                                    color: HexColor(
-                                                                        "#354291"),
-                                                                    child:
-                                                                        SizedBox(
+                                                                            BorderRadius.circular(
+                                                                                5)),
+                                                                    color: HexColor("#354291"),
+                                                                    child: SizedBox(
                                                                       width: isTablet
                                                                           ? 170
-                                                                          : deviceWidth <= 360 && deviceWidth > 330
+                                                                          : deviceWidth <= 360 &&
+                                                                                  deviceWidth > 330
                                                                               ? 105
                                                                               : deviceWidth <= 330
                                                                                   ? 95
                                                                                   : 113,
-                                                                      height: deviceWidth <=
-                                                                              360
+                                                                      height: deviceWidth <= 360
                                                                           ? 28
                                                                           : 35,
-                                                                      child:
-                                                                          Center(
-                                                                        child:
-                                                                            Text(
+                                                                      child: Center(
+                                                                        child: Text(
                                                                           "Rebook",
-                                                                          style: GoogleFonts.poppins(
-                                                                              color: Colors.white,
-                                                                              fontSize: isTablet
-                                                                                  ? 15
-                                                                                  : deviceWidth <= 360 && deviceWidth > 330
-                                                                                      ? 9
-                                                                                      : deviceWidth <= 330
-                                                                                          ? 8
-                                                                                          : 10,
-                                                                              fontWeight: FontWeight.w600),
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                                  color:
+                                                                                      Colors.white,
+                                                                                  fontSize: isTablet
+                                                                                      ? 15
+                                                                                      : deviceWidth <=
+                                                                                                  360 &&
+                                                                                              deviceWidth >
+                                                                                                  330
+                                                                                          ? 9
+                                                                                          : deviceWidth <=
+                                                                                                  330
+                                                                                              ? 8
+                                                                                              : 10,
+                                                                                  fontWeight:
+                                                                                      FontWeight
+                                                                                          .w600),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -2231,80 +2311,92 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       : 25,
                                                                 ),
                                                                 InkWell(
-                                                                  onTap:
-                                                                      () async {
+                                                                  onTap: () async {
                                                                     print(
                                                                         'ButtonPredfromAppointmentscreen');
-                                                                    final file = await _createPdfFileFromString(
-                                                                        vm2
-                                                                            .previousAppointmentList[
-                                                                                index]
-                                                                            .prescriptionNo
-                                                                            .toString(),
-                                                                        vm2.previousAppointmentList[index]
-                                                                            .companyAlias
-                                                                            .toString());
-                                                                    Navigator
-                                                                        .push(
+                                                                    final file =
+                                                                        await _createPdfFileFromString(
+                                                                            vm2
+                                                                                .previousAppointmentList[
+                                                                                    index]
+                                                                                .prescriptionNo
+                                                                                .toString(),
+                                                                            vm2
+                                                                                .previousAppointmentList[
+                                                                                    index]
+                                                                                .companyAlias
+                                                                                .toString());
+                                                                    Navigator.push(
                                                                       context,
                                                                       PageTransition(
                                                                         type: PageTransitionType
                                                                             .rightToLeft,
                                                                         child: PdfFileViewerScreen(
                                                                             file,
-                                                                            vm2.previousAppointmentList[index].consultationId),
+                                                                            vm2
+                                                                                .previousAppointmentList[
+                                                                                    index]
+                                                                                .consultationId),
                                                                       ),
                                                                     );
                                                                   },
-                                                                  child:
-                                                                      Material(
-                                                                    elevation:
-                                                                        0,
+                                                                  child: Material(
+                                                                    elevation: 0,
                                                                     shape: RoundedRectangleBorder(
                                                                         borderRadius:
-                                                                            BorderRadius.circular(5)),
-                                                                    color: vm2.previousAppointmentList[index].prescriptionNo ==
+                                                                            BorderRadius.circular(
+                                                                                5)),
+                                                                    color: vm2
+                                                                                    .previousAppointmentList[
+                                                                                        index]
+                                                                                    .prescriptionNo ==
                                                                                 null ||
-                                                                            vm2.previousAppointmentList[index].companyAlias ==
+                                                                            vm2
+                                                                                    .previousAppointmentList[
+                                                                                        index]
+                                                                                    .companyAlias ==
                                                                                 null
-                                                                        ? HexColor(
-                                                                            "#99A0C8")
-                                                                        : HexColor(
-                                                                            "#354291"),
-                                                                    child:
-                                                                        Container(
-                                                                      constraints:
-                                                                          BoxConstraints(
-                                                                        minHeight: deviceWidth <=
-                                                                                360
-                                                                            ? 28
-                                                                            : 35,
+                                                                        ? HexColor("#99A0C8")
+                                                                        : HexColor("#354291"),
+                                                                    child: Container(
+                                                                      constraints: BoxConstraints(
+                                                                        minHeight:
+                                                                            deviceWidth <= 360
+                                                                                ? 28
+                                                                                : 35,
                                                                       ),
 
                                                                       width: isTablet
                                                                           ? 170
-                                                                          : deviceWidth <= 360 && deviceWidth > 330
+                                                                          : deviceWidth <= 360 &&
+                                                                                  deviceWidth > 330
                                                                               ? 105
                                                                               : deviceWidth <= 330
                                                                                   ? 95
                                                                                   : 113,
                                                                       // height: deviceWidth<=360 ? 28
                                                                       //     : 35,
-                                                                      child:
-                                                                          Center(
-                                                                        child:
-                                                                            Text(
+                                                                      child: Center(
+                                                                        child: Text(
                                                                           "View Prescription",
-                                                                          style: GoogleFonts.poppins(
-                                                                              color: Colors.white,
-                                                                              fontSize: isTablet
-                                                                                  ? 15
-                                                                                  : deviceWidth <= 360 && deviceWidth > 330
-                                                                                      ? 9
-                                                                                      : deviceWidth <= 330
-                                                                                          ? 8
-                                                                                          : 10,
-                                                                              fontWeight: FontWeight.w600),
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                                  color:
+                                                                                      Colors.white,
+                                                                                  fontSize: isTablet
+                                                                                      ? 15
+                                                                                      : deviceWidth <=
+                                                                                                  360 &&
+                                                                                              deviceWidth >
+                                                                                                  330
+                                                                                          ? 9
+                                                                                          : deviceWidth <=
+                                                                                                  330
+                                                                                              ? 8
+                                                                                              : 10,
+                                                                                  fontWeight:
+                                                                                      FontWeight
+                                                                                          .w600),
                                                                         ),
                                                                       ),
                                                                     ),

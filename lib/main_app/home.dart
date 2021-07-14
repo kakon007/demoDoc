@@ -112,6 +112,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         },
         isDrawerOpen: isDrawerOpen,
         accessToken: accessTokenVm.accessToken,
+        onTapFeaturedCompany: () {
+          f1.requestFocus();
+          _moveTo(2);
+        },onTapFeaturedAppointment: () {
+        _moveTo(1);
+      },
         locationData: _currentPosition,
       ),
       if (!isLoggedIn) ...[

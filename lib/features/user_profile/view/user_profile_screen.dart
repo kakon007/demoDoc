@@ -894,10 +894,10 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       Container(
                         color: HexColor('#F7F8FF'),
-                        height: 65.0,
+                        //height: 65.0,
                         width: double.infinity,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 10),
+                          padding: const EdgeInsets.only(left: 22.0, top: 11,bottom: 11),
                           child: Text(
                             "Address               : ${vm.userDetailsList?.address ?? ""}",
                             style: GoogleFonts.roboto(

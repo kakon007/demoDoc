@@ -863,7 +863,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                           AppTheme.appbarPrimary),
                                     ))
                                     : Container(
-                                  height: width<=360?  MediaQuery.of(context).size.height*.32: MediaQuery.of(context).size.height*.45,
+                                  constraints: BoxConstraints(maxHeight: width<=360?  MediaQuery.of(context).size.height*.32: MediaQuery.of(context).size.height*.47,),
+                                //  height: width<=360?  MediaQuery.of(context).size.height*.32: MediaQuery.of(context).size.height*.45,
                                   child: length == 0
                                       ? NoAvailableSlots()
                                       : GridView.builder(

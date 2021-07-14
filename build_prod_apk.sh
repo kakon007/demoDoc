@@ -9,4 +9,4 @@ version=`grep 'version: ' pubspec.yaml | sed 's/version: //'`
 git commit -m "Version Upgraded to $version" pubspec.yaml
 
 
-flutter build apk  --flavor prod --target-platform android-arm,android-arm64 --release --tree-shake-icons --split-debug-info --obfuscate -t lib/main.dart
+flutter build apk  --flavor prod --target-platform android-arm,android-arm64 --release --tree-shake-icons --split-debug-info --obfuscate -t lib/main_prod.dart

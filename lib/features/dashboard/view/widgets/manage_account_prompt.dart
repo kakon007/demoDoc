@@ -137,7 +137,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                               Container(
                                 width: 190,
                                 child: Text(
-                                  vm.userDetailsList?.address ?? '',
+                                  vm.userDetailsList?.hospitalNumber ?? 'Loading....',
                                   style: GoogleFonts.poppins(
                                       color: HexColor("#8592E5"), fontSize: isTablet? 16 :13),
                                   overflow: TextOverflow.ellipsis,

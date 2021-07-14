@@ -26,35 +26,38 @@ class NearestHospitalViewModel extends ChangeNotifier{
   }
 
   Future<void> getData({var userLatitude,var userLongitude}) async {
-    // CacheRepositories.loadCachedNearestHospital().then((value) {
-    //   if(value!=null){
-    //     _hospitalList=value.items;
-    //     notifyListeners();
-    //   }
-    // });
-    print('Nesrestcall');
-    // print('Hospital :: ' + userLatitude);
-    // print('Hospital :: ' + userLongitude);
-    _isFetchingData = true;
-    //_lastFetchTime = DateTime.now();
-    _isLoading = true;
-    var res = await NearestHospitalRepositry().fetchNearestHospitalList(userLatitude: userLatitude,userLongitude: userLongitude);
-    print('Nesrestcallllk');
-    notifyListeners();
-    _hospitalList.clear();
-    res.fold((l) {
-      _appError = l;
-      _isFetchingMoreData = false;
-      print('worng');
-      notifyListeners();
-    }, (r) {
-      _isLoading= false;
-      _isFetchingMoreData = false;
-      _hospitalList.addAll(r.dataList);
-      print('right');
-      //_hospitalList.removeAt(0);
-      notifyListeners();
-    });
+   if(_hospitalList.isEmpty){
+     // CacheRepositories.loadCachedNearestHospital().then((value) {
+     //   if(value!=null){
+     //     _hospitalList=value.items;
+     //     notifyListeners();
+
+     //   }
+     // });
+     print('Nesrestcall');
+     // print('Hospital :: ' + userLatitude);
+     // print('Hospital :: ' + userLongitude);
+     _isFetchingData = true;
+     //_lastFetchTime = DateTime.now();
+     _isLoading = true;
+     var res = await NearestHospitalRepositry().fetchNearestHospitalList(userLatitude: userLatitude,userLongitude: userLongitude);
+     print('Nesrestcallllk');
+     notifyListeners();
+     _hospitalList.clear();
+     res.fold((l) {
+       _appError = l;
+       _isFetchingMoreData = false;
+       print('worng');
+       notifyListeners();
+     }, (r) {
+       _isLoading= false;
+       _isFetchingMoreData = false;
+       _hospitalList.addAll(r.dataList);
+       print('right');
+       //_hospitalList.removeAt(0);
+       notifyListeners();
+     });
+   }
   }
 
   AppError get appError => _appError;

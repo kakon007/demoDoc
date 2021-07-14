@@ -21,26 +21,28 @@ class NewsViewModel extends ChangeNotifier{
 
   Future<void> getData({bool isFromOnPageLoad = false}) async {
 
-    if (isFromOnPageLoad) {
-      if (_lastFetchTime != null) if (_lastFetchTime
-          .difference(DateTime.now()) <
-          CommonServiceRule.onLoadPageReloadTime) return;
-    }
-    _isFetchingData = true;
-    _lastFetchTime = DateTime.now();
-    var res = await NewsRepository().fetchNewspdate();
-    notifyListeners();
-    _newsList.clear();
-    res.fold((l) {
-      _appError = l;
-      _isFetchingMoreData = false;
-      notifyListeners();
-    }, (r) {
-      _isFetchingMoreData = false;
-      _newsList.addAll(r.dataList);
-      notifyListeners();
-    });
-    //print("hhhhhh:::::::"+_newsList.first.title);
+   if(_newsList.isEmpty){
+     if (isFromOnPageLoad) {
+       if (_lastFetchTime != null) if (_lastFetchTime
+           .difference(DateTime.now()) <
+           CommonServiceRule.onLoadPageReloadTime) return;
+     }
+     _isFetchingData = true;
+     _lastFetchTime = DateTime.now();
+     var res = await NewsRepository().fetchNewspdate();
+     notifyListeners();
+     _newsList.clear();
+     res.fold((l) {
+       _appError = l;
+       _isFetchingMoreData = false;
+       notifyListeners();
+     }, (r) {
+       _isFetchingMoreData = false;
+       _newsList.addAll(r.dataList);
+       notifyListeners();
+     });
+     //print("hhhhhh:::::::"+_newsList.first.title);
+   }
   }
 
   AppError get appError => _appError;

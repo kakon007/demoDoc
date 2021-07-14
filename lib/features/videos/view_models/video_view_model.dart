@@ -24,32 +24,34 @@ class VideoViewModel extends ChangeNotifier {
   }
 
   Future<void> getData() async {
-    // if (isFromOnPageLoad) {
-    //   if (_lastFetchTime != null) if (_lastFetchTime
-    //       .difference(DateTime.now()) <
-    //       CommonServiceRule.onLoadPageReloadTime) return;
-    // }
-    _isFetchingData = true;
-    var res = await VideoInfoRepository.getVideoInfo();
-    notifyListeners();
-    _videoList.clear();
-    res.fold((l) {
-      _appError = l;
-      _isFetchingData = false;
-      notifyListeners();
-      return false;
-    }, (r) {
-      totalData = r.maxData;
-      _isFetchingData = false;
-      //     return result.fold((l) {
-      //       isFetchingMoreData= false;
-      //       hasMoreData = false;
-      //       logger.i(l);
-      //       notifyListeners();
-      _videoList.addAll(r.dataList);
-      notifyListeners();
-      return true;
-    });
+   if(_videoList.isEmpty){
+     // if (isFromOnPageLoad) {
+     //   if (_lastFetchTime != null) if (_lastFetchTime
+     //       .difference(DateTime.now()) <
+     //       CommonServiceRule.onLoadPageReloadTime) return;
+     // }
+     _isFetchingData = true;
+     var res = await VideoInfoRepository.getVideoInfo();
+     notifyListeners();
+     _videoList.clear();
+     res.fold((l) {
+       _appError = l;
+       _isFetchingData = false;
+       notifyListeners();
+       return false;
+     }, (r) {
+       totalData = r.maxData;
+       _isFetchingData = false;
+       //     return result.fold((l) {
+       //       isFetchingMoreData= false;
+       //       hasMoreData = false;
+       //       logger.i(l);
+       //       notifyListeners();
+       _videoList.addAll(r.dataList);
+       notifyListeners();
+       return true;
+     });
+   }
   }
 
   // getMoreData() async {

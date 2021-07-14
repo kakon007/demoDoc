@@ -98,8 +98,8 @@ class _RootState extends State<Root> {
                     HexColor('#3A0057'),
                   ],
                   stops: [0.0, 1.0],
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
+                  begin: FractionalOffset.topRight,
+                  end: FractionalOffset.bottomLeft,
                   tileMode: TileMode.repeated
               )
           ),
@@ -118,7 +118,7 @@ class _RootState extends State<Root> {
                 child: Center(
                   child: Container(
                     //height: isTablet? 650 : 50,
-                    width: isTablet? 650 : 300,
+                    width: isTablet? 650 : 260,
                     child: Image.asset(kMyHealthLogo,
                       fit: BoxFit.cover,
                     ),

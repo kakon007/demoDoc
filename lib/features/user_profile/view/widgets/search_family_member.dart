@@ -176,7 +176,8 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           margin: EdgeInsets.only(top: 5, bottom: 5),
-                          height: isTablet? 85 : 70,
+                          constraints: BoxConstraints(minHeight: isTablet? 85 : 70,),
+                        //  height: isTablet? 85 : 70,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -300,7 +301,8 @@ class _SearchFamilyMemberState extends State<SearchFamilyMember> {
                                       color: HexColor("#D2D9FF"),
                                       borderRadius: BorderRadius.circular(10)),
                                   width: isTablet? 110 : width<=330 ? 85 : 90,
-                                  height: isTablet? 85 : 70,
+                                  constraints: BoxConstraints(minHeight:isTablet? 85 : 70,),
+                                  //height: isTablet? 85 : 70,
                                 ),
                               ),
                             ],

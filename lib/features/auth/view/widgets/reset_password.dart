@@ -115,7 +115,8 @@ class _ResetPasswordAlertState extends State<ResetPasswordAlert> {
       contentPadding: EdgeInsets.only(top: 10.0),
       content: SingleChildScrollView(
         child: Container(
-          height: !isExpanded ? isTablet? 280 : 255 : isValidCredential ? isTablet? 300 : 275 : isTablet? 290 : 265,
+          constraints: BoxConstraints(minHeight: !isExpanded ? isTablet? 280 : 255 : isValidCredential ? isTablet? 300 : 275 : isTablet? 290 : 265,),
+          // height: !isExpanded ? isTablet? 280 : 255 : isValidCredential ? isTablet? 300 : 275 : isTablet? 290 : 265,
           child: Padding(
             padding: const EdgeInsets.only(left: 25.0, right: 25, bottom: 0),
             child: Form(

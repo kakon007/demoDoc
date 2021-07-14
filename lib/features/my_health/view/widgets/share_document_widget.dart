@@ -1004,8 +1004,10 @@ class _ShareDocumentState extends State<ShareDocument> {
                                           width: isTablet? 32 : deviceWidth<=330 ? 25 : 28,
                                         ),
                                       )),
+                                  SizedBox(width: 5,),
                                   Container(
-                                      height: 50,
+                                      constraints: BoxConstraints(minHeight: 50,),
+                                      // height: 50,
                                       width: deviceWidth<=330 ? 135 : 160,
                                       child: Center(
                                           child: Column(
@@ -1017,7 +1019,8 @@ class _ShareDocumentState extends State<ShareDocument> {
                                                 height: 7,
                                               ),
                                               Container(
-                                                width: 120,
+                                                constraints: BoxConstraints(minWidth: 120,),
+                                                //width: 120,
                                                 child: Text(
                                                     vm10.sharedFileList[index].doctorName==null?'No DocTor Name Available':vm10.sharedFileList[index].doctorName,
                                                     maxLines: 1,
@@ -1030,7 +1033,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                                                             .w500)),
                                               ),
                                               Container(
-                                                width: 120,
+                                                constraints: BoxConstraints(minWidth: 120,),
                                                 child: Text(
                                                     vm10.sharedFileList[index].companyName==null?'No Hospital Name Available':vm10.sharedFileList[index].companyName,
                                                     maxLines: 1,
@@ -1083,8 +1086,9 @@ class _ShareDocumentState extends State<ShareDocument> {
                               color: HexColor("#FFA7A7"),
                               borderRadius: BorderRadius.circular(8),
                               ),
+                                constraints: BoxConstraints(minWidth: deviceWidth<=330 ? 45: 55,),
                               height: 30,
-                              width:deviceWidth<=330 ? 45: 55,
+                             // width:deviceWidth<=330 ? 45: 55,
                               child: Center(
                               child: Text(
                               "Confirm",
@@ -1141,8 +1145,9 @@ class _ShareDocumentState extends State<ShareDocument> {
                                color: HexColor("#FFA7A7"),
                                borderRadius: BorderRadius.circular(8),
                              ),
-                             height: 40,
-                             width: deviceWidth<=330? 85 : 100,
+                             constraints: BoxConstraints(minWidth:deviceWidth<=330? 85 : 100,),
+                              height: 40,
+                             //width: deviceWidth<=330? 85 : 100,
                              child: Center(
                                child: Text(
                                  "Remove Access",

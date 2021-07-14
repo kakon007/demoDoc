@@ -69,7 +69,6 @@ class _FamilyMembersState extends State<FamilyMembers> {
       body: Padding(
         padding: EdgeInsets.only(left: 15, right: 15, top: 15),
         child: Column(
-
            crossAxisAlignment: familyVm.familyMembersList.length==0 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -81,9 +80,12 @@ class _FamilyMembersState extends State<FamilyMembers> {
                 ))
                 : familyVm.familyMembersList.length==0 ? Center(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'You have added no family members.',
+                        textAlign: TextAlign.center,
                         key: Key('noFamilyMemberKey'),
                         style: GoogleFonts.poppins(
                             fontSize: isTablet? 20 : 16,

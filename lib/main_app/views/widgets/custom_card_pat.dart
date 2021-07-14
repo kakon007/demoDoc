@@ -40,7 +40,9 @@ class CustomCardPat extends StatelessWidget {
       child: Container(
         //height: 40,
         width: width,
-        height: isTablet? 165 : 130,
+       constraints: BoxConstraints(minHeight: isTablet? 165 : 130,),
+
+       // height: isTablet? 165 : 130,
         child: Card(
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -48,7 +50,7 @@ class CustomCardPat extends StatelessWidget {
             children: [
               Container(
                 width: 8,
-                height: double.infinity,
+                //height: double.infinity,
                 color: HexColor("#8592E5"),
               ),
               // Padding(
@@ -174,12 +176,15 @@ class CustomCardPat extends StatelessWidget {
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.only(bottom:25.0),
-                                              child: Text(
-                                                "Your Serial ",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: isTablet? 16 : width < 330 ? 10 : 15,
-                                                    color: HexColor('#354291'),fontWeight: FontWeight.w500),
-                                                textAlign: TextAlign.center,
+                                              child: Container(
+                                                constraints: BoxConstraints(maxWidth: width*.22),
+                                                child: Text(
+                                                  "Your Serial ",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: isTablet? 16 : width < 330 ? 10 : 15,
+                                                      color: HexColor('#354291'),fontWeight: FontWeight.w500),
+                                                  textAlign: TextAlign.center,
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
@@ -190,7 +195,8 @@ class CustomCardPat extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   width: 40,
-                                                  height: isTablet? 68 : 65,
+                                                  constraints: BoxConstraints(minHeight: isTablet? 68 : 65,),
+                                                  // height: isTablet? 68 : 65,
                                                   decoration: BoxDecoration(
                                                     color: HexColor("#8592E5"),
                                                     borderRadius: BorderRadius.only(
@@ -235,9 +241,10 @@ class CustomCardPat extends StatelessWidget {
                                             shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(8)),
                                             color: HexColor("#354291"),
-                                            child: SizedBox(
+                                            child: Container(
+                                              constraints: BoxConstraints(minHeight:  isTablet? 35 : 30,),
                                               width: isTablet? 190 : width <= 330 ? 95 : 130,
-                                              height: isTablet? 35 : 30,
+                                              // height: isTablet? 35 : 30,
                                               child: Center(
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(0.0),

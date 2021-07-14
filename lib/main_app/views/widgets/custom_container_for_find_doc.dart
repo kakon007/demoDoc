@@ -37,7 +37,8 @@ class CustomContainer extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
    print("height ${MediaQuery.of(context).size.width}");
     return Container(
-      height: isTablet? 150 : width<350 ? 120 : 162,
+      constraints: BoxConstraints(minHeight:  isTablet? 150 : width<350 ? 120 : 162,),
+     // height: isTablet? 150 : width<350 ? 120 : 162,
       margin: EdgeInsets.only(bottom: 6,right: 13,left: 13),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -65,8 +66,9 @@ class CustomContainer extends StatelessWidget {
                 width: isTablet? cardHeight *0.2 : MediaQuery.of(context).size.height > 650 ? cardHeight *0.2 : cardHeight *0.1,
               ),
               Container(
+                constraints: BoxConstraints(minHeight:  width <350 ? 118 : 140,),
                 width: isTablet? width*.65 : width<350 ?cardWidth*1.73:  cardWidth*1.62,
-                height: width <350 ? 118 : 140,
+                //height: width <350 ? 118 : 140,
                 decoration: BoxDecoration(
                   color: HexColor("#FFFFFF"),
                   borderRadius: BorderRadius.only(
@@ -80,11 +82,18 @@ class CustomContainer extends StatelessWidget {
                     crossAxisAlignment:CrossAxisAlignment.start,
                     children: [
                       Container(
-                          height: isTablet? 30 : 39,
+                          constraints: BoxConstraints(minHeight: isTablet? 30 : 39,),
+                         // height: isTablet? 30 : 39,
                           width: width,
                           child: Text(titleText, style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<350 ? 10 : 12, fontWeight: FontWeight.w700),)),
-                      Container(height: 18,child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: isTablet? 15 : width <350 ? 8 : 10,fontWeight: FontWeight.bold ),)),
-                      Container(height: 30,child: Text(designation, style: GoogleFonts.poppins(fontSize:  isTablet? 15 : width <350 ? 8 :10, color: HexColor('#757577')),)),
+                      Container(
+                          constraints: BoxConstraints(minHeight: 18,),
+                          //height: 18,
+                          child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: isTablet? 15 : width <350 ? 8 : 10,fontWeight: FontWeight.bold ),)),
+                      Container(
+                          constraints: BoxConstraints(minHeight: 30,),
+                          //height: 30,
+                          child: Text(designation, style: GoogleFonts.poppins(fontSize:  isTablet? 15 : width <350 ? 8 :10, color: HexColor('#757577')),)),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,7 +110,8 @@ class CustomContainer extends StatelessWidget {
                                 },
                                 child: Container(
                                   width:  isTablet? cardHeight*1.1 : width <350 ? 60 : cardWidth*0.7,
-                                  height:  isTablet? 35 : width <350 ? 20 :30,
+                                  constraints: BoxConstraints(minHeight:  isTablet? 35 : width <350 ? 20 :30,),
+                                  //height:  isTablet? 35 : width <350 ? 20 :30,
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
                                   color: HexColor("#354291")
                                   ),

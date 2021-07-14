@@ -120,7 +120,8 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: EdgeInsets.only(top: 5, bottom: 5),
-                height: isTablet? 85 :  70,
+                constraints: BoxConstraints(minHeight: isTablet? 85 :  70,),
+                //height: isTablet? 85 :  70,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -169,11 +170,15 @@ class _AddFamilyMemberState extends State<AddFamilyMember> {
                                   fontSize: isTablet? 18 :width<=360 ? 13:16,
                                   fontWeight: FontWeight.w500),
                             ),
-                            Text(
-                              "Username: ${regMemberVm.relatedRegId}",
-                              style: GoogleFonts.poppins(
-                                fontSize: isTablet? 18 : width<=360 ? 13 : 16,
-                                color: AppTheme.appbarPrimary,),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*.7),
+                              child: Text(
+                                "Username: ${regMemberVm.relatedRegId}",
+                                maxLines: 2,
+                                style: GoogleFonts.poppins(
+                                  fontSize: isTablet? 18 : width<=360 ? 13 : 16,
+                                  color: AppTheme.appbarPrimary,),
+                              ),
                             )
                           ],
                         ),

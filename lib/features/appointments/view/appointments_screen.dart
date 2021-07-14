@@ -195,7 +195,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  height: 20.0,
+                  constraints: BoxConstraints(minHeight: 20),
+                  //height: 20.0,
                   // width: MediaQuery.of(context).size.width,
                   child: Row(
                     children: [
@@ -372,7 +373,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: Padding(
         padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
         child: Container(
-          height:isTablet? 140 : 120,
+          constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
+          //height:isTablet? 140 : 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
           ),
@@ -395,7 +397,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: Padding(
         padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
         child: Container(
-          height:isTablet? 140 : 120,
+          constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
+         // height:isTablet? 140 : 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -412,7 +415,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               Row(
                 children: [
                   Container(
-                    height: isTablet ? 140 : 120,
+                    constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
+                    // height: isTablet ? 140 : 120,
                     width: isTablet? 180 : width<330 ? 90 : 108,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(

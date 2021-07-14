@@ -274,7 +274,7 @@ class BookAppointmentRepository {
           "dob": dob,
           "paymodeNo": paymodeNo,
           "paymentArray": [],
-          "appointType": "Online",
+          "appointType": "Internet",
           "regNo": regNo,
         }) : jsonEncode(<String, dynamic>{
           "doctorNo": doctorNo,
@@ -307,7 +307,7 @@ class BookAppointmentRepository {
           "dob": dob,
           "paymodeNo": paymodeNo,
           "paymentArray": [],
-          "appointType": "Online",
+          "appointType": "Internet",
         }) ,
       );
       print('status ${response.statusCode}');

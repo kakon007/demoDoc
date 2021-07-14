@@ -23,6 +23,7 @@ import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class UserProfile extends StatefulWidget {
   String fName;
@@ -114,16 +115,42 @@ class _UserProfileState extends State<UserProfile> {
 
   Future getImage() async {
     final pickedFile = await picker.getImage(
-        source: ImageSource.gallery,
-        maxHeight: 500,
-        maxWidth: 500,
-        imageQuality: 50);
+        source: ImageSource.gallery
+    );
+
+    // if (pickedFile != null) {
+    //   _image = File(pickedFile.path);
+    //   print("ish ${await _image.length()}");
+    //   setState(() {
+    //     isEdit = true;
+    //   });
+    // } else {
+    //   print('No image selected.');
+    // }
 
     if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      print("ish ${await _image.length()}");
-      setState(() {
-        isEdit = true;
+//      var compressedImage = await ImageCompressUtil.compressImage(file, 80);
+      Future<File> croppedFile = ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Theme.of(context).primaryColor,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ));
+
+      croppedFile.then((value) async{
+          _image = value;
+          //print("ish ${await _image.length()}");
+          setState(() {
+            isEdit = true;
+          });
       });
     } else {
       print('No image selected.');
@@ -766,8 +793,9 @@ class _UserProfileState extends State<UserProfile> {
                                 _showAlertDialogForEditProfile(context);
                               },
                               child: Container(
+                                constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
                                 height: isTablet ? 25 : 20,
-                                width: isTablet ? 70 : 60,
+                               // width: isTablet ? 70 : 60,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: HexColor('#354291')),
                                   borderRadius: BorderRadius.circular(5),
@@ -805,6 +833,20 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       SizedBox(
                         height: 10,
+                      ),
+                      Container(
+                        color: HexColor('#F7F8FF'),
+                        height: 40.0,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 22.0, top: 10),
+                          child: Text(
+                            "Username            : ${vm.userDetailsList?.hospitalNumber ?? ""}",
+                            style: GoogleFonts.roboto(
+                                color: HexColor('#141D53'),
+                                fontSize: isTablet ? 17 : 15),
+                          ),
+                        ),
                       ),
                       Container(
                         color: Colors.white,

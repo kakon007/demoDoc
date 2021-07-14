@@ -347,7 +347,8 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                         });
                       },
                       child: Container(
-                        height: isTablet ? 200 : cardHeight * 0.9,
+                        constraints: BoxConstraints(minHeight: isTablet ? 200 : cardHeight * 0.9,),
+                        //height: isTablet ? 200 : cardHeight * 0.9,
                         width: isTablet ? 340 : width <= 360 ? width / 2.5 : 160,
                         margin: EdgeInsets.only(
                             top: 8, bottom: 5, right: 12, left: 12),
@@ -426,7 +427,8 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                         print('FileTapped:::');
                       },
                       child: Container(
-                        height: isTablet ? 200 : cardHeight * 0.9,
+                        constraints: BoxConstraints(minHeight: isTablet ? 200 : cardHeight * 0.9,),
+                       // height: isTablet ? 200 : cardHeight * 0.9,
                         width: isTablet ? 340 : width <= 360 ? width / 2.5 : 150,
                         margin: EdgeInsets.only(
                             top: 8, bottom: 5, right: 10, left: 10),

@@ -226,7 +226,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       body: RefreshIndicator(
         onRefresh: () {
           return Provider.of<HospitalListViewModel>(context, listen: false)
-              .refresh();
+              .refresh(force: true);
         },
         child: Padding(
           padding: EdgeInsets.only(
@@ -235,6 +235,10 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               widget.locationData != null ? searchField2 : searchField,
+              // Container(
+              //   color: Colors.red,
+              //   constraints: BoxConstraints(minHeight: 15),
+              //   child: Text('shakil',style: GoogleFonts.poppins(fontSize: 20),),),
               widget.locationData != null
                   ? vm9.shouldShowPageLoader ||
                           vm5.shouldShowPageLoader ||

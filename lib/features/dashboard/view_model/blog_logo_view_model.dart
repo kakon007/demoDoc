@@ -23,25 +23,27 @@ class BLogLogoViewModel extends ChangeNotifier{
 
   Future<void> getData() async {
 
-    // if (isFromOnPageLoad) {
-    //   if (_lastFetchTime != null) if (_lastFetchTime
-    //       .difference(DateTime.now()) <
-    //       CommonServiceRule.onLoadPageReloadTime) return;
-    // }
-    _isFetchingData = true;
-    _lastFetchTime = DateTime.now();
-    var res = await BlogRepository().fetchBlogLogo();
-    notifyListeners();
-    _blogLogoList.clear();
-    res.fold((l) {
-      _appError = l;
-      _isFetchingMoreData = false;
-      notifyListeners();
-    }, (r) {
-      _isFetchingMoreData = false;
-      _blogLogoList.addAll(r.dataList2);
-      notifyListeners();
-    });
+   if(_blogLogoList.isEmpty){
+     // if (isFromOnPageLoad) {
+     //   if (_lastFetchTime != null) if (_lastFetchTime
+     //       .difference(DateTime.now()) <
+     //       CommonServiceRule.onLoadPageReloadTime) return;
+     // }
+     _isFetchingData = true;
+     _lastFetchTime = DateTime.now();
+     var res = await BlogRepository().fetchBlogLogo();
+     notifyListeners();
+     _blogLogoList.clear();
+     res.fold((l) {
+       _appError = l;
+       _isFetchingMoreData = false;
+       notifyListeners();
+     }, (r) {
+       _isFetchingMoreData = false;
+       _blogLogoList.addAll(r.dataList2);
+       notifyListeners();
+     });
+   }
   }
 
   AppError get appError => _appError;

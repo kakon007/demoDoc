@@ -22,6 +22,7 @@ class NewsLogoViewModel extends ChangeNotifier{
 
   Future<void> getData({bool isFromOnPageLoad = false}) async {
 
+  if(_newsLogoList.isEmpty){
     if (isFromOnPageLoad) {
       if (_lastFetchTime != null) if (_lastFetchTime
           .difference(DateTime.now()) <
@@ -42,6 +43,7 @@ class NewsLogoViewModel extends ChangeNotifier{
       notifyListeners();
     });
     //print("hhhhhh:::::::"+_newsLogoList.first.title);
+  }
   }
 
   AppError get appError => _appError;

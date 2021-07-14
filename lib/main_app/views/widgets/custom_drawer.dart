@@ -212,7 +212,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       SizedBox(height: 5,),
                       Container(
                           width: 140,
-                          child: Text(userDetails?.address??"Dhaka",maxLines: 2, style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: isTablet? 16 : width<=360 ? 10 : 14,))),
+                          child: Text(userDetails?.hospitalNumber??"Loading...",maxLines: 2, style: GoogleFonts.roboto(color: HexColor('#B8C2F8'),fontSize: isTablet? 16 : width<=360 ? 10 : 13,))),
                       SizedBox(height: 8,),
                       Container(
                         width: 120,

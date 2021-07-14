@@ -27,40 +27,44 @@ class HospitalLogoViewModel extends ChangeNotifier{
     return getData();
   }
 
-  Future<void> getData() async {
+  Future<void> getData({bool force=false}) async {
     // if (isFromOnPageLoad) {
     //   if (_lastFetchTime != null) if (_lastFetchTime
     //       .difference(DateTime.now()) <
     //       CommonServiceRule.onLoadPageReloadTime) return;
     // }
 
-    CacheRepositories.loadCachedHospitalLogo().then((value) {
-      if(value!=null){
-        _hospitalLogoList=value.items;
+    if(_hospitalLogoList.isEmpty || force){
+      if(_hospitalLogoList.isEmpty){
+        CacheRepositories.loadCachedHospitalLogo().then((value) {
+          if(value!=null){
+            _hospitalLogoList=value.items;
+            _hospitalLogoList.removeAt(0);
+            notifyListeners();
+          }
+        });
+      }
+
+      print("DATA fromLOGO List:::::");
+      _isFetchingData = true;
+      _lastFetchTime = DateTime.now();
+      _isLoading = true;
+      var res = await HospitalLogoRepository().fetchHospitalLogo();
+      notifyListeners();
+      _hospitalLogoList.clear();
+      res.fold((l) {
+        _appError = l;
+        _isFetchingMoreData = false;
+        notifyListeners();
+      }, (r) {
+        _isLoading= false;
+        _isFetchingMoreData = false;
+        _hospitalLogoList.addAll(r.dataList);
         _hospitalLogoList.removeAt(0);
         notifyListeners();
-      }
-    });
-
-    print("DATA fromLOGO List:::::");
-    _isFetchingData = true;
-    _lastFetchTime = DateTime.now();
-    _isLoading = true;
-    var res = await HospitalLogoRepository().fetchHospitalLogo();
-    notifyListeners();
-    _hospitalLogoList.clear();
-    res.fold((l) {
-      _appError = l;
-      _isFetchingMoreData = false;
-      notifyListeners();
-    }, (r) {
-      _isLoading= false;
-      _isFetchingMoreData = false;
-      _hospitalLogoList.addAll(r.dataList);
-      _hospitalLogoList.removeAt(0);
-      notifyListeners();
-      print("DATA fromLOGO List:::::" + _hospitalLogoList.last.companyLogo);
-    });
+        print("DATA fromLOGO List:::::" + _hospitalLogoList.last.companyLogo);
+      });
+    }
   }
 
 

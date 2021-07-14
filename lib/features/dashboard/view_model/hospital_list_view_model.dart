@@ -19,41 +19,46 @@ class HospitalListViewModel extends ChangeNotifier{
   int _page = 1;
   bool _isLoading;
 
-  Future<void> refresh(){
+  Future<void> refresh({bool force}){
     _page = 0;
   _hospitalList.clear();
-    return getData();
+    return getData(force: force);
   }
 
-  Future<void> getData() async {
-    print('Hits');
-    CacheRepositories.loadCachedHospital().then((value) {
-      if(value!=null){
-        _hospitalList=value.items;
-        _hospitalList.removeAt(0);
+  Future<void> getData({bool force=false}) async {
+
+    if(_hospitalList.isEmpty || force){
+      print('Hits');
+     if(_hospitalList.isEmpty){
+       CacheRepositories.loadCachedHospital().then((value) {
+         if(value!=null){
+           _hospitalList=value.items;
+           _hospitalList.removeAt(0);
+           notifyListeners();
+         }
+       });
+     }
+      _isFetchingData = true;
+      //_lastFetchTime = DateTime.now();
+      _isLoading = true;
+      print('Hitss');
+      var res = await HospitalListRepositry().fetchHospitalList();
+      notifyListeners();
+      _hospitalList.clear();
+      res.fold((l) {
+        _appError = l;
+        _isFetchingMoreData = false;
+        print('Hitss worng');
         notifyListeners();
-      }
-    });
-    _isFetchingData = true;
-    //_lastFetchTime = DateTime.now();
-    _isLoading = true;
-    print('Hitss');
-    var res = await HospitalListRepositry().fetchHospitalList();
-    notifyListeners();
-   _hospitalList.clear();
-    res.fold((l) {
-      _appError = l;
-      _isFetchingMoreData = false;
-      print('Hitss worng');
-      notifyListeners();
-    }, (r) {
-      _isLoading= false;
-      _isFetchingMoreData = false;
-      _hospitalList.addAll(r.dataList);
-      _hospitalList.removeAt(0);
-      print('Hitss right');
-      notifyListeners();
-    });
+      }, (r) {
+        _isLoading= false;
+        _isFetchingMoreData = false;
+        _hospitalList.addAll(r.dataList);
+        _hospitalList.removeAt(0);
+        print('Hitss right');
+        notifyListeners();
+      });
+    }
   }
 
   AppError get appError => _appError;

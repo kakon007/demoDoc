@@ -153,15 +153,24 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           contentPadding: EdgeInsets.only(top: 10.0),
           content: Container(
-            height: !isExpanded
+            constraints: BoxConstraints(minHeight: !isExpanded
                 ? isTablet
-                    ? 360
-                    //:355
-                    : deviceWidth<=330? 330 :340
+                ? 360
+            //:355
+                : deviceWidth<=330? 330 :340
                 : isTablet
-                    ? 400
+                ? 400
             //:395,
-            : deviceWidth<=330? 370 : 380,
+                : deviceWidth<=330? 370 : 380, ),
+          // height: !isExpanded
+          //       ? isTablet
+          //           ? 360
+          //           //:355
+          //           : deviceWidth<=330? 330 :340
+          //       : isTablet
+          //           ? 400
+          //   //:395,
+          //   : deviceWidth<=330? 370 : 380,
             child: Form(
               key: _formKey,
               child: Column(

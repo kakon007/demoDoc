@@ -831,7 +831,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             //   height: MediaQuery.of(context).size.height*.76,
                             child: Column(
                               children: [
-                                isTablet? SizedBox(height: 40,): SizedBox(),
+                                isTablet? SizedBox(height: 40,): SizedBox(height: 8,),
                                 selectType,
                                 AddPatient(
                                     doctorNo: widget.doctorNo,

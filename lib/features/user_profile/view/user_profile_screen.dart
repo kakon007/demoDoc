@@ -205,9 +205,15 @@ class _UserProfileState extends State<UserProfile> {
               child: Row(
                 children: [
                   isEdit
-                      ? shouldDenyClick? CircularProgressIndicator(valueColor:
+                      ? shouldDenyClick? SizedBox(
+                    height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(
+
+                          valueColor:
                   AlwaysStoppedAnimation<Color>(
-                      Colors.white),) : GestureDetector(
+                        Colors.white),),
+                      ) : GestureDetector(
                           child: Text(
                             "Save",
                             style: GoogleFonts.poppins(

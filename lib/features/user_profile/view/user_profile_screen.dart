@@ -209,7 +209,7 @@ class _UserProfileState extends State<UserProfile> {
                     height: 22,
                         width: 22,
                         child: CircularProgressIndicator(
-
+                          strokeWidth: 1.0,
                           valueColor:
                   AlwaysStoppedAnimation<Color>(
                         Colors.white),),

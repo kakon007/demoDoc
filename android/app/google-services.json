@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "337257775957",
-    "project_id": "fcmpushnotification-9f708",
-    "storage_bucket": "fcmpushnotification-9f708.appspot.com"
+    "project_number": "1086149096179",
+    "project_id": "fcmpushnotification-11a81",
+    "storage_bucket": "fcmpushnotification-11a81.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:337257775957:android:43df1475e795336a9de5dc",
+        "mobilesdk_app_id": "1:1086149096179:android:a3e17760a12c04c44a7d86",
         "android_client_info": {
-          "package_name": "com.myhealthbd.myhealthbd_app"
+          "package_name": "com.myhealthbd.myhealthbd"
         }
       },
       "oauth_client": [
         {
-          "client_id": "337257775957-o17cv6ngb5qn4molek2btjt4cq3e3rim.apps.googleusercontent.com",
+          "client_id": "1086149096179-q4lgek85ha9lg68kdecb0r28e7vnvbd9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBeYaZAei5frvvBGf2M-Yx0danGjiv0_SM"
+          "current_key": "AIzaSyCIkEKGr7bznPnOHZH4uUl1bW_omyvoATo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "337257775957-o17cv6ngb5qn4molek2btjt4cq3e3rim.apps.googleusercontent.com",
+              "client_id": "1086149096179-q4lgek85ha9lg68kdecb0r28e7vnvbd9.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

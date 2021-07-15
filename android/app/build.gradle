@@ -61,7 +61,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        //applicationId "com.myhealthbd.myhealthbd_app"
+        applicationId "com.myhealthbd.myhealthbd"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

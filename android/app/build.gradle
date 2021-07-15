@@ -42,7 +42,7 @@ android {
         }
         dev {
             dimension "flavor-type"
-            //applicationId "com.myhealthbd.myhealthbd_app_dev"
+            //applicationId "com.myhealthbd.myhealthbd_dev"
             resValue "string", "app_name", "MyHealthBD Dev"
             versionNameSuffix "-dev"
         }

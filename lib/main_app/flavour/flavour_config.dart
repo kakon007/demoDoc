@@ -4,7 +4,7 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 enum Flavor { DEV, QA, PRODUCTION }
 
 class FlavorValues {
- // FlavorValues({@required this.baseUrl});
+  // FlavorValues({@required this.baseUrl});
 
   //final String baseUrl;
 //Add other flavor specific values, e.g database name
@@ -17,12 +17,13 @@ class FlavorConfig {
   final FlavorValues values;
   static FlavorConfig _instance;
 
-  factory FlavorConfig(
-      {@required Flavor flavor,
-        Color color: Colors.blue,
-        @required FlavorValues values}) {
-    _instance ??= FlavorConfig._internal(
-        flavor, StringResources.enumName(flavor.toString()), color, values);
+  factory FlavorConfig({
+    @required Flavor flavor,
+    Color color: Colors.blue,
+    FlavorValues values,
+  }) {
+    _instance ??=
+        FlavorConfig._internal(flavor, StringResources.enumName(flavor.toString()), color, values);
     return _instance;
   }
 

@@ -224,12 +224,17 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         ? lengthofHospitalList = list.length < 5 ? list.length : 6
         : lengthofHospitalList = list.length < 5 ? list.length : 5;
 
-    var vm2 = Provider.of<NewsViewModel>(context);
+
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
     var vm15 = Provider.of<NearestAppointmentViewModel>(context, listen: true);
     var photo = vm10.details?.photo ?? "";
+
+    var vm2 = Provider.of<NewsViewModel>(context);
     List<news.Item> list2 = vm2.newsList;
-    var lengthofNewsList = list2.length;
+    var lengthofNewsList;
+    MediaQuery.of(context).size.width > 600
+        ? lengthofNewsList = list2.length < 5 ? list2.length : 6
+        : lengthofNewsList = list2.length < 5 ? list2.length : 5;
 
     var vm3 = Provider.of<VideoViewModel>(context);
     List<video.Item> list3 = vm3.videoList;
@@ -251,6 +256,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     var vm8 = Provider.of<BLogLogoViewModel>(context);
 
     var vm9 = appNavigator.getProviderListener<NearestHospitalViewModel>();
+    var lengthofNearestHospitalList;
+    MediaQuery.of(context).size.width > 600
+        ? lengthofNearestHospitalList = vm9.hospitalList2.length < 5 ? vm9.hospitalList2.length : 6
+        : lengthofNearestHospitalList = vm9.hospitalList2.length < 5 ? vm9.hospitalList2.length : 5;
 
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
@@ -718,7 +727,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                                   ),
                                                   child: Row(
                                                     children: [
-                                                      ...List.generate(vm9.hospitalList2.length,
+                                                      ...List.generate(lengthofNearestHospitalList,
                                                           (i) {
                                                         int index = vm5.hospitalLogoList.indexWhere(
                                                             (element) =>

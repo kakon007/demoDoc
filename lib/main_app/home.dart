@@ -95,6 +95,22 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     getLocationPermission();
   }
 
+  _closeDrawer() {
+    if (isDrawerOpen) {
+      setState(() {
+        isDrawerOpen = false;
+        _animationController.reverse();
+      });
+    }
+  }
+
+  _openDrawer() {
+    setState(() {
+      isDrawerOpen = true;
+      _animationController.forward();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var accessTokenVm = Provider.of<AccessTokenProvider>(context, listen: true);
@@ -103,11 +119,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     List<Widget> screenList = [
       DashboardScreen(
         menuCallBack: () {
-          setState(() {
-            isDrawerOpen = true;
-            _animationController.forward();
-            print("Heeoollo");
-          });
+          _openDrawer();
         },
         isDrawerOpen: isDrawerOpen,
         accessToken: accessTokenVm.accessToken,
@@ -202,12 +214,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           menuCallBack: (selectedIndex) {
             setState(() {
               if (selectedIndex == 0) {
-                if (isDrawerOpen) {
-                  setState(() {
-                    isDrawerOpen = false;
-                    _animationController.reverse();
-                  });
-                }
+                _closeDrawer();
               } else {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => screenList[selectedIndex]));
@@ -224,13 +231,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           child: ScaleTransition(
             scale: scaleAnimation,
             child: GestureDetector(
+              onHorizontalDragStart: (v) {
+                _closeDrawer();
+              },
               onTap: () {
-                if (isDrawerOpen) {
-                  setState(() {
-                    isDrawerOpen = false;
-                    _animationController.reverse();
-                  });
-                }
+                _closeDrawer();
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(isDrawerOpen ? 20 : 0),

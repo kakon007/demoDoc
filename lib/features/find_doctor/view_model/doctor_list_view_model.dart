@@ -20,13 +20,13 @@ class DoctorListViewModel extends ChangeNotifier{
   int _pageCount = 0;
   get logger => null;
   int limit=10;
-  int startIndex=0;
+  int startIndex=1;
 
   Future<void> getDoctor(String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch) async {
 
    print(deptItem);
    print(specialSelectedItem);
-    startIndex=0;
+    startIndex=1;
     _pageCount++;
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
@@ -67,7 +67,7 @@ class DoctorListViewModel extends ChangeNotifier{
         return false;
       }, (r) {
 
-        hasMoreData = r.totalCount>startIndex+limit;
+        hasMoreData = r.totalCount-1>startIndex+limit;
         isFetchingMoreData = false;
         _doctor.addAll(r.doctorList);
         print("DOctorListLength:: "+_doctor.length.toString());

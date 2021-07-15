@@ -12,7 +12,7 @@ import 'package:myhealthbd_app/features/appointments/view_model/available_slot_v
 import 'package:myhealthbd_app/features/appointments/view_model/book_appointment_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/models/get_family_member_model.dart';
-import 'package:myhealthbd_app/features/user_profile/view/widgets/appointment_success.dart';
+import 'package:myhealthbd_app/features/appointments/view/widgets/appointment_success.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';

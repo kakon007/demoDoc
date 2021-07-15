@@ -96,8 +96,7 @@ class AvailableSlotsRepository {
     );
     try {
       if (response.statusCode == 200) {
-        print("aaaaaaaaaaadsdsdsdsdsa");
-        print(response.body);
+        print("doctorInfo ${response.body}");
         DoctorInfoModel data = doctorInfoModelFromJson(response.body);
         return Right(DoctorInfoModel(
           obj: data.obj,

@@ -177,11 +177,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var userImageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var profileImage = userImageVm.details?.photo ?? "";
     //length= vm.slotList.length;
-    var doctorDegree=  doctorInformation?.docDegree == null
-        ? ""
-        : vm.doctorInfo?.docDegree;
-    var jobTitle=   doctorInformation?.jobtitle??"";
+    // var doctorDegree=  doctorInformation?.docDegree == null
+    //     ? ""
+    //     : vm.doctorInfo?.docDegree;
+    // var jobTitle=   doctorInformation?.jobtitle??"";
     var photo= doctorInformation?.doctorPhoto??"";
+    // print('jobtitle $jobTitle');
+    // print('degress $doctorDegree');
+    var doctorDetails = doctorInformation?.jobtitle==null ? doctorInformation?.docDegree==null? '' : "${doctorInformation?.docDegree}" : doctorInformation?.docDegree==null? "${doctorInformation?.jobtitle}" : '${doctorInformation?.jobtitle}, ${doctorInformation?.docDegree}' ;
     var consultFee= doctorInformation?.consultationFee??'';
     List<Items> list = vm.slotList;
     var spaceBetween = SizedBox(
@@ -373,8 +376,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: Padding(
         padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
         child: Container(
-          constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
-          //height:isTablet? 140 : 120,
+          //constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
+          height:isTablet? 140 : 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
           ),
@@ -397,8 +400,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       child: Padding(
         padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
         child: Container(
-          constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
-         // height:isTablet? 140 : 120,
+          //constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
+          height:isTablet? 140 : 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -415,8 +418,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               Row(
                 children: [
                   Container(
-                    constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
-                    // height: isTablet ? 140 : 120,
+                    //constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
+                     height: isTablet ? 140 : 120,
                     width: isTablet? 180 : width<330 ? 90 : 108,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
@@ -436,12 +439,17 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        doctorInformation?.specializationName??"",
-                        style: GoogleFonts.poppins(
-                            height: 1.5,
-                            color: AppTheme.appbarPrimary,
-                            fontWeight: FontWeight.w600, fontSize: isTablet? 18 : width < 330 ? 13 : 15 ),
+                      Container(
+                        width: isTablet?width*.65 :  width < 330 ? 170 : 185,
+                        child: Text(
+                          doctorInformation?.specializationName??"",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                              height: 1.5,
+                              color: AppTheme.appbarPrimary,
+                              fontWeight: FontWeight.w600, fontSize: isTablet? 18 : width < 330 ? 13 : 15 ),
+                        ),
                       ),
                       Container(
                           width: width< 330 ? width*.54 : width*.5,
@@ -453,29 +461,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       SizedBox(
                         height: 1,
                       ),
-                      Row(
-                        children: [
-                          // Container(
-                          //   width: 100,
-                          //   child: Text(
-                          //       widget.jobTitle == null
-                          //           ? ""
-                          //           : widget.jobTitle,
-                          //       maxLines: 1,
-                          //       overflow: TextOverflow.ellipsis,
-                          //       style:
-                          //       GoogleFonts.poppins(height: 0.7, fontSize: 11)),
-                          // ),
-                          Container(
-                            width: isTablet?width*.65 :  width < 330 ? 170 : 185,
-                            child: Text(
-                                jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style:
-                                GoogleFonts.poppins(height: 1.2, fontSize:isTablet? 15 :  11)),
-                          ),
-                        ],
+                      Container(
+                        width: isTablet?width*.65 :  width < 330 ? 170 : 185,
+                        child: Text(
+                            doctorDetails,
+                            //jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                            GoogleFonts.poppins(height: 1.2, fontSize:isTablet? 15 :  11)),
                       ),
                       SizedBox(
                         height: 3,
@@ -845,7 +839,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                                 child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                                isTablet? SizedBox(height: 40,): SizedBox(),
+                                isTablet? SizedBox(height: 40,): SizedBox(height: 10,),
                                 appointmentDate,
                                 spaceBetween,
                                 Text("Available Slots",

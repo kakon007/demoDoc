@@ -34,14 +34,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Animation<double> scaleAnimation;
   Duration duration = Duration(milliseconds: 200);
   bool isDrawerOpen = false;
-  bool isSelected = false;
-  int currentIndex = 0;
+  int currentBottomIndex = 0;
   Location location = new Location();
 
   LocationData _currentPosition;
   List<Items> hospitalList2;
   _moveTo(int index) {
-    currentIndex = index;
+    currentBottomIndex = index;
     setState(() {});
   }
 
@@ -115,9 +114,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         onTapFeaturedCompany: () {
           f1.requestFocus();
           _moveTo(2);
-        },onTapFeaturedAppointment: () {
-        _moveTo(1);
-      },
+        },
+        onTapFeaturedAppointment: () {
+          _moveTo(1);
+        },
         locationData: _currentPosition,
       ),
       if (!isLoggedIn) ...[
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     final Widget dashboardicon = SvgPicture.asset(
       dashboardiconiamg,
       width: 10,
-      color: currentIndex == 0 ? HexColor('#354291') : HexColor('#969EC8'),
+      color: currentBottomIndex == 0 ? HexColor('#354291') : HexColor('#969EC8'),
       height: 20,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       appointmenticonimg,
       width: 10,
       height: 20,
-      color: currentIndex == 1 ? HexColor('#354291') : HexColor('#969EC8'),
+      color: currentBottomIndex == 1 ? HexColor('#354291') : HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       key: Key('hospitalBottomNavbarKey'),
       width: 10,
       height: 20,
-      color: currentIndex == 2 ? HexColor('#354291') : HexColor('#969EC8'),
+      color: currentBottomIndex == 2 ? HexColor('#354291') : HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       myhealthiconimag,
       width: 10,
       height: 20,
-      color: currentIndex == 3 ? HexColor('#354291') : HexColor('#969EC8'),
+      color: currentBottomIndex == 3 ? HexColor('#354291') : HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -254,11 +254,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     var bottomNavBar = BottomNavigationBar(
         onTap: (int index) {
           f1.unfocus();
-          if (currentIndex != index) {
+          if (currentBottomIndex != index) {
             _moveTo(index);
           }
         },
-        currentIndex: currentIndex,
+        currentIndex: currentBottomIndex,
         selectedItemColor: HexColor('#354291'),
         unselectedItemColor: HexColor('#969EC8'),
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -333,10 +333,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       home: WillPopScope(
           child: Scaffold(
             bottomNavigationBar: bottomNavBar,
-            body: pages[currentIndex],
+            body: pages[currentBottomIndex],
           ),
           onWillPop: () async {
-            if (currentIndex == 0)
+            if (currentBottomIndex == 0)
               return true;
             else {
               _moveTo(0);

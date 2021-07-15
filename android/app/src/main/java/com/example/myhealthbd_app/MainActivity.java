@@ -1,4 +1,4 @@
-package com.myhealthbd.myhealthbd_app;
+package com.myhealthbd.myhealthbd;
 
 import io.flutter.embedding.android.FlutterActivity;
 

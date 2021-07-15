@@ -13,6 +13,7 @@ import 'package:myhealthbd_app/features/appointments/models/book_appointment_mod
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/home_screen_background.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/manage_account_prompt.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
@@ -224,7 +225,6 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         ? lengthofHospitalList = list.length < 5 ? list.length : 6
         : lengthofHospitalList = list.length < 5 ? list.length : 5;
 
-
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
     var vm15 = Provider.of<NearestAppointmentViewModel>(context, listen: true);
     var photo = vm10.details?.photo ?? "";
@@ -276,1004 +276,815 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
       matchTextDirection: true,
       //semanticsLabel: 'Acme Logo'
     );
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 230.0, top: 60),
-          child: AnimatedContainer(
-            transform: Matrix4.translationValues(-0.5, yOffset, 0)..scale(0.7),
-            duration: Duration(milliseconds: 200),
-            decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.3),
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            height: double.infinity,
-            width: double.infinity,
-            child: Container(),
-          ),
-        ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: false,
+            pinned: true,
+            leading: Container(
+              child: widget.isDrawerOpen
+                  ? IconButton(
+                      iconSize: 35,
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                      onPressed: null,
+                    )
+                  : IconButton(
+                      icon: Icon(Icons.notes),
+                      onPressed: () {
+                        widget.menuCallBack();
+                      },
+                    ),
+            ),
+            title: Text(
+              vm19.userDetailsList == null
+                  ? StringResources.dasboardAppBarText
+                  : 'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
+              style: GoogleFonts.poppins(
+                  fontSize: isTablet
+                      ? 18
+                      : width <= 330
+                          ? 10
+                          : 15,
+                  fontWeight: FontWeight.w600),
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: accessTokenVm.accessToken == null
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                transitionDuration: Duration(seconds: 1),
+                                transitionsBuilder:
+                                    (context, animation, secondaryAnimation, child) {
+                                  var begin = Offset(0, 1.0);
+                                  var end = Offset.zero;
+                                  var curve = Curves.easeInOut;
 
-        // AnimatedContainer(
-        //   transform: Matrix4.translationValues(xOffset, yOffset, 0)
-        //     ..scale(scaleFactor),
-        //   duration: Duration(milliseconds: 200),
-        //   decoration: BoxDecoration(
-        //       color: Colors.white,
-        //       borderRadius: BorderRadius.all(Radius.circular(isDrawerOpen?60:0))),
-        //   height: double.infinity,
-        //   width: double.infinity,
-        //   child:
+                                  var tween =
+                                      Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-        Stack(
-          children: <Widget>[
-            Stack(children: [
-              this._backgroundImage2(),
-              Scaffold(
-                resizeToAvoidBottomInset: false,
-                key: _scaffoldKey,
-                backgroundColor: Colors.transparent,
-                appBar: AppBar(
-                  title: Text(
-                    vm19.userDetailsList == null
-                        ? StringResources.dasboardAppBarText
-                        : 'Welcome, ${vm19.userDetailsList.fname.split(" ").first}',
-                    style: GoogleFonts.poppins(
-                        fontSize: isTablet
-                            ? 18
-                            : width <= 330
-                                ? 10
-                                : 15,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: accessTokenVm.accessToken == null
-                          ? GestureDetector(
+                                  return SlideTransition(
+                                    position: animation.drive(tween),
+                                    child: child,
+                                  );
+                                },
+                                pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
+                              ));
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              StringResources.dasboardAppBarSignInText,
+                              key: Key('signInTextKey'),
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600, fontSize: isTablet ? 16 : 12),
+                            ),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            svg,
+                          ],
+                        ))
+                    : Row(
+                        children: [
+                          GestureDetector(
                               onTap: () {
                                 Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      transitionDuration: Duration(seconds: 1),
-                                      transitionsBuilder:
-                                          (context, animation, secondaryAnimation, child) {
-                                        var begin = Offset(0, 1.0);
-                                        var end = Offset.zero;
-                                        var curve = Curves.easeInOut;
-
-                                        var tween = Tween(begin: begin, end: end)
-                                            .chain(CurveTween(curve: curve));
-
-                                        return SlideTransition(
-                                          position: animation.drive(tween),
-                                          child: child,
-                                        );
-                                      },
-                                      pageBuilder: (context, animation, secondaryAnimation) =>
-                                          SignIn(),
-                                    ));
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: NotificationScreen(),
+                                  ),
+                                );
                               },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    StringResources.dasboardAppBarSignInText,
-                                    key: Key('signInTextKey'),
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600, fontSize: isTablet ? 16 : 12),
-                                  ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  svg,
-                                  // CircleAvatar(
-                                  //   radius: 18,
-                                  //   backgroundColor: Colors.white,
-                                  //   child: CircleAvatar(
-                                  //     backgroundImage: AssetImage('assets/images/proimg.png'),
-                                  //     radius: 16,
-                                  //   ),
-                                  // ),
-                                ],
-                              ))
-                          : Row(
-                              children: [
-                                GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.rightToLeft,
-                                          child: NotificationScreen(),
-                                        ),
-                                      );
-                                    },
-                                    child: Icon(Icons.notifications)),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    showAlert(context);
-                                    // showDialog(context: context, builder: (context) => carDialog);
-                                  },
-                                  key: Key("userAvatarKey"),
-                                  child: photo != ""
-                                      ? Container(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.white),
-                                            //color: AppTheme.appbarPrimary,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          height: isTablet
-                                              ? 40
-                                              : width <= 330
-                                                  ? 25
-                                                  : 30,
-                                          width: isTablet
-                                              ? 40
-                                              : width <= 330
-                                                  ? 25
-                                                  : 30,
-                                          child: Center(
-                                              child: vm10.loadProfileImage(
-                                                  photo,
-                                                  width <= 330 ? 28.5 : 33.5,
-                                                  width <= 330 ? 30 : 35,
-                                                  50)))
-                                      : Container(
-                                          decoration: BoxDecoration(
-                                              color: AppTheme.appbarPrimary,
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: Colors.white)),
-                                          height: isTablet
-                                              ? 32
-                                              : width <= 330
-                                                  ? 25
-                                                  : 30,
-                                          width: isTablet
-                                              ? 32
-                                              : width <= 330
-                                                  ? 25
-                                                  : 30,
-                                          child: Center(
-                                            child: Image.asset(
-                                              'assets/images/dPro.png',
-                                              height: isTablet
-                                                  ? 22
-                                                  : width <= 330
-                                                      ? 18
-                                                      : 22,
-                                              width: isTablet
-                                                  ? 22
-                                                  : width <= 330
-                                                      ? 18
-                                                      : 22,
-                                            ),
-                                          )),
+                              child: Icon(Icons.notifications)),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              showAlert(context);
+                              // showDialog(context: context, builder: (context) => carDialog);
+                            },
+                            key: Key("userAvatarKey"),
+                            child: photo != ""
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.white),
+                                      //color: AppTheme.appbarPrimary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    height: isTablet
+                                        ? 40
+                                        : width <= 330
+                                            ? 25
+                                            : 30,
+                                    width: isTablet
+                                        ? 40
+                                        : width <= 330
+                                            ? 25
+                                            : 30,
+                                    child: Center(
+                                        child: vm10.loadProfileImage(
+                                            photo,
+                                            width <= 330 ? 28.5 : 33.5,
+                                            width <= 330 ? 30 : 35,
+                                            50)))
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.appbarPrimary,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: Colors.white)),
+                                    height: isTablet
+                                        ? 32
+                                        : width <= 330
+                                            ? 25
+                                            : 30,
+                                    width: isTablet
+                                        ? 32
+                                        : width <= 330
+                                            ? 25
+                                            : 30,
+                                    child: Center(
+                                      child: Image.asset(
+                                        'assets/images/dPro.png',
+                                        height: isTablet
+                                            ? 22
+                                            : width <= 330
+                                                ? 18
+                                                : 22,
+                                        width: isTablet
+                                            ? 22
+                                            : width <= 330
+                                                ? 18
+                                                : 22,
+                                      ),
+                                    )),
+                          ),
+                        ],
+                      ),
+              )
+            ],
+            expandedHeight: 200,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.contain,
+                    image: AssetImage("assets/images/dashboardNoewImage.png"),
+                  ),
+                ),
+                height: width <= 1250 && width >= 1000
+                    ? 380
+                    : width <= 999 && width >= 850
+                        ? 305
+                        : 250,
+              ),
+            ),
+          ),
+          SliverList(
+              delegate: SliverChildListDelegate.fixed([
+            Column(
+              children: [
+                Container(
+                  // height:200,
+                  decoration: BoxDecoration(
+                      borderRadius: widget.isDrawerOpen
+                          ? BorderRadius.all(Radius.circular(25))
+                          : BorderRadius.only(
+                              topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+                      color: HexColor("#FFFFFF"),
+                      boxShadow: [
+                        BoxShadow(
+                          color: HexColor("#0D1231").withOpacity(0.08),
+                          spreadRadius: 10,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ]),
+                  //color: Colors.white,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 18, left: 20.0, right: 20),
+                        child: Row(
+                          children: [
+                            Container(
+                              constraints:
+                                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .65),
+                              child: Text(
+                                StringResources.esayDoctorAppointmentText,
+                                key: Key('easyDoctorTextKey'),
+                                style: GoogleFonts.poppins(
+                                    fontSize: isTablet
+                                        ? 18
+                                        : width < 330
+                                            ? 16
+                                            : 17,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Spacer(),
+                            Container(
+                                width: isTablet
+                                    ? 110
+                                    : MediaQuery.of(context).size.width <= 330
+                                        ? 60
+                                        : 85,
+                                child: Image.asset("assets/images/official_logo.png")),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 15),
+                        child: GestureDetector(
+                          onTap: widget.onTapFeaturedCompany,
+                          child: Container(
+                            width: contrainerWidth,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.white,
+                              border: Border.all(color: HexColor('#E1E1E1')),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 2), // changes position of shadow
                                 ),
                               ],
                             ),
-                    )
-                  ],
-                  backgroundColor: Colors.transparent,
-                  elevation: 0.0,
-                  leading: Container(
-                      child: widget.isDrawerOpen
-                          ? IconButton(
-                              iconSize: 35,
-                              icon: Icon(
-                                Icons.arrow_back,
-                                color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    StringResources.searchBoxHint,
+                                    key: Key('dashboardSearchKey'),
+                                    style: TextStyle(
+                                      color: Colors.grey[400],
+                                      fontSize: width >= 400 ? 15 : 14,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Icon(
+                                      Icons.search_sharp,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              onPressed: null,
-                            )
-                          : IconButton(
-                              icon: Icon(Icons.notes),
-                              onPressed: () {
-                                widget.menuCallBack();
-                              })),
-                ),
-                body: DraggableScrollableSheet(
-                    expand: true,
-                    // height: double.infinity,
-                    // // minHeight: deviceHeight>=600?480:250,
-                    // // maxHeight: 710,
-                    // // isDraggable: true,
-                    // // //backdropEnabled: true,
-                    // // borderRadius: isDrawerOpen?BorderRadius.all(Radius.circular(30)):radius,
-                    // decoration: BoxDecoration(
-                    //     borderRadius: widget.isDrawerOpen
-                    //         ? BorderRadius.all(Radius.circular(25))
-                    //         : BorderRadius.only(
-                    //             topLeft: Radius.circular(25),
-                    //             topRight: Radius.circular(25)),
-                    //     color: HexColor("#FFFFFF"),
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //         color: HexColor("#0D1231").withOpacity(0.08),
-                    //         spreadRadius: 10,
-                    //         blurRadius: 7,
-                    //         offset: Offset(0, 3), // changes position of shadow
-                    //       ),
-                    //     ]),
-
-                    initialChildSize: isTablet ? .81 : 0.79,
-                    maxChildSize: 1.0,
-                    minChildSize: isTablet ? .81 : 0.79,
-                    builder: (BuildContext context, ScrollController scrollController) {
-                      return Column(
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
-                              controller: scrollController,
-                              scrollDirection: Axis.vertical,
-                              physics: AlwaysScrollableScrollPhysics(),
-                              child: Container(
-                                // height:200,
-                                decoration: BoxDecoration(
-                                    borderRadius: widget.isDrawerOpen
-                                        ? BorderRadius.all(Radius.circular(25))
-                                        : BorderRadius.only(
-                                            topLeft: Radius.circular(25),
-                                            topRight: Radius.circular(25)),
-                                    color: HexColor("#FFFFFF"),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: HexColor("#0D1231").withOpacity(0.08),
-                                        spreadRadius: 10,
-                                        blurRadius: 7,
-                                        offset: Offset(0, 3), // changes position of shadow
-                                      ),
-                                    ]),
-                                //color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(top: 18, left: 20.0, right: 20),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            constraints: BoxConstraints(
-                                                maxWidth: MediaQuery.of(context).size.width * .65),
-                                            child: Text(
-                                              StringResources.esayDoctorAppointmentText,
-                                              key: Key('easyDoctorTextKey'),
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: isTablet
-                                                      ? 18
-                                                      : width < 330
-                                                          ? 16
-                                                          : 17,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                              width: isTablet
-                                                  ? 110
-                                                  : MediaQuery.of(context).size.width <= 330
-                                                      ? 60
-                                                      : 85,
-                                              child:
-                                                  Image.asset("assets/images/official_logo.png")),
-                                        ],
-                                      ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      accessTokenVm.accessToken == null || vm15.nearestAppointmentDetails == null
+                          ? SizedBox()
+                          : CustomCardPat(
+                              titleText: isTablet
+                                  ? "You have an upcoming appointment."
+                                  : "You have an \nupcoming appointment.",
+                              subTitleText: vm15.nearestAppointmentDetails == null
+                                  ? 'Loading'
+                                  : DateUtil().formattedDate(
+                                      DateTime.parse(vm15.nearestAppointmentDetails.startTime)
+                                          .toLocal()),
+                              serial: vm15.nearestAppointmentDetails == null
+                                  ? 'Loading'
+                                  : vm15.nearestAppointmentDetails.slotSl.toString(),
+                              countText: vm15.nearestAppointmentDetails == null
+                                  ? 'Loading'
+                                  : vm15.nearestAppointmentDetails.doctorName,
+                              name: vm15.nearestAppointmentDetails == null
+                                  ? 'Loading'
+                                  : vm15.nearestAppointmentDetails.companyName,
+                              lastTime: vm15.nearestAppointmentDetails == null
+                                  ? DateTime.now().millisecondsSinceEpoch
+                                  : DateTime.parse(vm15.nearestAppointmentDetails.startTime)
+                                      .millisecondsSinceEpoch,
+                              onTapFeaturedAppointment: widget.onTapFeaturedAppointment,
+                              //controller
+                            ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        child: Row(
+                          children: [
+                            Text(
+                              StringResources.hospitalDiagnosticsText,
+                              style: GoogleFonts.poppins(
+                                  fontSize: isTablet
+                                      ? 18
+                                      : MediaQuery.of(context).size.width <= 450
+                                          ? 14
+                                          : 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Spacer(),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HospitalScreen(
+                                                locationData: widget.locationData,
+                                                hospitalList2: vm9.hospitalList2,
+                                              )));
+                                },
+                                child: Text(
+                                  StringResources.viewAllText,
+                                  key: Key('hospitalViewAllKey'),
+                                  style: GoogleFonts.poppins(
+                                      color: HexColor("#8592E5"),
+                                      fontSize: isTablet ? 15 : 11,
+                                      fontWeight: FontWeight.w600),
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      widget.locationData != null
+                          ? vm9.shouldShowPageLoader ||
+                                  vm5.shouldShowPageLoader ||
+                                  vm6.shouldShowPageLoaderForImage
+                              ? SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 18.0,
                                     ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15.0, right: 15),
-                                      child: GestureDetector(
-                                        onTap: widget.onTapFeaturedCompany,
-                                        child: Container(
-                                          width: contrainerWidth,
-                                          height: 50,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(25),
-                                            color: Colors.white,
-                                            border: Border.all(color: HexColor('#E1E1E1')),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.withOpacity(0.2),
-                                                spreadRadius: 2,
-                                                blurRadius: 5,
-                                                offset: Offset(0, 2), // changes position of shadow
-                                              ),
-                                            ],
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 15),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  StringResources.searchBoxHint,
-                                                  key: Key('dashboardSearchKey'),
-                                                  style: TextStyle(
-                                                    color: Colors.grey[400],
-                                                    fontSize: width >= 400 ? 15 : 14,
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: 12.0),
-                                                  child: Icon(
-                                                    Icons.search_sharp,
-                                                    color: Colors.grey[400],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    accessTokenVm.accessToken == null ||
-                                            vm15.nearestAppointmentDetails == null
-                                        ? SizedBox()
-                                        : CustomCardPat(
-                                            titleText: isTablet
-                                                ? "You have an upcoming appointment."
-                                                : "You have an \nupcoming appointment.",
-                                            subTitleText: vm15.nearestAppointmentDetails == null
-                                                ? 'Loading'
-                                                : DateUtil().formattedDate(DateTime.parse(
-                                                        vm15.nearestAppointmentDetails.startTime)
-                                                    .toLocal()),
-                                            serial: vm15.nearestAppointmentDetails == null
-                                                ? 'Loading'
-                                                : vm15.nearestAppointmentDetails.slotSl.toString(),
-                                            countText: vm15.nearestAppointmentDetails == null
-                                                ? 'Loading'
-                                                : vm15.nearestAppointmentDetails.doctorName,
-                                            name: vm15.nearestAppointmentDetails == null
-                                                ? 'Loading'
-                                                : vm15.nearestAppointmentDetails.companyName,
-                                            lastTime: vm15.nearestAppointmentDetails == null
-                                                ? DateTime.now().millisecondsSinceEpoch
-                                                : DateTime.parse(
-                                                        vm15.nearestAppointmentDetails.startTime)
-                                                    .millisecondsSinceEpoch,
-                                            onTapFeaturedAppointment:
-                                                widget.onTapFeaturedAppointment,
-                                            //controller
-                                          ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18.0, right: 18),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            StringResources.hospitalDiagnosticsText,
-                                            style: GoogleFonts.poppins(
-                                                fontSize: isTablet
-                                                    ? 18
-                                                    : MediaQuery.of(context).size.width <= 450
-                                                        ? 14
-                                                        : 16,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Spacer(),
-                                          GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => HospitalScreen(
-                                                              locationData: widget.locationData,
-                                                              hospitalList2: vm9.hospitalList2,
-                                                            )));
-                                              },
-                                              child: Text(
-                                                StringResources.viewAllText,
-                                                key: Key('hospitalViewAllKey'),
-                                                style: GoogleFonts.poppins(
-                                                    color: HexColor("#8592E5"),
-                                                    fontSize: isTablet ? 15 : 11,
-                                                    fontWeight: FontWeight.w600),
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    widget.locationData != null
-                                        ? vm9.shouldShowPageLoader ||
-                                                vm5.shouldShowPageLoader ||
-                                                vm6.shouldShowPageLoaderForImage
-                                            ? SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                    left: 18.0,
-                                                  ),
-                                                  child: Container(
-                                                    width: 1510,
-                                                    height: 120.0,
-                                                    child: Shimmer.fromColors(
-                                                      baseColor: Colors.grey[300],
-                                                      highlightColor: Colors.white,
-                                                      child: Row(
-                                                          children: List.generate(
-                                                              5,
-                                                              (index) => Expanded(
-                                                                    child: Padding(
-                                                                      padding:
-                                                                          const EdgeInsets.all(8.0),
-                                                                      child: Material(
-                                                                        color: Colors.grey,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                5),
-                                                                        child: Center(),
-                                                                      ),
-                                                                    ),
-                                                                  ))),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            : SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                    left: 18.0,
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      ...List.generate(lengthofNearestHospitalList,
-                                                          (i) {
-                                                        int index = vm5.hospitalLogoList.indexWhere(
-                                                            (element) =>
-                                                                element.id ==
-                                                                vm9.hospitalList2[i].id);
-                                                        int imageindex = vm6.hospitalImageList
-                                                            .indexWhere((element) =>
-                                                                element.id ==
-                                                                vm9.hospitalList2[i].id);
-                                                        return CustomCard(
-                                                            loadLogo(vm5
-                                                                .hospitalLogoList[index].photoLogo),
-                                                            vm6.hospitalImageList[imageindex]
-                                                                        .photoImg !=
-                                                                    null
-                                                                ? loadImage(vm6
-                                                                    .hospitalImageList[imageindex]
-                                                                    .photoImg)
-                                                                : loadLogo(vm5
-                                                                    .hospitalLogoList[index]
-                                                                    .photoLogo),
-                                                            vm9.hospitalList2[i].companyName,
-                                                            vm9.hospitalList2[i].companyAddress ==
-                                                                    null
-                                                                ? "Mirpur,Dahaka,Bangladesh"
-                                                                : vm9.hospitalList2[i]
-                                                                    .companyAddress,
-                                                            "60 Doctors",
-                                                            vm9.hospitalList2[i].companyPhone ==
-                                                                    null
-                                                                ? "+880 1962823007"
-                                                                : vm9.hospitalList2[i].companyPhone,
-                                                            vm9.hospitalList2[i].companyEmail ==
-                                                                    null
-                                                                ? "info@mysoftitd.com"
-                                                                : vm9.hospitalList2[i].companyEmail,
-                                                            vm9.hospitalList2[i].companyLogo,
-                                                            vm9.hospitalList2[i].companyId,
-                                                            vm9.hospitalList2[i].ogNo.toString(),
-                                                            vm9.hospitalList2[i].id.toString(),
-                                                            i.toString());
-                                                      }),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                        : vm.shouldShowPageLoader ||
-                                                vm5.shouldShowPageLoader ||
-                                                vm6.shouldShowPageLoaderForImage
-                                            ? SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                    left: 18.0,
-                                                  ),
-                                                  child: Container(
-                                                    width: 1510,
-                                                    height: 120.0,
-                                                    child: Shimmer.fromColors(
-                                                      baseColor: Colors.grey[300],
-                                                      highlightColor: Colors.white,
-                                                      child: Row(
-                                                          children: List.generate(
-                                                              5,
-                                                              (index) => Expanded(
-                                                                    child: Padding(
-                                                                      padding:
-                                                                          const EdgeInsets.all(8.0),
-                                                                      child: Material(
-                                                                        color: Colors.grey,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                5),
-                                                                        child: Center(),
-                                                                      ),
-                                                                    ),
-                                                                  ))),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            : SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                    left: 18.0,
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      ...List.generate(lengthofHospitalList, (i) {
-                                                        int index = vm5.hospitalLogoList.indexWhere(
-                                                            (element) => element.id == list[i].id);
-                                                        int imageindex = vm6.hospitalImageList
-                                                            .indexWhere((element) =>
-                                                                element.id == list[i].id);
-                                                        return CustomCard(
-                                                            loadLogo(vm5
-                                                                .hospitalLogoList[index].photoLogo),
-                                                            vm6.hospitalImageList[imageindex]
-                                                                        .photoImg !=
-                                                                    null
-                                                                ? loadImage(vm6
-                                                                    .hospitalImageList[imageindex]
-                                                                    .photoImg)
-                                                                : loadLogo(vm5
-                                                                    .hospitalLogoList[index]
-                                                                    .photoLogo),
-                                                            list[i].companyName,
-                                                            list[i].companyAddress == null
-                                                                ? "Mirpur,Dahaka,Bangladesh"
-                                                                : list[i].companyAddress,
-                                                            "60 Doctors",
-                                                            list[i].companyPhone == null
-                                                                ? "+880 1962823007"
-                                                                : list[i].companyPhone,
-                                                            list[i].companyEmail == null
-                                                                ? "info@mysoftitd.com"
-                                                                : list[i].companyEmail,
-                                                            list[i].companyLogo,
-                                                            list[i].companyId,
-                                                            list[i].ogNo.toString(),
-                                                            list[i].id.toString(),
-                                                            i.toString());
-                                                      }),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18.0, right: 18),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "MyHealthBD News",
-                                            style: GoogleFonts.poppins(
-                                                fontSize: isTablet
-                                                    ? 18
-                                                    : MediaQuery.of(context).size.width <= 450
-                                                        ? 14
-                                                        : 16,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Spacer(),
-                                          GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => HealthVideoAll(
-                                                              pageNo: 1,
-                                                            )));
-                                              },
-                                              child: Text(
-                                                StringResources.viewAllText,
-                                                key: Key('newsViewAllKey'),
-                                                style: GoogleFonts.poppins(
-                                                    color: HexColor("#8592E5"),
-                                                    fontSize: isTablet ? 15 : 11,
-                                                    fontWeight: FontWeight.w600),
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    // vm2.shouldShowAppError
-                                    //     ? ListView( key: Key('allJobsListView2'),
-                                    //   children: [errorWidget()],
-                                    // ):
-                                    vm2.shouldShowPageLoader || vm7.shouldShowPageLoader
-                                        ? SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 18.0,
-                                              ),
-                                              child: Container(
-                                                width: 1510,
-                                                height: 120.0,
-                                                child: Shimmer.fromColors(
-                                                  baseColor: Colors.grey[300],
-                                                  highlightColor: Colors.white,
-                                                  child: Row(
-                                                      children: List.generate(
-                                                          5,
-                                                          (index) => Expanded(
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets.all(8.0),
-                                                                  child: Material(
-                                                                    color: Colors.grey,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(5),
-                                                                    child: Center(),
-                                                                  ),
-                                                                ),
-                                                              ))),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : vm2.shouldShowNoNewsFound
-                                            ? Center(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Text(StringResources.noNewsFound),
-                                                  key: Key('noJobsFound1'),
-                                                ),
-                                              )
-                                            : SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                    left: 18.0,
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      ...List.generate(
-                                                        lengthofNewsList,
-                                                        (i) {
-                                                          int index = vm7.newsLogoList.indexWhere(
-                                                              (element) =>
-                                                                  element.blogNo ==
-                                                                  list2[i].blogNo);
-                                                          return CustomCardNews(
-                                                              loadLogo(
-                                                                  vm7.newsLogoList[index].logo),
-                                                              DateUtil().formattedDate(
-                                                                  DateTime.parse(
-                                                                          list2[i].publishDate)
-                                                                      .toLocal()),
-                                                              list2[i].title,
-                                                              list2[i].newsLink,
-                                                              index.toString());
-                                                        },
+                                    child: Container(
+                                      width: 1510,
+                                      height: 120.0,
+                                      child: Shimmer.fromColors(
+                                        baseColor: Colors.grey[300],
+                                        highlightColor: Colors.white,
+                                        child: Row(
+                                            children: List.generate(
+                                                5,
+                                                (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
                                                       ),
-                                                    ],
+                                                    ))),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 18.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        ...List.generate(lengthofNearestHospitalList, (i) {
+                                          int index = vm5.hospitalLogoList.indexWhere(
+                                              (element) => element.id == vm9.hospitalList2[i].id);
+                                          int imageindex = vm6.hospitalImageList.indexWhere(
+                                              (element) => element.id == vm9.hospitalList2[i].id);
+                                          return CustomCard(
+                                              loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                                              vm6.hospitalImageList[imageindex].photoImg != null
+                                                  ? loadImage(
+                                                      vm6.hospitalImageList[imageindex].photoImg)
+                                                  : loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                                              vm9.hospitalList2[i].companyName,
+                                              vm9.hospitalList2[i].companyAddress == null
+                                                  ? "Mirpur,Dahaka,Bangladesh"
+                                                  : vm9.hospitalList2[i].companyAddress,
+                                              "60 Doctors",
+                                              vm9.hospitalList2[i].companyPhone == null
+                                                  ? "+880 1962823007"
+                                                  : vm9.hospitalList2[i].companyPhone,
+                                              vm9.hospitalList2[i].companyEmail == null
+                                                  ? "info@mysoftitd.com"
+                                                  : vm9.hospitalList2[i].companyEmail,
+                                              vm9.hospitalList2[i].companyLogo,
+                                              vm9.hospitalList2[i].companyId,
+                                              vm9.hospitalList2[i].ogNo.toString(),
+                                              vm9.hospitalList2[i].id.toString(),
+                                              i.toString());
+                                        }),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                          : vm.shouldShowPageLoader ||
+                                  vm5.shouldShowPageLoader ||
+                                  vm6.shouldShowPageLoaderForImage
+                              ? SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 18.0,
+                                    ),
+                                    child: Container(
+                                      width: 1510,
+                                      height: 120.0,
+                                      child: Shimmer.fromColors(
+                                        baseColor: Colors.grey[300],
+                                        highlightColor: Colors.white,
+                                        child: Row(
+                                            children: List.generate(
+                                                5,
+                                                (index) => Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Material(
+                                                          color: Colors.grey,
+                                                          borderRadius: BorderRadius.circular(5),
+                                                          child: Center(),
+                                                        ),
+                                                      ),
+                                                    ))),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 18.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        ...List.generate(lengthofHospitalList, (i) {
+                                          int index = vm5.hospitalLogoList
+                                              .indexWhere((element) => element.id == list[i].id);
+                                          int imageindex = vm6.hospitalImageList
+                                              .indexWhere((element) => element.id == list[i].id);
+                                          return CustomCard(
+                                              loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                                              vm6.hospitalImageList[imageindex].photoImg != null
+                                                  ? loadImage(
+                                                      vm6.hospitalImageList[imageindex].photoImg)
+                                                  : loadLogo(vm5.hospitalLogoList[index].photoLogo),
+                                              list[i].companyName,
+                                              list[i].companyAddress == null
+                                                  ? "Mirpur,Dahaka,Bangladesh"
+                                                  : list[i].companyAddress,
+                                              "60 Doctors",
+                                              list[i].companyPhone == null
+                                                  ? "+880 1962823007"
+                                                  : list[i].companyPhone,
+                                              list[i].companyEmail == null
+                                                  ? "info@mysoftitd.com"
+                                                  : list[i].companyEmail,
+                                              list[i].companyLogo,
+                                              list[i].companyId,
+                                              list[i].ogNo.toString(),
+                                              list[i].id.toString(),
+                                              i.toString());
+                                        }),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        child: Row(
+                          children: [
+                            Text(
+                              "MyHealthBD News",
+                              style: GoogleFonts.poppins(
+                                  fontSize: isTablet
+                                      ? 18
+                                      : MediaQuery.of(context).size.width <= 450
+                                          ? 14
+                                          : 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Spacer(),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HealthVideoAll(
+                                                pageNo: 1,
+                                              )));
+                                },
+                                child: Text(
+                                  StringResources.viewAllText,
+                                  key: Key('newsViewAllKey'),
+                                  style: GoogleFonts.poppins(
+                                      color: HexColor("#8592E5"),
+                                      fontSize: isTablet ? 15 : 11,
+                                      fontWeight: FontWeight.w600),
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // vm2.shouldShowAppError
+                      //     ? ListView( key: Key('allJobsListView2'),
+                      //   children: [errorWidget()],
+                      // ):
+                      vm2.shouldShowPageLoader || vm7.shouldShowPageLoader
+                          ? SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 18.0,
+                                ),
+                                child: Container(
+                                  width: 1510,
+                                  height: 120.0,
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.grey[300],
+                                    highlightColor: Colors.white,
+                                    child: Row(
+                                        children: List.generate(
+                                            5,
+                                            (index) => Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Material(
+                                                      color: Colors.grey,
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      child: Center(),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
+                                                ))),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : vm2.shouldShowNoNewsFound
+                              ? Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(StringResources.noNewsFound),
+                                    key: Key('noJobsFound1'),
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 18.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        ...List.generate(
+                                          lengthofNewsList,
+                                          (i) {
+                                            int index = vm7.newsLogoList.indexWhere(
+                                                (element) => element.blogNo == list2[i].blogNo);
+                                            return CustomCardNews(
+                                                loadLogo(vm7.newsLogoList[index].logo),
+                                                DateUtil().formattedDate(
+                                                    DateTime.parse(list2[i].publishDate).toLocal()),
+                                                list2[i].title,
+                                                list2[i].newsLink,
+                                                index.toString());
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
 
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18.0, right: 18),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "MyHealthBD Blog",
-                                            key: Key('myHealthBolgKey'),
-                                            style: GoogleFonts.poppins(
-                                                fontSize: isTablet
-                                                    ? 18
-                                                    : MediaQuery.of(context).size.width <= 450
-                                                        ? 14
-                                                        : 16,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Spacer(),
-                                          GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => HealthVideoAll(
-                                                              pageNo: 0,
-                                                            )));
-                                              },
-                                              child: Text(
-                                                StringResources.viewAllText,
-                                                key: Key('blogViewAllKey'),
-                                                style: GoogleFonts.poppins(
-                                                    color: HexColor("#8592E5"),
-                                                    fontSize: isTablet ? 15 : 11,
-                                                    fontWeight: FontWeight.w600),
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    vm4.shouldShowPageLoader || vm8.shouldShowPageLoader
-                                        ? SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 18.0,
-                                              ),
-                                              child: Container(
-                                                width: 1510,
-                                                height: 120.0,
-                                                child: Shimmer.fromColors(
-                                                  baseColor: Colors.grey[300],
-                                                  highlightColor: Colors.white,
-                                                  child: Row(
-                                                      children: List.generate(
-                                                          5,
-                                                          (index) => Expanded(
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets.all(8.0),
-                                                                  child: Material(
-                                                                    color: Colors.grey,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(5),
-                                                                    child: Center(),
-                                                                  ),
-                                                                ),
-                                                              ))),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 18.0,
-                                            ),
-                                            child: SizedBox(
-                                              height: width <= 1250 && width >= 1000
-                                                  ? 175
-                                                  : width <= 999 && width >= 650
-                                                      ? 140
-                                                      : 120,
-                                              child: ListView.builder(
-                                                itemBuilder: (context, index) {
-                                                  int i = vm8.blogLogoList.indexWhere((element) =>
-                                                      element.blogNo == vm4.newsList[index].blogNo);
-                                                  return CustomBlogWidget(
-                                                    logo: loadLogo(vm8.blogLogoList[i].logo),
-                                                    title: vm4.newsList[index].title,
-                                                    news: vm4.newsList[index].blogDetail,
-                                                    index: i.toString(),
-                                                  );
-                                                },
-                                                scrollDirection: Axis.horizontal,
-                                                itemCount: vm4.newsList.length,
-                                              ),
-                                            ),
-                                          ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18.0, right: 18),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "MyHealthBD Videos",
-                                            key: Key('myHealthVideoKey'),
-                                            style: GoogleFonts.poppins(
-                                                fontSize: isTablet
-                                                    ? 18
-                                                    : MediaQuery.of(context).size.width <= 450
-                                                        ? 14
-                                                        : 16,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Spacer(),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => HealthVideoAll(
-                                                            pageNo: 2,
-                                                          )));
-                                            },
-                                            child: Text(
-                                              StringResources.viewAllText,
-                                              key: Key('videoViewAllKey'),
-                                              style: GoogleFonts.poppins(
-                                                  color: HexColor("#8592E5"),
-                                                  fontSize: isTablet ? 15 : 11,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    vm3.shouldShowPageLoader
-                                        ? SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 18.0,
-                                              ),
-                                              child: Container(
-                                                width: 1510,
-                                                height: 120.0,
-                                                child: Shimmer.fromColors(
-                                                  baseColor: Colors.grey[300],
-                                                  highlightColor: Colors.white,
-                                                  child: Row(
-                                                      children: List.generate(
-                                                          5,
-                                                          (index) => Expanded(
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets.all(8.0),
-                                                                  child: Material(
-                                                                    color: Colors.grey,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(5),
-                                                                    child: Center(),
-                                                                  ),
-                                                                ),
-                                                              ))),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 18.0,
-                                            ),
-                                            child: SizedBox(
-                                              height: width <= 1250 && width >= 1000
-                                                  ? 175
-                                                  : width <= 999 && width >= 650
-                                                      ? 140
-                                                      : 120,
-                                              child: ListView.builder(
-                                                itemCount: lengthofVideoList,
-                                                itemBuilder: (context, index) {
-                                                  //int i = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm4.newsList[index].blogNo);
-                                                  return CustomCardVideo(
-                                                      list3[index].snippet.thumbnails.standard ==
-                                                              null
-                                                          ? 'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png'
-                                                          : list3[index]
-                                                              .snippet
-                                                              .thumbnails
-                                                              .standard
-                                                              .url,
-                                                      list3[index].snippet.title,
-                                                      list3[index].snippet.resourceId.videoId,
-                                                      list3[index].snippet.description,
-                                                      index.toString());
-                                                },
-                                                scrollDirection: Axis.horizontal,
-                                              ),
-                                            ),
-                                          ),
-
-                                    // SingleChildScrollView(
-                                    //         scrollDirection: Axis.horizontal,
-                                    //         child: Padding(
-                                    //           padding: const EdgeInsets.only(
-                                    //             left: 18.0,
-                                    //           ),
-                                    //           child: Row(
-                                    //             children: [
-                                    //               ...List.generate(
-                                    //                 lengthofVideoList,
-                                    //                 (i) => CustomCardVideo(
-                                    //                     list3[i]
-                                    //                         .snippet
-                                    //                         .thumbnails
-                                    //                         .standard
-                                    //                         .url,
-                                    //                     list3[i].snippet.title,
-                                    //                     list3[i]
-                                    //                         .snippet
-                                    //                         .resourceId
-                                    //                         .videoId,
-                                    //                     list3[i]
-                                    //                         .snippet
-                                    //                         .description),
-                                    //               ),
-                                    //             ],
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                  ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        child: Row(
+                          children: [
+                            Text(
+                              "MyHealthBD Blog",
+                              key: Key('myHealthBolgKey'),
+                              style: GoogleFonts.poppins(
+                                  fontSize: isTablet
+                                      ? 18
+                                      : MediaQuery.of(context).size.width <= 450
+                                          ? 14
+                                          : 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Spacer(),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HealthVideoAll(
+                                                pageNo: 0,
+                                              )));
+                                },
+                                child: Text(
+                                  StringResources.viewAllText,
+                                  key: Key('blogViewAllKey'),
+                                  style: GoogleFonts.poppins(
+                                      color: HexColor("#8592E5"),
+                                      fontSize: isTablet ? 15 : 11,
+                                      fontWeight: FontWeight.w600),
+                                )),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      vm4.shouldShowPageLoader || vm8.shouldShowPageLoader
+                          ? SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 18.0,
+                                ),
+                                child: Container(
+                                  width: 1510,
+                                  height: 120.0,
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.grey[300],
+                                    highlightColor: Colors.white,
+                                    child: Row(
+                                        children: List.generate(
+                                            5,
+                                            (index) => Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Material(
+                                                      color: Colors.grey,
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      child: Center(),
+                                                    ),
+                                                  ),
+                                                ))),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(
+                                left: 18.0,
+                              ),
+                              child: SizedBox(
+                                height: width <= 1250 && width >= 1000
+                                    ? 175
+                                    : width <= 999 && width >= 650
+                                        ? 140
+                                        : 120,
+                                child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    int i = vm8.blogLogoList.indexWhere(
+                                        (element) => element.blogNo == vm4.newsList[index].blogNo);
+                                    return CustomBlogWidget(
+                                      logo: loadLogo(vm8.blogLogoList[i].logo),
+                                      title: vm4.newsList[index].title,
+                                      news: vm4.newsList[index].blogDetail,
+                                      index: i.toString(),
+                                    );
+                                  },
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: vm4.newsList.length,
                                 ),
                               ),
                             ),
-                          )
-                        ],
-                      );
-                    }),
-              ),
-            ]),
-          ],
-        ),
-      ],
-    );
-  }
-
-  // Widget _backgroundImage() {
-  //   var width = MediaQuery.of(context).size.width;
-  //   return Container(
-  //     // decoration: BoxDecoration(
-  //     //     color: Colors.white,
-  //     //     borderRadius: BorderRadius.all(Radius.circular(30))),
-  //
-  //     decoration: const BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.all(Radius.circular(30)),
-  //       image: DecorationImage(
-  //           image: AssetImage("assets/images/dashboardNoewImage.png"),
-  //           fit: BoxFit.fill),
-  //     ),
-  //     height: width<=1250 && width>=1000 ?  380: 250,
-  //     //width: double.infinity,
-  //     // child: FadeInImage(
-  //     //   fit: BoxFit.cover,
-  //     //   image:AssetImage("assets/images/dashboard_back.png"),
-  //     //   placeholder: AssetImage(''),
-  //     // ),
-  //   );
-  // }
-
-  Widget _backgroundImage2() {
-    var width = MediaQuery.of(context).size.width;
-    return Container(
-      // decoration: BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: BorderRadius.all(Radius.circular(30))),
-
-      decoration: BoxDecoration(
-        color: Colors.white,
-        //borderRadius: BorderRadius.all(Radius.circular(30)),
-        image: DecorationImage(
-            image: AssetImage("assets/images/dashboardNoewImage.png"), fit: BoxFit.fill),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        child: Row(
+                          children: [
+                            Text(
+                              "MyHealthBD Videos",
+                              key: Key('myHealthVideoKey'),
+                              style: GoogleFonts.poppins(
+                                  fontSize: isTablet
+                                      ? 18
+                                      : MediaQuery.of(context).size.width <= 450
+                                          ? 14
+                                          : 16,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Spacer(),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HealthVideoAll(
+                                              pageNo: 2,
+                                            )));
+                              },
+                              child: Text(
+                                StringResources.viewAllText,
+                                key: Key('videoViewAllKey'),
+                                style: GoogleFonts.poppins(
+                                    color: HexColor("#8592E5"),
+                                    fontSize: isTablet ? 15 : 11,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      vm3.shouldShowPageLoader
+                          ? SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 18.0,
+                                ),
+                                child: Container(
+                                  width: 1510,
+                                  height: 120.0,
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.grey[300],
+                                    highlightColor: Colors.white,
+                                    child: Row(
+                                        children: List.generate(
+                                            5,
+                                            (index) => Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Material(
+                                                      color: Colors.grey,
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      child: Center(),
+                                                    ),
+                                                  ),
+                                                ))),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(
+                                left: 18.0,
+                              ),
+                              child: SizedBox(
+                                height: width <= 1250 && width >= 1000
+                                    ? 175
+                                    : width <= 999 && width >= 650
+                                        ? 140
+                                        : 120,
+                                child: ListView.builder(
+                                  itemCount: lengthofVideoList,
+                                  itemBuilder: (context, index) {
+                                    //int i = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm4.newsList[index].blogNo);
+                                    return CustomCardVideo(
+                                        list3[index].snippet.thumbnails.standard == null
+                                            ? 'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png'
+                                            : list3[index].snippet.thumbnails.standard.url,
+                                        list3[index].snippet.title,
+                                        list3[index].snippet.resourceId.videoId,
+                                        list3[index].snippet.description,
+                                        index.toString());
+                                  },
+                                  scrollDirection: Axis.horizontal,
+                                ),
+                              ),
+                            ),
+                    ],
+                  ),
+                )
+              ],
+            )
+          ]))
+        ],
       ),
-      height: width <= 1250 && width >= 1000
-          ? 380
-          : width <= 999 && width >= 850
-              ? 305
-              : 250,
-      // width: double.infinity,
-      // child: FadeInImage(
-      //   fit: BoxFit.cover,
-      //   image:AssetImage("assets/images/dashboard_back.png"),
-      //   placeholder: AssetImage(''),
-      // ),
     );
   }
 

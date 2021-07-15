@@ -201,10 +201,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           accessToken: accessTokenVm.accessToken,
           menuCallBack: (selectedIndex) {
             setState(() {
-              final selectedWidget = screenList.removeAt(selectedIndex);
-              screenList.insert(0, selectedWidget);
-              if (selectedIndex != 0) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => selectedWidget));
+              if (selectedIndex == 0) {
+                if (isDrawerOpen) {
+                  setState(() {
+                    isDrawerOpen = false;
+                    _animationController.reverse();
+                  });
+                }
+              } else {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => screenList[selectedIndex]));
               }
             });
           },
@@ -212,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         AnimatedPositioned(
           duration: duration,
           top: 0,
-          left: isDrawerOpen ? deviceWidth * 0.50 : 0,
+          left: isDrawerOpen ? deviceWidth * 0.40 : 0,
           right: isDrawerOpen ? deviceWidth * -0.45 : 0,
           bottom: 0,
           child: ScaleTransition(
@@ -226,7 +232,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   });
                 }
               },
-              child: screenList[0],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(isDrawerOpen ? 20 : 0),
+                child: screenList[0],
+              ),
             ),
           ),
         )
@@ -323,26 +332,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ))
         ]);
 
-    return MaterialApp(
-      title: "MyHealthBD",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: HexColor('#354291'),
-        unselectedWidgetColor: HexColor('#8592E5'),
-      ),
-      home: WillPopScope(
-          child: Scaffold(
-            bottomNavigationBar: bottomNavBar,
-            body: pages[currentBottomIndex],
-          ),
-          onWillPop: () async {
-            if (currentBottomIndex == 0)
-              return true;
-            else {
-              _moveTo(0);
-              return false;
-            }
-          }),
-    );
+    return WillPopScope(
+        child: Scaffold(
+          bottomNavigationBar: bottomNavBar,
+          body: pages[currentBottomIndex],
+        ),
+        onWillPop: () async {
+          if (currentBottomIndex == 0)
+            return true;
+          else {
+            _moveTo(0);
+            return false;
+          }
+        });
   }
 }

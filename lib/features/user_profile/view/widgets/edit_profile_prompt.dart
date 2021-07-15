@@ -76,7 +76,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      username = prefs.getString("username");
+      username = prefs.getString("username").toUpperCase();
       vm.getData();
       _username.text = vm.userDetailsList.fname;
       _email.text = vm.userDetailsList.email;

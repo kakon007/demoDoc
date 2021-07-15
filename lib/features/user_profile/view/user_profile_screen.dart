@@ -86,13 +86,13 @@ class _UserProfileState extends State<UserProfile> {
   SwitchAccounts switchAccounts;
   List<SwitchAccounts> accountsList;
   var username;
-
+  bool shouldDenyClick=false;
   @override
   void initState() {
     // TODO: implement initState
     Future.delayed(Duration.zero, () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      username = prefs.getString("username");
+      username = prefs.getString("username").toUpperCase();
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
       photo = Provider.of<UserImageViewModel>(context, listen: false)
               .details
@@ -205,7 +205,9 @@ class _UserProfileState extends State<UserProfile> {
               child: Row(
                 children: [
                   isEdit
-                      ? GestureDetector(
+                      ? shouldDenyClick? CircularProgressIndicator(valueColor:
+                  AlwaysStoppedAnimation<Color>(
+                      Colors.white),) : GestureDetector(
                           child: Text(
                             "Save",
                             style: GoogleFonts.poppins(
@@ -213,6 +215,9 @@ class _UserProfileState extends State<UserProfile> {
                             ),
                           ),
                           onTap: () async {
+                            setState(() {
+                              shouldDenyClick = true;
+                            });
                             await vm2.updateImage(
                                 _image,
                                 vm.userDetailsList.hospitalNumber,
@@ -229,9 +234,21 @@ class _UserProfileState extends State<UserProfile> {
                                 _selectedBlood,
                                 hospitalNumber,
                                 regDate);
+                            response = vm2.resStatusCode;
+                            setState(() {
+                              if (response == "200") {
+                                shouldDenyClick = false;
+                                isEdit = false;
+                                _image = null;
+                                response = null;
+                              }
+                              else{
+                                shouldDenyClick =false;
+                              }
+                            });
                             accountsList.forEach((item) {
                               if (item.username.contains(username)) {
-                                //switchAccounts = st;
+                               print('image data');
                                 SwitchAccounts st = item;
                                 switchAccounts = st;
                                 switchAccounts.username = item.username;
@@ -244,26 +261,6 @@ class _UserProfileState extends State<UserProfile> {
                                     .then((value) => {
                                           setState(() {}),
                                         });
-                              }
-                            });
-                            //print(accountsList[index]);
-                            // switchAccounts = st;
-                            // SwitchAccounts st = accountsList[index];
-                            // switchAccounts = st;
-                            //  switchAccounts.username = username;
-                            //  switchAccounts.password = password;
-                            //  switchAccounts.name = vm.userDetailsList.fname;
-                            //  switchAccounts.relation = vm2.details?.photo ;
-                            //  switchAccounts.id = index;
-                            //  dbmManager.updateStudent(switchAccounts).then((value) => {
-                            //    setState(() {}),
-                            //  });
-                            response = vm2.resStatusCode;
-                            setState(() {
-                              if (response == "200") {
-                                isEdit = false;
-                                _image = null;
-                                response = null;
                               }
                             });
                           },

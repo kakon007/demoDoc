@@ -204,6 +204,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
         ),
         child: CustomScrollView(
+          controller: _scrollControllerPagination,
           slivers: [
             SliverAppBar(
               leading: Center(

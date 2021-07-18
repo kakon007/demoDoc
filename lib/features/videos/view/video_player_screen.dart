@@ -57,6 +57,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
    //    appBar: AppBar(
    // title: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
    //    ),

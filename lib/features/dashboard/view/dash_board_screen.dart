@@ -1065,9 +1065,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   itemBuilder: (context, index) {
                                     //int i = vm8.blogLogoList.indexWhere((element) => element.blogNo==vm4.newsList[index].blogNo);
                                     return CustomCardVideo(
-                                        list3[index].snippet.thumbnails.standard == null
+                                        list3[index].snippet.thumbnails.thumbnailsDefault == null
                                             ? 'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png'
-                                            : list3[index].snippet.thumbnails.standard.url,
+                                            : list3[index].snippet.thumbnails.thumbnailsDefault.url,
                                         list3[index].snippet.title,
                                         list3[index].snippet.resourceId.videoId,
                                         list3[index].snippet.description,

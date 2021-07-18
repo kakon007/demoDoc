@@ -263,8 +263,8 @@ class _HealthVideoAllState extends State<HealthVideoAll> {
                       vm.videoListViewAll[index].snippet.description,
                       title: vm.videoListViewAll[index].snippet.title,
                       logo: vm.videoListViewAll[index].snippet
-                          .thumbnails.standard==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png':vm.videoListViewAll[index].snippet
-                          .thumbnails.standard.url,
+                          .thumbnails==null?'https://www.techandteen.com/wp-content/uploads/2020/11/MyHealthBD-Logo-High-Res..png':vm.videoListViewAll[index].snippet
+                          .thumbnails.thumbnailsDefault.url,
                     )
                         : itemIndex == 1
                         ? BlogVlogArticleCard(

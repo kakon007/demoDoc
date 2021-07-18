@@ -638,11 +638,13 @@ class _SignUpState extends State<SignUp> {
     return Stack(
       children: [
         Positioned(
-          top: isTablet ? 35 : MediaQuery.of(context).size.width * .12,
+          top: isTablet
+              ? 35
+              : MediaQuery.of(context).size.width * .12,
           left: MediaQuery.of(context).size.width * .32,
           right: MediaQuery.of(context).size.width * .32,
           child: Container(
-            height: MediaQuery.of(context).size.width * .09,
+            height: MediaQuery.of(context).size.width * .13,
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
               fit: BoxFit.cover,

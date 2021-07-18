@@ -72,22 +72,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ? Padding(
                       padding: const EdgeInsets.only(right: 18.0),
                       child: Container(
+                        width: 100,
                         height: 30,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           color: HexColor("#FFFFFF"),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 3, right: 3),
-                            child: Text(
-                              widget.accessToken == null ? menuItem2[index] : menuItem[index],
-                              style: GoogleFonts.roboto(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                  color: HexColor('#354291')),
-                            ),
+                        child: Center(
+                          child: Text(
+                            widget.accessToken == null ? menuItem2[index] : menuItem[index],
+                            style: GoogleFonts.roboto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: HexColor('#354291')),
                           ),
                         ),
                       ),

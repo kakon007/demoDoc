@@ -57,38 +57,21 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-   title: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
-      ),
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 1,
-              child: SingleChildScrollView(
-                child: YoutubePlayer(
-                  controller: _youtubePlayerController,
-                  showVideoProgressIndicator: true,
-
-                  onReady: (){
-                    print("Player is Ready");
-                    _isPlayerReady=true;
-                  },
-                ),
-              ),
-            ),
-            SizedBox(height: 15,),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Description*",key: Key('descriptionTextKey'),style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w500),),
-            ),
-            SizedBox(height: 5,),
-            Expanded(flex:2,child: SingleChildScrollView(child: Container(child:widget.descriptions==null?Center(child: Text('No Descriptions'),): Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(widget.descriptions),
-            ),)))
-          ],
+   //    appBar: AppBar(
+   // title: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
+   //    ),
+      body: Center(
+        child: YoutubePlayer(
+          controller: _youtubePlayerController,
+          showVideoProgressIndicator: true,
+          topActions: [Padding(
+            padding: const EdgeInsets.only(top:15.0,left:10),
+            child: Container(width:MediaQuery.of(context).size.width>=600?500:350,child: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,)),
+          ),],
+          onReady: (){
+            print("Player is Ready");
+            _isPlayerReady=true;
+          },
         ),
       ),
     );

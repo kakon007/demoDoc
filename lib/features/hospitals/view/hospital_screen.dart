@@ -270,7 +270,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                                           .hospitalImageList[imageIndex]
                                           .photoImg)
                                       : loadLogo(vm5
-                                          .hospitalLogoList[index].photoLogo),
+                                          .hospitalLogoList[logoIndex].photoLogo),
                                   hospitalItems2.length == 0
                                       ? list2[index].companyName
                                       : hospitalItems2[index].companyName,

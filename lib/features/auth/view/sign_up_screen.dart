@@ -521,7 +521,7 @@ class _SignUpState extends State<SignUp> {
         this._backgroundImage(),
         Scaffold(
           appBar: new AppBar(
-            leading: BackButton(color: Colors.black),
+            leading: BackButton(color: Colors.white),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
           ),
@@ -531,7 +531,7 @@ class _SignUpState extends State<SignUp> {
           body: Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * .04),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * .045),
               child: Column(
                 children: [
                   Expanded(
@@ -638,14 +638,14 @@ class _SignUpState extends State<SignUp> {
     return Stack(
       children: [
         Positioned(
-          top: isTablet ? 35 : MediaQuery.of(context).size.width * .13,
+          top: isTablet ? 35 : MediaQuery.of(context).size.width * .12,
           left: MediaQuery.of(context).size.width * .32,
           right: MediaQuery.of(context).size.width * .32,
           child: Container(
-            height: MediaQuery.of(context).size.width * .13,
+            height: MediaQuery.of(context).size.width * .09,
             alignment: Alignment(0, -0.75),
             child: FadeInImage(
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.cover,
               image: AssetImage(kMyHealthLogo),
               placeholder: AssetImage(''),
             ),

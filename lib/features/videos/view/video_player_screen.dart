@@ -61,18 +61,20 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
    //    appBar: AppBar(
    // title: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
    //    ),
-      body: Center(
-        child: YoutubePlayer(
-          controller: _youtubePlayerController,
-          showVideoProgressIndicator: true,
-          topActions: [Padding(
-            padding: const EdgeInsets.only(top:15.0,left:10),
-            child: Container(width:MediaQuery.of(context).size.width>=600?500:350,child: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,)),
-          ),],
-          onReady: (){
-            print("Player is Ready");
-            _isPlayerReady=true;
-          },
+      body: SafeArea(
+        child: Center(
+          child: YoutubePlayer(
+            controller: _youtubePlayerController,
+            showVideoProgressIndicator: true,
+            topActions: [Padding(
+              padding: const EdgeInsets.only(top:15.0,left:10),
+              child: Container(width:MediaQuery.of(context).size.width>=600?500:350,child: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,)),
+            ),],
+            onReady: (){
+              print("Player is Ready");
+              _isPlayerReady=true;
+            },
+          ),
         ),
       ),
     );

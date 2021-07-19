@@ -487,7 +487,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           ? loadLogo(vm.doctorList[i].photo)
                                           : Image.asset(
                                               "assets/icons/dct.png",
-                                              fit: BoxFit.fill,
+                                              fit: BoxFit.contain,
                                               width: isTablet
                                                   ? MediaQuery.of(context).size.width * .23
                                                   : width < 350
@@ -497,7 +497,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                   ? 148
                                                   : width < 350
                                                       ? 118
-                                                      : 160,
+                                                      : 120,
                                             ),
                                       vm.doctorList[i]?.doctorName == null
                                           ? ""

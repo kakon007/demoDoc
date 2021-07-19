@@ -110,7 +110,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   )),
               Container(
                 height: isTablet? 55 : 45.0,
-                width: isTablet?MediaQuery.of(context).size.width * .92 :  MediaQuery.of(context).size.width * .87,
+                width: isTablet? width*92 : MediaQuery.of(context).size.width * .89,
                 decoration: BoxDecoration(
                     color: Colors.transparent,
                     border: Border.all(color: HexColor(color)),
@@ -218,7 +218,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   )),
               Container(
                 height:  isTablet? 55 : 45.0,
-                width:  isTablet? width*.92 : MediaQuery.of(context).size.width * 0.87,
+                width: isTablet? width*92 : MediaQuery.of(context).size.width * .89,
                 decoration: BoxDecoration(
                     border: Border.all(color: HexColor(abc)),
                     borderRadius: BorderRadius.circular(10)),
@@ -510,7 +510,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       )),
                 ),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 10, right: 20),
+            padding: const EdgeInsets.only(top: 8.0, left: 10, right: 5),
             child: Container(
               width: isTablet? width*92 : MediaQuery.of(context).size.width * .89,
               height: isTablet? 200 : 45,

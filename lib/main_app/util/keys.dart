@@ -146,6 +146,11 @@ class Keys{
   //appointment history
   static final appointmentBottomNavbarKey = find.byValueKey('appointmentBottomNavbarKey');
   static final appointmentsAppbarKey = find.byValueKey('appointmentsAppbarKey');
+  static final completedAppointmentsKey = find.byValueKey('completedAppointmentsKey');
+  static final noCompletedAppointments = find.byValueKey('noCompletedAppointments');
+  static final rebookKey = find.byValueKey('rebookKey');
+  static final viewPrescriptionKey = find.byValueKey('viewPrescriptionKey');
+  static final completedSearchKey = find.byValueKey('completedSearchKey');
 
   //book your appointment key
   static final bookNowKey0 = find.byValueKey('bookNowKey0');

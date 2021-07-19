@@ -20,13 +20,13 @@ class DoctorListViewModel extends ChangeNotifier{
   int _pageCount = 0;
   get logger => null;
   int limit=10;
-  int startIndex=1;
+  int startIndex=0;
 
   Future<void> getDoctor(String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch) async {
 
    print(deptItem);
    print(specialSelectedItem);
-    startIndex=1;
+    startIndex=0;
     _pageCount++;
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();

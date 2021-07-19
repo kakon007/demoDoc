@@ -281,6 +281,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                     vm2.search(_searchTextEditingController2.text, widget.accessToken);
                   },
                 )),
+            key: Key('completedSearchKey'),
             onSubmitted: (v) {
               vm2.search(_searchTextEditingController2.text, widget.accessToken);
             },
@@ -350,6 +351,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                       child: Center(
                           child: Text(
                         'Completed',
+                        key: Key('completedAppointmentsKey'),
                         style: GoogleFonts.roboto(
                             color: HexColor('#354291'), fontWeight: FontWeight.w500),
                       )),
@@ -1671,6 +1673,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             children: [
                                               Text(
                                                 'You have no completed \nappointment.',
+                                                key: Key('noCompletedAppointments'),
+
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor('#333132'),
@@ -2257,6 +2261,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       );
                                                                     }));
                                                                   },
+                                                                  key: Key('rebookKey'),
                                                                   child: Material(
                                                                     elevation: 0,
                                                                     shape: RoundedRectangleBorder(
@@ -2311,6 +2316,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       : 25,
                                                                 ),
                                                                 InkWell(
+                                                                  key:Key('viewPrescriptionKey'),
                                                                   onTap: () async {
                                                                     print(
                                                                         'ButtonPredfromAppointmentscreen');
@@ -2377,6 +2383,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       // height: deviceWidth<=360 ? 28
                                                                       //     : 35,
                                                                       child: Center(
+
                                                                         child: Text(
                                                                           "View Prescription",
                                                                           style:

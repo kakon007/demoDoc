@@ -1224,13 +1224,13 @@ class _AddPatientState extends State<AddPatient> {
                       Future.delayed(Duration.zero, () async {
                         setState(() {
                           if (vm2.message == null) {
-                            _showSuccessAlert(context);
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         HomeScreen(
                                           accessToken: accessToken,
                                         )));
+                            _showSuccessAlert(context);
                           } else {
                             //isClicked = false;
                           }

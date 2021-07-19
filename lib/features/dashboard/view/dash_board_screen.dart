@@ -586,7 +586,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         height: 15,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        padding: const EdgeInsets.only(left: 19.0, right: 18),
                         child: Row(
                           children: [
                             Text(
@@ -661,7 +661,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   scrollDirection: Axis.horizontal,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                      left: 18.0,
+                                      left: 15.0,
                                     ),
                                     child: Row(
                                       children: [
@@ -733,7 +733,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   scrollDirection: Axis.horizontal,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                      left: 18.0,
+                                      left: 15.0,
                                     ),
                                     child: Row(
                                       children: [
@@ -770,10 +770,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   ),
                                 ),
                       SizedBox(
-                        height: 10,
+                        height: 18,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        padding: const EdgeInsets.only(left: 20.0, right: 18),
                         child: Row(
                           children: [
                             Text(
@@ -856,7 +856,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                   scrollDirection: Axis.horizontal,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                      left: 18.0,
+                                      left: 16.0,
                                     ),
                                     child: Row(
                                       children: [
@@ -880,10 +880,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                 ),
 
                       SizedBox(
-                        height: 10,
+                        height: 18,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        padding: const EdgeInsets.only(left: 20.0, right: 18),
                         child: Row(
                           children: [
                             Text(
@@ -953,7 +953,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                             )
                           : Padding(
                               padding: const EdgeInsets.only(
-                                left: 18.0,
+                                left: 16.0,
                               ),
                               child: SizedBox(
                                 height: width <= 1250 && width >= 1000
@@ -978,10 +978,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                               ),
                             ),
                       SizedBox(
-                        height: 10,
+                        height: 18,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        padding: const EdgeInsets.only(left: 20.0, right: 18),
                         child: Row(
                           children: [
                             Text(
@@ -1052,7 +1052,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                             )
                           : Padding(
                               padding: const EdgeInsets.only(
-                                left: 18.0,
+                                left: 16.0,
                               ),
                               child: SizedBox(
                                 height: width <= 1250 && width >= 1000

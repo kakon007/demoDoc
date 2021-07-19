@@ -6,11 +6,11 @@ import 'package:test/test.dart';
 import '../auth/sign_in_common_test.dart';
 
 main(){
-  appointmentCompleted();
+  appointmentNotCompleted();
 }
-Future<void> appointmentCompleted()async{
+Future<void> appointmentNotCompleted()async{
 
-  group('Appointment completed test', ()
+  group('Appointment not completed test', ()
   {
     FlutterDriver driver;
     setUpAll(() async {
@@ -53,77 +53,40 @@ Future<void> appointmentCompleted()async{
       });
     });
 
-    //uncomment it when no appointment is available
-
-   /* test(  'When__try_to_tap_competed__should__get_no_appointments_yet', () async {
+    //uncomment it when no pending appointment is available
+    /* test(  'When__try_to_check_whether_appointment_is_available_or_not', () async {
       await driver.runUnsynchronized(() async {
-        await driver.tap(Keys.completedAppointmentsKey);
         await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.noCompletedAppointments), "You have no completed \nappointment.");
+        await expect(await driver.getText(Keys.noPendingAppointmentKey), "You have no pending or waiting \nappointment.");
         await Future.delayed(const Duration(seconds: 2), () {});
       });
     });*/
-    test(  'When__try_to_tap_completed__should__get_appointments_on_appbar', () async {
-      await driver.runUnsynchronized(() async {
-        await driver.tap(Keys.completedAppointmentsKey);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.appointmentsAppbarKey), "Appointments");
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
-    test(  'When__try_to_tap_rebook__should__get_Book_your_appointment_on_appbar', () async {
+
+
+   /* test(  'When__try_to_tap_rebook__should__get_Book_your_appointment_on_appbar', () async {
       sleep(Duration(seconds: 2));
       await Future.delayed(const Duration(seconds: 5), () {});
-      await driver.tap(Keys.rebookKey0);
-      sleep(Duration(seconds: 2));
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.bookYourAppointmentAppbarKey), "Book your appointment");
-        await Future.delayed(const Duration(seconds: 2), () {});
-    });
-    test(
-        'When__try_to_tap_back_button__should__get_appointments_text', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.tap(Keys.backButton);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.appointmentsAppbarKey), "Appointments");
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
-    test(  'When__try_to_tap_View_prescription__should__open_the_pdf', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 2), () {});
-        sleep(Duration(seconds: 2));
-        await driver.tap(Keys.viewPrescriptionKey0);
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
-    test(
-        'When__try_to_tap_back_button__should__get_appointments_text', () async {
-      await driver.runUnsynchronized(() async {
-        await Future.delayed(const Duration(seconds: 5), () {});
-        await driver.tap(Keys.backButton);
-        await Future.delayed(const Duration(seconds: 2), () {});
-        await expect(await driver.getText(Keys.appointmentsAppbarKey), "Appointments");
-        await Future.delayed(const Duration(seconds: 2), () {});
-      });
-    });
+      await driver.tap(Keys.joinVideoConsultationKey0);
+      await Future.delayed(const Duration(seconds: 2), () {});
+    });*/
+
+
     test(  'When__try_to_tap_search_debnath__should__get_the_result', () async {
       await driver.runUnsynchronized(() async {
         sleep(Duration(seconds: 2));
-        await driver.tap(Keys.completedSearchIconKey);
+        await driver.tap(Keys.notCompletedSearchIconKey);
         await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.tap(Keys.completedSearchKey);
-        await driver.enterText('debnath');
+        await driver.tap(Keys.notCompletedSearchKey);
+        await driver.enterText('rahim');
         await Future.delayed(const Duration(seconds: 2), () {});
-        await driver.tap(Keys.completedSearchFieldKey);
+        await driver.tap(Keys.notCompletedSearchFieldKey);
         await Future.delayed(const Duration(seconds: 2), () {});
       });
     });
     test(  'When__try_to_close_search_field_should__get_close', () async {
       await driver.runUnsynchronized(() async {
         sleep(Duration(seconds: 2));
-        await driver.tap(Keys.completedSearchIconKey);
+        await driver.tap(Keys.notCompletedSearchIconKey);
         await Future.delayed(const Duration(seconds: 2), () {});
       });
     });
@@ -131,7 +94,7 @@ Future<void> appointmentCompleted()async{
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 2), () {});
         await driver.scrollUntilVisible(
-            Keys.rebookKey0, Keys.rebookKey8,
+            Keys.joinVideoConsultationKey0, Keys.joinVideoConsultationKey4,
             dyScroll: -100);
         await Future.delayed(const Duration(seconds: 2), () {});
       });

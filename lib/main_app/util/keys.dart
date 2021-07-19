@@ -148,9 +148,18 @@ class Keys{
   static final appointmentsAppbarKey = find.byValueKey('appointmentsAppbarKey');
   static final completedAppointmentsKey = find.byValueKey('completedAppointmentsKey');
   static final noCompletedAppointments = find.byValueKey('noCompletedAppointments');
-  static final rebookKey = find.byValueKey('rebookKey');
-  static final viewPrescriptionKey = find.byValueKey('viewPrescriptionKey');
+  static final rebookKey0 = find.byValueKey('rebookKey0');
+  static final rebookKey8 = find.byValueKey('rebookKey8');
+  static final viewPrescriptionKey0 = find.byValueKey('viewPrescriptionKey0');
   static final completedSearchKey = find.byValueKey('completedSearchKey');
+  static final completedSearchIconKey = find.byValueKey('completedSearchIconKey');
+  static final completedSearchFieldKey = find.byValueKey('completedSearchFieldKey');
+  static final noPendingAppointmentKey = find.byValueKey('noPendingAppointmentKey');
+  static final joinVideoConsultationKey0 = find.byValueKey('joinVideoConsultationKey4');
+  static final joinVideoConsultationKey4 = find.byValueKey('joinVideoConsultationKey0');
+  static final notCompletedSearchIconKey = find.byValueKey('notCompletedSearchIconKey');
+  static final notCompletedSearchKey = find.byValueKey('notCompletedSearchKey');
+  static final notCompletedSearchFieldKey = find.byValueKey('notCompletedSearchFieldKey');
 
   //book your appointment key
   static final bookNowKey0 = find.byValueKey('bookNowKey0');

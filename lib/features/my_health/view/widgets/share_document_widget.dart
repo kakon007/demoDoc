@@ -498,6 +498,7 @@ class _ShareDocumentState extends State<ShareDocument> {
             verticalSpace,
             Text(
               "Share",
+              key: Key('shareTextKey'),
               style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: isTablet? 18 : 15),
             ),
             Row(
@@ -506,7 +507,7 @@ class _ShareDocumentState extends State<ShareDocument> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Icon(Icons.clear)),
+                    child: Icon(Icons.clear, key: Key('shareCloseKey'),)),
                 SizedBox(width: isTablet? 10 : 5,)
               ],
             ),

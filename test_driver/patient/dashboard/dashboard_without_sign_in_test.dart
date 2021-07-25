@@ -23,7 +23,7 @@ Future<void> dashBoardUnsignedTest() async {
     });
     //test cases are started from here
     test(
-        'When__try_to_tap_dashboard_from_bottom_navbar__should__get_appointments_text',
+        'When__try_to_tap_dashboard_from_bottom_navbar__should__easy_doctor_text',
             () async {
           await driver.runUnsynchronized(() async {
             await Future.delayed(const Duration(seconds: 2), () {});
@@ -32,6 +32,107 @@ Future<void> dashBoardUnsignedTest() async {
             await Future.delayed(const Duration(seconds: 2), () {});
           });
         });
+    test(
+        'When__try_to_tap_menu_icon__should__open_drawer',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await driver.tap(Keys.menuIconKey);
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test(
+        'When__try_to_tap_menu_item_0__should__get_easy_doctor_text',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await driver.tap(Keys.menuItemBeforeSignIn0);
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.easyDoctorTextKey),
+                "Easy Doctor Appointment");
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test(
+        'When__try_to_tap_menu_icon__should__open_drawer',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await driver.tap(Keys.menuIconKey);
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test(
+        'When__try_to_tap_menu_item_1__should__get_want_to_manage_your_appointments_text',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await driver.tap(Keys.menuItemBeforeSignIn1);
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.wantToAccessAppointKey),
+                'Want to manage your appointments?');
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test(
+        'When__try_to_tap_back_button__should__get_patient_portal_text', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.backButton);
+        await Future.delayed(const Duration(seconds: 2), () {});
+      });
+    });
+    test(
+        'When__try_to_tap_menu_item_2__should__get_want_to_access_your_prescriptions_text',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await driver.tap(Keys.menuItemBeforeSignIn2);
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.wantToAccessPresKey),
+                'Want to access your Prescriptions?');
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test(
+        'When__try_to_tap_back_button__should__get_patient_portal_text', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.backButton);
+        await Future.delayed(const Duration(seconds: 2), () {});
+      });
+    });
+    test(
+        'When__try_to_tap_menu_item_3__should__get_more_text',
+            () async {
+          await driver.runUnsynchronized(() async {
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await driver.tap(Keys.menuItemBeforeSignIn3);
+            await Future.delayed(const Duration(seconds: 2), () {});
+            await expect(await driver.getText(Keys.moreAppbarKey),
+                'More');
+            await Future.delayed(const Duration(seconds: 2), () {});
+          });
+        });
+    test(
+        'When__try_to_tap_back_button__should__get_patient_portal_text', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.backButton);
+        await Future.delayed(const Duration(seconds: 2), () {});
+      });
+    });
+    test(
+        'When__try_to_tap_back_button__should__get_easy_doctor_text', () async {
+      await driver.runUnsynchronized(() async {
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.menuBackIconKey);
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await expect(await driver.getText(Keys.easyDoctorTextKey),
+            "Easy Doctor Appointment");
+        await Future.delayed(const Duration(seconds: 2), () {});
+      });
+    });
     test(
         'When__try_to_tap_dashboard_from_bottom_navbar__should__access_appointment_text',
             () async {

@@ -886,6 +886,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
             focusNode: _searchFieldFocusNode2,
             controller: _searchTextEditingController2,
             cursorColor: HexColor('#C5CAE8'),
+            key: Key('reportsSearchFieldKey'),
             decoration: InputDecoration(
                 hintText: 'Search reports',
                 hintStyle: GoogleFonts.poppins(
@@ -902,6 +903,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                     Icons.search_sharp,
                     color: Colors.black,
                   ),
+                  key: Key('reportsSearchIconKey'),
                   onPressed: () {
                     vm3.search(_searchTextEditingController2.text,
                         accessTokenVm.accessToken);
@@ -925,6 +927,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
         backgroundColor: HexColor('#354291'),
         title: Text(
           'Patient Portal',
+           key: Key('patientPortalAppbarKey'),
           style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
         ),
         actions:
@@ -1035,6 +1038,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                       child: Center(
                           child: Text(
                             'Reports',
+                            key: Key('reportsTabKey'),
                             style: GoogleFonts.roboto(
                                 color: HexColor('#354291'),
                                 fontSize: isTablet
@@ -1458,7 +1462,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   SizedBox(width: 15,),
                                   if (vm2.isInSearchMode) searchFieldforReport,
                                   IconButton(
-                                    key: Key('featuredJButonKey'),
+                                    key: Key('reportsSearchKey'),
                                     icon: Icon(
                                       vm2.isInSearchMode ? Icons.close : Icons.search,
                                       color: Colors.grey,
@@ -1498,6 +1502,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                         ),
                                         Text(
                                           'You have no report available now',
+                                          key: Key('noAvailableReportKey'),
                                           style: GoogleFonts.poppins(
                                               color: HexColor('#AEB0BA'),
                                               fontWeight: FontWeight.w400,
@@ -1564,6 +1569,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                       }
                                                       print("tappeddd");
                                                     },
+                                                    key: Key('showReportKey$index'),
                                                     child: Container(
                                                       constraints: BoxConstraints(minHeight: isTablet? 75 : 60,),
                                                       // height:
@@ -1708,7 +1714,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 child: InkWell(onTap: () async{
                                                                   await  downloadDocumentations(vm2.reportList[index].attachmentPath,vm2.reportList[index].attachmentName);
 
-                                                              },child: Icon(Icons.download_rounded,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: AppTheme.appbarPrimary,)),
+                                                              },child: Icon(Icons.download_rounded,key: Key('reportsDownloadKey$index'),size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: AppTheme.appbarPrimary,)),
                                                             ),
 
                                                               SizedBox(width: 5,),
@@ -1743,7 +1749,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                   //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                                 },
                                                                 // onTap: showNotification,
-                                                                child: Icon(Icons.share,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 , color: AppTheme.appbarPrimary,)),
+                                                                child: Icon(Icons.share,key: Key('reportsShareKey$index'),size:  isTablet? 25 :deviceWidth<=360? 18 : 20 , color: AppTheme.appbarPrimary,)),
                                                           ]),
                                                         ),
                                                       ],

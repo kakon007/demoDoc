@@ -291,10 +291,12 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         Icons.arrow_back,
                         color: Colors.white,
                       ),
+                key: Key('menuBackIconKey'),
                       onPressed: null,
                     )
                   : IconButton(
                       icon: Icon(Icons.notes),
+                      key: Key('menuIconKey'),
                       onPressed: () {
                         widget.menuCallBack();
                       },

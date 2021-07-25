@@ -83,6 +83,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             padding: const EdgeInsets.only(left: 3, right: 3),
                             child: Text(
                               widget.accessToken == null ? menuItem2[index] : menuItem[index],
+                              key: Key('menuItemBeforeSignIn$index'),
                               style: GoogleFonts.roboto(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,

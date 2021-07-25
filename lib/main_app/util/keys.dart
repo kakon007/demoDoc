@@ -28,6 +28,13 @@ class Keys{
   static final wantToAccessPresKey = find.byValueKey('wantToAccessPresKey');
   static final wantToAccessAppointKey = find.byValueKey('wantToAccessAppointKey');
   static final myHealthBottomNavbarKey = find.byValueKey('myHealthBottomNavbarKey');
+  static final menuItemBeforeSignIn0 = find.byValueKey('menuItemBeforeSignIn0');
+  static final menuItemBeforeSignIn1 = find.byValueKey('menuItemBeforeSignIn1');
+  static final menuItemBeforeSignIn2 = find.byValueKey('menuItemBeforeSignIn2');
+  static final menuItemBeforeSignIn3 = find.byValueKey('menuItemBeforeSignIn3');
+  static final menuIconKey = find.byValueKey('menuIconKey');
+  static final moreAppbarKey = find.byValueKey('moreAppbarKey');
+  static final menuBackIconKey = find.byValueKey('menuBackIconKey');
 
   // sign up keys
   static final signUpKey = find.byValueKey('signUpKey');
@@ -117,7 +124,18 @@ class Keys{
   static final selectRelationKey = find.byValueKey('selectRelationKey');
   static final addAsFamilyMemberButtonKey = find.byValueKey('addAsFamilyMemberButtonKey');
 
-
+  //patient portal reports
+  static final reportsTabKey = find.byValueKey('reportsTabKey');
+  static final patientPortalAppbarKey = find.byValueKey('patientPortalAppbarKey');
+  static final reportsSearchFieldKey = find.byValueKey('reportsSearchFieldKey');
+  static final reportsSearchIconKey = find.byValueKey('reportsSearchIconKey');
+  static final reportsSearchKey = find.byValueKey('reportsSearchKey');
+  static final noAvailableReportKey = find.byValueKey('noAvailableReportKey');
+  static final showReportKey0 = find.byValueKey('showReportKey0');
+  static final reportsDownloadKey0 = find.byValueKey('reportsDownloadKey0');
+  static final reportsShareKey0 = find.byValueKey('reportsShareKey0');
+  static final shareCloseKey = find.byValueKey('shareCloseKey');
+  static final shareTextKey = find.byValueKey('shareTextKey');
 
   // hospitals keys
   static final hospitalBottomNavbarKey = find.byValueKey('hospitalBottomNavbarKey');
@@ -146,6 +164,20 @@ class Keys{
   //appointment history
   static final appointmentBottomNavbarKey = find.byValueKey('appointmentBottomNavbarKey');
   static final appointmentsAppbarKey = find.byValueKey('appointmentsAppbarKey');
+  static final completedAppointmentsKey = find.byValueKey('completedAppointmentsKey');
+  static final noCompletedAppointments = find.byValueKey('noCompletedAppointments');
+  static final rebookKey0 = find.byValueKey('rebookKey0');
+  static final rebookKey8 = find.byValueKey('rebookKey8');
+  static final viewPrescriptionKey0 = find.byValueKey('viewPrescriptionKey0');
+  static final completedSearchKey = find.byValueKey('completedSearchKey');
+  static final completedSearchIconKey = find.byValueKey('completedSearchIconKey');
+  static final completedSearchFieldKey = find.byValueKey('completedSearchFieldKey');
+  static final noPendingAppointmentKey = find.byValueKey('noPendingAppointmentKey');
+  static final joinVideoConsultationKey0 = find.byValueKey('joinVideoConsultationKey4');
+  static final joinVideoConsultationKey4 = find.byValueKey('joinVideoConsultationKey0');
+  static final notCompletedSearchIconKey = find.byValueKey('notCompletedSearchIconKey');
+  static final notCompletedSearchKey = find.byValueKey('notCompletedSearchKey');
+  static final notCompletedSearchFieldKey = find.byValueKey('notCompletedSearchFieldKey');
 
   //book your appointment key
   static final bookNowKey0 = find.byValueKey('bookNowKey0');

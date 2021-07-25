@@ -211,11 +211,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               spaceBetween,
               Container(
                 height: 45.0,
-                width: isTablet? width*.94 : MediaQuery.of(context).size.width * .87,
+                width: isTablet? width*.94 : width<=330?MediaQuery.of(context).size.width * .87:MediaQuery.of(context).size.width * .9,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#D6DCFF")),
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(8)),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 12.0, right: 12),
                   child: Row(
@@ -401,7 +401,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
         child: Container(
           //constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
-          height:isTablet? 140 : 120,
+          height:isTablet? 140 :width<330 ? 90 : 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),

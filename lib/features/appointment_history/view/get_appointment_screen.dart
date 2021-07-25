@@ -237,10 +237,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                     Icons.search_sharp,
                     color: Colors.grey,
                   ),
+                  key: Key('notCompletedSearchFieldKey'),
                   onPressed: () {
                     vm.search(_searchTextEditingController1.text, widget.accessToken);
                   },
                 )),
+            key: Key('notCompletedSearchKey'),
             onSubmitted: (v) {
               vm.search(_searchTextEditingController1.text, widget.accessToken);
             },
@@ -280,7 +282,9 @@ class _GetAppointmentState extends State<GetAppointment> {
                   onPressed: () {
                     vm2.search(_searchTextEditingController2.text, widget.accessToken);
                   },
+                  key: Key('completedSearchFieldKey'),
                 )),
+            key: Key('completedSearchKey'),
             onSubmitted: (v) {
               vm2.search(_searchTextEditingController2.text, widget.accessToken);
             },
@@ -350,6 +354,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                       child: Center(
                           child: Text(
                         'Completed',
+                        key: Key('completedAppointmentsKey'),
                         style: GoogleFonts.roboto(
                             color: HexColor('#354291'), fontWeight: FontWeight.w500),
                       )),
@@ -395,6 +400,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                       vm.isInSearchMode ? Icons.close : Icons.search,
                                       color: Colors.grey,
                                     ),
+                                    key: Key('notCompletedSearchIconKey'),
                                     onPressed: () {
                                       _searchTextEditingController1?.clear();
                                       vm.toggleIsInSearchMode(widget.accessToken);
@@ -670,6 +676,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             children: [
                                               Text(
                                                 'You have no pending or waiting \nappointment.',
+                                                key: Key('noPendingAppointmentKey'),
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor('#333132'),
@@ -1318,6 +1325,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   child: Center(
                                                                     child: Text(
                                                                       "Join Video Consultation",
+                                                                      key: Key('joinVideoConsultationKey$index'),
                                                                       style: TextStyle(
                                                                           color: Colors.white,
                                                                           fontSize: isTablet
@@ -1391,7 +1399,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   Spacer(),
                                   if (vm2.isInSearchMode) searchField2,
                                   IconButton(
-                                    key: Key('featuredJobSearchToggleButtonKey'),
+                                    key: Key('completedSearchIconKey'),
                                     icon: Icon(
                                       vm2.isInSearchMode ? Icons.close : Icons.search,
                                       color: Colors.grey,
@@ -1671,6 +1679,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             children: [
                                               Text(
                                                 'You have no completed \nappointment.',
+                                                key: Key('noCompletedAppointments'),
+
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor('#333132'),
@@ -2277,6 +2287,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       child: Center(
                                                                         child: Text(
                                                                           "Rebook",
+                                                                          key: Key('rebookKey$index'),
                                                                           style:
                                                                               GoogleFonts.poppins(
                                                                                   color:
@@ -2375,8 +2386,10 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       // height: deviceWidth<=360 ? 28
                                                                       //     : 35,
                                                                       child: Center(
+
                                                                         child: Text(
                                                                           "View Prescription",
+                                                                          key:Key('viewPrescriptionKey$index'),
                                                                           style:
                                                                               GoogleFonts.poppins(
                                                                                   color:

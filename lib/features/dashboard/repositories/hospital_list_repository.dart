@@ -12,7 +12,6 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class HospitalListRepositry {
   Future<Either<AppError, HospiitalListM>> fetchHospitalList() async {
     var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/companyList";
-    // List<Item> dataList = new List<Item>();
 
     try {
       var client = http.Client();

@@ -212,6 +212,7 @@ class BookAppointmentViewModel extends ChangeNotifier {
       _isLoading= false;
       notifyListeners();
     }, (r) {
+      print('message22 ${r.message}');
       _isFetchingMoreData = false;
       _message= r.message;
       _isLoading = false;

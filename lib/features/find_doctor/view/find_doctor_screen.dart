@@ -193,7 +193,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
     );
-
+    print('background ${widget.backgroundImage}');
     var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Theme(
@@ -245,7 +245,10 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                           width: double.infinity,
                           child: FittedBox(
                             child: widget.backgroundImage == null
-                                ? Loader()
+                                ? Image.memory(
+                              widget.image,
+                              gaplessPlayback: true,
+                            )
                                 : Image.memory(
                                     widget.backgroundImage,
                                     gaplessPlayback: true,

@@ -15,7 +15,7 @@ import 'profile/family/family_test.dart';
 import 'profile/profile_test.dart';
 import 'profile/switch_account_test.dart';
 
-//flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
+//flutter drive --flavor dev --target=test_driver/patient/app.dart
 
 main(){
   patientAll();

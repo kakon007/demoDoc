@@ -9,7 +9,7 @@ main(){
 }
 Future<void> hospitalTest()async{
 
-  group('Family list Test', ()
+  group('Family Test', ()
   {
     FlutterDriver driver;
     setUpAll(() async {

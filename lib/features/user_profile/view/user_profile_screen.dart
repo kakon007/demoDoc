@@ -1058,7 +1058,11 @@ class _UserProfileState extends State<UserProfile> {
                                 ))
                             : photo != ""
                                 ? vm2.loadProfileImage(photo, 100, 60, 19)
-                                : Image.asset('assets/images/dPro.png'),
+                                : Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(child: Image.asset('assets/images/dPro.png',
+                          fit: BoxFit.contain,)),
+                                ),
                       ),
                       Positioned(
                         bottom: isTablet ? 0 : 12,

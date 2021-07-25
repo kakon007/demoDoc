@@ -15,28 +15,28 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  var markAsRead= Align(
-    alignment: Alignment.topRight,
-      child: Material(
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        color: HexColor('#141D53'),
-        //color: Colors.black,
-        child: SizedBox(
-          height: 30,
-          width: 110,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Mark all as read",
-                style: TextStyle(color: HexColor('#FFFFFF'),fontWeight: FontWeight.bold,fontSize: 12),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  // var markAsRead= Align(
+  //   alignment: Alignment.topRight,
+  //     child: Material(
+  //       elevation: 0,
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  //       color: HexColor('#141D53'),
+  //       //color: Colors.black,
+  //       child: SizedBox(
+  //         height: 30,
+  //         width: 110,
+  //         child: Center(
+  //           child: Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: Text(
+  //               "Mark all as read",
+  //               style: TextStyle(color: HexColor('#FFFFFF'),fontWeight: FontWeight.bold,fontSize: 12),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
 
 
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;

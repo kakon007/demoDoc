@@ -72,6 +72,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ? Padding(
                       padding: const EdgeInsets.only(right: 18.0),
                       child: Container(
+                        width: 100,
                         height: 30,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(5)),

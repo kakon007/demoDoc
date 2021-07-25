@@ -48,94 +48,103 @@ class CustomContainer extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // SizedBox(
-              //   width: cardHeight *0.1,
-              // ),
-              ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
-                  child: logo,
-
-              ),
-              SizedBox(
-                width: isTablet? cardHeight *0.2 : MediaQuery.of(context).size.height > 650 ? cardHeight *0.2 : cardHeight *0.1,
-              ),
-              Container(
-                constraints: BoxConstraints(minHeight:  width <350 ? 118 : 140,),
-                width: isTablet? width*.65 : width<350 ?cardWidth*1.73:  cardWidth*1.62,
-                //height: width <350 ? 118 : 140,
-                decoration: BoxDecoration(
-                  color: HexColor("#FFFFFF"),
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(12),
-                      topRight: Radius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.only(left:20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // SizedBox(
+                //   width: cardHeight *0.1,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 22.0),
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: logo,
+                    ),
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0, right: 10, top: 5),
-                  child: Column(
-                    crossAxisAlignment:CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          constraints: BoxConstraints(minHeight: isTablet? 30 : 39,),
-                         // height: isTablet? 30 : 39,
-                          width: width,
-                          child: Text(titleText, style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<350 ? 10 : 12, fontWeight: FontWeight.w700),)),
-                      Container(
-                          constraints: BoxConstraints(minHeight: 18,),
-                          //height: 18,
-                          child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: isTablet? 15 : width <350 ? 8 : 10,fontWeight: FontWeight.bold ),)),
-                      Container(
-                          constraints: BoxConstraints(minHeight: 30,),
-                          //height: 30,
-                          child: Text(designation, style: GoogleFonts.poppins(fontSize:  isTablet? 15 : width <350 ? 8 :10, color: HexColor('#757577')),)),
+                SizedBox(
+                  width: isTablet? cardHeight *0.2 : MediaQuery.of(context).size.height > 650 ? cardHeight *0.2 : cardHeight *0.1,
+                ),
+                Container(
+                  constraints: BoxConstraints(minHeight:  width <350 ? 118 : 140,),
+                  width: isTablet? width*.65 : width<350 ?cardWidth*1.73:  cardWidth*1.62,
+                  //height: width <350 ? 118 : 140,
+                  decoration: BoxDecoration(
+                    color: HexColor("#FFFFFF"),
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(12),
+                        topRight: Radius.circular(12)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 0.0, right: 10, top: 15),
+                    child: Column(
+                      crossAxisAlignment:CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            constraints: BoxConstraints(minHeight: isTablet? 30 : 39,),
+                           // height: isTablet? 30 : 39,
+                            width: width,
+                            child: Text(titleText, style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<350 ? 10 : 12, fontWeight: FontWeight.w700),)),
+                        Container(
+                            constraints: BoxConstraints(minHeight: 18,),
+                            //height: 18,
+                            child: Text(subTitleText, style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize: isTablet? 15 : width <350 ? 8 : 10,fontWeight: FontWeight.bold ),)),
+                        Container(
+                            constraints: BoxConstraints(minHeight: 30,),
+                            //height: 30,
+                            child: Text(designation, style: GoogleFonts.poppins(fontSize:  isTablet? 15 : width <350 ? 8 :10, color: HexColor('#757577')),)),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("TK. " + consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize:isTablet ? 15 :  10,fontWeight: FontWeight.w600 ),),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: (){
-                                  vm2.getInfo(doctorNo, companyNo, orgNo);
-                                  Navigator.push(context,MaterialPageRoute(builder: (context){
-                                    return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,phoneNumber: phoneText,);
-                                  }));
-                                },
-                                child: Container(
-                                  width:  isTablet? cardHeight*1.1 : width <350 ? 60 : cardWidth*0.7,
-                                  constraints: BoxConstraints(minHeight:  isTablet? 35 : width <350 ? 20 :30,),
-                                  //height:  isTablet? 35 : width <350 ? 20 :30,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
-                                  color: HexColor("#354291")
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Book Now",
-                                      key: Key('bookNowKey$index'),
-                                      style: GoogleFonts.poppins(fontSize: isTablet? 15 : width <350 ? 8 : 10,color: Colors.white, fontWeight: FontWeight.w600),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("TK. " + consultationFee ,style: GoogleFonts.poppins(color:  HexColor("#354291"), fontSize:isTablet ? 15 :  10,fontWeight: FontWeight.w600 ),),
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    vm2.getInfo(doctorNo, companyNo, orgNo);
+                                    Navigator.push(context,MaterialPageRoute(builder: (context){
+                                      return AppointmentScreen(companyNo: companyNo, doctorNo: doctorNo,orgNo: orgNo, hospitalName: hospitalName,phoneNumber: phoneText,);
+                                    }));
+                                  },
+                                  child: Container(
+                                    width:  isTablet? cardHeight*1.1 : width <350 ? 60 : cardWidth*0.7,
+                                    constraints: BoxConstraints(minHeight:  isTablet? 35 : width <350 ? 20 :30,),
+                                    //height:  isTablet? 35 : width <350 ? 20 :30,
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),
+                                    color: HexColor("#354291")
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Book Now",
+                                        key: Key('bookNowKey$index'),
+                                        style: GoogleFonts.poppins(fontSize: isTablet? 15 : width <350 ? 8 : 10,color: Colors.white, fontWeight: FontWeight.w600),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              //SizedBox(width: 20,)
-                            ],
-                          )
-                        ],
-                      )
-                    ],
+                                //SizedBox(width: 20,)
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

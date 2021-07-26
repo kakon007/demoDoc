@@ -27,7 +27,6 @@ class Keys{
   static final dashboardSearchKey = find.byValueKey('dashboardSearchKey');
   static final wantToAccessPresKey = find.byValueKey('wantToAccessPresKey');
   static final wantToAccessAppointKey = find.byValueKey('wantToAccessAppointKey');
-  static final myHealthBottomNavbarKey = find.byValueKey('myHealthBottomNavbarKey');
   static final menuItemBeforeSignIn0 = find.byValueKey('menuItemBeforeSignIn0');
   static final menuItemBeforeSignIn1 = find.byValueKey('menuItemBeforeSignIn1');
   static final menuItemBeforeSignIn2 = find.byValueKey('menuItemBeforeSignIn2');
@@ -211,6 +210,16 @@ class Keys{
   static final appointmentSuccessOkButtonKey = find.byValueKey('appointmentSuccessOkButtonKey');
   static final noFamilyMemberKey = find.byValueKey('noFamilyMemberKey');
   static final addNowButtonKey = find.byValueKey('addNowButtonKey');
+
+  //myHealth key
+  static final myHealthBottomNavbarKey = find.byValueKey('myHealthBottomNavbarKey');
+  static final showPrescriptionKey4 = find.byValueKey('showPrescriptionKey4');
+  static final prescriptionsSearchKey = find.byValueKey('prescriptionsSearchKey');
+  static final prescriptionSearchFieldKey = find.byValueKey('prescriptionSearchFieldKey');
+  static final prescriptionSearchIconKey = find.byValueKey('prescriptionSearchIconKey');
+  static final prescriptionDownloadKey4 = find.byValueKey('prescriptionDownloadKey4');
+  static final prescriptionShareKey4 = find.byValueKey('prescriptionShareKey4');
+
 
 
 }

@@ -48,6 +48,7 @@ class _SettingScreenState extends State<SettingScreen> {
         backgroundColor: AppTheme.appbarPrimary,
         title: Text(
           'More',
+          key: Key('moreAppbarKey'),
           style: GoogleFonts.poppins(fontSize: 15),
         ),
       ),

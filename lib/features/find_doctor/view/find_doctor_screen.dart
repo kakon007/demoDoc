@@ -84,17 +84,17 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
     Uint8List _bytesImage = Base64Decoder().convert(image);
     return Image.memory(
       _bytesImage,
-      fit: BoxFit.fill,
+      fit: BoxFit.contain,
       width: isTablet
           ? MediaQuery.of(context).size.width * .23
           : width < 350
-              ? 90
-              : 120,
+          ? 90
+          : 110,
       height: isTablet
           ? 148
           : width < 350
-              ? 118
-              : 160,
+          ? 118
+          : 110,
       gaplessPlayback: true,
     );
   }
@@ -193,7 +193,6 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
     );
-
     var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Theme(
@@ -204,6 +203,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
           buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
         ),
         child: CustomScrollView(
+          controller: _scrollControllerPagination,
           slivers: [
             SliverAppBar(
               leading: Center(
@@ -244,7 +244,10 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                           width: double.infinity,
                           child: FittedBox(
                             child: widget.backgroundImage == null
-                                ? Loader()
+                                ? Image.memory(
+                              widget.image,
+                              gaplessPlayback: true,
+                            )
                                 : Image.memory(
                                     widget.backgroundImage,
                                     gaplessPlayback: true,
@@ -486,17 +489,17 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           ? loadLogo(vm.doctorList[i].photo)
                                           : Image.asset(
                                               "assets/icons/dct.png",
-                                              fit: BoxFit.fill,
-                                              width: isTablet
-                                                  ? MediaQuery.of(context).size.width * .23
-                                                  : width < 350
-                                                      ? 90
-                                                      : 120,
-                                              height: isTablet
-                                                  ? 148
-                                                  : width < 350
-                                                      ? 118
-                                                      : 160,
+                                        fit: BoxFit.contain,
+                                        width: isTablet
+                                            ? MediaQuery.of(context).size.width * .23
+                                            : width < 350
+                                            ? 90
+                                            : 110,
+                                        height: isTablet
+                                            ? 148
+                                            : width < 350
+                                            ? 118
+                                            : 110,
                                             ),
                                       vm.doctorList[i]?.doctorName == null
                                           ? ""

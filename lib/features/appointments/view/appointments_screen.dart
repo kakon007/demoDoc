@@ -120,7 +120,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     Uint8List _bytesImage = Base64Decoder().convert(image);
     return Image.memory(
       _bytesImage,
-      fit: BoxFit.fill,
+      fit: BoxFit.contain,
       gaplessPlayback: true,
     );
   }
@@ -211,11 +211,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               spaceBetween,
               Container(
                 height: 45.0,
-                width: isTablet? width*.94 : MediaQuery.of(context).size.width * .87,
+                width: isTablet? width*.94 : width<=330?MediaQuery.of(context).size.width * .87:MediaQuery.of(context).size.width * .9,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor("#D6DCFF")),
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(8)),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 12.0, right: 12),
                   child: Row(
@@ -401,7 +401,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         padding:  EdgeInsets.only(left: isTablet? 30 : 20.0, right: isTablet? 30 : 20, top: 10),
         child: Container(
           //constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
-          height:isTablet? 140 : 120,
+          height:isTablet? 140 :width<330 ? 90 : 120,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -413,79 +413,81 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   offset: Offset(0, 1), // changes position of shadow
                 ),
               ]),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    //constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
-                     height: isTablet ? 140 : 120,
-                    width: isTablet? 180 : width<330 ? 90 : 108,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10)),
-                      child:    photo!=""
-                          ? loadLogo(vm.doctorInfo.doctorPhoto)
-                          : Image.asset(
-                        "assets/icons/dct.png",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: width < 350 ? 15 : 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: isTablet?width*.65 :  width < 330 ? 170 : 185,
-                        child: Text(
-                          doctorInformation?.specializationName??"",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                              height: 1.5,
-                              color: AppTheme.appbarPrimary,
-                              fontWeight: FontWeight.w600, fontSize: isTablet? 18 : width < 330 ? 13 : 15 ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      //constraints: BoxConstraints(minHeight: isTablet? 140 : 120,),
+                       height: isTablet ? 140 : 80,
+                      width: isTablet? 180 : width<330 ? 90 : 80,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(10)),
+                        child:    photo!=""
+                            ? loadLogo(vm.doctorInfo.doctorPhoto)
+                            : Image.asset(
+                          "assets/icons/dct.png",
+                          fit: BoxFit.contain,
                         ),
                       ),
-                      Container(
-                          width: width< 330 ? width*.54 : width*.5,
+                    ),
+                    SizedBox(
+                      width: width < 350 ? 15 : 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: isTablet?width*.65 :  width < 330 ? 170 : 185,
                           child: Text(
-                            doctorInformation?.doctorName??"",
-                            style: GoogleFonts.poppins(
-                                fontSize: isTablet? 18 : width< 330 ? 11 : 12, fontWeight: FontWeight.w700),
-                          )),
-                      SizedBox(
-                        height: 1,
-                      ),
-                      Container(
-                        width: isTablet?width*.65 :  width < 330 ? 170 : 185,
-                        child: Text(
-                            doctorDetails,
-                            //jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
-                            maxLines: 2,
+                            doctorInformation?.specializationName??"",
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style:
-                            GoogleFonts.poppins(height: 1.2, fontSize:isTablet? 15 :  11)),
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      // Text(
-                      //   "TK. " + consultFee.toString(),
-                      //   style: GoogleFonts.poppins(
-                      //     fontSize: isTablet? 17 : width<330 ? 13 : 15,
-                      //     color: AppTheme.appbarPrimary,
-                      //   ),
-                      // ),
-                    ],
-                  )
-                ],
-              )
-            ],
+                            style: GoogleFonts.poppins(
+                                height: 1.5,
+                                color: AppTheme.appbarPrimary,
+                                fontWeight: FontWeight.w600, fontSize: isTablet? 18 : width < 330 ? 13 : 15 ),
+                          ),
+                        ),
+                        Container(
+                            width: width< 330 ? width*.54 : width*.5,
+                            child: Text(
+                              doctorInformation?.doctorName??"",
+                              style: GoogleFonts.poppins(
+                                  fontSize: isTablet? 18 : width< 330 ? 11 : 12, fontWeight: FontWeight.w700),
+                            )),
+                        SizedBox(
+                          height: 1,
+                        ),
+                        Container(
+                          width: isTablet?width*.65 :  width < 330 ? 170 : 185,
+                          child: Text(
+                              doctorDetails,
+                              //jobTitle==""? "": doctorDegree=='' ? jobTitle :'$jobTitle, ' + doctorDegree,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                              GoogleFonts.poppins(height: 1.2, fontSize:isTablet? 15 :  11)),
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        // Text(
+                        //   "TK. " + consultFee.toString(),
+                        //   style: GoogleFonts.poppins(
+                        //     fontSize: isTablet? 17 : width<330 ? 13 : 15,
+                        //     color: AppTheme.appbarPrimary,
+                        //   ),
+                        // ),
+                      ],
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

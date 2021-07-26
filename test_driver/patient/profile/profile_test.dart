@@ -188,9 +188,27 @@ Future<void> profileTest()async{
       });
     });
 
+    test('When__try_to_save_with_previous_info__should__change_password_prompt_get_user_profile_text', () async {
+      await driver.runUnsynchronized(() async {
+        await driver.tap(Keys.currentPasswordKey);
+        await driver.enterText('1231234');
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.newPasswordKey);
+        await driver.enterText('123123');
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.confirmPasswordKey);
+        await driver.enterText('123123');
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.changePasswordSaveButtonKey);
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await driver.tap(Keys.changePasswordPromptOkButton);
+        await Future.delayed(const Duration(seconds: 2), () {});
+        await expect(await driver.getText(Keys.userProfileKey), "User Profile");
+        await Future.delayed(const Duration(seconds: 2), () {});
+      });
+    });
+
   });
 
-
-  //test cases are started from here
 
 }

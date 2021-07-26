@@ -237,10 +237,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                     Icons.search_sharp,
                     color: Colors.grey,
                   ),
+                  key: Key('notCompletedSearchFieldKey'),
                   onPressed: () {
                     vm.search(_searchTextEditingController1.text, widget.accessToken);
                   },
                 )),
+            key: Key('notCompletedSearchKey'),
             onSubmitted: (v) {
               vm.search(_searchTextEditingController1.text, widget.accessToken);
             },
@@ -280,7 +282,9 @@ class _GetAppointmentState extends State<GetAppointment> {
                   onPressed: () {
                     vm2.search(_searchTextEditingController2.text, widget.accessToken);
                   },
+                  key: Key('completedSearchFieldKey'),
                 )),
+            key: Key('completedSearchKey'),
             onSubmitted: (v) {
               vm2.search(_searchTextEditingController2.text, widget.accessToken);
             },
@@ -350,6 +354,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                       child: Center(
                           child: Text(
                         'Completed',
+                        key: Key('completedAppointmentsKey'),
                         style: GoogleFonts.roboto(
                             color: HexColor('#354291'), fontWeight: FontWeight.w500),
                       )),
@@ -395,6 +400,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                       vm.isInSearchMode ? Icons.close : Icons.search,
                                       color: Colors.grey,
                                     ),
+                                    key: Key('notCompletedSearchIconKey'),
                                     onPressed: () {
                                       _searchTextEditingController1?.clear();
                                       vm.toggleIsInSearchMode(widget.accessToken);
@@ -670,6 +676,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             children: [
                                               Text(
                                                 'You have no pending or waiting \nappointment.',
+                                                key: Key('noPendingAppointmentKey'),
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor('#333132'),
@@ -785,41 +792,66 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   bottom: 8,
                                                                   left:
                                                                       deviceHeight > 650 ? 5 : 10),
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment.start,
+                                                              child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceAround,
                                                                 children: [
                                                                   SizedBox(
                                                                     height: 5,
                                                                   ),
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Text(
-                                                                        "Serial No: ",
-                                                                        style: GoogleFonts.poppins(
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          color:
-                                                                              HexColor('#354291'),
-                                                                          fontSize: isTablet
-                                                                              ? 16
-                                                                              : deviceWidth <= 360
-                                                                                  ? 10
-                                                                                  : 12,
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top:10.0),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Text(
+                                                                          "Serial No: ",
+                                                                          style: GoogleFonts.poppins(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color:
+                                                                                HexColor('#354291'),
+                                                                            fontSize: isTablet
+                                                                                ? 16
+                                                                                : deviceWidth <= 360
+                                                                                    ? 10
+                                                                                    : 12,
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            MediaQuery.of(context)
-                                                                                        .size
-                                                                                        .width >
-                                                                                    350
-                                                                                ? 10
-                                                                                : 5,
-                                                                      ),
+                                                                        Text(
+                                                                          vm
+                                                                              .upComingAppointmentList[
+                                                                          index]
+                                                                              .slotSl
+                                                                              .toString(),
+                                                                          style:
+                                                                          GoogleFonts.poppins(
+                                                                            fontWeight:
+                                                                            FontWeight.bold,
+                                                                            color:
+                                                                            HexColor('#354291'),
+                                                                            fontSize: isTablet
+                                                                                ? 22
+                                                                                : deviceWidth <= 360
+                                                                                ? 16
+                                                                                : 19,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width:
+                                                                        MediaQuery.of(context)
+                                                                                    .size
+                                                                                    .width >
+                                                                                350
+                                                                            ? 10
+                                                                            : 5,
+                                                                  ),
+                                                                  Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
                                                                       Row(
                                                                         children: [
                                                                           Text(
@@ -869,15 +901,62 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                           ),
                                                                         ],
                                                                       ),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            MediaQuery.of(context)
-                                                                                        .size
-                                                                                        .width >
-                                                                                    350
-                                                                                ? 10
-                                                                                : 5,
+
+                                                                      Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Time: ",
+                                                                            style: GoogleFonts
+                                                                                .poppins(
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
+                                                                              fontSize: isTablet
+                                                                                  ? 16
+                                                                                  : deviceWidth <=
+                                                                                  360
+                                                                                  ? 10
+                                                                                  : 12,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            TimeUtil().formattedDate(
+                                                                                DateTime.parse(vm
+                                                                                    .upComingAppointmentList[
+                                                                                index]
+                                                                                    .startTime)
+                                                                                    .toLocal()),
+                                                                            style: GoogleFonts
+                                                                                .poppins(
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
+                                                                              fontSize: isTablet
+                                                                                  ? 16
+                                                                                  : deviceWidth <=
+                                                                                  360
+                                                                                  ? 10
+                                                                                  : 12,
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width:
+                                                                        MediaQuery.of(context)
+                                                                                    .size
+                                                                                    .width >
+                                                                                350
+                                                                            ? 10
+                                                                            : 5,
+                                                                  ),
+                                                                  Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
                                                                       Row(
                                                                         children: [
                                                                           Text(
@@ -925,6 +1004,53 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                           ),
                                                                         ],
                                                                       ),
+                                                                      Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Status: ",
+                                                                            style: GoogleFonts
+                                                                                .poppins(
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
+                                                                              fontSize: isTablet
+                                                                                  ? 16
+                                                                                  : deviceWidth <=
+                                                                                  360
+                                                                                  ? 10
+                                                                                  : 12,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            vm.upComingAppointmentList[index]
+                                                                                .status ==
+                                                                                1
+                                                                                ? "Waiting"
+                                                                                : "Pending",
+                                                                            style: GoogleFonts
+                                                                                .poppins(
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              color: vm
+                                                                                  .upComingAppointmentList[
+                                                                              index]
+                                                                                  .status ==
+                                                                                  1
+                                                                                  ? HexColor(
+                                                                                  '#EEB329')
+                                                                                  : HexColor(
+                                                                                  '#FFA7A7'),
+                                                                              fontSize: isTablet
+                                                                                  ? 16
+                                                                                  : deviceWidth <=
+                                                                                  360
+                                                                                  ? 10
+                                                                                  : 12,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
                                                                     ],
                                                                   ),
                                                                   SizedBox(
@@ -935,135 +1061,16 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         ? 10
                                                                         : 5,
                                                                   ),
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.only(
-                                                                                left: 20.0),
-                                                                        child: Text(
-                                                                          vm
-                                                                              .upComingAppointmentList[
-                                                                                  index]
-                                                                              .slotSl
-                                                                              .toString(),
-                                                                          style:
-                                                                              GoogleFonts.poppins(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            color:
-                                                                                HexColor('#354291'),
-                                                                            fontSize: isTablet
-                                                                                ? 22
-                                                                                : deviceWidth <= 360
-                                                                                    ? 16
-                                                                                    : 19,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.only(
-                                                                                left: 15.0),
-                                                                        child: Row(
-                                                                          children: [
-                                                                            Text(
-                                                                              "Time: ",
-                                                                              style: GoogleFonts
-                                                                                  .poppins(
-                                                                                fontWeight:
-                                                                                    FontWeight.w500,
-                                                                                color: HexColor(
-                                                                                    '#354291'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <=
-                                                                                            360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                              ),
-                                                                            ),
-                                                                            Text(
-                                                                              TimeUtil().formattedDate(
-                                                                                  DateTime.parse(vm
-                                                                                          .upComingAppointmentList[
-                                                                                              index]
-                                                                                          .startTime)
-                                                                                      .toLocal()),
-                                                                              style: GoogleFonts
-                                                                                  .poppins(
-                                                                                fontWeight:
-                                                                                    FontWeight.w500,
-                                                                                color: HexColor(
-                                                                                    '#354291'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <=
-                                                                                            360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.only(
-                                                                                right: 21.0),
-                                                                        child: Row(
-                                                                          children: [
-                                                                            Text(
-                                                                              "Status: ",
-                                                                              style: GoogleFonts
-                                                                                  .poppins(
-                                                                                fontWeight:
-                                                                                    FontWeight.w500,
-                                                                                color: HexColor(
-                                                                                    '#354291'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <=
-                                                                                            360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                              ),
-                                                                            ),
-                                                                            Text(
-                                                                              vm.upComingAppointmentList[index]
-                                                                                          .status ==
-                                                                                      1
-                                                                                  ? "Waiting"
-                                                                                  : "Pending",
-                                                                              style: GoogleFonts
-                                                                                  .poppins(
-                                                                                fontWeight:
-                                                                                    FontWeight.w500,
-                                                                                color: vm
-                                                                                            .upComingAppointmentList[
-                                                                                                index]
-                                                                                            .status ==
-                                                                                        1
-                                                                                    ? HexColor(
-                                                                                        '#EEB329')
-                                                                                    : HexColor(
-                                                                                        '#FFA7A7'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <=
-                                                                                            360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                  // Row(
+                                                                  //   mainAxisAlignment:
+                                                                  //       MainAxisAlignment
+                                                                  //           .spaceBetween,
+                                                                  //   children: [
+                                                                  //
+                                                                  //
+                                                                  //
+                                                                  //   ],
+                                                                  // ),
                                                                 ],
                                                               ),
                                                             ),
@@ -1318,6 +1325,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   child: Center(
                                                                     child: Text(
                                                                       "Join Video Consultation",
+                                                                      key: Key('joinVideoConsultationKey$index'),
                                                                       style: TextStyle(
                                                                           color: Colors.white,
                                                                           fontSize: isTablet
@@ -1391,7 +1399,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                   Spacer(),
                                   if (vm2.isInSearchMode) searchField2,
                                   IconButton(
-                                    key: Key('featuredJobSearchToggleButtonKey'),
+                                    key: Key('completedSearchIconKey'),
                                     icon: Icon(
                                       vm2.isInSearchMode ? Icons.close : Icons.search,
                                       color: Colors.grey,
@@ -1671,6 +1679,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                             children: [
                                               Text(
                                                 'You have no completed \nappointment.',
+                                                key: Key('noCompletedAppointments'),
+
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor('#333132'),
@@ -1787,41 +1797,65 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   bottom: 8,
                                                                   left:
                                                                       deviceHeight > 650 ? 5 : 10),
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment.start,
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment.spaceAround,
                                                                 children: [
                                                                   SizedBox(
                                                                     height: 5,
                                                                   ),
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Text(
-                                                                        "Serial No: ",
-                                                                        style: GoogleFonts.poppins(
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          color:
-                                                                              HexColor('#354291'),
-                                                                          fontSize: isTablet
-                                                                              ? 16
-                                                                              : deviceWidth <= 360
-                                                                                  ? 10
-                                                                                  : 12,
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.only(top:10.0),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Text(
+                                                                          "Serial No: ",
+                                                                          style: GoogleFonts.poppins(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color:
+                                                                                HexColor('#354291'),
+                                                                            fontSize: isTablet
+                                                                                ? 16
+                                                                                : deviceWidth <= 360
+                                                                                    ? 10
+                                                                                    : 12,
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            MediaQuery.of(context)
-                                                                                        .size
-                                                                                        .width >
-                                                                                    350
-                                                                                ? 10
-                                                                                : 5,
-                                                                      ),
+                                                                        Text(
+                                                                          vm2
+                                                                              .previousAppointmentList[
+                                                                          index]
+                                                                              .slotSl
+                                                                              .toString(),
+                                                                          style:
+                                                                          GoogleFonts.poppins(
+                                                                            fontWeight:
+                                                                            FontWeight.bold,
+                                                                            color:
+                                                                            HexColor('#354291'),
+                                                                            fontSize: isTablet
+                                                                                ? 22
+                                                                                : deviceWidth <= 360
+                                                                                ? 16
+                                                                                : 19,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width:
+                                                                        MediaQuery.of(context)
+                                                                                    .size
+                                                                                    .width >
+                                                                                350
+                                                                            ? 10
+                                                                            : 5,
+                                                                  ),
+                                                                  Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
                                                                       Row(
                                                                         children: [
                                                                           Text(
@@ -1871,15 +1905,61 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                           ),
                                                                         ],
                                                                       ),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            MediaQuery.of(context)
-                                                                                        .size
-                                                                                        .width >
-                                                                                    350
-                                                                                ? 10
-                                                                                : 5,
+                                                                      Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Time: ",
+                                                                            style: GoogleFonts
+                                                                                .poppins(
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
+                                                                              fontSize: isTablet
+                                                                                  ? 16
+                                                                                  : deviceWidth <=
+                                                                                  360
+                                                                                  ? 10
+                                                                                  : 12,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            TimeUtil().formattedDate(
+                                                                                DateTime.parse(vm2
+                                                                                    .previousAppointmentList[
+                                                                                index]
+                                                                                    .endTime)
+                                                                                    .toLocal()),
+                                                                            style: GoogleFonts
+                                                                                .poppins(
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
+                                                                              fontSize: isTablet
+                                                                                  ? 16
+                                                                                  : deviceWidth <=
+                                                                                  360
+                                                                                  ? 10
+                                                                                  : 12,
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width:
+                                                                        MediaQuery.of(context)
+                                                                                    .size
+                                                                                    .width >
+                                                                                350
+                                                                            ? 10
+                                                                            : 5,
+                                                                  ),
+                                                                  Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: [
                                                                       Row(
                                                                         children: [
                                                                           Text(
@@ -1926,6 +2006,46 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                           ),
                                                                         ],
                                                                       ),
+                                                                      Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Status: ",
+                                                                            style: GoogleFonts
+                                                                                .poppins(
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#354291'),
+                                                                              fontSize: isTablet
+                                                                                  ? 16
+                                                                                  : deviceWidth <=
+                                                                                  360
+                                                                                  ? 10
+                                                                                  : 12,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            vm2.previousAppointmentList[index]
+                                                                                .status ==
+                                                                                2
+                                                                                ? "Completed"
+                                                                                : '',
+                                                                            style: GoogleFonts
+                                                                                .poppins(
+                                                                              fontWeight:
+                                                                              FontWeight.w500,
+                                                                              color: HexColor(
+                                                                                  '#32C974'),
+                                                                              fontSize: isTablet
+                                                                                  ? 16
+                                                                                  : deviceWidth <=
+                                                                                  360
+                                                                                  ? 10
+                                                                                  : 12,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
                                                                     ],
                                                                   ),
                                                                   SizedBox(
@@ -1936,128 +2056,16 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         ? 10
                                                                         : 5,
                                                                   ),
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.only(
-                                                                                left: 20.0),
-                                                                        child: Text(
-                                                                          vm2
-                                                                              .previousAppointmentList[
-                                                                                  index]
-                                                                              .slotSl
-                                                                              .toString(),
-                                                                          style:
-                                                                              GoogleFonts.poppins(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            color:
-                                                                                HexColor('#354291'),
-                                                                            fontSize: isTablet
-                                                                                ? 22
-                                                                                : deviceWidth <= 360
-                                                                                    ? 16
-                                                                                    : 19,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.only(
-                                                                                left: 15.0),
-                                                                        child: Row(
-                                                                          children: [
-                                                                            Text(
-                                                                              "Time: ",
-                                                                              style: GoogleFonts
-                                                                                  .poppins(
-                                                                                fontWeight:
-                                                                                    FontWeight.w500,
-                                                                                color: HexColor(
-                                                                                    '#354291'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <=
-                                                                                            360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                              ),
-                                                                            ),
-                                                                            Text(
-                                                                              TimeUtil().formattedDate(
-                                                                                  DateTime.parse(vm2
-                                                                                          .previousAppointmentList[
-                                                                                              index]
-                                                                                          .endTime)
-                                                                                      .toLocal()),
-                                                                              style: GoogleFonts
-                                                                                  .poppins(
-                                                                                fontWeight:
-                                                                                    FontWeight.w500,
-                                                                                color: HexColor(
-                                                                                    '#354291'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <=
-                                                                                            360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.only(
-                                                                                right: 8.0),
-                                                                        child: Row(
-                                                                          children: [
-                                                                            Text(
-                                                                              "Status: ",
-                                                                              style: GoogleFonts
-                                                                                  .poppins(
-                                                                                fontWeight:
-                                                                                    FontWeight.w500,
-                                                                                color: HexColor(
-                                                                                    '#354291'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <=
-                                                                                            360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                              ),
-                                                                            ),
-                                                                            Text(
-                                                                              vm2.previousAppointmentList[index]
-                                                                                          .status ==
-                                                                                      2
-                                                                                  ? "Completed"
-                                                                                  : '',
-                                                                              style: GoogleFonts
-                                                                                  .poppins(
-                                                                                fontWeight:
-                                                                                    FontWeight.w500,
-                                                                                color: HexColor(
-                                                                                    '#32C974'),
-                                                                                fontSize: isTablet
-                                                                                    ? 16
-                                                                                    : deviceWidth <=
-                                                                                            360
-                                                                                        ? 10
-                                                                                        : 12,
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
+                                                                  // Row(
+                                                                  //   mainAxisAlignment:
+                                                                  //       MainAxisAlignment
+                                                                  //           .spaceBetween,
+                                                                  //   children: [
+                                                                  //
+                                                                  //
+                                                                  //
+                                                                  //   ],
+                                                                  // ),
                                                                 ],
                                                               ),
                                                             ),
@@ -2279,6 +2287,7 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       child: Center(
                                                                         child: Text(
                                                                           "Rebook",
+                                                                          key: Key('rebookKey$index'),
                                                                           style:
                                                                               GoogleFonts.poppins(
                                                                                   color:
@@ -2377,8 +2386,10 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                       // height: deviceWidth<=360 ? 28
                                                                       //     : 35,
                                                                       child: Center(
+
                                                                         child: Text(
                                                                           "View Prescription",
+                                                                          key:Key('viewPrescriptionKey$index'),
                                                                           style:
                                                                               GoogleFonts.poppins(
                                                                                   color:

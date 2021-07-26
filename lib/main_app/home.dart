@@ -281,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         ),
         selectedFontSize: 10,
         unselectedFontSize: 10,
-        elevation: 20.0,
+        elevation: 10.0,
         type: BottomNavigationBarType.fixed,
         items: [
           //dashboard
@@ -339,7 +339,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     return WillPopScope(
         child: Scaffold(
-          bottomNavigationBar: bottomNavBar,
+          bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 10,
+                  ),
+                ],
+              ),child: bottomNavBar),
           body: pages[currentBottomIndex],
         ),
         onWillPop: () async {

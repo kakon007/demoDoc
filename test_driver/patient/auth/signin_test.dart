@@ -66,7 +66,7 @@ Future<void> signInTest()async{
       await driver.enterText('MH11210500030');
       await Future.delayed(const Duration(seconds: 2), () {});
       await driver.tap(Keys.passwordKey);
-      await driver.enterText('123123');
+      await driver.enterText('12312345');
       await driver.tap(Keys.signInButton);
       await expect(await driver.getText(Keys.invalidCredentialKey), 'Invalid username or password');
       await Future.delayed(const Duration(seconds: 2), () {});
@@ -76,7 +76,7 @@ Future<void> signInTest()async{
       await driver.enterText('MH112105000309');
       await Future.delayed(const Duration(seconds: 2), () {});
       await driver.tap(Keys.passwordKey);
-      await driver.enterText('1231234');
+      await driver.enterText('12312346676');
       await driver.tap(Keys.signInButton);
       await expect(await driver.getText(Keys.invalidCredentialKey), 'Invalid username or password');
       await Future.delayed(const Duration(seconds: 2), () {});

@@ -72,6 +72,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   ? Padding(
                       padding: const EdgeInsets.only(right: 18.0),
                       child: Container(
+                        width: 100,
                         height: 30,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -83,6 +84,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             padding: const EdgeInsets.only(left: 3, right: 3),
                             child: Text(
                               widget.accessToken == null ? menuItem2[index] : menuItem[index],
+                              key: Key('menuItemBeforeSignIn$index'),
                               style: GoogleFonts.roboto(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
@@ -143,129 +145,112 @@ class _DrawerScreenState extends State<DrawerScreen> {
             children: [
               vm9.accessToken == null
                   ? SizedBox()
-                  : InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserProfile(
-                                      fName: userDetails.patientName,
-                                      phoneNumber: userDetails.phoneMobile,
-                                      address: userDetails.address,
-                                      dob: userDetails.dob,
-                                      id: userDetails.hospitalNumber,
-                                      accessToken: widget.accessToken,
-                                      email: userDetails.email,
-                                      gender: userDetails.gender,
-                                      bloodGroup: userDetails.bloodGroup,
-                                    )));
-                        print("Presssss");
-                      },
-                      child: Row(
+                  : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: photo != ""
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.white, width: 1.5),
+                                  //color: AppTheme.appbarPrimary,
+                                  shape: BoxShape.circle,
+                                ),
+                                height: width<=330? 50 :55,
+                                width:width<=330? 50 :55,
+                                child: Center(child: vm10.loadProfileImage(photo, width<=330?45:50, width<=330?45:50, 50)))
+                            : Container(
+                                decoration: BoxDecoration(
+                                    color: AppTheme.signInSignUpColor,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white)),
+                                height: width<=330? 45 :50,
+                                width: width<=330? 45 :50,
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/images/dPro.png',
+                                    height: width<=330? 25 :30,
+                                    width: width<=330? 25 :30,
+                                  ),
+                                )),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: photo != ""
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.white, width: 1.5),
-                                      //color: AppTheme.appbarPrimary,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    height: 50,
-                                    width: 50,
-                                    child: Center(child: vm10.loadProfileImage(photo, 45, 45, 50)))
-                                : Container(
-                                    decoration: BoxDecoration(
-                                        color: AppTheme.signInSignUpColor,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: Colors.white)),
-                                    height: 45,
-                                    width: 45,
-                                    child: Center(
-                                      child: Image.asset(
-                                        'assets/images/dPro.png',
-                                        height: 25,
-                                        width: 25,
+                          SizedBox(height: 5,),
+                          Row(
+                            children: [
+                              vm.shouldShowPageLoader
+                                  ? Center(
+                                      child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                            AppTheme.appbarPrimary),
                                       ),
-                                    )),
+                                    )
+                                  : Container(
+                                alignment: Alignment.centerLeft,
+                                      width: 140,
+                                      child: Text(
+                                        userDetails?.fname ?? '',
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: isTablet
+                                                ? 18
+                                                : width <= 360
+                                                    ? 12
+                                                    : 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+
+                              SizedBox(
+                                width: 80,
+                              ),
+                              //Icon(Icons.close,color: Colors.white,size: 18,)
+                            ],
                           ),
                           SizedBox(
-                            width: 10,
+                            height: 5,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  vm.shouldShowPageLoader
-                                      ? Center(
-                                          child: CircularProgressIndicator(
-                                            valueColor: AlwaysStoppedAnimation<Color>(
-                                                AppTheme.appbarPrimary),
-                                          ),
-                                        )
-                                      : Container(
-                                          width: 140,
-                                          child: Text(
-                                            userDetails?.fname ?? '',
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: GoogleFonts.roboto(
-                                                fontSize: isTablet
-                                                    ? 18
-                                                    : width <= 360
-                                                        ? 12
-                                                        : 16,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-
-                                  SizedBox(
-                                    width: 80,
-                                  ),
-                                  //Icon(Icons.close,color: Colors.white,size: 18,)
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Container(
-                                  width: 140,
-                                  child: Text(userDetails?.hospitalNumber ?? "Loading...",
-                                      maxLines: 2,
-                                      style: GoogleFonts.roboto(
-                                        color: HexColor('#B8C2F8'),
-                                        fontSize: isTablet
-                                            ? 16
-                                            : width <= 360
-                                                ? 10
-                                                : 13,
-                                      ))),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Container(
-                                width: 120,
-                                height: 25,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: HexColor('#8592E5')),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  "Update My Profile",
-                                  style:
-                                      GoogleFonts.roboto(color: HexColor('#B8C2F8'), fontSize: 8),
-                                )),
-                              )
-                            ],
-                          )
+                          Container(
+                              width: 140,
+                              child: Text(userDetails?.hospitalNumber ?? "Loading...",
+                                  maxLines: 2,
+                                  style: GoogleFonts.roboto(
+                                    color: HexColor('#B8C2F8'),
+                                    fontSize: isTablet
+                                        ? 16
+                                        : width <= 360
+                                            ? 10
+                                            : 13,
+                                  ))),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          // Container(
+                          //   width: 120,
+                          //   height: 25,
+                          //   decoration: BoxDecoration(
+                          //     border: Border.all(color: HexColor('#8592E5')),
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          //   child: Center(
+                          //       child: Text(
+                          //     "Update My Profile",
+                          //     style:
+                          //         GoogleFonts.roboto(color: HexColor('#B8C2F8'), fontSize: 8),
+                          //   )),
+                          // )
                         ],
-                      ),
-                    ),
+                      )
+                    ],
+                  ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(

@@ -786,6 +786,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           //     children:[
           //Align(alignment: Alignment.topRight,child: IconButton(icon: Icon(Icons.search_outlined,size: 25,), onPressed: null)),
           TextField(
+            key: Key('prescriptionSearchFieldKey'),
             autofocus: false,
             textInputAction: TextInputAction.search,
             focusNode: _searchFieldFocusNode,
@@ -804,6 +805,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search_sharp, color: Colors.black),
+                  key: Key('prescriptionSearchIconKey'),
                   onPressed: () {
                     vm.search(_searchTextEditingController.text,
                         accessTokenVm.accessToken);
@@ -1107,7 +1109,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                   SizedBox(width: 10,),
                                   if (vm.isInSearchMode) searchField,
                                   IconButton(
-                                    key: Key('featuredJobSearchToggleButtonKey'),
+                                    key: Key('prescriptionsSearchKey'),
                                     icon: Icon(
                                         vm.isInSearchMode
                                             ? Icons.close
@@ -1234,6 +1236,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                               }
                                               print("tappeddd");
                                             },
+                                            key: Key('showPrescriptionKey$index'),
                                             child: Container(
                                               height: isTablet
                                                   ? 130
@@ -1352,7 +1355,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 await  _downloadPdfFileFromString(vm.prescriptionList[index].prescriptionNo.toString(),vm.prescriptionList[index].consultationId);
                                                               },
                                                               // onTap: showNotification,
-                                                              child: Icon(Icons.download_rounded,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 , color: AppTheme.appbarPrimary,)),
+                                                              child: Icon(Icons.download_rounded,key: Key('prescriptionDownloadKey$index'),size:  isTablet? 25 :deviceWidth<=360? 18 : 20 , color: AppTheme.appbarPrimary,)),
                                                         ),
                                                         SizedBox(width: 15,),
                                                         Padding(
@@ -1388,7 +1391,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                 //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                               },
                                                               // onTap: showNotification,
-                                                              child: Icon(Icons.share,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: AppTheme.appbarPrimary,)),
+                                                              child: Icon(Icons.share,key: Key('prescriptionShareKey$index'),size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: AppTheme.appbarPrimary,)),
                                                         ),
                                                       ]),
                                                     ),

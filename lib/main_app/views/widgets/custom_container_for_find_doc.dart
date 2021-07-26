@@ -37,7 +37,7 @@ class CustomContainer extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
    print("height ${MediaQuery.of(context).size.width}");
     return Container(
-      constraints: BoxConstraints(minHeight:  isTablet? 150 : width<350 ? 120 : 162,),
+      constraints: BoxConstraints(minHeight:  isTablet? 150 : width<350 ? 120 : 155,),
      // height: isTablet? 150 : width<350 ? 120 : 162,
       margin: EdgeInsets.only(bottom: 6,right: 13,left: 13),
       decoration: BoxDecoration(
@@ -74,7 +74,7 @@ class CustomContainer extends StatelessWidget {
                   width: isTablet? cardHeight *0.2 : MediaQuery.of(context).size.height > 650 ? cardHeight *0.2 : cardHeight *0.1,
                 ),
                 Container(
-                  constraints: BoxConstraints(minHeight:  width <350 ? 118 : 140,),
+                  constraints: BoxConstraints(minHeight:  width <350 ? 118 : 120,),
                   width: isTablet? width*.65 : width<350 ?cardWidth*1.73:  cardWidth*1.62,
                   //height: width <350 ? 118 : 140,
                   decoration: BoxDecoration(
@@ -102,7 +102,7 @@ class CustomContainer extends StatelessWidget {
                             constraints: BoxConstraints(minHeight: 30,),
                             //height: 30,
                             child: Text(designation, style: GoogleFonts.poppins(fontSize:  isTablet? 15 : width <350 ? 8 :10, color: HexColor('#757577')),)),
-
+SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

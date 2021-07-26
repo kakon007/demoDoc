@@ -31,9 +31,9 @@ class HospitalListCard extends StatelessWidget {
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     return Container(
-      margin: EdgeInsets.only(left: width<330 ? 3 :6, right: width<330 ? 3 :6, bottom: 3),
+      margin: EdgeInsets.only(left: width<330 ? 3 :6, right: width<330 ? 3 :6, bottom: 2),
       width: MediaQuery.of(context).size.width,
-    // constraints: BoxConstraints(minHeight: isTablet? 170 : width< 330 ? 118 : 135,),
+      //constraints: BoxConstraints(minHeight: isTablet? 170 : width< 330 ? 118 : 135,),
       //height: isTablet? 170 : width< 330 ? 118 : 135,
       child: Card(
         semanticContainer: true,
@@ -57,7 +57,7 @@ class HospitalListCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                       // constraints: BoxConstraints(minHeight: isTablet? 47 : 42,),
+                        //constraints: BoxConstraints(minHeight: isTablet? 47 : 42,),
                         // height: isTablet? 47 : 42,
                         child: Text(titleText.titleCase,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: isTablet? 18 :  width<330 ? 10 : 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start)),
                     SizedBox(height:isTablet? 3 : width<330 ? 1 :  2,),

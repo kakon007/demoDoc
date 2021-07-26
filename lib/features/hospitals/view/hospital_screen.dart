@@ -184,7 +184,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     List<Item> list = vm.hospitalList;
     List<Items> list2 = vm9.hospitalList2;
     var length = list.length;
-    print('locationdata ${widget.locationData}');
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -313,7 +312,8 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                                       : hospitalItems2[index].id.toString(),
                                   index.toString(),
                                 );
-                              }))
+                              })
+              )
                   : vm.shouldShowPageLoader ||
                           vm5.shouldShowPageLoader ||
                           vm6.shouldShowPageLoaderForImage
@@ -387,6 +387,29 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                                 );
                               }),
                         ),
+              // ListView.builder(
+              //     key: Key('listViewBuilderKey2'),
+              //     shrinkWrap: true,
+              //     itemCount: hospitalItems2.length == 0
+              //         ? list2.length
+              //         : hospitalItems2.length,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       var id = hospitalItems2.length == 0
+              //           ? list2[index].id
+              //           : hospitalItems2[index].id;
+              //       int logoIndex = vm5.hospitalLogoList.indexWhere(
+              //               (element) =>
+              //           element.id == id);
+              //       int imageIndex = vm6.hospitalImageList
+              //           .indexWhere((element) =>
+              //       element.id == id);
+              //       return Container(
+              //        child: Text(hospitalItems2[index].companyAddress ==
+              //            null
+              //            ? "Mirpur,Dahaka,Bangladesh"
+              //            : hospitalItems2[index].companyAddress,),
+              //       );
+              //     })
             ],
           ),
         ),

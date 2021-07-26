@@ -23,7 +23,7 @@ Future<void> reportsTest()async{
     });
 
 
-    test(
+    /*test(
         'When__try_to_tap_sign_in__should__go_to_sign_in_page', () async {
       await driver.runUnsynchronized(() async {
         await Future.delayed(const Duration(seconds: 3), () {});
@@ -43,7 +43,7 @@ Future<void> reportsTest()async{
         await expect(await driver.getText(Keys.easyDoctorTextKey), "Easy Doctor Appointment");
         await Future.delayed(const Duration(seconds: 2), () {});
       });
-    });
+    });*/
     //test cases are started from here
     test(  'When__try_to_tap_appointments_from_bottom_navbar__should__get_patient_portal_text_on_appbar', () async {
       await driver.runUnsynchronized(() async {

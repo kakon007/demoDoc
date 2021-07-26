@@ -9,7 +9,7 @@ import 'appointment_no_family_test.dart';
 import 'appointment_others_test.dart';
 import 'appointment_slot_test.dart';
 
-//flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
+//flutter drive --flavor dev --target=test_driver/patient/book_appointment/appointment.dart
 
 main(){
   appointmentTest();

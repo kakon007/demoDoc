@@ -10,12 +10,13 @@ import 'dashboard/dashboard_without_sign_in_test.dart';
 import 'doctor/doctor_test.dart';
 import 'hospital/hospital_doctor_page_navigate_test.dart';
 import 'hospital/hospital_test.dart';
+import 'my_health/reports_test.dart';
 import 'profile/family/add_family_member_test.dart';
 import 'profile/family/family_test.dart';
 import 'profile/profile_test.dart';
 import 'profile/switch_account_test.dart';
 
-//flutter drive --flavor dev --target=test_driver/company/auth/signin.dart
+//flutter drive --flavor dev --target=test_driver/patient/app.dart
 
 main(){
   patientAll();
@@ -57,6 +58,8 @@ Future<void> patientAll()async{
     familyTest();
 
     addFamilyMemberTest();
+
+    reportsTest();
   });
 
 

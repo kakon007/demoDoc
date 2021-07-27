@@ -214,11 +214,11 @@ class _GetAppointmentState extends State<GetAppointment> {
       child: Container(
         width: deviceWidth <= 360 ? deviceWidth * .38 : MediaQuery.of(context).size.width * .49,
         height: 50,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Colors.white,
-          border: Border.all(color: HexColor('#E1E1E1')),
-        ),
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(25),
+        //   color: Colors.white,
+        //   border: Border.all(color: HexColor('#E1E1E1')),
+        // ),
         child: Padding(
           padding: const EdgeInsets.only(left: 15.0, bottom: 8),
           child: TextField(
@@ -228,10 +228,15 @@ class _GetAppointmentState extends State<GetAppointment> {
             controller: _searchTextEditingController1,
             cursorColor: HexColor('#C5CAE8'),
             decoration: InputDecoration(
-                border: InputBorder.none,
+                //border: InputBorder.none,
                 hintText: 'Search here',
                 hintStyle: GoogleFonts.poppins(fontSize: 11, fontWeight: FontWeight.w400),
                 fillColor: Colors.white,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: HexColor('#354291').withOpacity(0.5), width: 1.5),
+                  //borderRadius: BorderRadius.circular(25.0),
+                ),
                 suffixIcon: IconButton(
                   icon: Icon(
                     Icons.search_sharp,
@@ -256,11 +261,11 @@ class _GetAppointmentState extends State<GetAppointment> {
       child: Container(
         width: deviceWidth <= 360 ? deviceWidth * .38 : MediaQuery.of(context).size.width * .49,
         height: 50,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Colors.white,
-          border: Border.all(color: HexColor('#E1E1E1')),
-        ),
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(25),
+        //   color: Colors.white,
+        //   border: Border.all(color: HexColor('#E1E1E1')),
+        // ),
         child: Padding(
           padding: const EdgeInsets.only(left: 15.0, bottom: 8),
           child: TextField(
@@ -270,10 +275,15 @@ class _GetAppointmentState extends State<GetAppointment> {
             controller: _searchTextEditingController2,
             cursorColor: HexColor('#C5CAE8'),
             decoration: InputDecoration(
-                border: InputBorder.none,
+                //border: InputBorder.none,
                 hintText: 'Search here',
                 hintStyle: GoogleFonts.poppins(fontSize: 11, fontWeight: FontWeight.w400),
                 fillColor: Colors.white,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: HexColor('#354291').withOpacity(0.5), width: 1.5),
+                  //borderRadius: BorderRadius.circular(25.0),
+                ),
                 suffixIcon: IconButton(
                   icon: Icon(
                     Icons.search_sharp,

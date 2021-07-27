@@ -1106,7 +1106,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                     ),
                                   ),
                                   Spacer(),
-                                  SizedBox(width: 10,),
+                                  SizedBox(width: 8,),
                                   if (vm.isInSearchMode) searchField,
                                   IconButton(
                                     key: Key('prescriptionsSearchKey'),

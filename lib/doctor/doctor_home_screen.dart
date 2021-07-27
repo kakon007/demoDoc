@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/doctor/features/dashboard/view/doctor_daashboard.dart';
-import 'package:myhealthbd_app/doctor/features/dashboard/view/doctor_profile.dart';
-import 'package:myhealthbd_app/doctor/features/dashboard/view/doctor_worklist.dart';
-import 'package:myhealthbd_app/doctor/features/dashboard/view/prescription_module.dart';
+import 'package:myhealthbd_app/doctor/features/dashboard/view/doctor_dashboard.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view/doctor_profile.dart';
+import 'package:myhealthbd_app/doctor/features/worklist/view/doctor_worklist.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/prescription_module.dart';
 import 'package:myhealthbd_app/features/my_health/view/patient_portal_screen.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
@@ -40,45 +42,51 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
   @override
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
-    final String dashboardIconImage = "assets/images/dashboard.svg";
-    final Widget dashboardIcon = SvgPicture.asset(
+    final String dashboardIconImage = dashboardImageIcon;
+    final Widget dashboardIcon =
+    // Icon(
+    //   Icons.dashboard,
+    //
+    // );
+
+    SvgPicture.asset(
       dashboardIconImage,
       width: 10,
       height: 20,
-      fit: BoxFit.fitWidth,
+      fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 0 ? HexColor('#107B3E') : HexColor('#84BA9E'),
+      color: currentIndex == 0 ? AppTheme.navBarActiveColor : AppTheme.navBarInActiveColor,
     );
-    final String workListIconImage = "assets/images/work.svg";
+    final String workListIconImage = workImageIcon;
     final Widget workListIcon = SvgPicture.asset(
       workListIconImage,
       width: 10,
       height: 20,
-      fit: BoxFit.fitWidth,
+      fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 1 ? HexColor('#107B3E') : HexColor('#84BA9E'),
+      color: currentIndex == 1 ? AppTheme.navBarActiveColor : AppTheme.navBarInActiveColor,
     );
-    final String prescriptionImage = "assets/images/prescription.svg";
+    final String prescriptionImage = prescriptionImageIcon;
     final Widget prescriptionIcon = SvgPicture.asset(
       prescriptionImage,
       width: 10,
       height: 20,
-      fit: BoxFit.fitWidth,
+      fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 2 ? HexColor('#107B3E') : HexColor('#84BA9E'),
+      color: currentIndex == 2 ? AppTheme.navBarActiveColor : AppTheme.navBarInActiveColor,
     );
-    final String profileImage = "assets/images/profile.svg";
+    final String profileImage = profileImageIcon;
     final Widget profileIcon = SvgPicture.asset(
       profileImage,
       width: 10,
       height: 20,
-      fit: BoxFit.fitWidth,
+      fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 3 ? HexColor('#107B3E') : HexColor('#84BA9E'),
+      color: currentIndex == 3 ? AppTheme.navBarActiveColor : AppTheme.navBarInActiveColor,
     );
 
     List pages = <Widget>[
@@ -94,8 +102,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
           }
         },
         currentIndex: currentIndex,
-        selectedItemColor: HexColor('#107B3E'),
-        unselectedItemColor: Colors.grey[800],
+        selectedItemColor: AppTheme.navBarActiveColor,
+        unselectedItemColor: AppTheme.navBarInActiveColor,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         unselectedLabelStyle: TextStyle(
           fontWeight: FontWeight.w600,
@@ -159,7 +167,11 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       title: 'MyHealthBD',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: HexColor('#1DBF63'),
+        textTheme: TextTheme(
+            bodyText2: TextStyle(
+          color: AppTheme.doctorPrimaryTextColor
+        )),
+        primaryColor: AppTheme.buttonActiveColor,
         unselectedWidgetColor: HexColor('#8592E5'),
       ),
       home: WillPopScope(

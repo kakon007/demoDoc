@@ -18,5 +18,6 @@ void main() async {
   );
   runApp(
     ChangeNotifierProvider(create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
+    // MaterialApp(home: EmrScreen()),
   );
 }

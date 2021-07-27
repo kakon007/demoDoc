@@ -787,4 +787,6 @@ class StringResources {
   static String paymentCheckoutCongoText='Your account is successfully upgraded! Now you are a Standard JobXprss member.\nThank you for being with us!';
 
 
+  //EMR
+
 }

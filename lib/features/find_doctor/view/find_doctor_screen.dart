@@ -464,10 +464,14 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                             )
                           : vm.doctorList.length == 0
                               ? Center(
+                                child: Padding(
+                                  padding:  EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.width<350?100:200,),
                                   child: Text(
                                   "No doctors found!",
                                   style: GoogleFonts.poppins(fontSize: isTablet ? 18 : 12),
-                                ))
+                                ),
+                                ),
+                              )
                               : ListView.builder(
                                   key: Key('doctorListViewBuilderKey'),
                                   shrinkWrap: true,

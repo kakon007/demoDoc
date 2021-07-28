@@ -51,8 +51,8 @@ class _RootState extends State<Root> {
           Future.delayed(Duration(microseconds: 500));
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (BuildContext context) =>
-               //DoctorHomeScreen(
-              HomeScreen(accessToken: accessToken,connection: connection,
+               DoctorHomeScreen(
+             // HomeScreen(accessToken: accessToken,connection: connection,
               )));
         }
         else{
@@ -65,8 +65,8 @@ class _RootState extends State<Root> {
         Future.delayed(const Duration(milliseconds: 2000), () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (BuildContext context) =>
-              // DoctorHomeScreen(
-              HomeScreen(accessToken: accessToken, connection: connection
+              DoctorHomeScreen(
+             // HomeScreen(accessToken: accessToken, connection: connection
               )));
         });
       }

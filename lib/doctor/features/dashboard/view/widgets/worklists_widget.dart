@@ -19,6 +19,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
     bool isMobile = Responsive.isMobile(context);
     var deviceHeight = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    var spaceBetween= SizedBox(height: 5,);
     return Container(
       constraints: BoxConstraints( minHeight:130),
       margin: EdgeInsets.only(bottom: 7),
@@ -68,14 +69,14 @@ class _TodayWorkListState extends State<TodayWorkList> {
                     "Md. Arman",
                     style: GoogleFonts.poppins(
                         fontSize: 15,
-                        fontWeight: FontWeight.w700),
+                        fontWeight: FontWeight.w500),
                   ),
                   Row(
                     mainAxisAlignment:
                     MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Consultation time : ",
+                        "Consultation time :   ",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                         ),
@@ -85,16 +86,17 @@ class _TodayWorkListState extends State<TodayWorkList> {
                         style: GoogleFonts.poppins(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                          color: HexColor("#FFCF90"),),
+                          color: HexColor("#FFB14A"),),
                       ),
                     ],
                   ),
+                  spaceBetween,
                   Row(
                     mainAxisAlignment:
                     MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Consultation type : ",
+                        "Consultation type :   ",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                         ),
@@ -108,12 +110,13 @@ class _TodayWorkListState extends State<TodayWorkList> {
                       ),
                     ],
                   ),
+                  spaceBetween,
                   Row(
                     mainAxisAlignment:
                     MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Shared Documents: ",
+                        "Shared Documents:     ",
                         style: GoogleFonts.poppins(
                           fontSize: 11,
                         ),
@@ -147,7 +150,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                             child: Text(
                               "View Details",
                               style: GoogleFonts.roboto(
-                                  color: Colors.white),
+                                  color: Colors.white,fontWeight: FontWeight.w500),
                             ),
                             color: AppTheme.buttonActiveColor,
                             height: 35,

@@ -38,8 +38,12 @@ class SignUpFormField extends StatelessWidget {
   final double hintSize;
   final List<TextInputFormatter> inputFormatters;
   final String focusBorderColor;
+  final double labelLeftPadding;
+  final double labelBottomPadding;
 
   const SignUpFormField({
+    this.labelLeftPadding=10,
+    this.labelBottomPadding=0,
     this.labelFontSize =12,
     this.focusBorderColor="#D6DCFF",
     this.minimizeBottomPadding = false,
@@ -87,7 +91,7 @@ class SignUpFormField extends StatelessWidget {
         children: [
           if (labelText != null)
             Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+              padding:  EdgeInsets.only(left: labelLeftPadding, bottom: labelBottomPadding),
               child: Row(
                 children: [
                   Flexible(

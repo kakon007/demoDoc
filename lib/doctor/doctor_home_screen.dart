@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/doctor_dashboard.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/doctor_profile.dart';
@@ -11,6 +12,8 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
+  int index;
+  DoctorHomeScreen({this.index});
   @override
   _DoctorHomeScreenState createState() => _DoctorHomeScreenState();
 }
@@ -33,7 +36,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
+    currentIndex = widget.index==null ? 0 : widget.index;
     super.initState();
     //_animationController.forward();
     //screenShots=screens.values.toList();
@@ -122,7 +125,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               ),
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text(StringResources.dashboardNavBarText),
+                child: Text(StringResources.dashboardNavBarText, style: GoogleFonts.poppins(),),
               )),
           BottomNavigationBarItem(
               icon: Material(
@@ -133,7 +136,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               ),
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text("Worklists"),
+                child: Text("Worklists", style: GoogleFonts.poppins(),),
               )),
           //hospitals
           // ignore: deprecated_member_use
@@ -146,7 +149,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               ),
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text("Prescriptions Module"),
+                child: Text("Rx Setup", style: GoogleFonts.poppins(),),
               )),
           //my_health
           // ignore: deprecated_member_use
@@ -159,7 +162,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               ),
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text("Profile"),
+                child: Text("Profile", style: GoogleFonts.poppins(),),
               ))
         ]);
 

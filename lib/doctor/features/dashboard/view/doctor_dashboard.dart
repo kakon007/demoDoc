@@ -31,12 +31,12 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
         Text(
           'Welcome to ',
           style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w400, fontSize: 18),
+              fontWeight: FontWeight.w400, fontSize: 18, color: HexColor('#707070')),
         ),
         Text(
           'MyHealthBD',
           style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w600, fontSize: 18),
+              fontWeight: FontWeight.w600, fontSize: 18, color: HexColor('#707070')),
         ),
       ],
     );
@@ -76,6 +76,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                     fontWeight: FontWeight.bold,
                     fontSize: 30.0),
               ),
+              backgroundColor: HexColor('#EFF5FF'),
               circularStrokeCap: CircularStrokeCap.round,
               //progressColor: Colors.green,
               progressColor: HexColor('#9CAAFF'),
@@ -140,7 +141,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       ),
     );
     var yourSummary =   Container(
-      height: 140,
+      height: 120,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -166,7 +167,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       width: 0.5, color: Colors.grey),
                 ),
               ),
-              height: 140,
+              height: 120,
               width: MediaQuery.of(context).size.width / 3.28,
               child: Column(
                 children: [
@@ -178,7 +179,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                             color: Colors.transparent),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      height: 40,
+                      height: 30,
                       width: 30,
                       child: ClipRRect(
                           borderRadius:
@@ -212,7 +213,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       width: 0.5, color: Colors.grey),
                 ),
               ),
-              height: 140,
+              height: 120,
               width: MediaQuery.of(context).size.width / 3.28,
               child: Column(
                 children: [
@@ -224,7 +225,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                             color: Colors.transparent),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      height: 40,
+                      height: 30,
                       width: 30,
                       child: ClipRRect(
                           borderRadius:
@@ -252,7 +253,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
               ),
             ),
             Container(
-              height: 140,
+              height: 120,
               width: MediaQuery.of(context).size.width / 3.28,
               child: Column(
                 children: [
@@ -264,7 +265,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                             color: Colors.transparent),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      height: 40,
+                      height: 30,
                       width: 30,
                       child: ClipRRect(
                           borderRadius:
@@ -344,7 +345,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           builder: (context) => IconButton(
             icon: Icon(
               Icons.notes,
-              //color: HexColor("#1DBF63"),
+              size: 30,
               color: AppTheme.buttonActiveColor,
             ),
             onPressed: () => Scaffold.of(context).openDrawer(),
@@ -365,6 +366,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             children: [
               welcomeToMyHealth,
               spaceBetween,
+              spaceBetween,
               appointmentsCard,
               spaceBetween,
               Padding(
@@ -372,7 +374,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                 child: Text(
                   "Your summary",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w700, fontSize: 15),
+                      fontWeight: FontWeight.w500, fontSize: 15),
                 ),
               ),
               spaceBetween,
@@ -386,7 +388,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       Text(
                         "Today's worklist",
                         style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700, fontSize: 15),
+                            fontWeight: FontWeight.w500, fontSize: 15),
                       ),
                       GestureDetector(
                         onTap: (){
@@ -398,9 +400,9 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                           children: [
                             Text("View All",
                                 style: GoogleFonts.poppins(
-                                    //color: HexColor("#107B3E"),
-                                    color: AppTheme.buttonActiveColor,
-                                    fontSize: 15)),
+                                    color: HexColor("#354291"),
+                                    //color: AppTheme.buttonActiveColor,
+                                    fontSize: 12)),
                           ],
                         ),
                       )

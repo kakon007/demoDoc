@@ -58,7 +58,7 @@ class CustomCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(titleText.titleCase,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<=1250 && width>=1000 ? 16 : width<=999 && width>=650?  14 :12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
+                          Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<=1250 && width>=1000 ? 16 : width<=999 && width>=650?  14 :12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start),
                           SizedBox(height: isTablet? 8 : 3,),
                           Text(addressText,maxLines:1,overflow:TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: width<=1250 && width>=1000 ? 14 : width<=999 && width>=650?  12 : 8),textAlign:TextAlign.start),
                         ],

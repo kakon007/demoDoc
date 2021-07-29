@@ -212,14 +212,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         DrawerScreen(
           accessToken: accessTokenVm.accessToken,
           menuCallBack: (selectedIndex) {
-            setState(() {
-              if (selectedIndex == 0) {
-                _closeDrawer();
-              } else {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => screenList[selectedIndex]));
-              }
-            });
+            _closeDrawer();
+            if (selectedIndex != 0) {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => screenList[selectedIndex]));
+            }
           },
         ),
         AnimatedPositioned(
@@ -347,7 +344,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     blurRadius: 10,
                   ),
                 ],
-              ),child: bottomNavBar),
+              ),
+              child: bottomNavBar),
           body: pages[currentBottomIndex],
         ),
         onWillPop: () async {

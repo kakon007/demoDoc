@@ -247,7 +247,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     print('VideoLength:::::' + lengthofVideoList.toString());
 
     var deviceHeight = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    var screenWidth = MediaQuery.of(context).size.width;
 
     var vm4 = Provider.of<BLogViewModel>(context);
     var vm5 = Provider.of<HospitalLogoViewModel>(context);
@@ -264,7 +264,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     // List<Item> list5 = vm5.hospitalLogoList;
     // var lengthofHopitalLogoList = list5.length;
 
-    var contrainerWidth = width >= 400 ? double.infinity : 400.00;
+    var containerWidth = screenWidth >= 400 ? double.infinity : 400.00;
 
     final String assetName1 = "assets/icons/sign_in.svg";
     final Widget svg = SvgPicture.asset(
@@ -291,7 +291,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         Icons.arrow_back,
                         color: Colors.white,
                       ),
-                key: Key('menuBackIconKey'),
+                      key: Key('menuBackIconKey'),
                       onPressed: null,
                     )
                   : IconButton(
@@ -309,7 +309,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               style: GoogleFonts.poppins(
                   fontSize: isTablet
                       ? 18
-                      : width <= 330
+                      : screenWidth <= 330
                           ? 10
                           : 15,
                   fontWeight: FontWeight.w600),
@@ -386,19 +386,19 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                     ),
                                     height: isTablet
                                         ? 40
-                                        : width <= 330
+                                        : screenWidth <= 330
                                             ? 25
                                             : 30,
                                     width: isTablet
                                         ? 40
-                                        : width <= 330
+                                        : screenWidth <= 330
                                             ? 25
                                             : 30,
                                     child: Center(
                                         child: vm10.loadProfileImage(
                                             photo,
-                                            width <= 330 ? 28.5 : 33.5,
-                                            width <= 330 ? 30 : 35,
+                                            screenWidth <= 330 ? 28.5 : 33.5,
+                                            screenWidth <= 330 ? 30 : 35,
                                             50)))
                                 : Container(
                                     decoration: BoxDecoration(
@@ -407,12 +407,12 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                         border: Border.all(color: Colors.white)),
                                     height: isTablet
                                         ? 32
-                                        : width <= 330
+                                        : screenWidth <= 330
                                             ? 25
                                             : 30,
                                     width: isTablet
                                         ? 32
-                                        : width <= 330
+                                        : screenWidth <= 330
                                             ? 25
                                             : 30,
                                     child: Center(
@@ -420,12 +420,12 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                         'assets/images/dPro.png',
                                         height: isTablet
                                             ? 22
-                                            : width <= 330
+                                            : screenWidth <= 330
                                                 ? 18
                                                 : 22,
                                         width: isTablet
                                             ? 22
-                                            : width <= 330
+                                            : screenWidth <= 330
                                                 ? 18
                                                 : 22,
                                       ),
@@ -444,9 +444,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                     image: AssetImage("assets/images/dashboardNoewImage.png"),
                   ),
                 ),
-                height: width <= 1250 && width >= 1000
+                height: screenWidth <= 1250 && screenWidth >= 1000
                     ? 380
-                    : width <= 999 && width >= 850
+                    : screenWidth <= 999 && screenWidth >= 850
                         ? 305
                         : 250,
               ),
@@ -479,28 +479,30 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         padding: const EdgeInsets.only(top: 18, left: 20.0, right: 20),
                         child: Row(
                           children: [
-                            Container(
-                              constraints:
-                                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width * .65),
-                              child: Text(
-                                StringResources.esayDoctorAppointmentText,
-                                key: Key('easyDoctorTextKey'),
-                                style: GoogleFonts.poppins(
-                                    fontSize: isTablet
-                                        ? 18
-                                        : width < 330
-                                            ? 16
-                                            : 17,
-                                    fontWeight: FontWeight.w600),
+                            Expanded(
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: MediaQuery.of(context).size.width * .65),
+                                child: Text(
+                                  StringResources.esayDoctorAppointmentText,
+                                  key: Key('easyDoctorTextKey'),
+                                  style: GoogleFonts.poppins(
+                                      fontSize: isTablet
+                                          ? 18
+                                          : screenWidth < 330
+                                              ? 16
+                                              : 17,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
                             ),
-                            Spacer(),
                             Container(
                                 width: isTablet
                                     ? 110
                                     : MediaQuery.of(context).size.width <= 330
                                         ? 60
                                         : 85,
+                                height: 40,
                                 child: Image.asset("assets/images/official_logo.png")),
                           ],
                         ),
@@ -513,7 +515,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                         child: GestureDetector(
                           onTap: widget.onTapFeaturedCompany,
                           child: Container(
-                            width: contrainerWidth,
+                            width: containerWidth,
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
@@ -532,15 +534,18 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                               padding: const EdgeInsets.only(left: 15),
                               child: Row(
                                 children: [
-                                  Text(
-                                    StringResources.searchBoxHint,
-                                    key: Key('dashboardSearchKey'),
-                                    style: TextStyle(
-                                      color: Colors.grey[400],
-                                      fontSize: width >= 400 ? 15 : 14,
+                                  Expanded(
+                                    child: Text(
+                                      StringResources.searchBoxHint,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      key: Key('dashboardSearchKey'),
+                                      style: TextStyle(
+                                        color: Colors.grey[400],
+                                        fontSize: screenWidth >= 400 ? 15 : 14,
+                                      ),
                                     ),
                                   ),
-                                  Spacer(),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 12.0),
                                     child: Icon(
@@ -958,9 +963,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                 left: 16.0,
                               ),
                               child: SizedBox(
-                                height: width <= 1250 && width >= 1000
+                                height: screenWidth <= 1250 && screenWidth >= 1000
                                     ? 175
-                                    : width <= 999 && width >= 650
+                                    : screenWidth <= 999 && screenWidth >= 650
                                         ? 140
                                         : 120,
                                 child: ListView.builder(
@@ -1057,9 +1062,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                 left: 16.0,
                               ),
                               child: SizedBox(
-                                height: width <= 1250 && width >= 1000
+                                height: screenWidth <= 1250 && screenWidth >= 1000
                                     ? 175
-                                    : width <= 999 && width >= 650
+                                    : screenWidth <= 999 && screenWidth >= 650
                                         ? 140
                                         : 120,
                                 child: ListView.builder(

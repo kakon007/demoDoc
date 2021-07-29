@@ -43,6 +43,10 @@ class _SettingScreenState extends State<SettingScreen> {
     String url3 = '${Urls.baseUrl}medicare-web-client-v2/#/myhealthbd/about';
     var vm = Provider.of<UserDetailsViewModel>(context);
     Obj userDetails = vm.userDetailsList;
+    final subtitleStyle = GoogleFonts.poppins(
+      color: Colors.grey,
+      fontSize: 11,
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.appbarPrimary,
@@ -88,8 +92,9 @@ class _SettingScreenState extends State<SettingScreen> {
                         style: GoogleFonts.poppins(
                             color: HexColor("#333132"), fontSize: 15, fontWeight: FontWeight.w600)),
                     Text(
-                        'We are always happy to provide you any information \nregarding MyHealthBD',
-                        style: GoogleFonts.poppins(color: HexColor("#D2D2D2"), fontSize: 11)),
+                      'We are always happy to provide you any information \nregarding MyHealthBD',
+                      style: subtitleStyle,
+                    ),
                   ],
                 ),
               ),
@@ -111,8 +116,10 @@ class _SettingScreenState extends State<SettingScreen> {
                     Text("Privacy Policy",
                         style: GoogleFonts.poppins(
                             color: HexColor("#333132"), fontSize: 15, fontWeight: FontWeight.w600)),
-                    Text('Read our Privacy Policy',
-                        style: GoogleFonts.poppins(color: HexColor("#D2D2D2"), fontSize: 11)),
+                    Text(
+                      'Read our Privacy Policy',
+                      style: subtitleStyle,
+                    ),
                   ],
                 ),
               ),
@@ -134,8 +141,10 @@ class _SettingScreenState extends State<SettingScreen> {
                     Text("About MyHealthBD",
                         style: GoogleFonts.poppins(
                             color: HexColor("#333132"), fontSize: 15, fontWeight: FontWeight.w600)),
-                    Text('Want to know more?',
-                        style: GoogleFonts.poppins(color: HexColor("#D2D2D2"), fontSize: 11)),
+                    Text(
+                      'Want to know more?',
+                      style: subtitleStyle,
+                    ),
                   ],
                 ),
               ),

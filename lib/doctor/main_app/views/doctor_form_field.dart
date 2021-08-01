@@ -4,7 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignUpFormField extends StatelessWidget {
+class DoctorFormField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final TextEditingController controller;
   final String labelText;
@@ -41,7 +41,7 @@ class SignUpFormField extends StatelessWidget {
   final double labelLeftPadding;
   final double labelBottomPadding;
 
-  const SignUpFormField({
+  const DoctorFormField({
     this.labelLeftPadding=10,
     this.labelBottomPadding=0,
     this.labelFontSize =12,
@@ -70,10 +70,10 @@ class SignUpFormField extends StatelessWidget {
     this.suffixIcon,
     this.borderRadius = 10,
     this.onTap,
-    this.margin = const EdgeInsets.all(5),
+    this.margin = const EdgeInsets.only(top: 2, left: 5, right: 5),
     this.keyboardType,
     this.contentPadding =
-        const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     this.maxLines = 1,
     this.textFieldKey,
     this.topPadding=25,
@@ -106,9 +106,6 @@ class SignUpFormField extends StatelessWidget {
                 ],
               ),
             ),
-          SizedBox(
-            height: 1,
-          ),
           TextFormField(
             inputFormatters: inputFormatters,
             obscureText: obSecure,
@@ -140,11 +137,11 @@ class SignUpFormField extends StatelessWidget {
               ),
               contentPadding: EdgeInsets.fromLTRB(15.0, topPadding, 40.0, 0.0),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderSide: BorderSide(color: HexColor("#AFBBFF"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderSide: BorderSide(color: HexColor("#AFBBFF"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               errorBorder: OutlineInputBorder(
@@ -155,15 +152,15 @@ class SignUpFormField extends StatelessWidget {
             ),
           ),
           errorText == null
-              ? minimizeBottomPadding ? SizedBox(height: 2,) : Text("")
+              ? minimizeBottomPadding ? SizedBox(height: 0,) : Text("")
               : Padding(
-                  padding: const EdgeInsets.only(left: 38, top: 0, right: 38),
-                  child: Text(
-                    errorText,
-                    key: Key('requiredFieldKey'),
-                    style: TextStyle(color: Colors.red),
-                  ),
-                )
+            padding: const EdgeInsets.only(left: 38, top: 0, right: 38),
+            child: Text(
+              errorText,
+              key: Key('requiredFieldKey'),
+              style: TextStyle(color: Colors.red),
+            ),
+          )
         ],
       ),
     );

@@ -23,7 +23,7 @@ class DoctorListViewModel extends ChangeNotifier{
   int startIndex=0;
 
   Future<void> getDoctor(String orgNo, String companyNo, String deptItem, String specialSelectedItem, String doctorSearch) async {
-
+    _doctor.clear();
    print(deptItem);
    print(specialSelectedItem);
     startIndex=0;
@@ -32,7 +32,6 @@ class DoctorListViewModel extends ChangeNotifier{
     _lastFetchTime = DateTime.now();
     var res = await DoctorListRepository().getDoctorList(orgNo:orgNo, companyNo:companyNo,deptItem:deptItem, specialSelectedItem:specialSelectedItem, doctorSearch:doctorSearch,startIndex: startIndex);
     notifyListeners();
-  //  _doctor.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingData = false;

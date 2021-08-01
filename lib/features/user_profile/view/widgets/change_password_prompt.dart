@@ -156,21 +156,12 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
             constraints: BoxConstraints(minHeight: !isExpanded
                 ? isTablet
                 ? 360
-            //:355
                 : deviceWidth<=330? 330 :340
                 : isTablet
                 ? 400
-            //:395,
+
                 : deviceWidth<=330? 370 : 380, ),
-          // height: !isExpanded
-          //       ? isTablet
-          //           ? 360
-          //           //:355
-          //           : deviceWidth<=330? 330 :340
-          //       : isTablet
-          //           ? 400
-          //   //:395,
-          //   : deviceWidth<=330? 370 : 380,
+
             child: Form(
               key: _formKey,
               child: Column(
@@ -178,32 +169,6 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Container(
-                  //       alignment: Alignment.centerLeft,
-                  //       height: 40,
-                  //       width: deviceWidth*.8,
-                  //       // padding: new EdgeInsets.all(10.0),
-                  //       decoration: new BoxDecoration(color:AppTheme.appbarPrimary, borderRadius: BorderRadius.only(topLeft: Radius.circular(20),
-                  //           topRight: Radius.circular(20))),
-                  //       child:  Padding(
-                  //         padding: const EdgeInsets.only(left: 25),
-                  //         child: Text(
-                  //           'Change Password',
-                  //           key: Key('changePasswordPromptKey'),
-                  //           style: GoogleFonts.poppins(
-                  //               color: Colors.white,
-                  //               fontSize: isTablet ? 18 : 15.0,
-                  //               fontWeight: FontWeight.w500),
-                  //           textAlign: TextAlign.center,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   Padding(
                     padding: const EdgeInsets.only(left: 25),
                     child: Text(

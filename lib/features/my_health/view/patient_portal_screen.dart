@@ -834,6 +834,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
           //     children:[
           //Align(alignment: Alignment.topRight,child: IconButton(icon: Icon(Icons.search_outlined,size: 25,), onPressed: null)),
           TextField(
+            key: Key('documentationSearchFieldKey'),
             autofocus: false,
             textInputAction: TextInputAction.search,
             focusNode: _searchFieldFocusNode3,
@@ -855,6 +856,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                     Icons.search_sharp,
                     color: Colors.black,
                   ),
+                  key: Key('documentationSearchIconKey'),
                   onPressed: () {
                     vm3.search(_searchTextEditingController3.text,
                         accessTokenVm.accessToken);
@@ -1057,6 +1059,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                       child: Center(
                           child: Text(
                             'Documents',
+                            key: Key('documentationTabKey'),
                             style: GoogleFonts.roboto(
                                 color: HexColor('#354291'),
                                 fontSize: isTablet
@@ -1106,7 +1109,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                     ),
                                   ),
                                   Spacer(),
-                                  SizedBox(width: 10,),
+                                  SizedBox(width: 8,),
                                   if (vm.isInSearchMode) searchField,
                                   IconButton(
                                     key: Key('prescriptionsSearchKey'),
@@ -1847,7 +1850,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                 Spacer(),
                                 if (vm3.isInSearchMode) searchFieldforDoc,
                                 IconButton(
-                                  key: Key('featuredJButonKey'),
+                                  key: Key('documentationSearchKey'),
                                   icon: Icon(
                                     vm3.isInSearchMode
                                         ? Icons.close
@@ -1984,6 +1987,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                             }
                                             print("tappeddd from Doc");
                                           },
+                                          key: Key('showDocumentationKey$index'),
                                           child:
 
                                           // Container(
@@ -2231,7 +2235,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                            child: InkWell(onTap: () async{
                                                                              await  downloadDocumentations(vm3.documentList[index].attachmentPath,vm3.documentList[index].attachmentName);
 
-                                                                           },child: Icon(Icons.download_rounded,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: AppTheme.appbarPrimary)),
+                                                                           },child: Icon(Icons.download_rounded,key: Key('documentationDownloadKey$index'),size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: AppTheme.appbarPrimary)),
                                                                          ),
                                                                          SizedBox(width: 5,),
                                                                          Padding(
@@ -2267,7 +2271,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                                  //print('CompanyName ${vm10.sharedFileList.last.companyName}');
                                                                                },
                                                                                // onTap: showNotification,
-                                                                               child: Icon(Icons.share,size:  isTablet? 25 :deviceWidth<=360? 18 : 18 , color: AppTheme.appbarPrimary,)),
+                                                                               child: Icon(Icons.share,key: Key('documentationShareKey$index'),size:  isTablet? 25 :deviceWidth<=360? 18 : 18 , color: AppTheme.appbarPrimary,)),
                                                                          ),
                                                                          SizedBox(width: 5,),
                                                                          Padding(

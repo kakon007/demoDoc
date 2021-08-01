@@ -219,6 +219,13 @@ class Keys{
   static final prescriptionSearchIconKey = find.byValueKey('prescriptionSearchIconKey');
   static final prescriptionDownloadKey4 = find.byValueKey('prescriptionDownloadKey4');
   static final prescriptionShareKey4 = find.byValueKey('prescriptionShareKey4');
+  static final documentationTabKey = find.byValueKey('documentationTabKey');
+  static final showDocumentationKey4 = find.byValueKey('showDocumentationKey4');
+  static final documentationSearchKey = find.byValueKey('documentationSearchKey');
+  static final documentationSearchFieldKey = find.byValueKey('documentationSearchFieldKey');
+  static final documentationSearchIconKey = find.byValueKey('documentationSearchIconKey');
+  static final documentationDownloadKey4 = find.byValueKey('documentationDownloadKey4');
+  static final documentationShareKey4 = find.byValueKey('documentationShareKey4');
 
 
 

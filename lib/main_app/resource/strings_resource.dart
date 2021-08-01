@@ -756,6 +756,8 @@ class StringResources {
   static String postAnonymously = "Post question anonymously";
 
 
+  //hospital and diagnostics
+  static String hospitalAndDiagnostics = 'No hospital/diagnostic found';
   //Payment Session
   static String paymentSessionText= "Payment Session";
 

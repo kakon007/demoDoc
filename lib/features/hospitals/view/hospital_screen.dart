@@ -249,7 +249,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                       : isSearched && hospitalItems2.length == 0
                           ? Center(
                               child: Text(
-                                'No hospital found',
+                                StringResources.hospitalAndDiagnostics,
                                 style: GoogleFonts.poppins(),
                               ),
                             )
@@ -351,7 +351,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                       : isSearched && hospitalItems.length == 0
                           ? Center(
                               child: Text(
-                                'No hospital found',
+                                StringResources.hospitalAndDiagnostics,
                                 style: GoogleFonts.poppins(),
                               ),
                             )

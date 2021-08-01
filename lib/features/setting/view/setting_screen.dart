@@ -89,7 +89,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             color: HexColor("#333132"), fontSize: 15, fontWeight: FontWeight.w600)),
                     Text(
                         'We are always happy to provide you any information \nregarding MyHealthBD',
-                        style: GoogleFonts.poppins(color: HexColor("#D2D2D2"), fontSize: 11)),
+                        style: GoogleFonts.poppins(color: Colors.grey, fontSize: 11)),
                   ],
                 ),
               ),
@@ -112,7 +112,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         style: GoogleFonts.poppins(
                             color: HexColor("#333132"), fontSize: 15, fontWeight: FontWeight.w600)),
                     Text('Read our Privacy Policy',
-                        style: GoogleFonts.poppins(color: HexColor("#D2D2D2"), fontSize: 11)),
+                        style: GoogleFonts.poppins(color: Colors.grey, fontSize: 11)),
                   ],
                 ),
               ),
@@ -135,7 +135,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         style: GoogleFonts.poppins(
                             color: HexColor("#333132"), fontSize: 15, fontWeight: FontWeight.w600)),
                     Text('Want to know more?',
-                        style: GoogleFonts.poppins(color: HexColor("#D2D2D2"), fontSize: 11)),
+                        style: GoogleFonts.poppins(color: Colors.grey, fontSize: 11)),
                   ],
                 ),
               ),

@@ -53,6 +53,7 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
   List<Items> hospitalList2;
   var hospitalItems = List<Item>();
   var hospitalItems2 = List<Items>();
+  bool isSearched = false;
 
   @override
   void afterFirstLayout(BuildContext context) {
@@ -87,11 +88,12 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     if (query.isNotEmpty) {
       List<Item> initialHospitalSearchItems = List<Item>();
       initialHospitalSearch.forEach((item) {
-        if (item.companyName.contains(query.toLowerCase())) {
+        if (item.companyName.toLowerCase().contains(query.toLowerCase())) {
           initialHospitalSearchItems.add(item);
         }
       });
       setState(() {
+        isSearched = true;
         hospitalItems.clear();
         hospitalItems.addAll(initialHospitalSearchItems);
       });
@@ -113,17 +115,19 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     if (query.isNotEmpty) {
       List<Items> initialHospitalSearchItems2 = List<Items>();
       initialHospitalSearch.forEach((item) {
-        if (item.companyName.contains(query.toLowerCase())) {
+        if (item.companyName.toLowerCase().contains(query.toLowerCase())) {
           initialHospitalSearchItems2.add(item);
         }
       });
       setState(() {
+        isSearched = true;
         hospitalItems2.clear();
         hospitalItems2.addAll(initialHospitalSearchItems2);
       });
       return;
     } else {
       setState(() {
+        print('b');
         hospitalItems2.clear();
         hospitalItems2.addAll(hospitalList2);
       });
@@ -232,161 +236,215 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
               left: isTablet ? 18 : 8.0, right: isTablet ? 18 : 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: isSearched && hospitalItems2.length == 0
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.start,
             children: <Widget>[
               widget.locationData != null ? searchField2 : searchField,
-              // Container(
-              //   color: Colors.red,
-              //   constraints: BoxConstraints(minHeight: 15),
-              //   child: Text('shakil',style: GoogleFonts.poppins(fontSize: 20),),),
               widget.locationData != null
                   ? vm9.shouldShowPageLoader ||
                           vm5.shouldShowPageLoader ||
                           vm6.shouldShowPageLoaderForImage
                       ? Loader()
-                      : Expanded(
-                          child: ListView.builder(
-                              key: Key('listViewBuilderKey2'),
-                              shrinkWrap: true,
-                              itemCount: hospitalItems2.length == 0
-                                  ? list2.length
-                                  : hospitalItems2.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                var id = hospitalItems2.length == 0
-                                    ? list2[index].id
-                                    : hospitalItems2[index].id;
-                                int logoIndex = vm5.hospitalLogoList.indexWhere(
-                                    (element) =>
-                                        element.id == id);
-                                int imageIndex = vm6.hospitalImageList
-                                    .indexWhere((element) =>
-                                        element.id == id);
-                                return HospitalListCard(
-                                  loadImage(vm5
-                                      .hospitalLogoList[logoIndex].photoLogo),
-                                  vm6.hospitalImageList[imageIndex].photoImg !=
-                                          null
-                                      ? loadImage(vm6
-                                          .hospitalImageList[imageIndex]
-                                          .photoImg)
-                                      : loadLogo(vm5
-                                          .hospitalLogoList[logoIndex].photoLogo),
-                                  hospitalItems2.length == 0
-                                      ? list2[index].companyName
-                                      : hospitalItems2[index].companyName,
-                                  hospitalItems2.length == 0
-                                      ? list2[index].companyAddress == null
-                                      ? "Mirpur,Dahaka,Bangladesh"
-                                      : list2[index].companyAddress
-                                      : hospitalItems2[index].companyAddress ==
-                                      null
-                                      ? "Mirpur,Dahaka,Bangladesh"
-                                      : hospitalItems2[index].companyAddress,
-                                  "60 Doctors",
-                                  hospitalItems2.length == 0
-                                      ? list2[index].companyPhone == null
-                                      ? "+880 1962823007"
-                                      : list2[index].companyPhone
-                                      : hospitalItems2[index].companyPhone ==
-                                      null
-                                      ? "+880 1962823007"
-                                      : hospitalItems2[index].companyPhone,
-                                  hospitalItems2.length == 0
-                                      ? list2[index].companyEmail == null
-                                      ? "info@mysoftitd.com"
-                                      : list2[index].companyEmail
-                                      : hospitalItems2[index].companyEmail ==
-                                      null
-                                      ? "info@mysoftitd.com"
-                                      : hospitalItems2[index].companyEmail,
-                                  hospitalItems2.length == 0
-                                      ? list2[index].companyLogo
-                                      : hospitalItems2[index].companyLogo,
-                                  hospitalItems2.length == 0
-                                      ? list2[index].companyId
-                                      : hospitalItems2[index].companyId,
-                                  hospitalItems2.length == 0
-                                      ? list2[index].ogNo.toString()
-                                      : hospitalItems2[index].ogNo.toString(),
-                                  hospitalItems2.length == 0
-                                      ? list2[index].id.toString()
-                                      : hospitalItems2[index].id.toString(),
-                                  index.toString(),
-                                );
-                              })
-              )
+                      : isSearched && hospitalItems2.length == 0
+                          ? Center(
+                              child: Text(
+                                'No hospital found',
+                                style: GoogleFonts.poppins(),
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                  key: Key('listViewBuilderKey2'),
+                                  shrinkWrap: true,
+                                  itemCount: isSearched == false &&
+                                          hospitalItems2.length == 0
+                                      ? list2.length
+                                      : hospitalItems2.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    var id = isSearched == false &&
+                                            hospitalItems2.length == 0
+                                        ? list2[index].id
+                                        : hospitalItems2[index].id;
+                                    int logoIndex = vm5.hospitalLogoList
+                                        .indexWhere(
+                                            (element) => element.id == id);
+                                    int imageIndex = vm6.hospitalImageList
+                                        .indexWhere(
+                                            (element) => element.id == id);
+                                    return HospitalListCard(
+                                      loadImage(vm5.hospitalLogoList[logoIndex]
+                                          .photoLogo),
+                                      vm6.hospitalImageList[imageIndex]
+                                                  .photoImg !=
+                                              null
+                                          ? loadImage(vm6
+                                              .hospitalImageList[imageIndex]
+                                              .photoImg)
+                                          : loadLogo(vm5
+                                              .hospitalLogoList[logoIndex]
+                                              .photoLogo),
+                                      isSearched == false &&
+                                              hospitalItems2.length == 0
+                                          ? list2[index].companyName
+                                          : hospitalItems2[index].companyName,
+                                      isSearched == false &&
+                                              hospitalItems2.length == 0
+                                          ? list2[index].companyAddress == null
+                                              ? "Mirpur,Dahaka,Bangladesh"
+                                              : list2[index].companyAddress
+                                          : hospitalItems2[index]
+                                                      .companyAddress ==
+                                                  null
+                                              ? "Mirpur,Dahaka,Bangladesh"
+                                              : hospitalItems2[index]
+                                                  .companyAddress,
+                                      "60 Doctors",
+                                      isSearched == false &&
+                                              hospitalItems2.length == 0
+                                          ? list2[index].companyPhone == null
+                                              ? "+880 1962823007"
+                                              : list2[index].companyPhone
+                                          : hospitalItems2[index]
+                                                      .companyPhone ==
+                                                  null
+                                              ? "+880 1962823007"
+                                              : hospitalItems2[index]
+                                                  .companyPhone,
+                                      isSearched == false &&
+                                              hospitalItems2.length == 0
+                                          ? list2[index].companyEmail == null
+                                              ? "info@mysoftitd.com"
+                                              : list2[index].companyEmail
+                                          : hospitalItems2[index]
+                                                      .companyEmail ==
+                                                  null
+                                              ? "info@mysoftitd.com"
+                                              : hospitalItems2[index]
+                                                  .companyEmail,
+                                      isSearched == false &&
+                                              hospitalItems2.length == 0
+                                          ? list2[index].companyLogo
+                                          : hospitalItems2[index].companyLogo,
+                                      isSearched == false &&
+                                              hospitalItems2.length == 0
+                                          ? list2[index].companyId
+                                          : hospitalItems2[index].companyId,
+                                      isSearched == false &&
+                                              hospitalItems2.length == 0
+                                          ? list2[index].ogNo.toString()
+                                          : hospitalItems2[index]
+                                              .ogNo
+                                              .toString(),
+                                      isSearched == false &&
+                                              hospitalItems2.length == 0
+                                          ? list2[index].id.toString()
+                                          : hospitalItems2[index].id.toString(),
+                                      index.toString(),
+                                    );
+                                  }))
                   : vm.shouldShowPageLoader ||
                           vm5.shouldShowPageLoader ||
                           vm6.shouldShowPageLoaderForImage
                       ? Loader()
-                      : Expanded(
-                          child: ListView.builder(
-                              key: Key('listViewBuilderKey'),
-                              shrinkWrap: true,
-                              itemCount: hospitalItems.length == 0
-                                  ? list.length
-                                  : hospitalItems.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                var id = hospitalItems.length == 0
-                                    ? list[index].id
-                                    : hospitalItems[index].id;
-                                int logoIndex = vm5.hospitalLogoList
-                                    .indexWhere((element) => element.id == id);
-                                int imageIndex = vm6.hospitalImageList
-                                    .indexWhere((element) => element.id == id);
-                                return HospitalListCard(
-                                  loadImage(vm5
-                                      .hospitalLogoList[logoIndex].photoLogo),
-                                  vm6.hospitalImageList[imageIndex].photoImg !=
-                                          null
-                                      ? loadImage(vm6
-                                          .hospitalImageList[imageIndex]
-                                          .photoImg)
-                                      : loadLogo(vm5
-                                          .hospitalLogoList[index].photoLogo),
-                                  hospitalItems.length == 0
-                                      ? list[index].companyName
-                                      : hospitalItems[index].companyName,
-                                  hospitalItems.length == 0
-                                      ? list[index].companyAddress == null
-                                          ? "Mirpur,Dahaka,Bangladesh"
-                                          : list[index].companyAddress
-                                      : hospitalItems[index].companyAddress ==
+                      : isSearched && hospitalItems.length == 0
+                          ? Center(
+                              child: Text(
+                                'No hospital found',
+                                style: GoogleFonts.poppins(),
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                  key: Key('listViewBuilderKey'),
+                                  shrinkWrap: true,
+                                  itemCount: isSearched == false &&
+                                          hospitalItems.length == 0
+                                      ? list.length
+                                      : hospitalItems.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    var id = isSearched == false &&
+                                            hospitalItems.length == 0
+                                        ? list[index].id
+                                        : hospitalItems[index].id;
+                                    int logoIndex = vm5.hospitalLogoList
+                                        .indexWhere(
+                                            (element) => element.id == id);
+                                    int imageIndex = vm6.hospitalImageList
+                                        .indexWhere(
+                                            (element) => element.id == id);
+                                    return HospitalListCard(
+                                      loadImage(vm5.hospitalLogoList[logoIndex]
+                                          .photoLogo),
+                                      vm6.hospitalImageList[imageIndex]
+                                                  .photoImg !=
                                               null
-                                          ? "Mirpur,Dahaka,Bangladesh"
-                                          : hospitalItems[index].companyAddress,
-                                  "60 Doctors",
-                                  hospitalItems.length == 0
-                                      ? list[index].companyPhone == null
-                                          ? "+880 1962823007"
-                                          : list[index].companyPhone
-                                      : hospitalItems[index].companyPhone ==
-                                              null
-                                          ? "+880 1962823007"
-                                          : hospitalItems[index].companyPhone,
-                                  hospitalItems.length == 0
-                                      ? list[index].companyEmail == null
-                                          ? "info@mysoftitd.com"
-                                          : list[index].companyEmail
-                                      : hospitalItems[index].companyEmail ==
-                                              null
-                                          ? "info@mysoftitd.com"
-                                          : hospitalItems[index].companyEmail,
-                                  hospitalItems.length == 0
-                                      ? list[index].companyLogo
-                                      : hospitalItems[index].companyLogo,
-                                  hospitalItems.length == 0
-                                      ? list[index].companyId
-                                      : hospitalItems[index].companyId,
-                                  hospitalItems.length == 0
-                                      ? list[index].ogNo.toString()
-                                      : hospitalItems[index].ogNo.toString(),
-                                  hospitalItems.length == 0
-                                      ? list[index].id.toString()
-                                      : hospitalItems[index].id.toString(),
-                                  index.toString(),
-                                );
-                              }),
-                        ),
+                                          ? loadImage(vm6
+                                              .hospitalImageList[imageIndex]
+                                              .photoImg)
+                                          : loadLogo(vm5.hospitalLogoList[index]
+                                              .photoLogo),
+                                      isSearched == false &&
+                                              hospitalItems.length == 0
+                                          ? list[index].companyName
+                                          : hospitalItems[index].companyName,
+                                      isSearched == false &&
+                                              hospitalItems.length == 0
+                                          ? list[index].companyAddress == null
+                                              ? "Mirpur,Dahaka,Bangladesh"
+                                              : list[index].companyAddress
+                                          : hospitalItems[index]
+                                                      .companyAddress ==
+                                                  null
+                                              ? "Mirpur,Dahaka,Bangladesh"
+                                              : hospitalItems[index]
+                                                  .companyAddress,
+                                      "60 Doctors",
+                                      isSearched == false &&
+                                              hospitalItems.length == 0
+                                          ? list[index].companyPhone == null
+                                              ? "+880 1962823007"
+                                              : list[index].companyPhone
+                                          : hospitalItems[index].companyPhone ==
+                                                  null
+                                              ? "+880 1962823007"
+                                              : hospitalItems[index]
+                                                  .companyPhone,
+                                      isSearched == false &&
+                                              hospitalItems.length == 0
+                                          ? list[index].companyEmail == null
+                                              ? "info@mysoftitd.com"
+                                              : list[index].companyEmail
+                                          : hospitalItems[index].companyEmail ==
+                                                  null
+                                              ? "info@mysoftitd.com"
+                                              : hospitalItems[index]
+                                                  .companyEmail,
+                                      isSearched == false &&
+                                              hospitalItems.length == 0
+                                          ? list[index].companyLogo
+                                          : hospitalItems[index].companyLogo,
+                                      isSearched == false &&
+                                              hospitalItems.length == 0
+                                          ? list[index].companyId
+                                          : hospitalItems[index].companyId,
+                                      isSearched == false &&
+                                              hospitalItems.length == 0
+                                          ? list[index].ogNo.toString()
+                                          : hospitalItems[index]
+                                              .ogNo
+                                              .toString(),
+                                      isSearched == false &&
+                                              hospitalItems.length == 0
+                                          ? list[index].id.toString()
+                                          : hospitalItems[index].id.toString(),
+                                      index.toString(),
+                                    );
+                                  }),
+                            ),
+              SizedBox()
               // ListView.builder(
               //     key: Key('listViewBuilderKey2'),
               //     shrinkWrap: true,

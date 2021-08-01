@@ -59,7 +59,7 @@ class HospitalListCard extends StatelessWidget {
                     Container(
                         //constraints: BoxConstraints(minHeight: isTablet? 47 : 42,),
                         // height: isTablet? 47 : 42,
-                        child: Text(titleText.titleCase,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: isTablet? 18 :  width<330 ? 10 : 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start)),
+                        child: Text(titleText,maxLines:2,overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(fontSize: isTablet? 18 :  width<330 ? 10 : 12,fontWeight: FontWeight.bold,),textAlign:TextAlign.start)),
                     SizedBox(height:isTablet? 3 : width<330 ? 1 :  2,),
                     Container(
                         constraints: BoxConstraints(minHeight: cardHeight*.12),

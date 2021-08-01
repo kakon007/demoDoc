@@ -9,7 +9,7 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'doctor/features/dashboard/view/doctor_home_screen.dart';
+import 'doctor/doctor_home_screen.dart';
 import 'features/auth/view_model/app_navigator.dart';
 import 'features/auth/view_model/auth_view_model.dart';
 import 'main_app/util/app_version.dart';
@@ -65,8 +65,8 @@ class _RootState extends State<Root> {
         Future.delayed(const Duration(milliseconds: 2000), () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (BuildContext context) =>
-              // DoctorHomeScreen(
-              HomeScreen(accessToken: accessToken, connection: connection
+              DoctorHomeScreen(
+             // HomeScreen(accessToken: accessToken, connection: connection
               )));
         });
       }

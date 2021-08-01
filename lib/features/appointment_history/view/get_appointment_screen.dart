@@ -881,12 +881,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                             ),
                                                                           ),
                                                                           Container(
-                                                                            constraints: BoxConstraints(
-                                                                                maxWidth: MediaQuery.of(
-                                                                                            context)
-                                                                                        .size
-                                                                                        .width *
-                                                                                    .165),
                                                                             child: Text(
                                                                               DateUtil().formattedDate(
                                                                                   DateTime.parse(vm
@@ -1885,12 +1879,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                             ),
                                                                           ),
                                                                           Container(
-                                                                            constraints: BoxConstraints(
-                                                                                maxWidth: MediaQuery.of(
-                                                                                            context)
-                                                                                        .size
-                                                                                        .width *
-                                                                                    .165),
                                                                             child: Text(
                                                                               DateUtil().formattedDate(
                                                                                   DateTime.parse(vm2

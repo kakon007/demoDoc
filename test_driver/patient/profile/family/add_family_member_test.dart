@@ -11,7 +11,7 @@ main(){
 }
 Future<void> addFamilyMemberTest()async{
 
-  group('Family list Test', ()
+  group('Add family member test', ()
   {
     FlutterDriver driver;
     setUpAll(() async {

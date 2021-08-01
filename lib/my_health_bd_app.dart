@@ -44,6 +44,8 @@ import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart
 import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 
+import 'doctor/features/profile/view_model/doctor_profile_view_model.dart';
+
 class MyHealthBdApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -97,6 +99,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<NotificationViewModel>(create: (context) => NotificationViewModel()),
       ChangeNotifierProvider<TermsViewModel>(create: (context) => TermsViewModel()),
       ChangeNotifierProvider<PolicyViewModel>(create: (context) => PolicyViewModel()),
+      ChangeNotifierProvider<DoctorProfileViewModel>(create: (context) => DoctorProfileViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

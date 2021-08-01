@@ -3,6 +3,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class AppTheme {
+
+
+  // static doctor colors
+  static Color buttonActiveColor = HexColor('#6374DF');
+  static Color buttonInActiveColor = HexColor('#AFBBFF');
+  static Color dashboardBackgroundColor = HexColor('#F9F9F9');
+  static Color doctorPrimaryTextColor = HexColor('#333333');
+  static Color navBarActiveColor = HexColor('#354291');
+  static Color navBarInActiveColor = HexColor('#9CAAFF');
+  static var doctorDrawerColor = LinearGradient(
+      colors: [navBarActiveColor, navBarInActiveColor],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight);
+
+
+
   ///Neumorphic Colors
   static Color mC = Colors.grey.shade100;
   static Color mCL = Colors.white;
@@ -34,6 +50,7 @@ class AppTheme {
   static Color colorAccent = Color(0xfff7cc1e);
   static Color lightBG = Colors.grey[100];
   static Color lightScaffoldColor = Colors.white;
+
 
   static Color darkBG = Colors.grey[900];
   static Color darkScaffoldColor = Colors.grey[800];

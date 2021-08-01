@@ -55,7 +55,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             ),
           ]),
       child: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 10, top: 11),
+        padding:  EdgeInsets.only(left: width<=330? 10 : 15.0, right: 10, top: 11),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -63,7 +63,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
               rotateLinearGradient: true,
               reverse: false,
               backgroundWidth: 0.7,
-              radius: 100.0,
+              radius: width<=330? 70 : 100.0,
               lineWidth: 7.0,
               animation: true,
               startAngle: 1,
@@ -73,7 +73,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                 style: GoogleFonts.poppins(
                   //color: HexColor("#107B3E"),
                     color: AppTheme.buttonActiveColor,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     fontSize: 30.0),
               ),
               backgroundColor: HexColor('#EFF5FF'),
@@ -92,11 +92,11 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       Text(
                         "Appointments",
                         style: GoogleFonts.poppins(
-                            fontSize: 15, fontWeight: FontWeight.w700),
+                            fontSize: width<=330? 12 : 15, fontWeight: FontWeight.w700),
                       ),
                       Text(
                         " for today",
-                        style: GoogleFonts.poppins(fontSize: 15),
+                        style: GoogleFonts.poppins(fontSize:width<=330? 12 :  15),
                       ),
                     ],
                   ),
@@ -106,7 +106,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   Text(
                     " 10 of 20 completed",
                     style: GoogleFonts.poppins(
-                        fontSize: 14, fontWeight: FontWeight.w500),
+                        fontSize:width<=330? 12 :  14, fontWeight: FontWeight.w500),
                   ),
                   Container(
                     width: width*.6,
@@ -115,20 +115,26 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       children: [
                         SizedBox(),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10, left: 90.0),
-                          child: FlatButton(
-                              height: 35,
-                              minWidth: 100,
-                              onPressed: () {},
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              //color: HexColor("#107B3E"),
-                              color: AppTheme.buttonActiveColor,
+                          padding: const EdgeInsets.only(top: 10, left: 0.0),
+                          child: Container(
+                            constraints: BoxConstraints(minWidth: 90,),
+                            height: 35,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(5),
+                                color: AppTheme.buttonActiveColor
+                            ),
+                            //color: HexColor("#107B3E"),
+                            child: Center(
                               child: Text(
                                 "View All",
-                                style:
-                                GoogleFonts.roboto(color: Colors.white),
-                              )),
+                                style: GoogleFonts.roboto(
+                                    color: Colors.white,fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            //color: AppTheme.buttonActiveColor,
+
+                          ),
                         ),
                       ],
                     ),
@@ -141,7 +147,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       ),
     );
     var yourSummary =   Container(
-      height: 120,
+      constraints: BoxConstraints(minHeight: 120),
+      //height: 120,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -167,8 +174,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       width: 0.5, color: Colors.grey),
                 ),
               ),
-              height: 120,
-              width: MediaQuery.of(context).size.width / 3.28,
+              constraints: BoxConstraints(minHeight: 120),
+              width: MediaQuery.of(context).size.width*.3,
               child: Column(
                 children: [
                   Padding(
@@ -192,6 +199,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   ),
                   Text(
                     "Today Consulted",
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(fontSize: 12),
                   ),
                   SizedBox(
@@ -213,8 +221,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       width: 0.5, color: Colors.grey),
                 ),
               ),
-              height: 120,
-              width: MediaQuery.of(context).size.width / 3.28,
+              constraints: BoxConstraints(minHeight: 120),
+              width: MediaQuery.of(context).size.width*.3,
               child: Column(
                 children: [
                   Padding(
@@ -238,6 +246,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   ),
                   Text(
                     "Report checked",
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(fontSize: 12),
                   ),
                   SizedBox(
@@ -253,8 +262,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
               ),
             ),
             Container(
-              height: 120,
-              width: MediaQuery.of(context).size.width / 3.28,
+              constraints: BoxConstraints(minHeight: 120),
+              width: MediaQuery.of(context).size.width*.3,
               child: Column(
                 children: [
                   Padding(
@@ -278,6 +287,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   ),
                   Text(
                     "In Progress",
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(fontSize: 12),
                   ),
                   SizedBox(

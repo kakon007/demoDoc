@@ -10,6 +10,7 @@ class CompanyInfo extends StatefulWidget {
 }
 
 class _CompanyInfoState extends State<CompanyInfo> {
+  bool isEditing= false;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -32,18 +33,20 @@ class _CompanyInfoState extends State<CompanyInfo> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: HexColor("#FFFFFF"),
-            boxShadow: [
-              BoxShadow(
-                color: HexColor("#0D1231").withOpacity(0.08),
-                spreadRadius: 2,
-                blurRadius: 2,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ]),
+            border: Border.all(color: HexColor('#AFBBFF'))
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: HexColor("#0D1231").withOpacity(0.08),
+            //     spreadRadius: 2,
+            //     blurRadius: 2,
+            //     offset: Offset(0, 1), // changes position of shadow
+            //   ),
+            // ]
+        ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+            padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               'Aalok Health Care(Branch Mirpur 10)',
             ),
@@ -65,18 +68,20 @@ class _CompanyInfoState extends State<CompanyInfo> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: HexColor("#FFFFFF"),
-            boxShadow: [
-              BoxShadow(
-                color: HexColor("#0D1231").withOpacity(0.08),
-                spreadRadius: 2,
-                blurRadius: 2,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ]),
+            border: Border.all(color: HexColor('#AFBBFF'))
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: HexColor("#0D1231").withOpacity(0.08),
+            //     spreadRadius: 2,
+            //     blurRadius: 2,
+            //     offset: Offset(0, 1), // changes position of shadow
+            //   ),
+            // ]
+        ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+            padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               'Mirpur 10',
             ),

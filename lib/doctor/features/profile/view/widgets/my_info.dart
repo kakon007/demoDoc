@@ -2,7 +2,12 @@ import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view/widgets/upload_digital_signature.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
+import 'package:provider/provider.dart';
 
 class MyInfo extends StatefulWidget {
   const MyInfo({Key key}) : super(key: key);
@@ -14,6 +19,7 @@ class MyInfo extends StatefulWidget {
 class _MyInfoState extends State<MyInfo> {
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
@@ -26,7 +32,12 @@ class _MyInfoState extends State<MyInfo> {
         style: GoogleFonts.roboto(fontSize: 12),
       ),
     );
-    var doctorName = Padding(
+    var doctorName =vm.isDoctorInfoEditing? Padding(
+      padding: const EdgeInsets.only(left: 4.0, right: 4),
+      child: DoctorFormField(minimizeBottomPadding: true,
+        hintText: 'Enter Your Name',
+      ),
+    ) :  Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),
       child: Container(
         height: 50,
@@ -34,18 +45,20 @@ class _MyInfoState extends State<MyInfo> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: HexColor("#FFFFFF"),
-            boxShadow: [
-              BoxShadow(
-                color: HexColor("#0D1231").withOpacity(0.08),
-                spreadRadius: 2,
-                blurRadius: 2,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ]),
+            border: Border.all(color: HexColor('#AFBBFF'))
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: HexColor("#0D1231").withOpacity(0.08),
+            //     spreadRadius: 2,
+            //     blurRadius: 2,
+            //     offset: Offset(0, 1), // changes position of shadow
+            //   ),
+            // ]
+          ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+            padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               'Assoc. Dr. Mahmud Rahim',
             ),
@@ -59,7 +72,12 @@ class _MyInfoState extends State<MyInfo> {
           'BMDC No:',
           style: GoogleFonts.roboto(fontSize: 12),
         ));
-    var bmdcNo = Padding(
+    var bmdcNo = vm.isDoctorInfoEditing? Padding(
+      padding: const EdgeInsets.only(left: 4.0, right: 4),
+      child: DoctorFormField(minimizeBottomPadding: true,
+        hintText: 'Enter BMDC No',
+      ),
+    ) : Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),
       child: Container(
         height: 50,
@@ -67,18 +85,20 @@ class _MyInfoState extends State<MyInfo> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: HexColor("#FFFFFF"),
-            boxShadow: [
-              BoxShadow(
-                color: HexColor("#0D1231").withOpacity(0.08),
-                spreadRadius: 2,
-                blurRadius: 2,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ]),
+            border: Border.all(color: HexColor('#AFBBFF'))
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: HexColor("#0D1231").withOpacity(0.08),
+            //     spreadRadius: 2,
+            //     blurRadius: 2,
+            //     offset: Offset(0, 1), // changes position of shadow
+            //   ),
+            // ]
+        ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+            padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               'A 187',
             ),
@@ -92,7 +112,12 @@ class _MyInfoState extends State<MyInfo> {
           'Degree:',
           style: GoogleFonts.roboto(fontSize: 12),
         ));
-    var degree = Padding(
+    var degree = vm.isDoctorInfoEditing? Padding(
+      padding: const EdgeInsets.only(left: 4.0, right: 4),
+      child: DoctorFormField(minimizeBottomPadding: true,
+      hintText: 'Enter Degree',
+      ),
+    ) : Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),
       child: Container(
         height: 50,
@@ -100,18 +125,20 @@ class _MyInfoState extends State<MyInfo> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: HexColor("#FFFFFF"),
-            boxShadow: [
-              BoxShadow(
-                color: HexColor("#0D1231").withOpacity(0.08),
-                spreadRadius: 2,
-                blurRadius: 2,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ]),
+            border: Border.all(color: HexColor('#AFBBFF'))
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: HexColor("#0D1231").withOpacity(0.08),
+            //     spreadRadius: 2,
+            //     blurRadius: 2,
+            //     offset: Offset(0, 1), // changes position of shadow
+            //   ),
+            // ]
+        ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+            padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               'BCS(Health), MD(Chest)',
             ),
@@ -153,14 +180,16 @@ class _MyInfoState extends State<MyInfo> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: HexColor("#FFFFFF"),
-            boxShadow: [
-              BoxShadow(
-                color: HexColor("#0D1231").withOpacity(0.08),
-                spreadRadius: 2,
-                blurRadius: 2,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ]),
+            border: Border.all(color: HexColor('#AFBBFF'))
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: HexColor("#0D1231").withOpacity(0.08),
+            //     spreadRadius: 2,
+            //     blurRadius: 2,
+            //     offset: Offset(0, 1), // changes position of shadow
+            //   ),
+            // ]
+        ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
@@ -210,7 +239,9 @@ class _MyInfoState extends State<MyInfo> {
             minWidth:  width * .6,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             color: AppTheme.buttonActiveColor,
-            onPressed: () {},
+            onPressed: () {
+              _uploadSignature(context);
+            },
             child: Text(
               'Upload Your Signature',
               style: GoogleFonts.poppins(color: Colors.white),
@@ -230,7 +261,7 @@ class _MyInfoState extends State<MyInfo> {
         //spaceBetween,
         doctorName,
         spaceBetween,
-        spaceBetween,
+       // spaceBetween,
         bmdcNoHeading,
         bmdcNo,
         spaceBetween,
@@ -250,5 +281,13 @@ class _MyInfoState extends State<MyInfo> {
         digitalSignature,
       ],
     );
+  }
+  void _uploadSignature(BuildContext context) {
+    showDialog(
+        //barrierColor: Color(0x00ffffff),
+        context: context,
+        builder: (context) {
+          return DoctorSignaturePrompt();
+        });
   }
 }

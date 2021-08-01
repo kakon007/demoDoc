@@ -27,16 +27,17 @@ class _TodayWorkListState extends State<TodayWorkList> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: HexColor("#FFFFFF"),
-          boxShadow: [
-            BoxShadow(
-              color:
-              HexColor("#0D1231").withOpacity(0.08),
-              spreadRadius: 3,
-              blurRadius: 2,
-              offset: Offset(
-                  0, 1), // changes position of shadow
-            ),
-          ]),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color:
+          //     HexColor("#0D1231").withOpacity(0.08),
+          //     spreadRadius: 3,
+          //     blurRadius: 2,
+          //     offset: Offset(
+          //         0, 1), // changes position of shadow
+          //   ),
+          // ]
+      ),
       child: Padding(
         padding: const EdgeInsets.only(
             left: 0.0, right: 0, top: 10),
@@ -68,7 +69,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                   Text(
                     "Md. Arman",
                     style: GoogleFonts.poppins(
-                        fontSize: 15,
+                        fontSize:width<=330? 12 : 15,
                         fontWeight: FontWeight.w500),
                   ),
                   Row(
@@ -78,13 +79,13 @@ class _TodayWorkListState extends State<TodayWorkList> {
                       Text(
                         "Consultation time :   ",
                         style: GoogleFonts.poppins(
-                          fontSize: 12,
+                          fontSize: width<=330? 10 : 12,
                         ),
                       ),
                       Text(
                         "08:00 PM, 22/05/2021",
                         style: GoogleFonts.poppins(
-                            fontSize: 12,
+                            fontSize: width<=330? 10 : 12,
                             fontWeight: FontWeight.w600,
                           color: HexColor("#FFB14A"),),
                       ),
@@ -98,7 +99,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                       Text(
                         "Consultation type :   ",
                         style: GoogleFonts.poppins(
-                          fontSize: 12,
+                          fontSize: width<=330? 10 : 12,
                         ),
                       ),
                       Text(
@@ -116,16 +117,21 @@ class _TodayWorkListState extends State<TodayWorkList> {
                     MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Shared Documents:     ",
+                        "Shared Documents:   ",
                         style: GoogleFonts.poppins(
-                          fontSize: 11,
+                          fontSize: width<=330? 10 : 12,
                         ),
                       ),
-                      Text(
-                        "2 Documents,2 reports",
-                        style: GoogleFonts.poppins(
-                            fontSize: 11,
-                            color: Colors.black),
+                      Container(
+                        child: Text(
+                          "2 Documents,2 reports",
+                          maxLines: 2,
+                          overflow: TextOverflow
+                              .ellipsis,
+                          style: GoogleFonts.poppins(
+                              fontSize: width<=330? 10 : 12,
+                              color: Colors.black),
+                        ),
                       ),
                     ],
                   ),
@@ -133,7 +139,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                     height: 5,
                   ),
                   Container(
-                    width:width*.7,
+                    width:width<=330? width*.6 : width*.7,
                     child: Padding(
                       padding: const EdgeInsets.only(
                           top: 10, left: 0.0),
@@ -141,20 +147,24 @@ class _TodayWorkListState extends State<TodayWorkList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(width: 0,),
-                          FlatButton(
-                            onPressed: () {},
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(5)),
-                            //color: HexColor("#107B3E"),
-                            child: Text(
-                              "View Details",
-                              style: GoogleFonts.roboto(
-                                  color: Colors.white,fontWeight: FontWeight.w500),
-                            ),
-                            color: AppTheme.buttonActiveColor,
+                          Container(
+                            constraints: BoxConstraints(minWidth: 90,),
                             height: 35,
-                            minWidth: 100,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(5),
+                              color: AppTheme.buttonActiveColor
+                            ),
+                            //color: HexColor("#107B3E"),
+                            child: Center(
+                              child: Text(
+                                "View Details",
+                                style: GoogleFonts.roboto(
+                                    color: Colors.white,fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            //color: AppTheme.buttonActiveColor,
+
                           ),
                         ],
                       ),

@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/doctor/features/profile/view/widgets/change_passw
 import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
@@ -122,12 +123,16 @@ class _PersonalInfoState extends State<PersonalInfo> {
       ),
     );
     var mobileField = Padding(
-      padding: const EdgeInsets.only(left: 7.0,right: 5),
+      padding: const EdgeInsets.only(left: 7.0, right: 5),
       child: Container(
         width: width,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: vm.isPersonalInfoEditing? Colors.white : HexColor("#AFBBFF"),width: 1)
-        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+                color: vm.isPersonalInfoEditing
+                    ? Colors.white
+                    : HexColor("#AFBBFF"),
+                width: 1)),
         child: Row(
           children: [
             Container(
@@ -142,17 +147,17 @@ class _PersonalInfoState extends State<PersonalInfo> {
             ),
             Container(
               width: width <= 330
-                  ? width * .6
+                  ? width * .55
                   : MediaQuery.of(context).size.width * .67,
               child: vm.isPersonalInfoEditing
                   ? TextFormField(
                       decoration: new InputDecoration(
                         border: InputBorder.none,
                         hintStyle: GoogleFonts.poppins(
-                            fontSize: 15, color: HexColor("#D2D2D2")),
+                            fontSize: 12, color: HexColor("#D2D2D2")),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: HexColor("#AFBBFF"), width: 1.0),
+                              color: HexColor("#D6DCFF"), width: 1.0),
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(10),
                               topRight: Radius.circular(10)),
@@ -161,7 +166,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             EdgeInsets.fromLTRB(15.0, 25, 40.0, 0.0),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: HexColor("#AFBBFF"), width: 1.0),
+                              color: HexColor("#EAEBED"), width: 1.0),
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(10),
                               topRight: Radius.circular(10)),
@@ -183,14 +188,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       ),
                     )
                   : Container(
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 15.0,right: 10),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 15.0, right: 10),
                         child: Text(
                           '1312202020',
                           style: GoogleFonts.poppins(),
                         ),
                       ),
-                  ),
+                    ),
             ),
           ],
         ),
@@ -251,14 +256,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
           FlatButton(
               minWidth: MediaQuery.of(context).size.width * .3,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0)),
+                  borderRadius: BorderRadius.circular(5)),
               color: AppTheme.buttonActiveColor,
               onPressed: () {
                 _showAlertDialogForPassword(context);
               },
               child: Text(
-                'Click Here',
-                style: GoogleFonts.poppins(color: Colors.white),
+                StringResources.clickHere,
+                style: GoogleFonts.roboto(color: Colors.white),
               )),
         ],
       ),
@@ -284,6 +289,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       ],
     );
   }
+
   void _showAlertDialogForPassword(BuildContext context) {
     showDialog(
         context: context,

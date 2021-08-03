@@ -14,7 +14,8 @@ import 'package:myhealthbd_app/main_app/resource/urls.dart';
 class UserDetailsRepository {
   Future<Either<AppError, UserM>> fetchUserDetails(String accessToken) async {
     var url =
-        "${Urls.baseUrl}diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
+        "${Urls.baseUrl}"
+        "diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
     // List<Item> dataList = new List<Item>();
 
     try {

@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/doctor/features/profile/view/widgets/upload_digit
 import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
@@ -151,7 +152,7 @@ class _MyInfoState extends State<MyInfo> {
       child: SizedBox(
         child: FlatButton(
            minWidth: MediaQuery.of(context).size.width*.1 ,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             color: AppTheme.buttonActiveColor,
             onPressed: () {},
             child: Row(
@@ -160,7 +161,7 @@ class _MyInfoState extends State<MyInfo> {
                 //SizedBox(width: 10,),
                 Text(
                   'Add More',
-                  style: GoogleFonts.poppins(color: Colors.white),
+                  style: GoogleFonts.roboto(color: Colors.white),
                 ),
               ],
             )),
@@ -228,10 +229,14 @@ class _MyInfoState extends State<MyInfo> {
             dashedLength: 10.0,
             blankLength: 2.0,
             child: Container(
-              constraints: BoxConstraints(minHeight: 90.0,),
-              // height: isTablet ? 100 : 90.0,
+            //  constraints: BoxConstraints(maxHeight: 200.0,),
+              height: 120.0,
               width:  width * .6,
-              child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
+             child: Padding(
+               padding: const EdgeInsets.all(20.0),
+               child: Image.asset(uploadImageIcon,height: 60,width: 60,fit: BoxFit.fitHeight,),
+             ),
+              // child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
             ),
           ),
           spaceBetween,
@@ -244,8 +249,9 @@ class _MyInfoState extends State<MyInfo> {
             },
             child: Text(
               'Upload Your Signature',
-              style: GoogleFonts.poppins(color: Colors.white),
-            ),)
+              style: GoogleFonts.roboto(color: Colors.white),
+            ),),
+          spaceBetween,
         ],
       ),
     );

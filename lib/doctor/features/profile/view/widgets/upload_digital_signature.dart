@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
@@ -61,7 +62,8 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
           children: [
             SizedBox(),
             Text('Upload from gallery'),
-            Icon(Icons.image,color: HexColor('#ECECEC'),)
+           Image.asset(uploadImageIcon,width: 25,cacheWidth: 25,),
+            // Icon(Icons.image,color: HexColor('#ECECEC'),)
           ],
         ),
       ),

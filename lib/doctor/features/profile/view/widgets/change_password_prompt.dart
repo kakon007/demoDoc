@@ -214,8 +214,29 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
                             child: FlatButton(
                               textColor: Colors.white,
                               onPressed: () async {
-                                if(_formKey.currentState.validate()){
-
+                                if (_formKey.currentState.validate()) {
+                                  await changePassViewModel.getPassword(
+                                      _newPassword.text,
+                                      _confirmPassword.text,
+                                      _currentPassword.text);
+                                  if (changePassViewModel.message ==
+                                      "Your current password not matche,Please enter current password !!") {
+                                    showAlert(context,
+                                        changePassViewModel.message);
+                                  }
+                                  if (changePassViewModel.message ==
+                                      "Change password saved successfully") {
+                                    SharedPreferences prefs =
+                                    await SharedPreferences
+                                        .getInstance();
+                                    prefs.setString(
+                                        "password", _newPassword.text);
+                                    prefs.setString(
+                                        "passwordRemember", _newPassword.text);
+                                    Navigator.pop(context);
+                                    showAlert(context,
+                                        changePassViewModel.message);
+                                  }
                                 }
                               },
                               color: AppTheme.buttonActiveColor,

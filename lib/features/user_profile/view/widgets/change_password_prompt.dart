@@ -226,7 +226,6 @@ class _ChangePasswordAlertState extends State<ChangePasswordAlert> {
                             onPressed: () async {
                               if (_formKey.currentState.validate()) {
                                 await changePassViewModel.getPassword(
-                                    widget.accessToken,
                                     _newPassword.text,
                                     _confirmPassword.text,
                                     _currentPassword.text);

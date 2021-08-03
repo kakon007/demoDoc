@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
+import 'package:provider/provider.dart';
 
 class CompanyInfo extends StatefulWidget {
   const CompanyInfo({Key key}) : super(key: key);
@@ -10,9 +12,11 @@ class CompanyInfo extends StatefulWidget {
 }
 
 class _CompanyInfoState extends State<CompanyInfo> {
-  bool isEditing= false;
+  bool isEditing = false;
+
   @override
   Widget build(BuildContext context) {
+    var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
@@ -42,13 +46,15 @@ class _CompanyInfoState extends State<CompanyInfo> {
             //     offset: Offset(0, 1), // changes position of shadow
             //   ),
             // ]
-        ),
+            ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              'Aalok Health Care(Branch Mirpur 10)',
+              companyInfoVm.isLoading
+                  ? ''
+                  : companyInfoVm.details.companyList.first?.compnayName ?? '',
             ),
           ),
         ),
@@ -77,13 +83,16 @@ class _CompanyInfoState extends State<CompanyInfo> {
             //     offset: Offset(0, 1), // changes position of shadow
             //   ),
             // ]
-        ),
+            ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              'Mirpur 10',
+              companyInfoVm.isLoading
+                  ? ''
+                  : companyInfoVm.details.companyList.first?.compnayAddress1 ??
+                      '',
             ),
           ),
         ),

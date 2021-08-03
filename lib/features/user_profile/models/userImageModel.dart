@@ -58,6 +58,7 @@ class UserImageModel {
 
 class Obj {
   Obj({
+    this.companyList,
     this.userTypeNo,
     this.userMobile,
     this.name,
@@ -71,6 +72,7 @@ class Obj {
     this.doctorNo,
   });
 
+  List<CompanyList> companyList;
   int userTypeNo;
   dynamic userMobile;
   String name;
@@ -84,6 +86,7 @@ class Obj {
   dynamic doctorNo;
 
   factory Obj.fromJson(Map<String, dynamic> json) => Obj(
+    companyList: List<CompanyList>.from(json["companyList"].map((x) => CompanyList.fromJson(x))),
     userTypeNo: json["userTypeNo"],
     userMobile: json["userMobile"],
     name: json["name"],
@@ -98,6 +101,7 @@ class Obj {
   );
 
   Map<String, dynamic> toJson() => {
+    "companyList": List<dynamic>.from(companyList.map((x) => x.toJson())),
     "userTypeNo": userTypeNo,
     "userMobile": userMobile,
     "name": name,
@@ -109,5 +113,45 @@ class Obj {
     "userDefaultPageLink": userDefaultPageLink,
     "userId": userId,
     "doctorNo": doctorNo,
+  };
+}
+
+class CompanyList {
+  CompanyList({
+    this.companyId,
+    this.compnayName,
+    this.companyPhone,
+    this.alias,
+    this.compnayAddress1,
+    this.compnayEmail,
+    this.orgId,
+  });
+
+  int companyId;
+  String compnayName;
+  String companyPhone;
+  String alias;
+  String compnayAddress1;
+  String compnayEmail;
+  int orgId;
+
+  factory CompanyList.fromJson(Map<String, dynamic> json) => CompanyList(
+    companyId: json["companyId"],
+    compnayName: json["compnayName"],
+    companyPhone: json["companyPhone"],
+    alias: json["alias"],
+    compnayAddress1: json["compnayAddress1"],
+    compnayEmail: json["compnayEmail"],
+    orgId: json["orgId"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "companyId": companyId,
+    "compnayName": compnayName,
+    "companyPhone": companyPhone,
+    "alias": alias,
+    "compnayAddress1": compnayAddress1,
+    "compnayEmail": compnayEmail,
+    "orgId": orgId,
   };
 }

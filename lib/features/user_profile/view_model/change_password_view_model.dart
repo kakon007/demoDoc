@@ -50,15 +50,14 @@ class PasswordChangeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getPassword(String accessToken, String newPassword, String confirmPassword,
+  Future<void> getPassword(String newPassword, String confirmPassword,
       String currentPassword) async {
-    print(accessToken);
     print(currentPassword);
     print(newPassword);
     print(confirmPassword);
 
     var res = await ChangePasswordRepository()
-        .fetchPassword(accessToken, newPassword, confirmPassword, currentPassword);
+        .fetchPassword(newPassword, confirmPassword, currentPassword);
     notifyListeners();
     res.fold((l) {
       _appError = l;

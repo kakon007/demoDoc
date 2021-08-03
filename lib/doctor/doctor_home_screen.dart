@@ -174,7 +174,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
             bodyText2: TextStyle(
           color: AppTheme.doctorPrimaryTextColor
         )),
-        primaryColor: AppTheme.buttonActiveColor,
+        primaryColor: AppTheme.signInSignUpColor,
         unselectedWidgetColor: HexColor('#8592E5'),
       ),
       home: WillPopScope(

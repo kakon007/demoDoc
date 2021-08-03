@@ -59,7 +59,7 @@ class DoctorFormField extends StatelessWidget {
     this.controller,
     this.onFieldSubmitted,
     this.focusNode,
-    this.hintSize = 15,
+    this.hintSize = 12,
     this.isRequired = false,
     this.autofocus = false,
     this.labelText,
@@ -137,11 +137,11 @@ class DoctorFormField extends StatelessWidget {
               ),
               contentPadding: EdgeInsets.fromLTRB(15.0, topPadding, 40.0, 0.0),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: HexColor("#AFBBFF"), width: 1.0),
+                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: HexColor("#AFBBFF"), width: 1.0),
+                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               errorBorder: OutlineInputBorder(

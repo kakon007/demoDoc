@@ -7,6 +7,8 @@ import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_
 import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/worklists_widget.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
+import 'filter_worklist.dart';
+
 class CompletedWorkList extends StatefulWidget {
   const CompletedWorkList({Key key}) : super(key: key);
 
@@ -22,19 +24,21 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
       height: 10,
     );
     bool isTablet = Responsive.isTablet(context);
-    var searchField=   Row(
+    var searchField = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          width:width<=330? 220 : 290,
+          width: width <= 330 ? 220 : 290,
           child: TextField(
-              onChanged: (value) {
-              },
+              onChanged: (value) {},
               decoration: new InputDecoration(
                 suffixIcon: Padding(
-                  padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
-                  child: Icon(Icons.search,color: Colors.grey.withOpacity(0.5),),
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
                 ),
                 hintText: "Search Here",
                 hintStyle: GoogleFonts.poppins(
@@ -42,9 +46,8 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                         ? 16
                         : width < 350
                         ? 12
-                        : 15.0,
-                    color: Colors.grey.withOpacity(0.5)
-                ),
+                        : 14.0,
+                    color: Colors.grey.withOpacity(0.5)),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
                   borderRadius: BorderRadius.circular(25),
@@ -61,19 +64,41 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                     : EdgeInsets.fromLTRB(15.0, 25.0, 40.0, 0.0),
               )),
         ),
-
         Padding(
-          padding: const EdgeInsets.only(top: 15.0,left: 15,right: 15),
-          child: SvgPicture.asset(
-            "assets/icons/fliter.svg",
-            key: Key('filterIconKey'),
-            width: 10,
-            height: 18,
-            fit: BoxFit.fitWidth,
-            allowDrawingOutsideViewBox: true,
-            matchTextDirection: true,
-            color:  Colors.grey.withOpacity(0.5),
-            //semanticsLabel: 'Acme Logo'
+          padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
+          child: GestureDetector(
+            onTap: (){
+              showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25))),
+                  context: context,
+                  backgroundColor: HexColor('#FFFFFF'),
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          var index = 0;
+                          bool isTrue = false;
+                          return FractionallySizedBox(
+                            heightFactor: 0.65,
+                            child: WorkListFiler(),
+                          );
+                        });
+                  });
+            },
+            child: SvgPicture.asset(
+              "assets/icons/fliter.svg",
+              key: Key('filterIconKey'),
+              width: 10,
+              height: 18,
+              fit: BoxFit.fitWidth,
+              allowDrawingOutsideViewBox: true,
+              matchTextDirection: true,
+              color: Colors.grey.withOpacity(0.5),
+              //semanticsLabel: 'Acme Logo'
+            ),
           ),
         ),
       ],

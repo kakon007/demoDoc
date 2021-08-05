@@ -10,14 +10,14 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
-class MyInfo extends StatefulWidget {
-  const MyInfo({Key key}) : super(key: key);
+class DoctorInfo extends StatefulWidget {
+  const DoctorInfo({Key key}) : super(key: key);
 
   @override
-  _MyInfoState createState() => _MyInfoState();
+  _DoctorInfoState createState() => _DoctorInfoState();
 }
 
-class _MyInfoState extends State<MyInfo> {
+class _DoctorInfoState extends State<DoctorInfo> {
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
@@ -28,9 +28,16 @@ class _MyInfoState extends State<MyInfo> {
     );
     var nameHeading = Padding(
       padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
-      child: Text(
-        'Name:',
-        style: GoogleFonts.roboto(fontSize: 12),
+      child: Row(
+        children: [
+          Text(
+            'Name',
+            style: GoogleFonts.poppins(fontSize: 12),
+          ), Text(
+            vm.isDoctorInfoEditing? '*' : "",
+            style: GoogleFonts.poppins(fontSize: 12,color: Colors.red),
+          ),
+        ],
       ),
     );
     var doctorName =vm.isDoctorInfoEditing? Padding(
@@ -69,9 +76,17 @@ class _MyInfoState extends State<MyInfo> {
     );
     var bmdcNoHeading = Padding(
         padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
-        child: Text(
-          'BMDC No:',
-          style: GoogleFonts.roboto(fontSize: 12),
+        child: Row(
+          children: [
+            Text(
+              'BMDC No',
+              style: GoogleFonts.poppins(fontSize: 12),
+            ),
+            Text(
+              vm.isDoctorInfoEditing? '*' : "",
+              style: GoogleFonts.poppins(fontSize: 12,color: Colors.red),
+            ),
+          ],
         ));
     var bmdcNo = vm.isDoctorInfoEditing? Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4),
@@ -109,9 +124,17 @@ class _MyInfoState extends State<MyInfo> {
     );
     var degreeHeading = Padding(
         padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
-        child: Text(
-          'Degree:',
-          style: GoogleFonts.roboto(fontSize: 12),
+        child: Row(
+          children: [
+            Text(
+              'Degree',
+              style: GoogleFonts.poppins(fontSize: 12),
+            ),
+            Text(
+              vm.isDoctorInfoEditing? '*' : "",
+              style: GoogleFonts.poppins(fontSize: 12,color: Colors.red),
+            ),
+          ],
         ));
     var degree = vm.isDoctorInfoEditing? Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4),
@@ -169,9 +192,17 @@ class _MyInfoState extends State<MyInfo> {
     );
     var doctorSignatureHeading = Padding(
         padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
-        child: Text(
-          "Doctor's signature: ",
-          style: GoogleFonts.roboto(fontSize: 12),
+        child: Row(
+          children: [
+            Text(
+              "Doctor's signature",
+              style: GoogleFonts.poppins(fontSize: 12),
+            ),
+            Text(
+              vm.isDoctorInfoEditing? '*' : "",
+              style: GoogleFonts.poppins(fontSize: 12,color: Colors.red),
+            ),
+          ],
         ));
     var doctorSignature = Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),
@@ -215,8 +246,8 @@ class _MyInfoState extends State<MyInfo> {
     var digitalSignatureHeading = Padding(
         padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
         child: Text(
-          "Digital signature: ",
-          style: GoogleFonts.roboto(fontSize: 12),
+          "Digital signature",
+          style: GoogleFonts.poppins(fontSize: 12),
         ));
     var digitalSignature = Align(
       alignment: Alignment.center,
@@ -242,7 +273,7 @@ class _MyInfoState extends State<MyInfo> {
           spaceBetween,
           FlatButton(
             minWidth:  width * .6,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             color: AppTheme.buttonActiveColor,
             onPressed: () {
               _uploadSignature(context);
@@ -255,37 +286,126 @@ class _MyInfoState extends State<MyInfo> {
         ],
       ),
     );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    var editButton = !vm.isDoctorInfoEditing
+        ? FlatButton(
+        minWidth: MediaQuery.of(context).size.width,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5)),
+        color: AppTheme.buttonActiveColor,
+        onPressed: () {
+          setState(() {
+            vm.editingDoctorInfo(
+                isDoctorInfoEditing: true);
+          });
+        },
+        child: Text(
+          'Update My Profile',
+          style: GoogleFonts.roboto(
+              color: Colors.white,
+          fontWeight: FontWeight.w600
+          ),
+        ))
+        : Row(
+      mainAxisAlignment:
+      MainAxisAlignment.spaceBetween,
       children: [
-        spaceBetween,
-        spaceBetween,
-        // SignUpFormField(labelText: 'Shakil',
-        // labelLeftPadding: 0,
-        // )
-        nameHeading,
-        //spaceBetween,
-        doctorName,
-        spaceBetween,
-       // spaceBetween,
-        bmdcNoHeading,
-        bmdcNo,
-        spaceBetween,
-        degreeHeading,
-        degree,
-        spaceBetween,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(), addMoreButton],
-        ),
-        spaceBetween,
-        doctorSignatureHeading,
-        doctorSignature,
-        spaceBetween,
-        digitalSignatureHeading,
-        digitalSignature,
+        FlatButton(
+            minWidth:
+            MediaQuery.of(context).size.width *
+                .4,
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.circular(5)),
+            color: AppTheme.buttonActiveColor,
+            onPressed: () {
+              setState(() {
+                vm.editingDoctorInfo(
+                    isDoctorInfoEditing: false);
+              });
+            },
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600
+              ),
+            )),
+        FlatButton(
+            minWidth:
+            MediaQuery.of(context).size.width *
+                .4,
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.circular(5)),
+            color: AppTheme.buttonActiveColor,
+            onPressed: () {
+              setState(() {
+                vm.editingDoctorInfo(
+                    isDoctorInfoEditing: false);
+              });
+            },
+            child: Text(
+              'Save',
+              style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600
+              ),
+            ))
       ],
+    );
+    return Padding(
+      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: HexColor("#FFFFFF"),
+                boxShadow: [
+                  BoxShadow(
+                    color: HexColor("#0D1231").withOpacity(0.08),
+                    spreadRadius: 3,
+                    blurRadius: 3,
+                    offset: Offset(3, 1), // changes position of shadow
+                  ),
+                ]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                spaceBetween,
+                spaceBetween,
+                // SignUpFormField(labelText: 'Shakil',
+                // labelLeftPadding: 0,
+                // )
+                nameHeading,
+                //spaceBetween,
+                doctorName,
+                spaceBetween,
+               // spaceBetween,
+                bmdcNoHeading,
+                bmdcNo,
+                spaceBetween,
+                degreeHeading,
+                degree,
+                spaceBetween,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(), addMoreButton],
+                ),
+                spaceBetween,
+                doctorSignatureHeading,
+                doctorSignature,
+                spaceBetween,
+                digitalSignatureHeading,
+                digitalSignature,
+              ],
+            ),
+          ),
+          spaceBetween,
+          editButton
+        ],
+      ),
     );
   }
   void _uploadSignature(BuildContext context) {

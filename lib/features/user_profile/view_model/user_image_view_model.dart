@@ -23,6 +23,7 @@ class UserImageViewModel extends ChangeNotifier {
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   String _resStatusCode;
+  String _resDoctorStatusCode;
   bool _isLoading = false;
   bool _isImageLoading = false;
 
@@ -42,7 +43,7 @@ class UserImageViewModel extends ChangeNotifier {
   }
 
   Future<void> updateImage(File image, String hospitalNo, String id) async {
-    _isImageLoading= true;
+    _isImageLoading = true;
     var headers = {
       'Authorization':
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
@@ -89,7 +90,49 @@ class UserImageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateProfile2(
+  Future<void> updateDoctorProfile(
+      {String hospitalNo, String id, String userEmail, userMobile}) async {
+    print(userEmail);
+    _isImageLoading = true;
+    var headers = {
+      'Authorization':
+          'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
+    };
+    var request = http.MultipartRequest(
+        'PUT',
+        Uri.parse(
+            '${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
+    request.fields.addAll({
+      'reqobj': {
+        "userMobile": "0$userMobile",
+        "name": hospitalNo.toUpperCase(),
+        "userEmail": userEmail,
+        "id": id
+      }.toString()
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    _resDoctorStatusCode = response.statusCode.toString();
+    print(response.statusCode);
+    try {
+      if (response.statusCode == 200) {
+        userImage();
+        Fluttertoast.showToast(
+            msg: "Profile updated successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 12.0);
+        notifyListeners();
+      } else {
+        print(response.reasonPhrase);
+      }
+    } catch (e) {}
+  }
+
+  updateProfile2(
       File image,
       String userId,
       String name,
@@ -215,6 +258,7 @@ class UserImageViewModel extends ChangeNotifier {
   bool get isFetchingMoreData => _isFetchingMoreData;
 
   bool get isLoading => _isLoading;
+
   bool get isImageLoading => _isImageLoading;
 
   Obj get details => _details;
@@ -222,4 +266,5 @@ class UserImageViewModel extends ChangeNotifier {
   Obj get switchDetails => _switchDetails;
 
   String get resStatusCode => _resStatusCode;
+  String get resDoctorStatusCode => _resDoctorStatusCode;
 }

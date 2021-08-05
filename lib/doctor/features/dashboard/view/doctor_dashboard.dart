@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/dashboard_drawer.dart';
@@ -185,131 +186,278 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           ]),
       child: Padding(
         padding: const EdgeInsets.only(left: 0.0, right: 0, top: 0),
-        child: Row(
+        child: Column(
           children: [
             Container(
+              constraints: BoxConstraints(minHeight: 80),
               decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(width: 0.5, color: Colors.grey),
-                ),
-              ),
-              constraints: BoxConstraints(minHeight: 120),
-              width: MediaQuery.of(context).size.width * .3,
-              child: Column(
+                  color: AppTheme.buttonActiveColor,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(8),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: SvgPicture.asset(
+                          totalConsultIcon,
+                          width: 20,
+                          height: 30,
+                          fit: BoxFit.fitWidth,
+                          allowDrawingOutsideViewBox: true,
+                          matchTextDirection: true,
+                        )
                       ),
-                      height: 30,
-                      width: 30,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            consultIcon,
-                            fit: BoxFit.fill,
-                          )),
-                    ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Total patient consulted: ',
+                        style: GoogleFonts.poppins(color: Colors.white,fontSize: 18),
+                      )
+                    ],
                   ),
-                  Text(
-                    "Today Consulted",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(fontSize: 12),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "100",
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.w600),
+                  Row(
+                    children: [
+                      Text(
+                        '10000',
+                        style: GoogleFonts.poppins(color: Colors.white,fontSize: 18),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                    ],
                   )
                 ],
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(width: 0.5, color: Colors.grey),
+            Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(width: 0.5, color: Colors.grey),
+                    ),
+                  ),
+                  constraints: BoxConstraints(minHeight: 120),
+                  width: MediaQuery.of(context).size.width * .308,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: SvgPicture.asset(
+                          waitingIcon,
+                          width: 20,
+                          height: 30,
+                           fit: BoxFit.fitWidth,
+                          allowDrawingOutsideViewBox: true,
+                          matchTextDirection: true,
+                        )
+                      ),
+                      Text(
+                        "Waiting",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "100",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              constraints: BoxConstraints(minHeight: 120),
-              width: MediaQuery.of(context).size.width * .3,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      height: 30,
-                      width: 30,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            reportCheckIcon,
-                            fit: BoxFit.fill,
-                          )),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(width: 0.5, color: Colors.grey),
                     ),
                   ),
-                  Text(
-                    "Report checked",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(fontSize: 12),
+                  constraints: BoxConstraints(minHeight: 120),
+                  width: MediaQuery.of(context).size.width * .308,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: SvgPicture.asset(
+                          freshVisitIcon,
+                          width: 20,
+                          height: 30,
+                          fit: BoxFit.fitWidth,
+                          allowDrawingOutsideViewBox: true,
+                          matchTextDirection: true,
+                        )
+                      ),
+                      Text(
+                        "Fresh Visit",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "100",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: 10,
+                ),
+                Container(
+                  constraints: BoxConstraints(minHeight: 120),
+                  width: MediaQuery.of(context).size.width * .31,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: SvgPicture.asset(
+                          reportCheckIcon,
+                          width: 20,
+                          height: 30,
+                          fit: BoxFit.fitWidth,
+                          allowDrawingOutsideViewBox: true,
+                          matchTextDirection: true,
+                        )
+                      ),
+                      Text(
+                        "Report checked",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "100",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      )
+                    ],
                   ),
-                  Text(
-                    "100",
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-            Container(
-              constraints: BoxConstraints(minHeight: 120),
-              width: MediaQuery.of(context).size.width * .3,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 25.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      height: 30,
-                      width: 30,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            inProgressIcon,
-                            fit: BoxFit.fill,
-                          )),
+            Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(width: 0.5, color: Colors.grey),
+                      top: BorderSide(width: 0.5, color: Colors.grey),
                     ),
                   ),
-                  Text(
-                    "In Progress",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(fontSize: 12),
+                  constraints: BoxConstraints(minHeight: 120),
+                  width: MediaQuery.of(context).size.width * .308,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: SvgPicture.asset(
+                          followUpIcon,
+                          width: 20,
+                          height: 30,
+                          fit: BoxFit.fitWidth,
+                          allowDrawingOutsideViewBox: true,
+                          matchTextDirection: true,
+                        )
+                      ),
+                      Text(
+                        "Follow Up",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "100",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: 10,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(width: 0.5, color: Colors.grey),
+                      top: BorderSide(width: 0.5, color: Colors.grey),
+                    ),
                   ),
-                  Text(
-                    "100",
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
+                  constraints: BoxConstraints(minHeight: 120),
+                  width: MediaQuery.of(context).size.width * .308,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: SvgPicture.asset(
+                          doneIcon,
+                          width: 20,
+                          height: 30,
+                          fit: BoxFit.fitWidth,
+                          allowDrawingOutsideViewBox: true,
+                          matchTextDirection: true,
+                        )
+                      ),
+                      Text(
+                        "Done",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "100",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  constraints: BoxConstraints(minHeight: 120),
+                  width: MediaQuery.of(context).size.width * .31,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(width: 0.5, color: Colors.grey),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: SvgPicture.asset(
+                          absentIcon,
+                          width: 20,
+                          height: 30,
+                          fit: BoxFit.fitWidth,
+                          allowDrawingOutsideViewBox: true,
+                          matchTextDirection: true,
+                        )
+                      ),
+                      Text(
+                        "Absent",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "100",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -324,9 +472,14 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
         actions: [
           Container(
               decoration: BoxDecoration(
-                  color: photo!=''? Colors.white : AppTheme.buttonActiveColor,
+                  color:
+                      photo != '' ? Colors.white : AppTheme.buttonActiveColor,
                   shape: BoxShape.circle,
-                  border: Border.all(color: photo != '' ? AppTheme.buttonActiveColor: Colors.white,width: 1)),
+                  border: Border.all(
+                      color: photo != ''
+                          ? AppTheme.buttonActiveColor
+                          : Colors.white,
+                      width: 1)),
               height: isTablet
                   ? 32
                   : width <= 330

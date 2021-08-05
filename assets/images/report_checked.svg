@@ -1,0 +1,17 @@
+<svg id="Report_Checked" data-name="Report Checked" xmlns="http://www.w3.org/2000/svg" width="15.413" height="20.55" viewBox="0 0 15.413 20.55">
+  <g id="Group_1007" data-name="Group 1007" transform="translate(3.853)">
+    <g id="Group_1006" data-name="Group 1006">
+      <path id="Path_647" data-name="Path 647" d="M167.064,1.284h-1.395a1.927,1.927,0,0,0-3.634,0h-1.394a.642.642,0,0,0-.642.642V4.5a.642.642,0,0,0,.642.642h6.422a.642.642,0,0,0,.642-.642V1.927A.642.642,0,0,0,167.064,1.284Z" transform="translate(-160)" fill="#9caaff"/>
+    </g>
+  </g>
+  <g id="Group_1009" data-name="Group 1009" transform="translate(0 10.33)">
+    <g id="Group_1008" data-name="Group 1008">
+      <path id="Path_648" data-name="Path 648" d="M76.647,259.89l-1.771,4.721a.642.642,0,0,1-.6.416h-.027a.643.643,0,0,1-.591-.465L71.6,257.376l-1.871,4.678a.647.647,0,0,1-.512.4.64.64,0,0,1-.6-.252L66.89,259.89H64v6.422a1.27,1.27,0,0,0,1.284,1.284H78.128a1.27,1.27,0,0,0,1.284-1.284V259.89Z" transform="translate(-64 -257.376)" fill="#9caaff"/>
+    </g>
+  </g>
+  <g id="Group_1011" data-name="Group 1011" transform="translate(0 2.569)">
+    <g id="Group_1010" data-name="Group 1010">
+      <path id="Path_649" data-name="Path 649" d="M78.128,64H76.844v1.927a1.929,1.929,0,0,1-1.927,1.927H68.5a1.929,1.929,0,0,1-1.927-1.927V64H65.284A1.287,1.287,0,0,0,64,65.284v7.706h3.211a.642.642,0,0,1,.514.257L68.965,74.9l2.144-5.361a.643.643,0,0,1,1.215.062l2.033,7.118L75.6,73.407a.642.642,0,0,1,.6-.416h3.211V65.284A1.27,1.27,0,0,0,78.128,64Z" transform="translate(-64 -64)" fill="#9caaff"/>
+    </g>
+  </g>
+</svg>

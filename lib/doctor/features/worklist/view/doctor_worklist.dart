@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/completed_worklist.dart';
-import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/working_worklist.dart';
+import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/wating_worklist.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 class Worklist extends StatefulWidget {
@@ -34,7 +34,7 @@ class _WorklistState extends State<Worklist> {
               minHeight: 120,
               minWidth: width<=330 ? width*.9 : width*.925,),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
               boxShadow: [
                 BoxShadow(
@@ -84,7 +84,7 @@ class _WorklistState extends State<Worklist> {
                                     ? 20
                                     : width <= 330
                                         ? 12
-                                        : 15,
+                                        : 14,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -156,7 +156,7 @@ class _WorklistState extends State<Worklist> {
         ),
       ],
     );
-    var workingTab = GestureDetector(
+    var watingTab = GestureDetector(
       onTap: () {
         setState(() {
           index = 1;
@@ -170,7 +170,7 @@ class _WorklistState extends State<Worklist> {
                 topLeft: Radius.circular(20), bottomLeft: Radius.circular(20))),
         child: Center(
             child: Text(
-          'Working',
+          'Waiting',
           style: GoogleFonts.poppins(
               fontSize: 12,
               color: index == 1 ? Colors.white : Colors.black,
@@ -203,6 +203,14 @@ class _WorklistState extends State<Worklist> {
     );
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+          ),
+        ],
         leading: Builder(
           builder: (context) => IconButton(
             icon: Icon(
@@ -214,7 +222,7 @@ class _WorklistState extends State<Worklist> {
           ),
         ),
         title: Text(
-          "My Profile",
+          "Worklist",
         ),
       ),
       body: SingleChildScrollView(
@@ -256,7 +264,7 @@ class _WorklistState extends State<Worklist> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 10),
                         child: index == 1
-                            ? WorkingWorkList()
+                            ? WaitingWorkList()
                             : CompletedWorkList()),
                   ),
                   spaceBetween,
@@ -283,7 +291,7 @@ class _WorklistState extends State<Worklist> {
                 height: 40, width: MediaQuery.of(context).size.width * .5,
                 child: Row(
                   children: [
-                    workingTab,
+                    watingTab,
                     completedTab,
                   ],
                 ),

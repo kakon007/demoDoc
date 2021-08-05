@@ -59,22 +59,22 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
       hintSize: isTablet ? 17 : 15,
       hintText: "Current password",
       minimizeBottomPadding: true,
-      suffixIcon: IconButton(
-        icon: isCurrentObSecure == true
-            ? Icon(Icons.visibility_off, color: AppTheme.appbarPrimary)
-            : Icon(
-          Icons.visibility,
-          color: AppTheme.appbarPrimary,
-        ),
-        onPressed: () {
-          setState(() {
-            isCurrentObSecure == true
-                ? isCurrentObSecure = false
-                : isCurrentObSecure = true;
-          });
-        },
-      ),
-      obSecure: isCurrentObSecure,
+      // suffixIcon: IconButton(
+      //   icon: isCurrentObSecure == true
+      //       ? Icon(Icons.visibility_off, color: AppTheme.appbarPrimary)
+      //       : Icon(
+      //     Icons.visibility,
+      //     color: AppTheme.appbarPrimary,
+      //   ),
+      //   onPressed: () {
+      //     setState(() {
+      //       isCurrentObSecure == true
+      //           ? isCurrentObSecure = false
+      //           : isCurrentObSecure = true;
+      //     });
+      //   },
+      // ),
+      //obSecure: isCurrentObSecure,
     );
     var newPassword = SignUpFormField(
       textFieldKey: Key('newPasswordKey'),
@@ -88,22 +88,22 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
       minimizeBottomPadding: true,
       labelText: "New Password",
       hintText: "New password",
-      suffixIcon: IconButton(
-        icon: isNewObSecure == true
-            ? Icon(Icons.visibility_off, color: AppTheme.appbarPrimary)
-            : Icon(
-          Icons.visibility,
-          color: AppTheme.appbarPrimary,
-        ),
-        onPressed: () {
-          setState(() {
-            isNewObSecure == true
-                ? isNewObSecure = false
-                : isNewObSecure = true;
-          });
-        },
-      ),
-      obSecure: isNewObSecure,
+      // suffixIcon: IconButton(
+      //   icon: isNewObSecure == true
+      //       ? Icon(Icons.visibility_off, color: AppTheme.appbarPrimary)
+      //       : Icon(
+      //     Icons.visibility,
+      //     color: AppTheme.appbarPrimary,
+      //   ),
+      //   onPressed: () {
+      //     setState(() {
+      //       isNewObSecure == true
+      //           ? isNewObSecure = false
+      //           : isNewObSecure = true;
+      //     });
+      //   },
+      // ),
+     // obSecure: isNewObSecure,
     );
     var spaceBetween = SizedBox(height: 10);
     var confirmPassword = SignUpFormField(
@@ -120,22 +120,22 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
       isRequired: true,
       labelText: "Confirm Password",
       hintText: "Confirm password",
-      suffixIcon: IconButton(
-        icon: isConfirmObSecure == true
-            ? Icon(Icons.visibility_off, color: AppTheme.appbarPrimary)
-            : Icon(
-          Icons.visibility,
-          color: AppTheme.appbarPrimary,
-        ),
-        onPressed: () {
-          setState(() {
-            isConfirmObSecure == true
-                ? isConfirmObSecure = false
-                : isConfirmObSecure = true;
-          });
-        },
-      ),
-      obSecure: isConfirmObSecure,
+      // suffixIcon: IconButton(
+      //   icon: isConfirmObSecure == true
+      //       ? Icon(Icons.visibility_off, color: AppTheme.appbarPrimary)
+      //       : Icon(
+      //     Icons.visibility,
+      //     color: AppTheme.appbarPrimary,
+      //   ),
+      //   onPressed: () {
+      //     setState(() {
+      //       isConfirmObSecure == true
+      //           ? isConfirmObSecure = false
+      //           : isConfirmObSecure = true;
+      //     });
+      //   },
+      // ),
+     // obSecure: isConfirmObSecure,
     );
     return Center(
       child: SingleChildScrollView(

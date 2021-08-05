@@ -98,25 +98,41 @@ class _CompanyInfoState extends State<CompanyInfo> {
         ),
       ),
     );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        spaceBetween,
-        spaceBetween,
-        // SignUpFormField(labelText: 'Shakil',
-        // labelLeftPadding: 0,
-        // )
-        companyHeading,
-        //spaceBetween,
-        companyName,
-        spaceBetween,
-        spaceBetween,
-        addressHeading,
-        // spaceBetween,
-        address,
-        spaceBetween,
-        spaceBetween,
-      ],
+    return Padding(
+      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: HexColor("#FFFFFF"),
+            boxShadow: [
+              BoxShadow(
+                color: HexColor("#0D1231").withOpacity(0.08),
+                spreadRadius: 3,
+                blurRadius: 3,
+                offset: Offset(3, 1), // changes position of shadow
+              ),
+            ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            spaceBetween,
+            spaceBetween,
+            // SignUpFormField(labelText: 'Shakil',
+            // labelLeftPadding: 0,
+            // )
+            companyHeading,
+            //spaceBetween,
+            companyName,
+            spaceBetween,
+            spaceBetween,
+            addressHeading,
+            // spaceBetween,
+            address,
+            spaceBetween,
+            spaceBetween,
+          ],
+        ),
+      ),
     );
   }
 }

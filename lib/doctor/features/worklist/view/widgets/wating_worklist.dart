@@ -6,14 +6,16 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/worklists_widget.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
-class WorkingWorkList extends StatefulWidget {
-  const WorkingWorkList({Key key}) : super(key: key);
+import 'filter_worklist.dart';
+
+class WaitingWorkList extends StatefulWidget {
+  const WaitingWorkList({Key key}) : super(key: key);
 
   @override
-  _WorkingWorkListState createState() => _WorkingWorkListState();
+  _WaitingWorkListState createState() => _WaitingWorkListState();
 }
 
-class _WorkingWorkListState extends State<WorkingWorkList> {
+class _WaitingWorkListState extends State<WaitingWorkList> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -31,8 +33,7 @@ class _WorkingWorkListState extends State<WorkingWorkList> {
               onChanged: (value) {},
               decoration: new InputDecoration(
                 suffixIcon: Padding(
-                  padding:
-                      EdgeInsets.only(left: width / 8.64, right: width / 8.64),
+                  padding: const EdgeInsets.only(right: 10.0),
                   child: Icon(
                     Icons.search,
                     color: Colors.grey.withOpacity(0.5),
@@ -44,7 +45,7 @@ class _WorkingWorkListState extends State<WorkingWorkList> {
                         ? 16
                         : width < 350
                             ? 12
-                            : 15.0,
+                            : 14.0,
                     color: Colors.grey.withOpacity(0.5)),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
@@ -64,16 +65,39 @@ class _WorkingWorkListState extends State<WorkingWorkList> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
-          child: SvgPicture.asset(
-            "assets/icons/fliter.svg",
-            key: Key('filterIconKey'),
-            width: 10,
-            height: 18,
-            fit: BoxFit.fitWidth,
-            allowDrawingOutsideViewBox: true,
-            matchTextDirection: true,
-            color: Colors.grey.withOpacity(0.5),
-            //semanticsLabel: 'Acme Logo'
+          child: GestureDetector(
+            onTap: (){
+              showModalBottomSheet(
+                  backgroundColor: HexColor('#FFFFFF'),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25))),
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          var index = 0;
+                          bool isTrue = false;
+                          return FractionallySizedBox(
+                            heightFactor: 0.65,
+                            child: WorkListFiler(),
+                          );
+                        });
+                  });
+            },
+            child: SvgPicture.asset(
+              "assets/icons/fliter.svg",
+              key: Key('filterIconKey'),
+              width: 10,
+              height: 18,
+              fit: BoxFit.fitWidth,
+              allowDrawingOutsideViewBox: true,
+              matchTextDirection: true,
+              color: Colors.grey.withOpacity(0.5),
+              //semanticsLabel: 'Acme Logo'
+            ),
           ),
         ),
       ],

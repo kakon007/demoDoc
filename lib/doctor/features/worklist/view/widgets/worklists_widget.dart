@@ -138,7 +138,7 @@ class _WorklistAllState extends State<WorklistAll> {
                         children: [
                           SizedBox(width: 0,),
                           Container(
-                            constraints: BoxConstraints(minWidth: 90,),
+                            constraints: BoxConstraints(minWidth: 110,),
                             height: 35,
                             decoration: BoxDecoration(
                                 borderRadius:

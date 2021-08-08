@@ -1105,7 +1105,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd   hh:mm a';
+  static const DATE_FORMAT = 'dd/MM/yyyy   hh:mm a';
 
   String formattedDate(DateTime dateTime) {
     //print('dateTime ($dateTime)');

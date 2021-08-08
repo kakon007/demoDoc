@@ -2101,19 +2101,23 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                               index]
                                                                           .photo)
                                                                       : Image.asset(
-                                                                          "assets/icons/dct.png",
-                                                                          fit: BoxFit.fill,
-                                                                          width: deviceWidth > 650
-                                                                              ? 100
-                                                                              : deviceWidth <= 360
-                                                                                  ? 50
-                                                                                  : 80,
-                                                                          height: deviceWidth > 650
-                                                                              ? 100
-                                                                              : deviceWidth <= 360
-                                                                                  ? 50
-                                                                                  : 60,
-                                                                        ),
+                                                                    "assets/icons/dct.png",
+                                                                    fit: BoxFit.fill,
+                                                                    width: deviceWidth >
+                                                                        650
+                                                                        ? 100
+                                                                        : deviceWidth <=
+                                                                        360
+                                                                        ? 50
+                                                                        : 60,
+                                                                    height: deviceWidth >
+                                                                        650
+                                                                        ? 100
+                                                                        : deviceWidth <=
+                                                                        360
+                                                                        ? 50
+                                                                        : 60,
+                                                                  ),
                                                                 ),
                                                                 SizedBox(
                                                                   width: 5,
@@ -2321,8 +2325,12 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                   onTap: () async {
                                                                     print(
                                                                         'ButtonPredfromAppointmentscreen');
-                                                                    final file =
-                                                                        await _createPdfFileFromString(
+                                                                    final file =vm2
+                                                                        .previousAppointmentList[
+                                                                    index]
+                                                                        .prescriptionNo ==
+                                                                        null?
+                                                                    Fluttertoast.showToast(msg: 'Prescription Not Saved yet!'):await _createPdfFileFromString(
                                                                             vm2
                                                                                 .previousAppointmentList[
                                                                                     index]
@@ -2357,11 +2365,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                                     .previousAppointmentList[
                                                                                         index]
                                                                                     .prescriptionNo ==
-                                                                                null ||
-                                                                            vm2
-                                                                                    .previousAppointmentList[
-                                                                                        index]
-                                                                                    .companyAlias ==
                                                                                 null
                                                                         ? HexColor("#99A0C8")
                                                                         : HexColor("#354291"),
@@ -2439,7 +2442,7 @@ class _GetAppointmentState extends State<GetAppointment> {
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd ';
+  static const DATE_FORMAT = 'dd/MM/yyyy ';
 
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');
@@ -2448,7 +2451,7 @@ class DateUtil {
 }
 
 class TimeUtil {
-  static const DATE_FORMAT = 'HH:mm a';
+  static const DATE_FORMAT = 'hh:mm a';
 
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');

@@ -2567,7 +2567,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd';
+  static const DATE_FORMAT = 'dd/MM/yyyy   hh:mm a';
 
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');

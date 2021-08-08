@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:provider/provider.dart';
 class PrescriptionTemplatesPopup extends StatefulWidget {
-
+var accessToken;
+PrescriptionTemplatesPopup({this.accessToken});
   @override
   _PrescriptionTemplatesPopupState createState() => _PrescriptionTemplatesPopupState();
 }
 
 class _PrescriptionTemplatesPopupState extends State<PrescriptionTemplatesPopup> {
 
-  String _singleValue = "Text alignment right";
+  @override
+  void initState() {
+    var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: false);
+    vm.getData(widget.accessToken);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: true);
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
@@ -114,7 +123,7 @@ class _PrescriptionTemplatesPopupState extends State<PrescriptionTemplatesPopup>
                       Divider(),
                       Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: List<Widget>.generate(4, (int index) {
+                        children: List.generate(vm.prescriptionTamplateList.length, (int index) {
                           return Column(
                             children: [
                               Row(
@@ -126,7 +135,7 @@ class _PrescriptionTemplatesPopupState extends State<PrescriptionTemplatesPopup>
                                       children: [
                                         Icon(Icons.close,color: Color(0xffFB7F7F),),
                                         SizedBox(width: 12,),
-                                        Text("Covid Patient", style: GoogleFonts.poppins(
+                                        Text(vm.prescriptionTamplateList[index].templateName, style: GoogleFonts.poppins(
                                             fontSize: isTablet
                                                 ? 20
                                                 : width <= 330
@@ -170,7 +179,7 @@ class _PrescriptionTemplatesPopupState extends State<PrescriptionTemplatesPopup>
 
                                 child: Center(
                                   child: Text(
-                                    "View",
+                                    "Apply",
                                     style:
                                     GoogleFonts.roboto(
                                         color:

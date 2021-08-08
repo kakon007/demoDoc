@@ -47,6 +47,7 @@ import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -501,9 +502,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                     ? 110
                                     : MediaQuery.of(context).size.width <= 330
                                         ? 60
-                                        : 85,
+                                        : 87,
                                 height: 40,
-                                child: Image.asset("assets/images/official_logo.png")),
+                                child: Image.asset(kMyHealthLogo)),
                           ],
                         ),
                       ),

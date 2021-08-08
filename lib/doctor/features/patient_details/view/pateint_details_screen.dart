@@ -49,346 +49,343 @@ class _PatientDetailsState extends State<PatientDetails> {
                       shadowColor: Color(0xffE3E3E3),  // Change this
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Row(
+                        child: Column(
                           children: [
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 28.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                //color:HexColor('#F0F2FF'),
-                                                borderRadius:
-                                                BorderRadius.circular(
-                                                    25),
-                                              ),
+                                Row(children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 28.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            //color:HexColor('#F0F2FF'),
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                25),
+                                          ),
 
-                                              // height: 60,
-                                              //width: 20,
-                                              child:  Image.asset(
-                                                "assets/icons/dct.png",
-                                                fit: BoxFit.fill,
-                                                width: deviceWidth >
-                                                    650
-                                                    ? 100
-                                                    : deviceWidth <=
-                                                    360
-                                                    ? 50
-                                                    : 60,
-                                                height: deviceWidth >
-                                                    650
-                                                    ? 100
-                                                    : deviceWidth <=
-                                                    360
-                                                    ? 50
-                                                    : 60,
-                                              ),
-                                            ),
-                                          ],
+                                          // height: 60,
+                                          //width: 20,
+                                          child:  Image.asset(
+                                            "assets/icons/dct.png",
+                                            fit: BoxFit.fill,
+                                            width: deviceWidth >
+                                                650
+                                                ? 100
+                                                : deviceWidth <=
+                                                360
+                                                ? 50
+                                                : 60,
+                                            height: deviceWidth >
+                                                650
+                                                ? 100
+                                                : deviceWidth <=
+                                                360
+                                                ? 50
+                                                : 60,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 20,),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 20,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Md. Arman',style: GoogleFonts.poppins(
+                                        // color: HexColor(
+                                        //   '#354291',
+                                        // ),
+                                          fontSize: isTablet
+                                              ? 20
+                                              : width <= 330
+                                              ? 16
+                                              : 16,
+                                          fontWeight: FontWeight.w600),),
+                                      Row(
                                         children: [
-                                          Text('Md. Arman',style: GoogleFonts.poppins(
+                                          Text('Age: ',style: GoogleFonts.poppins(
                                             // color: HexColor(
                                             //   '#354291',
                                             // ),
                                               fontSize: isTablet
                                                   ? 20
                                                   : width <= 330
-                                                  ? 16
+                                                  ? 13
                                                   : 16,
                                               fontWeight: FontWeight.w600),),
-                                          Row(
-                                            children: [
-                                              Text('Age: ',style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                  fontSize: isTablet
-                                                      ? 20
-                                                      : width <= 330
-                                                      ? 13
-                                                      : 16,
-                                                  fontWeight: FontWeight.w600),),
-                                              Text('28Y 10D',style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                  fontSize: isTablet
-                                                      ? 20
-                                                      : width <= 330
-                                                      ? 13
-                                                      : 16,
-                                                  fontWeight: FontWeight.w500,color: Colors.grey),),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text('Gender: ',style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                  fontSize: isTablet
-                                                      ? 20
-                                                      : width <= 330
-                                                      ? 13
-                                                      : 16,
-                                                  fontWeight: FontWeight.w600),),
-                                              Text('Male',style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                  fontSize: isTablet
-                                                      ? 20
-                                                      : width <= 330
-                                                      ? 13
-                                                      : 16,
-                                                  fontWeight: FontWeight.w500,color: Colors.grey),),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text('Blood Group: ',style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                  fontSize: isTablet
-                                                      ? 20
-                                                      : width <= 330
-                                                      ? 13
-                                                      : 16,
-                                                  fontWeight: FontWeight.w600),),
-                                              Text('A+',style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                  fontSize: isTablet
-                                                      ? 20
-                                                      : width <= 330
-                                                      ? 13
-                                                      : 16,
-                                                  fontWeight: FontWeight.w500,color: Colors.grey),),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text('Phone N0: ',style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                  fontSize: isTablet
-                                                      ? 20
-                                                      : width <= 330
-                                                      ? 13
-                                                      : 16,
-                                                  fontWeight: FontWeight.w600),),
-
-                                              Text('01962823006',style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                  fontSize: isTablet
-                                                      ? 20
-                                                      : width <= 330
-                                                      ? 13
-                                                      : 16,
-                                                  fontWeight: FontWeight.w500,color: Colors.grey),),
-                                            ],
-                                          ),
+                                          Text('28Y 10D',style: GoogleFonts.poppins(
+                                            // color: HexColor(
+                                            //   '#354291',
+                                            // ),
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                              fontWeight: FontWeight.w500,color: Colors.grey),),
                                         ],
-                                      )
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Gender: ',style: GoogleFonts.poppins(
+                                            // color: HexColor(
+                                            //   '#354291',
+                                            // ),
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                              fontWeight: FontWeight.w600),),
+                                          Text('Male',style: GoogleFonts.poppins(
+                                            // color: HexColor(
+                                            //   '#354291',
+                                            // ),
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                              fontWeight: FontWeight.w500,color: Colors.grey),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Blood Group: ',style: GoogleFonts.poppins(
+                                            // color: HexColor(
+                                            //   '#354291',
+                                            // ),
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                              fontWeight: FontWeight.w600),),
+                                          Text('A+',style: GoogleFonts.poppins(
+                                            // color: HexColor(
+                                            //   '#354291',
+                                            // ),
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                              fontWeight: FontWeight.w500,color: Colors.grey),),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Phone No: ',style: GoogleFonts.poppins(
+                                            // color: HexColor(
+                                            //   '#354291',
+                                            // ),
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                              fontWeight: FontWeight.w600),),
+
+                                          Text('01962823006',style: GoogleFonts.poppins(
+                                            // color: HexColor(
+                                            //   '#354291',
+                                            // ),
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                              fontWeight: FontWeight.w500,color: Colors.grey),),
+                                        ],
+                                      ),
                                     ],
-                                    ),
-                                    Divider(thickness: 2,),
-                                    Row(
+                                  )
+                                ],
+                                ),
+                                Divider(thickness: 2,color: Colors.grey.withOpacity(0.2),),
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text('From',style: GoogleFonts.poppins(
-                                              // color: HexColor(
-                                              //   '#354291',
-                                              // ),
-                                                fontSize: isTablet
-                                                    ? 20
-                                                    : width <= 330
-                                                    ? 13
-                                                    : 16,
-                                                fontWeight: FontWeight.w500),),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-
-                                            Container(
-                                              height: 45,
-                                              width: 140,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                  color: HexColor("#6374DF"),// set border color
-                                                  //width: 3.0
-                                                ),   // set border width
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0)), // set rounded corner radius
-                                              ),
-                                              child:  Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text('22/12/18' ,style: GoogleFonts.poppins(
-                                                    // color: HexColor(
-                                                    //   '#354291',
-                                                    // ),
-                                                      fontSize: isTablet
-                                                          ? 20
-                                                          : width <= 330
-                                                          ? 13
-                                                          : 15,color: Color(0xff333333),
-                                                      fontWeight: FontWeight.w400
-                                                  ),),
-                                                  SizedBox(width: 20,),
-                                                  SvgPicture.asset(
-                                                    "assets/icons/calendoc.svg",
-                                                    //key: Key('filterIconKey'),
-                                                    width: 10,
-                                                    height: 18,
-                                                    fit: BoxFit.fitWidth,
-                                                    allowDrawingOutsideViewBox: true,
-                                                    matchTextDirection: true,
-                                                    //color:  Colors.grey.withOpacity(0.5),
-                                                    //semanticsLabel: 'Acme Logo'
-                                                  ),
-
-
-                                                ],
-                                              ),
-                                            )
-                                          ],
+                                        Text('From',style: GoogleFonts.poppins(
+                                          // color: HexColor(
+                                          //   '#354291',
+                                          // ),
+                                            fontSize: isTablet
+                                                ? 20
+                                                : width <= 330
+                                                ? 13
+                                                : 16,
+                                            fontWeight: FontWeight.w500),),
+                                        SizedBox(
+                                          height: 5,
                                         ),
-                                        SizedBox(width: 24,),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text('To',style: GoogleFonts.poppins(
-                                              // color: HexColor(
-                                              //   '#354291',
-                                              // ),
-                                                fontSize: isTablet
-                                                    ? 20
-                                                    : width <= 330
-                                                    ? 13
-                                                    : 16,
-                                                fontWeight: FontWeight.w500),),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
 
-                                            Container(
-                                              height: 45,
-                                              width: 140,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                border: Border.all(
-                                                  color: HexColor("#6374DF"),// set border color
-                                                  //width: 3.0
-                                                ),   // set border width
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0)), // set rounded corner radius
+                                        Container(
+                                          height: 45,
+                                          width: 140,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              color: HexColor("#6374DF"),// set border color
+                                              //width: 3.0
+                                            ),   // set border width
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)), // set rounded corner radius
+                                          ),
+                                          child:  Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text('22/12/18' ,style: GoogleFonts.poppins(
+                                                // color: HexColor(
+                                                //   '#354291',
+                                                // ),
+                                                  fontSize: isTablet
+                                                      ? 20
+                                                      : width <= 330
+                                                      ? 13
+                                                      : 15,color: Color(0xff333333),
+                                                  fontWeight: FontWeight.w400
+                                              ),),
+                                              SizedBox(width: 20,),
+                                              SvgPicture.asset(
+                                                "assets/icons/calendoc.svg",
+                                                //key: Key('filterIconKey'),
+                                                width: 10,
+                                                height: 18,
+                                                fit: BoxFit.fitWidth,
+                                                allowDrawingOutsideViewBox: true,
+                                                matchTextDirection: true,
+                                                //color:  Colors.grey.withOpacity(0.5),
+                                                //semanticsLabel: 'Acme Logo'
                                               ),
-                                              child:  Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text('22/9/19' ,style: GoogleFonts.poppins(
-                                                    // color: HexColor(
-                                                    //   '#354291',
-                                                    // ),
-                                                      fontSize: isTablet
-                                                          ? 20
-                                                          : width <= 330
-                                                          ? 13
-                                                          : 15,color: Color(0xff333333),
-                                                      fontWeight: FontWeight.w400
-                                                  ),),
-                                                  SizedBox(width: 20,),
-                                                  SvgPicture.asset(
-                                                    "assets/icons/calendoc.svg",
-                                                    //key: Key('filterIconKey'),
-                                                    width: 10,
-                                                    height: 18,
-                                                    fit: BoxFit.fitWidth,
-                                                    allowDrawingOutsideViewBox: true,
-                                                    matchTextDirection: true,
-                                                    //color:  Colors.grey.withOpacity(0.5),
-                                                    //semanticsLabel: 'Acme Logo'
-                                                  ),
 
 
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
-                                    SizedBox(height: 20,),
+                                    SizedBox(width: 24,),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('To',style: GoogleFonts.poppins(
+                                          // color: HexColor(
+                                          //   '#354291',
+                                          // ),
+                                            fontSize: isTablet
+                                                ? 20
+                                                : width <= 330
+                                                ? 13
+                                                : 16,
+                                            fontWeight: FontWeight.w500),),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
 
+                                        Container(
+                                          height: 45,
+                                          width: 140,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                              color: HexColor("#6374DF"),// set border color
+                                              //width: 3.0
+                                            ),   // set border width
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)), // set rounded corner radius
+                                          ),
+                                          child:  Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text('22/9/19' ,style: GoogleFonts.poppins(
+                                                // color: HexColor(
+                                                //   '#354291',
+                                                // ),
+                                                  fontSize: isTablet
+                                                      ? 20
+                                                      : width <= 330
+                                                      ? 13
+                                                      : 15,color: Color(0xff333333),
+                                                  fontWeight: FontWeight.w400
+                                              ),),
+                                              SizedBox(width: 20,),
+                                              SvgPicture.asset(
+                                                "assets/icons/calendoc.svg",
+                                                //key: Key('filterIconKey'),
+                                                width: 10,
+                                                height: 18,
+                                                fit: BoxFit.fitWidth,
+                                                allowDrawingOutsideViewBox: true,
+                                                matchTextDirection: true,
+                                                //color:  Colors.grey.withOpacity(0.5),
+                                                //semanticsLabel: 'Acme Logo'
+                                              ),
+
+
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ],
                                 ),
-                                Material(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(
-                                          5)),
-                                  color: HexColor("#6374DF"),
-                                  child: SizedBox(
-                                    width: isTablet
-                                        ? 170
-                                        : deviceWidth <= 360 &&
-                                        deviceWidth > 330
-                                        ? 105
-                                        : deviceWidth <= 330
-                                        ? 95
-                                        : 180,
-                                    height: deviceWidth <= 360
-                                        ? 28
-                                        : 35,
-                                    child: Center(
-                                      child: Text(
-                                        "View Patient EMR",
-                                        //key: Key('rebookKey$index'),
-                                        style:
-                                        GoogleFonts.roboto(
-                                            color:
-                                            Colors.white,
-                                            fontSize: isTablet
-                                                ? 15
-                                                : deviceWidth <=
-                                                360 &&
-                                                deviceWidth >
-                                                    330
-                                                ? 9
-                                                : deviceWidth <=
+                                SizedBox(height: 20,),
+
+                              ],
+                            ),
+                            Material(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                      5)),
+                              color: HexColor("#6374DF"),
+                              child: SizedBox(
+                                width: isTablet
+                                    ? 170
+                                    : deviceWidth <= 360 &&
+                                    deviceWidth > 330
+                                    ? 105
+                                    : deviceWidth <= 330
+                                    ? 95
+                                    : 180,
+                                height: deviceWidth <= 360
+                                    ? 28
+                                    : 35,
+                                child: Center(
+                                  child: Text(
+                                    "View Patient EMR",
+                                    //key: Key('rebookKey$index'),
+                                    style:
+                                    GoogleFonts.roboto(
+                                        color:
+                                        Colors.white,
+                                        fontSize: isTablet
+                                            ? 15
+                                            : deviceWidth <=
+                                            360 &&
+                                            deviceWidth >
                                                 330
-                                                ? 8
-                                                : 14,
-                                            fontWeight:
-                                            FontWeight
-                                                .w700),
-                                      ),
-                                    ),
+                                            ? 9
+                                            : deviceWidth <=
+                                            330
+                                            ? 8
+                                            : 14,
+                                        fontWeight:
+                                        FontWeight
+                                            .w700),
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
@@ -416,7 +413,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   "assets/icons/con.svg",
                                   //key: Key('filterIconKey'),
                                   width: 10,
-                                  height: 25,
+                                  height: 28,
                                   fit: BoxFit.fitWidth,
                                   allowDrawingOutsideViewBox: true,
                                   matchTextDirection: true,
@@ -647,16 +644,32 @@ class _PatientDetailsState extends State<PatientDetails> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('Consultation History',style: GoogleFonts.poppins(
-                              // color: HexColor(
-                              //   '#354291',
-                              // ),
-                                fontSize: isTablet
-                                    ? 20
-                                    : width <= 330
-                                    ? 16
-                                    : 16,
-                                fontWeight: FontWeight.w600),),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/icons/hiss.svg",
+                                  //key: Key('filterIconKey'),
+                                  width: 8,
+                                  height: 25,
+                                  fit: BoxFit.fitWidth,
+                                  allowDrawingOutsideViewBox: true,
+                                  matchTextDirection: true,
+                                  //color:  Color(0xffAFBBFF),
+                                  //semanticsLabel: 'Acme Logo'
+                                ),
+                                SizedBox(width: 10,),
+                                Text('Consultation History',style: GoogleFonts.poppins(
+                                  // color: HexColor(
+                                  //   '#354291',
+                                  // ),
+                                    fontSize: isTablet
+                                        ? 20
+                                        : width <= 330
+                                        ? 15
+                                        : 16,
+                                    fontWeight: FontWeight.w600),),
+                              ],
+                            ),
                           ),
                           Divider(),
                           Padding(

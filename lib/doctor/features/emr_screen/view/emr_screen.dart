@@ -122,76 +122,82 @@ class _EmrScreenState extends State<EmrScreen> {
                           child: Scaffold(
                             backgroundColor: Colors.white,
                             body: DefaultTabController(
-                              length: 3,
+                              length: 4,
                               child: Column(
                                 children: [
                                   Container(
                                     constraints: BoxConstraints(maxHeight: 150.0),
                                     child: Material(
                                       color: Colors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(right:80.0),
-                                        child: TabBar(
-                                          isScrollable: true,
-                                          indicator: UnderlineTabIndicator(
-                                            borderSide: BorderSide(width: 3.0,color:  HexColor('#8592E5'),),
-                                              insets: EdgeInsets.only(
-                                                  left: 10,
-                                                  right: 30,
-                                                  )
-                                          ),
-                                          labelPadding: EdgeInsets.only(left: 0, right: 20),
-                                          unselectedLabelColor: Colors.grey,
-                                          labelColor: Colors.black,
-                                          labelStyle: GoogleFonts.poppins(
-                                            // color: HexColor(
-                                            //   '#354291',
-                                            // ),
-                                              fontSize: isTablet
-                                                  ? 20
-                                                  : width <= 330
-                                                  ? 12
-                                                  : 15,
-                                              fontWeight: FontWeight.w500),  //For Selected tab
-                                          unselectedLabelStyle: GoogleFonts.poppins(
-                                            // color: HexColor(
-                                            //   '#354291',
-                                            // ),
-                                              fontSize: isTablet
-                                                  ? 20
-                                                  : width <= 330
-                                                  ? 11
-                                                  : 13,
-                                              fontWeight: FontWeight.w500), //For Un-selected Tabs
-                                          tabs: [
-                                            Container(
-                                              height: 40,
-                                              //width: 10.0,
-                                              child: Center(
-                                                  child: Text(
-                                                    'Prescriptions',
-
-                                                  )),
-                                            ),
-                                            Container(
-                                              height: 40,
-                                              child: Center(
-                                                  child: Text(
-                                                    'Pathology',
-                                                    //key: Key('reportsTabKey'),
-                                                  )),
-                                            ),
-                                            Container(
-                                              height: 40,
-                                              //width: 30.0,
-                                              child: Center(
-                                                  child: Text(
-                                                    'Imaging',
-                                                    //key: Key('documentationTabKey'),
-                                                  )),
-                                            ),
-                                          ],
+                                      child: TabBar(
+                                        isScrollable: true,
+                                        indicator: UnderlineTabIndicator(
+                                          borderSide: BorderSide(width: 3.0,color:  HexColor('#8592E5'),),
+                                            insets: EdgeInsets.only(
+                                                left: 30,
+                                                right: 30,
+                                                )
                                         ),
+                                       // labelPadding: EdgeInsets.only(left: 0, right: 20),
+                                        unselectedLabelColor: Colors.grey,
+                                        labelColor: Colors.black,
+                                        labelStyle: GoogleFonts.poppins(
+                                          // color: HexColor(
+                                          //   '#354291',
+                                          // ),
+                                            fontSize: isTablet
+                                                ? 20
+                                                : width <= 330
+                                                ? 12
+                                                : 15,
+                                            fontWeight: FontWeight.w500),  //For Selected tab
+                                        unselectedLabelStyle: GoogleFonts.poppins(
+                                          // color: HexColor(
+                                          //   '#354291',
+                                          // ),
+                                            fontSize: isTablet
+                                                ? 20
+                                                : width <= 330
+                                                ? 11
+                                                : 13,
+                                            fontWeight: FontWeight.w500), //For Un-selected Tabs
+                                        tabs: [
+                                          Container(
+                                            height: 40,
+                                            //width: 10.0,
+                                            child: Center(
+                                                child: Text(
+                                                  'Prescriptions',
+
+                                                )),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            child: Center(
+                                                child: Text(
+                                                  'Pathology',
+                                                  //key: Key('reportsTabKey'),
+                                                )),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            //width: 30.0,
+                                            child: Center(
+                                                child: Text(
+                                                  'Imaging',
+                                                  //key: Key('documentationTabKey'),
+                                                )),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                            //width: 30.0,
+                                            child: Center(
+                                                child: Text(
+                                                  'Documents',
+                                                  //key: Key('documentationTabKey'),
+                                                )),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -424,6 +430,117 @@ class _EmrScreenState extends State<EmrScreen> {
 
                                     //Imaging
 
+                                    Scaffold(
+                                      backgroundColor: Colors.white,
+                                      body: SingleChildScrollView(
+                                        child: ListView.separated(itemCount: 4,shrinkWrap: true,itemBuilder: (BuildContext context,
+                                            int index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(left: 10.0,right: 10),
+                                            child: Container(
+                                              child: Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text('1. X-Ray Image.jpg', style: GoogleFonts.poppins(
+                                                        // color: HexColor(
+                                                        //   '#354291',
+                                                        // ),
+                                                          fontSize: isTablet
+                                                              ? 20
+                                                              : width <= 330
+                                                              ? 13
+                                                              : 16,
+                                                          fontWeight: FontWeight.w500),),
+                                                      SizedBox(height: 10,),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:12.0),
+                                                        child: Row(
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              "assets/icons/calendoc.svg",
+                                                              //key: Key('filterIconKey'),
+                                                              width: 10,
+                                                              height: 18,
+                                                              fit: BoxFit.fitWidth,
+                                                              allowDrawingOutsideViewBox: true,
+                                                              matchTextDirection: true,
+                                                              //color:  Colors.grey.withOpacity(0.5),
+                                                              //semanticsLabel: 'Acme Logo'
+                                                            ),
+                                                            SizedBox(width: 8,),
+                                                            Text('22 February 2021' ,style: GoogleFonts.poppins(
+                                                              // color: HexColor(
+                                                              //   '#354291',
+                                                              // ),
+                                                                fontSize: isTablet
+                                                                    ? 20
+                                                                    : width <= 330
+                                                                    ? 12
+                                                                    : 15,color: Colors.grey
+                                                            ),),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Spacer(),
+                                                  Material(
+                                                    elevation: 0,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                    color: HexColor("#6374DF"),
+                                                    child: SizedBox(
+                                                      width: isTablet
+                                                          ? 170
+                                                          : deviceWidth <= 360 &&
+                                                          deviceWidth > 330
+                                                          ? 105
+                                                          : deviceWidth <= 330
+                                                          ? 95
+                                                          : 80,
+                                                      height: deviceWidth <= 360
+                                                          ? 28
+                                                          : 25,
+                                                      child: Center(
+                                                        child: Text(
+                                                          "View",
+                                                          //key: Key('rebookKey$index'),
+                                                          style:
+                                                          GoogleFonts.roboto(
+                                                              color:
+                                                              Colors.white,
+                                                              fontSize: isTablet
+                                                                  ? 15
+                                                                  : deviceWidth <=
+                                                                  360 &&
+                                                                  deviceWidth >
+                                                                      330
+                                                                  ? 9
+                                                                  : deviceWidth <=
+                                                                  330
+                                                                  ? 8
+                                                                  : 10,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w700),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },separatorBuilder: (context, index) {
+                                          return Divider();
+                                        }),
+                                      ),
+                                    ),
+                                    //Documents
                                     Scaffold(
                                       backgroundColor: Colors.white,
                                       body: SingleChildScrollView(

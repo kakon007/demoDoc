@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_templates_pop_up.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -66,8 +67,9 @@ class _RootState extends State<Root> {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (BuildContext context) =>
               //DoctorHomeScreen(
-              HomeScreen(accessToken: accessToken, connection: connection
-              )));
+              HomeScreen(accessToken: accessToken,connection: connection,
+              )
+          ));
         });
       }
     });

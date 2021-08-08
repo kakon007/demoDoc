@@ -500,8 +500,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                     ? 110
                                     : MediaQuery.of(context).size.width <= 330
                                         ? 60
-                                        : 85,
-                                child: Image.asset("assets/images/official_logo.png")),
+                                        : 87,
+                                child: Image.asset("assets/images/officiallogoapp.png")),
                           ],
                         ),
                       ),
@@ -1099,7 +1099,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'yyyy-MM-dd   hh:mm a';
+  static const DATE_FORMAT = 'dd/MM/yyyy   hh:mm a';
 
   String formattedDate(DateTime dateTime) {
     //print('dateTime ($dateTime)');

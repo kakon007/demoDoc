@@ -198,7 +198,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   onPressed: () async {
                                     if (_formKey.currentState.validate()) {
                                       await changePassViewModel.getPassword(
-                                          widget.accessToken,
                                           _newPassword.text,
                                           _confirmPassword.text,
                                           _currentPassword.text);

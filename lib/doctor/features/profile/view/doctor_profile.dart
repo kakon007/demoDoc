@@ -1,13 +1,16 @@
+import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/company_info.dart';
-import 'package:myhealthbd_app/doctor/features/profile/view/widgets/my_info.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view/widgets/doctor_info.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/personal_info.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
@@ -19,15 +22,66 @@ class DoctorProfile extends StatefulWidget {
 
 class _DoctorProfileState extends State<DoctorProfile> {
   int index = 1;
+  File _image;
+  final picker = ImagePicker();
+  bool isEdit = false;
+  bool shouldDenyClick = false;
+  var response;
 
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    // if (pickedFile != null) {
+    //   _image = File(pickedFile.path);
+    //   print("ish ${await _image.length()}");
+    //   setState(() {
+    //     isEdit = true;
+    //   });
+    // } else {
+    //   print('No image selected.');
+    // }
+
+    if (pickedFile != null) {
+//      var compressedImage = await ImageCompressUtil.compressImage(file, 80);
+      Future<File> croppedFile = ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Theme.of(context).primaryColor,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ));
+
+      croppedFile.then((value) async {
+        _image = value;
+        //print("ish ${await _image.length()}");
+        setState(() {
+          isEdit = true;
+        });
+      });
+    } else {
+      print('No image selected.');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
+    //var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
+    var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
+    var photo = companyInfoVm.details?.photo ?? '';
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
       height: 10,
     );
+    double imageHeight = 120;
+    double imageWidth = width <= 330 ? 120 : 120;
     var imageSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -37,32 +91,75 @@ class _DoctorProfileState extends State<DoctorProfile> {
               border: Border.all(color: AppTheme.buttonActiveColor),
               color: Colors.white,
             ),
-            height: 140,
-            width: width <= 330 ? 140 : 160,
+            height: imageHeight,
+            width: imageWidth,
             child: Center(
-              child: Image.asset(
-                'assets/images/dPro.png',
-                height: 100,
-                width: width <= 330 ? 100 : 120,
-              ),
+              child: _image != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(19),
+                      child: Image.file(
+                        _image,
+                        height: 110,
+                        width: 110,
+                        fit: BoxFit.fill,
+                      ))
+                  : photo != ''
+                      ? companyInfoVm.loadProfileImage(photo, 110, 110, 19)
+                      : Image.asset(
+                          'assets/images/dPro.png',
+                          height: 80,
+                          width: width <= 330 ? 80 : 80,
+                        ),
             )),
         Column(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                FlatButton(
-                    minWidth: MediaQuery.of(context).size.width * .45,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    color: AppTheme.buttonActiveColor,
-                    onPressed: () {},
-                    child: Text(
-                      'Update Your Avatar',
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: width <= 330 ? 12 : 15),
-                    )),
+                shouldDenyClick
+                    ? SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3.0,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              AppTheme.buttonActiveColor),
+                        ),
+                      )
+                    : FlatButton(
+                        minWidth: MediaQuery.of(context).size.width * .45,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        color: AppTheme.buttonActiveColor,
+                        onPressed: () async {
+                          setState(() {
+                            shouldDenyClick = true;
+                          });
+                          isEdit == false
+                              ? getImage()
+                              : await companyInfoVm.updateImage(
+                                  _image,
+                                  companyInfoVm.details.name,
+                                  companyInfoVm.details.userId.toString());
+                          setState(() {
+                            if (companyInfoVm.resStatusCode == '200') {
+                              isEdit = false;
+                              shouldDenyClick = false;
+                              if (companyInfoVm.isImageLoading == false) {
+                                _image = null;
+                              }
+                            } else {
+                              isEdit = false;
+                              shouldDenyClick = false;
+                            }
+                          });
+                        },
+                        child: Text(
+                          isEdit == false ? 'Update Your Avatar' : 'Save Avatar',
+                          style: GoogleFonts.roboto(
+                              color: Colors.white,
+                              fontSize: width <= 330 ? 12 : 15),
+                        )),
                 //Text('*Your photo should be friendly and head shot. Clearly identitifiable as you.',maxLines: 2,)
               ],
             ),
@@ -75,6 +172,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                       '*Your photo should be friendly and head shot. Clearly identitifiable as you.',
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(fontSize: 12),
                     ))
               ],
             ),
@@ -93,13 +191,14 @@ class _DoctorProfileState extends State<DoctorProfile> {
         decoration: BoxDecoration(
             color: index == 1 ? AppTheme.buttonActiveColor : Colors.white,
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15), bottomLeft: Radius.circular(15))),
+                topLeft: Radius.circular(20), bottomLeft: Radius.circular(20))),
         child: Center(
             child: Text(
           'Personal Info',
           style: GoogleFonts.poppins(
-            color: index == 1 ? Colors.white : Colors.black,
-          ),
+              fontSize: 12,
+              color: index == 1 ? Colors.white : Colors.black,
+              fontWeight: index == 1 ? FontWeight.w600 : FontWeight.normal),
         )),
       ),
     );
@@ -115,11 +214,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
             color: index == 2 ? AppTheme.buttonActiveColor : Colors.white,
             border: Border(
               left: BorderSide(
-                color: AppTheme.buttonInActiveColor,
+                color: HexColor('#F1F1F1'),
                 width: 1,
               ),
               right: BorderSide(
-                color: AppTheme.buttonInActiveColor,
+                color: HexColor('#F1F1F1'),
                 width: 1,
               ),
             )),
@@ -127,8 +226,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
             child: Text(
           'Company Info',
           style: GoogleFonts.poppins(
-            color: index == 2 ? Colors.white : Colors.black,
-          ),
+              fontSize: 12,
+              color: index == 2 ? Colors.white : Colors.black,
+              fontWeight: index == 2 ? FontWeight.w600 : FontWeight.normal),
         )),
       ),
     );
@@ -143,28 +243,42 @@ class _DoctorProfileState extends State<DoctorProfile> {
         decoration: BoxDecoration(
             color: index == 3 ? AppTheme.buttonActiveColor : Colors.white,
             borderRadius: BorderRadius.only(
-                topRight: Radius.circular(15),
-                bottomRight: Radius.circular(15))),
+                topRight: Radius.circular(20),
+                bottomRight: Radius.circular(20))),
         child: Center(
             child: Text(
           'Doctor Info',
           style: GoogleFonts.poppins(
-            color: index == 3 ? Colors.white : Colors.black,
-          ),
+              fontSize: 12,
+              color: index == 3 ? Colors.white : Colors.black,
+              fontWeight: index == 3 ? FontWeight.w600 : FontWeight.normal),
         )),
       ),
     );
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+          ),
+        ],
         leading: Builder(
           builder: (context) => IconButton(
-            icon: Icon(Icons.menu_rounded),
+            icon: Icon(
+              Icons.notes,
+              size: 30,
+              color: Colors.white,
+            ),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
         title: Text(
           "My Profile",
         ),
+
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -177,155 +291,24 @@ class _DoctorProfileState extends State<DoctorProfile> {
                   spaceBetween,
                   spaceBetween,
                   spaceBetween,
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: HexColor("#FFFFFF"),
-                        boxShadow: [
-                          BoxShadow(
-                            color: HexColor("#0D1231").withOpacity(0.08),
-                            spreadRadius: 3,
-                            blurRadius: 3,
-                            offset: Offset(3, 1), // changes position of shadow
-                          ),
-                        ]),
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                        child: index == 1
-                            ? PersonalInfo()
-                            : index == 2
-                                ? CompanyInfo()
-                                : MyInfo()),
-                  ),
-                  spaceBetween,
                   index == 1
-                      ? !vm.isPersonalInfoEditing? FlatButton(
-                          minWidth: MediaQuery.of(context).size.width,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0)),
-                          color: AppTheme.buttonActiveColor,
-                          onPressed: () {
-                            setState(() {
-                              vm.editingPersonalInfo(isPersonalInfoEditing: true);
-                            });
-                          },
-                          child: Text(
-                            'Edit Your Profile',
-                            style: GoogleFonts.poppins(color: Colors.white),
-                          )) :  Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
-                    children: [
-                      FlatButton(
-                          minWidth:
-                          MediaQuery.of(context).size.width *
-                              .4,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(5)),
-                          color: AppTheme.buttonActiveColor,
-                          onPressed: () {
-                            setState(() {
-                              vm.editingPersonalInfo(isPersonalInfoEditing: false);
-                            });
-                          },
-                          child: Text(
-                            'Cancel',
-                            style: GoogleFonts.poppins(
-                                color: Colors.white),
-                          )),
-                      FlatButton(
-                          minWidth:
-                          MediaQuery.of(context).size.width *
-                              .4,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(5)),
-                          color: AppTheme.buttonActiveColor,
-                          onPressed: () {
-                            setState(() {
-                              vm.editingPersonalInfo(isPersonalInfoEditing: false);
-                            });
-                          },
-                          child: Text(
-                            'Save',
-                            style: GoogleFonts.poppins(
-                                color: Colors.white),
-                          ))
-                    ],
-                  )
-                      : index == 3
-                          ? !vm.isDoctorInfoEditing
-                              ? FlatButton(
-                                  minWidth: MediaQuery.of(context).size.width,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                  color: AppTheme.buttonActiveColor,
-                                  onPressed: () {
-                                    setState(() {
-                                      vm.editingDoctorInfo(isDoctorInfoEditing: true);
-                                    });
-                                  },
-                                  child: Text(
-                                    'Update My Profile',
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.white),
-                                  ))
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    FlatButton(
-                                        minWidth:
-                                            MediaQuery.of(context).size.width *
-                                                .4,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        color: AppTheme.buttonActiveColor,
-                                        onPressed: () {
-                                          setState(() {
-                                            vm.editingDoctorInfo(isDoctorInfoEditing: false);
-                                          });
-                                        },
-                                        child: Text(
-                                          'Cancel',
-                                          style: GoogleFonts.poppins(
-                                              color: Colors.white),
-                                        )),
-                                    FlatButton(
-                                        minWidth:
-                                            MediaQuery.of(context).size.width *
-                                                .4,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        color: AppTheme.buttonActiveColor,
-                                        onPressed: () {
-                                          setState(() {
-                                            vm.editingDoctorInfo(isDoctorInfoEditing: false);
-                                          });
-                                        },
-                                        child: Text(
-                                          'Save',
-                                          style: GoogleFonts.poppins(
-                                              color: Colors.white),
-                                        ))
-                                  ],
-                                )
-                          : SizedBox(),
+                      ? PersonalInfo()
+                      : index == 2
+                          ? CompanyInfo()
+                          : DoctorInfo(),
+                  spaceBetween,
                 ],
               ),
             ),
             Positioned(
-              top: 165,
+              top: 150,
               right: MediaQuery.of(context).size.width * .125,
               left: MediaQuery.of(context).size.width * .125,
               child: Container(
-                //alignment: Alignment.center,
+                //alignment:Alignment.center,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
                         color: HexColor("#0D1231").withOpacity(0.08),

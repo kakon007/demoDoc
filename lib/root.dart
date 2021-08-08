@@ -1,4 +1,5 @@
 import 'dart:async';
+
 //import 'package:dartz/dartz_streaming.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,9 +16,10 @@ import 'features/auth/view_model/app_navigator.dart';
 import 'features/auth/view_model/auth_view_model.dart';
 import 'main_app/util/app_version.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
-class Root extends StatefulWidget {
 
+class Root extends StatefulWidget {
   Root();
+
   @override
   _RootState createState() => _RootState();
 }
@@ -25,51 +27,73 @@ class Root extends StatefulWidget {
 class _RootState extends State<Root> {
   var _username;
   var _passWord;
+
   @override
   void initState() {
-
-    Future.delayed(Duration.zero,()async{
-      var accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
+    Future.delayed(Duration.zero, () async {
+      var accessToken =
+          await Provider.of<AccessTokenProvider>(context, listen: false)
+              .getToken();
       bool connection = await DataConnectionChecker().hasConnection;
-      if(connection){
-        SharedPreferences prefs =
-        await SharedPreferences.getInstance();
-        _username= prefs.getString("username");
-        _passWord= prefs.getString("password");
-        var vm5= Provider.of<AuthViewModel>(context, listen: false);
-        await vm5.getAuthData(_username, _passWord);
-        if(accessToken!= null && vm5.accessToken!= accessToken && vm5.accessToken!=null){
-          appNavigator.getProvider<AccessTokenProvider>().setToken(vm5.accessToken);
-          accessToken=await Provider.of<AccessTokenProvider>(context, listen: false).getToken();
-          Future.delayed(Duration(microseconds: 500));
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) =>
-              // DoctorHomeScreen(
-              HomeScreen(accessToken: accessToken,connection: connection,
-              )));
-        }
-        else if(vm5.accessToken==accessToken){
-          Future.delayed(Duration(microseconds: 500));
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) =>
-              // DoctorHomeScreen(
-              HomeScreen(accessToken: accessToken,connection: connection,
-              )));
-        }
-        else{
-          Provider.of<AccessTokenProvider>(context,
-              listen: false)
-              .signOut();
-        }
+      bool isDoctor = false;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      _username = prefs.getString("username");
+      _passWord = prefs.getString("password");
+      if (_username.toString().toLowerCase().contains('ahc')) {
+        setState(() {
+          isDoctor = true;
+          print('shakil2');
+        });
       }
-      else{
+      if (connection) {
+        var vm5 = Provider.of<AuthViewModel>(context, listen: false);
+        await vm5.getAuthData(_username, _passWord);
+        if (accessToken != null &&
+            vm5.accessToken != accessToken &&
+            vm5.accessToken != null) {
+          appNavigator
+              .getProvider<AccessTokenProvider>()
+              .setToken(vm5.accessToken);
+          accessToken =
+              await Provider.of<AccessTokenProvider>(context, listen: false)
+                  .getToken();
+          Future.delayed(Duration(microseconds: 500));
+          isDoctor
+              ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => DoctorHomeScreen()))
+              : Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      // DoctorHomeScreen(
+                      HomeScreen(
+                        accessToken: accessToken,
+                        connection: connection,
+                      )));
+        } else if (vm5.accessToken == accessToken) {
+
+          Future.delayed(Duration(microseconds: 500));
+          isDoctor
+              ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => DoctorHomeScreen()))
+              : Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      //DoctorHomeScreen(
+                      HomeScreen(
+                        accessToken: accessToken,
+                        connection: connection,
+                      )));
+        } else {
+          Provider.of<AccessTokenProvider>(context, listen: false).signOut();
+        }
+      } else {
         Future.delayed(const Duration(milliseconds: 2000), () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (BuildContext context) =>
-              //DoctorHomeScreen(
-              HomeScreen(accessToken: accessToken,connection: connection,
-              )
-          ));
+          isDoctor
+              ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => DoctorHomeScreen()))
+              : Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      //DoctorHomeScreen(
+                      HomeScreen(
+                          accessToken: accessToken, connection: connection)));
         });
       }
     });
@@ -96,40 +120,45 @@ class _RootState extends State<Root> {
           decoration: new BoxDecoration(
               gradient: new LinearGradient(
                   colors: [
-                    HexColor('#419FCE'),
-                    HexColor('#3A0057'),
-                  ],
-                  stops: [0.0, 1.0],
+                HexColor('#419FCE'),
+                HexColor('#3A0057'),
+              ],
+                  stops: [
+                0.0,
+                1.0
+              ],
                   begin: FractionalOffset.topRight,
                   end: FractionalOffset.bottomLeft,
-                  tileMode: TileMode.repeated
-              )
-          ),
+                  tileMode: TileMode.repeated)),
           height: height,
           width: width,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-             //SizedBox(height: 10,),
+              //SizedBox(height: 10,),
               // SizedBox(),
               // SizedBox(),
               // SizedBox(),
               Padding(
-                padding:  EdgeInsets.only(top:width>=450?330.0:250),
+                padding: EdgeInsets.only(top: width >= 450 ? 330.0 : 250),
                 child: Center(
                   child: Container(
                     //height: isTablet? 650 : 50,
-                    width: isTablet? 650 : 260,
-                    child: Image.asset(kMyHealthLogo,
+                    width: isTablet ? 650 : 260,
+                    child: Image.asset(
+                      kMyHealthLogo,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
               Container(
-                child: Text("Virtual Hospital of Bangladesh",style: TextStyle(color: Colors.white, fontSize: isTablet? 20 : 18),)
-              ),              //  appLogoText,
+                  child: Text(
+                "Virtual Hospital of Bangladesh",
+                style: TextStyle(
+                    color: Colors.white, fontSize: isTablet ? 20 : 18),
+              )), //  appLogoText,
               SizedBox(),
               SizedBox(),
               SizedBox(),

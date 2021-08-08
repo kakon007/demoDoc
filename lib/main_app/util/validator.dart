@@ -71,6 +71,19 @@ class Validator {
     else
       return null;
   }
+  String validateDoctorPhoneNumber(String value) {
+//    Pattern pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
+    Pattern pattern = r'[1][3456789][0-9]{8}\b';
+    RegExp regex = new RegExp(pattern);
+    if(value == ''){
+      return 'Enter Valid Bangladeshi Mobile Number';
+    }else if(value.length > 10){
+      return 'Enter Valid Bangladeshi Mobile Number';
+    }else if (!regex.hasMatch(value))
+      return 'Enter Valid Bangladeshi Mobile Number';
+    else
+      return null;
+  }
 
   String validatePhoneNumberForVerification(String value) {
 //    Pattern pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';

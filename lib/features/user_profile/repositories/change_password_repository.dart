@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/features/user_profile/models/change_password_model.dart';
@@ -10,11 +12,11 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/resource/urls.dart';
+import 'package:provider/provider.dart';
 
 class ChangePasswordRepository {
-  Future<Either<AppError, ChangePasswordModel>> fetchPassword(String accessToken,
-      String newPassword, String confirmPassword, String currentPassword) async {
-    var url = '${Urls.baseUrl}auth-api/api/changePassword';
+  Future<Either<AppError, ChangePasswordModel>> fetchPassword(String newPassword, String confirmPassword, String currentPassword) async {
+    var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
     var headers = {'Authorization': 'Bearer $accessToken', 'Content-Type': 'application/json'};
 
     try {

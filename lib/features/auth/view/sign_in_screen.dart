@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
 import 'package:myhealthbd_app/features/auth/view/widgets/reset_password.dart';
@@ -352,6 +353,7 @@ class _SignInState extends State<SignIn> {
                           isClicked == false
                               ? GestureDetector(
                                   onTap: () async {
+                                    bool isDoctor = false;
                                     if (_formKey.currentState.validate()) {
                                       setState(() {
                                         isClicked = true;
@@ -363,7 +365,12 @@ class _SignInState extends State<SignIn> {
                                           listen: false);
                                       await vm5.getAuthData(
                                           _username.text, _password.text);
-                                      if (vm5.accessToken != null) {
+                                      if(_username.toString().toLowerCase().contains('ahc')){
+                                        setState(() {
+                                          isDoctor = true;
+                                        });
+                                      }
+                                      if (vm5.accessToken != null && isDoctor==false) {
                                         accountsList.forEach((item) {
                                           if (item.username.contains(
                                               _username.text.toUpperCase())) {
@@ -420,18 +427,31 @@ class _SignInState extends State<SignIn> {
                                         appNavigator
                                             .getProvider<AccessTokenProvider>()
                                             .setToken(vm5.accessToken);
-                                        Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                                MaterialPageRoute(
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          HomeScreen(
-                                                    accessToken:
-                                                        vm5.accessToken,
-                                                  ),
-                                                ),
-                                                (Route<dynamic> route) =>
-                                                    false);
+                                        if(isDoctor){
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                    DoctorHomeScreen(),
+                                              ),
+                                                  (Route<dynamic> route) =>
+                                              false);
+                                        }
+                                        else{
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                    HomeScreen(
+                                                      accessToken:
+                                                      vm5.accessToken,
+                                                    ),
+                                              ),
+                                                  (Route<dynamic> route) =>
+                                              false);
+                                        }
                                         if (this.value == true) {
                                           //print(_username.text);
                                           prefs.setBool("value", true);

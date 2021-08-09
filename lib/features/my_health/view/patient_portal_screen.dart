@@ -2276,19 +2276,51 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                          SizedBox(width: 5,),
                                                                          Padding(
                                                                            padding: EdgeInsets.only(top: 0,right:0),
-                                                                           child: InkWell(onTap: () async{
-                                                                             // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                                             // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-                                                                             SVProgressHUD.show(
-                                                                                 status: 'Deleting'
-                                                                             );
-                                                                             await Provider.of<UploadDocumentsViewModel>(context, listen: false)
-                                                                                 .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
-                                                                               setState(() {
-                                                                                 vm3.getDataforDoc();
-                                                                               });
-                                                                             });
-                                                                             SVProgressHUD.dismiss();
+                                                                           child: InkWell(onTap: () {
+                                                                               // set up the buttons
+                                                                               Widget cancelButton = TextButton(
+                                                                                 child: Text("Cancel",style: TextStyle(color: HexColor('#354291')),),
+                                                                                 onPressed:  () {
+                                                                                   Navigator.pop(context);
+                                                                                 },
+                                                                               );
+                                                                               Widget continueButton = TextButton(
+                                                                                 child: Text("Continue",style: TextStyle(color: HexColor('#354291')),),
+                                                                                 onPressed:  () async{
+                                                                                   // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                                   // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                                                                   SVProgressHUD.show(
+                                                                                       status: 'Deleting'
+                                                                                   );
+                                                                                   await Provider.of<UploadDocumentsViewModel>(context, listen: false)
+                                                                                       .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
+                                                                                     setState(() {
+                                                                                       vm3.getDataforDoc();
+                                                                                     });
+                                                                                   });
+                                                                                   SVProgressHUD.dismiss();
+                                                                                   Navigator.pop(context);
+                                                                                 },
+                                                                               );
+
+                                                                               // set up the AlertDialog
+                                                                               AlertDialog alert = AlertDialog(
+                                                                                 title: Text("Delete Document"),
+                                                                                 content: Text("Would you like to delete the document?"),
+                                                                                 actions: [
+                                                                                   cancelButton,
+                                                                                   continueButton,
+                                                                                 ],
+                                                                               );
+
+                                                                               // show the dialog
+                                                                               showDialog(
+                                                                                 context: context,
+                                                                                 builder: (BuildContext context) {
+                                                                                   return alert;
+                                                                                 },
+                                                                               );
+
                                                                            },child: Icon(Icons.delete,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: HexColor('#354291'),)),
                                                                          ),
                                                                        ],)

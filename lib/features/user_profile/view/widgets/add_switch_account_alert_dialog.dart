@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
-import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -25,7 +24,6 @@ class AddAccountAlert extends StatefulWidget {
 class _AddAccountAlertState extends State<AddAccountAlert> {
   final DbManager dbmManager = new DbManager();
   final _nameController = TextEditingController();
-  final _relationController = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
   SwitchAccounts accounts;
   final _username = TextEditingController();
@@ -56,7 +54,9 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
     var userName = SignUpFormField(
-      inputFormatters: [ FilteringTextInputFormatter.deny(RegExp("[ ]")),],
+      inputFormatters: [
+        FilteringTextInputFormatter.deny(RegExp("[ ]")),
+      ],
       topPadding: 16,
       labelFontSize: isTablet ? 15 : 12,
       hintSize: isTablet ? 18 : 15,
@@ -94,32 +94,22 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         contentPadding: EdgeInsets.only(top: 10.0),
         content: Container(
-         // width: isTablet? 500 : deviceWidth<=330? 250 : 320,
-          constraints: BoxConstraints(minHeight: !isEmpty
-              ? isTablet
-              ? 275
-          //:355
-              : deviceWidth <= 330
-              ? 245
-              : 255  : isTablet
-              ? 315
-          //:395,
-              : deviceWidth <= 330
-              ? 285
-              : 295,),
-          // height: !isEmpty
-          //     ? isTablet
-          //         ? 275
-          //         //:355
-          //         : deviceWidth <= 330
-          //             ? 245
-          //             : 255
-          //     : isTablet
-          //         ? 315
-          //         //:395,
-          //         : deviceWidth <= 330
-          //             ? 285
-          //             : 295,
+          // width: isTablet? 500 : deviceWidth<=330? 250 : 320,
+          constraints: BoxConstraints(
+            minHeight: !isEmpty
+                ? isTablet
+                    ? 275
+                    //:355
+                    : deviceWidth <= 330
+                        ? 245
+                        : 255
+                : isTablet
+                    ? 315
+                    //:395,
+                    : deviceWidth <= 330
+                        ? 285
+                        : 295,
+          ),
           child: Form(
               key: _formKey,
               child: Padding(
@@ -140,15 +130,20 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                     ),
                     userName,
                     password,
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Padding(
-                      padding:  EdgeInsets.only(
-                                                left: 8.0, right: 8, top: 0),
+                      padding: EdgeInsets.only(left: 8.0, right: 8, top: 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: isTablet ? 200 :deviceWidth<=330? width*.7 : width * .8,
+                            width: isTablet
+                                ? 200
+                                : deviceWidth <= 330
+                                    ? width * .7
+                                    : width * .8,
                             height: isTablet ? 50 : width * .25,
                             child: FlatButton(
                               onPressed: () {
@@ -168,9 +163,15 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 15,),
                           SizedBox(
-                            width: isTablet ? 200 :deviceWidth<=330? width*.7 : width * .8,
+                            width: 15,
+                          ),
+                          SizedBox(
+                            width: isTablet
+                                ? 200
+                                : deviceWidth <= 330
+                                    ? width * .7
+                                    : width * .8,
                             height: isTablet ? 50 : width * .25,
                             child: FlatButton(
                               textColor: Colors.white,
@@ -192,119 +193,15 @@ class _AddAccountAlertState extends State<AddAccountAlert> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
               )),
         ),
       ),
     ));
-
-    // return Form(
-    //   key: _formKey,
-    //   child: Center(
-    //     child: Container(
-    //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    //   constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, maxHeight: isEmpty ? isTablet? 400 : width<=330? 365 : 370 : isTablet? 355 : width<=330? 330 : 335),
-    //   child: Material(
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(20),
-    //     ),
-    //     child: Padding(
-    //       padding: const EdgeInsets.only(top: 30.0),
-    //       child: Column(
-    //           // crossAxisAlignment: CrossAxisAlignment.start,
-    //           // mainAxisSize: MainAxisSize.min,
-    //           children: [
-    //             Padding(
-    //               padding: const EdgeInsets.only(
-    //                   left: 38.0, right: 25, bottom: 15),
-    //               child: Row(
-    //                 children: <Widget>[
-    //                   Container(
-    //                     // padding: new EdgeInsets.all(10.0),
-    //                     decoration: new BoxDecoration(),
-    //                     child: new Text(
-    //                       'Switch Account',
-    //                       key: Key("switchAccountTextKey"),
-    //                       style: GoogleFonts.poppins(
-    //                           color: AppTheme.appbarPrimary,
-    //                           fontSize: isTablet? 18 : 15.0,
-    //                           fontWeight: FontWeight.w500),
-    //                       textAlign: TextAlign.center,
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //             Padding(
-    //               padding:  EdgeInsets.only(left: 15.0, right: 15),
-    //               child: Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.start,
-    //                 children: [
-    //                   //name,
-    //                   //relation,
-    //                   userName,
-    //                   password,
-    //                   Padding(
-    //                     padding:  EdgeInsets.only(
-    //                         left: 8.0, right: 8, top: 0),
-    //                     child: Row(
-    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                       children: [
-    //                         SizedBox(
-    //                           width: isTablet? 200 : width * .8,
-    //                           height: isTablet? 50 : width * .25,
-    //                           child: FlatButton(
-    //                             onPressed: () {
-    //                               Navigator.pop(context);
-    //                             },
-    //                             textColor: AppTheme.appbarPrimary,
-    //                             color: HexColor("#FFFFFF"),
-    //                             shape: RoundedRectangleBorder(
-    //                                 borderRadius: BorderRadius.circular(8),
-    //                                 side: BorderSide(
-    //                                     color: AppTheme.appbarPrimary,
-    //                                     width: 1)),
-    //                             child: Text(
-    //                               StringResources.cancelText,
-    //                               key: Key('switchCancelButtonKey'),
-    //                               style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
-    //                             ),
-    //                           ),
-    //                         ),
-    //                         SizedBox(
-    //                           width: isTablet? 200 : width * .8,
-    //                           height: isTablet? 50 : width * .25,
-    //                           child: FlatButton(
-    //                             textColor: Colors.white,
-    //                             onPressed: () {
-    //                               _submitStudent(context);
-    //                             },
-    //                             color: AppTheme.appbarPrimary,
-    //                             shape: RoundedRectangleBorder(
-    //                               borderRadius: BorderRadius.circular(8),
-    //                             ),
-    //                             child: Text(
-    //                               "Confirm",
-    //                               key: Key('switchConfirmButtonKey'),
-    //                               style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15),
-    //                             ),
-    //                           ),
-    //                         )
-    //                       ],
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //             )
-    //           ]),
-    //     ),
-    //   ),
-    //     ),
-    //   ),
-    // );
-    //
   }
 
   Future<void> _submitStudent(BuildContext context) async {

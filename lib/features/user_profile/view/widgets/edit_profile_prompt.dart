@@ -12,8 +12,6 @@ import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-import 'package:http/http.dart' as http;
-import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,7 +38,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
 
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
-      //initialDatePickerMode: DatePickerMode.year,
       context: context,
       builder: (BuildContext context, Widget child) {
         return Theme(
@@ -53,7 +50,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
           child: child,
         );
       },
-
       initialDate: pickBirthDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
@@ -98,12 +94,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             ? "Male"
             : "Female"
         : _selectedGender;
-    // _selectedGender= vm.userDetailsList.gender!=null? vm.userDetailsList.gender : _selectedGender;
     // TODO: implement initState
     super.initState();
   }
 
-  //File _image;
   @override
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
@@ -273,16 +267,17 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       children: [
         Container(
             height: 20.0,
-            constraints: BoxConstraints(minWidth: isTablet
-                ? 200
-                : deviceWidth <= 330
-                ?width * .8
-                : width * .8,),
-
+            constraints: BoxConstraints(
+              minWidth: isTablet
+                  ? 200
+                  : deviceWidth <= 330
+                      ? width * .8
+                      : width * .8,
+            ),
             width: isTablet
                 ? 200
                 : deviceWidth <= 330
-                    ?width * .8
+                    ? width * .8
                     : width * .8,
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0),
@@ -315,11 +310,11 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               Padding(
                 padding: EdgeInsets.only(left: 18.0),
                 child: Container(
-                 // constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
+                  // constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
                   width: isTablet
                       ? 180
                       : deviceWidth <= 330
-                          ?width*.655
+                          ? width * .655
                           : width * .683,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
@@ -377,7 +372,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                 )),
       ],
     );
-    //String formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
     var dateOfBirth = Row(
       children: [
         GestureDetector(
@@ -386,7 +380,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
             children: [
               Container(
                   height: 20.0,
-                  constraints: BoxConstraints(minWidth: deviceWidth <= 330 ? width * .58 : width * .5, ),
+                  constraints: BoxConstraints(
+                    minWidth: deviceWidth <= 330 ? width * .58 : width * .5,
+                  ),
                   //width: deviceWidth <= 330 ? width * .58 : width * .5,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
@@ -420,7 +416,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                       child: Text(
                         pickBirthDate == DateTime.now()
                             ? "Date of birth"
-                            : "${DateFormat("dd-MM-yyyy").format(pickBirthDate)}",
+                            : "${DateFormat("dd/MM/yyyy").format(pickBirthDate)}",
                         style: TextStyle(fontSize: 13.0),
                       ),
                     ),
@@ -447,16 +443,16 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       child: SingleChildScrollView(
         child: AlertDialog(
           insetPadding: EdgeInsets.symmetric(
-              horizontal:
-                  isTablet ? width * .4 : MediaQuery.of(context).size.width * .07),
+              horizontal: isTablet
+                  ? width * .4
+                  : MediaQuery.of(context).size.width * .07),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           contentPadding: EdgeInsets.only(top: 10.0),
           content: Container(
-            constraints: BoxConstraints(minHeight: maxHeight,),
-
-         //   height: maxHeight,
-            //width: isTablet? 500 : 500,
+            constraints: BoxConstraints(
+              minHeight: maxHeight,
+            ),
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 0),
               child: Form(
@@ -482,7 +478,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     name,
                     email,
                     mobile,
@@ -601,7 +599,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
               ),
@@ -610,178 +610,5 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
         ),
       ),
     );
-    // return Form(
-    //   key: _formKey,
-    //   child: Center(
-    //       child: SingleChildScrollView(
-    //     child: Center(
-    //       child: Container(
-    //         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    //         constraints: BoxConstraints(maxWidth: isTablet? 500 : 400, maxHeight: maxHeight),
-    //         child: Material(
-    //           shape: RoundedRectangleBorder(
-    //             borderRadius: BorderRadius.circular(20),
-    //           ),
-    //           child: Padding(
-    //             padding: const EdgeInsets.only(top: 30.0),
-    //             child: Column(
-    //                 // crossAxisAlignment: CrossAxisAlignment.start,
-    //                 // mainAxisSize: MainAxisSize.min,
-    //                 children: [
-    //                   Padding(
-    //                     padding: const EdgeInsets.only(
-    //                         left: 25.0, right: 25, bottom: 15),
-    //                     child: Row(
-    //                       children: <Widget>[
-    //                         Container(
-    //                           // padding: new EdgeInsets.all(10.0),
-    //                           child: new Text(
-    //                             'Edit Personal Info',
-    //                             key: Key('editPersonalInfo'),
-    //                             style: GoogleFonts.poppins(
-    //                                 color: AppTheme.appbarPrimary,
-    //                                 fontSize: isTablet? 18 :15.0,
-    //                                 fontWeight: FontWeight.w500),
-    //                             textAlign: TextAlign.center,
-    //                           ),
-    //                         ),
-    //                       ],
-    //                     ),
-    //                   ),
-    //                   Padding(
-    //                     padding: const EdgeInsets.only(left: 15.0, right: 15),
-    //                     child: Column(
-    //                       crossAxisAlignment: CrossAxisAlignment.start,
-    //                       children: [
-    //                         name,
-    //                         email,
-    //                         mobile,
-    //                         address,
-    //                         dateOfBirth,
-    //                         Row(
-    //                           crossAxisAlignment: CrossAxisAlignment.start,
-    //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                           children: [
-    //                             gender,
-    //                             bloodGroup,
-    //                           ],
-    //                         ),
-    //                         Padding(
-    //                           padding:
-    //                               const EdgeInsets.only(left: 0.0, top: 22),
-    //                           child: Row(
-    //                             mainAxisAlignment:
-    //                                 MainAxisAlignment.spaceBetween,
-    //                             children: [
-    //                               SizedBox(
-    //                                 width: isTablet? 200 : width * .8,
-    //                                 height: isTablet ? 50 : width * .25,
-    //                                 child: FlatButton(
-    //                                   onPressed: () {
-    //                                     Navigator.pop(context);
-    //                                   },
-    //                                   key: Key('cancelButtonKey'),
-    //                                   textColor: AppTheme.appbarPrimary,
-    //                                   color: HexColor("#FFFFFF"),
-    //                                   shape: RoundedRectangleBorder(
-    //                                       borderRadius:
-    //                                           BorderRadius.circular(8),
-    //                                       side: BorderSide(
-    //                                           color: AppTheme.appbarPrimary,
-    //                                           width: 1)),
-    //                                   child: Text(
-    //                                     StringResources.cancelText,
-    //                                     style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ),
-    //                                   ),
-    //                                 ),
-    //                               ),
-    //                               SizedBox(
-    //                                 width: isTablet? 200 : width * .8,
-    //                                 height: isTablet ? 50 : width * .25,
-    //                                 child: FlatButton(
-    //                                   textColor: Colors.white,
-    //                                   key: Key('profileSubmitButtonKey'),
-    //                                   onPressed: () {
-    //                                     if (_formKey.currentState.validate() &&
-    //                                         _selectedBlood != null) {
-    //                                       setState(() {
-    //                                         isExpanded = false;
-    //                                       });
-    //                                       vm.updateProfile(
-    //                                           userId.toString(),
-    //                                           _username.text,
-    //                                           _email.text,
-    //                                           _mobile.text,
-    //                                           _address.text,
-    //                                           _formatDate,
-    //                                           _selectedGender,
-    //                                           _selectedBlood,
-    //                                           hospitalNumber,
-    //                                           regDate);
-    //                                       Fluttertoast.showToast(
-    //                                           msg:
-    //                                               "Profile updated successfully!",
-    //                                           toastLength: Toast.LENGTH_SHORT,
-    //                                           gravity: ToastGravity.BOTTOM,
-    //                                           backgroundColor: Colors.green,
-    //                                           textColor: Colors.white,
-    //                                           fontSize: 16.0);
-    //                                       accountsList.forEach((item) {
-    //                                         if(item.username.contains(username)) {
-    //                                           //switchAccounts = st;
-    //                                           SwitchAccounts st = item;
-    //                                           switchAccounts = st;
-    //                                           switchAccounts.username = item.username;
-    //                                           switchAccounts.password = item.password;
-    //                                           switchAccounts.name = _username.text;
-    //                                           switchAccounts.relation = item.relation ;
-    //                                           switchAccounts.id = item.id;
-    //                                           dbmManager.updateStudent(switchAccounts).then((value) => {
-    //                                             setState(() {}),
-    //                                           });
-    //                                         }
-    //                                       });
-    //                                       Navigator.pop(context);
-    //                                     } else {
-    //                                       setState(() {
-    //                                         isExpanded = true;
-    //                                         maxHeight = isTablet? 755 : 680;
-    //                                         if (_selectedBlood == null) {
-    //                                           setState(() {
-    //                                             bloodBorderColor = "#FF0000";
-    //                                           });
-    //                                           if (_selectedBlood != null) {
-    //                                             setState(() {
-    //                                               bloodBorderColor = "#EAEBED";
-    //                                             });
-    //                                           }
-    //                                         }
-    //                                       });
-    //
-    //                                     }
-    //                                   },
-    //                                   color: AppTheme.appbarPrimary,
-    //                                   shape: RoundedRectangleBorder(
-    //                                     borderRadius: BorderRadius.circular(8),
-    //                                   ),
-    //                                   child: Text(
-    //                                     "Submit",
-    //                                     style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15 ),
-    //                                   ),
-    //                                 ),
-    //                               )
-    //                             ],
-    //                           ),
-    //                         ),
-    //                       ],
-    //                     ),
-    //                   ),
-    //                 ]),
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   )),
-    // );
   }
 }

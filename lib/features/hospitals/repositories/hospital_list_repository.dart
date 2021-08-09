@@ -16,30 +16,20 @@ class HospitalListRepositry {
     try {
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
-      print('hospital list ${response.body}');
-      print('hospital status ${response.statusCode}');
       if (response.statusCode == 200) {
         HospitalListModel data = hospitalListModelFromJson(response.body);
         CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalList);
-       // print('Hospital Data:: ' + data.items[5].companyAddress);
-        // return data;
-
         return Right(HospiitalListM(
           dataList: data.items,
         ));
-        //print(data[0]['companySlogan']);
       } else {
-        print('some1');
         BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-      print(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }

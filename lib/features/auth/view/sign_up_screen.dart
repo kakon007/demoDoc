@@ -14,7 +14,6 @@ import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart'
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
-import 'package:myhealthbd_app/main_app/util/url_launcher_helper.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -54,7 +53,6 @@ class _SignUpState extends State<SignUp> {
 
   Future<Null> selectDate(BuildContext context) async {
     final DateTime date = await showDatePicker(
-      //initialDatePickerMode: DatePickerMode.year,
       context: context,
       builder: (BuildContext context, Widget child) {
         return Theme(
@@ -147,18 +145,6 @@ class _SignUpState extends State<SignUp> {
       isRequired: true,
       labelText: "Mobile",
       hintText: StringResources.mobileNumber,
-    );
-    var password = SignUpFormField(
-      margin: EdgeInsets.only(bottom: 2),
-      isRequired: true,
-      labelText: "Password",
-      hintText: StringResources.password,
-    );
-    var confirmPassword = SignUpFormField(
-      margin: EdgeInsets.only(bottom: 2),
-      isRequired: true,
-      labelText: "Confirm Password",
-      hintText: StringResources.confirmPassword,
     );
     var address = SignUpFormField(
       topPadding: isTablet ? 30 : 25,
@@ -354,8 +340,6 @@ class _SignUpState extends State<SignUp> {
       absorbing: isTappedSignUpButton ? true : false,
       child: GestureDetector(
         onTap: () async {
-          //signUp(_name.text,_email.text, _mobile.text, _address.text, _selectedGender,_formatDate2);
-          // showAlert(context);
           if (_formKey.currentState.validate() &&
               _selectedGender != null &&
               _formatBirthDate != 'Select Date') {
@@ -544,7 +528,6 @@ class _SignUpState extends State<SignUp> {
             backgroundColor: Colors.transparent,
             elevation: 0.0,
           ),
-          //resizeToAvoidBottomInset: false,
           resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
           body: Form(
@@ -622,32 +605,6 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
-                  // Container(
-                  //   decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                  //     BoxShadow(
-                  //       color: HexColor("#0D1231").withOpacity(0.08),
-                  //       spreadRadius: 10,
-                  //       blurRadius: 7,
-                  //       offset: Offset(0, 3), // changes position of shadow
-                  //     ),
-                  //   ]),
-                  //   height: height >= 600 ? 200 : 150,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(right: 15.0, left: 15),
-                  //     child: Column(
-                  //       children: [
-                  //         spaceBetween,
-                  //         spaceBetween,
-                  //         spaceBetween,
-                  //         vm.isLoading==true ? Center(child: CircularProgressIndicator()) : signUpButton,
-                  //         spaceBetween,
-                  //         signIn,
-                  //         spaceBetween,
-                  //         termsPolicy
-                  //       ],
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
             ),
@@ -710,11 +667,8 @@ class _SignUpState extends State<SignUp> {
                   HexColor("#D6DCFF"),
                   HexColor("#FFFFFF"),
                 ]),
-                //borderRadius: 10,
               ),
-              constraints: BoxConstraints(
-                minHeight: 200,maxWidth: 300
-              ),
+              constraints: BoxConstraints(minHeight: 200, maxWidth: 300),
               child: Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Column(

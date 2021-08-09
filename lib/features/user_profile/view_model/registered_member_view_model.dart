@@ -33,9 +33,6 @@ class RegisteredMemberViewModel extends ChangeNotifier{
     String image,
     String relatedRegId
   }){
-    print("regId $regId");
-    print("regNo $regNo");
-    print("relatedRegId $relatedRegNo");
     _regId= regId;
     _regNo=regNo;
     _relatedRegNo= relatedRegNo;
@@ -48,7 +45,6 @@ class RegisteredMemberViewModel extends ChangeNotifier{
     _isLoading=true;
     var res = await RegisteredMembersRepository().fetchMembers(regId, patName);
     notifyListeners();
-    //  _doctor.clear();
     res.fold((l) {
       _isLoading= false;
       _appError = l;

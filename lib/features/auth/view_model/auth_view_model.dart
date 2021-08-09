@@ -2,29 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:myhealthbd_app/features/auth/repositories/auth_repository.dart';
-import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-import 'package:myhealthbd_app/features/find_doctor/repositories/doctor_list_repository.dart';
-import 'package:myhealthbd_app/features/hospitals/models/department_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/models/specialization_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/repositories/filter_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 class AuthViewModel extends ChangeNotifier {
   String _accessToken;
   AppError _appError;
-  DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   bool _isLoading = false;
 
-  Future<void> getAuthData(String user, String pass, {bool switchAccount=false}) async {
+  Future<void> getAuthData(String user, String pass,
+      {bool switchAccount = false}) async {
     _accessToken = null;
     _isLoading = true;
     var res = await AuthRepository().fetchAuthData(user, pass);
     notifyListeners();
     res.fold((l) {
       _accessToken = null;
-      if(switchAccount==true){
+      if (switchAccount == true) {
         Fluttertoast.showToast(
             msg: "Invalid username/password!",
             toastLength: Toast.LENGTH_SHORT,

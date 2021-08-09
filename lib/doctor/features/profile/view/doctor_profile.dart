@@ -158,7 +158,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           isEdit == false ? 'Update Your Avatar' : 'Save Avatar',
                           style: GoogleFonts.roboto(
                               color: Colors.white,
-                              fontSize: width <= 330 ? 12 : 15),
+                              fontSize: width <= 330 ? 12 : 15,fontWeight: FontWeight.w600),
                         )),
                 //Text('*Your photo should be friendly and head shot. Clearly identitifiable as you.',maxLines: 2,)
               ],

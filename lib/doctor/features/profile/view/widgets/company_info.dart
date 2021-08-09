@@ -25,8 +25,8 @@ class _CompanyInfoState extends State<CompanyInfo> {
     var companyHeading = Padding(
       padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
       child: Text(
-        'Company Name:',
-        style: GoogleFonts.roboto(fontSize: 12),
+        'Company Name',
+        style: GoogleFonts.poppins(fontSize: 12),
       ),
     );
     var companyName = Padding(
@@ -54,7 +54,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
             child: Text(
               companyInfoVm.isLoading
                   ? ''
-                  : companyInfoVm.details.companyList.first?.compnayName ?? '',
+                  : companyInfoVm.details.companyList.first?.compnayName ?? '',style: GoogleFonts.poppins(),
             ),
           ),
         ),
@@ -64,7 +64,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
         padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
         child: Text(
           'Address:',
-          style: GoogleFonts.roboto(fontSize: 12),
+          style: GoogleFonts.poppins(fontSize: 12),
         ));
     var address = Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),
@@ -92,7 +92,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
               companyInfoVm.isLoading
                   ? ''
                   : companyInfoVm.details.companyList.first?.compnayAddress1 ??
-                      '',
+                      '',style: GoogleFonts.poppins(),
             ),
           ),
         ),
@@ -120,6 +120,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
             // SignUpFormField(labelText: 'Shakil',
             // labelLeftPadding: 0,
             // )
+            spaceBetween,
             companyHeading,
             //spaceBetween,
             companyName,

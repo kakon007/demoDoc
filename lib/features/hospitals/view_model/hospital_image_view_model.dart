@@ -30,12 +30,6 @@ class HospitalImageViewModel extends ChangeNotifier{
 
 
   Future<void> getImageData({bool force=false}) async {
-    // if (isFromOnPageLoad) {
-    //   if (_lastFetchTime != null) if (_lastFetchTime
-    //       .difference(DateTime.now()) <
-    //       CommonServiceRule.onLoadPageReloadTime) return;
-    // }
-
 
     if(_hospitalImageList.isEmpty || force){
     if(_hospitalImageList.isEmpty){
@@ -47,7 +41,6 @@ class HospitalImageViewModel extends ChangeNotifier{
         }
       });
     }
-      print("DATA fromImage List:::::");
       _isFetchingData = true;
       _lastFetchTime = DateTime.now();
       _isLoading = true;
@@ -75,11 +68,6 @@ class HospitalImageViewModel extends ChangeNotifier{
   bool get isFetchingData => _isFetchingData;
 
   bool get isFetchingMoreData => _isFetchingMoreData;
-
-  // bool get hasMoreData => _hasMoreData;
-  //
-  // bool get shouldFetchMoreData =>
-  //     _hasMoreData && !_isFetchingData && !_isFetchingMoreData;
 
   bool get shouldShowPageLoaderForImage =>
       _isFetchingData && _hospitalImageList.length == 0;

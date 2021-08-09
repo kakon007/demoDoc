@@ -1,15 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
-import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
-import 'package:myhealthbd_app/features/appointments/models/doctor_info_model.dart';
-import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
-import 'package:myhealthbd_app/features/appointments/models/patient_type_model.dart';
-import 'package:myhealthbd_app/features/appointments/models/slot_status.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/user_profile/models/add_family_member_model.dart';
@@ -32,11 +26,9 @@ class AddFamilyMemberRepository {
       "relatedRegNo":relatedRegNo,
       "activeStatus":"1"
     }),);
-    print(response.body);
+  //  print(response.body);
     try {
       if (response.statusCode == 200) {
-        print("bbbbbbbbbbbbbbbbbbbbb");
-        print(response.body);
         AddFamilyMemberModel data = addFamilyMemberModelFromJson(response.body);
         return Right(AddFamilyMemberModel(
           message: data.message
@@ -46,12 +38,9 @@ class AddFamilyMemberRepository {
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-      // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

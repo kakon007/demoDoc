@@ -1,28 +1,24 @@
-import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
-import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 import 'package:myhealthbd_app/features/user_profile/view/family_member_list_screen.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/change_password_prompt.dart';
+import 'package:myhealthbd_app/features/user_profile/view/widgets/edit_profile_prompt.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/search_family_member.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
-import 'package:myhealthbd_app/features/user_profile/view/widgets/change_password_prompt.dart';
-import 'package:myhealthbd_app/features/user_profile/view/widgets/edit_profile_prompt.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:image_cropper/image_cropper.dart';
 
 class UserProfile extends StatefulWidget {
   String fName;
@@ -85,7 +81,8 @@ class _UserProfileState extends State<UserProfile> {
   SwitchAccounts switchAccounts;
   List<SwitchAccounts> accountsList;
   var username;
-  bool shouldDenyClick=false;
+  bool shouldDenyClick = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -113,22 +110,8 @@ class _UserProfileState extends State<UserProfile> {
   bool isEdit = false;
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.gallery
-    );
-
-    // if (pickedFile != null) {
-    //   _image = File(pickedFile.path);
-    //   print("ish ${await _image.length()}");
-    //   setState(() {
-    //     isEdit = true;
-    //   });
-    // } else {
-    //   print('No image selected.');
-    // }
-
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-//      var compressedImage = await ImageCompressUtil.compressImage(file, 80);
       Future<File> croppedFile = ImageCropper.cropImage(
           sourcePath: pickedFile.path,
           aspectRatioPresets: [
@@ -144,12 +127,11 @@ class _UserProfileState extends State<UserProfile> {
             minimumAspectRatio: 1.0,
           ));
 
-      croppedFile.then((value) async{
-          _image = value;
-          //print("ish ${await _image.length()}");
-          setState(() {
-            isEdit = true;
-          });
+      croppedFile.then((value) async {
+        _image = value;
+        setState(() {
+          isEdit = true;
+        });
       });
     } else {
       print('No image selected.');
@@ -170,7 +152,6 @@ class _UserProfileState extends State<UserProfile> {
     var regDate = vm.userDetailsList.regDate;
     photo = vm2.details?.photo ?? "";
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
-    print("abcd $photo");
     var pickBirthDate = DateFormat("yyyy-MM-dd")
         .parse(vm.userDetailsList.dob)
         .add(Duration(days: 1));
@@ -179,9 +160,8 @@ class _UserProfileState extends State<UserProfile> {
         ? vm.userDetailsList.bloodGroup
         : null;
     var _selectedGender = vm.userDetailsList.gender == "M" ? "Male" : "Female";
-    print(photo);
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
@@ -204,72 +184,73 @@ class _UserProfileState extends State<UserProfile> {
               child: Row(
                 children: [
                   isEdit
-                      ? shouldDenyClick? SizedBox(
-                    height: 22,
-                        width: 22,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 1.0,
-                          valueColor:
-                  AlwaysStoppedAnimation<Color>(
-                        Colors.white),),
-                      ) : GestureDetector(
-                          child: Text(
-                            "Save",
-                            style: GoogleFonts.poppins(
-                              fontSize: isTablet ? 18 : 15,
-                            ),
-                          ),
-                          onTap: () async {
-                            setState(() {
-                              shouldDenyClick = true;
-                            });
-                            await vm2.updateImage(
-                                _image,
-                                vm.userDetailsList.hospitalNumber,
-                                vm2.details.userId.toString());
-                            await vm2.updateProfile2(
-                                _image,
-                                userId.toString(),
-                                vm.userDetailsList.fname,
-                                vm.userDetailsList.email,
-                                vm.userDetailsList.phoneMobile,
-                                vm.userDetailsList.address,
-                                _formatDate,
-                                _selectedGender,
-                                _selectedBlood,
-                                hospitalNumber,
-                                regDate);
-                            response = vm2.resStatusCode;
-                            setState(() {
-                              if (response == "200") {
-                                shouldDenyClick = false;
-                                isEdit = false;
-                                _image = null;
-                                response = null;
-                              }
-                              else{
-                                shouldDenyClick =false;
-                              }
-                            });
-                            accountsList.forEach((item) {
-                              if (item.username.contains(username)) {
-                               print('image data');
-                                SwitchAccounts st = item;
-                                switchAccounts = st;
-                                switchAccounts.username = item.username;
-                                switchAccounts.password = item.password;
-                                switchAccounts.name = item.name;
-                                switchAccounts.relation = vm2.details?.photo;
-                                switchAccounts.id = item.id;
-                                dbmManager
-                                    .updateStudent(switchAccounts)
-                                    .then((value) => {
-                                          setState(() {}),
-                                        });
-                              }
-                            });
-                          },
-                        )
+                      ? shouldDenyClick
+                          ? SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 1.0,
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            )
+                          : GestureDetector(
+                              child: Text(
+                                "Save",
+                                style: GoogleFonts.poppins(
+                                  fontSize: isTablet ? 18 : 15,
+                                ),
+                              ),
+                              onTap: () async {
+                                setState(() {
+                                  shouldDenyClick = true;
+                                });
+                                await vm2.updateImage(
+                                    _image,
+                                    vm.userDetailsList.hospitalNumber,
+                                    vm2.details.userId.toString());
+                                await vm2.updateProfile2(
+                                    _image,
+                                    userId.toString(),
+                                    vm.userDetailsList.fname,
+                                    vm.userDetailsList.email,
+                                    vm.userDetailsList.phoneMobile,
+                                    vm.userDetailsList.address,
+                                    _formatDate,
+                                    _selectedGender,
+                                    _selectedBlood,
+                                    hospitalNumber,
+                                    regDate);
+                                response = vm2.resStatusCode;
+                                setState(() {
+                                  if (response == "200") {
+                                    shouldDenyClick = false;
+                                    isEdit = false;
+                                    _image = null;
+                                    response = null;
+                                  } else {
+                                    shouldDenyClick = false;
+                                  }
+                                });
+                                accountsList.forEach((item) {
+                                  if (item.username.contains(username)) {
+                                    SwitchAccounts st = item;
+                                    switchAccounts = st;
+                                    switchAccounts.username = item.username;
+                                    switchAccounts.password = item.password;
+                                    switchAccounts.name = item.name;
+                                    switchAccounts.relation =
+                                        vm2.details?.photo;
+                                    switchAccounts.id = item.id;
+                                    dbmManager
+                                        .updateStudent(switchAccounts)
+                                        .then((value) => {
+                                              setState(() {}),
+                                            });
+                                  }
+                                });
+                              },
+                            )
                       : Text(""),
                   SizedBox(
                     width: 20,
@@ -315,30 +296,31 @@ class _UserProfileState extends State<UserProfile> {
                                     type: PageTransitionType.rightToLeft,
                                     child: FamilyMemberListScreen(),
                                   ),
-                                );;
+                                );
+                                ;
                               },
                               child: Container(
                                 height: isTablet ? 25 : 20,
                                 width: isTablet ? 70 : 60,
                                 child: Center(
                                     child: Row(
-                                      mainAxisAlignment:
+                                  mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(),
+                                    Row(
                                       children: [
-                                        SizedBox(),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "View All",
-                                              key: Key('profileFamilyViewAllKey'),
-                                              style: GoogleFonts.roboto(
-                                                  color: AppTheme.appbarPrimary,
-                                                  fontSize: isTablet ? 14 : 12),
-                                              ),
-                                          ],
+                                        Text(
+                                          "View All",
+                                          key: Key('profileFamilyViewAllKey'),
+                                          style: GoogleFonts.roboto(
+                                              color: AppTheme.appbarPrimary,
+                                              fontSize: isTablet ? 14 : 12),
                                         ),
                                       ],
-                                    )),
+                                    ),
+                                  ],
+                                )),
                               ),
                             )
                           ],
@@ -349,13 +331,14 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            right:
-                                familyVm.familyMembersList.length == 0 ? 22 : 0.0,
+                            right: familyVm.familyMembersList.length == 0
+                                ? 22
+                                : 0.0,
                             left: 22),
                         child: ConstrainedBox(
                             constraints: new BoxConstraints(
                               // minHeight: 20.0,
-                              maxHeight: isTablet? 85 : 75.0,
+                              maxHeight: isTablet ? 85 : 75.0,
                             ),
                             child: familyVm.familyMembersList.length == 0
                                 ? Container(
@@ -365,14 +348,14 @@ class _UserProfileState extends State<UserProfile> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'You have added no family members.',
                                           style: GoogleFonts.poppins(
-                                            fontSize: isTablet? 15 : 13,
-                                              color: HexColor('#C7C8CF'
-                                              )),
+                                              fontSize: isTablet ? 15 : 13,
+                                              color: HexColor('#C7C8CF')),
                                         ),
                                         SizedBox(
                                           height: 5,
@@ -388,7 +371,7 @@ class _UserProfileState extends State<UserProfile> {
                                             child: Text(
                                               'Add now',
                                               style: GoogleFonts.poppins(
-                                                  fontSize: isTablet? 15 : 13,
+                                                  fontSize: isTablet ? 15 : 13,
                                                   color: HexColor('#8592E5')),
                                             ))
                                       ],
@@ -397,7 +380,9 @@ class _UserProfileState extends State<UserProfile> {
                                 : ListView.builder(
                                     shrinkWrap: true,
                                     itemCount:
-                                        familyVm.familyMembersList.length>=5 ? 5 : familyVm.familyMembersList.length,
+                                        familyVm.familyMembersList.length >= 5
+                                            ? 5
+                                            : familyVm.familyMembersList.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
                                       var photo = familyVm
@@ -405,13 +390,14 @@ class _UserProfileState extends State<UserProfile> {
                                               ?.photo ??
                                           "";
                                       return Container(
-                                        margin: EdgeInsets.only(right: isTablet? 10 : 6),
+                                        margin: EdgeInsets.only(
+                                            right: isTablet ? 10 : 6),
                                         decoration: BoxDecoration(
                                             color: HexColor('#F7F8FF'),
                                             borderRadius:
                                                 BorderRadius.circular(8)),
                                         height: 50.0,
-                                        width: isTablet? 180 :150,
+                                        width: isTablet ? 180 : 150,
                                         child: Row(
                                           children: [
                                             SizedBox(
@@ -426,8 +412,7 @@ class _UserProfileState extends State<UserProfile> {
                                                       //color: AppTheme.appbarPrimary,
                                                       shape: BoxShape.circle,
                                                     ),
-                                                    height:
-                                                        isTablet ? 45 : 40,
+                                                    height: isTablet ? 45 : 40,
                                                     width: isTablet ? 45 : 40,
                                                     child: Center(
                                                         child: imageVm
@@ -446,18 +431,15 @@ class _UserProfileState extends State<UserProfile> {
                                                           .appbarPrimary,
                                                       shape: BoxShape.circle,
                                                     ),
-                                                    height:
-                                                        isTablet ? 45 : 40,
+                                                    height: isTablet ? 45 : 40,
                                                     width: isTablet ? 45 : 40,
                                                     child: Center(
                                                       child: Image.asset(
                                                         'assets/images/dPro.png',
-                                                        height: isTablet
-                                                            ? 27
-                                                            : 22,
-                                                        width: isTablet
-                                                            ? 27
-                                                            : 22,
+                                                        height:
+                                                            isTablet ? 27 : 22,
+                                                        width:
+                                                            isTablet ? 27 : 22,
                                                       ),
                                                     )),
                                             SizedBox(
@@ -470,7 +452,7 @@ class _UserProfileState extends State<UserProfile> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                  width:isTablet? 115 : 95,
+                                                  width: isTablet ? 115 : 95,
                                                   child: Text(
                                                     familyVm
                                                         .familyMembersList[
@@ -480,11 +462,12 @@ class _UserProfileState extends State<UserProfile> {
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: GoogleFonts.roboto(
-                                                        color: HexColor(
-                                                            '#0D1231'),
+                                                        color:
+                                                            HexColor('#0D1231'),
                                                         fontWeight:
                                                             FontWeight.w600,
-                                                        fontSize: isTablet? 14 : 11),
+                                                        fontSize:
+                                                            isTablet ? 14 : 11),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -492,13 +475,13 @@ class _UserProfileState extends State<UserProfile> {
                                                 ),
                                                 Text(
                                                   familyVm
-                                                      .familyMembersList[
-                                                          index]
+                                                      .familyMembersList[index]
                                                       .relationName,
                                                   style: GoogleFonts.roboto(
                                                       color:
                                                           HexColor('#B8C2F8'),
-                                                      fontSize: isTablet? 13 : 10),
+                                                      fontSize:
+                                                          isTablet ? 13 : 10),
                                                 ),
                                               ],
                                             )
@@ -507,273 +490,8 @@ class _UserProfileState extends State<UserProfile> {
                                       );
                                     })),
                       ),
-                      // InkWell(
-                      //   onTap: (){
-                      //     Navigator.push(
-                      //       context,
-                      //       PageTransition(
-                      //         type: PageTransitionType.rightToLeft,
-                      //         child: FamilyMemberListScreen(),
-                      //       ),
-                      //     );
-                      //   },
-                      //   child: Material(
-                      //     elevation: 2,
-                      //     shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(8)),
-                      //     color: HexColor("#354291"),
-                      //     child: SizedBox(
-                      //       width: isTablet? MediaQuery.of(context).size.width*.95 : MediaQuery.of(context).size.width*.9,
-                      //       height: isTablet? 50 : 40,
-                      //       child: Center(
-                      //         child: Row(
-                      //           mainAxisAlignment: MainAxisAlignment.center,
-                      //           children: [
-                      //             Icon(
-                      //               Icons.person_add,
-                      //               color: Colors.white,
-                      //               size: isTablet? 25 : 20 ,
-                      //             ),
-                      //             SizedBox(
-                      //               width: 10,
-                      //             ),
-                      //             Text(
-                      //               "Add Family Members",
-                      //               key: Key('addFamilyMemberKey'),
-                      //               style: GoogleFonts.roboto(
-                      //                   color: Colors.white,
-                      //                   fontSize: isTablet? 18 : 15,
-                      //                   fontWeight: FontWeight.w500),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(
                         height: 10,
-                      ),
-                      // Expanded(
-                      //   child: ListView.builder(
-                      //       physics: NeverScrollableScrollPhysics(),
-                      //       shrinkWrap: true,
-                      //       scrollDirection: Axis.horizontal,
-                      //       itemCount: 3,
-                      //       itemBuilder: (BuildContext context, int index) {
-                      //         var photo = familyVm.familyMembersList[index]?.photo ?? "";
-                      //         print("photo $photo");
-                      //         return Container(
-                      //           color: HexColor('#F7F8FF'),
-                      //           height: 50.0,
-                      //           width: 102,
-                      //           child: Row(
-                      //             children: [
-                      //               CircleAvatar(
-                      //                 radius: 22,
-                      //                 backgroundColor:
-                      //                     HexColor('#354291').withOpacity(0.2),
-                      //                 child: CircleAvatar(
-                      //                   radius: 21,
-                      //                   backgroundColor: Colors.white,
-                      //                   child: CircleAvatar(
-                      //                     backgroundImage:
-                      //                         AssetImage('assets/images/f1.png'),
-                      //                     radius: 20,
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //               SizedBox(
-                      //                 width: 10,
-                      //               ),
-                      //               Padding(
-                      //                 padding: const EdgeInsets.only(top: 10.0),
-                      //                 child: Column(
-                      //                   crossAxisAlignment:
-                      //                       CrossAxisAlignment.start,
-                      //                   children: [
-                      //                     Text(
-                      //                       familyVm.familyMembersList[index].fmName,
-                      //                       style: GoogleFonts.roboto(
-                      //                           color: HexColor('#0D1231'),
-                      //                           fontSize: 10),
-                      //                     ),
-                      //                     SizedBox(
-                      //                       height: 5,
-                      //                     ),
-                      //                     Text(
-                      //                       familyVm.familyMembersList[index].relationName,
-                      //                       style: GoogleFonts.roboto(
-                      //                           color: HexColor('#B8C2F8'),
-                      //                           fontSize: 8),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               )
-                      //             ],
-                      //           ),
-                      //         );
-                      //       }),
-                      // ),
-                      Row(
-                        children: [
-                          // Container(
-                          //   color: HexColor('#F7F8FF'),
-                          //   height: 55.0,
-                          //   width: 102,
-                          //   child: Row(
-                          //     children: [
-                          //       CircleAvatar(
-                          //         radius: 22,
-                          //         backgroundColor:
-                          //             HexColor('#354291').withOpacity(0.2),
-                          //         child: CircleAvatar(
-                          //           radius: 21,
-                          //           backgroundColor: Colors.white,
-                          //           child: CircleAvatar(
-                          //             backgroundImage:
-                          //                 AssetImage('assets/images/f1.png'),
-                          //             radius: 20,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       SizedBox(
-                          //         width: 10,
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.only(top: 10.0),
-                          //         child: Column(
-                          //           crossAxisAlignment:
-                          //               CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text(
-                          //               "Nahid Doe",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#0D1231'),
-                          //                   fontSize: 10),
-                          //             ),
-                          //             SizedBox(
-                          //               height: 5,
-                          //             ),
-                          //             Text(
-                          //               "Brother",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#B8C2F8'),
-                          //                   fontSize: 8),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   width: 9,
-                          // ),
-                          // Container(
-                          //   color: HexColor('#F7F8FF'),
-                          //   height: 55.0,
-                          //   width: 110,
-                          //   child: Row(
-                          //     children: [
-                          //       CircleAvatar(
-                          //         radius: 22,
-                          //         backgroundColor:
-                          //             HexColor('#354291').withOpacity(0.2),
-                          //         child: CircleAvatar(
-                          //           radius: 21,
-                          //           backgroundColor: Colors.white,
-                          //           child: CircleAvatar(
-                          //             backgroundImage:
-                          //                 AssetImage('assets/images/f2.png'),
-                          //             radius: 20,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       SizedBox(
-                          //         width: 10,
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.only(top: 10.0),
-                          //         child: Column(
-                          //           crossAxisAlignment:
-                          //               CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text(
-                          //               "Nahid Doe",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#0D1231'),
-                          //                   fontSize: 10),
-                          //             ),
-                          //             SizedBox(
-                          //               height: 5,
-                          //             ),
-                          //             Text(
-                          //               "Brother",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#B8C2F8'),
-                          //                   fontSize: 8),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   width: 9,
-                          // ),
-                          // Container(
-                          //   color: HexColor('#F7F8FF'),
-                          //   height: 55.0,
-                          //   width: 110,
-                          //   child: Row(
-                          //     children: [
-                          //       CircleAvatar(
-                          //         radius: 22,
-                          //         backgroundColor:
-                          //             HexColor('#354291').withOpacity(0.2),
-                          //         child: CircleAvatar(
-                          //           radius: 21,
-                          //           backgroundColor: Colors.white,
-                          //           child: CircleAvatar(
-                          //             backgroundImage:
-                          //                 AssetImage('assets/images/f3.png'),
-                          //             radius: 20,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       SizedBox(
-                          //         width: 10,
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.only(top: 10.0),
-                          //         child: Column(
-                          //           crossAxisAlignment:
-                          //               CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text(
-                          //               "Nahid Doe",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#0D1231'),
-                          //                   fontSize: 10),
-                          //             ),
-                          //             SizedBox(
-                          //               height: 5,
-                          //             ),
-                          //             Text(
-                          //               "Brother",
-                          //               style: GoogleFonts.roboto(
-                          //                   color: HexColor('#B8C2F8'),
-                          //                   fontSize: 8),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                        ],
                       ),
                       SizedBox(
                         height: 10,
@@ -795,11 +513,14 @@ class _UserProfileState extends State<UserProfile> {
                                 _showAlertDialogForEditProfile(context);
                               },
                               child: Container(
-                                constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
+                                constraints: BoxConstraints(
+                                  minWidth: isTablet ? 70 : 60,
+                                ),
                                 height: isTablet ? 25 : 20,
-                               // width: isTablet ? 70 : 60,
+                                // width: isTablet ? 70 : 60,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: HexColor('#354291')),
+                                  border:
+                                      Border.all(color: HexColor('#354291')),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(
@@ -896,10 +617,10 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       Container(
                         color: HexColor('#F7F8FF'),
-                        //height: 65.0,
                         width: double.infinity,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 11,bottom: 11),
+                          padding: const EdgeInsets.only(
+                              left: 22.0, top: 11, bottom: 11),
                           child: Text(
                             "Address               : ${vm.userDetailsList?.address ?? ""}",
                             style: GoogleFonts.roboto(
@@ -950,23 +671,6 @@ class _UserProfileState extends State<UserProfile> {
                           ),
                         ),
                       ),
-                      // SizedBox(
-                      //   height: 15,
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(right: 22.0, left: 22),
-                      //   child: Row(
-                      //     children: [
-                      //       Text(
-                      //         "Change Password",
-                      //         style: GoogleFonts.roboto(
-                      //             color: HexColor('#354291'),
-                      //             fontSize: 16,
-                      //             fontWeight: FontWeight.bold),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       SizedBox(
                         height: 15,
                       ),
@@ -1019,15 +723,6 @@ class _UserProfileState extends State<UserProfile> {
                 // ),
               ),
             ]),
-            // CircleAvatar(
-            //   radius: 10,
-            //   backgroundColor: Colors.white,
-            //   child: CircleAvatar(
-            //     backgroundImage: AssetImage('assets/images/proimg.png'),
-            //     radius: 9,
-            //   ),
-            // ),
-
             Align(
               alignment: Alignment.center,
               child: Padding(
@@ -1043,7 +738,6 @@ class _UserProfileState extends State<UserProfile> {
                           border: Border.all(color: AppTheme.appbarPrimary),
                           color: Colors.white,
                         ),
-                        //color: Colors.white,
                         height: isTablet ? 135 : 120,
                         width: isTablet ? 155 : 135,
                         child: _image != null
@@ -1058,10 +752,13 @@ class _UserProfileState extends State<UserProfile> {
                             : photo != ""
                                 ? vm2.loadProfileImage(photo, 100, 60, 19)
                                 : Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ClipRRect(child: Image.asset('assets/images/dPro.png',
-                          fit: BoxFit.contain,)),
-                                ),
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                        child: Image.asset(
+                                      'assets/images/dPro.png',
+                                      fit: BoxFit.contain,
+                                    )),
+                                  ),
                       ),
                       Positioned(
                         bottom: isTablet ? 0 : 12,
@@ -1076,8 +773,8 @@ class _UserProfileState extends State<UserProfile> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white,
-                                  border:
-                                      Border.all(color: AppTheme.appbarPrimary)),
+                                  border: Border.all(
+                                      color: AppTheme.appbarPrimary)),
                               child: Icon(
                                 Icons.camera_alt,
                                 color: AppTheme.appbarPrimary,
@@ -1116,10 +813,9 @@ class _UserProfileState extends State<UserProfile> {
 }
 
 class DateUtil {
-  static const DATE_FORMAT = 'dd-MM-yyyy';
+  static const DATE_FORMAT = 'dd/MM/yyyy';
 
   String formattedDate(DateTime dateTime) {
-    print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

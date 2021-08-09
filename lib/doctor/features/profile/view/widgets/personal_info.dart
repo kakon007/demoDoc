@@ -84,7 +84,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               companyInfoVm.isLoading ? '' : companyInfoVm.details?.name ?? '',
-              style: GoogleFonts.poppins(fontSize: 15),
+              style: GoogleFonts.poppins(),
             ),
           ),
         ),
@@ -131,7 +131,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
               'MBBS',
-              style: GoogleFonts.poppins(fontSize: 15),
+              style: GoogleFonts.poppins(),
             ),
           ),
         ),
@@ -171,7 +171,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       child: Container(
                         height: 46,
                         width: 70,
-                        child: Center(child: Text('+880', style: GoogleFonts.poppins(fontSize: 15),)),
+                        child: Center(child: Text('+880', style: GoogleFonts.poppins(),)),
                         decoration: BoxDecoration(
                             color: HexColor('#E8E8E8'),
                             borderRadius: BorderRadius.only(
@@ -209,7 +209,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                     .toString()
                                     .substring(1) ??
                                 '',
-                        style: GoogleFonts.poppins(fontSize: 15),
+                        style: GoogleFonts.poppins(),
                       ),
                     ),
                   ),
@@ -217,14 +217,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     top: 0,
                     left:0,
                     child: Container(
-                      height: 50,
+                      height: 48,
                       width: 70,
-                      child: Center(child: Text('+880',  style: GoogleFonts.poppins(fontSize: 15),)),
+                      child: Center(child: Text('+880',  style: GoogleFonts.poppins(),)),
                       decoration: BoxDecoration(
                           color: HexColor('#E8E8E8'),
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              bottomLeft: Radius.circular(8))),
+                              topLeft: Radius.circular(9),
+                              bottomLeft: Radius.circular(9))),
                     ),
                   )
                 ],
@@ -386,7 +386,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     companyInfoVm.isLoading
                         ? ''
                         : companyInfoVm.details?.userEmail ?? '',
-                    style: GoogleFonts.poppins(fontSize: 15),
+                    style: GoogleFonts.poppins(),
                   ),
                 ),
               ),
@@ -401,7 +401,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             style: GoogleFonts.roboto(fontSize: 12),
           ),
           FlatButton(
-              minWidth: MediaQuery.of(context).size.width * .3,
+              minWidth: MediaQuery.of(context).size.width * .2,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5)),
               color: AppTheme.buttonActiveColor,
@@ -410,7 +410,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               },
               child: Text(
                 StringResources.clickHere,
-                style: GoogleFonts.roboto(color: Colors.white),
+                style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600),
               )),
         ],
       ),
@@ -428,7 +428,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             },
             child: Text(
               'Edit Your Profile',
-              style: GoogleFonts.roboto(color: Colors.white),
+              style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600),
             ))
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -446,7 +446,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   },
                   child: Text(
                     'Cancel',
-                    style: GoogleFonts.poppins(color: Colors.white),
+                    style: GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.w600),
                   )),
               FlatButton(
                   minWidth: MediaQuery.of(context).size.width * .4,
@@ -476,7 +476,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   },
                   child: Text(
                     'Save',
-                    style: GoogleFonts.poppins(color: Colors.white),
+                    style: GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.w600),
                   ))
             ],
           );
@@ -501,6 +501,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  spaceBetween,
                   spaceBetween,
                   spaceBetween,
                   nameHeading,

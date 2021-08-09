@@ -69,13 +69,13 @@ class _WorklistAllState extends State<WorklistAll> {
                       Text(
                         "Consultation time :   ",
                         style: GoogleFonts.poppins(
-                          fontSize: width<=330? 10 : 11,
+                          fontSize: width<=330? 10 : 12,
                         ),
                       ),
                       Text(
                         "08:00 PM, 22/05/2021",
                         style: GoogleFonts.poppins(
-                            fontSize: width<=330? 10 : 11,
+                            fontSize: width<=330? 10 : 12,
                             fontWeight: FontWeight.w600,
                           color: HexColor("#FFB14A"),),
                       ),
@@ -89,13 +89,13 @@ class _WorklistAllState extends State<WorklistAll> {
                       Text(
                         "Consultation type :   ",
                         style: GoogleFonts.poppins(
-                          fontSize: width<=330? 10 : 11,
+                          fontSize: width<=330? 10 : 12,
                         ),
                       ),
                       Text(
                         "1st Follow Up",
                         style: GoogleFonts.poppins(
-                          fontSize: width<=330? 10 : 11,
+                          fontSize: width<=330? 10 : 12,
                            // fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -119,7 +119,7 @@ class _WorklistAllState extends State<WorklistAll> {
                           overflow: TextOverflow
                               .ellipsis,
                           style: GoogleFonts.poppins(
-                              fontSize: width<=330? 9 : 12,
+                              fontSize: width<=330? 10 : 12,
                               color: Colors.black),
                         ),
                       ),

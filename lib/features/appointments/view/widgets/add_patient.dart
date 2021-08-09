@@ -537,7 +537,6 @@ class _AddPatientState extends State<AddPatient> {
             ),
           ],
         ));
-    print('width ${width}');
     var membersTypeList = Row(
       children: [
         GestureDetector(
@@ -831,7 +830,6 @@ class _AddPatientState extends State<AddPatient> {
                               consultBorderColor = "#EAEBED";
                               _selectedConsultation = newValue;
                               selectedConsultationType = newValue;
-                              //print("Con: $selectedConsultationType");
                               vm.getFee(
                                 widget.companyNo,
                                 _selectedConsultation,
@@ -924,7 +922,6 @@ class _AddPatientState extends State<AddPatient> {
                               consultBorderColorForMe = "#EAEBED";
                               _selectedConsultationForMe = newValue;
                               selectedConsultationTypeForMe = newValue;
-                              //print("Con: $selectedConsultationType");
                               vm.getFeeForMe(
                                 widget.companyNo,
                                 _selectedConsultationForMe,

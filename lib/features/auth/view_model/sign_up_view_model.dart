@@ -13,7 +13,6 @@ class SignUpViewModel extends ChangeNotifier {
   String _username;
   String _password;
   String _message;
-  DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   bool _isLoading = false;
@@ -22,7 +21,6 @@ class SignUpViewModel extends ChangeNotifier {
   Future<void> getSignUpInfo(String name, String email,String mobile, String address, String selectedGender,String formatDate2) async {
     _isLoading = true;
     var res = await AuthRepository().fetchSignUpInfo( name,  email, mobile,  address,  selectedGender, formatDate2);
-    print("Response from sign Up:::"+res);
     notifyListeners();
     _isLoading = false;
     SignUpModel data= signUpModelFromJson(res);

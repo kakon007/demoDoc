@@ -68,7 +68,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              'Assoc. Dr. Mahmud Rahim',
+              'Assoc. Dr. Mahmud Rahim',style: GoogleFonts.poppins(),
             ),
           ),
         ),
@@ -116,7 +116,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              'A 187',
+              'A 187',style: GoogleFonts.poppins(),
             ),
           ),
         ),
@@ -164,7 +164,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              'BCS(Health), MD(Chest)',
+              'BCS(Health), MD(Chest)',style: GoogleFonts.poppins(),
             ),
           ),
         ),
@@ -184,7 +184,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
                 //SizedBox(width: 10,),
                 Text(
                   'Add More',
-                  style: GoogleFonts.roboto(color: Colors.white),
+                  style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600),
                 ),
               ],
             )),
@@ -230,12 +230,12 @@ class _DoctorInfoState extends State<DoctorInfo> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Assoc. Dr. Mahmud Rahim',
+                  'Assoc. Dr. Mahmud Rahim',style: GoogleFonts.poppins(),
                 ),Text(
-                  'MBBS(Dhaka)',
+                  'MBBS(Dhaka)',style: GoogleFonts.poppins(),
                 ),
                 Text(
-                  'BCS(Health), MD(Chest)',
+                  'BCS(Health), MD(Chest)',style: GoogleFonts.poppins(),
                 ),
               ],
             ),
@@ -280,7 +280,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
             },
             child: Text(
               'Upload Your Signature',
-              style: GoogleFonts.roboto(color: Colors.white),
+              style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600),
             ),),
           spaceBetween,
         ],
@@ -374,9 +374,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
               children: [
                 spaceBetween,
                 spaceBetween,
-                // SignUpFormField(labelText: 'Shakil',
-                // labelLeftPadding: 0,
-                // )
+                spaceBetween,
                 nameHeading,
                 //spaceBetween,
                 doctorName,

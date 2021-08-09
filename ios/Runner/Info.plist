@@ -29,11 +29,16 @@
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app need to access location to show nearest hospitals</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app need to access location to show nearest hospitals</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app need to access your photo library to upload image</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

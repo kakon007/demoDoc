@@ -2274,55 +2274,210 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                                child: Icon(Icons.share,key: Key('documentationShareKey$index'),size:  isTablet? 25 :deviceWidth<=360? 18 : 18 , color: AppTheme.appbarPrimary,)),
                                                                          ),
                                                                          SizedBox(width: 5,),
-                                                                         Padding(
-                                                                           padding: EdgeInsets.only(top: 0,right:0),
-                                                                           child: InkWell(onTap: () {
-                                                                               // set up the buttons
-                                                                               Widget cancelButton = TextButton(
-                                                                                 child: Text("Cancel",style: TextStyle(color: HexColor('#354291')),),
-                                                                                 onPressed:  () {
-                                                                                   Navigator.pop(context);
-                                                                                 },
+                                                                         InkWell(onTap: () {
+                                                                           showGeneralDialog(
+                                                                             barrierLabel: "Label",
+                                                                             barrierDismissible: true,
+                                                                             barrierColor:
+                                                                             Colors.black.withOpacity(0.5),
+                                                                             transitionDuration:
+                                                                             Duration(milliseconds: 700),
+                                                                             context: context,
+                                                                             pageBuilder:
+                                                                                 (context, anim1, anim2) {
+                                                                               return Material(
+                                                                                 type: MaterialType
+                                                                                     .transparency,
+                                                                                 child: Align(
+                                                                                   alignment:
+                                                                                   Alignment.center,
+                                                                                   child: Material(
+                                                                                     type: MaterialType
+                                                                                         .transparency,
+                                                                                     child: Stack(
+                                                                                       children: [
+                                                                                         Container(
+                                                                                           height: 300,
+                                                                                           width: isTablet?MediaQuery.of(context).size.width *.7 : MediaQuery.of(context).size.width,
+                                                                                           child: Center(
+                                                                                             child: Container(
+                                                                                               height: 200,
+                                                                                               margin:
+                                                                                               EdgeInsets.only(
+                                                                                                   left: 15,
+                                                                                                   right: 15),
+                                                                                               decoration:
+                                                                                               BoxDecoration(
+                                                                                                 gradient:
+                                                                                                 LinearGradient(
+                                                                                                   begin: Alignment
+                                                                                                       .topCenter,
+                                                                                                   end: Alignment
+                                                                                                       .bottomCenter,
+                                                                                                   colors: [
+                                                                                                     HexColor(
+                                                                                                         '#fdf0f2'),
+                                                                                                     HexColor(
+                                                                                                         '#FFFFFF')
+                                                                                                   ],
+                                                                                                   tileMode: TileMode
+                                                                                                       .repeated,
+                                                                                                 ),
+                                                                                                 borderRadius:
+                                                                                                 BorderRadius
+                                                                                                     .circular(
+                                                                                                     20),
+                                                                                               ),
+                                                                                               child: Padding(
+                                                                                                 padding:
+                                                                                                 const EdgeInsets
+                                                                                                     .only(
+                                                                                                     top: 60.0),
+                                                                                                 child: Column(
+                                                                                                   children: [
+                                                                                                     Column(
+                                                                                                       mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                                       children: [
+                                                                                                         Padding(
+                                                                                                           padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.08, right: MediaQuery.of(context).size.width*0.08),
+                                                                                                           child: RichText(
+                                                                                                             textAlign: TextAlign.center,
+                                                                                                             text:  TextSpan(
+                                                                                                               style:  GoogleFonts.poppins(
+                                                                                                                 fontSize: isTablet? 18 : 14.0,
+                                                                                                                 color: Colors.black,
+                                                                                                               ),
+                                                                                                               children: <TextSpan>[
+                                                                                                                 TextSpan(text: 'Delete '),
+                                                                                                                  TextSpan(text: 'Document', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                                                                                                 TextSpan(text: " from your list?", style: GoogleFonts.poppins()),
+                                                                                                               ],
+                                                                                                             ),
+                                                                                                           ),
+                                                                                                         ),
+                                                                                                       ],
+                                                                                                     ),
+                                                                                                     // Column(
+                                                                                                     //   children: [
+                                                                                                     //     Row(
+                                                                                                     //       mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                     //       children: [
+                                                                                                     //         Text("Remove ", style: GoogleFonts.poppins()),
+                                                                                                     //         Text(familyVm.familyMembersList[index].fmName,style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                                                                                                     //         Text(" from", style: GoogleFonts.poppins())
+                                                                                                     //       ],
+                                                                                                     //     ),
+                                                                                                     //     Text("your members list.", style: GoogleFonts.poppins())
+                                                                                                     //   ],
+                                                                                                     // ),
+                                                                                                     SizedBox(
+                                                                                                       height: 5,
+                                                                                                     ),
+                                                                                                     SizedBox(
+                                                                                                       height: isTablet? 10 : MediaQuery.of(context).size.width<=330 ? 10 : 20,
+                                                                                                     ),
+                                                                                                     Padding(
+                                                                                                       padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.08, right: MediaQuery.of(context).size.width*0.08),
+                                                                                                       child: Row(
+                                                                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                         children: [
+                                                                                                           Padding(
+                                                                                                             padding: const EdgeInsets.only(left: 0.0, right: 0),
+                                                                                                             child: Container(
+                                                                                                               width: isTablet? MediaQuery.of(context).size.width*.22: MediaQuery.of(context).size.width/3,
+                                                                                                               decoration: BoxDecoration(),
+                                                                                                               height: isTablet? 50 : 45,
+                                                                                                               child: FlatButton(
+                                                                                                                   key: Key('familyMemberCancelButtonKey'),
+                                                                                                                   onPressed: (){
+                                                                                                                     Navigator.pop(context);
+                                                                                                                   },
+                                                                                                                   shape: RoundedRectangleBorder(
+                                                                                                                       side: BorderSide(
+                                                                                                                           color: AppTheme.appbarPrimary
+                                                                                                                           ,width: 1),
+                                                                                                                       borderRadius: BorderRadius.circular(10)),
+                                                                                                                   textColor: AppTheme.appbarPrimary ,
+                                                                                                                   color: Colors.white ,child: Text("Cancel",style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
+                                                                                                             ),
+                                                                                                           ),
+                                                                                                           Padding(
+                                                                                                             padding: const EdgeInsets.only(left: 0.0, right: 0),
+                                                                                                             child: Container(
+                                                                                                               width: isTablet? MediaQuery.of(context).size.width*.22: MediaQuery.of(context).size.width/3,
+                                                                                                               height: isTablet? 50 : 45,
+                                                                                                               child: FlatButton(
+                                                                                                                   key: Key('familyMemberRemoveButtonKey'),
+                                                                                                                   onPressed: () async{
+                                                                                                                         // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
+                                                                                                                         // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
+                                                                                                                         SVProgressHUD.show(
+                                                                                                                             status: 'Deleting'
+                                                                                                                         );
+                                                                                                                         await Provider.of<UploadDocumentsViewModel>(context, listen: false)
+                                                                                                                             .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
+                                                                                                                           setState(() {
+                                                                                                                             vm3.getDataforDoc();
+                                                                                                                           });
+                                                                                                                         });
+                                                                                                                         SVProgressHUD.dismiss();
+                                                                                                                         Navigator.pop(context);
+                                                                                                                   },
+                                                                                                                   shape: RoundedRectangleBorder(
+                                                                                                                       borderRadius: BorderRadius.circular(10)),
+                                                                                                                   textColor: Colors.white,
+                                                                                                                   color: AppTheme.appbarPrimary ,child: Text("Delete",  style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
+                                                                                                             ),
+                                                                                                           ),
+                                                                                                         ],
+                                                                                                       ),
+                                                                                                     )
+                                                                                                   ],
+                                                                                                 ),
+                                                                                               ),
+                                                                                             ),
+                                                                                           ),
+                                                                                         ),
+                                                                                         Positioned(
+                                                                                           bottom: 180,
+                                                                                           left: 100,
+                                                                                           right: 100,
+                                                                                           child: CircleAvatar(
+                                                                                             backgroundColor:
+                                                                                             Colors.transparent,
+                                                                                             radius: Constants
+                                                                                                 .avatarRadius,
+                                                                                             child: ClipRRect(
+                                                                                                 borderRadius:
+                                                                                                 BorderRadius.all(
+                                                                                                     Radius.circular(
+                                                                                                         Constants
+                                                                                                             .avatarRadius)),
+                                                                                                 child: Image.asset(
+                                                                                                   "assets/images/warning.png",height: 90,width: 90,)),
+                                                                                           ),
+                                                                                         ),
+                                                                                       ],
+                                                                                     ),
+                                                                                   ),
+                                                                                 ),
                                                                                );
-                                                                               Widget continueButton = TextButton(
-                                                                                 child: Text("Continue",style: TextStyle(color: HexColor('#354291')),),
-                                                                                 onPressed:  () async{
-                                                                                   // vm3.getData(accessToken: widget.accessToken,id: vm3.documentList[index].id,);
-                                                                                   // _showAlertDialogForEditProfile(context,vm3.documentList[index].attachmentName);
-                                                                                   SVProgressHUD.show(
-                                                                                       status: 'Deleting'
-                                                                                   );
-                                                                                   await Provider.of<UploadDocumentsViewModel>(context, listen: false)
-                                                                                       .deleteDocuments(accessToken: accessTokenVm.accessToken,id:vm3.documentList[index].id,attachmentName:vm3.documentList[index].attachmentName,attachmentPath:vm3.documentList[index].attachmentPath,attachmentTypeNo: vm3.documentList[index].attachmentTypeNo,description: vm3.documentList[index].description,activeStatus: vm3.documentList[index].activeStatus,referenceNo: vm3.documentList[index].referenceNo,referenceTypeNo: vm3.documentList[index].referenceTypeNo,regId: vm3.documentList[index].regId,type: vm3.documentList[index].type ).then((value){
-                                                                                     setState(() {
-                                                                                       vm3.getDataforDoc();
-                                                                                     });
-                                                                                   });
-                                                                                   SVProgressHUD.dismiss();
-                                                                                   Navigator.pop(context);
-                                                                                 },
+                                                                             },
+                                                                             transitionBuilder: (context,
+                                                                                 anim1, anim2, child) {
+                                                                               return SlideTransition(
+                                                                                 position: Tween(
+                                                                                     begin: Offset(0, 2),
+                                                                                     end: Offset(0, 0))
+                                                                                     .animate(anim1),
+                                                                                 child: child,
                                                                                );
+                                                                             },
+                                                                           );
 
-                                                                               // set up the AlertDialog
-                                                                               AlertDialog alert = AlertDialog(
-                                                                                 title: Text("Delete Document"),
-                                                                                 content: Text("Would you like to delete the document?"),
-                                                                                 actions: [
-                                                                                   cancelButton,
-                                                                                   continueButton,
-                                                                                 ],
-                                                                               );
+                                                                         },child: Icon(Icons.delete,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: HexColor('#354291'),)),
 
-                                                                               // show the dialog
-                                                                               showDialog(
-                                                                                 context: context,
-                                                                                 builder: (BuildContext context) {
-                                                                                   return alert;
-                                                                                 },
-                                                                               );
-
-                                                                           },child: Icon(Icons.delete,size:  isTablet? 25 :deviceWidth<=360? 18 : 20 ,color: HexColor('#354291'),)),
-                                                                         ),
                                                                        ],)
                                                                       ],
                                                                     ),

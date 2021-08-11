@@ -56,7 +56,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
           'From',
           style: GoogleFonts.poppins(
               fontSize: isTablet
-                  ? 20
+                  ? 18
                   : width <= 330
                       ? 13
                       : 16,
@@ -81,7 +81,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                 '22/12/18',
                 style: GoogleFonts.poppins(
                     fontSize: isTablet
-                        ? 20
+                        ? 18
                         : width <= 330
                             ? 12
                             : 14,
@@ -112,7 +112,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
           'To',
           style: GoogleFonts.poppins(
               fontSize: isTablet
-                  ? 20
+                  ? 18
                   : width <= 330
                       ? 13
                       : 16,
@@ -137,7 +137,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                 '30/12/18',
                 style: GoogleFonts.poppins(
                     fontSize: isTablet
-                        ? 20
+                        ? 18
                         : width <= 330
                             ? 12
                             : 14,
@@ -163,7 +163,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
     );
     var shiftHeading = Text(
       'Shift:',
-      style: GoogleFonts.poppins(),
+      style: GoogleFonts.poppins(fontSize: isTablet? 17 : 14),
     );
     var shiftList = Expanded(
       child: Container(
@@ -182,7 +182,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                     },
                     child: Container(
                       margin: EdgeInsets.all(5),
-                      constraints: BoxConstraints(minWidth: 100, minHeight: 20),
+                      constraints: BoxConstraints(minWidth: isTablet? 130 : 100, minHeight: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Color(0xffE2E2E2),
@@ -212,7 +212,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                       : index == 1
                                           ? "Morning"
                                           : "Evening",
-                                  style: GoogleFonts.poppins(),
+                                  style: GoogleFonts.poppins(fontSize: isTablet? 17 :14),
                                 ),
                               ],
                             ),
@@ -227,7 +227,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
     var viewButton = Align(
       alignment: Alignment.centerRight,
       child: FlatButton(
-          minWidth: MediaQuery.of(context).size.width * .45,
+          minWidth: isTablet? width*.4 : width * .45,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: AppTheme.buttonActiveColor,
           onPressed: () async {},
@@ -235,7 +235,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
             'View Report',
             style: GoogleFonts.roboto(
                 color: Colors.white,
-                fontSize: width <= 330 ? 12 : 15,
+                fontSize: isTablet? 17 : width <= 330 ? 12 : 15,
                 fontWeight: FontWeight.w600),
           )),
     );
@@ -269,7 +269,9 @@ class _AppointmentReportState extends State<AppointmentReport> {
         ),
       ),
     );
-    var widthSpace = SizedBox(width: 5,);
+    var widthSpace = SizedBox(
+      width: 5,
+    );
     return Scaffold(
       backgroundColor: AppTheme.dashboardBackgroundColor,
       appBar: AppBar(
@@ -293,7 +295,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: 11,
                   itemBuilder: (context, index) {
-                    var indexInc= ++index;
+                    var indexInc = ++index;
                     return Container(
                         constraints: BoxConstraints(minHeight: 80),
                         margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -303,14 +305,16 @@ class _AppointmentReportState extends State<AppointmentReport> {
                         child: Row(
                           children: [
                             Container(
-                                constraints: BoxConstraints(
-                                    minHeight: 90, minWidth: 60),
+                                constraints:
+                                    BoxConstraints(minHeight: 90, minWidth: 60),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: AppTheme.buttonActiveColor),
                                 child: Center(
                                   child: Text(
-                                    indexInc<10? "0${indexInc.toString()}": indexInc.toString(),
+                                    indexInc < 10
+                                        ? "0${indexInc.toString()}"
+                                        : indexInc.toString(),
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontSize: 20,
@@ -324,55 +328,114 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                 children: [
                                   Text(
                                     'Zia Uddin Arman',
-                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                                    style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        constraints: BoxConstraints(minWidth: 60),
+                                        constraints:
+                                            BoxConstraints(minWidth: 90),
                                         child: Text(
                                           'MH22012014368',
-                                          style: GoogleFonts.poppins(fontSize: 11),
+                                          style:
+                                              GoogleFonts.poppins(fontSize: isTablet? 14: 11),
                                         ),
                                       ),
                                       widthSpace,
                                       Container(
                                         width: 1,
-                                        constraints: BoxConstraints(minHeight: 20),
+                                        constraints:
+                                            BoxConstraints(minHeight: 20),
                                         color: AppTheme.buttonActiveColor,
                                       ),
                                       widthSpace,
                                       Text(
                                         '2nd Follow Up',
-                                        style: GoogleFonts.poppins(fontSize: 11),
+                                        style:
+                                            GoogleFonts.poppins(fontSize:isTablet? 14 : 11),
                                       ),
                                       widthSpace,
-                                      Container(
-                                        width: 1,
-                                        constraints: BoxConstraints(minHeight: 20),
-                                        color: AppTheme.buttonActiveColor,
-                                      ),
+                                      width > 330
+                                          ? Container(
+                                              width: 1,
+                                              constraints:
+                                                  BoxConstraints(minHeight: 20),
+                                              color: AppTheme.buttonActiveColor,
+                                            )
+                                          : SizedBox(),
+                                      width > 330 ? widthSpace : SizedBox(),
+                                      width > 330
+                                          ? Container(
+                                              constraints:
+                                                  BoxConstraints(minWidth: 60),
+                                              child: Text(
+                                                '08/08/2021',
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: isTablet? 14 : 11),
+                                              ),
+                                            )
+                                          : SizedBox(),
                                       widthSpace,
-                                      Container(
-                                        constraints: BoxConstraints(minWidth: 60),
-                                        child: Text(
-                                          '08/08/2021',
-                                          style: GoogleFonts.poppins(fontSize: 11),
-                                        ),
-                                      ),
+                                      isTablet
+                                          ? Container(
+                                              width: 1,
+                                              constraints:
+                                                  BoxConstraints(minHeight: 20),
+                                              color: AppTheme.buttonActiveColor,
+                                            )
+                                          : SizedBox(),
                                       widthSpace,
-                                      Container(
-                                        width: 1,
-                                        constraints: BoxConstraints(minHeight: 20),
-                                        color: AppTheme.buttonActiveColor,
-                                      ),
-                                      widthSpace,
-                                      Text(
-                                        'Morning',
-                                        style: GoogleFonts.poppins(fontSize: 11),
-                                      ),
+                                      isTablet
+                                          ? Container(
+                                              constraints:
+                                                  BoxConstraints(minWidth: 90),
+                                              child: Text(
+                                                'Morning',
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: isTablet? 14 : 11),
+                                              ),
+                                            )
+                                          : SizedBox()
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      isMobile
+                                          ? Container(
+                                              constraints:
+                                                  BoxConstraints(minWidth: 90),
+                                              child: Text(
+                                                'Morning',
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: isTablet? 14 : 11),
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                      width <= 330 ? widthSpace : SizedBox(),
+                                      width <= 330
+                                          ? Container(
+                                              width: 1,
+                                              constraints:
+                                                  BoxConstraints(minHeight: 20),
+                                              color: AppTheme.buttonActiveColor,
+                                            )
+                                          : SizedBox(),
+                                      width <= 330 ? widthSpace : SizedBox(),
+                                      width <= 330
+                                          ? Container(
+                                              constraints:
+                                                  BoxConstraints(minWidth: 60),
+                                              child: Text(
+                                                '08/08/2021',
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: isTablet? 14 : 11),
+                                              ),
+                                            )
+                                          : SizedBox(),
                                     ],
                                   ),
                                 ],

@@ -323,7 +323,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                           Navigator.push(
                               context,
                               PageRouteBuilder(
-                                transitionDuration: Duration(seconds: 1),
+                                transitionDuration: Duration(milliseconds: 1000),
                                 transitionsBuilder:
                                     (context, animation, secondaryAnimation, child) {
                                   var begin = Offset(0, 1.0);

@@ -32,7 +32,7 @@ class _WorklistState extends State<Worklist> {
         Container(
           constraints: BoxConstraints(
               minHeight: 120,
-              minWidth: width<=330 ? width*.9 : width*.925,),
+              minWidth: width<=330 ? width*.9 : width*.92,),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -172,7 +172,7 @@ class _WorklistState extends State<Worklist> {
             child: Text(
           'Waiting',
           style: GoogleFonts.poppins(
-              fontSize: 12,
+              fontSize: isTablet? 14 :12,
               color: index == 1 ? Colors.white : Colors.black,
               fontWeight: index == 1 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -195,7 +195,7 @@ class _WorklistState extends State<Worklist> {
             child: Text(
           'Completed',
           style: GoogleFonts.poppins(
-              fontSize: 12,
+              fontSize: isTablet? 14 : 12,
               color: index == 2 ? Colors.white : Colors.black,
               fontWeight: index == 2 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -236,7 +236,7 @@ class _WorklistState extends State<Worklist> {
                   Text(
                     'Select Date',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600, fontSize: 15),
+                        fontWeight: FontWeight.w600, fontSize:isTablet? 17 : 15),
                   ),
                   spaceBetween,
                   dateSection,
@@ -245,7 +245,7 @@ class _WorklistState extends State<Worklist> {
                   Text(
                     'Worklist',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600, fontSize: 15),
+                        fontWeight: FontWeight.w600, fontSize:isTablet? 17 : 15),
                   ),
                   spaceBetween,
                   spaceBetween,

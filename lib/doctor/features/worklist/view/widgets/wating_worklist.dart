@@ -110,19 +110,16 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
           spaceBetween,
           searchField,
           spaceBetween,
-          Container(
-            height: MediaQuery.of(context).size.height * .45,
-            child: ListView.builder(
-                shrinkWrap: true,
-                //physics: NeverScrollableScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
-                    child: WorklistAll(),
-                  );
-                }),
-          ),
+          ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
+                  child: WorklistAll(),
+                );
+              }),
           spaceBetween,
           spaceBetween,
         ],

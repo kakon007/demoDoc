@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class CompanyInfo extends StatefulWidget {
@@ -22,11 +23,14 @@ class _CompanyInfoState extends State<CompanyInfo> {
     var spaceBetween = SizedBox(
       height: 10,
     );
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var companyHeading = Padding(
       padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
       child: Text(
         'Company Name',
-        style: GoogleFonts.poppins(fontSize: 12),
+        style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
       ),
     );
     var companyName = Padding(
@@ -64,7 +68,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
         padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
         child: Text(
           'Address:',
-          style: GoogleFonts.poppins(fontSize: 12),
+          style: GoogleFonts.poppins(fontSize:isTablet ? 14 :  12),
         ));
     var address = Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),

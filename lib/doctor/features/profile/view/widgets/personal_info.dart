@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
@@ -43,11 +44,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
     var spaceBetween = SizedBox(
       height: 10,
     );
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var nameHeading = Padding(
       padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
       child: Text(
         'Name',
-        style: GoogleFonts.poppins(fontSize: 12),
+        style: GoogleFonts.poppins(fontSize:isTablet?14:  12),
       ),
     );
     var doctorName =
@@ -94,7 +98,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
       child: Text(
         'Designation',
-        style: GoogleFonts.poppins(fontSize: 12),
+        style: GoogleFonts.poppins(fontSize:isTablet?14:  12),
       ),
     );
     var designation =
@@ -143,7 +147,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         children: [
           Text(
             'Mobile',
-            style: GoogleFonts.poppins(fontSize: 12),
+            style: GoogleFonts.poppins(fontSize:isTablet?14:  12),
           ),
           Text(
             vm.isPersonalInfoEditing ? '*' : "",
@@ -341,7 +345,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         children: [
           Text(
             'Email',
-            style: GoogleFonts.poppins(fontSize: 12),
+            style: GoogleFonts.poppins(fontSize: isTablet?14: 12),
           ),
           Text(
             vm.isPersonalInfoEditing ? '*' : "",
@@ -398,7 +402,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         children: [
           Text(
             'Change Password:    ',
-            style: GoogleFonts.roboto(fontSize: 12),
+            style: GoogleFonts.roboto(fontSize: isTablet?14: 12),
           ),
           FlatButton(
               minWidth: MediaQuery.of(context).size.width * .2,
@@ -410,7 +414,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               },
               child: Text(
                 StringResources.clickHere,
-                style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600),
+                style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600, fontSize: isTablet? 18 : 15),
               )),
         ],
       ),
@@ -428,7 +432,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             },
             child: Text(
               'Edit Your Profile',
-              style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600),
+              style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600, fontSize: isTablet? 18 : 15),
             ))
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -446,7 +450,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   },
                   child: Text(
                     'Cancel',
-                    style: GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.w600),
+                    style: GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.w600, fontSize: isTablet? 18 : 15),
                   )),
               FlatButton(
                   minWidth: MediaQuery.of(context).size.width * .4,
@@ -476,7 +480,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   },
                   child: Text(
                     'Save',
-                    style: GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.w600),
+                    style: GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.w600, fontSize: isTablet? 18 : 15),
                   ))
             ],
           );

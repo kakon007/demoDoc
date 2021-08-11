@@ -208,7 +208,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                 ),
               ),
               backgroundColor: Color(0xff354291),
-              expandedHeight: 220,
+              expandedHeight: 160,
               floating: false,
               pinned: true,
               flexibleSpace: LayoutBuilder(builder: (context, constraint) {
@@ -246,161 +246,164 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                   1.0
                                 ])),
                       ),
-                      Container(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: isTablet ? 50 : 20,
-                              ),
-                              child: Card(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: Color(0xffD6DCFF),
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Container(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: isTablet ? 50 : 40,
                                 ),
-                                child: Image.memory(
-                                  widget.image,
-                                  width: 80,
-                                  gaplessPlayback: true,
+                                child: Card(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      color: Color(0xffD6DCFF),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Image.memory(
+                                    widget.image,
+                                    width: 80,
+                                    gaplessPlayback: true,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: isTablet ? 15 : 5,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      width: isTablet
-                                          ? MediaQuery.of(context).size.width *
-                                              .6
-                                          : width < 350
-                                              ? 190
-                                              : 260,
-                                      child: Text(
-                                        widget.title,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.poppins(
-                                            fontSize: isTablet
-                                                ? 20
-                                                : width < 350
-                                                    ? 12
-                                                    : 18,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xff141D53)),
-                                      )),
-                                  SizedBox(
-                                    height: isTablet ? 15 : 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      mailimg,
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                        child: RichText(
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                  text: widget.emailText,
-                                                  style: GoogleFonts.poppins(
-                                                    color: HexColor('#141D53'),
-                                                    fontSize:
-                                                        isTablet ? 14 : 11,
-                                                  ),
-                                                  recognizer:
-                                                      TapGestureRecognizer()
-                                                        ..onTap = () {
-                                                          launch(
-                                                              ('mailto://${widget.emailText}'));
-                                                        }),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 5),
-                                  Row(
-                                    children: [
-                                      phoneimg,
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
-                                        child: SelectableText.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                  text: widget.phoneText,
-                                                  style: GoogleFonts.poppins(
-                                                    color: HexColor('#141D53'),
-                                                    fontSize:
-                                                        isTablet ? 14 : 11,
-                                                  ),
-                                                  recognizer:
-                                                      TapGestureRecognizer()
-                                                        ..onTap = () {
-                                                          launch(
-                                                              ('tel://${widget.phoneText}'));
-                                                        }),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: isTablet ? 10 : 5,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SvgPicture.asset(
-                                        assetName3,
-                                        width: isTablet ? 25 : 10,
-                                        height: isTablet
-                                            ? 25
+                              SizedBox(
+                                width: isTablet ? 15 : 5,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                        width: isTablet
+                                            ? MediaQuery.of(context).size.width *
+                                                .6
                                             : width < 350
-                                                ? 15
-                                                : 18,
-                                        fit: BoxFit.cover,
-                                        allowDrawingOutsideViewBox: true,
-                                        matchTextDirection: true,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Flexible(
+                                                ? 190
+                                                : 260,
                                         child: Text(
-                                          widget.addressText,
+                                          widget.title,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.poppins(
-                                            color: HexColor('#141D53'),
-                                            fontSize: isTablet ? 14 : 11,
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width < 350
+                                                      ? 12
+                                                      : 18,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xff141D53)),
+                                        )),
+                                    SizedBox(
+                                      height: isTablet ? 15 : 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        mailimg,
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Flexible(
+                                          child: RichText(
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                    text: widget.emailText,
+                                                    style: GoogleFonts.poppins(
+                                                      color: HexColor('#141D53'),
+                                                      fontSize:
+                                                          isTablet ? 14 : 11,
+                                                    ),
+                                                    recognizer:
+                                                        TapGestureRecognizer()
+                                                          ..onTap = () {
+                                                            launch(
+                                                                ('mailto://${widget.emailText}'));
+                                                          }),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                                      ],
+                                    ),
+                                    SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        phoneimg,
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Flexible(
+                                          child: SelectableText.rich(
+                                            TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                    text: widget.phoneText,
+                                                    style: GoogleFonts.poppins(
+                                                      color: HexColor('#141D53'),
+                                                      fontSize:
+                                                          isTablet ? 14 : 11,
+                                                    ),
+                                                    recognizer:
+                                                        TapGestureRecognizer()
+                                                          ..onTap = () {
+                                                            launch(
+                                                                ('tel://${widget.phoneText}'));
+                                                          }),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: isTablet ? 10 : 5,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SvgPicture.asset(
+                                          assetName3,
+                                          width: isTablet ? 25 : 10,
+                                          height: isTablet
+                                              ? 25
+                                              : width < 350
+                                                  ? 15
+                                                  : 18,
+                                          fit: BoxFit.cover,
+                                          allowDrawingOutsideViewBox: true,
+                                          matchTextDirection: true,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            widget.addressText,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.poppins(
+                                              color: HexColor('#141D53'),
+                                              fontSize: isTablet ? 14 : 11,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],

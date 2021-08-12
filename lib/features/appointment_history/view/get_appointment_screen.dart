@@ -176,38 +176,15 @@ class _GetAppointmentState extends State<GetAppointment> {
   @override
   Widget build(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;
-    //var cardWidth = MediaQuery.of(context).size.width * 0.3435;
-    double bottomTextSize = MediaQuery.of(context).size.width > 600 ? 12 : 11;
     var deviceWidth = MediaQuery.of(context).size.width;
-    //var contrainerWidth = deviceWidth >= 400 ? double.infinity : 400.00;
     var width = MediaQuery.of(context).size.width * 0.44;
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<AppointmentUpcomingViewModel>(context, listen: true);
     var vm2 = Provider.of<AppointmentPreviousViewModel>(context, listen: true);
-    //var vm3 = Provider.of<DoctorListViewModel>(context);
     var vm5 = Provider.of<ZoomViewModel>(context);
     print(deviceWidth);
-    final Widget filtericon = SvgPicture.asset(
-      "assets/icons/fliter.svg",
-      width: 10,
-      height: 18,
-      fit: BoxFit.fitWidth,
-      allowDrawingOutsideViewBox: true,
-      matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
-    );
-
-    final Widget calenderIcon = SvgPicture.asset(
-      "assets/icons/calen.svg",
-      width: 10,
-      height: 18,
-      fit: BoxFit.fitWidth,
-      allowDrawingOutsideViewBox: true,
-      matchTextDirection: true,
-      //semanticsLabel: 'Acme Logo'
-    );
 
     var searchField = Padding(
       padding: const EdgeInsets.only(left: 12.0, right: 0, top: 8, bottom: 3),
@@ -321,18 +298,6 @@ class _GetAppointmentState extends State<GetAppointment> {
           key: Key('appointmentsAppbarKey'),
           style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
         ),
-        actions: [
-          // IconButton(
-          //   icon: Icon(
-          //     Icons.notifications,
-          //     color: Colors.white,
-          //     size: 20,
-          //   ),
-          //   onPressed: () {
-          //     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationScreen()));
-          //   },
-          // )
-        ],
       ),
       body: DefaultTabController(
         length: 2,
@@ -788,8 +753,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             constraints: BoxConstraints(
                                                               minHeight: isTablet ? 80 : 70,
                                                             ),
-                                                            // height: isTablet? 80 : 70,
-                                                            // margin: EdgeInsets.only(bottom: 5,right: 10,left: 10),
                                                             decoration: BoxDecoration(
                                                               color: HexColor('#F0F2FF'),
                                                               borderRadius:
@@ -1065,16 +1028,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         ? 10
                                                                         : 5,
                                                                   ),
-                                                                  // Row(
-                                                                  //   mainAxisAlignment:
-                                                                  //       MainAxisAlignment
-                                                                  //           .spaceBetween,
-                                                                  //   children: [
-                                                                  //
-                                                                  //
-                                                                  //
-                                                                  //   ],
-                                                                  // ),
                                                                 ],
                                                               ),
                                                             ),
@@ -1263,12 +1216,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                 ),
                                                               ],
                                                             ),
-                                                            // Container(width:45,child: rx),
-                                                            // (controller.isSelecting)?
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                            //   child: righticon,
-                                                            // ):
                                                             SizedBox(
                                                               width: MediaQuery.of(context)
                                                                               .size
@@ -1320,12 +1267,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                                 ? 95
                                                                                 : 127,
                                                                   ),
-                                                                  // width: isTablet? 170 :deviceWidth <= 360 && deviceWidth>330? 105 :
-                                                                  // deviceWidth <= 330 ? 95
-                                                                  //     : 127,
-                                                                  // height: deviceWidth >360
-                                                                  //     ? 35
-                                                                  //     : 28,
                                                                   child: Center(
                                                                     child: Text(
                                                                       "Join Video Consultation",
@@ -1749,7 +1690,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                     child:
                                                         Center(child: CircularProgressIndicator()))
                                                 : SizedBox();
-                                            //return SizedBox(height: 15,);
 
                                           }
                                           return Stack(children: [
@@ -1786,9 +1726,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                             constraints: BoxConstraints(
                                                               minHeight: isTablet ? 80 : 70,
                                                             ),
-
-                                                            //height: isTablet? 80 : 70,
-                                                            // margin: EdgeInsets.only(bottom: 5,right: 10,left: 10),
                                                             decoration: BoxDecoration(
                                                               color: HexColor('#F0F2FF'),
                                                               borderRadius:
@@ -2054,16 +1991,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                         ? 10
                                                                         : 5,
                                                                   ),
-                                                                  // Row(
-                                                                  //   mainAxisAlignment:
-                                                                  //       MainAxisAlignment
-                                                                  //           .spaceBetween,
-                                                                  //   children: [
-                                                                  //
-                                                                  //
-                                                                  //
-                                                                  //   ],
-                                                                  // ),
                                                                 ],
                                                               ),
                                                             ),
@@ -2221,12 +2148,6 @@ class _GetAppointmentState extends State<GetAppointment> {
                                                                 ),
                                                               ],
                                                             ),
-                                                            // Container(width:45,child: rx),
-                                                            // (controller.isSelecting)?
-                                                            // Padding(
-                                                            //   padding: const EdgeInsets.only(bottom:40.0,right: 10),
-                                                            //   child: righticon,
-                                                            // ):
                                                             SizedBox(
                                                               width: MediaQuery.of(context)
                                                                               .size

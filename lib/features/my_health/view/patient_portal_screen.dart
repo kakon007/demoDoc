@@ -2440,7 +2440,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                                            ),
                                                                                          ),
                                                                                          Positioned(
-                                                                                           bottom: 180,
+                                                                                           bottom: 185,
                                                                                            left: 100,
                                                                                            right: 100,
                                                                                            child: CircleAvatar(
@@ -2455,7 +2455,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                                                          Constants
                                                                                                              .avatarRadius)),
                                                                                                  child: Image.asset(
-                                                                                                   "assets/images/warning.png",height: 90,width: 90,)),
+                                                                                                   "assets/images/deletewaring.png",height: 90,width: 90,)),
                                                                                            ),
                                                                                          ),
                                                                                        ],

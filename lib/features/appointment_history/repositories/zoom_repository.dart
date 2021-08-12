@@ -23,7 +23,6 @@ class ZoomRepository {
         headers: headers,
         body: jsonEncode(<String, String>{"consultationId": consultationId}),
       );
-      print("Consultation Id from Zoom  Repository::: $consultationId");
       if (response.statusCode == 200) {
         print(response.body);
         ZoomModel data2 = zoomModelFromJson(response.body);
@@ -40,8 +39,6 @@ class ZoomRepository {
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-      //BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

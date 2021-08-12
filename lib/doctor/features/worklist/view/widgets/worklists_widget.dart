@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class WorklistAll extends StatefulWidget {
-  const WorklistAll({Key key}) : super(key: key);
-
+  String patientName;
+  String consultTime;
+  String consultType;
+  WorklistAll({this.consultTime, this.patientName, this.consultType});
   @override
   _WorklistAllState createState() => _WorklistAllState();
 }
@@ -58,7 +61,7 @@ class _WorklistAllState extends State<WorklistAll> {
                 CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Md. Arman",
+                    widget.patientName==null? "Md. Arman" :  widget.patientName,
                     style: GoogleFonts.poppins(
                         fontSize: isTablet? 16 : width<=330? 11 : 14,
                         fontWeight: FontWeight.w500),
@@ -74,7 +77,8 @@ class _WorklistAllState extends State<WorklistAll> {
                         ),
                       ),
                       Text(
-                        "08:00 PM, 22/05/2021",
+                        widget.consultTime==null ? "08:00 PM, 22/05/2021" : DateFormat("hh:mm a, dd/MM/yyyy").format(DateTime.parse(widget.consultTime)
+                            .toLocal()),
                         style: GoogleFonts.poppins(
                             fontSize: isTablet? 14 :width<=330? 9 : 11,
                             fontWeight: FontWeight.w600,
@@ -94,7 +98,9 @@ class _WorklistAllState extends State<WorklistAll> {
                         ),
                       ),
                       Text(
-                        "1st Follow Up",
+                        widget.consultType==null? "1st Follow Up" :
+                        widget.consultType=='1'?"Fresh Visit" : widget.consultType=="2"?"Follow Up" :
+                        widget.consultType=="3" ? "2nd Follow Up" : "Report Check",
                         style: GoogleFonts.poppins(
                           fontSize:isTablet? 14 : width<=330? 9 : 11,
                            // fontWeight: FontWeight.w600,

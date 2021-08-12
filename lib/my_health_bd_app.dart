@@ -46,6 +46,7 @@ import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 
 import 'doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'doctor/features/worklist/view_model/worklist_view_model.dart';
 
 class MyHealthBdApp extends StatelessWidget {
   @override
@@ -102,6 +103,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<PolicyViewModel>(create: (context) => PolicyViewModel()),
       ChangeNotifierProvider<DoctorProfileViewModel>(create: (context) => DoctorProfileViewModel()),
       ChangeNotifierProvider<PrescriptionTamplateViewModel>(create: (context) => PrescriptionTamplateViewModel()),
+      ChangeNotifierProvider<WorkListViewModel>(create: (context) => WorkListViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

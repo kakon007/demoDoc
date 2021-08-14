@@ -34,7 +34,7 @@ class UserImageViewModel extends ChangeNotifier {
       borderRadius: BorderRadius.circular(border),
       child: Image.memory(
         _bytesImage,
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
         width: width,
         height: height,
         gaplessPlayback: true,
@@ -48,18 +48,14 @@ class UserImageViewModel extends ChangeNotifier {
       'Authorization':
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
-    var request = http.MultipartRequest('PUT',
-        Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
+    var request = http.MultipartRequest(
+        'PUT', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
     request.fields.addAll({
-      'reqobj': {
-        "name": hospitalNo.toUpperCase(),
-        "id": id,
-        "userMobile": null,
-        "userEmail": null
-      }.toString()
+      'reqobj': {"name": hospitalNo.toUpperCase(), "id": id, "userMobile": null, "userEmail": null}
+          .toString()
     });
-    request.files.add(await http.MultipartFile.fromPath('file', image.path,
-        filename: basename(image.path)));
+    request.files
+        .add(await http.MultipartFile.fromPath('file', image.path, filename: basename(image.path)));
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -99,9 +95,7 @@ class UserImageViewModel extends ChangeNotifier {
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
     var request = http.MultipartRequest(
-        'PUT',
-        Uri.parse(
-            '${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
+        'PUT', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
     request.fields.addAll({
       'reqobj': {
         "userMobile": "0$userMobile",
@@ -157,9 +151,7 @@ class UserImageViewModel extends ChangeNotifier {
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
     var request = http.MultipartRequest(
-        'PUT',
-        Uri.parse(
-            '${Urls.baseUrl}diagnostic-api/api/opd-registration/update-with-image'));
+        'PUT', Uri.parse('${Urls.baseUrl}diagnostic-api/api/opd-registration/update-with-image'));
     request.fields.addAll({
       'reqobj': json.encode({
         "opdReg": {
@@ -177,8 +169,8 @@ class UserImageViewModel extends ChangeNotifier {
         }
       })
     });
-    request.files.add(await http.MultipartFile.fromPath('file', image.path,
-        filename: basename(image.path)));
+    request.files
+        .add(await http.MultipartFile.fromPath('file', image.path, filename: basename(image.path)));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {
@@ -196,8 +188,8 @@ class UserImageViewModel extends ChangeNotifier {
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
 
-    var request = http.Request(
-        'GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
+    var request =
+        http.Request('GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {
@@ -228,8 +220,8 @@ class UserImageViewModel extends ChangeNotifier {
     //_switchDetails=null;
     var headers = {'Authorization': 'Bearer $accessToken'};
 
-    var request = http.Request(
-        'GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
+    var request =
+        http.Request('GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {

@@ -86,13 +86,10 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
     });
 
     pickBirthDate = vm.userDetailsList.dob != null
-        ? DateFormat("yyyy-MM-dd")
-            .parse(vm.userDetailsList.dob)
-            .add(Duration(days: 1))
+        ? DateFormat("yyyy-MM-dd").parse(vm.userDetailsList.dob).add(Duration(days: 1))
         : pickBirthDate;
-    _selectedBlood = vm.userDetailsList.bloodGroup != null
-        ? vm.userDetailsList.bloodGroup
-        : _selectedBlood;
+    _selectedBlood =
+        vm.userDetailsList.bloodGroup != null ? vm.userDetailsList.bloodGroup : _selectedBlood;
     _selectedGender = vm.userDetailsList.gender != null
         ? vm.userDetailsList.gender == "M"
             ? "Male"
@@ -188,7 +185,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       children: [
         Container(
             height: 20.0,
-            width: isTablet ? 220 : width * .8,
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Row(
@@ -198,71 +194,56 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   Text(
                     " *",
                     style: GoogleFonts.roboto(
-                        fontSize: isTablet ? 15 : 12,
-                        color: HexColor("#FF5B71")),
+                        fontSize: isTablet ? 15 : 12, color: HexColor("#FF5B71")),
                   )
                 ],
               ),
             )),
         Container(
           height: 50.0,
-          width: isTablet ? 200 : width * .8,
           decoration: BoxDecoration(
               border: Border.all(color: HexColor(genderColor)),
               borderRadius: BorderRadius.circular(10)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 15.0),
-                child: Container(
-                  width: isTablet
-                      ? 180
-                      : deviceWidth <= 330
-                          ? width * .67
-                          : width * .68,
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButtonFormField(
-                      onTap: () {
-                        FocusManager.instance.primaryFocus.unfocus();
-                      },
-                      key: Key("profileGenderKey"),
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          enabledBorder: InputBorder.none),
-                      isExpanded: true,
-                      icon: Icon(
-                        Icons.keyboard_arrow_down_sharp,
-                        color: _selectedGender != null
-                            ? Colors.black54
-                            : HexColor("#D2D2D2"),
-                      ),
-                      iconSize: 25,
-                      hint: Text(
-                        StringResources.gender,
-                        style: GoogleFonts.roboto(
-                            fontSize: 15, color: HexColor("#D2D2D2")),
-                      ),
-                      value: _selectedGender,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _selectedGender = newValue;
-                        });
-                      },
-                      items: StringResources.genderList.map((gender) {
-                        return DropdownMenuItem(
-                          child: new Text(
-                            gender,
-                            style: GoogleFonts.roboto(fontSize: 14),
-                          ),
-                          value: gender,
-                        );
-                      }).toList(),
-                    ),
+          child: Padding(
+            padding: EdgeInsets.only(left: 15.0),
+            child: Container(
+              child: DropdownButtonHideUnderline(
+                child: DropdownButtonFormField(
+                  onTap: () {
+                    FocusManager.instance.primaryFocus.unfocus();
+                  },
+                  key: Key("profileGenderKey"),
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      enabledBorder: InputBorder.none),
+                  isExpanded: true,
+                  icon: Icon(
+                    Icons.keyboard_arrow_down_sharp,
+                    color: _selectedGender != null ? Colors.black54 : HexColor("#D2D2D2"),
                   ),
+                  iconSize: 25,
+                  hint: Text(
+                    StringResources.gender,
+                    style: GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),
+                  ),
+                  value: _selectedGender,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedGender = newValue;
+                    });
+                  },
+                  items: StringResources.genderList.map((gender) {
+                    return DropdownMenuItem(
+                      child: new Text(
+                        gender,
+                        style: GoogleFonts.roboto(fontSize: 14),
+                      ),
+                      value: gender,
+                    );
+                  }).toList(),
                 ),
-              )
-            ],
+              ),
+            ),
           ),
         ),
       ],
@@ -273,17 +254,6 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       children: [
         Container(
             height: 20.0,
-            constraints: BoxConstraints(minWidth: isTablet
-                ? 200
-                : deviceWidth <= 330
-                ?width * .8
-                : width * .8,),
-
-            width: isTablet
-                ? 200
-                : deviceWidth <= 330
-                    ?width * .8
-                    : width * .8,
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0),
               child: Row(
@@ -293,19 +263,13 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                   Text(
                     " *",
                     style: GoogleFonts.roboto(
-                        fontSize: isTablet ? 15 : 12,
-                        color: HexColor("#FF5B71")),
+                        fontSize: isTablet ? 15 : 12, color: HexColor("#FF5B71")),
                   )
                 ],
               ),
             )),
         Container(
           height: 50.0,
-          width: isTablet
-              ? 200
-              : deviceWidth <= 330
-                  ? width * .8
-                  : width * .8,
           decoration: BoxDecoration(
               border: Border.all(color: HexColor(bloodBorderColor)),
               borderRadius: BorderRadius.circular(10)),
@@ -315,11 +279,11 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
               Padding(
                 padding: EdgeInsets.only(left: 18.0),
                 child: Container(
-                 // constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
+                  // constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
                   width: isTablet
                       ? 180
                       : deviceWidth <= 330
-                          ?width*.655
+                          ? width * .655
                           : width * .683,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButtonFormField(
@@ -329,9 +293,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                       key: Key("profileBloodGroupKey"),
                       icon: Icon(
                         Icons.keyboard_arrow_down_sharp,
-                        color: _selectedBlood != null
-                            ? Colors.black54
-                            : HexColor("#D2D2D2"),
+                        color: _selectedBlood != null ? Colors.black54 : HexColor("#D2D2D2"),
                       ),
                       iconSize: 25,
                       decoration: InputDecoration(
@@ -340,8 +302,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                       hint: Text(
                         'Blood Group',
                         style: GoogleFonts.roboto(
-                            fontSize: isTablet ? 15 : 12,
-                            color: HexColor("#D2D2D2")),
+                            fontSize: isTablet ? 15 : 12, color: HexColor("#D2D2D2")),
                       ),
                       value: _selectedBlood,
                       onChanged: (newValue) {
@@ -378,84 +339,69 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
       ],
     );
     //String formatBirthDate = DateFormat("dd/MM/yyyy").format(pickBirthDate);
-    var dateOfBirth = Row(
-      children: [
-        GestureDetector(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  height: 20.0,
-                  constraints: BoxConstraints(minWidth: deviceWidth <= 330 ? width * .58 : width * .5, ),
-                  //width: deviceWidth <= 330 ? width * .58 : width * .5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Row(
-                      children: [
-                        Text(StringResources.dateOfBirth,
-                            style: GoogleFonts.roboto(
-                                fontSize: isTablet ? 15 : 12)),
-                        Text(
-                          " *",
-                          style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
-                        )
-                      ],
-                    ),
-                  )),
-              Container(
-                height: 48.0,
-                width: isTablet
-                    ? 438
-                    : deviceWidth <= 330
-                        ? deviceWidth * .76
-                        : deviceWidth * 0.78,
-                decoration: BoxDecoration(
-                    border: Border.all(color: HexColor(abc)),
-                    borderRadius: BorderRadius.circular(10)),
+    var dateOfBirth = GestureDetector(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+              height: 20.0,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0),
-                      child: Text(
-                        pickBirthDate == DateTime.now()
-                            ? "Date of birth"
-                            : "${DateFormat("dd-MM-yyyy").format(pickBirthDate)}",
-                        style: TextStyle(fontSize: 13.0),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 4.0),
-                      child: Container(
-                          height: 18,
-                          child:
-                              Image.asset("assets/images/calender_icon.png")),
-                    ),
+                    Text(StringResources.dateOfBirth,
+                        style: GoogleFonts.roboto(fontSize: isTablet ? 15 : 12)),
+                    Text(
+                      " *",
+                      style: GoogleFonts.roboto(color: HexColor("#FF5B71")),
+                    )
                   ],
                 ),
-              ),
-            ],
+              )),
+          Container(
+            height: 48.0,
+            decoration: BoxDecoration(
+                border: Border.all(color: HexColor(abc)), borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                    pickBirthDate == DateTime.now()
+                        ? "Date of birth"
+                        : "${DateFormat("dd-MM-yyyy").format(pickBirthDate)}",
+                    style: TextStyle(fontSize: 13.0),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child:
+                      Container(height: 18, child: Image.asset("assets/images/calender_icon.png")),
+                ),
+              ],
+            ),
           ),
-          onTap: () {
-            selectDate(context);
-            FocusManager.instance.primaryFocus.unfocus();
-          },
-        ),
-      ],
+        ],
+      ),
+      onTap: () {
+        selectDate(context);
+        FocusManager.instance.primaryFocus.unfocus();
+      },
     );
     return Center(
       child: SingleChildScrollView(
         child: AlertDialog(
           insetPadding: EdgeInsets.symmetric(
-              horizontal:
-                  isTablet ? width * .4 : MediaQuery.of(context).size.width * .07),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              horizontal: isTablet ? width * .4 : MediaQuery.of(context).size.width * .07),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
           contentPadding: EdgeInsets.only(top: 10.0),
           content: Container(
-            constraints: BoxConstraints(minHeight: maxHeight,),
+            constraints: BoxConstraints(
+              minHeight: maxHeight,
+            ),
 
-         //   height: maxHeight,
+            //   height: maxHeight,
             //width: isTablet? 500 : 500,
             child: Padding(
               padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 0),
@@ -482,18 +428,24 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     name,
                     email,
                     mobile,
                     address,
                     dateOfBirth,
+                    SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        gender,
-                        bloodGroup,
+                        Expanded(child: gender),
+                        SizedBox(width: 8),
+                        Expanded(child: bloodGroup),
                       ],
                     ),
                     Padding(
@@ -504,7 +456,7 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                           SizedBox(
                             width: isTablet ? 200 : width * .8,
                             height: isTablet ? 50 : width * .25,
-                            child: FlatButton(
+                            child: MaterialButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
@@ -513,24 +465,21 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                               color: HexColor("#FFFFFF"),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  side: BorderSide(
-                                      color: AppTheme.appbarPrimary, width: 1)),
+                                  side: BorderSide(color: AppTheme.appbarPrimary, width: 1)),
                               child: Text(
                                 StringResources.cancelText,
-                                style: GoogleFonts.poppins(
-                                    fontSize: isTablet ? 18 : 15),
+                                style: GoogleFonts.poppins(fontSize: isTablet ? 18 : 15),
                               ),
                             ),
                           ),
                           SizedBox(
                             width: isTablet ? 200 : width * .8,
                             height: isTablet ? 50 : width * .25,
-                            child: FlatButton(
+                            child: MaterialButton(
                               textColor: Colors.white,
                               key: Key('profileSubmitButtonKey'),
                               onPressed: () {
-                                if (_formKey.currentState.validate() &&
-                                    _selectedBlood != null) {
+                                if (_formKey.currentState.validate() && _selectedBlood != null) {
                                   setState(() {
                                     isExpanded = false;
                                   });
@@ -562,11 +511,9 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                                       switchAccounts.name = _username.text;
                                       switchAccounts.relation = item.relation;
                                       switchAccounts.id = item.id;
-                                      dbmManager
-                                          .updateStudent(switchAccounts)
-                                          .then((value) => {
-                                                setState(() {}),
-                                              });
+                                      dbmManager.updateStudent(switchAccounts).then((value) => {
+                                            setState(() {}),
+                                          });
                                     }
                                   });
                                   Navigator.pop(context);
@@ -593,15 +540,16 @@ class _EditProfileAlertState extends State<EditProfileAlert> {
                               ),
                               child: Text(
                                 "Submit",
-                                style: GoogleFonts.poppins(
-                                    fontSize: isTablet ? 18 : 15),
+                                style: GoogleFonts.poppins(fontSize: isTablet ? 18 : 15),
                               ),
                             ),
                           )
                         ],
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
               ),

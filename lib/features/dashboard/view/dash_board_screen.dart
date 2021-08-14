@@ -71,11 +71,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class DashboardScreen extends StatefulWidget {
   final Function menuCallBack;
-  bool isDrawerOpen;
-  String accessToken;
+  final bool isDrawerOpen;
+  final String accessToken;
   final Function onTapFeaturedCompany;
   final Function onTapFeaturedAppointment;
-  LocationData locationData;
+  final LocationData locationData;
 
   DashboardScreen(
       {this.menuCallBack,
@@ -943,18 +943,22 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                     baseColor: Colors.grey[300],
                                     highlightColor: Colors.white,
                                     child: Row(
-                                        children: List.generate(
-                                            5,
-                                            (index) => Expanded(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Material(
-                                                      color: Colors.grey,
-                                                      borderRadius: BorderRadius.circular(5),
-                                                      child: Center(),
-                                                    ),
-                                                  ),
-                                                ))),
+                                      children: List.generate(
+                                        5,
+                                        (index) {
+                                          return Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Material(
+                                                color: Colors.grey,
+                                                borderRadius: BorderRadius.circular(5),
+                                                child: Center(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),

@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"
         android:largeHeap="true"
         android:name="io.flutter.app.FlutterApplication"
-        android:label="MyHealthBD"
+        android:label="My Health BD"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:showWhenLocked="true"

@@ -61,7 +61,7 @@ class _EmrScreenState extends State<EmrScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width:290,
+                              width:MediaQuery.of(context).size.width>350? 290:210,
                               child: TextField(
                                   onChanged: (value) {
                                     // doctorItem = value.replaceAll(" ", "%20");
@@ -218,16 +218,19 @@ class _EmrScreenState extends State<EmrScreen> {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('1. Assoc. Prof. Dr. Mahmud Rahim', style: GoogleFonts.poppins(
-                                                        // color: HexColor(
-                                                        //   '#354291',
-                                                        // ),
-                                                          fontSize: isTablet
-                                                              ? 20
-                                                              : width <= 330
-                                                              ? 13
-                                                              : 16,
-                                                          fontWeight: FontWeight.w500),),
+                                                      Container(
+                                                        width:MediaQuery.of(context).size.width>350?220:200,
+                                                        child: Text('1. Assoc. Prof. Dr. Mahmud Rahim', style: GoogleFonts.poppins(
+                                                          // color: HexColor(
+                                                          //   '#354291',
+                                                          // ),
+                                                            fontSize: isTablet
+                                                                ? 20
+                                                                : width <= 330
+                                                                ? 13
+                                                                : 16,
+                                                            fontWeight: FontWeight.w500),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                                      ),
                                                       SizedBox(height: 10,),
                                                       Padding(
                                                         padding: const EdgeInsets.only(left:12.0),
@@ -275,7 +278,7 @@ class _EmrScreenState extends State<EmrScreen> {
                                                           deviceWidth > 330
                                                           ? 105
                                                           : deviceWidth <= 330
-                                                          ? 95
+                                                          ? 50
                                                           : 80,
                                                       height: deviceWidth <= 360
                                                           ? 28
@@ -330,16 +333,19 @@ class _EmrScreenState extends State<EmrScreen> {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('1. Blood test lab report.jpg', style: GoogleFonts.poppins(
-                                                        // color: HexColor(
-                                                        //   '#354291',
-                                                        // ),
-                                                          fontSize: isTablet
-                                                              ? 20
-                                                              : width <= 330
-                                                              ? 13
-                                                              : 16,
-                                                          fontWeight: FontWeight.w500),),
+                                                      Container(
+                                                        width:MediaQuery.of(context).size.width>350?220:200,
+                                                        child: Text('1. Blood test lab report.jpg', style: GoogleFonts.poppins(
+                                                          // color: HexColor(
+                                                          //   '#354291',
+                                                          // ),
+                                                            fontSize: isTablet
+                                                                ? 20
+                                                                : width <= 330
+                                                                ? 13
+                                                                : 16,
+                                                            fontWeight: FontWeight.w500),),
+                                                      ),
                                                       SizedBox(height: 10,),
                                                       Padding(
                                                         padding: const EdgeInsets.only(left:12.0),
@@ -387,7 +393,7 @@ class _EmrScreenState extends State<EmrScreen> {
                                                           deviceWidth > 330
                                                           ? 105
                                                           : deviceWidth <= 330
-                                                          ? 95
+                                                          ? 50
                                                           : 80,
                                                       height: deviceWidth <= 360
                                                           ? 28
@@ -443,16 +449,19 @@ class _EmrScreenState extends State<EmrScreen> {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('1. X-Ray Image.jpg', style: GoogleFonts.poppins(
-                                                        // color: HexColor(
-                                                        //   '#354291',
-                                                        // ),
-                                                          fontSize: isTablet
-                                                              ? 20
-                                                              : width <= 330
-                                                              ? 13
-                                                              : 16,
-                                                          fontWeight: FontWeight.w500),),
+                                                      Container(
+                                                        width:MediaQuery.of(context).size.width>350?220:200,
+                                                        child: Text('1. X-Ray Image.jpg', style: GoogleFonts.poppins(
+                                                          // color: HexColor(
+                                                          //   '#354291',
+                                                          // ),
+                                                            fontSize: isTablet
+                                                                ? 20
+                                                                : width <= 330
+                                                                ? 13
+                                                                : 16,
+                                                            fontWeight: FontWeight.w500),),
+                                                      ),
                                                       SizedBox(height: 10,),
                                                       Padding(
                                                         padding: const EdgeInsets.only(left:12.0),
@@ -500,7 +509,7 @@ class _EmrScreenState extends State<EmrScreen> {
                                                           deviceWidth > 330
                                                           ? 105
                                                           : deviceWidth <= 330
-                                                          ? 95
+                                                          ? 50
                                                           : 80,
                                                       height: deviceWidth <= 360
                                                           ? 28
@@ -554,16 +563,19 @@ class _EmrScreenState extends State<EmrScreen> {
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text('1. X-Ray Image.jpg', style: GoogleFonts.poppins(
-                                                        // color: HexColor(
-                                                        //   '#354291',
-                                                        // ),
-                                                          fontSize: isTablet
-                                                              ? 20
-                                                              : width <= 330
-                                                              ? 13
-                                                              : 16,
-                                                          fontWeight: FontWeight.w500),),
+                                                      Container(
+                                                        width:MediaQuery.of(context).size.width>350?220:200,
+                                                        child: Text('1. X-Ray Image.jpg', style: GoogleFonts.poppins(
+                                                          // color: HexColor(
+                                                          //   '#354291',
+                                                          // ),
+                                                            fontSize: isTablet
+                                                                ? 20
+                                                                : width <= 330
+                                                                ? 13
+                                                                : 16,
+                                                            fontWeight: FontWeight.w500),),
+                                                      ),
                                                       SizedBox(height: 10,),
                                                       Padding(
                                                         padding: const EdgeInsets.only(left:12.0),
@@ -611,7 +623,7 @@ class _EmrScreenState extends State<EmrScreen> {
                                                           deviceWidth > 330
                                                           ? 105
                                                           : deviceWidth <= 330
-                                                          ? 95
+                                                          ? 50
                                                           : 80,
                                                       height: deviceWidth <= 360
                                                           ? 28
@@ -765,7 +777,7 @@ class _EmrScreenState extends State<EmrScreen> {
 
                                 Container(
                                   height: 45,
-                                  width: 140,
+                                  width: MediaQuery.of(context).size.width>350?140:100,
                                   decoration: BoxDecoration(
                                     color: HexColor("#EFF5FF"),
                                     // border: Border.all(

@@ -67,7 +67,9 @@ class _RootState extends State<Root> {
                       HomeScreen(
                         accessToken: accessToken,
                         connection: connection,
-                      )));
+                      )
+                  //PrescriptionTemplatesPopup()
+          ));
         } else if (vm5.accessToken == accessToken) {
 
           Future.delayed(Duration(microseconds: 500));
@@ -80,7 +82,9 @@ class _RootState extends State<Root> {
                       HomeScreen(
                         accessToken: accessToken,
                         connection: connection,
-                      )));
+                      )
+                  //PrescriptionTemplatesPopup()
+          ));
         } else {
           Provider.of<AccessTokenProvider>(context, listen: false).signOut();
         }
@@ -93,7 +97,9 @@ class _RootState extends State<Root> {
                   builder: (BuildContext context) =>
                       //DoctorHomeScreen(
                       HomeScreen(
-                          accessToken: accessToken, connection: connection)));
+                          accessToken: accessToken, connection: connection)
+                  //PrescriptionTemplatesPopup()
+          ));
         });
       }
     });

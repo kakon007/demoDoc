@@ -492,7 +492,7 @@ class _EmrScreenState extends State<EmrScreen> {
                                                         borderRadius:
                                                         BorderRadius.circular(
                                                             5)),
-                                                    color: HexColor("#6374DF"),
+                                                    color: Color(0xff6374DF),
                                                     child: SizedBox(
                                                       width: isTablet
                                                           ? 170
@@ -702,7 +702,7 @@ class _EmrScreenState extends State<EmrScreen> {
 
                                 Container(
                                   height: 45,
-                                  width: 140,
+                                  width:MediaQuery.of(context).size.width>350?140:100,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     border: Border.all(

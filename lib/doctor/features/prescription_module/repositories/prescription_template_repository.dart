@@ -17,7 +17,7 @@ class PrescriptionTemplateRepository {
     //     "${Urls.baseUrl}prescription-service-api/api/prescription/getTemplateListByDoctor";
     try {
       var headers = {
-        'Authorization': 'Bearer 5e85391a-addb-4b45-8aba-ca9fb090cdaa'
+        'Authorization': 'Bearer f2b6df12-4297-49f9-a7b7-16c5adf97b21'
       };
       var request = http.Request('POST', Uri.parse('https://qa.myhealthbd.com:9096/prescription-service-api/api/prescription/getTemplateListByDoctor'));
 

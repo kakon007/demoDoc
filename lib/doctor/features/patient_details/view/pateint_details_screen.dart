@@ -47,15 +47,15 @@ class _PatientDetailsState extends State<PatientDetails> {
                       ),
                       elevation: 5,  // Change this
                       shadowColor: Color(0xffE3E3E3),  // Change this
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(children: [
+                      child: Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top:20.0,right: 20,left:20,bottom:10),
+                                child: Row(children: [
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 28.0),
                                     child: Column(
@@ -71,8 +71,8 @@ class _PatientDetailsState extends State<PatientDetails> {
 
                                           // height: 60,
                                           //width: 20,
-                                          child:  Image.asset(
-                                            "assets/icons/dct.png",
+                                          child:  SvgPicture.asset(
+                                            "assets/icons/userna.svg",
                                             fit: BoxFit.fill,
                                             width: deviceWidth >
                                                 650
@@ -208,8 +208,11 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   )
                                 ],
                                 ),
-                                Divider(thickness: 2,color: Colors.grey.withOpacity(0.2),),
-                                Row(
+                              ),
+                              Divider(thickness: 2,color: Colors.grey.withOpacity(0.2),),
+                              Padding(
+                                padding: const EdgeInsets.only(top:10.0,right: 20,left:20,bottom:20),
+                                child: Row(
                                   children: [
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,11 +341,14 @@ class _PatientDetailsState extends State<PatientDetails> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 20,),
+                              ),
 
-                              ],
-                            ),
-                            Material(
+
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: Material(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -387,8 +393,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -559,7 +565,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   borderRadius:
                                   BorderRadius.circular(
                                       5)),
-                              color: HexColor("#6374DF"),
+                              color: HexColor("#AFBBFF"),
                               child: SizedBox(
                                 width: double.infinity,
                                 height: deviceWidth <= 360

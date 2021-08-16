@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +9,7 @@ class VideoPlayerScreen extends StatefulWidget {
   String videoId;
   String title;
   String descriptions;
-  VideoPlayerScreen(this.videoId,this.title,this.descriptions);
+  VideoPlayerScreen(this.videoId, this.title, this.descriptions);
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
 }
@@ -20,9 +22,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _isPlayerReady=false;
-    _youtubePlayerController=YoutubePlayerController(
-        initialVideoId: widget.videoId,
+    _isPlayerReady = false;
+    _youtubePlayerController = YoutubePlayerController(
+      initialVideoId: widget.videoId,
       flags: YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -30,8 +32,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     )..addListener(_listener);
   }
 
-  void _listener(){
-    if(_isPlayerReady && mounted && !_youtubePlayerController.value.isFullScreen){
+  void _listener() {
+    if (_isPlayerReady && mounted && !_youtubePlayerController.value.isFullScreen) {
       //to-do
     }
   }
@@ -51,28 +53,43 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       DeviceOrientation.portraitUp,
     ]);
     super.dispose();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-   //    appBar: AppBar(
-   // title: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500),),
-   //    ),
+      appBar: Platform.isIOS
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              title: Text(
+                widget.title,
+                style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
+              ),
+            )
+          : null,
       body: SafeArea(
         child: Center(
           child: YoutubePlayer(
             controller: _youtubePlayerController,
             showVideoProgressIndicator: true,
-            topActions: [Padding(
-              padding: const EdgeInsets.only(top:15.0,left:10),
-              child: Container(width:MediaQuery.of(context).size.width>=600?500:350,child: Text(widget.title,style: GoogleFonts.poppins(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.white),maxLines: 1,overflow: TextOverflow.ellipsis,)),
-            ),],
-            onReady: (){
+            topActions: [
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0, left: 10),
+                child: Container(
+                    width: MediaQuery.of(context).size.width >= 600 ? 500 : 350,
+                    child: Text(
+                      widget.title,
+                      style: GoogleFonts.poppins(
+                          fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+              ),
+            ],
+            onReady: () {
               print("Player is Ready");
-              _isPlayerReady=true;
+              _isPlayerReady = true;
             },
           ),
         ),

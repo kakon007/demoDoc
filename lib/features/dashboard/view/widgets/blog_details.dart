@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:chewie/chewie.dart';
-class BlogDetails extends StatelessWidget {
-  String details;
-  String title;
 
+class BlogDetails extends StatelessWidget {
+  final String details;
+  final String title;
   BlogDetails({this.details, this.title});
 
   @override
@@ -19,17 +17,11 @@ class BlogDetails extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.only(left: 4.0, right: 4),
-        child: Container(
-            child: Html(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Html(
           data: details,
-
-          // webView: true,
-          // buildAsync: true,
-          //     webViewMediaPlaybackAlwaysAllow: true,
-        )),
-      )),
+        ),
+      ),
     );
   }
 }

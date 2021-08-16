@@ -31,7 +31,6 @@ import 'package:myhealthbd_app/features/notification/view/notification_screen.da
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
 import 'package:myhealthbd_app/features/news/model/news_model.dart' as news;
 import 'package:myhealthbd_app/features/news/repositories/news_repository.dart';
-import 'package:myhealthbd_app/features/news/view/news_screen.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_logo_view_model.dart';
 import 'package:myhealthbd_app/features/news/view_model/news_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_in_screen.dart';
@@ -324,7 +323,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                           Navigator.push(
                               context,
                               PageRouteBuilder(
-                                transitionDuration: Duration(seconds: 1),
+                                transitionDuration: Duration(milliseconds: 1000),
                                 transitionsBuilder:
                                     (context, animation, secondaryAnimation, child) {
                                   var begin = Offset(0, 1.0);

@@ -4,20 +4,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/sign_out_prompt.dart';
-import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
+import 'package:myhealthbd_app/features/user_profile/view/user_profile_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
-class ManageAccountPrompt extends StatefulWidget {
+import '../../../../doctor_home_screen.dart';
+
+class ManageDoctorProfilePrompt extends StatefulWidget {
   @override
-  _ManageAccountPromptState createState() => _ManageAccountPromptState();
+  _ManageDoctorProfilePromptState createState() =>
+      _ManageDoctorProfilePromptState();
 }
 
-class _ManageAccountPromptState extends State<ManageAccountPrompt> {
+class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
@@ -77,6 +80,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                           ? 140
                           : 150.0,
                 ),
+                //  height: isTablet? 200  : width < 330 ? 140 : 150.0,
                 child: Padding(
                   padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
                   child: Column(
@@ -87,14 +91,13 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                         children: [
                           Text(
                             "Accounts",
-                            key: Key('accountsTextKey'),
                             style: GoogleFonts.poppins(
                                 fontSize: isTablet
                                     ? 20
                                     : width < 330
                                         ? 16
                                         : 18,
-                                color: AppTheme.appbarPrimary,
+                                color: AppTheme.buttonActiveColor,
                                 fontWeight: FontWeight.w500),
                           ),
                           GestureDetector(
@@ -114,7 +117,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                               ? Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: AppTheme.appbarPrimary),
+                                        color: AppTheme.buttonActiveColor),
                                     //color: AppTheme.appbarPrimary,
                                     shape: BoxShape.circle,
                                   ),
@@ -144,7 +147,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                           50)))
                               : Container(
                                   decoration: BoxDecoration(
-                                    color: AppTheme.appbarPrimary,
+                                    color: AppTheme.buttonActiveColor,
                                     shape: BoxShape.circle,
                                   ),
                                   height: isTablet
@@ -176,65 +179,17 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                             width: isTablet ? 20 : 10,
                           ),
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                width: 200,
-                                child: Text(
-                                  vm.userDetailsList?.fname ?? '',
-                                  style: GoogleFonts.poppins(
-                                      color: AppTheme.appbarPrimary,
-                                      fontSize: isTablet
-                                          ? 20
-                                          : width < 330
-                                              ? 16
-                                              : 18,
-                                      fontWeight: FontWeight.w400),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
-                              Container(
-                                width: 190,
-                                child: Text(
-                                  vm.userDetailsList?.hospitalNumber ??
-                                      'Loading....',
-                                  style: GoogleFonts.poppins(
-                                      color: HexColor("#8592E5"),
-                                      fontSize: isTablet ? 16 : 13),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
-                              SizedBox(
-                                height: isTablet
-                                    ? 10
-                                    : width < 330
-                                        ? 5
-                                        : 8,
-                              ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
+                                  Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
-                                          builder: (context) => UserProfile(
-                                                fName: vm.userDetailsList
-                                                        ?.patientName ??
-                                                    "",
-                                                phoneNumber: vm.userDetailsList
-                                                        ?.phoneMobile ??
-                                                    '',
-                                                address: vm.userDetailsList
-                                                        ?.address ??
-                                                    '',
-                                                dob: vm.userDetailsList?.dob ??
-                                                    '',
-                                                id: vm.userDetailsList
-                                                    .hospitalNumber,
-                                                accessToken: vm2.accessToken,
-                                              )));
+                                          builder: (BuildContext context) =>
+                                              DoctorHomeScreen(
+                                                index: 3,
+                                              )),
+                                      (Route<dynamic> route) => false);
                                 },
                                 child: Container(
                                   constraints: BoxConstraints(
@@ -248,15 +203,14 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                                   height: isTablet ? 35 : 26,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: AppTheme.appbarPrimary),
+                                        color: AppTheme.buttonActiveColor),
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: Center(
                                       child: Text(
                                     "Manage Your Profile",
-                                    key: Key('manageProfileTextKey'),
                                     style: GoogleFonts.poppins(
-                                        color: AppTheme.appbarPrimary,
+                                        color: AppTheme.buttonActiveColor,
                                         fontSize: isTablet ? 18 : 12),
                                   )),
                                 ),
@@ -267,83 +221,6 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                       ),
                     ],
                   ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return SwitchAccount();
-                        }));
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                              height: isTablet ? 35 : 25,
-                              width: isTablet ? 35 : 25,
-                              child: Image.asset('assets/images/switch.png')),
-                          SizedBox(
-                            width: isTablet
-                                ? 15
-                                : width < 330
-                                    ? 5
-                                    : 10,
-                          ),
-                          Text(
-                            "Switch to another account",
-                            key: Key('switchToAnotherAccountKey'),
-                            style: GoogleFonts.poppins(
-                                color: AppTheme.appbarPrimary,
-                                fontSize: isTablet ? 18 : 13),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: isTablet
-                          ? 25
-                          : width < 330
-                              ? 15
-                              : 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return SwitchAccount();
-                        }));
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                              height: isTablet ? 35 : 25,
-                              width: isTablet ? 35 : 25,
-                              child:
-                                  Image.asset('assets/images/add_account.png')),
-                          SizedBox(
-                            width: isTablet
-                                ? 15
-                                : width < 330
-                                    ? 5
-                                    : 10,
-                          ),
-                          Text(
-                            "Add another account",
-                            style: GoogleFonts.poppins(
-                                color: AppTheme.appbarPrimary,
-                                fontSize: isTablet ? 16 : 13),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
                 ),
               ),
             ],
@@ -365,7 +242,7 @@ class _ManageAccountPromptState extends State<ManageAccountPrompt> {
                         ? 300
                         : 320.0,
                 decoration: BoxDecoration(
-                  color: AppTheme.appbarPrimary,
+                  color: AppTheme.buttonActiveColor,
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(20),
                       bottomLeft: Radius.circular(20)),

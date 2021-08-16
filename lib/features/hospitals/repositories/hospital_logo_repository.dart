@@ -17,25 +17,19 @@ class HospitalLogoRepository {
       var client = http.Client();
       var response = await client.get(Uri.parse(url));
       if (response.statusCode == 200) {
-        //Map<String, dynamic> jsonMap = json.decode(response.body);
-        //data = jsonMap["items"];
         logo.CompanyLogoModel data = logo.companyLogoModelFromJson(response.body);
         CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalLogo);
-
         return Right(HospiitalLogoM(
           dataList: data.items,
         ));
-        //print(data[0]['companySlogan']);
       } else {
         BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }

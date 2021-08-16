@@ -99,6 +99,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       DoctorProfile()
     ];
     var bottomNavBar = BottomNavigationBar(
+
         onTap: (int index) {
           if (currentIndex != index) {
             _moveTo(index);
@@ -179,7 +180,16 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       ),
       home: WillPopScope(
           child: Scaffold(
-            bottomNavigationBar: bottomNavBar,
+            bottomNavigationBar: Container(
+                decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: bottomNavBar),
             body: pages[currentIndex],
           ),
           onWillPop: () async {

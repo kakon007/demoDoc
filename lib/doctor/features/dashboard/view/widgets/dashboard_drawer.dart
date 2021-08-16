@@ -4,11 +4,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
+import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
+
+import '../appointment_report.dart';
 
 class DashboardDrawer extends StatefulWidget {
   const DashboardDrawer({Key key}) : super(key: key);
@@ -141,7 +144,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                         });
                         if (index == 0) {
                           Navigator.pop(context);
-                        } else if (index == 1 || index == 2) {
+                        } else if (index == 1) {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
@@ -150,7 +153,10 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                                       )),
                               (Route<dynamic> route) => false);
                         } else {
-                          Navigator.pop(context);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AppointmentReport()));
                         }
                       },
                     ),

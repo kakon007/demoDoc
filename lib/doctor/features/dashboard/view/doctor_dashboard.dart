@@ -5,6 +5,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/dashboard_drawer.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_widget.dart';
 import 'package:myhealthbd_app/doctor/main_app/resource/doctor_const.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/manage_account_prompt.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -13,6 +15,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 import 'widgets/all_workilist_view.dart';
+import 'widgets/manage_doctor_profile_prompt.dart';
 
 class DoctorDashboard extends StatefulWidget {
   @override
@@ -470,55 +473,60 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       backgroundColor: AppTheme.dashboardBackgroundColor,
       appBar: AppBar(
         actions: [
-          Container(
-              decoration: BoxDecoration(
-                  color:
-                      photo != '' ? Colors.white : AppTheme.buttonActiveColor,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: photo != ''
-                          ? AppTheme.buttonActiveColor
-                          : Colors.white,
-                      width: 1)),
-              height: isTablet
-                  ? 32
-                  : width <= 330
-                      ? 25
-                      : 30,
-              width: isTablet
-                  ? 32
-                  : width <= 330
-                      ? 25
-                      : 30,
-              child: Center(
-                child: photo != ''
-                    ? companyInfoVm.loadProfileImage(
-                        photo,
-                        isTablet
-                            ? 25
-                            : width <= 330
-                                ? 20
-                                : 22,
-                        isTablet
-                            ? 25
-                            : width <= 330
-                                ? 20
-                                : 22,
-                        50)
-                    : Image.asset(
-                        'assets/images/dPro.png',
-                        height: isTablet
-                            ? 22
-                            : width <= 330
-                                ? 18
-                                : 20,
-                        width: isTablet
-                            ? 22
-                            : width <= 330
-                                ? 18
-                                : 20,
-                      ),
-              )),
+          GestureDetector(
+            onTap: (){
+              showAlert(context);
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    color:
+                        photo != '' ? Colors.white : AppTheme.buttonActiveColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        color: photo != ''
+                            ? AppTheme.buttonActiveColor
+                            : Colors.white,
+                        width: 1)),
+                height: isTablet
+                    ? 32
+                    : width <= 330
+                        ? 25
+                        : 30,
+                width: isTablet
+                    ? 32
+                    : width <= 330
+                        ? 25
+                        : 30,
+                child: Center(
+                  child: photo != ''
+                      ? companyInfoVm.loadProfileImage(
+                          photo,
+                          isTablet
+                              ? 25
+                              : width <= 330
+                                  ? 20
+                                  : 22,
+                          isTablet
+                              ? 25
+                              : width <= 330
+                                  ? 20
+                                  : 22,
+                          50)
+                      : Image.asset(
+                          'assets/images/dPro.png',
+                          height: isTablet
+                              ? 22
+                              : width <= 330
+                                  ? 18
+                                  : 20,
+                          width: isTablet
+                              ? 22
+                              : width <= 330
+                                  ? 18
+                                  : 20,
+                        ),
+                )),
+          ),
           IconButton(
             icon: Icon(
               Icons.notifications,
@@ -603,5 +611,11 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
         ),
       ),
     );
+  }
+  void showAlert(BuildContext context) {
+   // var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+    showDialog(
+        context: context,
+        builder: (context) => Material(color: Colors.transparent, child: ManageDoctorProfilePrompt()));
   }
 }

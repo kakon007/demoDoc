@@ -1,21 +1,20 @@
 import 'dart:async';
 
+import 'package:data_connection_checker/data_connection_checker.dart';
 //import 'package:dartz/dartz_streaming.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_templates_pop_up.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'doctor/doctor_home_screen.dart';
 import 'features/auth/view_model/app_navigator.dart';
 import 'features/auth/view_model/auth_view_model.dart';
 import 'main_app/util/app_version.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
 
 class Root extends StatefulWidget {
   Root();

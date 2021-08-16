@@ -18,12 +18,10 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   List<ConsultType> _consultItem2 = [];
   String slot;
   AppError _appError;
-  DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   bool _isLoading;
   bool _isSlotStatusLoading;
-  bool _isPatientLoading;
   String consultFee;
   String consultFeeForMe;
   bool _forMe = true;
@@ -32,7 +30,6 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   String _forMeTextColor = "#FFFFFF";
   String _addPatientBackColor = "#00FFFFFF";
   String _addPatientTextColor = "#8389A9";
-
   String _doctorNo;
   String _doctorName;
   String _appointDate;
@@ -143,10 +140,6 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   }
   Future<void> getSlots(DateTime pickedAppointDate, String companyNo,
       String doctorNo, String orgNo) async {
-    print("date $pickedAppointDate");
-    print("company $companyNo");
-    print("doctorNo $doctorNo");
-    print("orgNo $orgNo");
     var res = await AvailableSlotsRepository()
         .fetchSlotInfo(pickedAppointDate, companyNo, doctorNo, orgNo);
     _slots.clear();
@@ -221,7 +214,6 @@ class AvailableSlotsViewModel extends ChangeNotifier {
           _patNo= _patientItem.reversed.first.patientTypeNo.toString();
           _patOther= _patientItem.first.patientTypeNo.toString();
         }
-      print("abc" + _patNo);
       _isLoading = false;
       notifyListeners();
     });
@@ -252,7 +244,6 @@ class AvailableSlotsViewModel extends ChangeNotifier {
     _isLoading = true;
     var res = await AvailableSlotsRepository()
         .fetchConType(doctorNo, selectedType, companyNo, orgNo);
-    //consultType.clear();
     _consultItem2.clear();
     notifyListeners();
     res.fold((l) {
@@ -271,11 +262,6 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   Future<void> getFee(String companyNo, String conTypeNo, String doctorNo,
       String orgNo, String patNo) async {
     _isLoading = true;
-    print("company $companyNo");
-    print("con $conTypeNo");
-    print("doc $doctorNo");
-    print("orgNo $orgNo");
-    print("Pat $patNo");
     var res = await AvailableSlotsRepository()
         .fetchFee(companyNo, conTypeNo, doctorNo, orgNo, patNo);
     notifyListeners();
@@ -294,11 +280,6 @@ class AvailableSlotsViewModel extends ChangeNotifier {
   Future<void> getFeeForMe(String companyNo, String conTypeNo, String doctorNo,
       String orgNo, String patNo) async {
     _isLoading = true;
-    print("company $companyNo");
-    print("con $conTypeNo");
-    print("doc $doctorNo");
-    print("orgNo $orgNo");
-    print("Pat $patNo");
     var res = await AvailableSlotsRepository()
         .fetchFee(companyNo, conTypeNo, doctorNo, orgNo, patNo);
     notifyListeners();

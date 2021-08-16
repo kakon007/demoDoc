@@ -9,8 +9,6 @@ class Policy extends StatefulWidget {
 }
 
 class _PolicyState extends State<Policy> {
-
-
   @override
   void initState() {
     // TODO: implement initState

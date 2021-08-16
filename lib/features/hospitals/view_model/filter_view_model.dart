@@ -12,12 +12,6 @@ class FilterViewModel extends ChangeNotifier{
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   bool _isLoading= false;
-
-  // Future<void> refresh(String companyNo){
-  //   _departments.clear();
-  //   return getDepartment(companyNo);
-  // }
-
   Future<void> getDepartment(String companyNo) async {
     var res = await FilterRepository().fetchDepartment(companyNo);
     notifyListeners();

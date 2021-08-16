@@ -19,7 +19,7 @@ class DoctorProfileViewModel extends ChangeNotifier {
         _isPersonalInfoEditing = isPersonalInfoEditing;
         notifyListeners();
     }
-    void filterInfo({List filteredList}) {
+    filterInfo({List filteredList}) {
         _filteredList = filteredList;
         notifyListeners();
     }

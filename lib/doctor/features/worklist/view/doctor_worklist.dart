@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/completed_worklist.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/wating_worklist.dart';
+import 'package:myhealthbd_app/doctor/features/worklist/view_model/worklist_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
+import 'package:provider/provider.dart';
 class Worklist extends StatefulWidget {
   @override
   _WorklistState createState() => _WorklistState();
@@ -16,11 +19,91 @@ class Worklist extends StatefulWidget {
 
 class _WorklistState extends State<Worklist> {
   int index = 1;
-
+@override
+  void initState() {
+    // TODO: implement initState
+  pickedToDate = DateTime.now();
+  pickedFromDate = DateTime.now();
+    Future.delayed(Duration.zero, ()async{
+      var vm = Provider.of<WorkListViewModel>(context,listen: false);
+      await vm.getWorkListData(fromDate: null,toDate: null);
+    });
+  super.initState();
+  }
+  DateTime pickedToDate;
+  DateTime pickedFromDate;
+  Future<Null> selectFromDate(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Container(
+          child: Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: AppTheme.appbarPrimary,
+              accentColor: AppTheme.appbarPrimary,
+              colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child,
+          ),
+        );
+      },
+      initialDate: pickedFromDate,
+      firstDate: DateTime(2010),
+      lastDate: pickedToDate,
+    );
+    if (date != null && date != pickedFromDate) {
+      setState(() {
+        pickedFromDate = date;
+      });
+    }
+  }
+  Future<Null> selectToDate(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Container(
+          child: Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: AppTheme.appbarPrimary,
+              accentColor: AppTheme.appbarPrimary,
+              colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child,
+          ),
+        );
+      },
+      initialDate: pickedToDate,
+      firstDate: pickedFromDate,
+      lastDate: DateTime.now(),
+    );
+    if (date != null && date != pickedToDate) {
+      setState(() {
+        pickedToDate = date;
+var fromDate= DateFormat("dd-MMM-yyyy").format(pickedFromDate);
+var toDate= DateFormat("dd-MMM-yyyy").format(pickedToDate);
+        var vm = Provider.of<WorkListViewModel>(context,listen: false);
+        vm.getWorkListData(toDate: toDate,fromDate: fromDate);
+      print(fromDate);
+      print(toDate);
+      });
+    }else{
+      setState(() {
+        pickedToDate = date;
+        var fromDate= DateFormat("dd-MMM-yyyy").format(pickedFromDate);
+        var toDate= DateFormat("dd-MMM-yyyy").format(pickedToDate);
+        var vm = Provider.of<WorkListViewModel>(context,listen: false);
+        vm.getWorkListData(toDate: toDate,fromDate: fromDate);
+        print(fromDate);
+        print(toDate);
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
-    //var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
+    var vm = Provider.of<WorkListViewModel>(context,listen: true);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
@@ -32,7 +115,7 @@ class _WorklistState extends State<Worklist> {
         Container(
           constraints: BoxConstraints(
               minHeight: 120,
-              minWidth: width<=330 ? width*.9 : width*.925,),
+              minWidth: width<=330 ? width*.9 : width*.92,),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: HexColor("#FFFFFF"),
@@ -62,45 +145,50 @@ class _WorklistState extends State<Worklist> {
                                   : 16,
                           fontWeight: FontWeight.w500),
                     ),
-                    Container(
-                      height: 45,
-                      width: width<= 330? 110 : 140,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: HexColor("#6374DF"), // set border color
-                          //width: 3.0
-                        ), // set border width
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(10.0)), // set rounded corner radius
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '22/12/18',
-                            style: GoogleFonts.poppins(
-                                fontSize: isTablet
-                                    ? 20
-                                    : width <= 330
-                                        ? 12
-                                        : 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          SvgPicture.asset(
-                            "assets/icons/calendoc.svg",
-                            //key: Key('filterIconKey'),
-                            width: 10,
-                            height: 18,
-                            fit: BoxFit.fitWidth,
-                            allowDrawingOutsideViewBox: true,
-                            matchTextDirection: true,
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: (){
+                        selectFromDate(context);
+                      },
+                      child: Container(
+                        height: 45,
+                        width: width<= 330? 110 : 140,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: HexColor("#6374DF"), // set border color
+                            //width: 3.0
+                          ), // set border width
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(10.0)), // set rounded corner radius
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '22/12/18',
+                              style: GoogleFonts.poppins(
+                                  fontSize: isTablet
+                                      ? 20
+                                      : width <= 330
+                                          ? 12
+                                          : 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            SvgPicture.asset(
+                              "assets/icons/calendoc.svg",
+                              //key: Key('filterIconKey'),
+                              width: 10,
+                              height: 18,
+                              fit: BoxFit.fitWidth,
+                              allowDrawingOutsideViewBox: true,
+                              matchTextDirection: true,
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -122,29 +210,34 @@ class _WorklistState extends State<Worklist> {
                                   : 16,
                           fontWeight: FontWeight.w500),
                     ),
-                    Container(
-                      height: 45,
-                      width: width<= 330? 110 : 140,
-                      decoration: BoxDecoration(
-                        color: HexColor("#EFF5FF"),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(10.0)), // set rounded corner radius
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 25.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/icons/calendoc.svg",
-                              //key: Key('filterIconKey'),
-                              width: 10,
-                              height: 18,
-                              fit: BoxFit.fitWidth,
-                              allowDrawingOutsideViewBox: true,
-                              matchTextDirection: true,
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: (){
+                        selectToDate(context);
+                      },
+                      child: Container(
+                        height: 45,
+                        width: width<= 330? 110 : 140,
+                        decoration: BoxDecoration(
+                          color: HexColor("#EFF5FF"),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(10.0)), // set rounded corner radius
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 25.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/icons/calendoc.svg",
+                                //key: Key('filterIconKey'),
+                                width: 10,
+                                height: 18,
+                                fit: BoxFit.fitWidth,
+                                allowDrawingOutsideViewBox: true,
+                                matchTextDirection: true,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     )
@@ -156,6 +249,7 @@ class _WorklistState extends State<Worklist> {
         ),
       ],
     );
+    print('is laoding ${vm.isLoading}');
     var watingTab = GestureDetector(
       onTap: () {
         setState(() {
@@ -172,7 +266,7 @@ class _WorklistState extends State<Worklist> {
             child: Text(
           'Waiting',
           style: GoogleFonts.poppins(
-              fontSize: 12,
+              fontSize: isTablet? 14 :12,
               color: index == 1 ? Colors.white : Colors.black,
               fontWeight: index == 1 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -195,7 +289,7 @@ class _WorklistState extends State<Worklist> {
             child: Text(
           'Completed',
           style: GoogleFonts.poppins(
-              fontSize: 12,
+              fontSize: isTablet? 14 : 12,
               color: index == 2 ? Colors.white : Colors.black,
               fontWeight: index == 2 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -236,7 +330,7 @@ class _WorklistState extends State<Worklist> {
                   Text(
                     'Select Date',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600, fontSize: 15),
+                        fontWeight: FontWeight.w600, fontSize:isTablet? 17 : 15),
                   ),
                   spaceBetween,
                   dateSection,
@@ -245,11 +339,14 @@ class _WorklistState extends State<Worklist> {
                   Text(
                     'Worklist',
                     style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600, fontSize: 15),
+                        fontWeight: FontWeight.w600, fontSize:isTablet? 17 : 15),
                   ),
                   spaceBetween,
                   spaceBetween,
-                  Container(
+                  vm.isLoading? Center(child: Padding(
+                    padding: const EdgeInsets.only(top: 100.0),
+                    child: CircularProgressIndicator(),
+                  )) : Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: HexColor("#FFFFFF"),

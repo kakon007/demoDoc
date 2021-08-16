@@ -64,7 +64,7 @@ class UserImageViewModel extends ChangeNotifier {
 
     http.StreamedResponse response = await request.send();
     _resStatusCode = response.statusCode.toString();
-    print(response.statusCode);
+    //print(response.statusCode);
     try {
       if (response.statusCode == 200) {
         userImage();
@@ -80,13 +80,6 @@ class UserImageViewModel extends ChangeNotifier {
         print(response.reasonPhrase);
       }
     } catch (e) {
-      // Fluttertoast.showToast(
-      //     msg: "Check Network Connection!!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 12.0);
     }
   }
 
@@ -114,7 +107,7 @@ class UserImageViewModel extends ChangeNotifier {
 
     http.StreamedResponse response = await request.send();
     _resDoctorStatusCode = response.statusCode.toString();
-    print(response.statusCode);
+   // print(response.statusCode);
     try {
       if (response.statusCode == 200) {
         userImage();
@@ -203,10 +196,8 @@ class UserImageViewModel extends ChangeNotifier {
     try {
       if (response.statusCode == 200) {
         var res = await response.stream.bytesToString();
-        print("shakil ${res}");
         UserImageModel data = userImageModelFromJson(res);
         _details = data.obj;
-        print("details $_details");
         _isImageLoading = false;
         notifyListeners();
       } else {
@@ -214,18 +205,10 @@ class UserImageViewModel extends ChangeNotifier {
       }
     } catch (e) {
       _isImageLoading = false;
-      // Fluttertoast.showToast(
-      //     msg: "Check Network Connection!!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 12.0);
     }
   }
 
   Future<void> switchImage(var accessToken) async {
-    //_switchDetails=null;
     var headers = {'Authorization': 'Bearer $accessToken'};
 
     var request = http.Request(
@@ -235,19 +218,11 @@ class UserImageViewModel extends ChangeNotifier {
     try {
       if (response.statusCode == 200) {
         var res = await response.stream.bytesToString();
-        print("shakil" + res);
         UserImageModel data = userImageModelFromJson(res);
         _switchDetails = data.obj;
         notifyListeners();
       } else {}
     } catch (e) {
-      // Fluttertoast.showToast(
-      //     msg: "Check Network Connection!!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 12.0);
     }
   }
 

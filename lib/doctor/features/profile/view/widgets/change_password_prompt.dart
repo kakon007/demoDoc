@@ -54,9 +54,10 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
       validator: Validator().nullFieldValidate,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
+      labelLeftPadding: 0,
       labelText: "Current Password",
       labelFontSize: isTablet ? 15 : 12,
-      hintSize: isTablet ? 17 : 15,
+      hintSize: isTablet ? 15 : 14,
       hintText: "Current password",
       minimizeBottomPadding: true,
       // suffixIcon: IconButton(
@@ -80,8 +81,9 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
       textFieldKey: Key('newPasswordKey'),
       topPadding: isTablet ? 25 : 18,
       controller: _newPassword,
+      labelLeftPadding: 0,
       labelFontSize: isTablet ? 15 : 12,
-      hintSize: isTablet ? 17 : 15,
+      hintSize: isTablet ? 15 : 14,
       validator: Validator().nullFieldValidate,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
@@ -111,11 +113,12 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
       topPadding: isTablet ? 25 : 18,
       minimizeBottomPadding: true,
       controller: _confirmPassword,
+      labelLeftPadding: 0,
       validator: (v) {
         return Validator().validateConfirmPassword(_newPassword.text, v);
       },
       labelFontSize: isTablet ? 15 : 12,
-      hintSize: isTablet ? 18 : 15,
+      hintSize: isTablet ? 15 : 14,
       margin: EdgeInsets.only(bottom: 2),
       isRequired: true,
       labelText: "Confirm Password",
@@ -169,7 +172,7 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
                     child: Text(
                       'Change Password',
                       style: GoogleFonts.poppins(
-                          color: AppTheme.appbarPrimary,
+                          //color: AppTheme.appbarPrimary,
                           fontSize: isTablet ? 18 : 15.0,
                           fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center,
@@ -203,7 +206,7 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
                                  ),
                               child: Text(
                                 StringResources.cancelText,
-                                style: GoogleFonts.poppins(color: Colors.white),
+                                style: GoogleFonts.roboto(color: Colors.white, fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
@@ -245,7 +248,7 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
                               ),
                               child: Text(
                                 "Save",
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.roboto(fontWeight: FontWeight.w600),
                               ),
                             ),
                           ), // submitButton

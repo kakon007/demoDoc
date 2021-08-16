@@ -2,11 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/find_doctor/view/find_doctor_screen.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_rectangular_button.dart';
-import 'package:recase/recase.dart';
 
 class HospitalListCard extends StatelessWidget {
   Uint8List image;

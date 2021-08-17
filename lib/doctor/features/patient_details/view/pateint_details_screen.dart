@@ -230,7 +230,7 @@ class _PatientDetailsState extends State<PatientDetails> {
 
                                         Container(
                                           height: 45,
-                                          width: 140,
+                                          width:MediaQuery.of(context).size.width>350?140:100,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             border: Border.all(
@@ -293,7 +293,7 @@ class _PatientDetailsState extends State<PatientDetails> {
 
                                         Container(
                                           height: 45,
-                                          width: 140,
+                                          width: MediaQuery.of(context).size.width>350?140:100,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             border: Border.all(

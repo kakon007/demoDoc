@@ -17,11 +17,11 @@ class DoctorProfileViewModel extends ChangeNotifier {
     }
     editingPersonalInfo({bool isPersonalInfoEditing}) {
         _isPersonalInfoEditing = isPersonalInfoEditing;
-        notifyListeners();
+       // notifyListeners();
     }
     filterInfo({List filteredList}) {
         _filteredList = filteredList;
-        notifyListeners();
+        //notifyListeners();
     }
     bool get isDoctorInfoEditing => _isDoctorInfoEditing;
     bool get isPersonalInfoEditing => _isPersonalInfoEditing;

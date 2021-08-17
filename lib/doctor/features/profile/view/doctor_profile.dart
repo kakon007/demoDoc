@@ -13,7 +13,6 @@ import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
 class DoctorProfile extends StatefulWidget {
@@ -69,6 +68,13 @@ class _DoctorProfileState extends State<DoctorProfile> {
     } else {
       print('No image selected.');
     }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
+    vm.editingPersonalInfo(isPersonalInfoEditing: false);
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -236,7 +242,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
         )),
       ),
     );
-    var myInfoTab = GestureDetector(
+    var userInfoTab = GestureDetector(
       onTap: () {
         setState(() {
           index = 3;
@@ -251,7 +257,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                 bottomRight: Radius.circular(20))),
         child: Center(
             child: Text(
-          'Doctor Info',
+          'User Info',
           style: GoogleFonts.poppins(
               fontSize: isTablet? 15 : width<=330? 11 : 12,
               color: index == 3 ? Colors.white : Colors.black,
@@ -299,7 +305,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                       ? PersonalInfo()
                       : index == 2
                           ? CompanyInfo()
-                          : DoctorInfo(),
+                          : UserInfo(),
                   spaceBetween,
                 ],
               ),
@@ -323,7 +329,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                     ]),
                 height: 40, width: MediaQuery.of(context).size.width * .5,
                 child: Row(
-                  children: [personalInfoTab, contactInfoTab, myInfoTab],
+                  children: [personalInfoTab, contactInfoTab, userInfoTab],
                 ),
               ),
             ),

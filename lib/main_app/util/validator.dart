@@ -26,7 +26,9 @@ class Validator {
     else
       return null;
   }
-
+  String notValidate(String value) {
+    return '';
+  }
   String validatePassword(String value) {
     final RegExp _passwordRegExp = RegExp(
       r'(?=.*?[0-9])(?=.*?[A-Za-z]).+',

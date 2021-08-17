@@ -7,18 +7,21 @@ import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
+import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
-class DoctorInfo extends StatefulWidget {
-  const DoctorInfo({Key key}) : super(key: key);
+import 'change_password_prompt.dart';
+
+class UserInfo extends StatefulWidget {
+  const UserInfo({Key key}) : super(key: key);
 
   @override
-  _DoctorInfoState createState() => _DoctorInfoState();
+  _UserInfoState createState() => _UserInfoState();
 }
 
-class _DoctorInfoState extends State<DoctorInfo> {
+class _UserInfoState extends State<UserInfo> {
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
@@ -30,59 +33,108 @@ class _DoctorInfoState extends State<DoctorInfo> {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
-    var nameHeading = Padding(
+    var usernameHeading = Padding(
       padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
       child: Row(
         children: [
           Text(
-            'Name',
+            'Username',
             style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
-          ),
-          Text(
-            vm.isDoctorInfoEditing ? '*' : "",
-            style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
           ),
         ],
       ),
     );
     var doctorName = vm.isDoctorInfoEditing
         ? Padding(
-            padding: const EdgeInsets.only(left: 4.0, right: 4),
-            child: DoctorFormField(
-              minimizeBottomPadding: true,
-              hintText: 'Enter Your Name',
-            ),
-          )
+      padding: const EdgeInsets.only(left: 4.0, right: 4),
+      child: DoctorFormField(
+        minimizeBottomPadding: true,
+        hintText: 'Enter Your Name',
+      ),
+    )
         : Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8),
-            child: Container(
-              height: 50,
-              width: width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: HexColor("#FFFFFF"),
-                  border: Border.all(color: HexColor('#AFBBFF'))
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: HexColor("#0D1231").withOpacity(0.08),
-                  //     spreadRadius: 2,
-                  //     blurRadius: 2,
-                  //     offset: Offset(0, 1), // changes position of shadow
-                  //   ),
-                  // ]
-                  ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Text(
-                    'Assoc. Dr. Mahmud Rahim',
-                    style: GoogleFonts.poppins(),
-                  ),
-                ),
-              ),
+      padding: const EdgeInsets.only(left: 8.0, right: 8),
+      child: Container(
+        height: 50,
+        width: width,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: HexColor("#FFFFFF"),
+            border: Border.all(color: HexColor('#AFBBFF'))
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: HexColor("#0D1231").withOpacity(0.08),
+          //     spreadRadius: 2,
+          //     blurRadius: 2,
+          //     offset: Offset(0, 1), // changes position of shadow
+          //   ),
+          // ]
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              'Assoc. Dr. Mahmud Rahim',
+              style: GoogleFonts.poppins(),
             ),
-          );
+          ),
+        ),
+      ),
+    );
+    var username = Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8),
+      child: Container(
+        height: 50,
+        width: width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color(0xffF9F9F9),
+          //border: Border.all(color: HexColor('#AFBBFF'))
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: HexColor("#0D1231").withOpacity(0.08),
+          //     spreadRadius: 2,
+          //     blurRadius: 2,
+          //     offset: Offset(0, 1), // changes position of shadow
+          //   ),
+          // ]
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              'AHC_RAHIM',
+              style: GoogleFonts.poppins(),
+            ),
+          ),
+        ),
+      ),
+    );
+    var clickHere = Padding(
+      padding: const EdgeInsets.only(left: 10.0, bottom: 5),
+      child: Row(
+        children: [
+          Text(
+            'Change Password:    ',
+            style: GoogleFonts.roboto(fontSize: isTablet?14: 12),
+          ),
+          FlatButton(
+              minWidth: MediaQuery.of(context).size.width * .2,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+              color: AppTheme.buttonActiveColor,
+              onPressed: () {
+                _showAlertDialogForPassword(context);
+              },
+              child: Text(
+                StringResources.clickHere,
+                style: GoogleFonts.roboto(color: Colors.white,fontWeight: FontWeight.w600, fontSize: isTablet? 18 : 15),
+              )),
+        ],
+      ),
+    );
     var bmdcNoHeading = Padding(
         padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
         child: Row(
@@ -99,42 +151,42 @@ class _DoctorInfoState extends State<DoctorInfo> {
         ));
     var bmdcNo = vm.isDoctorInfoEditing
         ? Padding(
-            padding: const EdgeInsets.only(left: 4.0, right: 4),
-            child: DoctorFormField(
-              minimizeBottomPadding: true,
-              hintText: 'Enter BMDC No',
-            ),
-          )
+      padding: const EdgeInsets.only(left: 4.0, right: 4),
+      child: DoctorFormField(
+        minimizeBottomPadding: true,
+        hintText: 'Enter BMDC No',
+      ),
+    )
         : Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8),
-            child: Container(
-              height: 50,
-              width: width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: HexColor("#FFFFFF"),
-                  border: Border.all(color: HexColor('#AFBBFF'))
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: HexColor("#0D1231").withOpacity(0.08),
-                  //     spreadRadius: 2,
-                  //     blurRadius: 2,
-                  //     offset: Offset(0, 1), // changes position of shadow
-                  //   ),
-                  // ]
-                  ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Text(
-                    'A 187',
-                    style: GoogleFonts.poppins(),
-                  ),
-                ),
-              ),
+      padding: const EdgeInsets.only(left: 8.0, right: 8),
+      child: Container(
+        height: 50,
+        width: width,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: HexColor("#FFFFFF"),
+            border: Border.all(color: HexColor('#AFBBFF'))
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: HexColor("#0D1231").withOpacity(0.08),
+          //     spreadRadius: 2,
+          //     blurRadius: 2,
+          //     offset: Offset(0, 1), // changes position of shadow
+          //   ),
+          // ]
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              'A 187',
+              style: GoogleFonts.poppins(),
             ),
-          );
+          ),
+        ),
+      ),
+    );
     var degreeHeading = Padding(
         padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
         child: Row(
@@ -151,49 +203,49 @@ class _DoctorInfoState extends State<DoctorInfo> {
         ));
     var degree = vm.isDoctorInfoEditing
         ? Padding(
-            padding: const EdgeInsets.only(left: 4.0, right: 4),
-            child: DoctorFormField(
-              minimizeBottomPadding: true,
-              hintText: 'Enter Degree',
-            ),
-          )
+      padding: const EdgeInsets.only(left: 4.0, right: 4),
+      child: DoctorFormField(
+        minimizeBottomPadding: true,
+        hintText: 'Enter Degree',
+      ),
+    )
         : Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8),
-            child: Container(
-              height: 50,
-              width: width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: HexColor("#FFFFFF"),
-                  border: Border.all(color: HexColor('#AFBBFF'))
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: HexColor("#0D1231").withOpacity(0.08),
-                  //     spreadRadius: 2,
-                  //     blurRadius: 2,
-                  //     offset: Offset(0, 1), // changes position of shadow
-                  //   ),
-                  // ]
-                  ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Text(
-                    'BCS(Health), MD(Chest)',
-                    style: GoogleFonts.poppins(),
-                  ),
-                ),
-              ),
+      padding: const EdgeInsets.only(left: 8.0, right: 8),
+      child: Container(
+        height: 50,
+        width: width,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: HexColor("#FFFFFF"),
+            border: Border.all(color: HexColor('#AFBBFF'))
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: HexColor("#0D1231").withOpacity(0.08),
+          //     spreadRadius: 2,
+          //     blurRadius: 2,
+          //     offset: Offset(0, 1), // changes position of shadow
+          //   ),
+          // ]
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              'BCS(Health), MD(Chest)',
+              style: GoogleFonts.poppins(),
             ),
-          );
+          ),
+        ),
+      ),
+    );
     var addMoreButton = Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),
       child: SizedBox(
         child: FlatButton(
             minWidth: MediaQuery.of(context).size.width * .1,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             color: AppTheme.buttonActiveColor,
             onPressed: () {},
             child: Row(
@@ -237,15 +289,15 @@ class _DoctorInfoState extends State<DoctorInfo> {
             borderRadius: BorderRadius.circular(10),
             color: HexColor("#FFFFFF"),
             border: Border.all(color: HexColor('#AFBBFF'))
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: HexColor("#0D1231").withOpacity(0.08),
-            //     spreadRadius: 2,
-            //     blurRadius: 2,
-            //     offset: Offset(0, 1), // changes position of shadow
-            //   ),
-            // ]
-            ),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: HexColor("#0D1231").withOpacity(0.08),
+          //     spreadRadius: 2,
+          //     blurRadius: 2,
+          //     offset: Offset(0, 1), // changes position of shadow
+          //   ),
+          // ]
+        ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
@@ -307,7 +359,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
           FlatButton(
             minWidth: width * .6,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             color: AppTheme.buttonActiveColor,
             onPressed: () {
               _uploadSignature(context);
@@ -326,61 +378,61 @@ class _DoctorInfoState extends State<DoctorInfo> {
     );
     var editButton = !vm.isDoctorInfoEditing
         ? FlatButton(
-            minWidth: MediaQuery.of(context).size.width,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        minWidth: MediaQuery.of(context).size.width,
+        shape:
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        color: AppTheme.buttonActiveColor,
+        onPressed: () {
+          setState(() {
+            vm.editingDoctorInfo(isDoctorInfoEditing: true);
+          });
+        },
+        child: Text(
+          'Update My Profile',
+          style: GoogleFonts.roboto(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: isTablet ? 18 : 15),
+        ))
+        : Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        FlatButton(
+            minWidth: MediaQuery.of(context).size.width * .4,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5)),
             color: AppTheme.buttonActiveColor,
             onPressed: () {
               setState(() {
-                vm.editingDoctorInfo(isDoctorInfoEditing: true);
+                vm.editingDoctorInfo(isDoctorInfoEditing: false);
               });
             },
             child: Text(
-              'Update My Profile',
+              'Cancel',
+              style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: isTablet ? 18 : 15),
+            )),
+        FlatButton(
+            minWidth: MediaQuery.of(context).size.width * .4,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5)),
+            color: AppTheme.buttonActiveColor,
+            onPressed: () {
+              setState(() {
+                vm.editingDoctorInfo(isDoctorInfoEditing: false);
+              });
+            },
+            child: Text(
+              'Save',
               style: GoogleFonts.roboto(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                   fontSize: isTablet ? 18 : 15),
             ))
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FlatButton(
-                  minWidth: MediaQuery.of(context).size.width * .4,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  color: AppTheme.buttonActiveColor,
-                  onPressed: () {
-                    setState(() {
-                      vm.editingDoctorInfo(isDoctorInfoEditing: false);
-                    });
-                  },
-                  child: Text(
-                    'Cancel',
-                    style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: isTablet ? 18 : 15),
-                  )),
-              FlatButton(
-                  minWidth: MediaQuery.of(context).size.width * .4,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  color: AppTheme.buttonActiveColor,
-                  onPressed: () {
-                    setState(() {
-                      vm.editingDoctorInfo(isDoctorInfoEditing: false);
-                    });
-                  },
-                  child: Text(
-                    'Save',
-                    style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: isTablet ? 18 : 15),
-                  ))
-            ],
-          );
+      ],
+    );
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10, top: 10),
       child: Column(
@@ -403,32 +455,18 @@ class _DoctorInfoState extends State<DoctorInfo> {
                 spaceBetween,
                 spaceBetween,
                 spaceBetween,
-                nameHeading,
+                usernameHeading,
                 //spaceBetween,
-                doctorName,
+                username,
                 spaceBetween,
-                // spaceBetween,
-                bmdcNoHeading,
-                bmdcNo,
                 spaceBetween,
-                degreeHeading,
-                degree,
-                spaceBetween,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [SizedBox(), addMoreButton],
-                ),
-                spaceBetween,
-                doctorSignatureHeading,
-                doctorSignature,
-                spaceBetween,
-                digitalSignatureHeading,
-                digitalSignature,
+                clickHere,
+
               ],
             ),
           ),
           spaceBetween,
-          editButton
+          // editButton
         ],
       ),
     );
@@ -436,10 +474,17 @@ class _DoctorInfoState extends State<DoctorInfo> {
 
   void _uploadSignature(BuildContext context) {
     showDialog(
-        //barrierColor: Color(0x00ffffff),
+      //barrierColor: Color(0x00ffffff),
         context: context,
         builder: (context) {
           return DoctorSignaturePrompt();
+        });
+  }
+  void _showAlertDialogForPassword(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ChangeDoctorPasswordAlert();
         });
   }
 }

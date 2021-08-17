@@ -39,6 +39,7 @@ class DoctorFormField extends StatelessWidget {
   final double hintSize;
   final List<TextInputFormatter> inputFormatters;
   final String focusBorderColor;
+  final String enabledBorderColor;
   final double labelLeftPadding;
   final double labelBottomPadding;
 
@@ -46,6 +47,7 @@ class DoctorFormField extends StatelessWidget {
     this.labelLeftPadding=10,
     this.labelBottomPadding=0,
     this.labelFontSize =12,
+    this.enabledBorderColor = "#EAEBED",
     this.focusBorderColor="#D6DCFF",
     this.minimizeBottomPadding = false,
     this.readOnly = false,
@@ -139,7 +141,7 @@ class DoctorFormField extends StatelessWidget {
               ),
               contentPadding: EdgeInsets.fromLTRB(leftContentPadding, topContentPadding, 40.0, 0.0),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: HexColor("#EAEBED"), width: 1.0),
+                borderSide: BorderSide(color: HexColor(enabledBorderColor), width: 1.0),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
               focusedErrorBorder: OutlineInputBorder(

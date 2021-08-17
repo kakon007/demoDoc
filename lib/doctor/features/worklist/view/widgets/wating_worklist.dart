@@ -20,10 +20,14 @@ class WaitingWorkList extends StatefulWidget {
 
 class _WaitingWorkListState extends State<WaitingWorkList> {
   List<Datum> waitingWorkList = [];
+  List<Datum> workList = [];
+  var length ;
   @override
   void initState() {
     // TODO: implement initState
     var vm = Provider.of<WorkListViewModel>(context,listen: false);
+    workList= vm.workListData.obj.data;
+    length = vm.workListData.obj.data.length;
     vm.workListData.obj.data
         .forEach((item) {
       if (item.consultationOut.toString().contains('0')) {
@@ -35,7 +39,20 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
   }
   @override
   Widget build(BuildContext context) {
-    print("item ${waitingWorkList.length}");
+    print("items ${waitingWorkList.length}");
+    var vm = Provider.of<WorkListViewModel>(context,listen: false);
+    if(workList!=vm.workListData.obj.data){
+      print('true2');
+      print(workList.length);
+      waitingWorkList.clear();
+      vm.workListData.obj.data
+          .forEach((item) {
+        if (item.consultationOut.toString().contains('0')) {
+          waitingWorkList.add(item);
+          print('aaa');
+        }
+      });
+    }
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
       height: 10,

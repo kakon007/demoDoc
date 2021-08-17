@@ -2496,9 +2496,9 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                                                                  color: Colors.black,
                                                                                                                ),
                                                                                                                children: <TextSpan>[
-                                                                                                                 TextSpan(text: 'Delete '),
-                                                                                                                  TextSpan(text: 'Document', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
-                                                                                                                 TextSpan(text: " from your list?", style: GoogleFonts.poppins()),
+                                                                                                                 TextSpan(text: 'Are you '),
+                                                                                                                  TextSpan(text: 'sure', style: GoogleFonts.poppins()),
+                                                                                                                 TextSpan(text: " you want to Delete?", style: GoogleFonts.poppins()),
                                                                                                                ],
                                                                                                              ),
                                                                                                            ),

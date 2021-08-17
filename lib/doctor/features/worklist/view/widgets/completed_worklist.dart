@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_
 import 'package:myhealthbd_app/doctor/features/worklist/models/worklist_model.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/worklists_widget.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view_model/worklist_view_model.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
@@ -25,20 +26,20 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
   void initState() {
     // TODO: implement initState
     var vm = Provider.of<WorkListViewModel>(context,listen: false);
-
-    vm.workListData.obj.data
-        .forEach((item) {
-      if (item.consultationOut.toString().contains('1')) {
-        completedWorkList.add(item);
-        print('aaa');
-      }
-    });
+    //
+    // vm.workListData
+    //     .forEach((item) {
+    //   if (item.consultationOut.toString().contains('1')) {
+    //     completedWorkList.add(item);
+    //     print('bbb ${completedWorkList.length}');
+    //   }
+    // });
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-
-    print("item ${completedWorkList.length}");
+    var vm = Provider.of<WorkListViewModel>(context,listen: false);
+    //print("item ${completedWorkList.length}");
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
       height: 10,
@@ -127,23 +128,32 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
       child: Column(children: [
         spaceBetween,
         spaceBetween,
-        spaceBetween,
-        searchField,
+       // spaceBetween,
+        //searchField,
         spaceBetween,
         ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: completedWorkList.length,
+            itemCount: vm.completedData.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
                 child: WorklistAll(
-                  consultTime: completedWorkList[index].consTime,
-                  patientName: completedWorkList[index].patientName,
-                  consultType: completedWorkList[index].consultTypeNo.toString(),
+                  consultTime: vm.completedData[index].consTime,
+                  patientName: vm.completedData[index].patientName,
+                  consultType: vm.completedData[index].consultTypeNo.toString(),
                 ),
               );
             }),
+        vm.isFetchingMoreData
+            ? SizedBox(
+            height: 60, child: Center(child: CircularProgressIndicator(
+          strokeWidth: 3.0,
+          valueColor: AlwaysStoppedAnimation<Color>(
+              AppTheme.buttonActiveColor),
+
+        )))
+            : SizedBox(),
         spaceBetween,
         spaceBetween,
       ],),

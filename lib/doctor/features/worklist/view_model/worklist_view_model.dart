@@ -12,12 +12,23 @@ class WorkListViewModel extends ChangeNotifier {
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   AppError _appError;
-  WorkListModel _workListData;
+  List<Datum> _workListData = [];
+  List<Datum> _waitingWorkListData = [];
+  List<Datum> _completedListData = [];
+  var start = 0;
+  int _totalRecords=0;
 
-  Future<void> getWorkListData({String fromDate, String toDate}) async {
-
-    var res = await WorkListRepository().fetchWorkListData(fromDate: fromDate,toDate: toDate);
-    _isLoading =true;
+  Future<void> getWorkListData(
+      {String fromDate, String toDate, String searchValue}) async {
+    _isFetchingMoreData = true;
+    print(start);
+    start = 0;
+    var res = await WorkListRepository().fetchWorkListData(
+        fromDate: fromDate,
+        toDate: toDate,
+        start: start.toString(),
+        searchValue: searchValue);
+    _isLoading = true;
     notifyListeners();
     res.fold((l) {
       _appError = l;
@@ -28,7 +39,58 @@ class WorkListViewModel extends ChangeNotifier {
     }, (r) {
       _isFetchingMoreData = false;
       _isLoading = false;
-      _workListData= r;
+      _waitingWorkListData.clear();
+      _completedListData.clear();
+      _workListData.clear();
+      _workListData = r.obj.data;
+      _totalRecords = int.parse(r.obj.recordsTotal);
+      print("_totalRecords $_totalRecords");
+      r.obj.data.forEach((item) {
+        if (item.consultationOut.toString().contains('0')) {
+          _waitingWorkListData.add(item);
+          print('aaa ${_waitingWorkListData.length}');
+        } else {
+          _completedListData.add(item);
+          print('aaa ${_waitingWorkListData.length}');
+        }
+      });
+      // _workListData= r.obj.data;
+      notifyListeners();
+    });
+  }
+
+  getMoreWorkListData(
+      {String fromDate, String toDate, String searchValue}) async {
+    _isFetchingMoreData = true;
+    notifyListeners();
+    start = start + 10;
+    print("222 $start");
+    var res = await WorkListRepository().fetchWorkListData(
+        fromDate: fromDate,
+        toDate: toDate,
+        start: start.toString(),
+        searchValue: searchValue);
+    _isLoading = true;
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isLoading = false;
+      _isFetchingMoreData = false;
+      _isLoading = false;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = false;
+      _isLoading = false;
+      _workListData.addAll(r.obj.data);
+      r.obj.data.forEach((item) {
+        if (item.consultationOut.toString().contains('0')) {
+          _waitingWorkListData.add(item);
+          print('aaa ${_waitingWorkListData.length}');
+        } else {
+          _completedListData.add(item);
+          print('aaa ${_waitingWorkListData.length}');
+        }
+      });
       notifyListeners();
     });
   }
@@ -41,6 +103,11 @@ class WorkListViewModel extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  WorkListModel get workListData => _workListData;
+  List<Datum> get workListData => _workListData;
 
+  List<Datum> get completedData => _completedListData;
+
+  List<Datum> get waitingData => _waitingWorkListData;
+
+  int get totalRecords => _totalRecords;
 }

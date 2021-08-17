@@ -18,23 +18,18 @@ class HospitalImagerepository {
       var response = await client.get(Uri.parse(url));
       if (response.statusCode == 200) {
         CompanyImageModel data2 = companyImageModelFromJson(response.body);
-        CacheRepositories.setCacheAsDecodeJson(response.body, CacheKeys.hospitalImage);
-        print("image repository::");
+        CacheRepositories.setCacheAsDecodeJson(
+            response.body, CacheKeys.hospitalImage);
         return Right(HospitalImageM(
           dataList2: data2.items,
         ));
-        //print(data[0]['companySlogan']);
       } else {
-        //BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-      //BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }

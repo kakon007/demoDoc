@@ -222,7 +222,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                   title: constraint.maxHeight > 100
                       ? null
                       : Text(
-                          widget.title.titleCase,
+                          widget.title,
                           style: TextStyle(fontSize: 14),
                         ),
                   background: Stack(
@@ -290,7 +290,7 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                               ? 190
                                               : 260,
                                       child: Text(
-                                        widget.title.titleCase,
+                                        widget.title,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.poppins(

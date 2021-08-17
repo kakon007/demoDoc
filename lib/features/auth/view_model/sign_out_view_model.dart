@@ -4,7 +4,6 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 class SignOutViewModel extends ChangeNotifier {
   String _message;
-  DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   bool _isLoading = false;

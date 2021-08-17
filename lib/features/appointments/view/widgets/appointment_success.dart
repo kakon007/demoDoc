@@ -171,21 +171,6 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     ],
                                   ),
                                 ),
-                                // Row(
-                                //   children: [
-                                //     Text(
-                                //       "Time : ",
-                                //       style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330?12: 12,),
-                                //     ),
-                                //     Text(
-                                //       DateFormat("hh:mm a").format(
-                                //           DateTime.parse(
-                                //                   widget.startTime.toString())
-                                //               .toLocal()),
-                                //       style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330?12: 12,),
-                                //     ),
-                                //   ],
-                                // ),
                                 RichText(
                                   textAlign: TextAlign.center,
                                   text:  TextSpan(
@@ -198,12 +183,6 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     ],
                                   ),
                                 ),
-                                // Text(
-                                //   widget.doctorName,
-                                //   style: GoogleFonts.poppins(
-                                //       color: HexColor("#037BB7"),
-                                //     fontSize: isTablet? 15 :width<=330?12: 13,),
-                                // ),
                                 RichText(
                                   // textAlign: TextAlign.center,
                                   text:  TextSpan(
@@ -216,14 +195,7 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     ],
                                   ),
                                 ),
-                                // Text(
-                                //   widget.hospitalName,
-                                //   style: GoogleFonts.poppins(
-                                //       color: HexColor("#037BB7"),
-                                //     fontSize: isTablet? 15 :width<=330?12: 13,),
-                                // ),
                                 RichText(
-                                  // textAlign: TextAlign.center,
                                   text:  TextSpan(
                                     style:  GoogleFonts.poppins(
                                       fontSize: isTablet? 15 :width<=330?12: 13,
@@ -235,21 +207,6 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     ],
                                   ),
                                 ),
-                                // Row(
-                                //   children: [
-                                //     Text(
-                                //       "Contact : ",
-                                //
-                                //       style: GoogleFonts.poppins( color: HexColor("#037BB7"),  fontSize: isTablet? 15 :width<=330?12: 13,),),
-                                //     Text(
-                                //       widget.phoneText.toString()==null? "" : widget.phoneText.toString(),
-                                //       style: GoogleFonts.poppins(
-                                //           fontSize: isTablet? 15 :width<=330?12: 13,
-                                //           //fontWeight: FontWeight.w600,
-                                //           color: HexColor("#037BB7")),
-                                //     ),
-                                //   ],
-                                // ),
                                 SizedBox(
                                   height: 8,
                                 ),
@@ -266,14 +223,6 @@ class _AppointSuccessState extends State<AppointSuccess> {
                                     ],
                                   ),
                                 ),
-                                // Text(
-                                //   " * Please proceed with the payment",
-                                //   style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330? 11: 13,),
-                                // ),
-                                // Text(
-                                //   "    to confirm this appointment.",
-                                //   style: GoogleFonts.poppins(fontSize: isTablet? 15 :width<=330? 11:  13,),
-                                // ),
                               ],
                             ),
                           ),

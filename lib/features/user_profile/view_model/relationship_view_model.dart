@@ -23,7 +23,7 @@ class RelationShipViewModel extends ChangeNotifier{
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
-  int _page = 1;
+
 
 
   Future<void> getRelationShip() async {

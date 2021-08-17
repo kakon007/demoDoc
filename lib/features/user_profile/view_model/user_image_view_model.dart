@@ -34,7 +34,7 @@ class UserImageViewModel extends ChangeNotifier {
       borderRadius: BorderRadius.circular(border),
       child: Image.memory(
         _bytesImage,
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
         width: width,
         height: height,
         gaplessPlayback: true,
@@ -48,23 +48,19 @@ class UserImageViewModel extends ChangeNotifier {
       'Authorization':
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
-    var request = http.MultipartRequest('PUT',
-        Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
+    var request = http.MultipartRequest(
+        'PUT', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
     request.fields.addAll({
-      'reqobj': {
-        "name": hospitalNo.toUpperCase(),
-        "id": id,
-        "userMobile": null,
-        "userEmail": null
-      }.toString()
+      'reqobj': {"name": hospitalNo.toUpperCase(), "id": id, "userMobile": null, "userEmail": null}
+          .toString()
     });
-    request.files.add(await http.MultipartFile.fromPath('file', image.path,
-        filename: basename(image.path)));
+    request.files
+        .add(await http.MultipartFile.fromPath('file', image.path, filename: basename(image.path)));
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
     _resStatusCode = response.statusCode.toString();
-    print(response.statusCode);
+    //print(response.statusCode);
     try {
       if (response.statusCode == 200) {
         userImage();
@@ -80,13 +76,6 @@ class UserImageViewModel extends ChangeNotifier {
         print(response.reasonPhrase);
       }
     } catch (e) {
-      // Fluttertoast.showToast(
-      //     msg: "Check Network Connection!!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 12.0);
     }
   }
 
@@ -99,9 +88,7 @@ class UserImageViewModel extends ChangeNotifier {
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
     var request = http.MultipartRequest(
-        'PUT',
-        Uri.parse(
-            '${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
+        'PUT', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
     request.fields.addAll({
       'reqobj': {
         "userMobile": "0$userMobile",
@@ -114,7 +101,7 @@ class UserImageViewModel extends ChangeNotifier {
 
     http.StreamedResponse response = await request.send();
     _resDoctorStatusCode = response.statusCode.toString();
-    print(response.statusCode);
+   // print(response.statusCode);
     try {
       if (response.statusCode == 200) {
         userImage();
@@ -157,9 +144,7 @@ class UserImageViewModel extends ChangeNotifier {
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
     var request = http.MultipartRequest(
-        'PUT',
-        Uri.parse(
-            '${Urls.baseUrl}diagnostic-api/api/opd-registration/update-with-image'));
+        'PUT', Uri.parse('${Urls.baseUrl}diagnostic-api/api/opd-registration/update-with-image'));
     request.fields.addAll({
       'reqobj': json.encode({
         "opdReg": {
@@ -177,8 +162,8 @@ class UserImageViewModel extends ChangeNotifier {
         }
       })
     });
-    request.files.add(await http.MultipartFile.fromPath('file', image.path,
-        filename: basename(image.path)));
+    request.files
+        .add(await http.MultipartFile.fromPath('file', image.path, filename: basename(image.path)));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {
@@ -196,17 +181,15 @@ class UserImageViewModel extends ChangeNotifier {
           'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
     };
 
-    var request = http.Request(
-        'GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
+    var request =
+        http.Request('GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {
       if (response.statusCode == 200) {
         var res = await response.stream.bytesToString();
-        print("shakil ${res}");
         UserImageModel data = userImageModelFromJson(res);
         _details = data.obj;
-        print("details $_details");
         _isImageLoading = false;
         notifyListeners();
       } else {
@@ -214,40 +197,24 @@ class UserImageViewModel extends ChangeNotifier {
       }
     } catch (e) {
       _isImageLoading = false;
-      // Fluttertoast.showToast(
-      //     msg: "Check Network Connection!!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 12.0);
     }
   }
 
   Future<void> switchImage(var accessToken) async {
-    //_switchDetails=null;
     var headers = {'Authorization': 'Bearer $accessToken'};
 
-    var request = http.Request(
-        'GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
+    var request =
+        http.Request('GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     try {
       if (response.statusCode == 200) {
         var res = await response.stream.bytesToString();
-        print("shakil" + res);
         UserImageModel data = userImageModelFromJson(res);
         _switchDetails = data.obj;
         notifyListeners();
       } else {}
     } catch (e) {
-      // Fluttertoast.showToast(
-      //     msg: "Check Network Connection!!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 12.0);
     }
   }
 

@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/worklist/models/worklist_model.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view/widgets/worklists_widget.dart';
+import 'package:myhealthbd_app/doctor/features/worklist/view_model/worklist_view_model.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
+import 'package:provider/provider.dart';
 
 import 'filter_worklist.dart';
 
@@ -16,8 +19,23 @@ class WaitingWorkList extends StatefulWidget {
 }
 
 class _WaitingWorkListState extends State<WaitingWorkList> {
+  List<Datum> waitingWorkList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    var vm = Provider.of<WorkListViewModel>(context,listen: false);
+    vm.workListData.obj.data
+        .forEach((item) {
+      if (item.consultationOut.toString().contains('0')) {
+        waitingWorkList.add(item);
+        print('aaa');
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    print("item ${waitingWorkList.length}");
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
       height: 10,
@@ -110,19 +128,20 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
           spaceBetween,
           searchField,
           spaceBetween,
-          Container(
-            height: MediaQuery.of(context).size.height * .45,
-            child: ListView.builder(
-                shrinkWrap: true,
-                //physics: NeverScrollableScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
-                    child: WorklistAll(),
-                  );
-                }),
-          ),
+          ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: waitingWorkList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
+                  child: WorklistAll(
+                     patientName: waitingWorkList[index].patientName,
+                     consultTime: waitingWorkList[index].consTime,
+                     consultType: waitingWorkList[index].consultTypeNo.toString(),
+                  ),
+                );
+              }),
           spaceBetween,
           spaceBetween,
         ],

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:myhealthbd_app/features/auth/model/reset_passwod_model.dart';
 import 'package:myhealthbd_app/features/auth/repositories/auth_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
@@ -23,7 +22,6 @@ class ResetPasswordViewModel extends ChangeNotifier {
     }, (r) {
       _isFetchingMoreData = false;
       _resetInfo= r.message;
-      print(r.message);
       _isLoading = false;
       notifyListeners();
     });

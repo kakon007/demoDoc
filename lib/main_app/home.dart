@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           duration: duration,
           top: 0,
           left: isDrawerOpen ? deviceWidth * 0.40 : 0,
-          right: isDrawerOpen ? deviceWidth * -0.45 : 0,
+          right: isDrawerOpen ? deviceWidth * -0.4 : 0,
           bottom: 0,
           child: ScaleTransition(
             scale: scaleAnimation,

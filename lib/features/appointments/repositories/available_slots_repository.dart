@@ -30,10 +30,9 @@ class AvailableSlotsRepository {
         "ogNo": orgNo
       }),
     );
-    print('monir ${response.body}');
+  //  print('${response.body}');
     try {
       if (response.statusCode == 200) {
-        print(response.body);
         AvailableSlotModel data = availableSlotModelFromJson(response.body);
         return Right(AvailableSlotListModel(
           slotList: data.items,
@@ -43,19 +42,15 @@ class AvailableSlotsRepository {
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-      // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }
   Future<Either<AppError, AutoSlotGenerateModel>> fetchSlotGenerateInfo(
       DateTime pickedAppointDate, String companyNo, String doctorNo, String orgNo) async {
     String date =   DateFormat("dd/MM/yyyy").format(DateTime.parse(pickedAppointDate.toString()));
-    print(date);
     var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/autoSlotGenerate";
     final http.Response response = await http.post(
       Uri.parse(url),
@@ -66,10 +61,9 @@ class AvailableSlotsRepository {
         "ogNo": orgNo
       }),
     );
-    print("akram ${response.body}");
+   // print("${response.body}");
     try {
       if (response.statusCode == 200) {
-        print(response.body);
         AutoSlotGenerateModel data = autoSlotGenerateModelFromJson(response.body);
         return Right(data);
       } else {
@@ -77,12 +71,9 @@ class AvailableSlotsRepository {
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-      // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }
@@ -96,7 +87,7 @@ class AvailableSlotsRepository {
     );
     try {
       if (response.statusCode == 200) {
-        print("doctorInfo ${response.body}");
+       // print("doctorInfo ${response.body}");
         DoctorInfoModel data = doctorInfoModelFromJson(response.body);
         return Right(DoctorInfoModel(
           obj: data.obj,
@@ -106,12 +97,9 @@ class AvailableSlotsRepository {
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-      // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }
   }
@@ -124,7 +112,7 @@ class AvailableSlotsRepository {
       Uri.parse(url),
       body: jsonEncode(<String, String>{"slotNo": slotNo, "companyNo": companyNo, "ogNo": orgNo}),
     );
-    print(response.body);
+    //print(response.body);
     try {
       if (response.statusCode == 200) {
         BotToast.closeAllLoading();
@@ -150,10 +138,9 @@ class AvailableSlotsRepository {
         "${Urls.baseUrl}online-appointment-api/fapi/appointment/findPatTypeList?doctorNo=$doctorNo";
     var client = http.Client();
     var response = await client.get(Uri.parse(url));
-    print(response.body);
+    //print(response.body);
     try {
       if (response.statusCode == 200) {
-        // print(response.body);
         PatientTypeModel data = patientTypeModelFromJson(response.body);
         return Right(PatientType(patType: data.patientItem));
       } else {
@@ -165,8 +152,7 @@ class AvailableSlotsRepository {
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-    } // BotToast.showText(text: StringResources.somethingIsWrong);
+    }
     return Left(AppError.unknownError);
   }
 
@@ -176,34 +162,24 @@ class AvailableSlotsRepository {
         "${Urls.baseUrl}online-appointment-api/fapi/appointment/findConTypeList?doctorNo=$doctorNo&patTypeNo=$selectedType&companyNo=2&ogNo=2";
     var client = http.Client();
     var response = await client.get(Uri.parse(url));
-    print(response.body);
+    //print(response.body);
     try {
       if (response.statusCode == 200) {
-        print(response.body);
         ConsultTypeModel data = consultTypeModelFromJson(response.body);
         return Right(ConsultTypes(consultType: data.consultType));
       } else {
-        // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
-      // BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-    } // BotToast.showText(text: StringResources.somethingIsWrong);
+    }
     return Left(AppError.unknownError);
   }
 
   Future<Either<AppError, FeeCheck>> fetchFee(
       String companyNo, String conTypeNo, String doctorNo, String orgNo, String patNo) async {
-    print(companyNo);
-    print(conTypeNo);
-    print(doctorNo);
-    print(orgNo);
     var url = "${Urls.baseUrl}online-appointment-api/fapi/appointment/getConsultationFee";
-
     try {
       final http.Response response = await http.post(
         Uri.parse(url),
@@ -216,22 +192,18 @@ class AvailableSlotsRepository {
         }),
       );
       if (response.statusCode == 200) {
-        print(response.body);
+        //print(response.body);
         PatientFee data = patientFeeFromJson(response.body);
         return Right(FeeCheck(
           fee: data.obj.toString(),
         ));
       } else {
-        // BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
-      // BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
-    } // BotToast.showText(text: StringResources.somethingIsWrong);
+    }
     return Left(AppError.unknownError);
   }
 }

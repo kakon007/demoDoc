@@ -52,13 +52,6 @@ class AuthViewWrapper extends StatefulWidget {
 }
 
 class _AuthViewWrapperState extends State<AuthViewWrapper> {
-  // @override
-  // void didChangeDependencies() {
-  //   // TODO: implement didChangeDependencies
-  //   Provider.of<AccessTokenProvider>(context, listen: false).getToken();
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<AccessTokenProvider>(

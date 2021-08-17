@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/doctor/features/profile/view/widgets/personal_inf
 import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
@@ -80,6 +81,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
     var spaceBetween = SizedBox(
       height: 10,
     );
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     double imageHeight = 120;
     double imageWidth = width <= 330 ? 120 : 120;
     var imageSection = Row(
@@ -158,7 +162,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           isEdit == false ? 'Update Your Avatar' : 'Save Avatar',
                           style: GoogleFonts.roboto(
                               color: Colors.white,
-                              fontSize: width <= 330 ? 12 : 15),
+                              fontSize: isTablet? 18 : width <= 330 ? 12 : 15,fontWeight: FontWeight.w600),
                         )),
                 //Text('*Your photo should be friendly and head shot. Clearly identitifiable as you.',maxLines: 2,)
               ],
@@ -172,7 +176,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                       '*Your photo should be friendly and head shot. Clearly identitifiable as you.',
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(fontSize: 12),
+                      style: GoogleFonts.poppins(fontSize:isTablet?14 :  12),
                     ))
               ],
             ),
@@ -196,7 +200,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
             child: Text(
           'Personal Info',
           style: GoogleFonts.poppins(
-              fontSize: 12,
+              fontSize: isTablet? 15 : width<=330? 11 : 12,
               color: index == 1 ? Colors.white : Colors.black,
               fontWeight: index == 1 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -226,7 +230,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
             child: Text(
           'Company Info',
           style: GoogleFonts.poppins(
-              fontSize: 12,
+              fontSize: isTablet? 15 : width<=330? 11 : 12,
               color: index == 2 ? Colors.white : Colors.black,
               fontWeight: index == 2 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -249,7 +253,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
             child: Text(
           'Doctor Info',
           style: GoogleFonts.poppins(
-              fontSize: 12,
+              fontSize: isTablet? 15 : width<=330? 11 : 12,
               color: index == 3 ? Colors.white : Colors.black,
               fontWeight: index == 3 ? FontWeight.w600 : FontWeight.normal),
         )),

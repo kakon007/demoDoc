@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
@@ -19,15 +18,11 @@ import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
-import 'package:myhealthbd_app/main_app/resource/urls.dart';
-import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/validator.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-import 'package:myhealthbd_app/main_app/views/widgets/custom_text_field_rounded.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:myhealthbd_app/features/my_health/repositories/dbmanager.dart';
 
 SignInModel signInData;
 
@@ -81,8 +76,6 @@ class _SignInState extends State<SignIn> {
     super.initState();
   }
 
-  final FocusNode _emailFocus = FocusNode();
-
   @override
   Widget build(BuildContext context) {
     bool isDesktop = Responsive.isDesktop(context);
@@ -110,12 +103,6 @@ class _SignInState extends State<SignIn> {
     var password = SignUpFormField(
       textFieldKey: Key("passwordKey"),
       validator: Validator().nullFieldValidate,
-      // validator: (value) {
-      //   if (value == null || value.isEmpty) {
-      //     return 'Please enter password';
-      //   }
-      //   return null;
-      // },
       topPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 15,
       suffixIcon: IconButton(
@@ -169,7 +156,7 @@ class _SignInState extends State<SignIn> {
           GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus.unfocus();
-              if (_username.text == '' || _username.text==null) {
+              if (_username.text == '' || _username.text == null) {
                 Fluttertoast.showToast(
                     msg: "Please write your username",
                     toastLength: Toast.LENGTH_SHORT,
@@ -365,12 +352,16 @@ class _SignInState extends State<SignIn> {
                                           listen: false);
                                       await vm5.getAuthData(
                                           _username.text, _password.text);
-                                      if(_username.toString().toLowerCase().contains('ahc')){
+                                      if (_username
+                                          .toString()
+                                          .toLowerCase()
+                                          .contains('ahc')) {
                                         setState(() {
                                           isDoctor = true;
                                         });
                                       }
-                                      if (vm5.accessToken != null && isDoctor==false) {
+                                      if (vm5.accessToken != null &&
+                                          isDoctor == false) {
                                         accountsList.forEach((item) {
                                           if (item.username.contains(
                                               _username.text.toUpperCase())) {
@@ -427,50 +418,36 @@ class _SignInState extends State<SignIn> {
                                         appNavigator
                                             .getProvider<AccessTokenProvider>()
                                             .setToken(vm5.accessToken);
-                                        if(isDoctor){
+                                        if (isDoctor) {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                    DoctorHomeScreen(),
-                                              ),
+                                                  MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        DoctorHomeScreen(),
+                                                  ),
                                                   (Route<dynamic> route) =>
-                                              false);
-                                        }
-                                        else{
+                                                      false);
+                                        } else {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                    HomeScreen(
+                                                  MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        HomeScreen(
                                                       accessToken:
-                                                      vm5.accessToken,
+                                                          vm5.accessToken,
                                                     ),
-                                              ),
+                                                  ),
                                                   (Route<dynamic> route) =>
-                                              false);
+                                                      false);
                                         }
                                         if (this.value == true) {
-                                          //print(_username.text);
                                           prefs.setBool("value", true);
                                         } else {
-                                          // prefs.remove("username");
-                                          // prefs.remove("password");
                                           prefs.setBool("value", false);
                                         }
                                       } else {
-                                        // SharedPreferences prefs =
-                                        // await SharedPreferences.getInstance();
-                                        // prefs.remove(
-                                        //     "username");
-                                        // prefs.remove(
-                                        //     "usernameRemember");
-                                        // prefs.remove(
-                                        //     "password");
-                                        // prefs.remove(
-                                        //     "passwordRemember");
                                         if (this.value == true) {
                                           print(_username.text);
                                           prefs.setBool("value", true);

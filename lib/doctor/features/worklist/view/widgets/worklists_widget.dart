@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class WorklistAll extends StatefulWidget {
-  const WorklistAll({Key key}) : super(key: key);
-
+  String patientName;
+  String consultTime;
+  String consultType;
+  WorklistAll({this.consultTime, this.patientName, this.consultType});
   @override
   _WorklistAllState createState() => _WorklistAllState();
 }
@@ -19,6 +22,7 @@ class _WorklistAllState extends State<WorklistAll> {
     bool isMobile = Responsive.isMobile(context);
     var deviceHeight = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    print(width);
     var spaceBetween= SizedBox(height: 5,);
     return Container(
       constraints: BoxConstraints( minHeight:130),
@@ -40,8 +44,8 @@ class _WorklistAllState extends State<WorklistAll> {
                 Border.all(color: Colors.transparent),
                 borderRadius: BorderRadius.circular(8),
               ),
-              height: width<=330? 60 : 80,
-              width:width<=330? 50 : 80,
+              height: isTablet? 100 :width<=330? 50 : 80,
+              width:  isTablet? 100 :width<=330? 50 : 80,
               child: ClipRRect(
                   borderRadius:
                   BorderRadius.circular(8.0),
@@ -57,9 +61,9 @@ class _WorklistAllState extends State<WorklistAll> {
                 CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Md. Arman",
+                    widget.patientName==null? "Md. Arman" :  widget.patientName,
                     style: GoogleFonts.poppins(
-                        fontSize:width<=330? 11 : 14,
+                        fontSize: isTablet? 16 : width<=330? 11 : 14,
                         fontWeight: FontWeight.w500),
                   ),
                   Row(
@@ -69,13 +73,14 @@ class _WorklistAllState extends State<WorklistAll> {
                       Text(
                         "Consultation time :   ",
                         style: GoogleFonts.poppins(
-                          fontSize: width<=330? 10 : 11,
+                          fontSize:isTablet? 14 : width<=330? 9 : 11,
                         ),
                       ),
                       Text(
-                        "08:00 PM, 22/05/2021",
+                        widget.consultTime==null ? "08:00 PM, 22/05/2021" : DateFormat("hh:mm a, dd/MM/yyyy").format(DateTime.parse(widget.consultTime)
+                            .toLocal()),
                         style: GoogleFonts.poppins(
-                            fontSize: width<=330? 10 : 11,
+                            fontSize: isTablet? 14 :width<=330? 9 : 11,
                             fontWeight: FontWeight.w600,
                           color: HexColor("#FFB14A"),),
                       ),
@@ -89,13 +94,15 @@ class _WorklistAllState extends State<WorklistAll> {
                       Text(
                         "Consultation type :   ",
                         style: GoogleFonts.poppins(
-                          fontSize: width<=330? 10 : 11,
+                          fontSize:isTablet? 14 : width<=330? 9 : 11,
                         ),
                       ),
                       Text(
-                        "1st Follow Up",
+                        widget.consultType==null? "1st Follow Up" :
+                        widget.consultType=='1'?"Fresh Visit" : widget.consultType=="2"?"Follow Up" :
+                        widget.consultType=="3" ? "2nd Follow Up" : "Report Check",
                         style: GoogleFonts.poppins(
-                          fontSize: width<=330? 10 : 11,
+                          fontSize:isTablet? 14 : width<=330? 9 : 11,
                            // fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -109,7 +116,7 @@ class _WorklistAllState extends State<WorklistAll> {
                       Text(
                         "Shared Documents:   ",
                         style: GoogleFonts.poppins(
-                          fontSize: width<=330? 10 : 12,
+                          fontSize:isTablet? 14 : width<=330? 9 : 11,
                         ),
                       ),
                       Container(
@@ -119,7 +126,7 @@ class _WorklistAllState extends State<WorklistAll> {
                           overflow: TextOverflow
                               .ellipsis,
                           style: GoogleFonts.poppins(
-                              fontSize: width<=330? 9 : 12,
+                              fontSize:isTablet? 14 : width<=330? 9 : 11,
                               color: Colors.black),
                         ),
                       ),
@@ -129,7 +136,7 @@ class _WorklistAllState extends State<WorklistAll> {
                     height: 5,
                   ),
                   Container(
-                    width:width<=330? width*.65 : width*.65,
+                    width:isTablet? width*.75 : width<=330? width*.65 : width*.65,
                     child: Padding(
                       padding: const EdgeInsets.only(
                           top: 10, left: 0.0),
@@ -150,7 +157,7 @@ class _WorklistAllState extends State<WorklistAll> {
                               child: Text(
                                 "View Details",
                                 style: GoogleFonts.roboto(
-                                  fontSize: width<=330? 12 : 14,
+                                  fontSize: isTablet? 16 :width<=330? 12 : 14,
                                     color: Colors.white,fontWeight: FontWeight.w600),
                               ),
                             ),

@@ -85,7 +85,7 @@ class _UserProfileState extends State<UserProfile> {
   SwitchAccounts switchAccounts;
   List<SwitchAccounts> accountsList;
   var username;
-  bool shouldDenyClick=false;
+  bool shouldDenyClick = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -93,14 +93,10 @@ class _UserProfileState extends State<UserProfile> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       username = prefs.getString("username").toUpperCase();
       await Provider.of<UserImageViewModel>(context, listen: false).userImage();
-      photo = Provider.of<UserImageViewModel>(context, listen: false)
-              .details
-              ?.photo ??
-          "";
+      photo = Provider.of<UserImageViewModel>(context, listen: false).details?.photo ?? "";
       var userVm = Provider.of<UserDetailsViewModel>(context, listen: false);
       await userVm.getData();
-      var familyVm =
-          Provider.of<FamilyMembersListViewModel>(context, listen: false);
+      var familyVm = Provider.of<FamilyMembersListViewModel>(context, listen: false);
       familyVm.familyMembers(userVm.userDetailsList.hospitalNumber);
       accountsList = await dbmManager.getAccountList();
     });
@@ -113,18 +109,16 @@ class _UserProfileState extends State<UserProfile> {
   bool isEdit = false;
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.gallery
-    );
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     // if (pickedFile != null) {
     //   _image = File(pickedFile.path);
-    //   print("ish ${await _image.length()}");
+    //   debugPrint("ish ${await _image.length()}");
     //   setState(() {
     //     isEdit = true;
     //   });
     // } else {
-    //   print('No image selected.');
+    //   debugPrint('No image selected.');
     // }
 
     if (pickedFile != null) {
@@ -144,15 +138,15 @@ class _UserProfileState extends State<UserProfile> {
             minimumAspectRatio: 1.0,
           ));
 
-      croppedFile.then((value) async{
-          _image = value;
-          //print("ish ${await _image.length()}");
-          setState(() {
-            isEdit = true;
-          });
+      croppedFile.then((value) async {
+        _image = value;
+        //debugPrint("ish ${await _image.length()}");
+        setState(() {
+          isEdit = true;
+        });
       });
     } else {
-      print('No image selected.');
+      debugPrint('No image selected.');
     }
   }
 
@@ -163,25 +157,20 @@ class _UserProfileState extends State<UserProfile> {
     bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
     var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
-    var familyVm =
-        Provider.of<FamilyMembersListViewModel>(context, listen: true);
+    var familyVm = Provider.of<FamilyMembersListViewModel>(context, listen: true);
     var userId = vm.userDetailsList.id;
     var hospitalNumber = vm.userDetailsList.hospitalNumber;
     var regDate = vm.userDetailsList.regDate;
     photo = vm2.details?.photo ?? "";
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
-    print("abcd $photo");
-    var pickBirthDate = DateFormat("yyyy-MM-dd")
-        .parse(vm.userDetailsList.dob)
-        .add(Duration(days: 1));
+    var pickBirthDate =
+        DateFormat("yyyy-MM-dd").parse(vm.userDetailsList.dob).add(Duration(days: 1));
     String _formatDate = DateFormat("yyyy-MM-dd").format(pickBirthDate);
-    var _selectedBlood = vm.userDetailsList.bloodGroup != null
-        ? vm.userDetailsList.bloodGroup
-        : null;
+    var _selectedBlood =
+        vm.userDetailsList.bloodGroup != null ? vm.userDetailsList.bloodGroup : null;
     var _selectedGender = vm.userDetailsList.gender == "M" ? "Male" : "Female";
-    print(photo);
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
@@ -193,8 +182,8 @@ class _UserProfileState extends State<UserProfile> {
               Text(
                 'User Profile',
                 key: Key('userProfileKey'),
-                style: GoogleFonts.roboto(
-                    fontSize: isTablet ? 18 : 15, fontWeight: FontWeight.w500),
+                style:
+                    GoogleFonts.roboto(fontSize: isTablet ? 18 : 15, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -204,72 +193,68 @@ class _UserProfileState extends State<UserProfile> {
               child: Row(
                 children: [
                   isEdit
-                      ? shouldDenyClick? SizedBox(
-                    height: 22,
-                        width: 22,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 1.0,
-                          valueColor:
-                  AlwaysStoppedAnimation<Color>(
-                        Colors.white),),
-                      ) : GestureDetector(
-                          child: Text(
-                            "Save",
-                            style: GoogleFonts.poppins(
-                              fontSize: isTablet ? 18 : 15,
-                            ),
-                          ),
-                          onTap: () async {
-                            setState(() {
-                              shouldDenyClick = true;
-                            });
-                            await vm2.updateImage(
-                                _image,
-                                vm.userDetailsList.hospitalNumber,
-                                vm2.details.userId.toString());
-                            await vm2.updateProfile2(
-                                _image,
-                                userId.toString(),
-                                vm.userDetailsList.fname,
-                                vm.userDetailsList.email,
-                                vm.userDetailsList.phoneMobile,
-                                vm.userDetailsList.address,
-                                _formatDate,
-                                _selectedGender,
-                                _selectedBlood,
-                                hospitalNumber,
-                                regDate);
-                            response = vm2.resStatusCode;
-                            setState(() {
-                              if (response == "200") {
-                                shouldDenyClick = false;
-                                isEdit = false;
-                                _image = null;
-                                response = null;
-                              }
-                              else{
-                                shouldDenyClick =false;
-                              }
-                            });
-                            accountsList.forEach((item) {
-                              if (item.username.contains(username)) {
-                               print('image data');
-                                SwitchAccounts st = item;
-                                switchAccounts = st;
-                                switchAccounts.username = item.username;
-                                switchAccounts.password = item.password;
-                                switchAccounts.name = item.name;
-                                switchAccounts.relation = vm2.details?.photo;
-                                switchAccounts.id = item.id;
-                                dbmManager
-                                    .updateStudent(switchAccounts)
-                                    .then((value) => {
+                      ? shouldDenyClick
+                          ? SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 1.0,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            )
+                          : GestureDetector(
+                              child: Text(
+                                "Save",
+                                style: GoogleFonts.poppins(
+                                  fontSize: isTablet ? 18 : 15,
+                                ),
+                              ),
+                              onTap: () async {
+                                setState(() {
+                                  shouldDenyClick = true;
+                                });
+                                await vm2.updateImage(_image, vm.userDetailsList.hospitalNumber,
+                                    vm2.details.userId.toString());
+                                await vm2.updateProfile2(
+                                    _image,
+                                    userId.toString(),
+                                    vm.userDetailsList.fname,
+                                    vm.userDetailsList.email,
+                                    vm.userDetailsList.phoneMobile,
+                                    vm.userDetailsList.address,
+                                    _formatDate,
+                                    _selectedGender,
+                                    _selectedBlood,
+                                    hospitalNumber,
+                                    regDate);
+                                response = vm2.resStatusCode;
+                                setState(() {
+                                  if (response == "200") {
+                                    shouldDenyClick = false;
+                                    isEdit = false;
+                                    _image = null;
+                                    response = null;
+                                  } else {
+                                    shouldDenyClick = false;
+                                  }
+                                });
+                                accountsList.forEach((item) {
+                                  if (item.username.contains(username)) {
+                                    debugPrint('image data');
+                                    SwitchAccounts st = item;
+                                    switchAccounts = st;
+                                    switchAccounts.username = item.username;
+                                    switchAccounts.password = item.password;
+                                    switchAccounts.name = item.name;
+                                    switchAccounts.relation = vm2.details?.photo;
+                                    switchAccounts.id = item.id;
+                                    dbmManager.updateStudent(switchAccounts).then((value) => {
                                           setState(() {}),
                                         });
-                              }
-                            });
-                          },
-                        )
+                                  }
+                                });
+                              },
+                            )
                       : Text(""),
                   SizedBox(
                     width: 20,
@@ -315,30 +300,30 @@ class _UserProfileState extends State<UserProfile> {
                                     type: PageTransitionType.rightToLeft,
                                     child: FamilyMemberListScreen(),
                                   ),
-                                );;
+                                );
+                                ;
                               },
                               child: Container(
                                 height: isTablet ? 25 : 20,
                                 width: isTablet ? 70 : 60,
                                 child: Center(
                                     child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(),
+                                    Row(
                                       children: [
-                                        SizedBox(),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "View All",
-                                              key: Key('profileFamilyViewAllKey'),
-                                              style: GoogleFonts.roboto(
-                                                  color: AppTheme.appbarPrimary,
-                                                  fontSize: isTablet ? 14 : 12),
-                                              ),
-                                          ],
+                                        Text(
+                                          "View All",
+                                          key: Key('profileFamilyViewAllKey'),
+                                          style: GoogleFonts.roboto(
+                                              color: AppTheme.appbarPrimary,
+                                              fontSize: isTablet ? 14 : 12),
                                         ),
                                       ],
-                                    )),
+                                    ),
+                                  ],
+                                )),
                               ),
                             )
                           ],
@@ -349,13 +334,11 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            right:
-                                familyVm.familyMembersList.length == 0 ? 22 : 0.0,
-                            left: 22),
+                            right: familyVm.familyMembersList.length == 0 ? 22 : 0.0, left: 22),
                         child: ConstrainedBox(
                             constraints: new BoxConstraints(
                               // minHeight: 20.0,
-                              maxHeight: isTablet? 85 : 75.0,
+                              maxHeight: isTablet ? 85 : 75.0,
                             ),
                             child: familyVm.familyMembersList.length == 0
                                 ? Container(
@@ -363,32 +346,28 @@ class _UserProfileState extends State<UserProfile> {
                                     width: MediaQuery.of(context).size.width,
                                     color: HexColor('#F7F8FF'),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'You have added no family members.',
                                           style: GoogleFonts.poppins(
-                                            fontSize: isTablet? 15 : 13,
-                                              color: HexColor('#C7C8CF'
-                                              )),
+                                              fontSize: isTablet ? 15 : 13, color: Colors.grey),
                                         ),
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        GestureDetector(
-                                            onTap: () {
+                                        TextButton(
+                                            onPressed: () {
                                               Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
+                                                  MaterialPageRoute(builder: (context) {
                                                 return SearchFamilyMember();
                                               }));
                                             },
                                             child: Text(
                                               'Add now',
                                               style: GoogleFonts.poppins(
-                                                  fontSize: isTablet? 15 : 13,
+                                                  fontSize: isTablet ? 15 : 13,
                                                   color: HexColor('#8592E5')),
                                             ))
                                       ],
@@ -396,22 +375,19 @@ class _UserProfileState extends State<UserProfile> {
                                   )
                                 : ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount:
-                                        familyVm.familyMembersList.length>=5 ? 5 : familyVm.familyMembersList.length,
+                                    itemCount: familyVm.familyMembersList.length >= 5
+                                        ? 5
+                                        : familyVm.familyMembersList.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      var photo = familyVm
-                                              .familyMembersList[index]
-                                              ?.photo ??
-                                          "";
+                                      var photo = familyVm.familyMembersList[index]?.photo ?? "";
                                       return Container(
-                                        margin: EdgeInsets.only(right: isTablet? 10 : 6),
+                                        margin: EdgeInsets.only(right: isTablet ? 10 : 6),
                                         decoration: BoxDecoration(
                                             color: HexColor('#F7F8FF'),
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
+                                            borderRadius: BorderRadius.circular(8)),
                                         height: 50.0,
-                                        width: isTablet? 180 :150,
+                                        width: isTablet ? 180 : 150,
                                         child: Row(
                                           children: [
                                             SizedBox(
@@ -420,85 +396,60 @@ class _UserProfileState extends State<UserProfile> {
                                             photo != ""
                                                 ? Container(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: AppTheme
-                                                              .appbarPrimary),
+                                                      border:
+                                                          Border.all(color: AppTheme.appbarPrimary),
                                                       //color: AppTheme.appbarPrimary,
                                                       shape: BoxShape.circle,
                                                     ),
-                                                    height:
-                                                        isTablet ? 45 : 40,
+                                                    height: isTablet ? 45 : 40,
                                                     width: isTablet ? 45 : 40,
                                                     child: Center(
-                                                        child: imageVm
-                                                            .loadProfileImage(
-                                                                photo,
-                                                                isTablet
-                                                                    ? 40
-                                                                    : 35,
-                                                                isTablet
-                                                                    ? 40
-                                                                    : 35,
-                                                                50)))
+                                                        child: imageVm.loadProfileImage(
+                                                            photo,
+                                                            isTablet ? 40 : 35,
+                                                            isTablet ? 40 : 35,
+                                                            50)))
                                                 : Container(
                                                     decoration: BoxDecoration(
-                                                      color: AppTheme
-                                                          .appbarPrimary,
+                                                      color: AppTheme.appbarPrimary,
                                                       shape: BoxShape.circle,
                                                     ),
-                                                    height:
-                                                        isTablet ? 45 : 40,
+                                                    height: isTablet ? 45 : 40,
                                                     width: isTablet ? 45 : 40,
                                                     child: Center(
                                                       child: Image.asset(
                                                         'assets/images/dPro.png',
-                                                        height: isTablet
-                                                            ? 27
-                                                            : 22,
-                                                        width: isTablet
-                                                            ? 27
-                                                            : 22,
+                                                        height: isTablet ? 27 : 22,
+                                                        width: isTablet ? 27 : 22,
                                                       ),
                                                     )),
                                             SizedBox(
                                               width: 10,
                                             ),
                                             Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                  width:isTablet? 115 : 95,
+                                                  width: isTablet ? 115 : 95,
                                                   child: Text(
-                                                    familyVm
-                                                        .familyMembersList[
-                                                            index]
-                                                        .fmName,
+                                                    familyVm.familyMembersList[index].fmName,
                                                     maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    overflow: TextOverflow.ellipsis,
                                                     style: GoogleFonts.roboto(
-                                                        color: HexColor(
-                                                            '#0D1231'),
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: isTablet? 14 : 11),
+                                                        color: HexColor('#0D1231'),
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: isTablet ? 14 : 11),
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: 5,
                                                 ),
                                                 Text(
-                                                  familyVm
-                                                      .familyMembersList[
-                                                          index]
-                                                      .relationName,
+                                                  familyVm.familyMembersList[index].relationName,
                                                   style: GoogleFonts.roboto(
-                                                      color:
-                                                          HexColor('#B8C2F8'),
-                                                      fontSize: isTablet? 13 : 10),
+                                                      color: HexColor('#B8C2F8'),
+                                                      fontSize: isTablet ? 13 : 10),
                                                 ),
                                               ],
                                             )
@@ -562,7 +513,7 @@ class _UserProfileState extends State<UserProfile> {
                       //       itemCount: 3,
                       //       itemBuilder: (BuildContext context, int index) {
                       //         var photo = familyVm.familyMembersList[index]?.photo ?? "";
-                      //         print("photo $photo");
+                      //         debugPrint("photo $photo");
                       //         return Container(
                       //           color: HexColor('#F7F8FF'),
                       //           height: 50.0,
@@ -795,17 +746,18 @@ class _UserProfileState extends State<UserProfile> {
                                 _showAlertDialogForEditProfile(context);
                               },
                               child: Container(
-                                constraints: BoxConstraints(minWidth: isTablet ? 70 : 60, ),
+                                constraints: BoxConstraints(
+                                  minWidth: isTablet ? 70 : 60,
+                                ),
                                 height: isTablet ? 25 : 20,
-                               // width: isTablet ? 70 : 60,
+                                // width: isTablet ? 70 : 60,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: HexColor('#354291')),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(
                                     child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(),
                                     Row(
@@ -836,119 +788,47 @@ class _UserProfileState extends State<UserProfile> {
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        color: HexColor('#F7F8FF'),
-                        height: 40.0,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 10),
-                          child: Text(
-                            "Username            : ${vm.userDetailsList?.hospitalNumber ?? ""}",
-                            style: GoogleFonts.roboto(
-                                color: HexColor('#141D53'),
-                                fontSize: isTablet ? 17 : 15),
-                          ),
-                        ),
+
+                      buildInformationItem(
+                        label: "Username",
+                        value: vm.userDetailsList?.hospitalNumber ?? "",
+                        showBgColor: true,
                       ),
-                      Container(
-                        color: Colors.white,
-                        height: 40.0,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 10),
-                          child: Text(
-                            "Full Name            : ${vm.userDetailsList?.fname ?? ""}",
-                            style: GoogleFonts.roboto(
-                                color: HexColor('#141D53'),
-                                fontSize: isTablet ? 17 : 15),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                      buildInformationItem(
+                        label: "Full Name",
+                        value: vm.userDetailsList?.fname ?? "",
+                        showBgColor: false,
                       ),
-                      Container(
-                        color: HexColor('#F7F8FF'),
-                        height: 40.0,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 10),
-                          child: Text(
-                            "Email Address    : ${vm.userDetailsList?.email ?? ""}",
-                            style: GoogleFonts.roboto(
-                                color: HexColor('#141D53'),
-                                fontSize: isTablet ? 17 : 15),
-                          ),
-                        ),
+                      buildInformationItem(
+                        label: "Email Address",
+                        value: vm.userDetailsList?.email ?? "",
+                        showBgColor: true,
                       ),
-                      Container(
-                        color: Colors.white,
-                        height: 40.0,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 10),
-                          child: Text(
-                            "Mobile Number   : ${vm.userDetailsList?.phoneMobile ?? ""}",
-                            style: GoogleFonts.roboto(
-                                color: HexColor('#141D53'),
-                                fontSize: isTablet ? 17 : 15),
-                          ),
-                        ),
+                      buildInformationItem(
+                        label: "Mobile Number",
+                        value: vm.userDetailsList?.phoneMobile ?? "",
                       ),
-                      Container(
-                        color: HexColor('#F7F8FF'),
-                        //height: 65.0,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 11,bottom: 11),
-                          child: Text(
-                            "Address               : ${vm.userDetailsList?.address ?? ""}",
-                            style: GoogleFonts.roboto(
-                                color: HexColor('#141D53'),
-                                fontSize: isTablet ? 17 : 15),
-                          ),
-                        ),
+                      buildInformationItem(
+                        label: "Address",
+                        value: vm.userDetailsList?.address ?? "",
+                        showBgColor: true,
                       ),
-                      Container(
-                        color: Colors.white,
-                        height: 40.0,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 10),
-                          child: Text(
-                            "Date of Birth        : ${DateUtil().formattedDate(DateTime.parse(vm.userDetailsList?.dob ?? "").toLocal())}",
-                            style: GoogleFonts.roboto(
-                                color: HexColor('#141D53'),
-                                fontSize: isTablet ? 17 : 15),
-                          ),
-                        ),
+                      buildInformationItem(
+                        label: "Date of Birth ",
+                        value:
+                            "${DateUtil().formattedDate(DateTime.parse(vm.userDetailsList?.dob ?? "").toLocal())}",
+                        showBgColor: false,
                       ),
-                      Container(
-                        color: HexColor('#F7F8FF'),
-                        height: 40.0,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 10),
-                          child: Text(
-                            "Gender                  : ${vm.userDetailsList?.gender == "M" ? "Male" : vm.userDetailsList?.gender == "F" ? "Female" : ""}",
-                            style: GoogleFonts.roboto(
-                                color: HexColor('#141D53'),
-                                fontSize: isTablet ? 17 : 15),
-                          ),
-                        ),
+                      buildInformationItem(
+                        label: "Gender",
+                        value:
+                            "${vm.userDetailsList?.gender == "M" ? "Male" : vm.userDetailsList?.gender == "F" ? "Female" : ""}",
+                        showBgColor: true,
                       ),
-                      Container(
-                        color: Colors.white,
-                        height: 40.0,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 22.0, top: 10),
-                          child: Text(
-                            "Blood Group         : ${vm.userDetailsList?.bloodGroup ?? ""}",
-                            style: GoogleFonts.roboto(
-                                color: HexColor('#141D53'),
-                                fontSize: isTablet ? 17 : 15),
-                          ),
-                        ),
+                      buildInformationItem(
+                        label: "Blood Group",
+                        value: vm.userDetailsList?.bloodGroup ?? "",
+                        showBgColor: false,
                       ),
                       // SizedBox(
                       //   height: 15,
@@ -979,8 +859,7 @@ class _UserProfileState extends State<UserProfile> {
                           padding: const EdgeInsets.only(left: 15.0, right: 15),
                           child: Material(
                             elevation: 2,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             color: HexColor("#354291"),
                             child: SizedBox(
                               width: isTablet
@@ -1053,15 +932,18 @@ class _UserProfileState extends State<UserProfile> {
                                   _image,
                                   height: 100,
                                   width: 60,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ))
                             : photo != ""
                                 ? vm2.loadProfileImage(photo, 100, 60, 19)
                                 : Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ClipRRect(child: Image.asset('assets/images/dPro.png',
-                          fit: BoxFit.contain,)),
-                                ),
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ClipRRect(
+                                        child: Image.asset(
+                                      'assets/images/dPro.png',
+                                      fit: BoxFit.contain,
+                                    )),
+                                  ),
                       ),
                       Positioned(
                         bottom: isTablet ? 0 : 12,
@@ -1076,8 +958,7 @@ class _UserProfileState extends State<UserProfile> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white,
-                                  border:
-                                      Border.all(color: AppTheme.appbarPrimary)),
+                                  border: Border.all(color: AppTheme.appbarPrimary)),
                               child: Icon(
                                 Icons.camera_alt,
                                 color: AppTheme.appbarPrimary,
@@ -1091,6 +972,45 @@ class _UserProfileState extends State<UserProfile> {
               ),
             ),
           ]),
+        ),
+      ),
+    );
+  }
+
+  Widget buildInformationItem({
+    @required String label,
+    @required String value,
+    bool showBgColor = false,
+  }) {
+    bool isMobile = Responsive.isMobile(context);
+    var textStyle = GoogleFonts.roboto(color: Color(0xff141D53), fontSize: isMobile ? 14 : 17);
+    return Container(
+      color: showBgColor ? Color(0xffF7F8FF) : Colors.white,
+      constraints: BoxConstraints(minHeight: 40),
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 110,
+              child: Text(
+                "$label",
+                style: textStyle,
+              ),
+            ),
+            Text(
+              " : ",
+              style: textStyle,
+            ),
+            Expanded(
+              child: Text(
+                "$value",
+                style: textStyle,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -1119,7 +1039,7 @@ class DateUtil {
   static const DATE_FORMAT = 'dd-MM-yyyy';
 
   String formattedDate(DateTime dateTime) {
-    print('dateTime ($dateTime)');
+    debugPrint('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

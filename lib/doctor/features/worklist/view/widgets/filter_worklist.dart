@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class WorkListFiler extends StatefulWidget {
@@ -25,6 +26,9 @@ class _WorkListFilerState extends State<WorkListFiler> {
   }
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var doctorVm = Provider.of<DoctorProfileViewModel>(context, listen: true);
     var spaceBetween =  SizedBox(
       height: 10,
@@ -44,7 +48,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
             ),
             Text(
               'Filter',
-              style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -69,7 +73,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
       child: Row(children: [
         Text(
           'Applied Filters',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,fontWeight: FontWeight.w600),
         ),
         SizedBox(
           height: 20,
@@ -98,7 +102,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
                           children: [
                             Text(
                              filterItems[index],
-                              style: GoogleFonts.poppins(color: Colors.black),
+                              style: GoogleFonts.poppins(color: Colors.black, fontSize: isTablet? 16 : 14),
                             ),
                             SizedBox(
                               width: 5,
@@ -136,7 +140,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
           children: [
             Text(
               'Available Filters',
-              style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: 20,
@@ -180,7 +184,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
                       ),
                       Text(
                         'Fresh Visit',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                        style: GoogleFonts.poppins(color: Colors.black, fontSize: isTablet? 16 :14),
                       ),
                       SizedBox(
                         width: 5,
@@ -230,7 +234,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
                       ),
                       Text(
                         'Follow up',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                        style: GoogleFonts.poppins(color: Colors.black, fontSize: isTablet? 16 :14),
                       ),
                       SizedBox(
                         width: 5,
@@ -278,7 +282,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
                       ),
                       Text(
                         'Report Check',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                        style: GoogleFonts.poppins(color: Colors.black, fontSize: isTablet? 16 :14),
                       ),
                       SizedBox(
                         width: 5,
@@ -327,7 +331,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
                   ),
                   Text(
                     '2nd Follow Up',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                    style: GoogleFonts.poppins(color: Colors.black, fontSize:isTablet? 16 : 14),
                   ),
                   SizedBox(
                     width: 5,
@@ -348,7 +352,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
           children: [
             Text(
               'Shift',
-              style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: 20,
@@ -392,7 +396,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
                       ),
                       Text(
                         'Morning',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: 14),
+                        style: GoogleFonts.poppins(color: Colors.black, fontSize:isTablet? 16 : 14),
                       ),
                       SizedBox(
                         width: 5,
@@ -408,7 +412,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      filterItems.contains('Night')
+                      filterItems.contains('Evening')
                           ? Container(
                           decoration: BoxDecoration(
                               color: AppTheme.buttonActiveColor,
@@ -426,7 +430,7 @@ class _WorkListFilerState extends State<WorkListFiler> {
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                filterItems.add('Night');
+                                filterItems.add('Evening');
                                 print(filterItems.length);
                               });
                             },
@@ -439,8 +443,8 @@ class _WorkListFilerState extends State<WorkListFiler> {
                         width: 5,
                       ),
                       Text(
-                        'Night',
-                        style: GoogleFonts.poppins(color: Colors.black,fontSize: 14),
+                        'Evening',
+                        style: GoogleFonts.poppins(color: Colors.black,fontSize:isTablet? 16 : 14),
                       ),
                       SizedBox(
                         width: 5,

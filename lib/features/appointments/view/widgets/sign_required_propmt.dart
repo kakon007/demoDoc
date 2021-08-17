@@ -23,10 +23,7 @@ class SignInRequired extends StatelessWidget {
               type: MaterialType.transparency,
               child: Container(
                 height: 180,
-                // child: SizedBox.expand(child: FlutterLogo()),
-                //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
                 decoration: BoxDecoration(
-                  //color: HexColor('#f9f2f3'),
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -45,31 +42,22 @@ class SignInRequired extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 15.0, right: 15),
                         child: RichText(
                           textAlign: TextAlign.center,
-                          text:  TextSpan(
-                            style:  GoogleFonts.poppins(
-                              fontSize: isTablet? 24 : 16.0,
+                          text: TextSpan(
+                            style: GoogleFonts.poppins(
+                              fontSize: isTablet ? 24 : 16.0,
                               color: Colors.black,
                             ),
                             children: <TextSpan>[
                               TextSpan(text: "To Book an Appointment "),
-                              TextSpan(text: "Sign In Required.", style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                              TextSpan(
+                                  text: "Sign In Required.",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600)),
                               //TextSpan(text: " from your family member list?", style: GoogleFonts.poppins()),
                             ],
                           ),
                         ),
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //   Text("To Book an Appointment ",
-                      //       style: TextStyle(
-                      //           fontSize: 16, color: Colors.black)),
-                      //   Text("Sign In Required.",
-                      //       style: TextStyle(
-                      //           fontSize: 18,
-                      //           color: Colors.black,
-                      //           fontWeight: FontWeight.w500)),
-                      // ],),
                       SizedBox(
                         height: 20,
                       ),
@@ -83,28 +71,28 @@ class SignInRequired extends StatelessWidget {
                             child: Material(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(8),
-                                  side: BorderSide(
-                                      color: HexColor('#354291'))),
+                                  borderRadius: BorderRadius.circular(8),
+                                  side: BorderSide(color: HexColor('#354291'))),
                               color: Colors.white,
                               child: SizedBox(
                                 height: 50,
-                                width: isTablet? MediaQuery.of(context).size.width*.3 : 150,
+                                width: isTablet
+                                    ? MediaQuery.of(context).size.width * .3
+                                    : 150,
                                 child: Center(
                                   child: Text(
                                     "Cancel",
                                     style: TextStyle(
                                         color: HexColor('#354291'),
                                         fontWeight: FontWeight.w500,
-                                        fontSize: isTablet? 20 : 15),
+                                        fontSize: isTablet ? 20 : 15),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: isTablet? 50 :15,
+                            width: isTablet ? 50 : 15,
                           ),
                           GestureDetector(
                             onTap: () {
@@ -112,47 +100,43 @@ class SignInRequired extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
-                                    transitionDuration:
-                                    Duration(seconds: 1),
-                                    transitionsBuilder: (context,
-                                        animation,
-                                        secondaryAnimation,
-                                        child) {
+                                    transitionDuration: Duration(seconds: 1),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
                                       var begin = Offset(0, 1.0);
                                       var end = Offset.zero;
                                       var curve = Curves.easeInOut;
 
-                                      var tween = Tween(
-                                          begin: begin, end: end)
-                                          .chain(
-                                          CurveTween(curve: curve));
+                                      var tween = Tween(begin: begin, end: end)
+                                          .chain(CurveTween(curve: curve));
 
                                       return SlideTransition(
-                                        position:
-                                        animation.drive(tween),
+                                        position: animation.drive(tween),
                                         child: child,
                                       );
                                     },
                                     pageBuilder: (context, animation,
-                                        secondaryAnimation) =>
+                                            secondaryAnimation) =>
                                         SignIn(isBook: true),
                                   ));
                             },
                             child: Material(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(10)),
+                                  borderRadius: BorderRadius.circular(10)),
                               color: HexColor('#354291'),
                               child: SizedBox(
                                 height: 50,
-                                width: isTablet? MediaQuery.of(context).size.width*.3 : 150,
+                                width: isTablet
+                                    ? MediaQuery.of(context).size.width * .3
+                                    : 150,
                                 child: Center(
                                   child: Text(
                                     "Continue",
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold,fontSize: isTablet? 20 : 15),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: isTablet ? 20 : 15),
                                   ),
                                 ),
                               ),
@@ -175,9 +159,13 @@ class SignInRequired extends StatelessWidget {
               backgroundColor: Colors.transparent,
               radius: Constants.avatarRadius,
               child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(Constants.avatarRadius)),
-                  child: Image.asset("assets/icons/sign_in_prompt.png", height: isTablet? 120 : 90,width: isTablet? 120 :90,)),
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                  child: Image.asset(
+                    "assets/icons/sign_in_prompt.png",
+                    height: isTablet ? 120 : 90,
+                    width: isTablet ? 120 : 90,
+                  )),
             ),
           ),
         ],

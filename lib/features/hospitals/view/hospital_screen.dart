@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
 import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
+import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_image_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/hospital_logo_view_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view_model/nearest_hospital_view_model.dart';
@@ -16,10 +17,8 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-import 'package:myhealthbd_app/features/hospitals/view/widgets/hospitalListCard.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
-import 'package:after_layout/after_layout.dart';
 
 class HospitalScreen extends StatefulWidget {
   //bool isNotNave;
@@ -60,27 +59,21 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     _scrollController = ScrollController();
     Future.delayed(Duration.zero, () async {
       var vm = Provider.of<HospitalListViewModel>(context, listen: false);
-      //vm.getData();
-      //print(vm.hospitalList.length);
       var vm5 = Provider.of<HospitalLogoViewModel>(context, listen: false);
       vm5.getData();
       var vm6 = Provider.of<HospitalImageViewModel>(context, listen: false);
       vm6.getImageData();
       //await vm.getData();
       hospitalList = vm.hospitalList;
-      //hospitalItems.addAll(hospitalList);
+
       if (widget.locationData != null) {
-        //var vm22 = Provider.of<NearestHospitalViewModel>(context, listen: false);
-        //vm22.getData();
         hospitalList2 = widget.hospitalList2;
         hospitalItems2.addAll(hospitalList2);
-        //print('List of Item ${hospitalItems2.first.companyName}');
       }
     });
   }
 
   void hospitalSearch(String query) {
-    print(query);
     List<Item> initialHospitalSearch = List<Item>();
     hospitalList.forEach((element) {
       initialHospitalSearch.add(element);
@@ -107,7 +100,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
   }
 
   void nearestHospitalSearch(String query) {
-    print(query);
     List<Items> initialHospitalSearch = List<Items>();
     hospitalList2.forEach((element) {
       initialHospitalSearch.add(element);
@@ -127,7 +119,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       return;
     } else {
       setState(() {
-        print('b');
         hospitalItems2.clear();
         hospitalItems2.addAll(hospitalList2);
       });
@@ -143,7 +134,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       focusNode: widget.f1,
       onChanged: (value) {
         hospitalSearch(value);
-        // print(value);
       },
       textFieldKey: Key('hospitalSearchFieldKey'),
       focusBorderColor: "#8592E5",
@@ -164,7 +154,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
       focusNode: widget.f1,
       onChanged: (value) {
         nearestHospitalSearch(value);
-        // print(value);
       },
       textFieldKey: Key('hospitalSearchFieldKey2'),
       focusBorderColor: "#8592E5",
@@ -187,7 +176,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
     var vm9 = appNavigator.getProviderListener<NearestHospitalViewModel>();
     List<Item> list = vm.hospitalList;
     List<Items> list2 = vm9.hospitalList2;
-    var length = list.length;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -200,7 +188,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
         actions: <Widget>[
           accessToken != null
               ? Container(
-                  //margin: EdgeInsets.all(100.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -216,14 +203,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
           SizedBox(
             width: 10,
           ),
-          // IconButton(
-          //   icon: Icon(
-          //     Icons.notifications,
-          //     color: Colors.white,
-          //     size: 20,
-          //   ),
-          //   onPressed: () {},
-          // )
         ],
       ),
       body: RefreshIndicator(
@@ -445,29 +424,6 @@ class _HospitalScreenState extends State<HospitalScreen> with AfterLayoutMixin {
                                   }),
                             ),
               SizedBox()
-              // ListView.builder(
-              //     key: Key('listViewBuilderKey2'),
-              //     shrinkWrap: true,
-              //     itemCount: hospitalItems2.length == 0
-              //         ? list2.length
-              //         : hospitalItems2.length,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       var id = hospitalItems2.length == 0
-              //           ? list2[index].id
-              //           : hospitalItems2[index].id;
-              //       int logoIndex = vm5.hospitalLogoList.indexWhere(
-              //               (element) =>
-              //           element.id == id);
-              //       int imageIndex = vm6.hospitalImageList
-              //           .indexWhere((element) =>
-              //       element.id == id);
-              //       return Container(
-              //        child: Text(hospitalItems2[index].companyAddress ==
-              //            null
-              //            ? "Mirpur,Dahaka,Bangladesh"
-              //            : hospitalItems2[index].companyAddress,),
-              //       );
-              //     })
             ],
           ),
         ),

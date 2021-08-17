@@ -1,9 +1,8 @@
 import 'dart:convert';
+
 import 'package:bot_toast/bot_toast.dart';
-import 'package:http/http.dart' as http;
 import 'package:dartz/dartz.dart';
-import 'package:myhealthbd_app/features/appointments/models/patient__fee.dart';
-import 'package:myhealthbd_app/features/appointments/repositories/available_slots_repository.dart';
+import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/features/auth/model/reset_passwod_model.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_out_model.dart';
@@ -18,19 +17,15 @@ class AuthRepository {
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
     String url =
         "${Urls.baseUrl}auth-api/oauth/token?username=$user&password=$pass&grant_type=password";
-    //BotToast.showLoading();
     var response =
         await http.post(Uri.parse(url), headers: <String, String>{'authorization': basicAuth});
     print(response.body);
     if (response.statusCode == 200) {
       SignInModel data = signInModelFromJson(response.body);
-      //BotToast.closeAllLoading();
       return Right(SignInModel(
         accessToken: data.accessToken.toString(),
       ));
     } else {
-      //BotToast.closeAllLoading();
-      // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }
   }
@@ -48,7 +43,6 @@ class AuthRepository {
         message: data.message.toString(),
       ));
     } else {
-      // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }
   }
@@ -91,22 +85,12 @@ class AuthRepository {
         "opdRegOthers": {}
       })
     });
-    // request.fields.addAll({
-    //   'reqobj': '{\n   "opdReg":{\n      "id":"",\n      "personalId":"",\n      "salutation":"MR.",\n      "fname":"Rafi",\n      "lname":"",\n      "ageYy":31,\n      "ageDd":0,\n      "ageMm":0,\n      "dob":"1990-04-18T09:28:04.050Z",\n      "gender":"M",\n      "maritalStatus":"M",\n      "phoneMobile":"01844222356",\n      "email":"mr@rafi.com",\n      "address":"Bashundhra,R/A",\n      "fatherName":"Md. Ishak",\n      "motherName":"Halima Khatun",\n      "nationalId":"014788852369",\n      "religion":"ISLAM",\n      "bloodGroup":"O+",\n      "spouseName":"Rubina Hoque",\n      "passportNo":"111222333",\n      "hospitalNumber":"",\n      "regDate":"",\n      "patTypeNo":"1",\n      "regPoint":"1",\n      "ssCreator":"",\n      "ssCreatedOn":"",\n      "ssCreateSession":"",\n      "patientPhoto":null,\n      "file":{  },\n      "companyNo":"1",\n      "organizationNo":"1"\n   },\n   "opdRegOthers":{ }\n}\n'
-    // });
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       var body = response.stream.bytesToString();
       SignUpModel data = signUpModelFromJson(await body);
       return body;
-      //   SignUpModel data = signUpModelFromJson( await response.stream.toString());
-      //   return Right(SignUpInfoModel(
-      //     username: data.obj.userId,
-      //     password: data.obj.password
-      //   ));
-      // } else {
-      //   return Left(AppError.serverError);
     }
     else{
       BotToast.closeAllLoading();
@@ -133,7 +117,6 @@ class AuthRepository {
     } else {
       print('abs');
       BotToast.closeAllLoading();
-      // BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.serverError);
     }
   }

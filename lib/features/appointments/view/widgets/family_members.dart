@@ -41,7 +41,6 @@ class _FamilyMembersState extends State<FamilyMembers> {
     });
     super.initState();
     selectedCard= familyVm.selectedCard;
-    print("sssss $selectedCard");
   }
 
   @override
@@ -58,7 +57,6 @@ class _FamilyMembersState extends State<FamilyMembers> {
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
-        //leading: Icon(Icons.notes),
         backgroundColor: HexColor('#354291'),
         title: Text(
           "Family Members",

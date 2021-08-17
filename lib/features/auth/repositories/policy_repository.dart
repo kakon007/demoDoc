@@ -12,8 +12,6 @@ class PolicyRepositry {
     print('enter');
     try {
       var request = http.Request('GET', Uri.parse('https://qa.myhealthbd.com:9096/online-appointment-api/fapi/trems-condition/get-privacy-policy'));
-
-
       http.StreamedResponse response = await request.send();
       if (response.statusCode == 200) {
         var body=await response.stream.bytesToString();
@@ -21,17 +19,14 @@ class PolicyRepositry {
         return Right(PolicyM(
           dataList: data.obj,
         ));
-        //print(data[0]['companySlogan']);
       } else {
         BotToast.showText(text: StringResources.somethingIsWrong);
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
-      //logger.e(e);
       BotToast.showText(text: StringResources.somethingIsWrong);
       return Left(AppError.unknownError);
     }

@@ -700,7 +700,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                   : width <= 330
                                                   ? 13
                                                   : 16,
-                                              fontWeight: FontWeight.w500),),
+                                              fontWeight: FontWeight.w500),overflow: TextOverflow.ellipsis,maxLines: 1,),
                                         ),
                                         SizedBox(height: 10,),
                                         Padding(

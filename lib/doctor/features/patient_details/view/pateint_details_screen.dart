@@ -689,16 +689,19 @@ class _PatientDetailsState extends State<PatientDetails> {
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('1. Assoc. Prof. Dr. Mahmud Rahim', style: GoogleFonts.poppins(
-                                          // color: HexColor(
-                                          //   '#354291',
-                                          // ),
-                                            fontSize: isTablet
-                                                ? 20
-                                                : width <= 330
-                                                ? 13
-                                                : 16,
-                                            fontWeight: FontWeight.w500),),
+                                        Container(
+                                          width:MediaQuery.of(context).size.width>350?220:200,
+                                          child: Text('1. Assoc. Prof. Dr. Mahmud Rahim', style: GoogleFonts.poppins(
+                                            // color: HexColor(
+                                            //   '#354291',
+                                            // ),
+                                              fontSize: isTablet
+                                                  ? 20
+                                                  : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                              fontWeight: FontWeight.w500),),
+                                        ),
                                         SizedBox(height: 10,),
                                         Padding(
                                           padding: const EdgeInsets.only(left:12.0),
@@ -773,7 +776,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                             deviceWidth > 330
                                             ? 105
                                             : deviceWidth <= 330
-                                            ? 95
+                                            ? 50
                                             : 80,
                                         height: deviceWidth <= 360
                                             ? 28

@@ -20,7 +20,7 @@ void main() async {
     color: Colors.deepPurpleAccent,
   );
   runApp(
-    //ChangeNotifierProvider(create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
-     MaterialApp(home: PatientDetails()),
+    ChangeNotifierProvider(create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
+     //MaterialApp(home: EmrScreen()),
   );
 }

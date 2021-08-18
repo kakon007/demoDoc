@@ -1577,7 +1577,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: isTablet ? 20 : 12.0, bottom: 20, top: 10),
+                                      left: isTablet ? 20 : 12.0),
                                   child: Text(
                                     "${vm2.totalCount.toString()} Report(s) found",
                                     style: GoogleFonts.poppins(
@@ -2004,7 +2004,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                             Row(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(left: isTablet ? 20 : 12.0, bottom: 20),
+                                  padding: EdgeInsets.only(left: isTablet ? 20 : 12.0),
                                   child: Text(
                                     "${vm3.totalCount.toString()} Document(s) found",
                                     style: GoogleFonts.poppins(

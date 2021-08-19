@@ -25,7 +25,7 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
   @override
   void initState() {
     // TODO: implement initState
-    var vm = Provider.of<WorkListViewModel>(context,listen: false);
+    var vm = Provider.of<WorkListViewModel>(context, listen: false);
     //
     // vm.workListData
     //     .forEach((item) {
@@ -36,9 +36,10 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
     // });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<WorkListViewModel>(context,listen: false);
+    var vm = Provider.of<WorkListViewModel>(context, listen: false);
     //print("item ${completedWorkList.length}");
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
@@ -66,8 +67,8 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                     fontSize: isTablet
                         ? 16
                         : width < 350
-                        ? 12
-                        : 14.0,
+                            ? 12
+                            : 14.0,
                     color: Colors.grey.withOpacity(0.5)),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
@@ -88,7 +89,7 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
         Padding(
           padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               showModalBottomSheet(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
@@ -100,13 +101,13 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                   builder: (context) {
                     return StatefulBuilder(
                         builder: (BuildContext context, StateSetter setState) {
-                          var index = 0;
-                          bool isTrue = false;
-                          return FractionallySizedBox(
-                            heightFactor: 0.65,
-                            child: WorkListFilter(),
-                          );
-                        });
+                      var index = 0;
+                      bool isTrue = false;
+                      return FractionallySizedBox(
+                        heightFactor: 0.65,
+                        child: WorkListFilter(),
+                      );
+                    });
                   });
             },
             child: SvgPicture.asset(
@@ -125,39 +126,42 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
       ],
     );
     return Container(
-      child: Column(children: [
-        spaceBetween,
-        spaceBetween,
-       // spaceBetween,
-        //searchField,
-        spaceBetween,
-        ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: vm.completedData.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
-                child: WorklistAll(
-                  consultTime: vm.completedData[index].consTime,
-                  patientName: vm.completedData[index].patientName,
-                  consultType: vm.completedData[index].consultTypeNo.toString(),
-                ),
-              );
-            }),
-        vm.isFetchingMoreData
-            ? SizedBox(
-            height: 60, child: Center(child: CircularProgressIndicator(
-          strokeWidth: 3.0,
-          valueColor: AlwaysStoppedAnimation<Color>(
-              AppTheme.buttonActiveColor),
-
-        )))
-            : SizedBox(),
-        spaceBetween,
-        spaceBetween,
-      ],),
-
+      child: Column(
+        children: [
+          spaceBetween,
+          spaceBetween,
+          // spaceBetween,
+          //searchField,
+          spaceBetween,
+          ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: vm.completedData.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
+                  child: WorklistAll(
+                    consultTime: vm.completedData[index].consTime,
+                    patientName: vm.completedData[index].patientName,
+                    consultType:
+                        vm.completedData[index].consultTypeNo.toString(),
+                  ),
+                );
+              }),
+          vm.isFetchingMoreData
+              ? SizedBox(
+                  height: 60,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    strokeWidth: 3.0,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        AppTheme.buttonActiveColor),
+                  )))
+              : SizedBox(),
+          spaceBetween,
+          spaceBetween,
+        ],
+      ),
     );
   }
 }

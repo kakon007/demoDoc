@@ -37,9 +37,7 @@ class _WorklistState extends State<Worklist> {
     Future.delayed(Duration.zero, () async {
       await vm.getWorkListData(fromDate: null, toDate: null);
     });
-    vm.getShiftData(
-      shift: '0'
-    );
+    vm.getShiftData(shift: '0');
     vm.filteredItems.clear();
     _scrollControllerPagination.addListener(() {
       if (_scrollControllerPagination.position.pixels >=
@@ -51,8 +49,7 @@ class _WorklistState extends State<Worklist> {
               toDate: toDate,
               fromDate: fromDate,
               searchValue: _searchValue.text,
-            shift: vm.shift
-          );
+              shift: vm.shift);
         }
       }
     });
@@ -97,7 +94,10 @@ class _WorklistState extends State<Worklist> {
         toDate = DateFormat("dd-MMM-yyyy").format(pickedToDate);
         var vm = Provider.of<WorkListViewModel>(context, listen: false);
         vm.getWorkListData(
-            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text,shift: vm.shift);
+            toDate: toDate,
+            fromDate: fromDate,
+            searchValue: _searchValue.text,
+            shift: vm.shift);
       });
     } else {
       setState(() {
@@ -134,7 +134,10 @@ class _WorklistState extends State<Worklist> {
         toDate = DateFormat("dd-MMM-yyyy").format(pickedToDate);
         var vm = Provider.of<WorkListViewModel>(context, listen: false);
         vm.getWorkListData(
-            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text,shift: vm.shift);
+            toDate: toDate,
+            fromDate: fromDate,
+            searchValue: _searchValue.text,
+            shift: vm.shift);
         _toDate = DateFormat("dd/MM/yyyy").format(pickedToDate);
         print(fromDate);
         print(toDate);
@@ -146,7 +149,10 @@ class _WorklistState extends State<Worklist> {
         toDate = DateFormat("dd-MMM-yyyy").format(pickedToDate);
         var vm = Provider.of<WorkListViewModel>(context, listen: false);
         vm.getWorkListData(
-            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text,shift: vm.shift);
+            toDate: toDate,
+            fromDate: fromDate,
+            searchValue: _searchValue.text,
+            shift: vm.shift);
         _toDate = DateFormat("dd/MM/yyyy").format(pickedToDate);
         print(fromDate);
         print(toDate);
@@ -169,15 +175,22 @@ class _WorklistState extends State<Worklist> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          width: width <= 330 ? 220 : 290,
+          width: isTablet
+              ? width * .85
+              : width <= 330
+                  ? 220
+                  : 290,
           child: TextField(
               // onChanged: (value) {
               //   vm.getWorkListData(
               //       toDate: toDate, fromDate: fromDate, searchValue: value,shift: vm.shift);
               // },
-              onSubmitted: (value){
+              onSubmitted: (value) {
                 vm.getWorkListData(
-                    toDate: toDate, fromDate: fromDate, searchValue: value,shift: vm.shift);
+                    toDate: toDate,
+                    fromDate: fromDate,
+                    searchValue: value,
+                    shift: vm.shift);
               },
               controller: _searchValue,
               decoration: new InputDecoration(
@@ -191,7 +204,7 @@ class _WorklistState extends State<Worklist> {
                 hintText: "Search Here",
                 hintStyle: GoogleFonts.poppins(
                     fontSize: isTablet
-                        ? 16
+                        ? 17
                         : width < 350
                             ? 12
                             : 14.0,
@@ -235,7 +248,6 @@ class _WorklistState extends State<Worklist> {
                           fromDate: fromDate,
                           toDate: toDate,
                           searchValue: _searchValue.text,
-
                         ),
                       );
                     });
@@ -262,7 +274,11 @@ class _WorklistState extends State<Worklist> {
         Container(
           constraints: BoxConstraints(
             minHeight: 120,
-            minWidth: width <= 330 ? width * .9 : width * .92,
+            minWidth: isTablet
+                ? width * .93
+                : width <= 330
+                    ? width * .9
+                    : width * .92,
           ),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -299,7 +315,11 @@ class _WorklistState extends State<Worklist> {
                       },
                       child: Container(
                         height: 45,
-                        width: width <= 330 ? 110 : 140,
+                        width: isTablet
+                            ? width * .3
+                            : width <= 330
+                                ? 110
+                                : 140,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
@@ -346,7 +366,7 @@ class _WorklistState extends State<Worklist> {
               ),
               SizedBox(),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0),
+                padding: const EdgeInsets.only(right: 15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -366,7 +386,11 @@ class _WorklistState extends State<Worklist> {
                       },
                       child: Container(
                         height: 45,
-                        width: width <= 330 ? 110 : 140,
+                        width: isTablet
+                            ? width * .3
+                            : width <= 330
+                                ? 110
+                                : 140,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
@@ -491,7 +515,8 @@ class _WorklistState extends State<Worklist> {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
+              padding: EdgeInsets.only(
+                  left: isTablet ? 25 : 15, top: 15, right: isTablet ? 25 : 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -499,7 +524,7 @@ class _WorklistState extends State<Worklist> {
                     'Select Date',
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
-                        fontSize: isTablet ? 17 : 15),
+                        fontSize: isTablet ? 20 : 15),
                   ),
                   spaceBetween,
                   dateSection,
@@ -511,7 +536,7 @@ class _WorklistState extends State<Worklist> {
                     'Worklist',
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w600,
-                        fontSize: isTablet ? 17 : 15),
+                        fontSize: isTablet ? 20 : 15),
                   ),
                   spaceBetween,
                   spaceBetween,
@@ -546,7 +571,7 @@ class _WorklistState extends State<Worklist> {
               ),
             ),
             Positioned(
-              top: 265,
+              top: isTablet ? 283 : 265,
               right: MediaQuery.of(context).size.width * .22,
               left: MediaQuery.of(context).size.width * .22,
               child: Container(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:chewie/chewie.dart';
 class BlogDetails extends StatelessWidget {
   String details;

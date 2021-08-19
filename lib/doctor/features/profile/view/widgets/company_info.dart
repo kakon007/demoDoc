@@ -56,11 +56,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              "Aalok",
-              // companyInfoVm.isLoading
-              //     ? ''
-              //     : companyInfoVm.details.companyList.first?.compnayName ?? '',
-              //
+             // "Aalok",
+              companyInfoVm.isLoading
+                  ? ''
+                  : companyInfoVm.details.companyList.first?.compnayName ?? '',
+
               style: GoogleFonts.poppins(),
             ),
           ),
@@ -97,11 +97,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-             "Dhaka",
-              // companyInfoVm.isLoading
-              //     ? ''
-              //     : companyInfoVm.details.companyList.first?.compnayAddress1 ??
-              //         '',
+            // "Dhaka",
+              companyInfoVm.isLoading
+                  ? ''
+                  : companyInfoVm.details.companyList.first?.compnayAddress1 ??
+                      '',
 
               style: GoogleFonts.poppins(),
             ),

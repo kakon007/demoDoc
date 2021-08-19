@@ -704,16 +704,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       borderRadius: BorderRadius.circular(5)),
                   color: AppTheme.buttonActiveColor,
                   onPressed: () async {
-                    // setState(() {
-                    //   errorText = Validator()
-                    //       .validateDoctorPhoneNumber(_userMobile.text);
-                    //   print(errorText);
-                    // });
                     if (_formKey.currentState.validate()) {
-                      // setState(() {
-                      //   errorText = Validator().validateDoctorPhoneNumber(_userMobile.text);
-                      //   print(errorText);
-                      // });
                       isReadOnly = true;
                       await companyInfoVm.updateDoctorProfile(
                           userEmail: _userEmail.text,
@@ -804,15 +795,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
       ),
     );
   }
-
-  void _showAlertDialogForPassword(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return ChangeDoctorPasswordAlert();
-        });
-  }
-
   void _uploadSignature(BuildContext context) {
     showDialog(
         //barrierColor: Color(0x00ffffff),

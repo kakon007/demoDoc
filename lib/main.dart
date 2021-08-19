@@ -21,6 +21,6 @@ void main() async {
   );
   runApp(
     //ChangeNotifierProvider(create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
-     MaterialApp(home: PatientDetails()),
+    MaterialApp(home: EmrScreen()),
   );
 }

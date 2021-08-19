@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/dashboard_drawer.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_widget.dart';
+import 'package:myhealthbd_app/doctor/features/worklist/view_model/worklist_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/resource/doctor_const.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/manage_account_prompt.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
@@ -26,8 +28,10 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
   @override
   void initState() {
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: false);
+    var workVm = Provider.of<WorkListViewModel>(context, listen: false);
     Future.delayed(Duration.zero, () async {
       await companyInfoVm.userImage();
+      await workVm.getTodaysWorklist();
     });
     // TODO: implement initState
     super.initState();
@@ -36,6 +40,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
   @override
   Widget build(BuildContext context) {
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
+    var workVm = Provider.of<WorkListViewModel>(context, listen: true);
     var photo = companyInfoVm.details?.photo ?? '';
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
@@ -582,10 +587,13 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return AllWorkLists();
-                          }));
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      DoctorHomeScreen(
+                                        index: 1,
+                                      )),
+                                  (Route<dynamic> route) => false);
                         },
                         child: Row(
                           children: [
@@ -599,12 +607,22 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       )
                     ],
                   )),
-              ListView.builder(
+              workVm.todayWorkList.length ==0 ? Center(child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Text("There is no worklist today.",
+
+                style: GoogleFonts.poppins(),
+                ),
+              )) : ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 5,
+                  itemCount: workVm.todayWorkList.length < 5 ? workVm.todayWorkList.length : 5,
                   itemBuilder: (context, index) {
-                    return TodayWorkList();
+                    return TodayWorkList(
+                      patientName: workVm.todayWorkList[index].patientName,
+                      appointmentTime:workVm.todayWorkList[index].consTime ,
+                      appointType: workVm.todayWorkList[index].consultTypeNo.toString(),
+                    );
                   })
             ],
           ),

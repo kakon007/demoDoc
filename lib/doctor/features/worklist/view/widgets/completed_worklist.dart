@@ -104,7 +104,7 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                           bool isTrue = false;
                           return FractionallySizedBox(
                             heightFactor: 0.65,
-                            child: WorkListFiler(),
+                            child: WorkListFilter(),
                           );
                         });
                   });

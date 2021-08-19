@@ -3,34 +3,42 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/worklist/view_model/worklist_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
-class WorkListFiler extends StatefulWidget {
-  const WorkListFiler({Key key}) : super(key: key);
+class WorkListFilter extends StatefulWidget {
+  String searchValue;
+  String toDate;
+  String fromDate;
+
+  WorkListFilter({this.searchValue, this.fromDate, this.toDate});
 
   @override
-  _WorkListFilerState createState() => _WorkListFilerState();
+  _WorkListFilterState createState() => _WorkListFilterState();
 }
 
-class _WorkListFilerState extends State<WorkListFiler> {
+class _WorkListFilterState extends State<WorkListFilter> {
   List filterItems = [];
+
   @override
   void initState() {
     // TODO: implement initState
-    var doctorVm = Provider.of<DoctorProfileViewModel>(context, listen: false);
-    //filterItems= doctorVm.filteredList;
+    var workVm = Provider.of<WorkListViewModel>(context, listen: false);
+    filterItems.addAll(workVm.filteredItems);
     print(filterItems.length);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
-    var doctorVm = Provider.of<DoctorProfileViewModel>(context, listen: true);
-    var spaceBetween =  SizedBox(
+    var workVm = Provider.of<WorkListViewModel>(context, listen: true);
+    print('list ${workVm.filteredItems}');
+    var spaceBetween = SizedBox(
       height: 10,
     );
     var title = Row(
@@ -48,7 +56,8 @@ class _WorkListFilerState extends State<WorkListFiler> {
             ),
             Text(
               'Filter',
-              style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(
+                  fontSize: isTablet ? 16 : 14, fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -73,7 +82,8 @@ class _WorkListFilerState extends State<WorkListFiler> {
       child: Row(children: [
         Text(
           'Applied Filters',
-          style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(
+              fontSize: isTablet ? 16 : 14, fontWeight: FontWeight.w600),
         ),
         SizedBox(
           height: 20,
@@ -101,8 +111,10 @@ class _WorkListFilerState extends State<WorkListFiler> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                             filterItems[index],
-                              style: GoogleFonts.poppins(color: Colors.black, fontSize: isTablet? 16 : 14),
+                              filterItems[index],
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: isTablet ? 16 : 14),
                             ),
                             SizedBox(
                               width: 5,
@@ -112,11 +124,11 @@ class _WorkListFilerState extends State<WorkListFiler> {
                                     color: AppTheme.buttonActiveColor,
                                     borderRadius: BorderRadius.circular(50)),
                                 child: GestureDetector(
-                                 onTap: (){
-                                   setState(() {
-                                     filterItems.removeAt(index);
-                                   });
-                                 },
+                                  onTap: () {
+                                    setState(() {
+                                      filterItems.removeAt(index);
+                                    });
+                                  },
                                   child: Icon(
                                     Icons.clear,
                                     color: Colors.white,
@@ -140,7 +152,8 @@ class _WorkListFilerState extends State<WorkListFiler> {
           children: [
             Text(
               'Available Filters',
-              style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(
+                  fontSize: isTablet ? 16 : 14, fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: 20,
@@ -154,15 +167,16 @@ class _WorkListFilerState extends State<WorkListFiler> {
                     children: [
                       filterItems.contains('Fresh Visit')
                           ? Container(
-                          decoration: BoxDecoration(
-                              color: AppTheme.buttonActiveColor,
-                              border: Border.all(
-                                  color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          )) : Container(
+                              decoration: BoxDecoration(
+                                  color: AppTheme.buttonActiveColor,
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              ))
+                          : Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: AppTheme.buttonActiveColor),
@@ -184,7 +198,8 @@ class _WorkListFilerState extends State<WorkListFiler> {
                       ),
                       Text(
                         'Fresh Visit',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: isTablet? 16 :14),
+                        style: GoogleFonts.poppins(
+                            color: Colors.black, fontSize: isTablet ? 16 : 14),
                       ),
                       SizedBox(
                         width: 5,
@@ -202,39 +217,41 @@ class _WorkListFilerState extends State<WorkListFiler> {
                     children: [
                       filterItems.contains('Follow Up')
                           ? Container(
-                          decoration: BoxDecoration(
-                              color: AppTheme.buttonActiveColor,
-                              border: Border.all(
-                                  color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          )) : Container(
-                          decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: GestureDetector(
-                           onTap: (){
-                             setState(() {
-                               setState(() {
-                                 filterItems.add('Follow Up');
-                                 print(filterItems.length);
-                               });
-                             });
-                           },
-                            child: Icon(
-                              Icons.add,
-                              color: AppTheme.buttonActiveColor,
-                            ),
-                          )),
+                              decoration: BoxDecoration(
+                                  color: AppTheme.buttonActiveColor,
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              ))
+                          : Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    setState(() {
+                                      filterItems.add('Follow Up');
+                                      print(filterItems.length);
+                                    });
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  color: AppTheme.buttonActiveColor,
+                                ),
+                              )),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
                         'Follow up',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: isTablet? 16 :14),
+                        style: GoogleFonts.poppins(
+                            color: Colors.black, fontSize: isTablet ? 16 : 14),
                       ),
                       SizedBox(
                         width: 5,
@@ -252,37 +269,39 @@ class _WorkListFilerState extends State<WorkListFiler> {
                     children: [
                       filterItems.contains('Report Check')
                           ? Container(
-                          decoration: BoxDecoration(
-                              color: AppTheme.buttonActiveColor,
-                              border: Border.all(
-                                  color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          )) : Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                filterItems.add('Report Check');
-                                print(filterItems.length);
-                              });
-                            },
-                            child: Icon(
-                              Icons.add,
-                              color: AppTheme.buttonActiveColor,
-                            ),
-                          )),
+                              decoration: BoxDecoration(
+                                  color: AppTheme.buttonActiveColor,
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              ))
+                          : Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    filterItems.add('Report Check');
+                                    print(filterItems.length);
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  color: AppTheme.buttonActiveColor,
+                                ),
+                              )),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
                         'Report Check',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize: isTablet? 16 :14),
+                        style: GoogleFonts.poppins(
+                            color: Colors.black, fontSize: isTablet ? 16 : 14),
                       ),
                       SizedBox(
                         width: 5,
@@ -301,37 +320,39 @@ class _WorkListFilerState extends State<WorkListFiler> {
                 children: [
                   filterItems.contains('2nd Follow Up')
                       ? Container(
-                      decoration: BoxDecoration(
-                          color: AppTheme.buttonActiveColor,
-                          border: Border.all(
-                              color: AppTheme.buttonActiveColor),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
-                      )) : Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: AppTheme.buttonActiveColor),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            filterItems.add('2nd Follow Up');
-                            print(filterItems.length);
-                          });
-                        },
-                        child: Icon(
-                          Icons.add,
-                          color: AppTheme.buttonActiveColor,
-                        ),
-                      )),
+                          decoration: BoxDecoration(
+                              color: AppTheme.buttonActiveColor,
+                              border:
+                                  Border.all(color: AppTheme.buttonActiveColor),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                          ))
+                      : Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: AppTheme.buttonActiveColor),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                filterItems.add('2nd Follow Up');
+                                print(filterItems.length);
+                              });
+                            },
+                            child: Icon(
+                              Icons.add,
+                              color: AppTheme.buttonActiveColor,
+                            ),
+                          )),
                   SizedBox(
                     width: 5,
                   ),
                   Text(
                     '2nd Follow Up',
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize:isTablet? 16 : 14),
+                    style: GoogleFonts.poppins(
+                        color: Colors.black, fontSize: isTablet ? 16 : 14),
                   ),
                   SizedBox(
                     width: 5,
@@ -352,7 +373,8 @@ class _WorkListFilerState extends State<WorkListFiler> {
           children: [
             Text(
               'Shift',
-              style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(
+                  fontSize: isTablet ? 16 : 14, fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: 20,
@@ -366,37 +388,39 @@ class _WorkListFilerState extends State<WorkListFiler> {
                     children: [
                       filterItems.contains('Morning')
                           ? Container(
-                          decoration: BoxDecoration(
-                              color: AppTheme.buttonActiveColor,
-                              border: Border.all(
-                                  color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          )) : Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                filterItems.add('Morning');
-                                print(filterItems.length);
-                              });
-                            },
-                            child: Icon(
-                              Icons.add,
-                              color: AppTheme.buttonActiveColor,
-                            ),
-                          )),
+                              decoration: BoxDecoration(
+                                  color: AppTheme.buttonActiveColor,
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              ))
+                          : Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    filterItems.add('Morning');
+                                    print(filterItems.length);
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  color: AppTheme.buttonActiveColor,
+                                ),
+                              )),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
                         'Morning',
-                        style: GoogleFonts.poppins(color: Colors.black, fontSize:isTablet? 16 : 14),
+                        style: GoogleFonts.poppins(
+                            color: Colors.black, fontSize: isTablet ? 16 : 14),
                       ),
                       SizedBox(
                         width: 5,
@@ -414,37 +438,39 @@ class _WorkListFilerState extends State<WorkListFiler> {
                     children: [
                       filterItems.contains('Evening')
                           ? Container(
-                          decoration: BoxDecoration(
-                              color: AppTheme.buttonActiveColor,
-                              border: Border.all(
-                                  color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          )) : Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                filterItems.add('Evening');
-                                print(filterItems.length);
-                              });
-                            },
-                            child: Icon(
-                              Icons.add,
-                              color: AppTheme.buttonActiveColor,
-                            ),
-                          )),
+                              decoration: BoxDecoration(
+                                  color: AppTheme.buttonActiveColor,
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.white,
+                              ))
+                          : Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    filterItems.add('Evening');
+                                    print(filterItems.length);
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  color: AppTheme.buttonActiveColor,
+                                ),
+                              )),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
                         'Evening',
-                        style: GoogleFonts.poppins(color: Colors.black,fontSize:isTablet? 16 : 14),
+                        style: GoogleFonts.poppins(
+                            color: Colors.black, fontSize: isTablet ? 16 : 14),
                       ),
                       SizedBox(
                         width: 5,
@@ -488,6 +514,31 @@ class _WorkListFilerState extends State<WorkListFiler> {
               alignment: Alignment.bottomCenter,
               child: FlatButton(
                   onPressed: () {
+                    workVm.getFilteredList(items: filterItems);
+                    var shift = 0;
+                    if (filterItems.contains('Morning') &&
+                        filterItems.contains('Evening')) {
+                      shift = 0;
+                      print(shift);
+                    } else if (filterItems.contains('Morning')) {
+                      shift = 2000001;
+                      print(shift);
+                    } else if (filterItems.contains('Evening')) {
+                      shift = 2000002;
+                      print(shift);
+                    } else {
+                      shift = 0;
+                      print(shift);
+                    }
+                    workVm.getShiftData(
+                      shift: shift.toString()
+                    );
+                    workVm.getWorkListData(
+                        shift: shift.toString(),
+                        searchValue: widget.searchValue,
+                        fromDate: widget.fromDate,
+                        toDate: widget.toDate);
+                    Navigator.pop(context);
                     //doctorVm.filterInfo(filteredList: filterItems);
                   },
                   shape: RoundedRectangleBorder(

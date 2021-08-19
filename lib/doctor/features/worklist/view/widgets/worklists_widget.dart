@@ -61,7 +61,7 @@ class _WorklistAllState extends State<WorklistAll> {
                 CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.patientName==null? "Md. Arman" :  widget.patientName,
+                    widget.patientName==null? "" :  widget.patientName,
                     style: GoogleFonts.poppins(
                         fontSize: isTablet? 16 : width<=330? 11 : 14,
                         fontWeight: FontWeight.w500),

@@ -10,7 +10,6 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 class DoctorProfileViewModel extends ChangeNotifier {
     bool _isDoctorInfoEditing=false;
     bool _isPersonalInfoEditing=false;
-    List _filteredList = [];
     editingDoctorInfo({bool isDoctorInfoEditing}) {
     _isDoctorInfoEditing =isDoctorInfoEditing;
     notifyListeners();
@@ -19,11 +18,6 @@ class DoctorProfileViewModel extends ChangeNotifier {
         _isPersonalInfoEditing = isPersonalInfoEditing;
        // notifyListeners();
     }
-    filterInfo({List filteredList}) {
-        _filteredList = filteredList;
-        //notifyListeners();
-    }
     bool get isDoctorInfoEditing => _isDoctorInfoEditing;
     bool get isPersonalInfoEditing => _isPersonalInfoEditing;
-    List get filteredList => _filteredList;
 }

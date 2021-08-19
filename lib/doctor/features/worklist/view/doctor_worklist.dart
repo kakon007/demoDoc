@@ -33,12 +33,14 @@ class _WorklistState extends State<Worklist> {
     // TODO: implement initState
     pickedToDate = DateTime.now();
     pickedFromDate = DateTime.now();
+    var vm = Provider.of<WorkListViewModel>(context, listen: false);
     Future.delayed(Duration.zero, () async {
-      var vm = Provider.of<WorkListViewModel>(context, listen: false);
       await vm.getWorkListData(fromDate: null, toDate: null);
     });
-    var vm = Provider.of<WorkListViewModel>(context, listen: false);
-
+    vm.getShiftData(
+      shift: '0'
+    );
+    vm.filteredItems.clear();
     _scrollControllerPagination.addListener(() {
       if (_scrollControllerPagination.position.pixels >=
           _scrollControllerPagination.position.maxScrollExtent) {
@@ -48,7 +50,9 @@ class _WorklistState extends State<Worklist> {
           vm.getMoreWorkListData(
               toDate: toDate,
               fromDate: fromDate,
-              searchValue: _searchValue.text);
+              searchValue: _searchValue.text,
+            shift: vm.shift
+          );
         }
       }
     });
@@ -93,7 +97,7 @@ class _WorklistState extends State<Worklist> {
         toDate = DateFormat("dd-MMM-yyyy").format(pickedToDate);
         var vm = Provider.of<WorkListViewModel>(context, listen: false);
         vm.getWorkListData(
-            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text);
+            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text,shift: vm.shift);
       });
     } else {
       setState(() {
@@ -130,7 +134,7 @@ class _WorklistState extends State<Worklist> {
         toDate = DateFormat("dd-MMM-yyyy").format(pickedToDate);
         var vm = Provider.of<WorkListViewModel>(context, listen: false);
         vm.getWorkListData(
-            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text);
+            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text,shift: vm.shift);
         _toDate = DateFormat("dd/MM/yyyy").format(pickedToDate);
         print(fromDate);
         print(toDate);
@@ -142,7 +146,7 @@ class _WorklistState extends State<Worklist> {
         toDate = DateFormat("dd-MMM-yyyy").format(pickedToDate);
         var vm = Provider.of<WorkListViewModel>(context, listen: false);
         vm.getWorkListData(
-            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text);
+            toDate: toDate, fromDate: fromDate, searchValue: _searchValue.text,shift: vm.shift);
         _toDate = DateFormat("dd/MM/yyyy").format(pickedToDate);
         print(fromDate);
         print(toDate);
@@ -159,6 +163,7 @@ class _WorklistState extends State<Worklist> {
     var spaceBetween = SizedBox(
       height: 10,
     );
+    print('shifttt ${vm.shift}');
     var searchField = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,9 +171,13 @@ class _WorklistState extends State<Worklist> {
         Container(
           width: width <= 330 ? 220 : 290,
           child: TextField(
-              onChanged: (value) {
+              // onChanged: (value) {
+              //   vm.getWorkListData(
+              //       toDate: toDate, fromDate: fromDate, searchValue: value,shift: vm.shift);
+              // },
+              onSubmitted: (value){
                 vm.getWorkListData(
-                    toDate: toDate, fromDate: fromDate, searchValue: value);
+                    toDate: toDate, fromDate: fromDate, searchValue: value,shift: vm.shift);
               },
               controller: _searchValue,
               decoration: new InputDecoration(
@@ -222,7 +231,12 @@ class _WorklistState extends State<Worklist> {
                       bool isTrue = false;
                       return FractionallySizedBox(
                         heightFactor: 0.65,
-                        child: WorkListFiler(),
+                        child: WorkListFilter(
+                          fromDate: fromDate,
+                          toDate: toDate,
+                          searchValue: _searchValue.text,
+
+                        ),
                       );
                     });
                   });

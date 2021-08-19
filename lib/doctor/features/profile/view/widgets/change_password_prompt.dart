@@ -17,7 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeDoctorPasswordAlert extends StatefulWidget {
   @override
-  _ChangeDoctorPasswordAlertState createState() => _ChangeDoctorPasswordAlertState();
+  _ChangeDoctorPasswordAlertState createState() =>
+      _ChangeDoctorPasswordAlertState();
 }
 
 class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
@@ -46,7 +47,7 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
     bool isMobile = Responsive.isMobile(context);
     var changePassViewModel = Provider.of<PasswordChangeViewModel>(context);
     var width = MediaQuery.of(context).size.width * 0.44;
-    var deviceWidth = MediaQuery.of(context).size.width ;
+    var deviceWidth = MediaQuery.of(context).size.width;
     var currentPassword = SignUpFormField(
       topPadding: isTablet ? 25 : 18,
       textFieldKey: Key('currentPasswordKey'),
@@ -105,7 +106,7 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
       //     });
       //   },
       // ),
-     // obSecure: isNewObSecure,
+      // obSecure: isNewObSecure,
     );
     var spaceBetween = SizedBox(height: 10);
     var confirmPassword = SignUpFormField(
@@ -138,28 +139,30 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
       //     });
       //   },
       // ),
-     // obSecure: isConfirmObSecure,
+      // obSecure: isConfirmObSecure,
     );
     return Center(
       child: SingleChildScrollView(
         child: AlertDialog(
           insetPadding: EdgeInsets.symmetric(
-              horizontal:
-              isTablet ? deviceWidth * .1 : deviceWidth* .1),
+              horizontal: isTablet ? deviceWidth * .1 : deviceWidth * .1),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           contentPadding: EdgeInsets.only(top: 10.0),
           content: Container(
             constraints: BoxConstraints(
               minHeight: !isExpanded
-                ? isTablet
-                ? 360
-                : deviceWidth<=330? 330 :340
-                : isTablet
-                ? 400
-
-                : deviceWidth<=330? 370 : 380, ),
-
+                  ? isTablet
+                      ? 360
+                      : deviceWidth <= 330
+                          ? 330
+                          : 340
+                  : isTablet
+                      ? 400
+                      : deviceWidth <= 330
+                          ? 370
+                          : 380,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
@@ -178,85 +181,101 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  Padding( padding: const EdgeInsets.only(left: 25.0, right: 25, bottom: 0),
-                    child: Column(children: [
-                      spaceBetween,
-                      currentPassword,
-                      spaceBetween,
-                      newPassword,
-                      spaceBetween,
-                      confirmPassword,
-                      spaceBetween,
-                      Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: isTablet? 200 :width<=360? width*.7:  width * .8,
-                            height: isTablet ? 50 : width * .25,
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              textColor: AppTheme.appbarPrimary,
-                              color: HexColor('#FF6161'),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(8),
-                                 ),
-                              child: Text(
-                                StringResources.cancelText,
-                                style: GoogleFonts.roboto(color: Colors.white, fontWeight: FontWeight.w600),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 25.0, right: 25, bottom: 0),
+                    child: Column(
+                      children: [
+                        spaceBetween,
+                        currentPassword,
+                        spaceBetween,
+                        newPassword,
+                        spaceBetween,
+                        confirmPassword,
+                        spaceBetween,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: isTablet
+                                  ? 200
+                                  : width <= 360
+                                      ? width * .65
+                                      : width * .8,
+                              height: isTablet ? 50 : width * .25,
+                              child: FlatButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                textColor: AppTheme.appbarPrimary,
+                                color: HexColor('#FF6161'),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  StringResources.cancelText,
+                                  style: GoogleFonts.roboto(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(width: 10,),
-                          SizedBox(
-                            width: isTablet? 200 : width<=360? width*.7 : width * .8,
-                            height: isTablet ? 50 : width * .25,
-                            child: FlatButton(
-                              textColor: Colors.white,
-                              onPressed: () async {
-                                if (_formKey.currentState.validate()) {
-                                  await changePassViewModel.getPassword(
-                                      _newPassword.text,
-                                      _confirmPassword.text,
-                                      _currentPassword.text);
-                                  if (changePassViewModel.message ==
-                                      "Your current password not matche,Please enter current password !!") {
-                                    showAlert(context,
-                                        changePassViewModel.message);
-                                  }
-                                  if (changePassViewModel.message ==
-                                      "Change password saved successfully") {
-                                    SharedPreferences prefs =
-                                    await SharedPreferences
-                                        .getInstance();
-                                    prefs.setString(
-                                        "password", _newPassword.text);
-                                    prefs.setString(
-                                        "passwordRemember", _newPassword.text);
-                                    Navigator.pop(context);
-                                    showAlert(context,
-                                        changePassViewModel.message);
-                                  }
-                                }
-                              },
-                              color: AppTheme.buttonActiveColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                "Save",
-                                style: GoogleFonts.roboto(fontWeight: FontWeight.w600),
-                              ),
+                            SizedBox(
+                              width: 10,
                             ),
-                          ), // submitButton
-                        ],
-                      )
-                    ],),
+                            SizedBox(
+                              width: isTablet
+                                  ? 200
+                                  : width <= 360
+                                      ? width * .65
+                                      : width * .8,
+                              height: isTablet ? 50 : width * .25,
+                              child: FlatButton(
+                                textColor: Colors.white,
+                                onPressed: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    await changePassViewModel.getPassword(
+                                        _newPassword.text,
+                                        _confirmPassword.text,
+                                        _currentPassword.text);
+                                    if (changePassViewModel.message ==
+                                        "Your current password not matche,Please enter current password !!") {
+                                      showAlert(
+                                          context, changePassViewModel.message);
+                                    }
+                                    if (changePassViewModel.message ==
+                                        "Change password saved successfully") {
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setString(
+                                          "password", _newPassword.text);
+                                      prefs.setString("passwordRemember",
+                                          _newPassword.text);
+                                      Navigator.pop(context);
+                                      showAlert(
+                                          context, changePassViewModel.message);
+                                    }
+                                  }
+                                },
+                                color: AppTheme.buttonActiveColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  "Save",
+                                  style: GoogleFonts.roboto(
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ), // submitButton
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
             ),
@@ -271,7 +290,7 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     var changePassViewModel =
-    Provider.of<PasswordChangeViewModel>(context, listen: false);
+        Provider.of<PasswordChangeViewModel>(context, listen: false);
     showGeneralDialog(
       barrierLabel: "Label",
       barrierDismissible: false,
@@ -288,8 +307,8 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
                 width: isTablet
                     ? MediaQuery.of(context).size.width * .7
                     : MediaQuery.of(context).size.width <= 330
-                    ? 250
-                    : 290,
+                        ? 250
+                        : 290,
                 // child: SizedBox.expand(child: FlutterLogo()),
                 //margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
                 decoration: BoxDecoration(
@@ -300,9 +319,9 @@ class _ChangeDoctorPasswordAlertState extends State<ChangeDoctorPasswordAlert> {
                         0.2,
                         0.5,
                       ], colors: [
-                        HexColor("#D6DCFF"),
-                        HexColor("#FFFFFF"),
-                      ]),
+                    HexColor("#D6DCFF"),
+                    HexColor("#FFFFFF"),
+                  ]),
                   //borderRadius: 10,
                 ),
                 child: Column(

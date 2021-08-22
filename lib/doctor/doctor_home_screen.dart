@@ -36,7 +36,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
 
   @override
   void initState() {
-    currentIndex = widget.index==null ? 0 : widget.index;
+    currentIndex = widget.index == null ? 0 : widget.index;
     super.initState();
     //_animationController.forward();
     //screenShots=screens.values.toList();
@@ -47,19 +47,21 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
     var deviceWidth = MediaQuery.of(context).size.width;
     final String dashboardIconImage = dashboardImageIcon;
     final Widget dashboardIcon =
-    // Icon(
-    //   Icons.dashboard,
-    //
-    // );
+        // Icon(
+        //   Icons.dashboard,
+        //
+        // );
 
-    SvgPicture.asset(
+        SvgPicture.asset(
       dashboardIconImage,
       width: 10,
       height: 20,
       fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 0 ? AppTheme.navBarActiveColor : AppTheme.navBarInActiveColor,
+      color: currentIndex == 0
+          ? AppTheme.navBarActiveColor
+          : AppTheme.navBarInActiveColor,
     );
     final String workListIconImage = workImageIcon;
     final Widget workListIcon = SvgPicture.asset(
@@ -69,7 +71,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 1 ? AppTheme.navBarActiveColor : AppTheme.navBarInActiveColor,
+      color: currentIndex == 1
+          ? AppTheme.navBarActiveColor
+          : AppTheme.navBarInActiveColor,
     );
     final String prescriptionImage = prescriptionImageIcon;
     final Widget prescriptionIcon = SvgPicture.asset(
@@ -79,7 +83,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 2 ? AppTheme.navBarActiveColor : AppTheme.navBarInActiveColor,
+      color: currentIndex == 2
+          ? AppTheme.navBarActiveColor
+          : AppTheme.navBarInActiveColor,
     );
     final String profileImage = profileImageIcon;
     final Widget profileIcon = SvgPicture.asset(
@@ -89,7 +95,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 3 ? AppTheme.navBarActiveColor : AppTheme.navBarInActiveColor,
+      color: currentIndex == 3
+          ? AppTheme.navBarActiveColor
+          : AppTheme.navBarInActiveColor,
     );
 
     List pages = <Widget>[
@@ -99,7 +107,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       DoctorProfile()
     ];
     var bottomNavBar = BottomNavigationBar(
-
         onTap: (int index) {
           if (currentIndex != index) {
             _moveTo(index);
@@ -126,7 +133,10 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               ),
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text(StringResources.dashboardNavBarText, style: GoogleFonts.poppins(),),
+                child: Text(
+                  StringResources.dashboardNavBarText,
+                  style: GoogleFonts.poppins(),
+                ),
               )),
           BottomNavigationBarItem(
               icon: Material(
@@ -137,7 +147,10 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               ),
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text("Worklists", style: GoogleFonts.poppins(),),
+                child: Text(
+                  "Worklists",
+                  style: GoogleFonts.poppins(),
+                ),
               )),
           //hospitals
           // ignore: deprecated_member_use
@@ -150,7 +163,10 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               ),
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text("Rx Setup", style: GoogleFonts.poppins(),),
+                child: Text(
+                  "Rx Setup",
+                  style: GoogleFonts.poppins(),
+                ),
               )),
           //my_health
           // ignore: deprecated_member_use
@@ -163,7 +179,10 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               ),
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text("Profile", style: GoogleFonts.poppins(),),
+                child: Text(
+                  "Profile",
+                  style: GoogleFonts.poppins(),
+                ),
               ))
         ]);
 
@@ -172,9 +191,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: TextTheme(
-            bodyText2: TextStyle(
-          color: AppTheme.doctorPrimaryTextColor
-        )),
+            bodyText2: TextStyle(color: AppTheme.doctorPrimaryTextColor)),
         primaryColor: AppTheme.signInSignUpColor,
         unselectedWidgetColor: HexColor('#8592E5'),
       ),

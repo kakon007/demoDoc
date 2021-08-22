@@ -68,9 +68,7 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
         Container(
           width: width <= 330 ? 220 : 290,
           child: TextField(
-              onChanged: (value) {
-
-              },
+              onChanged: (value) {},
               decoration: new InputDecoration(
                 suffixIcon: Padding(
                   padding: const EdgeInsets.only(right: 10.0),
@@ -147,8 +145,8 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
         children: [
           spaceBetween,
           spaceBetween,
-        //  spaceBetween,
-         // searchField,
+          //  spaceBetween,
+          // searchField,
           spaceBetween,
           ListView.builder(
               shrinkWrap: true,
@@ -166,12 +164,13 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
               }),
           vm.isFetchingMoreData
               ? SizedBox(
-                  height: 60, child: Center(child: CircularProgressIndicator(
-            strokeWidth: 3.0,
-            valueColor: AlwaysStoppedAnimation<Color>(
-                AppTheme.buttonActiveColor),
-
-          )))
+                  height: 60,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    strokeWidth: 3.0,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        AppTheme.buttonActiveColor),
+                  )))
               : SizedBox(),
           spaceBetween,
           spaceBetween,

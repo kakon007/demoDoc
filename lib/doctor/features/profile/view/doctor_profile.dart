@@ -69,6 +69,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
       print('No image selected.');
     }
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -76,6 +77,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
     vm.editingPersonalInfo(isPersonalInfoEditing: false);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
@@ -165,10 +167,17 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           });
                         },
                         child: Text(
-                          isEdit == false ? 'Update Your Avatar' : 'Save Avatar',
+                          isEdit == false
+                              ? 'Update Your Avatar'
+                              : 'Save Avatar',
                           style: GoogleFonts.roboto(
                               color: Colors.white,
-                              fontSize: isTablet? 18 : width <= 330 ? 12 : 15,fontWeight: FontWeight.w600),
+                              fontSize: isTablet
+                                  ? 18
+                                  : width <= 330
+                                      ? 12
+                                      : 15,
+                              fontWeight: FontWeight.w600),
                         )),
                 //Text('*Your photo should be friendly and head shot. Clearly identitifiable as you.',maxLines: 2,)
               ],
@@ -182,7 +191,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                       '*Your photo should be friendly and head shot. Clearly identitifiable as you.',
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(fontSize:isTablet?14 :  12),
+                      style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
                     ))
               ],
             ),
@@ -206,7 +215,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
             child: Text(
           'Personal Info',
           style: GoogleFonts.poppins(
-              fontSize: isTablet? 15 : width<=330? 11 : 12,
+              fontSize: isTablet
+                  ? 15
+                  : width <= 330
+                      ? 11
+                      : 12,
               color: index == 1 ? Colors.white : Colors.black,
               fontWeight: index == 1 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -236,7 +249,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
             child: Text(
           'Company Info',
           style: GoogleFonts.poppins(
-              fontSize: isTablet? 15 : width<=330? 11 : 12,
+              fontSize: isTablet
+                  ? 15
+                  : width <= 330
+                      ? 11
+                      : 12,
               color: index == 2 ? Colors.white : Colors.black,
               fontWeight: index == 2 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -259,7 +276,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
             child: Text(
           'User Info',
           style: GoogleFonts.poppins(
-              fontSize: isTablet? 15 : width<=330? 11 : 12,
+              fontSize: isTablet
+                  ? 15
+                  : width <= 330
+                      ? 11
+                      : 12,
               color: index == 3 ? Colors.white : Colors.black,
               fontWeight: index == 3 ? FontWeight.w600 : FontWeight.normal),
         )),
@@ -288,7 +309,6 @@ class _DoctorProfileState extends State<DoctorProfile> {
         title: Text(
           "My Profile",
         ),
-
       ),
       body: SingleChildScrollView(
         child: Stack(

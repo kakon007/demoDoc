@@ -47,14 +47,12 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
     bool isMobile = Responsive.isMobile(context);
     var changePassViewModel = Provider.of<PasswordChangeViewModel>(context);
     var width = MediaQuery.of(context).size.width * 0.44;
-    var deviceWidth = MediaQuery.of(context).size.width ;
+    var deviceWidth = MediaQuery.of(context).size.width;
     var uploadFromGallery = Container(
       height: 50,
       width: deviceWidth,
-      decoration: BoxDecoration(color: Colors.white,
-      borderRadius: BorderRadius.circular(10)
-      ),
-      
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -62,7 +60,11 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
           children: [
             SizedBox(),
             Text('Upload from gallery'),
-           Image.asset(uploadImageIcon,width: 25,cacheWidth: 25,),
+            Image.asset(
+              uploadImageIcon,
+              width: 25,
+              cacheWidth: 25,
+            ),
             // Icon(Icons.image,color: HexColor('#ECECEC'),)
           ],
         ),
@@ -71,10 +73,8 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
     var takeAPhoto = Container(
       height: 50,
       width: deviceWidth,
-      decoration: BoxDecoration(color: Colors.white,
-          borderRadius: BorderRadius.circular(10)
-      ),
-
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -82,7 +82,10 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
           children: [
             SizedBox(),
             Text('Take a photo'),
-            Icon(Icons.camera_alt,color:HexColor('#ECECEC'),)
+            Icon(
+              Icons.camera_alt,
+              color: HexColor('#ECECEC'),
+            )
           ],
         ),
       ),
@@ -93,25 +96,22 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
         child: AlertDialog(
           backgroundColor: Colors.transparent,
           insetPadding: EdgeInsets.symmetric(
-              horizontal:
-              isTablet ? deviceWidth * .1 : deviceWidth* .1),
+              horizontal: isTablet ? deviceWidth * .1 : deviceWidth * .1),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           contentPadding: EdgeInsets.only(top: 10.0),
           content: Container(
             color: Colors.transparent,
-            constraints: BoxConstraints(
-              minHeight: 0
-
-            ),
-
+            constraints: BoxConstraints(minHeight: 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 uploadFromGallery,
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 takeAPhoto,
                 //SizedBox(height: 10,),
               ],

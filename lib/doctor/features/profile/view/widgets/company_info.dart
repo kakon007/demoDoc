@@ -40,8 +40,8 @@ class _CompanyInfoState extends State<CompanyInfo> {
         width: width,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: HexColor("#FFFFFF"),
-            border: Border.all(color: HexColor('#AFBBFF'))
+          color: Color(0xffF9F9F9),
+            //border: Border.all(color: HexColor('#AFBBFF'))
             // boxShadow: [
             //   BoxShadow(
             //     color: HexColor("#0D1231").withOpacity(0.08),
@@ -56,9 +56,12 @@ class _CompanyInfoState extends State<CompanyInfo> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
+             // "Aalok",
               companyInfoVm.isLoading
                   ? ''
-                  : companyInfoVm.details.companyList.first?.compnayName ?? '',style: GoogleFonts.poppins(),
+                  : companyInfoVm.details.companyList.first?.compnayName ?? '',
+
+              style: GoogleFonts.poppins(),
             ),
           ),
         ),
@@ -75,10 +78,11 @@ class _CompanyInfoState extends State<CompanyInfo> {
       child: Container(
         height: 50,
         width: width,
+
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: HexColor("#FFFFFF"),
-            border: Border.all(color: HexColor('#AFBBFF'))
+          color: Color(0xffF9F9F9),
+          //border: Border.all(color: HexColor('#AFBBFF'))
             // boxShadow: [
             //   BoxShadow(
             //     color: HexColor("#0D1231").withOpacity(0.08),
@@ -93,10 +97,13 @@ class _CompanyInfoState extends State<CompanyInfo> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
+            // "Dhaka",
               companyInfoVm.isLoading
                   ? ''
                   : companyInfoVm.details.companyList.first?.compnayAddress1 ??
-                      '',style: GoogleFonts.poppins(),
+                      '',
+
+              style: GoogleFonts.poppins(),
             ),
           ),
         ),

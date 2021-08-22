@@ -58,13 +58,13 @@ class _AppointmentReportState extends State<AppointmentReport> {
               fontSize: isTablet
                   ? 18
                   : width <= 330
-                      ? 13
+                      ? 12
                       : 16,
               fontWeight: FontWeight.w500),
         ),
         Container(
-          height: 45,
-          width: width <= 330 ? 110 : 140,
+          height: width<=330? 35 : 45,
+          width: isTablet? 160 : width <= 330 ? 110 : 140,
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(
@@ -86,7 +86,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                             ? 12
                             : 14,
                     color: Colors.black,
-                    fontWeight: FontWeight.w500),
+                ),
               ),
               SizedBox(
                 width: 20,
@@ -114,13 +114,13 @@ class _AppointmentReportState extends State<AppointmentReport> {
               fontSize: isTablet
                   ? 18
                   : width <= 330
-                      ? 13
+                      ? 12
                       : 16,
               fontWeight: FontWeight.w500),
         ),
         Container(
-          height: 45,
-          width: width <= 330 ? 110 : 140,
+          height: width<=330? 35 : 45,
+          width: isTablet? 160 : width <= 330 ? 110 : 140,
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(
@@ -142,7 +142,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                             ? 12
                             : 14,
                     color: Colors.black,
-                    fontWeight: FontWeight.w500),
+                    ),
               ),
               SizedBox(
                 width: 20,
@@ -163,11 +163,11 @@ class _AppointmentReportState extends State<AppointmentReport> {
     );
     var shiftHeading = Text(
       'Shift:',
-      style: GoogleFonts.poppins(fontSize: isTablet? 17 : 14),
+      style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<=330? 12 : 16),
     );
     var shiftList = Expanded(
       child: Container(
-        height: 40,
+        height: width<=330? 35 : 40,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: 3,
@@ -194,8 +194,8 @@ class _AppointmentReportState extends State<AppointmentReport> {
                             child: Row(
                               children: [
                                 Container(
-                                  height: 20,
-                                  width: 20,
+                                  height: width<=330? 15 : 20,
+                                  width: width<=330? 15 : 20,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
                                       border: Border.all(color: Colors.white),
@@ -212,7 +212,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                       : index == 1
                                           ? "Morning"
                                           : "Evening",
-                                  style: GoogleFonts.poppins(fontSize: isTablet? 17 :14),
+                                  style: GoogleFonts.poppins(fontSize: isTablet? 17 : width<=330? 12 : 14),
                                 ),
                               ],
                             ),
@@ -252,6 +252,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
         padding: const EdgeInsets.only(left: 10.0, right: 10),
         child: Column(
           children: [
+            spaceBetween,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [fromDate, SizedBox(), toDate],
@@ -260,17 +261,20 @@ class _AppointmentReportState extends State<AppointmentReport> {
             Row(
               children: [shiftHeading, shiftList],
             ),
-            spaceBetween,
-            spaceBetween,
+            width<=330? SizedBox() : spaceBetween,
+            width<=330? SizedBox() :  spaceBetween,
             viewButton,
             spaceBetween,
-            spaceBetween
+            width<=330? SizedBox() :  spaceBetween
           ],
         ),
       ),
     );
     var widthSpace = SizedBox(
       width: 5,
+    );
+    var widthSpaceTab = SizedBox(
+      width: 10,
     );
     return Scaffold(
       backgroundColor: AppTheme.dashboardBackgroundColor,
@@ -287,7 +291,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spaceBetween,
-              spaceBetween,
+              width<=330?  SizedBox() : spaceBetween,
               dateSection,
               spaceBetween,
               ListView.builder(
@@ -297,7 +301,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                   itemBuilder: (context, index) {
                     var indexInc = ++index;
                     return Container(
-                        constraints: BoxConstraints(minHeight: 80),
+                        constraints: BoxConstraints(minHeight: width<=330? 60 : 80),
                         margin: EdgeInsets.only(top: 5, bottom: 5),
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -306,7 +310,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                           children: [
                             Container(
                                 constraints:
-                                    BoxConstraints(minHeight: 90, minWidth: 60),
+                                    BoxConstraints(minHeight: width<=330? 70 : 90, minWidth: 60),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                     color: AppTheme.buttonActiveColor),
@@ -317,18 +321,18 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                         : indexInc.toString(),
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
-                                        fontSize: 20,
+                                        fontSize: isTablet? 20 :  width<=330? 15 : 17 ,
                                         fontWeight: FontWeight.w600),
                                   ),
                                 )),
                             Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding:  EdgeInsets.only(left: isTablet ? 25 : 10.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Zia Uddin Arman',
-                                    style: GoogleFonts.poppins(fontSize: isTablet? 16 : 14,
+                                    style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<=330? 12 :  14,
                                         fontWeight: FontWeight.w600),
                                   ),
                                   Row(
@@ -342,10 +346,11 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                         child: Text(
                                           'MH22012014368',
                                           style:
-                                              GoogleFonts.poppins(fontSize: isTablet? 14: 11),
+                                              GoogleFonts.poppins(fontSize: isTablet? 16: 11),
                                         ),
                                       ),
                                       widthSpace,
+                                      isTablet? widthSpaceTab : SizedBox(),
                                       Container(
                                         width: 1,
                                         constraints:
@@ -353,12 +358,14 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                         color: AppTheme.buttonActiveColor,
                                       ),
                                       widthSpace,
+                                      isTablet? widthSpaceTab : SizedBox(),
                                       Text(
                                         '2nd Follow Up',
                                         style:
-                                            GoogleFonts.poppins(fontSize:isTablet? 14 : 11),
+                                            GoogleFonts.poppins(fontSize:isTablet? 16 : 11),
                                       ),
                                       widthSpace,
+                                      isTablet? widthSpaceTab : SizedBox(),
                                       width > 330
                                           ? Container(
                                               width: 1,
@@ -368,6 +375,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                             )
                                           : SizedBox(),
                                       width > 330 ? widthSpace : SizedBox(),
+                                      isTablet? widthSpaceTab : SizedBox(),
                                       width > 330
                                           ? Container(
                                               constraints:
@@ -375,11 +383,12 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                               child: Text(
                                                 '08/08/2021',
                                                 style: GoogleFonts.poppins(
-                                                    fontSize: isTablet? 14 : 11),
+                                                    fontSize: isTablet? 16 : 11),
                                               ),
                                             )
                                           : SizedBox(),
                                       widthSpace,
+                                      isTablet? widthSpaceTab : SizedBox(),
                                       isTablet
                                           ? Container(
                                               width: 1,
@@ -389,6 +398,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                             )
                                           : SizedBox(),
                                       widthSpace,
+                                      isTablet? widthSpaceTab : SizedBox(),
                                       isTablet
                                           ? Container(
                                               constraints:

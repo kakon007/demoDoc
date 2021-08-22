@@ -346,7 +346,7 @@ class _WorklistState extends State<Worklist> {
               ),
               SizedBox(),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0),
+                padding: const EdgeInsets.only(right: 15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

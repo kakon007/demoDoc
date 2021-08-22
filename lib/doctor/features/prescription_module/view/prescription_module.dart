@@ -26,7 +26,21 @@ class _ModuleState extends State<Module> {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
-            PrescriptionCommonWidget(),
+            PrescriptionCommonWidget(
+              title: "Chief Complaint",
+            ),
+            PrescriptionCommonWidget(
+              title: "Symptoms & Disease",
+            ),
+            PrescriptionCommonWidget(
+              title: "Investigations",
+            ),
+            PrescriptionCommonWidget(
+              title: "Medications",
+            ),
+            PrescriptionCommonWidget(
+              title: "Advice & Others",
+            ),
             // Card3(),
           ],
         ),

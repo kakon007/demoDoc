@@ -83,6 +83,8 @@ class PrescriptionCommonWidget extends StatelessWidget {
                                   activeTextColor: Colors.white,
                                   inactiveText: "Show",
                                   valueFontSize: 12,
+                                  activeColor: Color(0xff55CFA6),
+                                  inactiveColor: Color(0xffB1B1B1),
                                   showOnOff: true,
                                   height: 22,
                                   width: 60,

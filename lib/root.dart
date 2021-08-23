@@ -64,13 +64,13 @@ class _RootState extends State<Root> {
               : Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) =>
                       // DoctorHomeScreen(
-                      // HomeScreen(
-                      //   accessToken: accessToken,
-                      //   connection: connection,
-                      // )
+                      HomeScreen(
+                        accessToken: accessToken,
+                        connection: connection,
+                      )
                   //PrescriptionTemplatesPopup()
 
-              EmrScreen(),
+              //EmrScreen(),
                   ));
         } else if (vm5.accessToken == accessToken) {
           Future.delayed(Duration(microseconds: 500));
@@ -80,13 +80,13 @@ class _RootState extends State<Root> {
               : Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) =>
                       //DoctorHomeScreen(
-                      // HomeScreen(
-                      //   accessToken: accessToken,
-                      //   connection: connection,
-                      // )
+                      HomeScreen(
+                        accessToken: accessToken,
+                        connection: connection,
+                      )
                   //PrescriptionTemplatesPopup()
 
-                  EmrScreen(),
+                  //EmrScreen(),
                   ));
         } else {
           Provider.of<AccessTokenProvider>(context, listen: false).signOut();
@@ -99,11 +99,11 @@ class _RootState extends State<Root> {
               : Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) =>
                       //DoctorHomeScreen(
-                      // HomeScreen(
-                      //     accessToken: accessToken, connection: connection)
+                      HomeScreen(
+                          accessToken: accessToken, connection: connection)
                   //PrescriptionTemplatesPopup()
 
-                  EmrScreen(),
+                  //EmrScreen(),
                   ));
         });
       }

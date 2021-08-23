@@ -4,18 +4,18 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:provider/provider.dart';
 
-class ChiefComplaintViewModel extends ChangeNotifier {
-  static ChiefComplaintViewModel read(BuildContext context) =>
-      context.read<ChiefComplaintViewModel>();
-  static ChiefComplaintViewModel watch(BuildContext context) =>
-      context.watch<ChiefComplaintViewModel>();
+class PastIllnessViewModel extends ChangeNotifier {
+  static PastIllnessViewModel read(BuildContext context) =>
+      context.read<PastIllnessViewModel>();
+  static PastIllnessViewModel watch(BuildContext context) =>
+      context.watch<PastIllnessViewModel>();
   bool shouldShowInReport;
   List<FavouriteItemModel> favouriteList = [];
   List searchItemList = [];
   List chiefComplaintList = [];
 
   Future<void> getData() async {
-    var res = await ChiefComplaintsRepository().fetchFavouriteList(favouriteType: PrescriptionFavouriteType.chiefComplaint.toString());
+    var res = await ChiefComplaintsRepository().fetchFavouriteList(favouriteType: PrescriptionFavouriteType.pastIllness.toString());
     favouriteList = res.items;
     notifyListeners();
     return;

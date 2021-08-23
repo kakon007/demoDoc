@@ -2,6 +2,8 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/clinical_history_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'dart:math' as math;
 
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
@@ -40,6 +42,8 @@ class _ModuleState extends State<Module> {
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
             ChiefComplaintWidget(),
+            ClinicalHistoryWidget(),
+            PastIllnessWidget(),
           ],
         ),
       ),

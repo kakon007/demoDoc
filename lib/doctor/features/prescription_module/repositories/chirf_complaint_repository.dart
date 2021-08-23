@@ -3,11 +3,11 @@ import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart'
 import 'package:myhealthbd_app/main_app/api_client.dart';
 
 class ChiefComplaintsRepository {
-  Future<FavouriteListModel> fetchFavouriteList({var accessToken}) async {
+  Future<FavouriteListModel> fetchFavouriteList({var favouriteType}) async {
     try {
       var response = await ApiClient().postRequest(
           "prescription-service-api/api/favourites/list", {
-        "favouriteType": PrescriptionFavouriteType.chiefComplaint.toString()
+        "favouriteType": favouriteType
       });
       print(response.statusCode);
       if (response.statusCode == 200) {

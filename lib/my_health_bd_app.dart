@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view_model/prescription_list_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
@@ -53,58 +54,90 @@ class MyHealthBdApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var providers = [
-      ChangeNotifierProvider<FilterViewModel>(create: (context) => FilterViewModel()),
-      ChangeNotifierProvider<HospitalListViewModel>(create: (context) => HospitalListViewModel()),
-      ChangeNotifierProvider<NewsViewModel>(create: (context) => NewsViewModel()),
-      ChangeNotifierProvider<DoctorListViewModel>(create: (context) => DoctorListViewModel()),
+      ChangeNotifierProvider<FilterViewModel>(
+          create: (context) => FilterViewModel()),
+      ChangeNotifierProvider<HospitalListViewModel>(
+          create: (context) => HospitalListViewModel()),
+      ChangeNotifierProvider<NewsViewModel>(
+          create: (context) => NewsViewModel()),
+      ChangeNotifierProvider<DoctorListViewModel>(
+          create: (context) => DoctorListViewModel()),
       ChangeNotifierProvider<AvailableSlotsViewModel>(
           create: (context) => AvailableSlotsViewModel()),
       ChangeNotifierProvider<PrescriptionListViewModel>(
           create: (context) => PrescriptionListViewModel()),
-      ChangeNotifierProvider<VideoViewModel>(create: (context) => VideoViewModel()),
-      ChangeNotifierProvider<UserDetailsViewModel>(create: (context) => UserDetailsViewModel()),
-      ChangeNotifierProvider<BLogViewModel>(create: (context) => BLogViewModel()),
-      ChangeNotifierProvider<HospitalLogoViewModel>(create: (context) => HospitalLogoViewModel()),
-      ChangeNotifierProvider<HospitalImageViewModel>(create: (context) => HospitalImageViewModel()),
-      ChangeNotifierProvider<NewsLogoViewModel>(create: (context) => NewsLogoViewModel()),
-      ChangeNotifierProvider<BLogLogoViewModel>(create: (context) => BLogLogoViewModel()),
+      ChangeNotifierProvider<VideoViewModel>(
+          create: (context) => VideoViewModel()),
+      ChangeNotifierProvider<UserDetailsViewModel>(
+          create: (context) => UserDetailsViewModel()),
+      ChangeNotifierProvider<BLogViewModel>(
+          create: (context) => BLogViewModel()),
+      ChangeNotifierProvider<HospitalLogoViewModel>(
+          create: (context) => HospitalLogoViewModel()),
+      ChangeNotifierProvider<HospitalImageViewModel>(
+          create: (context) => HospitalImageViewModel()),
+      ChangeNotifierProvider<NewsLogoViewModel>(
+          create: (context) => NewsLogoViewModel()),
+      ChangeNotifierProvider<BLogLogoViewModel>(
+          create: (context) => BLogLogoViewModel()),
       ChangeNotifierProvider<PasswordChangeViewModel>(
           create: (context) => PasswordChangeViewModel()),
-      ChangeNotifierProvider<AuthViewModel>(create: (context) => AuthViewModel()),
+      ChangeNotifierProvider<AuthViewModel>(
+          create: (context) => AuthViewModel()),
       ChangeNotifierProvider<BookAppointmentViewModel>(
           create: (context) => BookAppointmentViewModel()),
-      ChangeNotifierProvider<SignOutViewModel>(create: (context) => SignOutViewModel()),
-      ChangeNotifierProvider<SignUpViewModel>(create: (context) => SignUpViewModel()),
+      ChangeNotifierProvider<SignOutViewModel>(
+          create: (context) => SignOutViewModel()),
+      ChangeNotifierProvider<SignUpViewModel>(
+          create: (context) => SignUpViewModel()),
       ChangeNotifierProvider<AppointmentUpcomingViewModel>(
           create: (context) => AppointmentUpcomingViewModel()),
       ChangeNotifierProvider<AppointmentPreviousViewModel>(
           create: (context) => AppointmentPreviousViewModel()),
-      ChangeNotifierProvider<ZoomViewModel>(create: (context) => ZoomViewModel()),
-      ChangeNotifierProvider<UserImageViewModel>(create: (context) => UserImageViewModel()),
-      ChangeNotifierProvider<RelationShipViewModel>(create: (context) => RelationShipViewModel()),
+      ChangeNotifierProvider<ZoomViewModel>(
+          create: (context) => ZoomViewModel()),
+      ChangeNotifierProvider<UserImageViewModel>(
+          create: (context) => UserImageViewModel()),
+      ChangeNotifierProvider<RelationShipViewModel>(
+          create: (context) => RelationShipViewModel()),
       ChangeNotifierProvider<RegisteredMemberViewModel>(
           create: (context) => RegisteredMemberViewModel()),
       ChangeNotifierProvider<FamilyMembersListViewModel>(
           create: (context) => FamilyMembersListViewModel()),
-      ChangeNotifierProvider<ReportViewModel>(create: (context) => ReportViewModel()),
-      ChangeNotifierProvider<DocumentViewModel>(create: (context) => DocumentViewModel()),
-      ChangeNotifierProvider<FileTypeViewModel>(create: (context) => FileTypeViewModel()),
+      ChangeNotifierProvider<ReportViewModel>(
+          create: (context) => ReportViewModel()),
+      ChangeNotifierProvider<DocumentViewModel>(
+          create: (context) => DocumentViewModel()),
+      ChangeNotifierProvider<FileTypeViewModel>(
+          create: (context) => FileTypeViewModel()),
       ChangeNotifierProvider<UploadDocumentsViewModel>(
           create: (context) => UploadDocumentsViewModel()),
-      ChangeNotifierProvider<ViewDocumentViewModel>(create: (context) => ViewDocumentViewModel()),
+      ChangeNotifierProvider<ViewDocumentViewModel>(
+          create: (context) => ViewDocumentViewModel()),
       ChangeNotifierProvider<NearestAppointmentViewModel>(
           create: (context) => NearestAppointmentViewModel()),
-      ChangeNotifierProvider<SharedFileViewModel>(create: (context) => SharedFileViewModel()),
-      ChangeNotifierProvider<SearchDoctorViewModel>(create: (context) => SearchDoctorViewModel()),
-      ChangeNotifierProvider<ResetPasswordViewModel>(create: (context) => ResetPasswordViewModel()),
+      ChangeNotifierProvider<SharedFileViewModel>(
+          create: (context) => SharedFileViewModel()),
+      ChangeNotifierProvider<SearchDoctorViewModel>(
+          create: (context) => SearchDoctorViewModel()),
+      ChangeNotifierProvider<ResetPasswordViewModel>(
+          create: (context) => ResetPasswordViewModel()),
       ChangeNotifierProvider<NearestHospitalViewModel>(
           create: (context) => NearestHospitalViewModel()),
-      ChangeNotifierProvider<NotificationViewModel>(create: (context) => NotificationViewModel()),
-      ChangeNotifierProvider<TermsViewModel>(create: (context) => TermsViewModel()),
-      ChangeNotifierProvider<PolicyViewModel>(create: (context) => PolicyViewModel()),
-      ChangeNotifierProvider<DoctorProfileViewModel>(create: (context) => DoctorProfileViewModel()),
-      ChangeNotifierProvider<PrescriptionTamplateViewModel>(create: (context) => PrescriptionTamplateViewModel()),
-      ChangeNotifierProvider<WorkListViewModel>(create: (context) => WorkListViewModel()),
+      ChangeNotifierProvider<NotificationViewModel>(
+          create: (context) => NotificationViewModel()),
+      ChangeNotifierProvider<TermsViewModel>(
+          create: (context) => TermsViewModel()),
+      ChangeNotifierProvider<PolicyViewModel>(
+          create: (context) => PolicyViewModel()),
+      ChangeNotifierProvider<DoctorProfileViewModel>(
+          create: (context) => DoctorProfileViewModel()),
+      ChangeNotifierProvider<PrescriptionTamplateViewModel>(
+          create: (context) => PrescriptionTamplateViewModel()),
+      ChangeNotifierProvider<WorkListViewModel>(
+          create: (context) => WorkListViewModel()),
+      ChangeNotifierProvider<ChiefComplaintViewModel>(
+          create: (context) => ChiefComplaintViewModel()),
       ChangeNotifierProvider<PrescriptionListDocViewModel>(create: (context) => PrescriptionListDocViewModel()),
     ];
     return AuthViewWrapper(

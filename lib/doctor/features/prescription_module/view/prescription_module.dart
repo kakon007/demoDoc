@@ -40,19 +40,6 @@ class _ModuleState extends State<Module> {
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
             ChiefComplaintWidget(),
-            // PrescriptionCommonWidget(
-            //   title: "Symptoms & Disease",
-            // ),
-            // PrescriptionCommonWidget(
-            //   title: "Investigations",
-            // ),
-            // PrescriptionCommonWidget(
-            //   title: "Medications",
-            // ),
-            // PrescriptionCommonWidget(
-            //   title: "Advice & Others",
-            // ),
-            // Card3(),
           ],
         ),
       ),

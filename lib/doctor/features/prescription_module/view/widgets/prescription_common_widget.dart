@@ -70,16 +70,23 @@ class PrescriptionCommonWidget extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               children: [
-                                Text("Show in Report"),
-                                SizedBox(
-                                  width: 10,
-                                ),
                                 FlutterSwitch(
-                                  height: 20,
-                                  width: 40,
-                                  toggleSize: 12,
+                                  activeText: "Hide",
+                                  activeTextFontWeight: FontWeight.normal,
+                                  inactiveTextColor: Colors.white,
+                                  inactiveTextFontWeight: FontWeight.normal,
+                                  activeTextColor: Colors.white,
+                                  inactiveText: "Show",
+                                  valueFontSize: 12,
+                                  showOnOff: true,
+                                  height: 22,
+                                  width: 60,
+                                  toggleSize: 17,
                                   value: showReport,
                                   onToggle: onChangeShowReport,
                                 ),

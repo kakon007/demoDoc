@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class ChiefComplaintWidget extends StatefulWidget {
   const ChiefComplaintWidget({Key key}) : super(key: key);
@@ -12,6 +15,8 @@ class ChiefComplaintWidget extends StatefulWidget {
 
 class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   bool showReport = false;
+  TextEditingController controller = TextEditingController();
+  List<String> selectedItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -30,37 +35,75 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
           padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 10, right: 10),
           child: Column(
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Chief Complaint",
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: AppTheme.buttonActiveColor,
-                  ),
-                  suffixIcon:
-                      Icon(Icons.check, color: AppTheme.buttonActiveColor),
+              TypeAheadFormField<String>(
+                textFieldConfiguration: TextFieldConfiguration(
+                    textInputAction: TextInputAction.search,
+                    controller: controller,
+                    // focusNode: focusNode,
+                    decoration: InputDecoration(
+                      hintText: "Chief Complaint",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: AppTheme.buttonActiveColor,
+                      ),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            selectedItems.add(controller.text);
+                            controller.clear();
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.check,
+                              color: AppTheme.buttonActiveColor)),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor)),
+                    )),
+                itemBuilder: (_, v) {
+                  return Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text("$v"),
+                  );
+                },
+                onSuggestionSelected: (v) {
+                  selectedItems.add(v);
+                  setState(() {});
+                },
+                suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
                 ),
+                suggestionsCallback: (v) {
+                  return PreDiagnosisSearchRepository().fetchSearchList(v);
+                },
+                // noItemsFoundBuilder: noItemsFoundBuilder ??
+                //     (context) {
+                //       return SizedBox();
+                //     },
               ),
-              Container(
-                height: 150,
-                child: ListView.builder(
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return index < 3
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("search $index"),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Add 'Pain' to favourites",
-                              style:
-                                  TextStyle(color: AppTheme.buttonActiveColor),
-                            ),
-                          );
-                  },
-                ),
+              // TextField(
+              //   decoration: InputDecoration(
+              //     hintText: "Chief Complaint",
+              //     prefixIcon: Icon(
+              //       Icons.search,
+              //       color: AppTheme.buttonActiveColor,
+              //     ),
+              //     suffixIcon:
+              //         Icon(Icons.check, color: AppTheme.buttonActiveColor),
+              //   ),
+              // ),
+              SizedBox(
+                height: 100,
+              ),
+              Wrap(
+                children: List.generate(
+                    selectedItems.length,
+                    (index) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("${selectedItems[index]}"),
+                        )),
               ),
               Container(
                 child: Column(

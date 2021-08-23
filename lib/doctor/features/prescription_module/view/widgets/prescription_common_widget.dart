@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 
-class PrescriptionCommonWidget extends StatelessWidget {
+class PrescriptionCommonWidget extends StatefulWidget {
   final String title;
   final Widget expandedWidget;
   final Function(bool value) onChangeShowReport;
@@ -21,9 +21,80 @@ class PrescriptionCommonWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _PrescriptionCommonWidgetState createState() =>
+      _PrescriptionCommonWidgetState();
+}
+
+class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
+  ExpandableController controller = ExpandableController(initialExpanded: true);
+  bool isExpanded = true;
+  @override
   Widget build(BuildContext context) {
+    return Material(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            isExpanded = !isExpanded;
+          });
+        },
+        child: Column(
+          children: [
+            Material(
+              color: Colors.blue,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "${widget.title}",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    isExpanded
+                        ? Icon(
+                            Icons.remove,
+                            size: 30,
+                          )
+                        : Icon(
+                            Icons.add,
+                            size: 30,
+                            color: Colors.grey,
+                          )
+                  ],
+                ),
+              ),
+            ),
+            AnimatedSwitcher(
+              switchInCurve: Curves.easeIn,
+              duration: const Duration(milliseconds: 200),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return SizeTransition(child: child, sizeFactor: animation);
+              },
+              child: Container(
+                key: Key(isExpanded.toString()),
+                child: isExpanded
+                    ? Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: widget.expandedWidget,
+                            ),
+                          ],
+                        ),
+                      )
+                    : SizedBox(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
     return ExpandableNotifier(
-        initialExpanded: true,
+        controller: controller,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: ScrollOnExpand(
@@ -32,7 +103,8 @@ class PrescriptionCommonWidget extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   ExpandablePanel(
-                    theme: const ExpandableThemeData(
+                    controller: controller,
+                    theme: ExpandableThemeData(
                       headerAlignment: ExpandablePanelHeaderAlignment.center,
                       tapBodyToExpand: true,
                       tapBodyToCollapse: true,
@@ -48,7 +120,7 @@ class PrescriptionCommonWidget extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    title,
+                                    widget.title,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
@@ -89,8 +161,8 @@ class PrescriptionCommonWidget extends StatelessWidget {
                                   height: 22,
                                   width: 60,
                                   toggleSize: 17,
-                                  value: showReport,
-                                  onToggle: onChangeShowReport,
+                                  value: widget.showReport,
+                                  onToggle: widget.onChangeShowReport,
                                 ),
                               ],
                             ),
@@ -99,7 +171,7 @@ class PrescriptionCommonWidget extends StatelessWidget {
                       ),
                     ),
                     collapsed: Container(),
-                    expanded: expandedWidget,
+                    expanded: widget.expandedWidget,
                   ),
                 ],
               ),

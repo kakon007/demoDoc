@@ -35,21 +35,14 @@ class _ModuleState extends State<Module> {
       appBar: AppBar(
         title: Text("Prescription Module"),
       ),
-      body: ExpandableTheme(
-        data: const ExpandableThemeData(
-          tapHeaderToExpand: true,
-          iconColor: Colors.blue,
-          useInkWell: false,
-        ),
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          children: <Widget>[
-            ChiefComplaintWidget(),
-            ProvisionalDiagnosisWidget(),
-            DiseaseWidget(),
-            InvestigationWidget(),
-          ],
-        ),
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          ChiefComplaintWidget(),
+          ProvisionalDiagnosisWidget(),
+          DiseaseWidget(),
+          InvestigationWidget(),
+        ],
       ),
     );
   }

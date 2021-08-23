@@ -4,6 +4,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 //import 'package:dartz/dartz_streaming.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/emr_screen/view/emr_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -63,11 +64,13 @@ class _RootState extends State<Root> {
               : Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) =>
                       // DoctorHomeScreen(
-                      HomeScreen(
-                        accessToken: accessToken,
-                        connection: connection,
-                      )
+                      // HomeScreen(
+                      //   accessToken: accessToken,
+                      //   connection: connection,
+                      // )
                   //PrescriptionTemplatesPopup()
+
+              EmrScreen(),
                   ));
         } else if (vm5.accessToken == accessToken) {
           Future.delayed(Duration(microseconds: 500));
@@ -77,11 +80,13 @@ class _RootState extends State<Root> {
               : Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) =>
                       //DoctorHomeScreen(
-                      HomeScreen(
-                        accessToken: accessToken,
-                        connection: connection,
-                      )
+                      // HomeScreen(
+                      //   accessToken: accessToken,
+                      //   connection: connection,
+                      // )
                   //PrescriptionTemplatesPopup()
+
+                  EmrScreen(),
                   ));
         } else {
           Provider.of<AccessTokenProvider>(context, listen: false).signOut();
@@ -94,9 +99,11 @@ class _RootState extends State<Root> {
               : Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) =>
                       //DoctorHomeScreen(
-                      HomeScreen(
-                          accessToken: accessToken, connection: connection)
+                      // HomeScreen(
+                      //     accessToken: accessToken, connection: connection)
                   //PrescriptionTemplatesPopup()
+
+                  EmrScreen(),
                   ));
         });
       }

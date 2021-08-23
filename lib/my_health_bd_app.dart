@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myhealthbd_app/doctor/features/emr_screen/view_model/prescription_list_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
@@ -104,6 +105,7 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<DoctorProfileViewModel>(create: (context) => DoctorProfileViewModel()),
       ChangeNotifierProvider<PrescriptionTamplateViewModel>(create: (context) => PrescriptionTamplateViewModel()),
       ChangeNotifierProvider<WorkListViewModel>(create: (context) => WorkListViewModel()),
+      ChangeNotifierProvider<PrescriptionListDocViewModel>(create: (context) => PrescriptionListDocViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

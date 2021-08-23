@@ -1,20 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:myhealthbd_app/doctor/features/emr_screen/models/prescription_list_model.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/repositories/prescription_list_repository.dart';
-import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
-//import 'package:myhealthbd_app/features/find_doctor/models/doctors_list_model.dart';
-import 'package:myhealthbd_app/features/hospitals/models/hospital_list_model.dart';
-import 'package:myhealthbd_app/features/my_health/models/prescription_list_model.dart';
-import 'package:myhealthbd_app/features/my_health/repositories/prescription_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
-import 'package:myhealthbd_app/main_app/util/common_serviec_rule.dart';
-import 'package:provider/provider.dart';
 
 
 
-class PrescriptionListViewModel extends ChangeNotifier{
-  List<dynamic> _prescriptionList =[];
+
+class PrescriptionListDocViewModel extends ChangeNotifier{
+  List<Datum> _prescriptionList =[];
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
@@ -49,7 +43,7 @@ class PrescriptionListViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData(String accessToken) async {
+  Future<bool> getData({String accessToken}) async {
     // CacheRepositories.loadCachedPrescriptionList(0).then((value){
     //   if(value!=null){
     //     _prescriptionList=value.obj.data;
@@ -100,7 +94,7 @@ class PrescriptionListViewModel extends ChangeNotifier{
 
         hasMoreData = r.totalCount-1>startIndex+limit;
         isFetchingMoreData = false;
-        _prescriptionList.addAll(r.datafromprescriptionList);
+        _prescriptionList.addAll(r.datafromprescriptionList.cast<Datum>());
         count = r.totalCount;
         notifyListeners();
         return true;
@@ -109,17 +103,17 @@ class PrescriptionListViewModel extends ChangeNotifier{
   }
 
 
-  Future<bool> refresh(String accessToke) async {
+  Future<bool> refresh(String accessToken) async {
     _pageCount = 1;
     notifyListeners();
-    return getData(accessToke);
+    return getData(accessToken:accessToken);
   }
   search(String query,String accessToken) {
     _prescriptionList.clear();
     _pageCount = 1;
     searchQuery = query;
     print("Searching for: $query");
-    getData(accessToken);
+    getData(accessToken:accessToken);
   }
 
   toggleIsInSearchMode(String accessToken) {
@@ -128,7 +122,7 @@ class PrescriptionListViewModel extends ChangeNotifier{
     resetPageCounter();
     if (!_isInSearchMode) {
       searchQuery = "";
-      getData(accessToken);
+      getData(accessToken:accessToken);
     }
     notifyListeners();
   }
@@ -164,6 +158,6 @@ class PrescriptionListViewModel extends ChangeNotifier{
       _isFetchingData && _prescriptionList.length == 0;
 
 
-  List<dynamic> get prescriptionList => _prescriptionList;
+  List<Datum> get prescriptionList => _prescriptionList;
 
 }

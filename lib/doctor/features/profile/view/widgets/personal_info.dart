@@ -25,23 +25,57 @@ class PersonalInfo extends StatefulWidget {
 class _PersonalInfoState extends State<PersonalInfo> {
   TextEditingController _userMobile = TextEditingController();
   TextEditingController _userEmail = TextEditingController();
+  TextEditingController _doctorName = TextEditingController();
+  TextEditingController _designation = TextEditingController();
+  TextEditingController _specialization = TextEditingController();
+  TextEditingController _degree = TextEditingController();
+  TextEditingController _doctorSignature = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
   String errorText;
   bool isReadOnly = true;
+  bool isLoading = true;
 
   @override
   void initState() {
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: false);
-    _userMobile.text =
-        companyInfoVm.details?.userMobile.toString().substring(1);
-    _userEmail.text = companyInfoVm.details?.userEmail;
     isReadOnly = true;
+    Future.delayed(Duration.zero).then((value) => init());
     super.initState();
+  }
+
+  init() async {
+    await DoctorProfileViewModel.read(context).getPersonalInfo();
+    await DoctorProfileViewModel.read(context).getSpecializationName();
+    await DoctorProfileViewModel.read(context).getDesignationList();
+    var personalInfoVm = DoctorProfileViewModel.read(context);
+    var mobile = personalInfoVm.personalInfoData?.phoneMobile ?? "";
+    _userMobile.text = mobile == "" ? "" : mobile.substring(1);
+    _userEmail.text = personalInfoVm.personalInfoData?.emailPersonal ?? "";
+    _doctorName.text = personalInfoVm.personalInfoData?.doctorName ?? "";
+    _doctorSignature.text =
+        personalInfoVm.personalInfoData?.doctorSignature ?? "";
+    _degree.text = personalInfoVm.personalInfoData?.docDegree ?? "";
+    personalInfoVm.specializationName.forEach((item) {
+      if (item.id
+          .toString()
+          .contains(personalInfoVm.personalInfoData.specialityNo.toString())) {
+        _specialization.text = item.dtlName;
+        print(item.dtlName);
+      }
+    });
+    personalInfoVm.designationItems.forEach((item) {
+      if (item.jobtitleNo
+          .toString()
+          .contains(personalInfoVm.personalInfoData.jobTitleNo.toString())) {
+        _designation.text = item.jobtitle;
+        isLoading = false;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
+    var personalInfoVm = DoctorProfileViewModel.read(context);
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -71,6 +105,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       child: DoctorFormField(
         enabledBorderColor: isReadOnly ? "#AFBBFF" : "#EAEBED",
         readOnly: isReadOnly,
+        controller: _doctorName,
         validator: Validator().nullFieldValidate,
         minimizeBottomPadding: true,
         hintText: 'Enter Your Name',
@@ -123,13 +158,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
       ),
     );
     var designation =
-        // vm.isPersonalInfoEditing?
+        // personalInfoVm.isPersonalInfoEditing?
         Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4),
       child: DoctorFormField(
         validator: Validator().nullFieldValidate,
         enabledBorderColor: isReadOnly ? "#AFBBFF" : "#EAEBED",
         readOnly: isReadOnly,
+        controller: _designation,
         minimizeBottomPadding: true,
         hintText: 'Enter Your Designation',
       ),
@@ -181,13 +217,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
       ),
     );
     var specialization =
-        // vm.isPersonalInfoEditing?
+        // personalInfoVm.isPersonalInfoEditing?
         Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4),
       child: DoctorFormField(
         validator: Validator().nullFieldValidate,
         enabledBorderColor: isReadOnly ? "#AFBBFF" : "#EAEBED",
         readOnly: isReadOnly,
+        controller: _specialization,
         minimizeBottomPadding: true,
         hintText: 'Enter Your specialization',
       ),
@@ -201,7 +238,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
           ),
           Text(
-            vm.isPersonalInfoEditing ? '*' : "",
+            personalInfoVm.isPersonalInfoEditing ? '*' : "",
             style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
           ),
         ],
@@ -222,7 +259,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           ],
         ));
     var degree =
-        //vm.isDoctorInfoEditing ?
+        //personalInfoVm.isDoctorInfoEditing ?
         Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4),
       child: DoctorFormField(
@@ -231,6 +268,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         readOnly: isReadOnly,
         minimizeBottomPadding: true,
         hintText: 'Enter Degree',
+        controller: _degree,
       ),
     );
     //     : Padding(
@@ -314,7 +352,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              'A 187',
+              personalInfoVm.personalInfoData?.bdmcRegNo ?? "",
               style: GoogleFonts.poppins(),
             ),
           ),
@@ -322,7 +360,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       ),
     );
     var mobileField =
-        // vm.isPersonalInfoEditing?
+        // personalInfoVm.isPersonalInfoEditing?
         Column(
       children: [
         Container(
@@ -369,7 +407,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     //           decoration: BoxDecoration(
     //               borderRadius: BorderRadius.circular(10),
     //               border: Border.all(
-    //                   color: vm.isPersonalInfoEditing
+    //                   color: personalInfoVm.isPersonalInfoEditing
     //                       ? Colors.white
     //                       : HexColor("#AFBBFF"),
     //                   width: 1)),
@@ -425,7 +463,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     //             border: Border.all(
     //                 color: errorText != null
     //                     ? Colors.red.shade700
-    //                     : vm.isPersonalInfoEditing
+    //                     : personalInfoVm.isPersonalInfoEditing
     //                         ? Colors.white
     //                         : HexColor("#AFBBFF"),
     //                 width: 1)),
@@ -445,7 +483,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     //               width: width <= 330
     //                   ? width * .55
     //                   : MediaQuery.of(context).size.width * .67,
-    //               child: vm.isPersonalInfoEditing
+    //               child: personalInfoVm.isPersonalInfoEditing
     //                   ? TextFormField(
     //                       controller: _userMobile,
     //                       //validator: Validator().validatePhoneNumber,
@@ -540,6 +578,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         minimizeBottomPadding: true,
         hintText: 'Enter Signature',
         maxLines: 5,
+        controller: _doctorSignature,
       ),
     );
     var digitalSignatureHeading = Padding(
@@ -612,7 +651,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     );
 
     var email =
-        // vm.isPersonalInfoEditing
+        // personalInfoVm.isPersonalInfoEditing
         //     ?
         Padding(
       padding: const EdgeInsets.only(left: 4.0, right: 4),
@@ -657,7 +696,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     //       ),
     //     ),
     //   );
-    var editButton = !vm.isPersonalInfoEditing
+    var editButton = !personalInfoVm.isPersonalInfoEditing
         ? FlatButton(
             minWidth: MediaQuery.of(context).size.width,
             shape:
@@ -665,7 +704,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             color: AppTheme.buttonActiveColor,
             onPressed: () {
               setState(() {
-                vm.editingPersonalInfo(isPersonalInfoEditing: true);
+                personalInfoVm.editingPersonalInfo(isPersonalInfoEditing: true);
                 isReadOnly = false;
               });
             },
@@ -686,7 +725,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   color: AppTheme.buttonActiveColor,
                   onPressed: () {
                     setState(() {
-                      vm.editingPersonalInfo(isPersonalInfoEditing: false);
+                      personalInfoVm.editingPersonalInfo(
+                          isPersonalInfoEditing: false);
                       errorText = null;
                       isReadOnly = true;
                     });
@@ -712,7 +752,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           hospitalNo: companyInfoVm.details.name,
                           id: companyInfoVm.details.userId.toString());
                       if (companyInfoVm.resDoctorStatusCode == '200') {
-                        vm.editingPersonalInfo(isPersonalInfoEditing: false);
+                        personalInfoVm.editingPersonalInfo(
+                            isPersonalInfoEditing: false);
                       }
                     }
                   },
@@ -727,74 +768,85 @@ class _PersonalInfoState extends State<PersonalInfo> {
           );
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: HexColor("#FFFFFF"),
-                boxShadow: [
-                  BoxShadow(
-                    color: HexColor("#0D1231").withOpacity(0.08),
-                    spreadRadius: 3,
-                    blurRadius: 3,
-                    offset: Offset(3, 1), // changes position of shadow
+      child: personalInfoVm.isLoading ||
+              personalInfoVm.isSpecializationLoading ||
+              personalInfoVm.isDesignationLoading
+          ? Padding(
+              padding: const EdgeInsets.only(top: 100.0),
+              child: CircularProgressIndicator(
+                strokeWidth: 3.0,
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(AppTheme.buttonActiveColor),
+              ))
+          : Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: HexColor("#FFFFFF"),
+                      boxShadow: [
+                        BoxShadow(
+                          color: HexColor("#0D1231").withOpacity(0.08),
+                          spreadRadius: 3,
+                          blurRadius: 3,
+                          offset: Offset(3, 1), // changes position of shadow
+                        ),
+                      ]),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        spaceBetween,
+                        spaceBetween,
+                        spaceBetween,
+                        nameHeading,
+                        doctorName,
+                        spaceBetween,
+                        designationHeading,
+                        designation,
+                        spaceBetween,
+                        specializationHeading,
+                        specialization,
+                        spaceBetween,
+                        degreeHeading,
+                        degree,
+                        spaceBetween,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(),
+                            addMoreButton,
+                          ],
+                        ),
+                        bmdcNoHeading,
+                        bmdcNo,
+                        spaceBetween,
+                        doctorSignatureHeading,
+                        doctorSignature,
+                        spaceBetween,
+                        digitalSignatureHeading,
+                        digitalSignature,
+                        spaceBetween,
+                        mobileText,
+                        mobileField,
+                        spaceBetween,
+                        emailHeading,
+                        email,
+                        spaceBetween,
+                        spaceBetween,
+                      ],
+                    ),
                   ),
-                ]),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  spaceBetween,
-                  spaceBetween,
-                  spaceBetween,
-                  nameHeading,
-                  doctorName,
-                  spaceBetween,
-                  designationHeading,
-                  designation,
-                  spaceBetween,
-                  specializationHeading,
-                  specialization,
-                  spaceBetween,
-                  degreeHeading,
-                  degree,
-                  spaceBetween,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(),
-                      addMoreButton,
-                    ],
-                  ),
-                  bmdcNoHeading,
-                  bmdcNo,
-                  spaceBetween,
-                  doctorSignatureHeading,
-                  doctorSignature,
-                  spaceBetween,
-                  digitalSignatureHeading,
-                  digitalSignature,
-                  spaceBetween,
-                  mobileText,
-                  mobileField,
-                  spaceBetween,
-                  emailHeading,
-                  email,
-                  spaceBetween,
-                  spaceBetween,
-                ],
-              ),
+                ),
+                spaceBetween,
+                spaceBetween,
+                editButton
+              ],
             ),
-          ),
-          spaceBetween,
-          spaceBetween,
-          editButton
-        ],
-      ),
     );
   }
+
   void _uploadSignature(BuildContext context) {
     showDialog(
         //barrierColor: Color(0x00ffffff),

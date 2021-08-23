@@ -29,7 +29,7 @@ class PersonalInfoModel {
   dynamic id;
   dynamic model;
   dynamic items;
-  Obj obj;
+  PersonalInfoData obj;
 
   factory PersonalInfoModel.fromJson(Map<String, dynamic> json) => PersonalInfoModel(
     success: json["success"],
@@ -40,7 +40,7 @@ class PersonalInfoModel {
     id: json["id"],
     model: json["model"],
     items: json["items"],
-    obj: Obj.fromJson(json["obj"]),
+    obj: PersonalInfoData.fromJson(json["obj"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -56,8 +56,8 @@ class PersonalInfoModel {
   };
 }
 
-class Obj {
-  Obj({
+class PersonalInfoData {
+  PersonalInfoData({
     this.ssCreator,
     this.ssCreatedOn,
     this.ssCreateSession,
@@ -243,7 +243,7 @@ class Obj {
   dynamic tinNo;
   dynamic mname;
 
-  factory Obj.fromJson(Map<String, dynamic> json) => Obj(
+  factory PersonalInfoData.fromJson(Map<String, dynamic> json) => PersonalInfoData(
     ssCreator: json["ssCreator"],
     ssCreatedOn: json["ssCreatedOn"],
     ssCreateSession: json["ssCreateSession"],

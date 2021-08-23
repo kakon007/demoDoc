@@ -1,10 +1,13 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/advice_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/aurthosis_widgets.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
 import 'dart:math' as math;
 
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/procedure_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +43,9 @@ class _ModuleState extends State<Module> {
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
             ChiefComplaintWidget(),
+            OrthosisWidget(),
+            AdviceWidget(),
+            ProcedureWidget(),
           ],
         ),
       ),

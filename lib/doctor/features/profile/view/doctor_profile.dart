@@ -10,7 +10,7 @@ import 'package:myhealthbd_app/doctor/features/profile/repositories/personal_inf
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/company_info.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/doctor_info.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/personal_info.dart';
-import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -74,7 +74,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
   @override
   void initState() {
     // TODO: implement initState
-    var vm = DoctorProfileViewModel.read(context);
+    var vm = PersonalInfoViewModel.read(context);
     // vm.editingPersonalInfo(isPersonalInfoEditing: false);
     vm.editingPersonalInfo(isPersonalInfoEditing: false);
     super.initState();
@@ -82,7 +82,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
 
   @override
   Widget build(BuildContext context) {
-    var personalInfoVm = DoctorProfileViewModel.watch(context);
+    var personalInfoVm = PersonalInfoViewModel.watch(context);
     //var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var photo = companyInfoVm.details?.photo ?? '';

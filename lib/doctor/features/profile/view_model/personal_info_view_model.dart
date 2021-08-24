@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/profile/models/designation_model.dart';
@@ -7,7 +8,7 @@ import 'package:myhealthbd_app/doctor/features/profile/repositories/personal_inf
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:provider/provider.dart';
 
-class DoctorProfileViewModel extends ChangeNotifier {
+class PersonalInfoViewModel extends ChangeNotifier {
     bool _isDoctorInfoEditing=false;
     bool _isPersonalInfoEditing=false;
     List<SpecializationListElement> _specializationName = [];
@@ -20,14 +21,15 @@ class DoctorProfileViewModel extends ChangeNotifier {
     bool _isDesignationLoading= false;
     bool _isSpecializationLoading= false;
     PersonalInfoData _personalInfoData;
-    static DoctorProfileViewModel read(BuildContext context) =>
-        context.read<DoctorProfileViewModel>();
-    static DoctorProfileViewModel watch(BuildContext context) =>
-        context.watch<DoctorProfileViewModel>();
+    static PersonalInfoViewModel read(BuildContext context) =>
+        context.read<PersonalInfoViewModel>();
+    static PersonalInfoViewModel watch(BuildContext context) =>
+        context.watch<PersonalInfoViewModel>();
     Future<void> getPersonalInfo({bool force=false}) async {
         if(_personalInfoData==null || force){
-            _isLoading = true;
+            _isLoading = force? false: true;
             notifyListeners();
+            print('abcd');
             var res = await PersonalInfoRepository().fetchPersonalInfo();
             res.fold((l) {
                 _appError = l;
@@ -40,6 +42,29 @@ class DoctorProfileViewModel extends ChangeNotifier {
 
             });
         }
+    }
+    Future<void> updatePersonalInfo({String name, String designation , String specializationNo,String degree, String signature, String mobile, String email }) async {
+           BotToast.showLoading();
+            notifyListeners();
+            var res = await PersonalInfoRepository().updatePersonalInfo(
+                name:name,
+                degree: degree,
+                email: email,
+                mobile: mobile,
+                signature: signature
+            );
+            res.fold((l) {
+                _appError = l;
+                BotToast.closeAllLoading();
+                notifyListeners();
+            }, (r) {
+                print('aaaa');
+               if(r=="200"){
+                   getPersonalInfo(force: true);
+               }
+                BotToast.closeAllLoading();
+                notifyListeners();
+            });
     }
     Future<void> getSpecializationName({bool force=false}) async {
      if(_specializationName.isEmpty || force){

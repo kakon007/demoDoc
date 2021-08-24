@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/upload_digital_signature.dart';
-import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -25,7 +25,7 @@ class UserInfo extends StatefulWidget {
 class _UserInfoState extends State<UserInfo> {
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
+    var vm = Provider.of<PersonalInfoViewModel>(context, listen: false);
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;

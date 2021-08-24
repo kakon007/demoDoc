@@ -3,10 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/profile/repositories/personal_info_repository.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/change_password_prompt.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/upload_digital_signature.dart';
-import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/digital_signature_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -39,15 +42,18 @@ class _PersonalInfoState extends State<PersonalInfo> {
   void initState() {
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: false);
     isReadOnly = true;
+    DigitalSignatureViewModel.read(context).initialSignatureFile(null);
     Future.delayed(Duration.zero).then((value) => init());
     super.initState();
   }
 
   init() async {
-    await DoctorProfileViewModel.read(context).getPersonalInfo();
-    await DoctorProfileViewModel.read(context).getSpecializationName();
-    await DoctorProfileViewModel.read(context).getDesignationList();
-    var personalInfoVm = DoctorProfileViewModel.read(context);
+    var digitalSignVm = DigitalSignatureViewModel.read(context);
+    await PersonalInfoViewModel.read(context).getPersonalInfo();
+    await PersonalInfoViewModel.read(context).getSpecializationName();
+    await PersonalInfoViewModel.read(context).getDesignationList();
+    await digitalSignVm.getDigitalSignature();
+    var personalInfoVm = PersonalInfoViewModel.read(context);
     var mobile = personalInfoVm.personalInfoData?.phoneMobile ?? "";
     _userMobile.text = mobile == "" ? "" : mobile.substring(1);
     _userEmail.text = personalInfoVm.personalInfoData?.emailPersonal ?? "";
@@ -75,13 +81,18 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   @override
   Widget build(BuildContext context) {
-    var personalInfoVm = DoctorProfileViewModel.read(context);
+    var personalInfoVm = PersonalInfoViewModel.read(context);
+    // var doctorNo = Provider.of<UserImageViewModel>(context, listen: false)
+    //     .details
+    //     .doctorNo;
+    var digitalSignVm = DigitalSignatureViewModel.watch(context);
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var spaceBetween = SizedBox(
       height: 10,
     );
+    // print('signature ${digitalSignVm.imageFile.path}');
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
@@ -94,7 +105,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
           ),
           Text(
-            '*',
+            !personalInfoVm.isPersonalInfoEditing ? "" :'*',
             style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
           ),
         ],
@@ -151,7 +162,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
           ),
           Text(
-            '*',
+            !personalInfoVm.isPersonalInfoEditing ? "" :'*',
             style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
           ),
         ],
@@ -210,7 +221,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
           ),
           Text(
-            '*',
+            !personalInfoVm.isPersonalInfoEditing ? "" :'*',
             style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
           ),
         ],
@@ -238,7 +249,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
           ),
           Text(
-            personalInfoVm.isPersonalInfoEditing ? '*' : "",
+            !personalInfoVm.isPersonalInfoEditing ? "" :'*',
             style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
           ),
         ],
@@ -253,7 +264,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
             ),
             Text(
-              '*',
+              !personalInfoVm.isPersonalInfoEditing ? "" :'*',
               style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
             ),
           ],
@@ -363,37 +374,40 @@ class _PersonalInfoState extends State<PersonalInfo> {
         // personalInfoVm.isPersonalInfoEditing?
         Column(
       children: [
-        Container(
-          child: Stack(
-            children: [
-              DoctorFormField(
-                enabledBorderColor: isReadOnly ? "#AFBBFF" : "#EAEBED",
-                readOnly: isReadOnly,
-                leftContentPadding: 85,
-                controller: _userMobile,
-                validator: Validator().validateDoctorPhoneNumber,
-                hintText: '1310000000',
-                minimizeBottomPadding: true,
-              ),
-              Positioned(
-                top: 3,
-                left: 6.5,
-                child: Container(
-                  height: 46,
-                  width: 70,
-                  child: Center(
-                      child: Text(
-                    '+880',
-                    style: GoogleFonts.poppins(),
-                  )),
-                  decoration: BoxDecoration(
-                      color: HexColor('#E8E8E8'),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          bottomLeft: Radius.circular(8))),
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0, right: 4),
+          child: Container(
+            child: Stack(
+              children: [
+                DoctorFormField(
+                  enabledBorderColor: isReadOnly ? "#AFBBFF" : "#EAEBED",
+                  readOnly: isReadOnly,
+                  leftContentPadding: 85,
+                  controller: _userMobile,
+                  validator: Validator().validateDoctorPhoneNumber,
+                  hintText: '1310000000',
+                  minimizeBottomPadding: true,
                 ),
-              )
-            ],
+                Positioned(
+                  top: 3,
+                  left: 6,
+                  child: Container(
+                    height: 46,
+                    width: 70,
+                    child: Center(
+                        child: Text(
+                      '+880',
+                      style: GoogleFonts.poppins(),
+                    )),
+                    decoration: BoxDecoration(
+                        color: HexColor('#E8E8E8'),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            bottomLeft: Radius.circular(8))),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ],
@@ -564,7 +578,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
             ),
             Text(
-              '*',
+              !personalInfoVm.isPersonalInfoEditing ? "" :'*',
               style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
             ),
           ],
@@ -587,34 +601,60 @@ class _PersonalInfoState extends State<PersonalInfo> {
           "Digital signature",
           style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
         ));
+    print(digitalSignVm.imageFile);
     var digitalSignature = Align(
       alignment: Alignment.center,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          DashedContainer(
-            dashColor: HexColor("#E9ECFE"),
-            borderRadius: 10.0,
-            dashedLength: 10.0,
-            blankLength: 2.0,
-            child: Container(
-              //  constraints: BoxConstraints(maxHeight: 200.0,),
-              height: 120.0,
-              width: width * .6,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Image.asset(
-                  uploadImageIcon,
-                  height: 60,
-                  width: 60,
-                  fit: BoxFit.fitHeight,
-                ),
-              ),
-              // child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
-            ),
-          ),
+          digitalSignVm.imageFile != null
+              ? DashedContainer(
+                  dashColor: HexColor("#E9ECFE"),
+                  borderRadius: 10.0,
+                  dashedLength: 10.0,
+                  blankLength: 2.0,
+                  child: Container(
+                    //  constraints: BoxConstraints(maxHeight: 200.0,),
+                    height: 120.0,
+                    width: width * .6,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Image.file(
+                        digitalSignVm.imageFile,
+                        height: 60,
+                        width: 60,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                    // child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
+                  ),
+                )
+              : digitalSignVm.signatureImage != null
+                  ? companyInfoVm.loadProfileImage(
+                      digitalSignVm.signatureImage, 120.0, 120.0, 20)
+                  : DashedContainer(
+                      dashColor: HexColor("#E9ECFE"),
+                      borderRadius: 10.0,
+                      dashedLength: 10.0,
+                      blankLength: 2.0,
+                      child: Container(
+                        //  constraints: BoxConstraints(maxHeight: 200.0,),
+                        height: 120.0,
+                        width: width * .6,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Image.asset(
+                            uploadImageIcon,
+                            height: 60,
+                            width: 60,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                        // child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
+                      ),
+                    ),
           spaceBetween,
-          FlatButton(
+          personalInfoVm.isPersonalInfoEditing ? FlatButton(
             minWidth: width * .6,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -629,7 +669,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   fontWeight: FontWeight.w600,
                   fontSize: isTablet ? 18 : 15),
             ),
-          ),
+          ) :  SizedBox(),
           spaceBetween,
         ],
       ),
@@ -643,7 +683,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             style: GoogleFonts.poppins(fontSize: isTablet ? 14 : 12),
           ),
           Text(
-            '*',
+            !personalInfoVm.isPersonalInfoEditing ? "" :'*',
             style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
           ),
         ],
@@ -746,15 +786,34 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       isReadOnly = true;
-                      await companyInfoVm.updateDoctorProfile(
-                          userEmail: _userEmail.text,
-                          userMobile: _userMobile.text,
-                          hospitalNo: companyInfoVm.details.name,
-                          id: companyInfoVm.details.userId.toString());
-                      if (companyInfoVm.resDoctorStatusCode == '200') {
-                        personalInfoVm.editingPersonalInfo(
-                            isPersonalInfoEditing: false);
+                      await personalInfoVm.updatePersonalInfo(
+                          name: _doctorName.text,
+                          degree: _degree.text,
+                          email: _userEmail.text,
+                          mobile: '0${_userMobile.text}',
+                          signature: _doctorSignature.text);
+                      if (digitalSignVm.imageFile != null) {
+                        await digitalSignVm.uploadSignature();
                       }
+                      digitalSignVm.signatureFile(null);
+                      personalInfoVm.editingPersonalInfo(
+                          isPersonalInfoEditing: false);
+                      // PersonalInfoRepository().updatePersonalInfo(
+                      //   name: _doctorName.text,
+                      //   degree: _degree.text,
+                      //   email: _userEmail.text,
+                      //   mobile: '0${_userMobile.text}',
+                      //   signature: _doctorSignature.text
+                      // );
+                      // await companyInfoVm.updateDoctorProfile(
+                      //     userEmail: _userEmail.text,
+                      //     userMobile: _userMobile.text,
+                      //     hospitalNo: companyInfoVm.details.name,
+                      //     id: companyInfoVm.details.userId.toString());
+                      // if (companyInfoVm.resDoctorStatusCode == '200') {
+                      //   personalInfoVm.editingPersonalInfo(
+                      //       isPersonalInfoEditing: false);
+                      // }
                     }
                   },
                   child: Text(
@@ -852,7 +911,87 @@ class _PersonalInfoState extends State<PersonalInfo> {
         //barrierColor: Color(0x00ffffff),
         context: context,
         builder: (context) {
+          // bool isTablet = Responsive.isTablet(context);
+          // bool isMobile = Responsive.isMobile(context);
+          // var changePassViewModel = Provider.of<PasswordChangeViewModel>(context);
+          // var width = MediaQuery.of(context).size.width * 0.44;
+          // var deviceWidth = MediaQuery.of(context).size.width;
+          // var uploadFromGallery = Container(
+          //   height: 50,
+          //   width: deviceWidth,
+          //   decoration: BoxDecoration(
+          //       color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         SizedBox(),
+          //         Text('Upload from gallery'),
+          //         Image.asset(
+          //           uploadImageIcon,
+          //           width: 25,
+          //           cacheWidth: 25,
+          //         ),
+          //         // Icon(Icons.image,color: HexColor('#ECECEC'),)
+          //       ],
+          //     ),
+          //   ),
+          // );
+          // var takeAPhoto = Container(
+          //   height: 50,
+          //   width: deviceWidth,
+          //   decoration: BoxDecoration(
+          //       color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         SizedBox(),
+          //         Text('Take a photo'),
+          //         Icon(
+          //           Icons.camera_alt,
+          //           color: HexColor('#ECECEC'),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // );
           return DoctorSignaturePrompt();
+          // return Center(
+          //   child: SingleChildScrollView(
+          //     child: AlertDialog(
+          //       backgroundColor: Colors.transparent,
+          //       insetPadding: EdgeInsets.symmetric(
+          //           horizontal: isTablet ? deviceWidth * .1 : deviceWidth * .1),
+          //       shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          //       contentPadding: EdgeInsets.only(top: 10.0),
+          //       content: Container(
+          //         color: Colors.transparent,
+          //         constraints: BoxConstraints(minHeight: 0),
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.start,
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           mainAxisSize: MainAxisSize.min,
+          //           children: <Widget>[
+          //             GestureDetector(
+          //                 onTap: (){
+          //
+          //                 },
+          //                 child: uploadFromGallery),
+          //             SizedBox(
+          //               height: 10,
+          //             ),
+          //             takeAPhoto,
+          //             //SizedBox(height: 10,),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // );
         });
   }
 }

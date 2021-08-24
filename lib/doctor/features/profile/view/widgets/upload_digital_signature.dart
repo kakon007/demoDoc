@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/digital_signature_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/change_password_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/const.dart';
@@ -40,6 +45,53 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
     super.initState();
   }
 
+  File _image;
+  final picker = ImagePicker();
+  bool isEdit = false;
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    // if (pickedFile != null) {
+    //   _image = File(pickedFile.path);
+    //   debugPrint("ish ${await _image.length()}");
+    //   setState(() {
+    //     isEdit = true;
+    //   });
+    // } else {
+    //   debugPrint('No image selected.');
+    // }
+
+    if (pickedFile != null) {
+//      var compressedImage = await ImageCompressUtil.compressImage(file, 80);
+      Future<File> croppedFile = ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Theme.of(context).primaryColor,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ));
+
+      croppedFile.then((value) async {
+      //  var digitalSignVm = DigitalSignatureViewModel.watch(context);
+        _image = value;
+        DigitalSignatureViewModel.read(context).signatureFile(_image);
+        Navigator.pop(context);
+        setState(() {
+          isEdit = true;
+        });
+      });
+    } else {
+      debugPrint('No image selected.');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     bool isDesktop = Responsive.isDesktop(context);
@@ -108,7 +160,11 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                uploadFromGallery,
+                GestureDetector(
+                    onTap: () async {
+                      await getImage();
+                    },
+                    child: uploadFromGallery),
                 SizedBox(
                   height: 10,
                 ),

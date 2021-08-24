@@ -29,6 +29,16 @@ class ApiClient {
         .timeout(Duration(seconds: 15));
   }
 
+  Future<http.Response> deleteRequest(String url,
+      {Duration timeout}) async {
+    var completeUrl = _buildUrl(url);
+    var headers = await _getHeaders();
+    //var encodedBody = json.encode(body);
+    return httClient
+        .delete(Uri.parse(completeUrl), headers: headers)
+        .timeout(Duration(seconds: 15));
+  }
+
   Future<http.Response> putRequest(String url, Map<String, dynamic> body,
       {Duration timeout}) async {
     var completeUrl = _buildUrl(url);

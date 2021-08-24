@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +18,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var vm = context.watch<ChiefComplaintViewModel>();
+    var vm = context.watch<ClinicalHistoryViewModel>();
     return PrescriptionCommonWidget(
       onChangeShowReport: (bool val) {
         showReport = val;
@@ -108,9 +111,16 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                             title: Text("${item.favouriteVal}"),
                             value: false,
                             onChanged: (val) {},
-                            secondary: Icon(
-                              Icons.clear,
-                              color: Colors.red,
+                            secondary: InkWell(
+                              onTap: (){
+                                SVProgressHUD.show(status: "Deleting");
+                                DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
+                                SVProgressHUD.dismiss();
+                              },
+                              child: Icon(
+                                Icons.clear,
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         );

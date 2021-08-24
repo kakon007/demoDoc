@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -108,9 +110,16 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                             title: Text("${item.favouriteVal}"),
                             value: false,
                             onChanged: (val) {},
-                            secondary: Icon(
-                              Icons.clear,
-                              color: Colors.red,
+                            secondary: InkWell(
+                              onTap: (){
+                                SVProgressHUD.show(status: "Deleting");
+                                DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
+                                SVProgressHUD.dismiss();
+                              },
+                              child: Icon(
+                                Icons.clear,
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         );

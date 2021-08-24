@@ -29,17 +29,15 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
       showReport: showReport,
       title: "Chief Complaint",
       expandedWidget: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
         child: Padding(
-          padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 10, right: 10),
+          padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 5, right: 5),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TypeAheadFormField<String>(
                 textFieldConfiguration: TextFieldConfiguration(
                     textInputAction: TextInputAction.search,
                     controller: controller,
-                    // focusNode: focusNode,
                     decoration: InputDecoration(
                       hintText: "Chief Complaint",
                       prefixIcon: Icon(
@@ -54,13 +52,6 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                           },
                           icon: Icon(Icons.check,
                               color: AppTheme.buttonActiveColor)),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                          borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor)),
                     )),
                 itemBuilder: (_, v) {
                   return Padding(
@@ -95,15 +86,77 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
               //   ),
               // ),
               SizedBox(
-                height: 100,
+                height: 20,
               ),
-              Wrap(
-                children: List.generate(
-                    selectedItems.length,
-                    (index) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("${selectedItems[index]}"),
-                        )),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                      selectedItems.length,
+                      (index) => Container(
+                          margin: EdgeInsets.only(right: 5),
+                          decoration: BoxDecoration(
+                            color: Color(0xffEFF5FF),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Color(0xffE6374DF)),
+                                      child: Icon(
+                                        Icons.keyboard_arrow_left,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "${selectedItems[index]}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      selectedItems.removeAt(index);
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Color(0xffE6374DF)),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ))),
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Container(
                 child: Column(

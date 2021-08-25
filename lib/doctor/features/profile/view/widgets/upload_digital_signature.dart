@@ -49,8 +49,8 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
   final picker = ImagePicker();
   bool isEdit = false;
 
-  Future getImage({bool isFromCamera= false}) async {
-    final pickedFile = await picker.getImage(source: isFromCamera? ImageSource.camera : ImageSource.gallery);
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source:  ImageSource.gallery);
 
     // if (pickedFile != null) {
     //   _image = File(pickedFile.path);
@@ -213,7 +213,7 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
                 ),
                 GestureDetector(
                     onTap: () async {
-                      await getImage(isFromCamera: true);
+                      await getImageCamera();
                     },
                     child: takeAPhoto),
                 //SizedBox(height: 10,),

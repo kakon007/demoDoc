@@ -62,7 +62,15 @@ class ApiClient {
       headers.addAll({HttpHeaders.authorizationHeader: "Bearer $accessToken"});
     return headers;
   }
+  Future<Map<String, String>> _getHeaderFormData() async {
+    var token = await AccessTokenProvider().getToken();
+    Map<String, String> headers = {
+      "Content-Type": "multipart/form-data",
+    };
 
+    if (token != null) headers.addAll({HttpHeaders.authorizationHeader: "Bearer $token"});
+    return headers;
+  }
   _buildUrl(String partialUrl) {
     String baseUrl = Urls.baseUrl;
     return baseUrl + partialUrl;

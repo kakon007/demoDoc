@@ -52,6 +52,8 @@ import 'package:provider/provider.dart';
 
 import 'doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'doctor/features/profile/view_model/digital_signature_view_model.dart';
+import 'doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'doctor/features/worklist/view_model/worklist_view_model.dart';
 
 class MyHealthBdApp extends StatelessWidget {
@@ -134,8 +136,8 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => TermsViewModel()),
       ChangeNotifierProvider<PolicyViewModel>(
           create: (context) => PolicyViewModel()),
-      ChangeNotifierProvider<DoctorProfileViewModel>(
-          create: (context) => DoctorProfileViewModel()),
+      ChangeNotifierProvider<PersonalInfoViewModel>(
+          create: (context) => PersonalInfoViewModel()),
       ChangeNotifierProvider<PrescriptionTamplateViewModel>(
           create: (context) => PrescriptionTamplateViewModel()),
       ChangeNotifierProvider<WorkListViewModel>(
@@ -149,6 +151,8 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => ProvisionalDiagnosisViewModel()),
       ChangeNotifierProvider<AdviceViewModel>(
           create: (context) => AdviceViewModel()),
+      ChangeNotifierProvider<DigitalSignatureViewModel>(
+          create: (context) => DigitalSignatureViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/dashboard_drawer.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_widget.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view_model/worklist_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/resource/doctor_const.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/manage_account_prompt.dart';

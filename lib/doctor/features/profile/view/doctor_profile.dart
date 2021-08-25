@@ -6,10 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myhealthbd_app/doctor/features/profile/repositories/personal_info_repository.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/company_info.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/doctor_info.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/widgets/personal_info.dart';
-import 'package:myhealthbd_app/doctor/features/profile/view_model/doctor_profile_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -73,14 +74,15 @@ class _DoctorProfileState extends State<DoctorProfile> {
   @override
   void initState() {
     // TODO: implement initState
-    var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
+    var vm = PersonalInfoViewModel.read(context);
+    // vm.editingPersonalInfo(isPersonalInfoEditing: false);
     vm.editingPersonalInfo(isPersonalInfoEditing: false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<DoctorProfileViewModel>(context, listen: false);
+    var personalInfoVm = PersonalInfoViewModel.watch(context);
     //var vm2 = Provider.of<UserImageViewModel>(context, listen: true);
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var photo = companyInfoVm.details?.photo ?? '';

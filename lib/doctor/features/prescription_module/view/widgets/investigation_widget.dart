@@ -2,11 +2,11 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_prescription_search_items_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class InvestigationWidget extends StatefulWidget {
 class _InvestigationWidgetState extends State<InvestigationWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
-  List<String> investigationSelectedItems = [];
+  List<CommonPrescriptionSearchItems> investigationSelectedItems = [];
   int ind;
 
   @override
@@ -44,7 +44,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TypeAheadFormField<String>(
+              TypeAheadFormField<CommonPrescriptionSearchItems>(
                 textFieldConfiguration: TextFieldConfiguration(
                     textInputAction: TextInputAction.search,
                     controller: controller,
@@ -57,7 +57,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              investigationSelectedItems[ind] = controller.text;
+                              investigationSelectedItems[ind].itemName =
+                                  controller.text;
                               controller.clear();
                               ind = null;
                             } else {
@@ -66,8 +67,11 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  investigationSelectedItems
-                                      .add(controller.text.trim());
+                                  int itemTypeNo = 1;
+                                  investigationSelectedItems.add(
+                                      CommonPrescriptionSearchItems(
+                                          itemName: controller.text.trim(),
+                                          itemTypeNo: itemTypeNo));
                                   controller.clear();
                                 }
                               } else {
@@ -83,7 +87,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                 itemBuilder: (_, v) {
                   return Padding(
                     padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
+                    child: Text("${v.itemName}"),
                   );
                 },
                 onSuggestionSelected: (v) {
@@ -121,7 +125,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${investigationSelectedItems[index]}",
+                                "${investigationSelectedItems[index].itemName}(${investigationSelectedItems[index].itemTypeNo})",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -142,7 +146,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                               favoriteType: "36",
                                               favoriteVal:
                                                   investigationSelectedItems[
-                                                      index])
+                                                          index]
+                                                      .itemName)
                                           .then((value) => vm.getData());
                                       // setState(() {});
                                     },
@@ -155,7 +160,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                   InkWell(
                                     onTap: () {
                                       controller.text =
-                                          investigationSelectedItems[index];
+                                          investigationSelectedItems[index]
+                                              .itemName;
                                       ind = index;
                                     },
                                     child: Container(
@@ -253,8 +259,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     .contains(item.favouriteVal)) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  investigationSelectedItems
-                                      .add(item.favouriteVal);
+                                  investigationSelectedItems.add(
+                                      CommonPrescriptionSearchItems(
+                                          itemName: item.favouriteVal,
+                                          itemTypeNo: item.favouriteType));
                                 }
                               }
                               setState(() {});

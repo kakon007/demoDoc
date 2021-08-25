@@ -2,7 +2,8 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/models/common
 import 'package:myhealthbd_app/main_app/api_client.dart';
 
 class CommonPrescriptionSearchItemsRepository {
-  Future<List<String>> fetchSearchList({String q, int parItemTypeNo}) async {
+  Future<List<CommonPrescriptionSearchItems>> fetchSearchList(
+      {String q, int parItemTypeNo}) async {
     try {
       var response = await ApiClient().postRequest(
           "prescription-service-api/api/prescription/search-items",
@@ -10,10 +11,10 @@ class CommonPrescriptionSearchItemsRepository {
       print(response.statusCode);
       if (response.statusCode == 200) {
         var body = response.body;
-        CommonPrescriptionSearchItemsModel data =
-            commonPrescriptionSearchItemsModelFromJson(body);
+        List<CommonPrescriptionSearchItems> data =
+            commonPrescriptionSearchItemsModelFromJson(body).items;
 
-        return data.items.map((e) => e.itemName).toList();
+        return data;
       } else {
         return [];
       }

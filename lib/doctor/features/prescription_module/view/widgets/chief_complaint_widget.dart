@@ -28,6 +28,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   Widget build(BuildContext context) {
     var vm = context.watch<ChiefComplaintViewModel>();
     return PrescriptionCommonWidget(
+      key: Key("ChiefComplaintWidget"),
       onChangeShowReport: (bool val) {
         showReport = val;
         setState(() {});

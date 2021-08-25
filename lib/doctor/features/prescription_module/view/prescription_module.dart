@@ -16,6 +16,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class _ModuleState extends State<Module> {
     PastIllnessViewModel.read(context).getData();
     ClinicalHistoryViewModel.read(context).getData();
     AdviceViewModel.read(context).getData();
+    InvestigationViewModel.read(context).getData();
   }
 
   @override

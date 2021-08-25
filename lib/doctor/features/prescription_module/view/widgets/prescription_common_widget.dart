@@ -26,7 +26,8 @@ class PrescriptionCommonWidget extends StatefulWidget {
 }
 
 class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
-  ExpandableController controller = ExpandableController(initialExpanded: true);
+  ExpandableController controller =
+      ExpandableController(initialExpanded: false);
   bool isExpanded = true;
   @override
   Widget build(BuildContext context) {

@@ -60,6 +60,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                             if (ind != null) {
                               chiefComplaintSelectedItems[ind] =
                                   controller.text;
+                              controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {

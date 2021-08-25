@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
@@ -20,6 +21,7 @@ class AdviceWidget extends StatefulWidget {
 
 class _AdviceWidgetState extends State<AdviceWidget> {
   bool showReport = false;
+  int ind;
   TextEditingController controller = TextEditingController();
   List<String> selectedItems = [];
 
@@ -56,9 +58,27 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                       ),
                       suffixIcon: IconButton(
                           onPressed: () {
-                            selectedItems.add(controller.text);
-                            controller.clear();
+                            if (ind != null) {
+                              selectedItems[ind] = controller.text;
+                              ind = null;
+                            } else {
+                              if (controller.text.trim().isNotEmpty) {
+                                if (selectedItems
+                                    .contains(controller.text.trim())) {
+                                  BotToast.showText(text: "All ready added");
+                                } else {
+                                  selectedItems.add(controller.text.trim());
+                                  controller.clear();
+                                }
+                              } else {
+                                BotToast.showText(text: "Field is empty");
+                              }
+                            }
+
                             setState(() {});
+                            // selectedItems.add(controller.text);
+                            // controller.clear();
+                            // setState(() {});
                           },
                           icon: Icon(Icons.check,
                               color: AppTheme.buttonActiveColor)),
@@ -150,7 +170,10 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      controller.text = selectedItems[index];
+                                      ind = index;
+                                    },
                                     child: Container(
                                       height: 30,
                                       width: 30,

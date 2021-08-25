@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/advice_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/clinical_history_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disposal_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disease_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigation_widget.dart';
@@ -16,7 +17,9 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +41,8 @@ class _ModuleState extends State<Module> {
     PastIllnessViewModel.read(context).getData();
     ClinicalHistoryViewModel.read(context).getData();
     AdviceViewModel.read(context).getData();
+    OrthosisViewModel.read(context).getData();
+    ProcedureViewModel.read(context).getData();
   }
 
   @override
@@ -58,6 +63,7 @@ class _ModuleState extends State<Module> {
           OrthosisWidget(),
           AdviceWidget(),
           ProcedureWidget(),
+          DisposalWidget(),
         ],
       ),
     );

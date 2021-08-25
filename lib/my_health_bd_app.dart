@@ -51,6 +51,8 @@ import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 
 import 'doctor/features/prescription_module/view_models/advice_view_model.dart';
+import 'doctor/features/prescription_module/view_models/orthosis_view_model.dart';
+import 'doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'doctor/features/profile/view_model/digital_signature_view_model.dart';
 import 'doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'doctor/features/worklist/view_model/worklist_view_model.dart';
@@ -143,15 +145,22 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => WorkListViewModel()),
       ChangeNotifierProvider<ChiefComplaintViewModel>(
           create: (context) => ChiefComplaintViewModel()),
-      ChangeNotifierProvider<PrescriptionListDocViewModel>(create: (context) => PrescriptionListDocViewModel()),
-      ChangeNotifierProvider<PastIllnessViewModel>(create: (context) => PastIllnessViewModel()),
-      ChangeNotifierProvider<ClinicalHistoryViewModel>(create: (context) => ClinicalHistoryViewModel()),
+      ChangeNotifierProvider<PrescriptionListDocViewModel>(
+          create: (context) => PrescriptionListDocViewModel()),
+      ChangeNotifierProvider<PastIllnessViewModel>(
+          create: (context) => PastIllnessViewModel()),
+      ChangeNotifierProvider<ClinicalHistoryViewModel>(
+          create: (context) => ClinicalHistoryViewModel()),
       ChangeNotifierProvider<ProvisionalDiagnosisViewModel>(
           create: (context) => ProvisionalDiagnosisViewModel()),
       ChangeNotifierProvider<AdviceViewModel>(
           create: (context) => AdviceViewModel()),
       ChangeNotifierProvider<DigitalSignatureViewModel>(
           create: (context) => DigitalSignatureViewModel()),
+      ChangeNotifierProvider<OrthosisViewModel>(
+          create: (context) => OrthosisViewModel()),
+      ChangeNotifierProvider<ProcedureViewModel>(
+          create: (context) => ProcedureViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

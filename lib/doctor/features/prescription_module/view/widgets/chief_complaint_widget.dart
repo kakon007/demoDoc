@@ -22,6 +22,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
   List<String> chiefComplaintSelectedItems = [];
+  int ind;
 
   @override
   Widget build(BuildContext context) {
@@ -56,18 +57,25 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       ),
                       suffixIcon: IconButton(
                           onPressed: () {
-                            if (controller.text.trim().isNotEmpty) {
-                              if (chiefComplaintSelectedItems
-                                  .contains(controller.text.trim())) {
-                                BotToast.showText(text: "All ready added");
-                              } else {
-                                chiefComplaintSelectedItems
-                                    .add(controller.text.trim());
-                                controller.clear();
-                              }
+                            if (ind != null) {
+                              chiefComplaintSelectedItems[ind] =
+                                  controller.text;
+                              ind = null;
                             } else {
-                              BotToast.showText(text: "Field is empty");
+                              if (controller.text.trim().isNotEmpty) {
+                                if (chiefComplaintSelectedItems
+                                    .contains(controller.text.trim())) {
+                                  BotToast.showText(text: "All ready added");
+                                } else {
+                                  chiefComplaintSelectedItems
+                                      .add(controller.text.trim());
+                                  controller.clear();
+                                }
+                              } else {
+                                BotToast.showText(text: "Field is empty");
+                              }
                             }
+
                             setState(() {});
                           },
                           icon: Icon(Icons.check,
@@ -96,22 +104,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       favoriteType:
                           PrescriptionFavouriteType.chiefComplaint.toString());
                 },
-                // noItemsFoundBuilder: noItemsFoundBuilder ??
-                //     (context) {
-                //       return SizedBox();
-                //     },
               ),
-              // TextField(
-              //   decoration: InputDecoration(
-              //     hintText: "Chief Complaint",
-              //     prefixIcon: Icon(
-              //       Icons.search,
-              //       color: AppTheme.buttonActiveColor,
-              //     ),
-              //     suffixIcon:
-              //         Icon(Icons.check, color: AppTheme.buttonActiveColor),
-              //   ),
-              // ),
               SizedBox(
                 height: 20,
               ),
@@ -166,7 +159,11 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      controller.text =
+                                          chiefComplaintSelectedItems[index];
+                                      ind = index;
+                                    },
                                     child: Container(
                                       height: 30,
                                       width: 30,

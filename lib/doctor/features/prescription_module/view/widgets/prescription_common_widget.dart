@@ -181,12 +181,12 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                                   ),
                                 ),
                                 ExpandableIcon(
-                                  theme: const ExpandableThemeData(
+                                  theme:  ExpandableThemeData(
                                     expandIcon:
                                         Icons.keyboard_arrow_down_outlined,
                                     collapseIcon:
                                         Icons.keyboard_arrow_up_outlined,
-                                    iconColor: Colors.white,
+                                    iconColor: widget.isFixed? Color(0xff333333) : Colors.white,
                                     iconSize: 28.0,
                                     iconRotationAngle: math.pi / 2,
                                     iconPadding: EdgeInsets.only(right: 5),

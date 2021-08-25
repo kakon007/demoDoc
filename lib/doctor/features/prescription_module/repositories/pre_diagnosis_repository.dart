@@ -3,14 +3,11 @@ import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart'
 import 'package:myhealthbd_app/main_app/api_client.dart';
 
 class PreDiagnosisSearchRepository {
-  Future<List<String>> fetchSearchList(String q) async {
+  Future<List<String>> fetchSearchList({String q, String favoriteType}) async {
     try {
-      var response = await ApiClient()
-          .postRequest("prescription-service-api/api/pre-diagnosis/list", {
-        "preDiagnosisVal": q,
-        "preDiagnosisValType":
-            PrescriptionFavouriteType.chiefComplaint.toString()
-      });
+      var response = await ApiClient().postRequest(
+          "prescription-service-api/api/pre-diagnosis/list",
+          {"preDiagnosisVal": q, "preDiagnosisValType": favoriteType});
       print(response.statusCode);
       if (response.statusCode == 200) {
         var body = response.body;

@@ -3,4 +3,5 @@ class PrescriptionFavouriteType {
   static const pastIllness = 9;
   static const clinicalHistory = 32;
   static const provisionalDiagnosis = 6;
+  static const advice = 8;
 }

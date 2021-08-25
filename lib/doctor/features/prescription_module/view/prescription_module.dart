@@ -1,15 +1,19 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/advice_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/clinical_history_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disease_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigation_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/oethosis_widget.dart';
 import 'dart:math' as math;
 
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/procedure_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/provisional_diagnosis_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
@@ -33,6 +37,7 @@ class _ModuleState extends State<Module> {
     ProvisionalDiagnosisViewModel.read(context).getData();
     PastIllnessViewModel.read(context).getData();
     ClinicalHistoryViewModel.read(context).getData();
+    AdviceViewModel.read(context).getData();
   }
 
   @override
@@ -50,6 +55,9 @@ class _ModuleState extends State<Module> {
           InvestigationWidget(),
           ClinicalHistoryWidget(),
           PastIllnessWidget(),
+          OrthosisWidget(),
+          AdviceWidget(),
+          ProcedureWidget(),
         ],
       ),
     );

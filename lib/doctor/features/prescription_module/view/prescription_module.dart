@@ -13,6 +13,7 @@ import 'dart:math' as math;
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/procedure_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/provisional_diagnosis_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/vitals_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
@@ -49,6 +50,7 @@ class _ModuleState extends State<Module> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
+          VitalsWidget(),
           ChiefComplaintWidget(),
           ClinicalHistoryWidget(),
           PastIllnessWidget(),

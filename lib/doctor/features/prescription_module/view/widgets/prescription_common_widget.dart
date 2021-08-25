@@ -11,6 +11,7 @@ class PrescriptionCommonWidget extends StatefulWidget {
   final Widget expandedWidget;
   final Function(bool value) onChangeShowReport;
   final bool showReport;
+  final bool isFixed;
 
   const PrescriptionCommonWidget({
     Key key,
@@ -18,6 +19,7 @@ class PrescriptionCommonWidget extends StatefulWidget {
     @required this.expandedWidget,
     @required this.onChangeShowReport,
     @required this.showReport,
+    this.isFixed =false
   }) : super(key: key);
 
   @override
@@ -152,7 +154,16 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                       hasIcon: false,
                     ),
                     header: Container(
-                      color: AppTheme.buttonActiveColor,
+                      decoration: BoxDecoration(
+                          color: widget.isFixed? Colors.white
+                              : AppTheme.buttonActiveColor,
+                          border: Border(
+                            top: BorderSide( color: widget.isFixed ? Color(0xffD2D2D2) : AppTheme.buttonActiveColor,),
+                            right: BorderSide( color: widget.isFixed ? Color(0xffD2D2D2) : AppTheme.buttonActiveColor,),
+                            left: BorderSide( color: widget.isFixed ? Color(0xffD2D2D2) : AppTheme.buttonActiveColor,),
+                          ),
+
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
@@ -166,7 +177,7 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                                         .textTheme
                                         .bodyText1
                                         .copyWith(
-                                            color: Colors.white, fontSize: 16),
+                                            color:widget.isFixed?Colors.black : Colors.white, fontSize: 16),
                                   ),
                                 ),
                                 ExpandableIcon(

@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   final _formKey = new GlobalKey<FormState>();
   String errorText;
   bool isReadOnly = true;
-  bool isLoading = true;
+
 
   @override
   void initState() {
@@ -65,6 +66,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           .toString()
           .contains(personalInfoVm.personalInfoData.specialityNo.toString())) {
         _specialization.text = item.dtlName;
+        _selectedSpecialization = item.id.toString();
         print(item.dtlName);
       }
     });
@@ -73,12 +75,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
           .toString()
           .contains(personalInfoVm.personalInfoData.jobTitleNo.toString())) {
         _designation.text = item.jobtitle;
-        isLoading = false;
+        _selectedDesignation = item.jobtitleNo.toString();
+        //_selectedDesignation = item;
       }
     });
     await digitalSignVm.getDigitalSignature();
   }
-
+  String _selectedSpecialization;
+  var _selectedDesignation;
   @override
   Widget build(BuildContext context) {
     var personalInfoVm = PersonalInfoViewModel.read(context);
@@ -212,6 +216,97 @@ class _PersonalInfoState extends State<PersonalInfo> {
     //     ),
     //   ),
     // );
+    var designationSelect = Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 50.0,
+                width: isTablet ? width * .86 : width * .83,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: _selectedDesignation==null? AppTheme.buttonInActiveColor : Color(0xffEAEBED)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Container(
+                        width: isTablet ? width * .82 : width * .77,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField(
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              color: _selectedDesignation != null
+                                  ? Colors.black54
+                                  : HexColor("#D2D2D2"),
+                            ),
+                            iconSize: isTablet ? 30 : 25,
+                            hint: Text(
+                              'Select Designation',
+                              style: GoogleFonts.roboto(
+                                  fontSize: isTablet ? 18 : 15,
+                                  color: HexColor("#D2D2D2")),
+                            ),
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                enabledBorder: InputBorder.none),
+                            value: _selectedDesignation,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedDesignation = newValue;
+                                print('shakil $newValue');
+                                // consultBorderColor = "#EAEBED";
+                                // _selectedConsultation = newValue;
+                                // selectedConsultationType = newValue;
+                                // vm.getFee(
+                                //   widget.companyNo,
+                                //   _selectedConsultation,
+                                //   widget.doctorNo,
+                                //   widget.orgNo,
+                                //   (selectedMemberType == "Family Member" &&
+                                //       vm.addPatient == true)
+                                //       ? vm.patNo
+                                //       : vm.patOther,
+                              });
+                            },
+                            items: personalInfoVm.designationItems.map((designationNo) {
+                              return DropdownMenuItem(
+                                child: new Text(
+                                  designationNo.jobtitle,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: isTablet ? 18 : 15),
+                                ),
+                                value: designationNo.jobtitleNo.toString(),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              // consultBorderColor != "#FF0000"
+              //     ? SizedBox(
+              //   width: 2,
+              // )
+              //     : Padding(
+              //   padding: const EdgeInsets.only(left: 16, top: 8, right: 38),
+              //   child: Text(
+              //     "This Field Is Required",
+              //     style:
+              //     GoogleFonts.poppins(color: Colors.red, fontSize: 12),
+              //   ),
+              // )
+            ],
+          ),
+        ],
+      ),
+    );
     var specializationHeading = Padding(
       padding: const EdgeInsets.only(left: 13.0, bottom: 5, top: 5),
       child: Row(
@@ -223,6 +318,98 @@ class _PersonalInfoState extends State<PersonalInfo> {
           Text(
             !personalInfoVm.isPersonalInfoEditing ? "" :'*',
             style: GoogleFonts.poppins(fontSize: 12, color: Colors.red),
+          ),
+        ],
+      ),
+    );
+    var specializationSelect = Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 50.0,
+                width: isTablet ? width * .86 : width * .83,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                  border: Border.all(color: _selectedSpecialization==null? AppTheme.buttonInActiveColor : Color(0xffEAEBED)),
+
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Container(
+                        width: isTablet ? width * .82 : width * .77,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField(
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              color: _selectedSpecialization != null
+                                  ? Colors.black54
+                                  : HexColor("#D2D2D2"),
+                            ),
+                            iconSize: isTablet ? 30 : 25,
+                            hint: Text(
+                              StringResources.consultationTypeText,
+                              style: GoogleFonts.roboto(
+                                  fontSize: isTablet ? 18 : 15,
+                                  color: HexColor("#D2D2D2")),
+                            ),
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                enabledBorder: InputBorder.none),
+                            value: _selectedSpecialization,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedSpecialization = newValue.toString();
+                                print('shakil  $_selectedSpecialization');
+                                // consultBorderColor = "#EAEBED";
+                                // _selectedConsultation = newValue;
+                                // selectedConsultationType = newValue;
+                                // vm.getFee(
+                                //   widget.companyNo,
+                                //   _selectedConsultation,
+                                //   widget.doctorNo,
+                                //   widget.orgNo,
+                                //   (selectedMemberType == "Family Member" &&
+                                //       vm.addPatient == true)
+                                //       ? vm.patNo
+                                //       : vm.patOther,
+                              });
+                            },
+                            items: personalInfoVm.specializationName.map((specNo) {
+                              return DropdownMenuItem(
+                                child: new Text(
+                                      specNo.dtlName,
+                                  style: GoogleFonts.roboto(
+                                      fontSize: isTablet ? 18 : 15),
+                                ),
+                                value: specNo.id.toString(),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              // consultBorderColor != "#FF0000"
+              //     ? SizedBox(
+              //   width: 2,
+              // )
+              //     : Padding(
+              //   padding: const EdgeInsets.only(left: 16, top: 8, right: 38),
+              //   child: Text(
+              //     "This Field Is Required",
+              //     style:
+              //     GoogleFonts.poppins(color: Colors.red, fontSize: 12),
+              //   ),
+              // )
+            ],
           ),
         ],
       ),
@@ -786,18 +973,43 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       isReadOnly = true;
-                      await personalInfoVm.updatePersonalInfo(
+                    await personalInfoVm.updatePersonalInfo(
                           name: _doctorName.text,
                           degree: _degree.text,
                           email: _userEmail.text,
+                          designation: _selectedDesignation,
+                          specializationNo: _selectedSpecialization,
                           mobile: '0${_userMobile.text}',
                           signature: _doctorSignature.text);
                       if (digitalSignVm.imageFile != null) {
                         await digitalSignVm.uploadSignature();
                       }
+                      if(personalInfoVm.statusCode=="200"){
+                        await personalInfoVm.getPersonalInfo(force: true);
+                      }
+                      BotToast.closeAllLoading();
                       digitalSignVm.signatureFile(null);
                       personalInfoVm.editingPersonalInfo(
                           isPersonalInfoEditing: false);
+                      setState(() {
+                        personalInfoVm.specializationName.forEach((item) {
+                          if (item.id
+                              .toString()
+                              .contains(personalInfoVm.personalInfoData.specialityNo.toString())) {
+                            _specialization.text = item.dtlName;
+                            //_selectedSpecialization = item.dtlName;
+                            print(item.dtlName);
+                          }
+                        });
+                        personalInfoVm.designationItems.forEach((item) {
+                          if (item.jobtitleNo
+                              .toString()
+                              .contains(personalInfoVm.personalInfoData.jobTitleNo.toString())) {
+                            _designation.text = item.jobtitle;
+                            //_selectedDesignation = item;
+                          }
+                        });
+                      });
                       // PersonalInfoRepository().updatePersonalInfo(
                       //   name: _doctorName.text,
                       //   degree: _degree.text,
@@ -826,7 +1038,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             ],
           );
     return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+      padding: EdgeInsets.only(left: 0, right: 0, top: 10),
       child: personalInfoVm.isLoading ||
               personalInfoVm.isSpecializationLoading ||
               personalInfoVm.isDesignationLoading
@@ -863,10 +1075,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         doctorName,
                         spaceBetween,
                         designationHeading,
-                        designation,
+                        personalInfoVm.isPersonalInfoEditing? designationSelect : designation,
                         spaceBetween,
                         specializationHeading,
-                        specialization,
+                        personalInfoVm.isPersonalInfoEditing? specializationSelect : specialization,
                         spaceBetween,
                         degreeHeading,
                         degree,

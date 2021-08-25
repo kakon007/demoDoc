@@ -110,7 +110,7 @@ class _CompanyInfoState extends State<CompanyInfo> {
       ),
     );
     return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+      padding: EdgeInsets.only(left: 0, right: 0, top: 10),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),

@@ -93,7 +93,7 @@ class _UserInfoState extends State<UserInfo> {
       ),
     );
     return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+      padding: EdgeInsets.only(left: 0, right: 0, top: 10),
       child: Column(
         children: [
           Container(

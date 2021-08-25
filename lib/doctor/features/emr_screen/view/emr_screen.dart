@@ -52,7 +52,7 @@ class _EmrScreenState extends State<EmrScreen> {
           child: Stack(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 180.0),
+                padding: EdgeInsets.only(top: 215.0),
                 child: Container(
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
@@ -259,7 +259,7 @@ class _EmrScreenState extends State<EmrScreen> {
                                                   padding:
                                                       const EdgeInsets.only(
                                                           left: 10.0,
-                                                          right: 10),
+                                                          right: 10,bottom: 8),
                                                   child: Container(
                                                     child: Row(
                                                       children: [
@@ -917,7 +917,7 @@ class _EmrScreenState extends State<EmrScreen> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    height: isTablet ? 130 : 120,
+                  // height: isTablet ? 130 : 160,
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -926,162 +926,200 @@ class _EmrScreenState extends State<EmrScreen> {
                       shadowColor: Color(0xffE3E3E3), // Change this
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'From',
-                                  style: GoogleFonts.poppins(
-                                      // color: HexColor(
-                                      //   '#354291',
-                                      // ),
-                                      fontSize: isTablet
-                                          ? 20
-                                          : width <= 330
-                                              ? 13
-                                              : 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                  height: 45,
-                                  // width:MediaQuery.of(context).size.width>350?140:100,
-                                  width: isTablet
-                                      ? MediaQuery.of(context).size.width * 0.35
-                                      : width <= 330
-                                          ? MediaQuery.of(context).size.width *
-                                              0.32
-                                          : MediaQuery.of(context).size.width *
-                                              0.35,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: HexColor(
-                                          "#6374DF"), // set border color
-                                      //width: 3.0
-                                    ), // set border width
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            10.0)), // set rounded corner radius
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '22/12/18',
-                                        style: GoogleFonts.poppins(
-                                            // color: HexColor(
-                                            //   '#354291',
-                                            // ),
-                                            fontSize: isTablet
-                                                ? 20
-                                                : width <= 330
-                                                    ? 13
-                                                    : 15,
-                                            color: Color(0xff333333),
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      SvgPicture.asset(
-                                        "assets/icons/calendoc.svg",
-                                        //key: Key('filterIconKey'),
-                                        width: 10,
-                                        height: 18,
-                                        fit: BoxFit.fitWidth,
-                                        allowDrawingOutsideViewBox: true,
-                                        matchTextDirection: true,
-                                        //color:  Colors.grey.withOpacity(0.5),
-                                        //semanticsLabel: 'Acme Logo'
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'To',
-                                  style: GoogleFonts.poppins(
-                                      // color: HexColor(
-                                      //   '#354291',
-                                      // ),
-                                      fontSize: isTablet
-                                          ? 20
-                                          : width <= 330
-                                              ? 13
-                                              : 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                  height: 45,
-                                  width: isTablet
-                                      ? MediaQuery.of(context).size.width * 0.35
-                                      : width <= 330
-                                          ? MediaQuery.of(context).size.width *
-                                              0.32
-                                          : MediaQuery.of(context).size.width *
-                                              0.35,
-                                  // width: MediaQuery.of(context).size.width > 350
-                                  //     ? 140
-                                  //     : 100,
-                                  decoration: BoxDecoration(
-                                    color: HexColor("#EFF5FF"),
-                                    // border: Border.all(
-                                    //   color: HexColor("#6374DF"),// set border color
-                                    //   //width: 3.0
-                                    // ),   // set border width
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            10.0)), // set rounded corner radius
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 25.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        // Text('22/12/18' ,style: GoogleFonts.poppins(
-                                        //   // color: HexColor(
-                                        //   //   '#354291',
-                                        //   // ),
-                                        //     fontSize: isTablet
-                                        //         ? 20
-                                        //         : width <= 330
-                                        //         ? 12
-                                        //         : 15,color: Colors.black,
-                                        //     fontWeight: FontWeight.w500
-                                        // ),),
-                                        // SizedBox(width: 20,),
-                                        SvgPicture.asset(
-                                          "assets/icons/calendoc.svg",
-                                          //key: Key('filterIconKey'),
-                                          width: 10,
-                                          height: 18,
-                                          fit: BoxFit.fitWidth,
-                                          allowDrawingOutsideViewBox: true,
-                                          matchTextDirection: true,
-                                          //color:  Colors.grey.withOpacity(0.5),
-                                          //semanticsLabel: 'Acme Logo'
-                                        ),
-                                      ],
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'From',
+                                      style: GoogleFonts.poppins(
+                                          // color: HexColor(
+                                          //   '#354291',
+                                          // ),
+                                          fontSize: isTablet
+                                              ? 20
+                                              : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                          fontWeight: FontWeight.w500),
                                     ),
-                                  ),
-                                )
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      height: 45,
+                                      // width:MediaQuery.of(context).size.width>350?140:100,
+                                      width: isTablet
+                                          ? MediaQuery.of(context).size.width * 0.35
+                                          : width <= 330
+                                              ? MediaQuery.of(context).size.width *
+                                                  0.32
+                                              : MediaQuery.of(context).size.width *
+                                                  0.35,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                          color: HexColor(
+                                              "#6374DF"), // set border color
+                                          //width: 3.0
+                                        ), // set border width
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                10.0)), // set rounded corner radius
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '22/12/18',
+                                            style: GoogleFonts.poppins(
+                                                // color: HexColor(
+                                                //   '#354291',
+                                                // ),
+                                                fontSize: isTablet
+                                                    ? 20
+                                                    : width <= 330
+                                                        ? 13
+                                                        : 15,
+                                                color: Color(0xff333333),
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          SvgPicture.asset(
+                                            "assets/icons/calendoc.svg",
+                                            //key: Key('filterIconKey'),
+                                            width: 10,
+                                            height: 18,
+                                            fit: BoxFit.fitWidth,
+                                            allowDrawingOutsideViewBox: true,
+                                            matchTextDirection: true,
+                                            //color:  Colors.grey.withOpacity(0.5),
+                                            //semanticsLabel: 'Acme Logo'
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'To',
+                                      style: GoogleFonts.poppins(
+                                          // color: HexColor(
+                                          //   '#354291',
+                                          // ),
+                                          fontSize: isTablet
+                                              ? 20
+                                              : width <= 330
+                                                  ? 13
+                                                  : 16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      height: 45,
+                                      width: isTablet
+                                          ? MediaQuery.of(context).size.width * 0.35
+                                          : width <= 330
+                                              ? MediaQuery.of(context).size.width *
+                                                  0.32
+                                              : MediaQuery.of(context).size.width *
+                                                  0.35,
+                                      // width: MediaQuery.of(context).size.width > 350
+                                      //     ? 140
+                                      //     : 100,
+                                      decoration: BoxDecoration(
+                                        color: HexColor("#EFF5FF"),
+                                        // border: Border.all(
+                                        //   color: HexColor("#6374DF"),// set border color
+                                        //   //width: 3.0
+                                        // ),   // set border width
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                10.0)), // set rounded corner radius
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(right: 25.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            // Text('22/12/18' ,style: GoogleFonts.poppins(
+                                            //   // color: HexColor(
+                                            //   //   '#354291',
+                                            //   // ),
+                                            //     fontSize: isTablet
+                                            //         ? 20
+                                            //         : width <= 330
+                                            //         ? 12
+                                            //         : 15,color: Colors.black,
+                                            //     fontWeight: FontWeight.w500
+                                            // ),),
+                                            // SizedBox(width: 20,),
+                                            SvgPicture.asset(
+                                              "assets/icons/calendoc.svg",
+                                              //key: Key('filterIconKey'),
+                                              width: 10,
+                                              height: 18,
+                                              fit: BoxFit.fitWidth,
+                                              allowDrawingOutsideViewBox: true,
+                                              matchTextDirection: true,
+                                              //color:  Colors.grey.withOpacity(0.5),
+                                              //semanticsLabel: 'Acme Logo'
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
+                            ),
+                            SizedBox(height: 10,),
+                            Material(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius
+                                      .circular(
+                                      5)),
+                              color: HexColor(
+                                  "#6374DF"),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height:
+                                deviceWidth <=
+                                    360
+                                    ?32
+                                    : 30,
+                                child: Center(
+                                  child: Text(
+                                    "Search",
+                                    style: GoogleFonts.roboto(
+                                        color: Colors.white,
+                                        fontSize: isTablet
+                                            ? 15
+                                            : deviceWidth <= 360 && deviceWidth > 330
+                                            ? 9
+                                            : deviceWidth <= 330
+                                            ? 8
+                                            : 10,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),

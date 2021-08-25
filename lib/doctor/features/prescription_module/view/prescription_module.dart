@@ -50,11 +50,11 @@ class _ModuleState extends State<Module> {
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           ChiefComplaintWidget(),
+          ClinicalHistoryWidget(),
+          PastIllnessWidget(),
           ProvisionalDiagnosisWidget(),
           DiseaseWidget(),
           InvestigationWidget(),
-          ClinicalHistoryWidget(),
-          PastIllnessWidget(),
           OrthosisWidget(),
           AdviceWidget(),
           ProcedureWidget(),

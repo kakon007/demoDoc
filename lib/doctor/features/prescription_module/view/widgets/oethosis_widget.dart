@@ -67,7 +67,7 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(v);
+                  return PreDiagnosisSearchRepository().fetchSearchList(q: v);
                 },
                 // noItemsFoundBuilder: noItemsFoundBuilder ??
                 //     (context) {

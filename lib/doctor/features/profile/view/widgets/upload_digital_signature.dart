@@ -49,8 +49,8 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
   final picker = ImagePicker();
   bool isEdit = false;
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  Future getImage({bool isFromCamera= false}) async {
+    final pickedFile = await picker.getImage(source: isFromCamera? ImageSource.camera : ImageSource.gallery);
 
     // if (pickedFile != null) {
     //   _image = File(pickedFile.path);
@@ -81,6 +81,49 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
 
       croppedFile.then((value) async {
       //  var digitalSignVm = DigitalSignatureViewModel.watch(context);
+        _image = value;
+        DigitalSignatureViewModel.read(context).signatureFile(_image);
+        Navigator.pop(context);
+        setState(() {
+          isEdit = true;
+        });
+      });
+    } else {
+      debugPrint('No image selected.');
+    }
+  }
+  Future getImageCamera() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    // if (pickedFile != null) {
+    //   _image = File(pickedFile.path);
+    //   debugPrint("ish ${await _image.length()}");
+    //   setState(() {
+    //     isEdit = true;
+    //   });
+    // } else {
+    //   debugPrint('No image selected.');
+    // }
+
+    if (pickedFile != null) {
+//      var compressedImage = await ImageCompressUtil.compressImage(file, 80);
+      Future<File> croppedFile = ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Theme.of(context).primaryColor,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ));
+
+      croppedFile.then((value) async {
+        //  var digitalSignVm = DigitalSignatureViewModel.watch(context);
         _image = value;
         DigitalSignatureViewModel.read(context).signatureFile(_image);
         Navigator.pop(context);
@@ -168,7 +211,11 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
                 SizedBox(
                   height: 10,
                 ),
-                takeAPhoto,
+                GestureDetector(
+                    onTap: () async {
+                      await getImage(isFromCamera: true);
+                    },
+                    child: takeAPhoto),
                 //SizedBox(height: 10,),
               ],
             ),

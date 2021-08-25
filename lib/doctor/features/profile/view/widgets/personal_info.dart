@@ -52,7 +52,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
     await PersonalInfoViewModel.read(context).getPersonalInfo();
     await PersonalInfoViewModel.read(context).getSpecializationName();
     await PersonalInfoViewModel.read(context).getDesignationList();
-    await digitalSignVm.getDigitalSignature();
     var personalInfoVm = PersonalInfoViewModel.read(context);
     var mobile = personalInfoVm.personalInfoData?.phoneMobile ?? "";
     _userMobile.text = mobile == "" ? "" : mobile.substring(1);
@@ -77,6 +76,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         isLoading = false;
       }
     });
+    await digitalSignVm.getDigitalSignature();
   }
 
   @override
@@ -911,87 +911,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         //barrierColor: Color(0x00ffffff),
         context: context,
         builder: (context) {
-          // bool isTablet = Responsive.isTablet(context);
-          // bool isMobile = Responsive.isMobile(context);
-          // var changePassViewModel = Provider.of<PasswordChangeViewModel>(context);
-          // var width = MediaQuery.of(context).size.width * 0.44;
-          // var deviceWidth = MediaQuery.of(context).size.width;
-          // var uploadFromGallery = Container(
-          //   height: 50,
-          //   width: deviceWidth,
-          //   decoration: BoxDecoration(
-          //       color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         SizedBox(),
-          //         Text('Upload from gallery'),
-          //         Image.asset(
-          //           uploadImageIcon,
-          //           width: 25,
-          //           cacheWidth: 25,
-          //         ),
-          //         // Icon(Icons.image,color: HexColor('#ECECEC'),)
-          //       ],
-          //     ),
-          //   ),
-          // );
-          // var takeAPhoto = Container(
-          //   height: 50,
-          //   width: deviceWidth,
-          //   decoration: BoxDecoration(
-          //       color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         SizedBox(),
-          //         Text('Take a photo'),
-          //         Icon(
-          //           Icons.camera_alt,
-          //           color: HexColor('#ECECEC'),
-          //         )
-          //       ],
-          //     ),
-          //   ),
-          // );
           return DoctorSignaturePrompt();
-          // return Center(
-          //   child: SingleChildScrollView(
-          //     child: AlertDialog(
-          //       backgroundColor: Colors.transparent,
-          //       insetPadding: EdgeInsets.symmetric(
-          //           horizontal: isTablet ? deviceWidth * .1 : deviceWidth * .1),
-          //       shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          //       contentPadding: EdgeInsets.only(top: 10.0),
-          //       content: Container(
-          //         color: Colors.transparent,
-          //         constraints: BoxConstraints(minHeight: 0),
-          //         child: Column(
-          //           mainAxisAlignment: MainAxisAlignment.start,
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           mainAxisSize: MainAxisSize.min,
-          //           children: <Widget>[
-          //             GestureDetector(
-          //                 onTap: (){
-          //
-          //                 },
-          //                 child: uploadFromGallery),
-          //             SizedBox(
-          //               height: 10,
-          //             ),
-          //             takeAPhoto,
-          //             //SizedBox(height: 10,),
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // );
         });
   }
 }

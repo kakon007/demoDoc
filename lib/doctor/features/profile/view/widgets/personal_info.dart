@@ -225,7 +225,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ? width * .86 : width * .83,
+                width: isTablet ? width * .86 : width * .88,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: _selectedDesignation==null? AppTheme.buttonInActiveColor : Color(0xffEAEBED)),
@@ -235,7 +235,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: isTablet ? width * .82 : width * .77,
+                        width: isTablet ? width * .82 : width * .82,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
                             icon: Icon(
@@ -331,7 +331,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ? width * .86 : width * .83,
+                width: isTablet ? width * .86 : width * .88,
                 decoration: BoxDecoration(
                     color: Colors.white,
                   border: Border.all(color: _selectedSpecialization==null? AppTheme.buttonInActiveColor : Color(0xffEAEBED)),
@@ -342,7 +342,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: isTablet ? width * .82 : width * .77,
+                        width: isTablet ? width * .82 : width * .82,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
                             icon: Icon(

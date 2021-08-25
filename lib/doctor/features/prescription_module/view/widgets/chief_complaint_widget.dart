@@ -1,6 +1,9 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
@@ -19,6 +22,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
   List<String> chiefComplaintSelectedItems = [];
+  int ind;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +57,26 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       ),
                       suffixIcon: IconButton(
                           onPressed: () {
-                            chiefComplaintSelectedItems.add(controller.text);
-                            controller.clear();
+                            if (ind != null) {
+                              chiefComplaintSelectedItems[ind] =
+                                  controller.text;
+                              controller.clear();
+                              ind = null;
+                            } else {
+                              if (controller.text.trim().isNotEmpty) {
+                                if (chiefComplaintSelectedItems
+                                    .contains(controller.text.trim())) {
+                                  BotToast.showText(text: "All ready added");
+                                } else {
+                                  chiefComplaintSelectedItems
+                                      .add(controller.text.trim());
+                                  controller.clear();
+                                }
+                              } else {
+                                BotToast.showText(text: "Field is empty");
+                              }
+                            }
+
                             setState(() {});
                           },
                           icon: Icon(Icons.check,
@@ -67,7 +89,11 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  chiefComplaintSelectedItems.add(v);
+                  if (chiefComplaintSelectedItems.contains(v)) {
+                    BotToast.showText(text: "All ready added");
+                  } else {
+                    chiefComplaintSelectedItems.add(v);
+                  }
                   setState(() {});
                 },
                 suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -79,22 +105,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       favoriteType:
                           PrescriptionFavouriteType.chiefComplaint.toString());
                 },
-                // noItemsFoundBuilder: noItemsFoundBuilder ??
-                //     (context) {
-                //       return SizedBox();
-                //     },
               ),
-              // TextField(
-              //   decoration: InputDecoration(
-              //     hintText: "Chief Complaint",
-              //     prefixIcon: Icon(
-              //       Icons.search,
-              //       color: AppTheme.buttonActiveColor,
-              //     ),
-              //     suffixIcon:
-              //         Icon(Icons.check, color: AppTheme.buttonActiveColor),
-              //   ),
-              // ),
               SizedBox(
                 height: 20,
               ),
@@ -149,7 +160,11 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      controller.text =
+                                          chiefComplaintSelectedItems[index];
+                                      ind = index;
+                                    },
                                     child: Container(
                                       height: 30,
                                       width: 30,
@@ -241,14 +256,28 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                             onChanged: (val) {
                               item.isCheck = val;
                               if (val == true) {
-                                chiefComplaintSelectedItems
-                                    .add(item.favouriteVal);
+                                if (chiefComplaintSelectedItems
+                                    .contains(item.favouriteVal)) {
+                                  BotToast.showText(text: "All ready added");
+                                } else {
+                                  chiefComplaintSelectedItems
+                                      .add(item.favouriteVal);
+                                }
                               }
                               setState(() {});
                             },
-                            secondary: Icon(
-                              Icons.clear,
-                              color: Colors.red,
+                            secondary: InkWell(
+                              onTap: () {
+                                SVProgressHUD.show(status: "Deleting");
+                                DeleteFavoriteLitRepository()
+                                    .deleteFavoriteList(id: item.id)
+                                    .then((value) => vm.getData());
+                                SVProgressHUD.dismiss();
+                              },
+                              child: Icon(
+                                Icons.clear,
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         );

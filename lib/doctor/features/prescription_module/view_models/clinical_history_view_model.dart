@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/chirf_complaint_repository.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_favourite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,8 @@ class ClinicalHistoryViewModel extends ChangeNotifier {
   List chiefComplaintList = [];
 
   Future<void> getData() async {
-    var res = await ChiefComplaintsRepository().fetchFavouriteList(favouriteType: PrescriptionFavouriteType.clinicalHistory.toString());
+    var res = await CommonFavouriteListRepository().fetchFavouriteList(
+        favouriteType: PrescriptionFavouriteType.clinicalHistory.toString());
     favouriteList = res.items;
     notifyListeners();
     return;

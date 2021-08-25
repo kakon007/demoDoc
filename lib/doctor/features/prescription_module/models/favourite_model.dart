@@ -33,6 +33,7 @@ class FavouriteItemModel {
     this.favouriteType,
     this.doctorNo,
     this.activeStatus,
+    this.isCheck = false,
   });
 
   int companyNo;
@@ -42,6 +43,7 @@ class FavouriteItemModel {
   int favouriteType;
   int doctorNo;
   int activeStatus;
+  bool isCheck;
 
   factory FavouriteItemModel.fromJson(Map<String, dynamic> json) =>
       FavouriteItemModel(

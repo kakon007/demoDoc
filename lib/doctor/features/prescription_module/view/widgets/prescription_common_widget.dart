@@ -30,110 +30,110 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
   bool isExpanded = true;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 10.0, left: 10, right: 10),
-      child: Material(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-          side: BorderSide(color: AppTheme.buttonActiveColor, width: 2),
-        ),
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              isExpanded = !isExpanded;
-            });
-          },
-          child: Column(
-            children: [
-              Material(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                color: AppTheme.buttonActiveColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "${widget.title}",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
-                            ),
-                          ),
-                          isExpanded
-                              ? Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 30,
-                                  color: Colors.white,
-                                )
-                              : Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 30,
-                                  color: Colors.white,
-                                )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          FlutterSwitch(
-                            activeText: "Hide",
-                            activeTextFontWeight: FontWeight.normal,
-                            inactiveTextColor: Colors.white,
-                            inactiveTextFontWeight: FontWeight.normal,
-                            activeTextColor: Colors.white,
-                            inactiveText: "Show",
-                            valueFontSize: 12,
-                            activeColor: Color(0xff55CFA6),
-                            inactiveColor: Color(0xffB1B1B1),
-                            showOnOff: true,
-                            height: 22,
-                            width: 60,
-                            toggleSize: 17,
-                            value: widget.showReport,
-                            onToggle: widget.onChangeShowReport,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              AnimatedSwitcher(
-                switchInCurve: Curves.easeIn,
-                duration: const Duration(milliseconds: 200),
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return SizeTransition(child: child, sizeFactor: animation);
-                },
-                child: Container(
-                  key: Key(isExpanded.toString()),
-                  child: isExpanded
-                      ? Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: widget.expandedWidget,
-                              ),
-                            ],
-                          ),
-                        )
-                      : SizedBox(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    // return Padding(
+    //   padding: EdgeInsets.only(top: 10.0, left: 10, right: 10),
+    //   child: Material(
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(5),
+    //       side: BorderSide(color: AppTheme.buttonActiveColor, width: 2),
+    //     ),
+    //     color: Theme.of(context).scaffoldBackgroundColor,
+    //     child: InkWell(
+    //       onTap: () {
+    //         setState(() {
+    //           isExpanded = !isExpanded;
+    //         });
+    //       },
+    //       child: Column(
+    //         children: [
+    //           Material(
+    //             shape: RoundedRectangleBorder(
+    //               borderRadius: BorderRadius.circular(5),
+    //             ),
+    //             color: AppTheme.buttonActiveColor,
+    //             child: Padding(
+    //               padding: const EdgeInsets.all(16.0),
+    //               child: Column(
+    //                 children: [
+    //                   Row(
+    //                     children: [
+    //                       Expanded(
+    //                         child: Text(
+    //                           "${widget.title}",
+    //                           style: TextStyle(
+    //                               fontSize: 18,
+    //                               fontWeight: FontWeight.w600,
+    //                               color: Colors.white),
+    //                         ),
+    //                       ),
+    //                       isExpanded
+    //                           ? Icon(
+    //                               Icons.keyboard_arrow_up,
+    //                               size: 30,
+    //                               color: Colors.white,
+    //                             )
+    //                           : Icon(
+    //                               Icons.keyboard_arrow_down,
+    //                               size: 30,
+    //                               color: Colors.white,
+    //                             )
+    //                     ],
+    //                   ),
+    //                   SizedBox(
+    //                     height: 5,
+    //                   ),
+    //                   Row(
+    //                     children: [
+    //                       FlutterSwitch(
+    //                         activeText: "Hide",
+    //                         activeTextFontWeight: FontWeight.normal,
+    //                         inactiveTextColor: Colors.white,
+    //                         inactiveTextFontWeight: FontWeight.normal,
+    //                         activeTextColor: Colors.white,
+    //                         inactiveText: "Show",
+    //                         valueFontSize: 12,
+    //                         activeColor: Color(0xff55CFA6),
+    //                         inactiveColor: Color(0xffB1B1B1),
+    //                         showOnOff: true,
+    //                         height: 22,
+    //                         width: 60,
+    //                         toggleSize: 17,
+    //                         value: widget.showReport,
+    //                         onToggle: widget.onChangeShowReport,
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //           AnimatedSwitcher(
+    //             switchInCurve: Curves.easeIn,
+    //             duration: const Duration(milliseconds: 200),
+    //             transitionBuilder: (Widget child, Animation<double> animation) {
+    //               return SizeTransition(child: child, sizeFactor: animation);
+    //             },
+    //             child: Container(
+    //               key: Key(isExpanded.toString()),
+    //               child: isExpanded
+    //                   ? Padding(
+    //                       padding: const EdgeInsets.all(16),
+    //                       child: Row(
+    //                         children: [
+    //                           Expanded(
+    //                             child: widget.expandedWidget,
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     )
+    //                   : SizedBox(),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
     return ExpandableNotifier(
         controller: controller,
         child: Padding(
@@ -165,7 +165,8 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
-                                        .copyWith(color: Colors.white),
+                                        .copyWith(
+                                            color: Colors.white, fontSize: 16),
                                   ),
                                 ),
                                 ExpandableIcon(

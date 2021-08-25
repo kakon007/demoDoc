@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/doctor/features/emr_screen/view_model/prescriptio
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
@@ -143,6 +144,8 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<PrescriptionListDocViewModel>(create: (context) => PrescriptionListDocViewModel()),
       ChangeNotifierProvider<PastIllnessViewModel>(create: (context) => PastIllnessViewModel()),
       ChangeNotifierProvider<ClinicalHistoryViewModel>(create: (context) => ClinicalHistoryViewModel()),
+      ChangeNotifierProvider<ProvisionalDiagnosisViewModel>(
+          create: (context) => ProvisionalDiagnosisViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

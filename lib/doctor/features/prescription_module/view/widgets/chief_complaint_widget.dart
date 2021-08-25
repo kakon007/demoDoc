@@ -1,10 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class ChiefComplaintWidget extends StatefulWidget {
   const ChiefComplaintWidget({Key key}) : super(key: key);
@@ -14,6 +15,8 @@ class ChiefComplaintWidget extends StatefulWidget {
 
 class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   bool showReport = false;
+  TextEditingController controller = TextEditingController();
+  List<String> selectedItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -26,43 +29,134 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
       showReport: showReport,
       title: "Chief Complaint",
       expandedWidget: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
         child: Padding(
-          padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 10, right: 10),
+          padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 5, right: 5),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Chief Complaint",
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: AppTheme.buttonActiveColor,
-                  ),
-                  suffixIcon:
-                      Icon(Icons.check, color: AppTheme.buttonActiveColor),
+              TypeAheadFormField<String>(
+                textFieldConfiguration: TextFieldConfiguration(
+                    textInputAction: TextInputAction.search,
+                    controller: controller,
+                    decoration: InputDecoration(
+                      hintText: "Chief Complaint",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: AppTheme.buttonActiveColor,
+                      ),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            selectedItems.add(controller.text);
+                            controller.clear();
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.check,
+                              color: AppTheme.buttonActiveColor)),
+                    )),
+                itemBuilder: (_, v) {
+                  return Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text("$v"),
+                  );
+                },
+                onSuggestionSelected: (v) {
+                  selectedItems.add(v);
+                  setState(() {});
+                },
+                suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                suggestionsCallback: (v) {
+                  return PreDiagnosisSearchRepository().fetchSearchList(v);
+                },
+                // noItemsFoundBuilder: noItemsFoundBuilder ??
+                //     (context) {
+                //       return SizedBox();
+                //     },
+              ),
+              // TextField(
+              //   decoration: InputDecoration(
+              //     hintText: "Chief Complaint",
+              //     prefixIcon: Icon(
+              //       Icons.search,
+              //       color: AppTheme.buttonActiveColor,
+              //     ),
+              //     suffixIcon:
+              //         Icon(Icons.check, color: AppTheme.buttonActiveColor),
+              //   ),
+              // ),
+              SizedBox(
+                height: 20,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                      selectedItems.length,
+                      (index) => Container(
+                          margin: EdgeInsets.only(right: 5),
+                          decoration: BoxDecoration(
+                            color: Color(0xffEFF5FF),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Color(0xffE6374DF)),
+                                      child: Icon(
+                                        Icons.keyboard_arrow_left,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "${selectedItems[index]}",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      selectedItems.removeAt(index);
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Color(0xffE6374DF)),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ))),
                 ),
               ),
-              Container(
-                height: 150,
-                child: ListView.builder(
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return index < 3
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("search $index"),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Add 'Pain' to favourites",
-                              style:
-                                  TextStyle(color: AppTheme.buttonActiveColor),
-                            ),
-                          );
-                  },
-                ),
+              SizedBox(
+                height: 20,
               ),
               Container(
                 child: Column(
@@ -110,16 +204,9 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                             title: Text("${item.favouriteVal}"),
                             value: false,
                             onChanged: (val) {},
-                            secondary: InkWell(
-                              onTap: (){
-                                SVProgressHUD.show(status: "Deleting");
-                                DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
-                                SVProgressHUD.dismiss();
-                              },
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.red,
-                              ),
+                            secondary: Icon(
+                              Icons.clear,
+                              color: Colors.red,
                             ),
                           ),
                         );

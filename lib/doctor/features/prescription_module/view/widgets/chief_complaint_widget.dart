@@ -32,10 +32,10 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
     initialFavoriteSearch.addAll(vm.favouriteList);
     if (query.isNotEmpty) {
-      List<FavouriteItemModel> initialFavoriteSearchItems = List<FavouriteItemModel>();
+      List<FavouriteItemModel> initialFavoriteSearchItems =
+          List<FavouriteItemModel>();
       initialFavoriteSearch.forEach((item) {
-        if (item.favouriteVal.toLowerCase()
-            .contains(query.toLowerCase())) {
+        if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
           print(initialFavoriteSearchItems);
         }
@@ -52,14 +52,20 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
       });
     }
   }
+
   List<FavouriteItemModel> favoriteItems = [];
   @override
   void initState() {
-    var vm = appNavigator.context.read<ChiefComplaintViewModel>();
-    favoriteItems.addAll(vm.favouriteList);
+    Future.delayed(Duration.zero).then((value) async {
+      var vm = context.read<ChiefComplaintViewModel>();
+      await vm.getData();
+      favoriteItems.addAll(vm.favouriteList);
+    });
+
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ChiefComplaintViewModel>();
@@ -187,7 +193,8 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                               favoriteVal:
                                                   chiefComplaintSelectedItems[
                                                       index])
-                                          .then((value) async => await vm.getData());
+                                          .then((value) async =>
+                                              await vm.getData());
                                       _favoriteController.clear();
                                       favoriteItems.clear();
                                       favoriteItems.addAll(vm.favouriteList);

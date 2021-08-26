@@ -13,14 +13,14 @@ class PrescriptionCommonWidget extends StatefulWidget {
   final bool showReport;
   final bool isFixed;
 
-  const PrescriptionCommonWidget({
-    Key key,
-    @required this.title,
-    @required this.expandedWidget,
-    @required this.onChangeShowReport,
-    @required this.showReport,
-    this.isFixed =false
-  }) : super(key: key);
+  const PrescriptionCommonWidget(
+      {Key key,
+      @required this.title,
+      @required this.expandedWidget,
+      @required this.onChangeShowReport,
+      @required this.showReport,
+      this.isFixed = false})
+      : super(key: key);
 
   @override
   _PrescriptionCommonWidgetState createState() =>
@@ -31,7 +31,7 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
   ExpandableController controller;
   @override
   void initState() {
-    controller = ExpandableController(initialExpanded: true);
+    controller = ExpandableController(initialExpanded: false);
     super.initState();
   }
 
@@ -56,14 +56,26 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                     ),
                     header: Container(
                       decoration: BoxDecoration(
-                          color: widget.isFixed? Colors.white
-                              : AppTheme.buttonActiveColor,
-                          border: Border(
-                            top: BorderSide( color: widget.isFixed ? Color(0xffD2D2D2) : AppTheme.buttonActiveColor,),
-                            right: BorderSide( color: widget.isFixed ? Color(0xffD2D2D2) : AppTheme.buttonActiveColor,),
-                            left: BorderSide( color: widget.isFixed ? Color(0xffD2D2D2) : AppTheme.buttonActiveColor,),
+                        color: widget.isFixed
+                            ? Colors.white
+                            : AppTheme.buttonActiveColor,
+                        border: Border(
+                          top: BorderSide(
+                            color: widget.isFixed
+                                ? Color(0xffD2D2D2)
+                                : AppTheme.buttonActiveColor,
                           ),
-
+                          right: BorderSide(
+                            color: widget.isFixed
+                                ? Color(0xffD2D2D2)
+                                : AppTheme.buttonActiveColor,
+                          ),
+                          left: BorderSide(
+                            color: widget.isFixed
+                                ? Color(0xffD2D2D2)
+                                : AppTheme.buttonActiveColor,
+                          ),
+                        ),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -78,16 +90,21 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                                         .textTheme
                                         .bodyText1
                                         .copyWith(
-                                            color:widget.isFixed?Colors.black : Colors.white, fontSize: 16),
+                                            color: widget.isFixed
+                                                ? Colors.black
+                                                : Colors.white,
+                                            fontSize: 16),
                                   ),
                                 ),
                                 ExpandableIcon(
-                                  theme:  ExpandableThemeData(
+                                  theme: ExpandableThemeData(
                                     expandIcon:
                                         Icons.keyboard_arrow_down_outlined,
                                     collapseIcon:
                                         Icons.keyboard_arrow_up_outlined,
-                                    iconColor: widget.isFixed? Color(0xff333333) : Colors.white,
+                                    iconColor: widget.isFixed
+                                        ? Color(0xff333333)
+                                        : Colors.white,
                                     iconSize: 28.0,
                                     iconRotationAngle: math.pi / 2,
                                     iconPadding: EdgeInsets.only(right: 5),

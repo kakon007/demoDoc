@@ -451,8 +451,28 @@ class _EmrScreenState extends State<EmrScreen> {
                                       children: [
                                         Scaffold(
                                           backgroundColor: Colors.white,
-                                          body: ListView.separated(
-
+                                          body: vm.prescriptionList.length == 0
+                                              ?
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Container(
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'No prescription available now',
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.poppins(
+                                                        color: HexColor('#AEB0BA'),
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: isTablet ? 22 : 16),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                              :ListView.separated(
                                               itemCount: vm.prescriptionList.length,
                                               shrinkWrap: true,
                                               itemBuilder:
@@ -483,12 +503,6 @@ class _EmrScreenState extends State<EmrScreen> {
                                                                           0.50
                                                                       : MediaQuery.of(context).size.width *
                                                                           0.50,
-                                                              // width: MediaQuery.of(context)
-                                                              //             .size
-                                                              //             .width >
-                                                              //         350
-                                                              //     ? 220
-                                                              //     : 200,
                                                               child: Text(
                                                                 vm.prescriptionList[index].doctorName,
                                                                 style: GoogleFonts.poppins(
@@ -539,7 +553,7 @@ class _EmrScreenState extends State<EmrScreen> {
                                                                     width: 8,
                                                                   ),
                                                                   Text(
-                                                                    '22 February 2021',
+                                                                    DateUtil().formattedDate(DateTime.parse(vm.prescriptionList[index].ssCreatedOn).toLocal()),
                                                                     style: GoogleFonts.poppins(
                                                                         // color: HexColor(
                                                                         //   '#354291',
@@ -1203,5 +1217,15 @@ class _EmrScreenState extends State<EmrScreen> {
         ),
       ),
     );
+  }
+}
+
+
+class DateUtil {
+  static const DATE_FORMAT = 'dd/MM/yyyy   hh:mm a';
+
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

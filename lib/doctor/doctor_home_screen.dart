@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/doctor_dashboard.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view/emr_screen.dart';
+import 'package:myhealthbd_app/doctor/features/patient_details/view/pateint_details_screen.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_templates_pop_up.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/doctor_profile.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view/doctor_worklist.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/prescription_module.dart';
@@ -104,8 +106,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
     List pages = <Widget>[
       DoctorDashboard(),
       Worklist(),
-      //Module(),
-      EmrScreen(),
+      Module(),
+      //PrescriptionTemplatesPopup(),
       DoctorProfile()
     ];
     var bottomNavBar = BottomNavigationBar(

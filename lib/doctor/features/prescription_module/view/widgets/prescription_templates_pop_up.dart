@@ -54,7 +54,7 @@ class _PrescriptionTemplatesPopupState extends State<PrescriptionTemplatesPopup>
                                 : 16,
                             fontWeight: FontWeight.w600),),
                         SizedBox(width: 50,),
-                        Icon(Icons.close)
+                        InkWell(onTap: (){Navigator.pop(context);},child: Icon(Icons.close))
                       ],
                     ),
                   ),
@@ -121,51 +121,65 @@ class _PrescriptionTemplatesPopupState extends State<PrescriptionTemplatesPopup>
                                     : 16,
                                 fontWeight: FontWeight.w600),),
                       Divider(),
-                      Column(
-                        //mainAxisSize: MainAxisSize.min,
-                        children: List.generate(vm.prescriptionTamplateList.length, (int index) {
-                          return SingleChildScrollView(
-                            child: Container(
-                              child: Column(
+                      Expanded(
+                        child: Scaffold(
+                          body: Container(
+                            //mainAxisSize: MainAxisSize.min,
+                            child: ListView.builder(itemCount: vm.prescriptionTamplateList.length,
+                                shrinkWrap: true,
+                                itemBuilder:
+                                    (BuildContext context,
+                                    int index)  {
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 12.0),
-                                        child: Row(
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 12.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
                                           children: [
                                             Icon(Icons.close,color: Color(0xffFB7F7F),),
                                             SizedBox(width: 12,),
-                                            Text(vm.prescriptionTamplateList[index].templateName, style: GoogleFonts.poppins(
+                                            Container(
+                                              width: 100,
+                                              child: Text(vm.prescriptionTamplateList[index].templateName, style: GoogleFonts.poppins(
                                                 fontSize: isTablet
                                                     ? 20
                                                     : width <= 330
                                                     ? 13
                                                     : 16,
-                                                fontWeight: FontWeight.w600),),
+                                                fontWeight: FontWeight.w600,),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                            ),
                                           ],
                                         ),
-                                      ),
-                                      SizedBox(width: 50,),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 50,),
+                                  Column(
+                                    children: [
                                       Radio(
                                         //description: "Covid Patient",
                                         focusColor: HexColor('#6374DF'),
                                         value: index,
                                         groupValue: selectedRadio,
                                         onChanged: (int value) {
-                                          setState(() => selectedRadio = value);
+                                          setState(() {
+                                            selectedRadio = value;
+                                            print('value $selectedRadio');
+                                          });
                                         },
                                         //textPosition: RadioButtonTextPosition.left,
                                       ),
-
                                     ],
                                   ),
+
                                 ],
-                              ),
-                            ),
-                          );
-                        }),
+                              );
+                            }),
+                          ),
+                        ),
                       ),
                             SizedBox(height: 40,),
                             Material(

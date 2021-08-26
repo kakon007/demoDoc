@@ -257,34 +257,37 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                       itemCount: vm.favouriteList.length,
                       itemBuilder: (context, index) {
                         var item = vm.favouriteList[index];
-                        return Padding(
-                          padding: EdgeInsets.only(left: 5.0, right: 20.0),
-                          child: CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text("${item.favouriteVal}"),
-                            value: item.isCheck,
-                            onChanged: (val) {
-                              item.isCheck = val;
-                              if (val == true) {
-                                if (pastIllnessSelectedItems
-                                    .contains(item.favouriteVal)) {
-                                  BotToast.showText(text: "All ready added");
-                                } else {
-                                  pastIllnessSelectedItems
-                                      .add(item.favouriteVal);
+                        return Container(
+                          color:(index%2==0)?Color(0xffEFF5FF) : Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5.0, right: 20.0),
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("${item.favouriteVal}"),
+                              value: item.isCheck,
+                              onChanged: (val) {
+                                item.isCheck = val;
+                                if (val == true) {
+                                  if (pastIllnessSelectedItems
+                                      .contains(item.favouriteVal)) {
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    pastIllnessSelectedItems
+                                        .add(item.favouriteVal);
+                                  }
                                 }
-                              }
-                              setState(() {});
-                            },
-                            secondary: InkWell(
-                              onTap: () async {
-                                SVProgressHUD.show(status: "Deleting");
-                                await DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
-                                SVProgressHUD.dismiss();
+                                setState(() {});
                               },
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.red,
+                              secondary: InkWell(
+                                onTap: () async {
+                                  SVProgressHUD.show(status: "Deleting");
+                                  await DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
+                                  SVProgressHUD.dismiss();
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ),

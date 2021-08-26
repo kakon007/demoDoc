@@ -10,7 +10,6 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 class PrescriptionListDocViewModel extends ChangeNotifier{
   List<Datum> _prescriptionList =[];
   AppError _appError;
-  DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
   int _pageCount = 0;
@@ -44,17 +43,10 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
 
 
   Future<bool> getData({var fromDate,var todate}) async {
-    // CacheRepositories.loadCachedPrescriptionList(0).then((value){
-    //   if(value!=null){
-    //     _prescriptionList=value.obj.data;
-    //     notifyListeners();
-    //   }
-    // });
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    //_lastFetchTime = DateTime.now();
-    var res = await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:fromDate);
+    var res = await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:fromDate,startIndex: startIndex);
     notifyListeners();
     _prescriptionList.clear();
     res.fold((l) {
@@ -73,17 +65,13 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
     });
   }
 
-  getMoreData(String accessToken) async {
-    print("Calling from getMoreData:::::");
-    print("HasMoreData ${hasMoreData}");
-    print("fetch ${isFetchingMoreData}");
-    print("fetched ${isFetchingData}");
+  getMoreData({var fromDate,var todate}) async {
     if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
       startIndex+=limit;
       _pageCount++;
       isFetchingMoreData = true;
       Either<AppError, PrescriptionListM> result =
-      await PrescriptionListRepository().fetchPrescriptionList();
+      await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:fromDate,startIndex: startIndex);
       return result.fold((l) {
         isFetchingMoreData= false;
         hasMoreData = false;
@@ -91,10 +79,9 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
         notifyListeners();
         return false;
       }, (r) {
-
         hasMoreData = r.totalCount-1>startIndex+limit;
         isFetchingMoreData = false;
-        _prescriptionList.addAll(r.datafromprescriptionList.cast<Datum>());
+        _prescriptionList.addAll(r.datafromprescriptionList);
         count = r.totalCount;
         notifyListeners();
         return true;

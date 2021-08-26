@@ -31,7 +31,7 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
   ExpandableController controller;
   @override
   void initState() {
-    controller = ExpandableController(initialExpanded: false);
+    controller = ExpandableController(initialExpanded: true);
     super.initState();
   }
 

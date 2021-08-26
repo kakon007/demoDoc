@@ -8,7 +8,7 @@ class CommonFavouriteListRepository {
       var response = await ApiClient().postRequest(
           "prescription-service-api/api/favourites/list",
           {"favouriteType": favouriteType});
-      print(response.statusCode);
+      print("favouriteType $favouriteType ${response.body}");
       if (response.statusCode == 200) {
         var body = response.body;
         FavouriteListModel data = favouriteListModelFromJson(body);

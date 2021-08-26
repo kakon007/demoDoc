@@ -33,8 +33,8 @@ class _ModuleState extends State<Module> {
     super.initState();
   }
 
-  init() {
-    ChiefComplaintViewModel.read(context).getData();
+  init() async {
+    await ChiefComplaintViewModel.read(context).getData();
     ProvisionalDiagnosisViewModel.read(context).getData();
     PastIllnessViewModel.read(context).getData();
     ClinicalHistoryViewModel.read(context).getData();

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_prescription_search_items_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
@@ -22,8 +23,51 @@ class InvestigationWidget extends StatefulWidget {
 class _InvestigationWidgetState extends State<InvestigationWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
+  TextEditingController _favoriteController = TextEditingController();
   List<CommonPrescriptionSearchItems> investigationSelectedItems = [];
   int ind;
+  var vm = appNavigator.context.read<InvestigationViewModel>();
+  void searchFavoriteItem(String query) {
+    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    initialFavoriteSearch = vm.favouriteList;
+    print("init ${initialFavoriteSearch.length}");
+    if (query.isNotEmpty) {
+      List<FavouriteItemModel> initialFavoriteSearchItems =
+          List<FavouriteItemModel>();
+      initialFavoriteSearch.forEach((item) {
+        if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
+          initialFavoriteSearchItems.add(item);
+          print(initialFavoriteSearchItems.length);
+        }
+      });
+      setState(() {
+        print('shak');
+        favoriteItems.clear();
+        favoriteItems.addAll(initialFavoriteSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        print('sha');
+        favoriteItems.clear();
+        favoriteItems.addAll(vm.favouriteList);
+      });
+    }
+  }
+
+  List<FavouriteItemModel> favoriteItems = [];
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then((value) async {
+      var vm = context.read<InvestigationViewModel>();
+      await vm.getData();
+      favoriteItems.addAll(vm.favouriteList);
+    });
+
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -245,16 +289,24 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: () {
-                                      CommonAddToFavoriteListRepository()
+                                    onTap: () async {
+                                      await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
                                               favoriteType: "36",
                                               favoriteVal:
                                                   investigationSelectedItems[
                                                           index]
                                                       .itemName)
-                                          .then((value) => vm.getData());
-                                      // setState(() {});
+                                          .then((value) async =>
+                                              await vm.getData());
+                                      favoriteItems.clear();
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
+                                        favoriteItems = vm.favouriteList;
+                                      }
                                     },
                                     child: Icon(
                                       Icons.favorite_border,
@@ -332,6 +384,11 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                         Container(
                           width: 250,
                           child: TextField(
+                            onChanged: (value) {
+                              searchFavoriteItem(value.toLowerCase());
+                              // departmentSearch(value.toUpperCase());
+                            },
+                            controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.only(left: 10, top: 20),
@@ -348,9 +405,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: vm.favouriteList.length,
+                      itemCount: favoriteItems.length,
                       itemBuilder: (context, index) {
-                        var item = vm.favouriteList[index];
+                        var item = favoriteItems[index];
                         return Padding(
                           padding: EdgeInsets.only(left: 5.0, right: 20.0),
                           child: CheckboxListTile(
@@ -373,12 +430,19 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               setState(() {});
                             },
                             secondary: InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 SVProgressHUD.show(status: "Deleting");
-                                DeleteFavoriteLitRepository()
+                                await DeleteFavoriteLitRepository()
                                     .deleteFavoriteList(id: item.id)
-                                    .then((value) => vm.getData());
+                                    .then((value) async => await vm.getData());
                                 SVProgressHUD.dismiss();
+                                favoriteItems.clear();
+                                if (_favoriteController.text.isNotEmpty) {
+                                  searchFavoriteItem(
+                                      _favoriteController.text.toLowerCase());
+                                } else {
+                                  favoriteItems = vm.favouriteList;
+                                }
                               },
                               child: Icon(
                                 Icons.clear,

@@ -31,11 +31,11 @@ class _ModuleState extends State<Module> {
 
   init() async {
     await ChiefComplaintViewModel.read(context).getData();
-    ProvisionalDiagnosisViewModel.read(context).getData();
-    PastIllnessViewModel.read(context).getData();
-    ClinicalHistoryViewModel.read(context).getData();
+    await ProvisionalDiagnosisViewModel.read(context).getData();
+    await PastIllnessViewModel.read(context).getData();
+    await ClinicalHistoryViewModel.read(context).getData();
     AdviceViewModel.read(context).getData();
-    InvestigationViewModel.read(context).getData();
+    await InvestigationViewModel.read(context).getData();
   }
 
   @override

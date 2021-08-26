@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
@@ -9,6 +10,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -22,8 +24,49 @@ class ProcedureWidget extends StatefulWidget {
 class _ProcedureWidgetState extends State<ProcedureWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
+  TextEditingController _favoriteController = TextEditingController();
+
   List<String> procedureSelectedItems = [];
   int ind;
+
+  var vm = appNavigator.context.read<ProcedureViewModel>();
+  void searchFavoriteItem(String query) {
+    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    initialFavoriteSearch.addAll(vm.favouriteList);
+    if (query.isNotEmpty) {
+      List<FavouriteItemModel> initialFavoriteSearchItems =
+          List<FavouriteItemModel>();
+      initialFavoriteSearch.forEach((item) {
+        if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
+          initialFavoriteSearchItems.add(item);
+          print(initialFavoriteSearchItems);
+        }
+      });
+      setState(() {
+        favoriteItems.clear();
+        favoriteItems.addAll(initialFavoriteSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        favoriteItems.clear();
+        favoriteItems.addAll(vm.favouriteList);
+      });
+    }
+  }
+
+  List<FavouriteItemModel> favoriteItems = [];
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then((value) async {
+      var vm = context.read<ProcedureViewModel>();
+      await vm.getData();
+      favoriteItems.addAll(vm.favouriteList);
+    });
+
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +182,8 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: () {
-                                      CommonAddToFavoriteListRepository()
+                                    onTap: () async {
+                                      await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
                                               favoriteType:
                                                   PrescriptionFavouriteType
@@ -149,6 +192,9 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                                               favoriteVal:
                                                   procedureSelectedItems[index])
                                           .then((value) => vm.getData());
+                                      _favoriteController.clear();
+                                      favoriteItems.clear();
+                                      favoriteItems.addAll(vm.favouriteList);
                                       // setState(() {});
                                     },
                                     child: Icon(
@@ -225,6 +271,11 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                         Container(
                           width: 250,
                           child: TextField(
+                            onChanged: (value) {
+                              searchFavoriteItem(value.toLowerCase());
+                              // departmentSearch(value.toUpperCase());
+                            },
+                            controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.only(left: 10, top: 20),
@@ -241,9 +292,9 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: vm.favouriteList.length,
+                      itemCount: favoriteItems.length,
                       itemBuilder: (context, index) {
-                        var item = vm.favouriteList[index];
+                        var item = favoriteItems[index];
                         return Padding(
                           padding: EdgeInsets.only(left: 5.0, right: 20.0),
                           child: CheckboxListTile(
@@ -263,11 +314,14 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                               setState(() {});
                             },
                             secondary: InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 SVProgressHUD.show(status: "Deleting");
-                                DeleteFavoriteLitRepository()
+                                await DeleteFavoriteLitRepository()
                                     .deleteFavoriteList(id: item.id)
                                     .then((value) => vm.getData());
+                                _favoriteController.clear();
+                                favoriteItems.clear();
+                                favoriteItems.addAll(vm.favouriteList);
                                 SVProgressHUD.dismiss();
                               },
                               child: Icon(

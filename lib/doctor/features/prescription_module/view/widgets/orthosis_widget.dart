@@ -2,12 +2,14 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -22,7 +24,48 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
   bool showReport = false;
   int ind;
   TextEditingController controller = TextEditingController();
+  TextEditingController _favoriteController = TextEditingController();
+
   List<String> orthosisSelectedItems = [];
+
+  var vm = appNavigator.context.read<OrthosisViewModel>();
+  void searchFavoriteItem(String query) {
+    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    initialFavoriteSearch.addAll(vm.favouriteList);
+    if (query.isNotEmpty) {
+      List<FavouriteItemModel> initialFavoriteSearchItems =
+          List<FavouriteItemModel>();
+      initialFavoriteSearch.forEach((item) {
+        if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
+          initialFavoriteSearchItems.add(item);
+          print(initialFavoriteSearchItems);
+        }
+      });
+      setState(() {
+        favoriteItems.clear();
+        favoriteItems.addAll(initialFavoriteSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        favoriteItems.clear();
+        favoriteItems.addAll(vm.favouriteList);
+      });
+    }
+  }
+
+  List<FavouriteItemModel> favoriteItems = [];
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then((value) async {
+      var vm = context.read<OrthosisViewModel>();
+      await vm.getData();
+      favoriteItems.addAll(vm.favouriteList);
+    });
+
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,16 +181,20 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: () {
-                                      CommonAddToFavoriteListRepository()
+                                    onTap: () async {
+                                      await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
                                               favoriteType:
                                                   PrescriptionFavouriteType
-                                                      .chiefComplaint
+                                                      .orthosis
                                                       .toString(),
                                               favoriteVal:
                                                   orthosisSelectedItems[index])
-                                          .then((value) => vm.getData());
+                                          .then((value) async =>
+                                              await vm.getData());
+                                      _favoriteController.clear();
+                                      favoriteItems.clear();
+                                      favoriteItems.addAll(vm.favouriteList);
                                       // setState(() {});
                                     },
                                     child: Icon(
@@ -224,6 +271,11 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                         Container(
                           width: 250,
                           child: TextField(
+                            onChanged: (value) {
+                              searchFavoriteItem(value.toLowerCase());
+                              // departmentSearch(value.toUpperCase());
+                            },
+                            controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.only(left: 10, top: 20),
@@ -240,9 +292,10 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: vm.favouriteList.length,
+                      itemCount: favoriteItems.length,
                       itemBuilder: (context, index) {
-                        var item = vm.favouriteList[index];
+                        // var item = vm.favouriteList[index];
+                        var item = favoriteItems[index];
                         return Padding(
                           padding: EdgeInsets.only(left: 5.0, right: 20.0),
                           child: CheckboxListTile(
@@ -262,11 +315,14 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                               setState(() {});
                             },
                             secondary: InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 SVProgressHUD.show(status: "Deleting");
-                                DeleteFavoriteLitRepository()
+                                await DeleteFavoriteLitRepository()
                                     .deleteFavoriteList(id: item.id)
                                     .then((value) => vm.getData());
+                                _favoriteController.clear();
+                                favoriteItems.clear();
+                                favoriteItems.addAll(vm.favouriteList);
                                 SVProgressHUD.dismiss();
                               },
                               child: Icon(

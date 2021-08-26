@@ -7,7 +7,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disease_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigation_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/oethosis_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/orthosis_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/procedure_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/provisional_diagnosis_widget.dart';

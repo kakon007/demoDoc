@@ -128,58 +128,62 @@ class _DisposalWidgetState extends State<DisposalWidget> {
               ],
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                children: [
-                  Container(
-                    width: 70,
-                    height: 40,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
+            _radioSelected == 2
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 70,
+                          height: 40,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                          width: 100,
+                          height: 40,
+                          child: TextField(
+                            decoration: InputDecoration(
+                                // suffixIcon: Icon(
+                                //   Icons.keyboard_arrow_down,
+                                //   color: Colors.grey,
+                                // ),
+                                border: OutlineInputBorder(),
+                                labelText: 'Months',
+                                // isDense: true,
+                                labelStyle: TextStyle(fontSize: 14)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                          width: 120,
+                          height: 40,
+                          child: TextField(
+                            decoration: InputDecoration(
+                                // suffixIcon: Icon(
+                                //   Icons.date_range_outlined,
+                                //   color: Colors.grey,
+                                // ),
+                                border: OutlineInputBorder(),
+                                labelText: 'Duration',
+                                // isDense: true,
+                                labelStyle: TextStyle(fontSize: 14)),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Container(
-                    width: 100,
-                    height: 40,
-                    child: TextField(
-                      decoration: InputDecoration(
-                          // suffixIcon: Icon(
-                          //   Icons.keyboard_arrow_down,
-                          //   color: Colors.grey,
-                          // ),
-                          border: OutlineInputBorder(),
-                          labelText: 'Months',
-                          // isDense: true,
-                          labelStyle: TextStyle(fontSize: 14)),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Container(
-                    width: 120,
-                    height: 40,
-                    child: TextField(
-                      decoration: InputDecoration(
-                          // suffixIcon: Icon(
-                          //   Icons.date_range_outlined,
-                          //   color: Colors.grey,
-                          // ),
-                          border: OutlineInputBorder(),
-                          labelText: 'Duration',
-                          // isDense: true,
-                          labelStyle: TextStyle(fontSize: 14)),
-                    ),
-                  ),
-                ],
-              ),
-            )
+                  )
+                : SizedBox(
+                    height: 60,
+                  )
           ],
         ),
       ),

@@ -27,7 +27,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ChiefComplaintViewModel>();
-    var spaceBetween  = SizedBox(
+    var spaceBetween = SizedBox(
       height: 10,
     );
     var bodyTemperature = VitalsTextField(
@@ -80,7 +80,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
         showReport = val;
         setState(() {});
       },
-      isFixed: true,
+      // isFixed: true,
       showReport: showReport,
       title: "Vitals",
       expandedWidget: Container(
@@ -93,7 +93,8 @@ class _VitalsWidgetState extends State<VitalsWidget> {
           padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 5, right: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [bodyTemperature,
+            children: [
+              bodyTemperature,
               spaceBetween,
               pulse,
               spaceBetween,

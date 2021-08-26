@@ -382,6 +382,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                       children: [
                         SizedBox(),
                         Container(
+                          padding: EdgeInsets.only(bottom: 10),
                           width: 250,
                           child: TextField(
                             onChanged: (value) {
@@ -409,44 +410,50 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                       itemBuilder: (context, index) {
                         var item = favoriteItems[index];
                         return Padding(
-                          padding: EdgeInsets.only(left: 5.0, right: 20.0),
-                          child: CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text("${item.favouriteVal}"),
-                            value: item.isCheck,
-                            onChanged: (val) {
-                              item.isCheck = val;
-                              if (val == true) {
-                                if (investigationSelectedItems
-                                    .contains(item.favouriteVal)) {
-                                  BotToast.showText(text: "All ready added");
-                                } else {
-                                  investigationSelectedItems.add(
-                                      CommonPrescriptionSearchItems(
-                                          itemName: item.favouriteVal,
-                                          itemTypeNo: item.favouriteType));
+                          padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                          child: Container(
+                            color: (index % 2 == 0)
+                                ? Color(0xffEFF5FF)
+                                : Colors.white,
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("${item.favouriteVal}"),
+                              value: item.isCheck,
+                              onChanged: (val) {
+                                item.isCheck = val;
+                                if (val == true) {
+                                  if (investigationSelectedItems
+                                      .contains(item.favouriteVal)) {
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    investigationSelectedItems.add(
+                                        CommonPrescriptionSearchItems(
+                                            itemName: item.favouriteVal,
+                                            itemTypeNo: item.favouriteType));
+                                  }
                                 }
-                              }
-                              setState(() {});
-                            },
-                            secondary: InkWell(
-                              onTap: () async {
-                                SVProgressHUD.show(status: "Deleting");
-                                await DeleteFavoriteLitRepository()
-                                    .deleteFavoriteList(id: item.id)
-                                    .then((value) async => await vm.getData());
-                                SVProgressHUD.dismiss();
-                                favoriteItems.clear();
-                                if (_favoriteController.text.isNotEmpty) {
-                                  searchFavoriteItem(
-                                      _favoriteController.text.toLowerCase());
-                                } else {
-                                  favoriteItems = vm.favouriteList;
-                                }
+                                setState(() {});
                               },
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.red,
+                              secondary: InkWell(
+                                onTap: () async {
+                                  SVProgressHUD.show(status: "Deleting");
+                                  await DeleteFavoriteLitRepository()
+                                      .deleteFavoriteList(id: item.id)
+                                      .then(
+                                          (value) async => await vm.getData());
+                                  SVProgressHUD.dismiss();
+                                  favoriteItems.clear();
+                                  if (_favoriteController.text.isNotEmpty) {
+                                    searchFavoriteItem(
+                                        _favoriteController.text.toLowerCase());
+                                  } else {
+                                    favoriteItems = vm.favouriteList;
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ),

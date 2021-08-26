@@ -2,13 +2,14 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/disease_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -21,8 +22,48 @@ class DiseaseWidget extends StatefulWidget {
 class _DiseaseWidgetState extends State<DiseaseWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
+  TextEditingController _favoriteController = TextEditingController();
   List<String> diseaseSelectedItems = [];
   int ind;
+  var vm = appNavigator.context.read<DiseaseViewModel>();
+  void searchFavoriteItem(String query) {
+    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    initialFavoriteSearch = vm.favouriteList;
+    print("init ${initialFavoriteSearch.length}");
+    if (query.isNotEmpty) {
+      List<FavouriteItemModel> initialFavoriteSearchItems =
+          List<FavouriteItemModel>();
+      initialFavoriteSearch.forEach((item) {
+        if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
+          initialFavoriteSearchItems.add(item);
+          print(initialFavoriteSearchItems.length);
+        }
+      });
+      setState(() {
+        print('shak');
+        favoriteItems.clear();
+        favoriteItems.addAll(initialFavoriteSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        print('sha');
+        favoriteItems.clear();
+        favoriteItems.addAll(vm.favouriteList);
+      });
+    }
+  }
+
+  List<FavouriteItemModel> favoriteItems = [];
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then((value) async {
+      var vm = context.read<DiseaseViewModel>();
+      await vm.getData();
+      favoriteItems.addAll(vm.favouriteList);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,17 +180,25 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: () {
-                                      CommonAddToFavoriteListRepository()
+                                    onTap: () async {
+                                      await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
                                               favoriteType:
                                                   PrescriptionFavouriteType
-                                                      .chiefComplaint
+                                                      .disease
                                                       .toString(),
                                               favoriteVal:
                                                   diseaseSelectedItems[index])
-                                          .then((value) => vm.getData());
-                                      // setState(() {});
+                                          .then((value) async =>
+                                              await vm.getData());
+                                      favoriteItems.clear();
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
+                                        favoriteItems = vm.favouriteList;
+                                      }
                                     },
                                     child: Icon(
                                       Icons.favorite_border,
@@ -223,8 +272,14 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                       children: [
                         SizedBox(),
                         Container(
+                          padding: EdgeInsets.only(bottom: 10),
                           width: 250,
                           child: TextField(
+                            onChanged: (value) {
+                              searchFavoriteItem(value.toLowerCase());
+                              // departmentSearch(value.toUpperCase());
+                            },
+                            controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.only(left: 10, top: 20),
@@ -241,38 +296,51 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: vm.favouriteList.length,
+                      itemCount: favoriteItems.length,
                       itemBuilder: (context, index) {
-                        var item = vm.favouriteList[index];
+                        var item = favoriteItems[index];
                         return Padding(
                           padding: EdgeInsets.only(left: 5.0, right: 20.0),
-                          child: CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text("${item.favouriteVal}"),
-                            value: item.isCheck,
-                            onChanged: (val) {
-                              item.isCheck = val;
-                              if (val == true) {
-                                if (diseaseSelectedItems
-                                    .contains(item.favouriteVal)) {
-                                  BotToast.showText(text: "All ready added");
-                                } else {
-                                  diseaseSelectedItems.add(item.favouriteVal);
+                          child: Container(
+                            color: (index % 2 == 0)
+                                ? Color(0xffEFF5FF)
+                                : Colors.white,
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("${item.favouriteVal}"),
+                              value: item.isCheck,
+                              onChanged: (val) {
+                                item.isCheck = val;
+                                if (val == true) {
+                                  if (diseaseSelectedItems
+                                      .contains(item.favouriteVal)) {
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    diseaseSelectedItems.add(item.favouriteVal);
+                                  }
                                 }
-                              }
-                              setState(() {});
-                            },
-                            secondary: InkWell(
-                              onTap: () {
-                                SVProgressHUD.show(status: "Deleting");
-                                DeleteFavoriteLitRepository()
-                                    .deleteFavoriteList(id: item.id)
-                                    .then((value) => vm.getData());
-                                SVProgressHUD.dismiss();
+                                setState(() {});
                               },
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.red,
+                              secondary: InkWell(
+                                onTap: () async {
+                                  SVProgressHUD.show(status: "Deleting");
+                                  await DeleteFavoriteLitRepository()
+                                      .deleteFavoriteList(id: item.id)
+                                      .then(
+                                          (value) async => await vm.getData());
+                                  SVProgressHUD.dismiss();
+                                  favoriteItems.clear();
+                                  if (_favoriteController.text.isNotEmpty) {
+                                    searchFavoriteItem(
+                                        _favoriteController.text.toLowerCase());
+                                  } else {
+                                    favoriteItems = vm.favouriteList;
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ),

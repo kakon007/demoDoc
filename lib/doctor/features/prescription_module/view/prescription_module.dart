@@ -9,10 +9,13 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/procedure_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/provisional_diagnosis_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/referred_OPD_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/referred_doctor_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/vitals_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/disease_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
@@ -36,6 +39,7 @@ class _ModuleState extends State<Module> {
     await ClinicalHistoryViewModel.read(context).getData();
     AdviceViewModel.read(context).getData();
     await InvestigationViewModel.read(context).getData();
+    await DiseaseViewModel.read(context).getData();
   }
 
   @override
@@ -57,6 +61,8 @@ class _ModuleState extends State<Module> {
           OrthosisWidget(),
           AdviceWidget(),
           ProcedureWidget(),
+          ReferredDoctorWidget(),
+          ReferredOPDWidget(),
         ],
       ),
     );

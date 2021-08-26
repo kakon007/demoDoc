@@ -32,7 +32,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
 
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
-    initialFavoriteSearch= vm.favouriteList;
+    initialFavoriteSearch = vm.favouriteList;
     print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
       List<FavouriteItemModel> initialFavoriteSearchItems =
@@ -67,8 +67,6 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
       await vm.getData();
       favoriteItems.addAll(vm.favouriteList);
     });
-
-    // TODO: implement initState
     super.initState();
   }
 
@@ -202,10 +200,11 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                           .then((value) async =>
                                               await vm.getData());
                                       favoriteItems.clear();
-                                      if(_favoriteController.text.isNotEmpty){
-                                        searchFavoriteItem(_favoriteController.text.toLowerCase());
-                                      }
-                                      else{
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
                                         favoriteItems = vm.favouriteList;
                                       }
                                     },
@@ -282,6 +281,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       children: [
                         SizedBox(),
                         Container(
+                          padding: EdgeInsets.only(bottom: 10),
                           width: 250,
                           child: TextField(
                             onChanged: (value) {
@@ -309,44 +309,50 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       itemBuilder: (context, index) {
                         var item = favoriteItems[index];
                         return Padding(
-                          padding: EdgeInsets.only(left: 5.0, right: 20.0),
-                          child: CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text("${item.favouriteVal}"),
-                            value: item.isCheck,
-                            onChanged: (val) {
-                              item.isCheck = val;
-                              if (val == true) {
-                                if (chiefComplaintSelectedItems
-                                    .contains(item.favouriteVal)) {
-                                  BotToast.showText(text: "All ready added");
-                                } else {
-                                  chiefComplaintSelectedItems
-                                      .add(item.favouriteVal);
+                          padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                          child: Container(
+                            color: (index % 2 == 0)
+                                ? Color(0xffEFF5FF)
+                                : Colors.white,
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("${item.favouriteVal}"),
+                              value: item.isCheck,
+                              onChanged: (val) {
+                                item.isCheck = val;
+                                if (val == true) {
+                                  if (chiefComplaintSelectedItems
+                                      .contains(item.favouriteVal)) {
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    chiefComplaintSelectedItems
+                                        .add(item.favouriteVal);
+                                  }
                                 }
-                              }
-                              setState(() {});
-                            },
-                            secondary: InkWell(
-                              onTap: () async {
-                                SVProgressHUD.show(status: "Deleting");
-                                await DeleteFavoriteLitRepository()
-                                    .deleteFavoriteList(id: item.id)
-                                    .then((value) async => await vm.getData());
-                                SVProgressHUD.dismiss();
-                                // _favoriteController.clear();
-                                 favoriteItems.clear();
-                                 if(_favoriteController.text.isNotEmpty){
-                                 searchFavoriteItem(_favoriteController.text.toLowerCase());
-                                 }
-                                 else{
-                                   favoriteItems = vm.favouriteList;
-                                 }
-                               // favoriteItems.addAll(vm.favouriteList);
+                                setState(() {});
                               },
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.red,
+                              secondary: InkWell(
+                                onTap: () async {
+                                  SVProgressHUD.show(status: "Deleting");
+                                  await DeleteFavoriteLitRepository()
+                                      .deleteFavoriteList(id: item.id)
+                                      .then(
+                                          (value) async => await vm.getData());
+                                  SVProgressHUD.dismiss();
+                                  // _favoriteController.clear();
+                                  favoriteItems.clear();
+                                  if (_favoriteController.text.isNotEmpty) {
+                                    searchFavoriteItem(
+                                        _favoriteController.text.toLowerCase());
+                                  } else {
+                                    favoriteItems = vm.favouriteList;
+                                  }
+                                  // favoriteItems.addAll(vm.favouriteList);
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ),

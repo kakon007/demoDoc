@@ -17,6 +17,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class ChiefComplaintWidget extends StatefulWidget {
   const ChiefComplaintWidget({Key key}) : super(key: key);
+
   @override
   _ChiefComplaintWidgetState createState() => _ChiefComplaintWidgetState();
 }
@@ -28,25 +29,29 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   List<String> chiefComplaintSelectedItems = [];
   int ind;
   var vm = appNavigator.context.read<ChiefComplaintViewModel>();
+
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
-    initialFavoriteSearch.addAll(vm.favouriteList);
+    initialFavoriteSearch= vm.favouriteList;
+    print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
       List<FavouriteItemModel> initialFavoriteSearchItems =
           List<FavouriteItemModel>();
       initialFavoriteSearch.forEach((item) {
         if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
-          print(initialFavoriteSearchItems);
+          print(initialFavoriteSearchItems.length);
         }
       });
       setState(() {
+        print('shak');
         favoriteItems.clear();
         favoriteItems.addAll(initialFavoriteSearchItems);
       });
       return;
     } else {
       setState(() {
+        print('sha');
         favoriteItems.clear();
         favoriteItems.addAll(vm.favouriteList);
       });
@@ -54,6 +59,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   }
 
   List<FavouriteItemModel> favoriteItems = [];
+
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) async {
@@ -195,10 +201,13 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                                       index])
                                           .then((value) async =>
                                               await vm.getData());
-                                      // _favoriteController.clear();
-                                      // favoriteItems.clear();
-                                      // favoriteItems.addAll(vm.favouriteList);
-                                      // setState(() {});
+                                      favoriteItems.clear();
+                                      if(_favoriteController.text.isNotEmpty){
+                                        searchFavoriteItem(_favoriteController.text.toLowerCase());
+                                      }
+                                      else{
+                                        favoriteItems = vm.favouriteList;
+                                      }
                                     },
                                     child: Icon(
                                       Icons.favorite_border,
@@ -326,8 +335,14 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                     .then((value) async => await vm.getData());
                                 SVProgressHUD.dismiss();
                                 // _favoriteController.clear();
-                                // favoriteItems.clear();
-                                // favoriteItems.addAll(vm.favouriteList);
+                                 favoriteItems.clear();
+                                 if(_favoriteController.text.isNotEmpty){
+                                 searchFavoriteItem(_favoriteController.text.toLowerCase());
+                                 }
+                                 else{
+                                   favoriteItems = vm.favouriteList;
+                                 }
+                               // favoriteItems.addAll(vm.favouriteList);
                               },
                               child: Icon(
                                 Icons.clear,

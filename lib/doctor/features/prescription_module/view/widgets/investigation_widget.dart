@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -8,6 +9,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -67,12 +69,78 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  int itemTypeNo = 1;
-                                  investigationSelectedItems.add(
-                                      CommonPrescriptionSearchItems(
-                                          itemName: controller.text.trim(),
-                                          itemTypeNo: itemTypeNo));
-                                  controller.clear();
+                                  int itemTypeNo;
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Column(
+                                            children: [
+                                              Text(
+                                                  'Investigation Confirmation'),
+                                              Divider(),
+                                            ],
+                                          ),
+                                          content: StatefulBuilder(builder:
+                                              (context, StateSetter setState) {
+                                            return Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Radio<int>(
+                                                        value: 1,
+                                                        groupValue: itemTypeNo,
+                                                        onChanged: (int v) {
+                                                          setState(() {
+                                                            itemTypeNo = v;
+                                                            investigationSelectedItems.add(
+                                                                CommonPrescriptionSearchItems(
+                                                                    itemName:
+                                                                        controller
+                                                                            .text
+                                                                            .trim(),
+                                                                    itemTypeNo:
+                                                                        itemTypeNo));
+                                                            controller.clear();
+                                                            Navigator.pop(
+                                                                context);
+                                                          });
+                                                        }),
+                                                    Text("Pathology")
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Radio<int>(
+                                                        value: 2,
+                                                        groupValue: itemTypeNo,
+                                                        onChanged: (int v) {
+                                                          setState(() {
+                                                            itemTypeNo = v;
+                                                            investigationSelectedItems.add(
+                                                                CommonPrescriptionSearchItems(
+                                                                    itemName:
+                                                                        controller
+                                                                            .text
+                                                                            .trim(),
+                                                                    itemTypeNo:
+                                                                        itemTypeNo));
+                                                            controller.clear();
+                                                            Navigator.pop(
+                                                                context);
+                                                          });
+                                                        }),
+                                                    Text("Radiology")
+                                                  ],
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                        );
+                                      });
                                 }
                               } else {
                                 BotToast.showText(text: "Field is empty");
@@ -121,14 +189,51 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 15, top: 10.0, bottom: 5.0),
-                              child: Text(
-                                "${investigationSelectedItems[index].itemName}(${investigationSelectedItems[index].itemTypeNo})",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 15, top: 10.0, bottom: 5.0),
+                                  child: Text(
+                                    "${investigationSelectedItems[index].itemName}",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Tooltip(
+                                  message: investigationSelectedItems[index]
+                                              .itemTypeNo ==
+                                          1
+                                      ? "Pathology"
+                                      : "Radiology",
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 5, right: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 10,
+                                          top: 5.0,
+                                          bottom: 5.0,
+                                          right: 10),
+                                      child: Text(
+                                        investigationSelectedItems[index]
+                                                    .itemTypeNo ==
+                                                1
+                                            ? "P"
+                                            : "R",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                             Divider(
                               thickness: 1,

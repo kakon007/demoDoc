@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/advice_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/clinical_history_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/note_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disease_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigation_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/oethosis_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/patient_dermography.dart';
 import 'dart:math' as math;
 
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
@@ -50,6 +52,7 @@ class _ModuleState extends State<Module> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
+          PatientDermographyWidget(),
           VitalsWidget(),
           ChiefComplaintWidget(),
           ClinicalHistoryWidget(),
@@ -60,6 +63,7 @@ class _ModuleState extends State<Module> {
           OrthosisWidget(),
           AdviceWidget(),
           ProcedureWidget(),
+          NoteWidget(),
         ],
       ),
     );

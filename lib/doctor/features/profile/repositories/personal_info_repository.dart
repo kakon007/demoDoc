@@ -83,11 +83,11 @@ class PersonalInfoRepository {
       return Left(AppError.unknownError);
     }
   }
-  Future updatePersonalInfo({String name, String designation , String specializationNo,String degree, String signature, String mobile, String email }) async {
+  Future updatePersonalInfo({String name, String designationNo , String specializationNo,String degree, String signature, String mobile, String email}) async {
     var personalInfoVm = PersonalInfoViewModel.read(appNavigator.context);
     var personalInfo = personalInfoVm.personalInfoData;
     print(personalInfo.phoneMobile);
-    print(degree);
+    print(specializationNo);
     var body ={
       "companyNo":personalInfo.companyNo,
       "organizationNo":personalInfo.organizationNo,
@@ -104,7 +104,7 @@ class PersonalInfoRepository {
       "dob":personalInfo.dob,
       "buNo":personalInfo.buNo,
       "joinDate":personalInfo.joinDate,
-      "jobTitleNo":220000000003,
+      "jobTitleNo":designationNo,
       "activeStatus":personalInfo.activeStatus,
       "bloodGroup":personalInfo.bloodGroup,
       "religion":personalInfo.religion,
@@ -142,7 +142,7 @@ class PersonalInfoRepository {
       "preDivision":personalInfo.preDivision,
       "preProvince":personalInfo.preProvince,
       "preCountry":personalInfo.preCountry,
-      "specialityNo":220000000217,
+      "specialityNo":specializationNo,
       "offDayRemarks":personalInfo.offDayRemarks,
       "doctorSignature":signature,
       "chamberAddress1":personalInfo.chamberAddress1,

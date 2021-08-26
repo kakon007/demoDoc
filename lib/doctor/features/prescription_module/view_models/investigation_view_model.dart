@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_favourite_list_repository.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/investigation_repository.dart';
 import 'package:provider/provider.dart';
 
 class InvestigationViewModel extends ChangeNotifier {
@@ -14,7 +15,8 @@ class InvestigationViewModel extends ChangeNotifier {
   List investigationList = [];
 
   Future<void> getData() async {
-    var res = await CommonFavouriteListRepository().fetchFavouriteList();
+    var res = await InvestigationRepository()
+        .fetchFavouriteList(favouriteTypeList: [1, 2]);
     favouriteList = res.items;
     notifyListeners();
     return;

@@ -17,6 +17,7 @@ class PersonalInfoViewModel extends ChangeNotifier {
     DateTime _lastFetchTime;
     bool _isFetchingMoreData = false;
     bool _isFetchingData = false;
+    String _statusCode;
     bool _isLoading= false;
     bool _isDesignationLoading= false;
     bool _isSpecializationLoading= false;
@@ -51,18 +52,16 @@ class PersonalInfoViewModel extends ChangeNotifier {
                 degree: degree,
                 email: email,
                 mobile: mobile,
-                signature: signature
+                signature: signature,
+                designationNo: designation,
+                specializationNo: specializationNo
             );
             res.fold((l) {
                 _appError = l;
                 BotToast.closeAllLoading();
                 notifyListeners();
-            }, (r) {
-                print('aaaa');
-               if(r=="200"){
-                   getPersonalInfo(force: true);
-               }
-                BotToast.closeAllLoading();
+            }, (r) async {
+                _statusCode = r;
                 notifyListeners();
             });
     }
@@ -112,6 +111,7 @@ class PersonalInfoViewModel extends ChangeNotifier {
     bool get isSpecializationLoading => _isSpecializationLoading;
     bool get isDoctorInfoEditing => _isDoctorInfoEditing;
     bool get isPersonalInfoEditing => _isPersonalInfoEditing;
+    String get statusCode => _statusCode;
     PersonalInfoData get personalInfoData => _personalInfoData;
     List<SpecializationListElement> get specializationName =>  _specializationName;
     List<DesignationList> get designationItems => _designationItems;

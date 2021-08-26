@@ -319,7 +319,10 @@ class _DoctorProfileState extends State<DoctorProfile> {
               padding: const EdgeInsets.only(left: 15, top: 15, right: 15),
               child: Column(
                 children: [
-                  imageSection,
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: imageSection,
+                  ),
                   spaceBetween,
                   spaceBetween,
                   spaceBetween,

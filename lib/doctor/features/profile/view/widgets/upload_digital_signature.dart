@@ -93,7 +93,7 @@ class _DoctorSignaturePromptState extends State<DoctorSignaturePrompt> {
     }
   }
   Future getImageCamera() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.camera,  maxWidth: 1000, maxHeight: 1000);
 
     // if (pickedFile != null) {
     //   _image = File(pickedFile.path);

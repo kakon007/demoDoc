@@ -277,9 +277,9 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               setState(() {});
                             },
                             secondary: InkWell(
-                              onTap: (){
+                              onTap: () async {
                                 SVProgressHUD.show(status: "Deleting");
-                                DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
+                              await  DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
                                 SVProgressHUD.dismiss();
                               },
                               child: Icon(

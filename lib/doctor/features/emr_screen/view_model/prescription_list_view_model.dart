@@ -43,7 +43,7 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData({String accessToken}) async {
+  Future<bool> getData({var fromDate,var todate}) async {
     // CacheRepositories.loadCachedPrescriptionList(0).then((value){
     //   if(value!=null){
     //     _prescriptionList=value.obj.data;
@@ -54,7 +54,7 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
     _pageCount++;
     _isFetchingData = true;
     //_lastFetchTime = DateTime.now();
-    var res = await PrescriptionListRepository().fetchPrescriptionList(accessToken: accessToken);
+    var res = await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:fromDate);
     notifyListeners();
     _prescriptionList.clear();
     res.fold((l) {
@@ -83,7 +83,7 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
       _pageCount++;
       isFetchingMoreData = true;
       Either<AppError, PrescriptionListM> result =
-      await PrescriptionListRepository().fetchPrescriptionList(accessToken: accessToken);
+      await PrescriptionListRepository().fetchPrescriptionList();
       return result.fold((l) {
         isFetchingMoreData= false;
         hasMoreData = false;
@@ -106,14 +106,14 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
   Future<bool> refresh(String accessToken) async {
     _pageCount = 1;
     notifyListeners();
-    return getData(accessToken:accessToken);
+    return getData();
   }
   search(String query,String accessToken) {
     _prescriptionList.clear();
     _pageCount = 1;
     searchQuery = query;
     print("Searching for: $query");
-    getData(accessToken:accessToken);
+    getData();
   }
 
   toggleIsInSearchMode(String accessToken) {
@@ -122,7 +122,7 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
     resetPageCounter();
     if (!_isInSearchMode) {
       searchQuery = "";
-      getData(accessToken:accessToken);
+      getData();
     }
     notifyListeners();
   }

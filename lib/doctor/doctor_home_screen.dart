@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/doctor_dashboard.dart';
+import 'package:myhealthbd_app/doctor/features/emr_screen/view/emr_screen.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view/doctor_profile.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view/doctor_worklist.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/prescription_module.dart';
@@ -103,7 +104,8 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
     List pages = <Widget>[
       DoctorDashboard(),
       Worklist(),
-      Module(),
+      //Module(),
+      EmrScreen(),
       DoctorProfile()
     ];
     var bottomNavBar = BottomNavigationBar(

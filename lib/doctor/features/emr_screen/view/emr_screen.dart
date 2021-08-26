@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view_model/prescription_list_view_model.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +18,69 @@ class EmrScreen extends StatefulWidget {
 
 class _EmrScreenState extends State<EmrScreen> {
 
+  DateTime pickBirthDate;
+  DateTime pickBirthDate2;
+  Future<Null> selectDate(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      //initialDatePickerMode: DatePickerMode.year,
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppTheme.appbarPrimary,
+            accentColor: AppTheme.appbarPrimary,
+            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
+
+      initialDate: pickBirthDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (date != null && date != pickBirthDate) {
+      setState(() {
+        pickBirthDate = date;
+      });
+    }
+  }
+
+  Future<Null> selectDate2(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      //initialDatePickerMode: DatePickerMode.year,
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppTheme.appbarPrimary,
+            accentColor: AppTheme.appbarPrimary,
+            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
+
+      initialDate: pickBirthDate2,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (date != null && date != pickBirthDate2) {
+      setState(() {
+        pickBirthDate2 = date;
+      });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     var vm=Provider.of<PrescriptionListDocViewModel>(context,listen: false);
     vm.getData();
+    pickBirthDate=pickBirthDate!=null?pickBirthDate:DateTime.now();
+    pickBirthDate2=pickBirthDate2!=null?pickBirthDate2:DateTime.now();
     super.initState();
   }
   @override
@@ -28,6 +89,148 @@ class _EmrScreenState extends State<EmrScreen> {
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
     var vm=Provider.of<PrescriptionListDocViewModel>(context,listen: true);
+
+    print('Date $pickBirthDate');
+    print('Date2 $pickBirthDate2');
+
+    var fromDate = GestureDetector(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+              height: 20.0,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(StringResources.fromText,
+                    style: GoogleFonts.roboto(fontSize: isTablet ? 15 : 12)),
+              )),
+          Container(
+            height: 45,
+            // width:MediaQuery.of(context).size.width>350?140:100,
+            width: isTablet
+                ? MediaQuery.of(context).size.width * 0.35
+                : width <= 330
+                ? MediaQuery.of(context).size.width *
+                0.32
+                : MediaQuery.of(context).size.width *
+                0.35,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: HexColor(
+                    "#6374DF"), // set border color
+                //width: 3.0
+              ), // set border width
+              borderRadius: BorderRadius.all(
+                  Radius.circular(
+                      10.0)), // set rounded corner radius
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                    pickBirthDate == DateTime.now()
+                        ? "Date of birth"
+                        : "${DateFormat("dd-MM-yyyy").format(pickBirthDate)}",
+                    style: TextStyle(fontSize: 13.0),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child:
+                  SvgPicture.asset(
+                    "assets/icons/calendoc.svg",
+                    //key: Key('filterIconKey'),
+                    width: 10,
+                    height: 18,
+                    fit: BoxFit.fitWidth,
+                    allowDrawingOutsideViewBox: true,
+                    matchTextDirection: true,
+                    //color:  Colors.grey.withOpacity(0.5),
+                    //semanticsLabel: 'Acme Logo'
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      onTap: () {
+        selectDate(context);
+        FocusManager.instance.primaryFocus.unfocus();
+      },
+    );
+    var toDate = GestureDetector(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+              height: 20.0,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(StringResources.fromText,
+                    style: GoogleFonts.roboto(fontSize: isTablet ? 15 : 12)),
+              )),
+          Container(
+            height: 45,
+            // width:MediaQuery.of(context).size.width>350?140:100,
+            width: isTablet
+                ? MediaQuery.of(context).size.width * 0.35
+                : width <= 330
+                ? MediaQuery.of(context).size.width *
+                0.32
+                : MediaQuery.of(context).size.width *
+                0.35,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: HexColor(
+                    "#6374DF"), // set border color
+                //width: 3.0
+              ), // set border width
+              borderRadius: BorderRadius.all(
+                  Radius.circular(
+                      10.0)), // set rounded corner radius
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Text(
+                    pickBirthDate2 == DateTime.now()
+                        ? "Date of birth"
+                        : "${DateFormat("dd-MM-yyyy").format(pickBirthDate2)}",
+                    style: TextStyle(fontSize: 13.0),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child:
+                  SvgPicture.asset(
+                    "assets/icons/calendoc.svg",
+                    //key: Key('filterIconKey'),
+                    width: 10,
+                    height: 18,
+                    fit: BoxFit.fitWidth,
+                    allowDrawingOutsideViewBox: true,
+                    matchTextDirection: true,
+                    //color:  Colors.grey.withOpacity(0.5),
+                    //semanticsLabel: 'Acme Logo'
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      onTap: () {
+        selectDate2(context);
+        FocusManager.instance.primaryFocus.unfocus();
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -931,192 +1134,50 @@ class _EmrScreenState extends State<EmrScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'From',
-                                      style: GoogleFonts.poppins(
-                                          // color: HexColor(
-                                          //   '#354291',
-                                          // ),
-                                          fontSize: isTablet
-                                              ? 20
-                                              : width <= 330
-                                                  ? 13
-                                                  : 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      height: 45,
-                                      // width:MediaQuery.of(context).size.width>350?140:100,
-                                      width: isTablet
-                                          ? MediaQuery.of(context).size.width * 0.35
-                                          : width <= 330
-                                              ? MediaQuery.of(context).size.width *
-                                                  0.32
-                                              : MediaQuery.of(context).size.width *
-                                                  0.35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                          color: HexColor(
-                                              "#6374DF"), // set border color
-                                          //width: 3.0
-                                        ), // set border width
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                                10.0)), // set rounded corner radius
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '22/12/18',
-                                            style: GoogleFonts.poppins(
-                                                // color: HexColor(
-                                                //   '#354291',
-                                                // ),
-                                                fontSize: isTablet
-                                                    ? 20
-                                                    : width <= 330
-                                                        ? 13
-                                                        : 15,
-                                                color: Color(0xff333333),
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          SvgPicture.asset(
-                                            "assets/icons/calendoc.svg",
-                                            //key: Key('filterIconKey'),
-                                            width: 10,
-                                            height: 18,
-                                            fit: BoxFit.fitWidth,
-                                            allowDrawingOutsideViewBox: true,
-                                            matchTextDirection: true,
-                                            //color:  Colors.grey.withOpacity(0.5),
-                                            //semanticsLabel: 'Acme Logo'
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                fromDate,
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'To',
-                                      style: GoogleFonts.poppins(
-                                          // color: HexColor(
-                                          //   '#354291',
-                                          // ),
-                                          fontSize: isTablet
-                                              ? 20
-                                              : width <= 330
-                                                  ? 13
-                                                  : 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      height: 45,
-                                      width: isTablet
-                                          ? MediaQuery.of(context).size.width * 0.35
-                                          : width <= 330
-                                              ? MediaQuery.of(context).size.width *
-                                                  0.32
-                                              : MediaQuery.of(context).size.width *
-                                                  0.35,
-                                      // width: MediaQuery.of(context).size.width > 350
-                                      //     ? 140
-                                      //     : 100,
-                                      decoration: BoxDecoration(
-                                        color: HexColor("#EFF5FF"),
-                                        // border: Border.all(
-                                        //   color: HexColor("#6374DF"),// set border color
-                                        //   //width: 3.0
-                                        // ),   // set border width
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                                10.0)), // set rounded corner radius
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(right: 25.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            // Text('22/12/18' ,style: GoogleFonts.poppins(
-                                            //   // color: HexColor(
-                                            //   //   '#354291',
-                                            //   // ),
-                                            //     fontSize: isTablet
-                                            //         ? 20
-                                            //         : width <= 330
-                                            //         ? 12
-                                            //         : 15,color: Colors.black,
-                                            //     fontWeight: FontWeight.w500
-                                            // ),),
-                                            // SizedBox(width: 20,),
-                                            SvgPicture.asset(
-                                              "assets/icons/calendoc.svg",
-                                              //key: Key('filterIconKey'),
-                                              width: 10,
-                                              height: 18,
-                                              fit: BoxFit.fitWidth,
-                                              allowDrawingOutsideViewBox: true,
-                                              matchTextDirection: true,
-                                              //color:  Colors.grey.withOpacity(0.5),
-                                              //semanticsLabel: 'Acme Logo'
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                toDate,
                               ],
                             ),
-                            SizedBox(height: 10,),
-                            Material(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius
-                                      .circular(
-                                      5)),
-                              color: HexColor(
-                                  "#6374DF"),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height:
-                                deviceWidth <=
-                                    360
-                                    ?32
-                                    : 30,
-                                child: Center(
-                                  child: Text(
-                                    "Search",
-                                    style: GoogleFonts.roboto(
-                                        color: Colors.white,
-                                        fontSize: isTablet
-                                            ? 15
-                                            : deviceWidth <= 360 && deviceWidth > 330
-                                            ? 9
-                                            : deviceWidth <= 330
-                                            ? 8
-                                            : 10,
-                                        fontWeight: FontWeight.w700),
+                            SizedBox(height: 15,),
+                            InkWell(
+                              onTap: () async {
+                               SVProgressHUD.show(status: "Please Wait");
+                               await vm.getData(fromDate: pickBirthDate,todate: pickBirthDate2);
+                                SVProgressHUD.dismiss();
+                              },
+                              child: Material(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius
+                                        .circular(
+                                        5)),
+                                color: HexColor(
+                                    "#6374DF"),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height:
+                                  deviceWidth <=
+                                      360
+                                      ?32
+                                      : 30,
+                                  child: Center(
+                                    child: Text(
+                                      "Search",
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.white,
+                                          fontSize: isTablet
+                                              ? 15
+                                              : deviceWidth <= 360 && deviceWidth > 330
+                                              ? 9
+                                              : deviceWidth <= 330
+                                              ? 8
+                                              : 11,
+                                          fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1127,7 +1188,7 @@ class _EmrScreenState extends State<EmrScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 8,
                   ),
                   Text(
                     'Medical Records',

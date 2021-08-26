@@ -70,6 +70,7 @@ class StringResources {
   static String relation ="Relation";
   static String signUpButton= "SIGN UP";
   static String dateOfBirth= "Birth Date";
+  static String fromText= "From";
   static String createAccount= "Create an Account";
  static String alreadyHaveAnAccount= "Already have an account? ";
  static String agreeToTerms= "By creating an account, you agree to our";

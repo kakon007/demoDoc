@@ -1,6 +1,9 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
@@ -20,6 +23,7 @@ class _ProvisionalDiagnosisWidgetState
   bool showReport = false;
   TextEditingController controller = TextEditingController();
   List<String> provisionalDiagnosisSelectedItems = [];
+  int ind;
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +58,26 @@ class _ProvisionalDiagnosisWidgetState
                       ),
                       suffixIcon: IconButton(
                           onPressed: () {
-                            provisionalDiagnosisSelectedItems
-                                .add(controller.text);
-                            controller.clear();
+                            if (ind != null) {
+                              provisionalDiagnosisSelectedItems[ind] =
+                                  controller.text;
+                              controller.clear();
+                              ind = null;
+                            } else {
+                              if (controller.text.trim().isNotEmpty) {
+                                if (provisionalDiagnosisSelectedItems
+                                    .contains(controller.text.trim())) {
+                                  BotToast.showText(text: "All ready added");
+                                } else {
+                                  provisionalDiagnosisSelectedItems
+                                      .add(controller.text.trim());
+                                  controller.clear();
+                                }
+                              } else {
+                                BotToast.showText(text: "Field is empty");
+                              }
+                            }
+
                             setState(() {});
                           },
                           icon: Icon(Icons.check,
@@ -69,7 +90,11 @@ class _ProvisionalDiagnosisWidgetState
                   );
                 },
                 onSuggestionSelected: (v) {
-                  provisionalDiagnosisSelectedItems.add(v);
+                  if (provisionalDiagnosisSelectedItems.contains(v)) {
+                    BotToast.showText(text: "All ready added");
+                  } else {
+                    provisionalDiagnosisSelectedItems.add(v);
+                  }
                   setState(() {});
                 },
                 suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -152,7 +177,12 @@ class _ProvisionalDiagnosisWidgetState
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      controller.text =
+                                          provisionalDiagnosisSelectedItems[
+                                              index];
+                                      ind = index;
+                                    },
                                     child: Container(
                                       height: 30,
                                       width: 30,
@@ -244,14 +274,28 @@ class _ProvisionalDiagnosisWidgetState
                             onChanged: (val) {
                               item.isCheck = val;
                               if (val == true) {
-                                provisionalDiagnosisSelectedItems
-                                    .add(item.favouriteVal);
+                                if (provisionalDiagnosisSelectedItems
+                                    .contains(item.favouriteVal)) {
+                                  BotToast.showText(text: "All ready added");
+                                } else {
+                                  provisionalDiagnosisSelectedItems
+                                      .add(item.favouriteVal);
+                                }
                               }
                               setState(() {});
                             },
-                            secondary: Icon(
-                              Icons.clear,
-                              color: Colors.red,
+                            secondary: InkWell(
+                              onTap: () {
+                                SVProgressHUD.show(status: "Deleting");
+                                DeleteFavoriteLitRepository()
+                                    .deleteFavoriteList(id: item.id)
+                                    .then((value) => vm.getData());
+                                SVProgressHUD.dismiss();
+                              },
+                              child: Icon(
+                                Icons.clear,
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         );

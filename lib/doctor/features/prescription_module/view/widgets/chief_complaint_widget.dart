@@ -195,9 +195,9 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                                       index])
                                           .then((value) async =>
                                               await vm.getData());
-                                      _favoriteController.clear();
-                                      favoriteItems.clear();
-                                      favoriteItems.addAll(vm.favouriteList);
+                                      // _favoriteController.clear();
+                                      // favoriteItems.clear();
+                                      // favoriteItems.addAll(vm.favouriteList);
                                       // setState(() {});
                                     },
                                     child: Icon(
@@ -325,9 +325,9 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                     .deleteFavoriteList(id: item.id)
                                     .then((value) async => await vm.getData());
                                 SVProgressHUD.dismiss();
-                                _favoriteController.clear();
-                                favoriteItems.clear();
-                                favoriteItems.addAll(vm.favouriteList);
+                                // _favoriteController.clear();
+                                // favoriteItems.clear();
+                                // favoriteItems.addAll(vm.favouriteList);
                               },
                               child: Icon(
                                 Icons.clear,

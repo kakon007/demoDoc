@@ -7,4 +7,5 @@ class PrescriptionFavouriteType {
   static const provisionalDiagnosis = 6;
   static const advice = 8;
   static const disease = 24;
+  static const medication = 4;
 }

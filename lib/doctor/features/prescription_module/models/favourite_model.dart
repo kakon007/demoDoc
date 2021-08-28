@@ -34,12 +34,16 @@ class FavouriteItemModel {
     this.doctorNo,
     this.activeStatus,
     this.isCheck = false,
+    this.brandName,
+    this.genericName,
   });
 
   int companyNo;
   int organizationNo;
   int id;
   String favouriteVal;
+  String brandName;
+  String genericName;
   int favouriteType;
   int doctorNo;
   int activeStatus;
@@ -54,6 +58,8 @@ class FavouriteItemModel {
         favouriteType: json["favouriteType"],
         doctorNo: json["doctorNo"],
         activeStatus: json["activeStatus"],
+        brandName: json["brandName"],
+        genericName: json["genericName"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -64,5 +70,7 @@ class FavouriteItemModel {
         "favouriteType": favouriteType,
         "doctorNo": doctorNo,
         "activeStatus": activeStatus,
+        "brandName": brandName,
+        "genericName": genericName,
       };
 }

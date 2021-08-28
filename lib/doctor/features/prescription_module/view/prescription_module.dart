@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disease_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigation_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigations_findings_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/medication_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/oethosis_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/procedure_widget.dart';
@@ -18,6 +19,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/c
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/disease_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 
@@ -41,6 +43,7 @@ class _ModuleState extends State<Module> {
     AdviceViewModel.read(context).getData();
     await InvestigationViewModel.read(context).getData();
     await DiseaseViewModel.read(context).getData();
+    await MedicationViewModel.read(context).getData();
   }
 
   @override
@@ -65,6 +68,7 @@ class _ModuleState extends State<Module> {
           ProcedureWidget(),
           ReferredDoctorWidget(),
           ReferredOPDWidget(),
+          MedicationWidget(),
         ],
       ),
     );

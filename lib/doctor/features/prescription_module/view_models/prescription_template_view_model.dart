@@ -38,7 +38,7 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<bool> getData(var accessToken) async {
+  Future<bool> getData() async {
     print('Enterer');
     startIndex=0;
     _pageCount++;
@@ -46,7 +46,7 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
     _lastFetchTime = DateTime.now();
     // var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     // var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
-    var res = await PrescriptionTemplateRepository().fetchPrescriptionTemplateList(accessToken: accessToken);
+    var res = await PrescriptionTemplateRepository().fetchPrescriptionTemplateList();
     notifyListeners();
     _prescriptionTamplateList.clear();
     res.fold((l) {

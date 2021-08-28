@@ -54,7 +54,9 @@ import 'doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'doctor/features/prescription_module/view_models/disease_view_model.dart';
+import 'doctor/features/prescription_module/view_models/investigation_findings_view_model.dart';
 import 'doctor/features/prescription_module/view_models/investigation_view_model.dart';
+import 'doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'doctor/features/profile/view_model/digital_signature_view_model.dart';
 import 'doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'doctor/features/worklist/view_model/worklist_view_model.dart';
@@ -161,8 +163,12 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => DigitalSignatureViewModel()),
       ChangeNotifierProvider<DiseaseViewModel>(
           create: (context) => DiseaseViewModel()),
+      ChangeNotifierProvider<MedicationViewModel>(
+          create: (context) => MedicationViewModel()),
       ChangeNotifierProvider<InvestigationViewModel>(
           create: (context) => InvestigationViewModel()),
+      ChangeNotifierProvider<InvestigationFindingsViewModel>(
+          create: (context) => InvestigationFindingsViewModel()),
       ChangeNotifierProvider<OrthosisViewModel>(
           create: (context) => OrthosisViewModel()),
       ChangeNotifierProvider<ProcedureViewModel>(

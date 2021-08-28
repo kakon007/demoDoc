@@ -7,15 +7,21 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disease_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigation_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigations_findings_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/medication_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/orthosis_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/procedure_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/provisional_diagnosis_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/referred_OPD_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/referred_doctor_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/vitals_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/disease_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
@@ -35,10 +41,13 @@ class _ModuleState extends State<Module> {
 
   init() async {
     await ChiefComplaintViewModel.read(context).getData();
-    ProvisionalDiagnosisViewModel.read(context).getData();
-    PastIllnessViewModel.read(context).getData();
-    ClinicalHistoryViewModel.read(context).getData();
+    await ProvisionalDiagnosisViewModel.read(context).getData();
+    await PastIllnessViewModel.read(context).getData();
+    await ClinicalHistoryViewModel.read(context).getData();
     AdviceViewModel.read(context).getData();
+    await InvestigationViewModel.read(context).getData();
+    await DiseaseViewModel.read(context).getData();
+    await MedicationViewModel.read(context).getData();
     OrthosisViewModel.read(context).getData();
     ProcedureViewModel.read(context).getData();
     InvestigationViewModel.read(context).getData();
@@ -60,9 +69,13 @@ class _ModuleState extends State<Module> {
           ProvisionalDiagnosisWidget(),
           DiseaseWidget(),
           InvestigationWidget(),
+          InvestigationFindingsWidget(),
           OrthosisWidget(),
           AdviceWidget(),
           ProcedureWidget(),
+          ReferredDoctorWidget(),
+          ReferredOPDWidget(),
+          MedicationWidget(),
           DisposalWidget(),
         ],
       ),

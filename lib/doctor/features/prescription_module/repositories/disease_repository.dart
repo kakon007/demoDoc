@@ -6,9 +6,8 @@ class DiseaseRepository {
   Future<FavouriteListModel> fetchFavouriteList({var accessToken}) async {
     try {
       var response = await ApiClient().postRequest(
-          "prescription-service-api/api/favourites/list", {
-        "favouriteType": PrescriptionFavouriteType.chiefComplaint.toString()
-      });
+          "prescription-service-api/api/favourites/list",
+          {"favouriteType": PrescriptionFavouriteType.disease.toString()});
       print(response.statusCode);
       if (response.statusCode == 200) {
         var body = response.body;

@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final commonPrescriptionSearchItemsModel = commonPrescriptionSearchItemsModelFromJson(jsonString);
+
 import 'dart:convert';
 
 CommonPrescriptionSearchItemsModel commonPrescriptionSearchItemsModelFromJson(
@@ -32,38 +36,50 @@ class CommonPrescriptionSearchItems {
     this.departmentName,
     this.itemId,
     this.itemName,
+    this.genericName,
+    this.manufacturerName,
     this.departmentNo,
     this.itemTypeNo,
     this.itemNo,
     this.parItemTypeNo,
+    this.routeName,
   });
 
   String departmentName;
   String itemId;
   String itemName;
+  dynamic genericName;
+  dynamic manufacturerName;
   int departmentNo;
   int itemTypeNo;
   int itemNo;
   int parItemTypeNo;
+  dynamic routeName;
 
   factory CommonPrescriptionSearchItems.fromJson(Map<String, dynamic> json) =>
       CommonPrescriptionSearchItems(
         departmentName: json["departmentName"],
         itemId: json["itemId"],
         itemName: json["itemName"],
+        genericName: json["genericName"],
+        manufacturerName: json["manufacturerName"],
         departmentNo: json["departmentNo"],
         itemTypeNo: json["itemTypeNo"],
         itemNo: json["itemNo"],
         parItemTypeNo: json["parItemTypeNo"],
+        routeName: json["routeName"],
       );
 
   Map<String, dynamic> toJson() => {
         "departmentName": departmentName,
         "itemId": itemId,
         "itemName": itemName,
+        "genericName": genericName,
+        "manufacturerName": manufacturerName,
         "departmentNo": departmentNo,
         "itemTypeNo": itemTypeNo,
         "itemNo": itemNo,
         "parItemTypeNo": parItemTypeNo,
+        "routeName": routeName,
       };
 }

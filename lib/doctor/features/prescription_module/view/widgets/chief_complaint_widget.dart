@@ -17,6 +17,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class ChiefComplaintWidget extends StatefulWidget {
   const ChiefComplaintWidget({Key key}) : super(key: key);
+
   @override
   _ChiefComplaintWidgetState createState() => _ChiefComplaintWidgetState();
 }
@@ -28,25 +29,29 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   List<String> chiefComplaintSelectedItems = [];
   int ind;
   var vm = appNavigator.context.read<ChiefComplaintViewModel>();
+
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
-    initialFavoriteSearch.addAll(vm.favouriteList);
+    initialFavoriteSearch = vm.favouriteList;
+    print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
       List<FavouriteItemModel> initialFavoriteSearchItems =
           List<FavouriteItemModel>();
       initialFavoriteSearch.forEach((item) {
         if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
-          print(initialFavoriteSearchItems);
+          print(initialFavoriteSearchItems.length);
         }
       });
       setState(() {
+        print('shak');
         favoriteItems.clear();
         favoriteItems.addAll(initialFavoriteSearchItems);
       });
       return;
     } else {
       setState(() {
+        print('sha');
         favoriteItems.clear();
         favoriteItems.addAll(vm.favouriteList);
       });
@@ -54,6 +59,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   }
 
   List<FavouriteItemModel> favoriteItems = [];
+
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) async {
@@ -61,8 +67,6 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
       await vm.getData();
       favoriteItems.addAll(vm.favouriteList);
     });
-
-    // TODO: implement initState
     super.initState();
   }
 
@@ -195,10 +199,14 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                                       index])
                                           .then((value) async =>
                                               await vm.getData());
-                                      // _favoriteController.clear();
-                                      // favoriteItems.clear();
-                                      // favoriteItems.addAll(vm.favouriteList);
-                                      // setState(() {});
+                                      favoriteItems.clear();
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
+                                        favoriteItems = vm.favouriteList;
+                                      }
                                     },
                                     child: Icon(
                                       Icons.favorite_border,
@@ -273,6 +281,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       children: [
                         SizedBox(),
                         Container(
+                          padding: EdgeInsets.only(bottom: 10),
                           width: 250,
                           child: TextField(
                             onChanged: (value) {
@@ -300,38 +309,50 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       itemBuilder: (context, index) {
                         var item = favoriteItems[index];
                         return Padding(
-                          padding: EdgeInsets.only(left: 5.0, right: 20.0),
-                          child: CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text("${item.favouriteVal}"),
-                            value: item.isCheck,
-                            onChanged: (val) {
-                              item.isCheck = val;
-                              if (val == true) {
-                                if (chiefComplaintSelectedItems
-                                    .contains(item.favouriteVal)) {
-                                  BotToast.showText(text: "All ready added");
-                                } else {
-                                  chiefComplaintSelectedItems
-                                      .add(item.favouriteVal);
+                          padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                          child: Container(
+                            color: (index % 2 == 0)
+                                ? Color(0xffEFF5FF)
+                                : Colors.white,
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("${item.favouriteVal}"),
+                              value: item.isCheck,
+                              onChanged: (val) {
+                                item.isCheck = val;
+                                if (val == true) {
+                                  if (chiefComplaintSelectedItems
+                                      .contains(item.favouriteVal)) {
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    chiefComplaintSelectedItems
+                                        .add(item.favouriteVal);
+                                  }
                                 }
-                              }
-                              setState(() {});
-                            },
-                            secondary: InkWell(
-                              onTap: () async {
-                                SVProgressHUD.show(status: "Deleting");
-                                await DeleteFavoriteLitRepository()
-                                    .deleteFavoriteList(id: item.id)
-                                    .then((value) async => await vm.getData());
-                                SVProgressHUD.dismiss();
-                                // _favoriteController.clear();
-                                // favoriteItems.clear();
-                                // favoriteItems.addAll(vm.favouriteList);
+                                setState(() {});
                               },
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.red,
+                              secondary: InkWell(
+                                onTap: () async {
+                                  SVProgressHUD.show(status: "Deleting");
+                                  await DeleteFavoriteLitRepository()
+                                      .deleteFavoriteList(id: item.id)
+                                      .then(
+                                          (value) async => await vm.getData());
+                                  SVProgressHUD.dismiss();
+                                  // _favoriteController.clear();
+                                  favoriteItems.clear();
+                                  if (_favoriteController.text.isNotEmpty) {
+                                    searchFavoriteItem(
+                                        _favoriteController.text.toLowerCase());
+                                  } else {
+                                    favoriteItems = vm.favouriteList;
+                                  }
+                                  // favoriteItems.addAll(vm.favouriteList);
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ),

@@ -39,9 +39,20 @@ class _MedicationWidgetState extends State<MedicationWidget> {
       List<FavouriteItemModel> initialFavoriteSearchItems =
           List<FavouriteItemModel>();
       initialFavoriteSearch.forEach((item) {
-        if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
-          initialFavoriteSearchItems.add(item);
-          print(initialFavoriteSearchItems.length);
+        if (tabIndex == 0) {
+          if (item.genericName != null) {
+            if (item.genericName.toLowerCase().contains(query.toLowerCase())) {
+              initialFavoriteSearchItems.add(item);
+              print(initialFavoriteSearchItems.length);
+            }
+          }
+        } else {
+          if (item.brandName != null) {
+            if (item.brandName.toLowerCase().contains(query.toLowerCase())) {
+              initialFavoriteSearchItems.add(item);
+              print(initialFavoriteSearchItems.length);
+            }
+          }
         }
       });
       setState(() {

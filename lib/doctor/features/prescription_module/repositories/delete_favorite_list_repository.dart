@@ -1,5 +1,4 @@
 import 'package:myhealthbd_app/main_app/api_client.dart';
-import 'package:http/http.dart' as http;
 
 class DeleteFavoriteLitRepository{
   Future deleteFavoriteList({var id})async{

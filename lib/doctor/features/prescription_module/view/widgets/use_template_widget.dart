@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_template_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -158,7 +160,12 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
                                                       children: [
                                                         Row(
                                                           children: [
-                                                            Icon(Icons.close,color: Color(0xffFB7F7F),),
+                                                            InkWell(onTap:() async {
+                                                              SVProgressHUD.show(status: 'Deleting');
+                                                             await DeleteTemplateRepository().deleteList(id: vm.prescriptionTamplateList[index].id).then((value) async =>await vm.getData());
+                                                             SVProgressHUD.dismiss();
+                                                              setState(() {});
+                                                            },child: Icon(Icons.close,color: Color(0xffFB7F7F),)),
                                                             SizedBox(width: 12,),
                                                             Container(
                                                               width: 100,

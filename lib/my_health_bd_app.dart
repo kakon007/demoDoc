@@ -51,6 +51,8 @@ import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 
 import 'doctor/features/prescription_module/view_models/advice_view_model.dart';
+import 'doctor/features/prescription_module/view_models/orthosis_view_model.dart';
+import 'doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'doctor/features/prescription_module/view_models/disease_view_model.dart';
 import 'doctor/features/prescription_module/view_models/investigation_findings_view_model.dart';
 import 'doctor/features/prescription_module/view_models/investigation_view_model.dart';
@@ -167,6 +169,10 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => InvestigationViewModel()),
       ChangeNotifierProvider<InvestigationFindingsViewModel>(
           create: (context) => InvestigationFindingsViewModel()),
+      ChangeNotifierProvider<OrthosisViewModel>(
+          create: (context) => OrthosisViewModel()),
+      ChangeNotifierProvider<ProcedureViewModel>(
+          create: (context) => ProcedureViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

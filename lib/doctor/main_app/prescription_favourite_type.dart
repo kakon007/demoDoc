@@ -8,4 +8,6 @@ class PrescriptionFavouriteType {
   static const advice = 8;
   static const disease = 24;
   static const medication = 4;
+  static const orthosis = 43;
+  static const procedure = 35;
 }

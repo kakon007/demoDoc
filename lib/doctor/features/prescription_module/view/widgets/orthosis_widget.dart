@@ -3,33 +3,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/advice_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/advice_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class AdviceWidget extends StatefulWidget {
-  const AdviceWidget({Key key}) : super(key: key);
+class OrthosisWidget extends StatefulWidget {
+  const OrthosisWidget({Key key}) : super(key: key);
   @override
-  _AdviceWidgetState createState() => _AdviceWidgetState();
+  _OrthosisWidgetState createState() => _OrthosisWidgetState();
 }
 
-class _AdviceWidgetState extends State<AdviceWidget> {
+class _OrthosisWidgetState extends State<OrthosisWidget> {
   bool showReport = false;
   int ind;
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
 
-  List<String> selectedItems = [];
+  List<String> orthosisSelectedItems = [];
 
-  var vm = appNavigator.context.read<AdviceViewModel>();
+  var vm = appNavigator.context.read<OrthosisViewModel>();
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
     initialFavoriteSearch.addAll(vm.favouriteList);
@@ -59,7 +58,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) async {
-      var vm = context.read<AdviceViewModel>();
+      var vm = context.read<OrthosisViewModel>();
       await vm.getData();
       favoriteItems.addAll(vm.favouriteList);
     });
@@ -70,14 +69,14 @@ class _AdviceWidgetState extends State<AdviceWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var vm = context.watch<AdviceViewModel>();
+    var vm = context.watch<OrthosisViewModel>();
     return PrescriptionCommonWidget(
       onChangeShowReport: (bool val) {
         showReport = val;
         setState(() {});
       },
       showReport: showReport,
-      title: "Advice",
+      title: "Orthosis",
       expandedWidget: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -94,7 +93,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                     textInputAction: TextInputAction.search,
                     controller: controller,
                     decoration: InputDecoration(
-                      hintText: "Advice",
+                      hintText: "Orthosis",
                       prefixIcon: Icon(
                         Icons.search,
                         color: AppTheme.buttonActiveColor,
@@ -102,15 +101,16 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              selectedItems[ind] = controller.text;
+                              orthosisSelectedItems[ind] = controller.text;
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (selectedItems
+                                if (orthosisSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  selectedItems.add(controller.text.trim());
+                                  orthosisSelectedItems
+                                      .add(controller.text.trim());
                                   controller.clear();
                                 }
                               } else {
@@ -119,9 +119,6 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                             }
 
                             setState(() {});
-                            // selectedItems.add(controller.text);
-                            // controller.clear();
-                            // setState(() {});
                           },
                           icon: Icon(Icons.check,
                               color: AppTheme.buttonActiveColor)),
@@ -133,7 +130,11 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  selectedItems.add(v);
+                  if (orthosisSelectedItems.contains(v)) {
+                    BotToast.showText(text: "All ready added");
+                  } else {
+                    orthosisSelectedItems.add(v);
+                  }
                   setState(() {});
                 },
                 suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -143,30 +144,15 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                   return PreDiagnosisSearchRepository().fetchSearchList(
                       q: v,
                       favoriteType:
-                          PrescriptionFavouriteType.advice.toString());
+                          PrescriptionFavouriteType.orthosis.toString());
                 },
-                // noItemsFoundBuilder: noItemsFoundBuilder ??
-                //     (context) {
-                //       return SizedBox();
-                //     },
               ),
-              // TextField(
-              //   decoration: InputDecoration(
-              //     hintText: "Chief Complaint",
-              //     prefixIcon: Icon(
-              //       Icons.search,
-              //       color: AppTheme.buttonActiveColor,
-              //     ),
-              //     suffixIcon:
-              //         Icon(Icons.check, color: AppTheme.buttonActiveColor),
-              //   ),
-              // ),
               SizedBox(
                 height: 20,
               ),
               Wrap(
                 children: List.generate(
-                    selectedItems.length,
+                    orthosisSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -180,7 +166,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${selectedItems[index]}",
+                                "${orthosisSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -200,10 +186,12 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                           .addToFavouriteList(
                                               favoriteType:
                                                   PrescriptionFavouriteType
-                                                      .advice
+                                                      .orthosis
                                                       .toString(),
-                                              favoriteVal: selectedItems[index])
-                                          .then((value) => vm.getData());
+                                              favoriteVal:
+                                                  orthosisSelectedItems[index])
+                                          .then((value) async =>
+                                              await vm.getData());
                                       _favoriteController.clear();
                                       favoriteItems.clear();
                                       favoriteItems.addAll(vm.favouriteList);
@@ -217,7 +205,8 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text = selectedItems[index];
+                                      controller.text =
+                                          orthosisSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -236,7 +225,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      selectedItems.removeAt(index);
+                                      orthosisSelectedItems.removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -287,7 +276,6 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               // departmentSearch(value.toUpperCase());
                             },
                             controller: _favoriteController,
-                            //
                             decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.only(left: 10, top: 20),
@@ -306,6 +294,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: favoriteItems.length,
                       itemBuilder: (context, index) {
+                        // var item = vm.favouriteList[index];
                         var item = favoriteItems[index];
                         return Container(
                           decoration: BoxDecoration(
@@ -322,7 +311,13 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  selectedItems.add(item.favouriteVal);
+                                  if (orthosisSelectedItems
+                                      .contains(item.favouriteVal)) {
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    orthosisSelectedItems
+                                        .add(item.favouriteVal);
+                                  }
                                 }
                                 setState(() {});
                               },
@@ -330,13 +325,12 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                 onTap: () async {
                                   SVProgressHUD.show(status: "Deleting");
                                   await DeleteFavoriteLitRepository()
-                                      .deleteFavoriteList(
-                                          id: favoriteItems[index].id)
+                                      .deleteFavoriteList(id: item.id)
                                       .then((value) => vm.getData());
-                                  SVProgressHUD.dismiss();
                                   _favoriteController.clear();
                                   favoriteItems.clear();
                                   favoriteItems.addAll(vm.favouriteList);
+                                  SVProgressHUD.dismiss();
                                 },
                                 child: Icon(
                                   Icons.clear,

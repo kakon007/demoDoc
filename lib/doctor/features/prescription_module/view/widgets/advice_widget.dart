@@ -287,6 +287,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               // departmentSearch(value.toUpperCase());
                             },
                             controller: _favoriteController,
+                            //
                             decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.only(left: 10, top: 20),

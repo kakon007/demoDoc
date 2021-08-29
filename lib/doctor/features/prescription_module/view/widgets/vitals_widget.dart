@@ -80,7 +80,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
         showReport = val;
         setState(() {});
       },
-      // isFixed: true,
+      isFixed: true,
       showReport: showReport,
       title: "Vitals",
       expandedWidget: Container(

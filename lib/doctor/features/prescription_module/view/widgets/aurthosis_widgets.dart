@@ -3,13 +3,13 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
-class AdviceWidget extends StatefulWidget {
-  const AdviceWidget({Key key}) : super(key: key);
+class OrthosisWidget extends StatefulWidget {
+  const OrthosisWidget({Key key}) : super(key: key);
   @override
-  _AdviceWidgetState createState() => _AdviceWidgetState();
+  _OrthosisWidgetState createState() => _OrthosisWidgetState();
 }
 
-class _AdviceWidgetState extends State<AdviceWidget> {
+class _OrthosisWidgetState extends State<OrthosisWidget> {
   bool showReport = false;
 
   @override
@@ -21,7 +21,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
         setState(() {});
       },
       showReport: showReport,
-      title: "Advice",
+      title: "Orthosis",
       expandedWidget: Container(
         decoration: BoxDecoration(
             border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
@@ -31,7 +31,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
             children: [
               TextField(
                 decoration: InputDecoration(
-                  hintText: "Advice",
+                  hintText: "Orthosis",
                   prefixIcon: Icon(
                     Icons.search,
                     color: AppTheme.buttonActiveColor,
@@ -104,7 +104,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                           padding: EdgeInsets.only(left: 5.0, right: 20.0),
                           child: CheckboxListTile(
                             controlAffinity: ListTileControlAffinity.leading,
-                            title: Text("Fever"),
+                            title: Text("Pain"),
                             value: false,
                             onChanged: (val) {},
                             secondary: Icon(

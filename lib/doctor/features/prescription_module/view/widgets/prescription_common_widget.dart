@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class PrescriptionCommonWidget extends StatefulWidget {
   final String title;
@@ -37,10 +38,16 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
     return ExpandableNotifier(
         controller: controller,
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.only(
+            left: isTablet ? 20 : 10,
+            right: isTablet ? 20 : 10,
+            top: isTablet ? 10 : 5,
+            bottom: isTablet ? 10 : 5,
+          ),
           child: ScrollOnExpand(
             child: Card(
               clipBehavior: Clip.antiAlias,
@@ -78,7 +85,7 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(10.0),
                         child: Column(
                           children: [
                             Row(
@@ -93,7 +100,7 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                                             color: widget.isFixed
                                                 ? Colors.black
                                                 : Colors.white,
-                                            fontSize: 16),
+                                            fontSize: isTablet ? 18 : 16),
                                   ),
                                 ),
                                 ExpandableIcon(
@@ -105,7 +112,7 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                                     iconColor: widget.isFixed
                                         ? Color(0xff333333)
                                         : Colors.white,
-                                    iconSize: 28.0,
+                                    iconSize: isTablet ? 35 : 28.0,
                                     iconRotationAngle: math.pi / 2,
                                     iconPadding: EdgeInsets.only(right: 5),
                                     hasIcon: false,
@@ -114,28 +121,32 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                               ],
                             ),
                             SizedBox(
-                              height: 5,
+                              height: isTablet ? 8 : 5,
                             ),
-                            Row(
-                              children: [
-                                FlutterSwitch(
-                                  activeText: "Hide",
-                                  activeTextFontWeight: FontWeight.normal,
-                                  inactiveTextColor: Colors.white,
-                                  inactiveTextFontWeight: FontWeight.normal,
-                                  activeTextColor: Colors.white,
-                                  inactiveText: "Show",
-                                  valueFontSize: 12,
-                                  activeColor: Color(0xff55CFA6),
-                                  inactiveColor: Color(0xffB1B1B1),
-                                  showOnOff: true,
-                                  height: 22,
-                                  width: 60,
-                                  toggleSize: 17,
-                                  value: widget.showReport,
-                                  onToggle: widget.onChangeShowReport,
-                                ),
-                              ],
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(bottom: isTablet ? 8 : 5),
+                              child: Row(
+                                children: [
+                                  FlutterSwitch(
+                                    activeText: "Hide",
+                                    activeTextFontWeight: FontWeight.normal,
+                                    inactiveTextColor: Colors.white,
+                                    inactiveTextFontWeight: FontWeight.normal,
+                                    activeTextColor: Colors.white,
+                                    inactiveText: "Show",
+                                    valueFontSize: isTablet ? 14 : 12,
+                                    activeColor: Color(0xff55CFA6),
+                                    inactiveColor: Color(0xffB1B1B1),
+                                    showOnOff: true,
+                                    height: isTablet ? 25 : 22,
+                                    width: isTablet ? 70 : 60,
+                                    toggleSize: isTablet ? 20 : 17,
+                                    value: widget.showReport,
+                                    onToggle: widget.onChangeShowReport,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

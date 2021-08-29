@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 enum SingingCharacter { lafayette, jefferson }
 
@@ -37,6 +38,9 @@ class _DisposalWidgetState extends State<DisposalWidget> {
   @override
   Widget build(BuildContext context) {
     // var vm = context.watch<ProcedureViewModel>();
+    bool isDesktop = Responsive.isDesktop(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
     var selectDisposal = DropdownButtonHideUnderline(
         child: DropdownButton<String>(
       icon: Icon(Icons.keyboard_arrow_down_sharp),
@@ -50,12 +54,15 @@ class _DisposalWidgetState extends State<DisposalWidget> {
       ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value),
+          child: Text(
+            value,
+            style: TextStyle(fontSize: isMobile ? 14 : 18),
+          ),
         );
       }).toList(),
       hint: Text(
         "N/A",
-        style: TextStyle(color: Colors.black, fontSize: 14),
+        style: TextStyle(color: Colors.black, fontSize: isMobile ? 14 : 18),
       ),
       onChanged: (String value) {
         setState(() {
@@ -76,7 +83,10 @@ class _DisposalWidgetState extends State<DisposalWidget> {
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value),
+            child: Text(
+              value,
+              style: TextStyle(fontSize: isMobile ? 14 : 18),
+            ),
           );
         }).toList(),
         hint: Padding(
@@ -84,7 +94,9 @@ class _DisposalWidgetState extends State<DisposalWidget> {
           child: Text(
             "",
             style: TextStyle(
-                color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                color: Colors.black,
+                fontSize: isMobile ? 16 : 18,
+                fontWeight: FontWeight.w600),
           ),
         ),
         onChanged: (String value) {
@@ -199,7 +211,7 @@ class _DisposalWidgetState extends State<DisposalWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 70,
+                          width: MediaQuery.of(context).size.width * 0.17,
                           height: 40,
                           child: TextField(
                             controller: _numberController,
@@ -208,11 +220,8 @@ class _DisposalWidgetState extends State<DisposalWidget> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
                         Container(
-                          width: 100,
+                          width: MediaQuery.of(context).size.width * 0.27,
                           height: 40,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
@@ -233,13 +242,10 @@ class _DisposalWidgetState extends State<DisposalWidget> {
                             child: selectDuration,
                           ),
                         ),
-                        SizedBox(
-                          width: 15,
-                        ),
                         InkWell(
                           onTap: () => _selectDate(context),
                           child: Container(
-                            width: 120,
+                            width: MediaQuery.of(context).size.width * 0.32,
                             height: 40,
                             child: AbsorbPointer(
                               child: Stack(
@@ -260,7 +266,8 @@ class _DisposalWidgetState extends State<DisposalWidget> {
                                           border: OutlineInputBorder(),
                                           labelText: 'Duration',
                                           // isDense: true,
-                                          labelStyle: TextStyle(fontSize: 14)),
+                                          labelStyle: TextStyle(
+                                              fontSize: isMobile ? 14 : 18)),
                                     ),
                                   ),
                                 ],

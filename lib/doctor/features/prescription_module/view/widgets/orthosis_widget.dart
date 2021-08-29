@@ -296,38 +296,46 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                       itemBuilder: (context, index) {
                         // var item = vm.favouriteList[index];
                         var item = favoriteItems[index];
-                        return Padding(
-                          padding: EdgeInsets.only(left: 5.0, right: 20.0),
-                          child: CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text("${item.favouriteVal}"),
-                            value: item.isCheck,
-                            onChanged: (val) {
-                              item.isCheck = val;
-                              if (val == true) {
-                                if (orthosisSelectedItems
-                                    .contains(item.favouriteVal)) {
-                                  BotToast.showText(text: "All ready added");
-                                } else {
-                                  orthosisSelectedItems.add(item.favouriteVal);
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: (index % 2 == 0)
+                                ? Color(0xffEFF5FF)
+                                : Colors.white,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5.0, right: 20.0),
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("${item.favouriteVal}"),
+                              value: item.isCheck,
+                              onChanged: (val) {
+                                item.isCheck = val;
+                                if (val == true) {
+                                  if (orthosisSelectedItems
+                                      .contains(item.favouriteVal)) {
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    orthosisSelectedItems
+                                        .add(item.favouriteVal);
+                                  }
                                 }
-                              }
-                              setState(() {});
-                            },
-                            secondary: InkWell(
-                              onTap: () async {
-                                SVProgressHUD.show(status: "Deleting");
-                                await DeleteFavoriteLitRepository()
-                                    .deleteFavoriteList(id: item.id)
-                                    .then((value) => vm.getData());
-                                _favoriteController.clear();
-                                favoriteItems.clear();
-                                favoriteItems.addAll(vm.favouriteList);
-                                SVProgressHUD.dismiss();
+                                setState(() {});
                               },
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.red,
+                              secondary: InkWell(
+                                onTap: () async {
+                                  SVProgressHUD.show(status: "Deleting");
+                                  await DeleteFavoriteLitRepository()
+                                      .deleteFavoriteList(id: item.id)
+                                      .then((value) => vm.getData());
+                                  _favoriteController.clear();
+                                  favoriteItems.clear();
+                                  favoriteItems.addAll(vm.favouriteList);
+                                  SVProgressHUD.dismiss();
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ),

@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
@@ -9,6 +10,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +25,46 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
   TextEditingController controller = TextEditingController();
   List<String> clinicalHistorySelectedItems = [];
   int ind;
+  var vm = appNavigator.context.read<ClinicalHistoryViewModel>();
+  TextEditingController _favoriteController = TextEditingController();
+  void searchFavoriteItem(String query) {
+    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    initialFavoriteSearch = vm.favouriteList;
+    print("init ${initialFavoriteSearch.length}");
+    if (query.isNotEmpty) {
+      List<FavouriteItemModel> initialFavoriteSearchItems =
+      List<FavouriteItemModel>();
+      initialFavoriteSearch.forEach((item) {
+        if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
+          initialFavoriteSearchItems.add(item);
+          print(initialFavoriteSearchItems.length);
+        }
+      });
+      setState(() {
+        print('shak');
+        favoriteItems.clear();
+        favoriteItems.addAll(initialFavoriteSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        print('sha');
+        favoriteItems.clear();
+        favoriteItems.addAll(vm.favouriteList);
+      });
+    }
+  }
+
+  List<FavouriteItemModel> favoriteItems = [];
+
+  void initState() {
+    Future.delayed(Duration.zero).then((value) async {
+      var vm = context.read<ClinicalHistoryViewModel>();
+      await vm.getData();
+      favoriteItems.addAll(vm.favouriteList);
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ClinicalHistoryViewModel>();
@@ -150,8 +192,8 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                 MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: () {
-                                      CommonAddToFavoriteListRepository()
+                                    onTap: () async {
+                                      await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
                                           favoriteType:
                                           PrescriptionFavouriteType
@@ -160,7 +202,16 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                           favoriteVal:
                                           clinicalHistorySelectedItems[
                                           index])
-                                          .then((value) => vm.getData());
+                                          .then((value) async =>
+                                      await vm.getData());
+                                      favoriteItems.clear();
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
+                                        favoriteItems = vm.favouriteList;
+                                      }
                                       // setState(() {});
                                     },
                                     child: Icon(
@@ -238,6 +289,11 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                         Container(
                           width: 250,
                           child: TextField(
+                            onChanged: (value) {
+                              searchFavoriteItem(value.toLowerCase());
+                              // departmentSearch(value.toUpperCase());
+                            },
+                            controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
                               EdgeInsets.only(left: 10, top: 20),
@@ -254,9 +310,9 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: vm.favouriteList.length,
+                      itemCount: favoriteItems.length,
                       itemBuilder: (context, index) {
-                        var item = vm.favouriteList[index];
+                        var item = favoriteItems[index];
                         return Container(
                           color: (index % 2 == 0) ? Color(0xffEFF5FF) : Colors.white,
                           child: Padding(
@@ -281,8 +337,16 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               secondary: InkWell(
                                 onTap: () async {
                                   SVProgressHUD.show(status: "Deleting");
-                                await  DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
+                                await  DeleteFavoriteLitRepository().deleteFavoriteList(id: item.id).then((value) async => await vm.getData());
                                   SVProgressHUD.dismiss();
+
+                                  favoriteItems.clear();
+                                  if (_favoriteController.text.isNotEmpty) {
+                                    searchFavoriteItem(
+                                        _favoriteController.text.toLowerCase());
+                                  } else {
+                                    favoriteItems = vm.favouriteList;
+                                  }
                                 },
                                 child: Icon(
                                   Icons.clear,

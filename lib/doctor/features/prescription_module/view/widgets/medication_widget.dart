@@ -524,6 +524,99 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                   ],
                 ),
               ),
+
+              //Route
+              SizedBox(height: 15,),
+              TypeAheadFormField<String>(
+                textFieldConfiguration: TextFieldConfiguration(
+                    textInputAction: TextInputAction.search,
+                    controller: controller,
+                    decoration: InputDecoration(
+                      labelText: "Route",
+                      //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                      hintText: "Route",
+                      hintStyle: TextStyle(color:Colors.grey),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      focusedBorder:OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xff3E58FF)),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    )),
+                itemBuilder: (_, v) {
+                  return Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text("$v"),
+                  );
+                },
+                onSuggestionSelected: (v) {
+                  // if (chiefComplaintSelectedItems.contains(v)) {
+                  //   BotToast.showText(text: "All ready added");
+                  // } else {
+                  // //   chiefComplaintSelectedItems.add(v);
+                  // }
+                  // setState(() {});
+                },
+                suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                suggestionsCallback: (v) {
+                  // return PreDiagnosisSearchRepository().fetchSearchList(
+                  //     q: v,
+                  //     favoriteType:
+                  //     PrescriptionFavouriteType.chiefComplaint.toString());
+                },
+              ),
+              SizedBox(height: 15,),
+              TypeAheadFormField<String>(
+                textFieldConfiguration: TextFieldConfiguration(
+                    textInputAction: TextInputAction.search,
+                    controller: controller,
+                    decoration: InputDecoration(
+                      labelText: "Dose",
+                      //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                      hintText: "Dose",
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      focusedBorder:OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xff3E58FF)),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    )),
+                itemBuilder: (_, v) {
+                  return Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text("$v"),
+                  );
+                },
+                onSuggestionSelected: (v) {
+                  // if (chiefComplaintSelectedItems.contains(v)) {
+                  //   BotToast.showText(text: "All ready added");
+                  // } else {
+                  // //   chiefComplaintSelectedItems.add(v);
+                  // }
+                  // setState(() {});
+                },
+                suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                suggestionsCallback: (v) {
+                  // return PreDiagnosisSearchRepository().fetchSearchList(
+                  //     q: v,
+                  //     favoriteType:
+                  //     PrescriptionFavouriteType.chiefComplaint.toString());
+                },
+              ),
             ],
           ),
         ),

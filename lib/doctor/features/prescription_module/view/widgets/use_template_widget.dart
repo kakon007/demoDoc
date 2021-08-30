@@ -55,7 +55,7 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    int selectedRadio = 0;
+                    int selectedRadio = null;
                     return  AlertDialog(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20.0))),

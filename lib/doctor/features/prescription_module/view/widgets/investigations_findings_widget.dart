@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
@@ -12,6 +13,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_findings_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
+import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/custom_searchable_dropdown_from_field.dart';
@@ -126,9 +128,10 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                   if (investigationFindingItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    investigationFindingItems.add(
-                      Findings(name: v)
-                    );
+                   showAlert(context, v);
+                    // investigationFindingItems.add(
+                    //   Findings(name: v)
+                    //);
                   }
                   setState(() {});
                 },
@@ -168,6 +171,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
 
                           ));
                           controller.clear();
+                          _findingController.clear();
                         }
                       } else {
                         BotToast.showText(text: "Field is empty");
@@ -365,13 +369,17 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                                  if (investigationFindingItems.contains(item.favouriteVal)) {
                                    BotToast.showText(text: "All ready added");
                                  } else {
-                                   investigationFindingItems
-                                       .add(Findings(name: item.favouriteVal));
+                                     showAlert(context, item.favouriteVal);
+                                    // Navigator.pop(context);
+                                   // investigationFindingItems
+                                   //     .add(Findings(name: item.favouriteVal));
                                  }
                                }
                                else{
-                                 investigationFindingItems
-                                     .add(Findings(name: item.favouriteVal));
+                                  showAlert(context, item.favouriteVal);
+                                 // Navigator.pop(context);
+                                 // investigationFindingItems
+                                 //     .add(Findings(name: item.favouriteVal));
                                }
 
                               }
@@ -411,6 +419,92 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
         ),
       ),
     );
+  }
+  void showAlert(BuildContext context, String favVal) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: SingleChildScrollView(
+              child: AlertDialog(
+                 insetPadding: EdgeInsets.symmetric(
+                     horizontal: MediaQuery.of(context).size.width * .1 ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                contentPadding: EdgeInsets.only(top: 10.0),
+                content: Container(
+                  // constraints: BoxConstraints(
+                  //     minHeight: isTablet
+                  //         ? 360
+                  //         : deviceWidth <= 330
+                  //         ? 330
+                  //         : 340),
+                  child: Form(
+                    // key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        TextField(
+                            controller: _findingController,
+                            decoration: new InputDecoration(
+                              hintStyle: GoogleFonts.poppins( fontSize: 14),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                    if (_findingController.text.trim().isNotEmpty) {
+                                      if (investigationFindingItems
+                                          .contains(favVal)) {
+                                        BotToast.showText(text: "All ready added");
+                                      } else {
+                                        investigationFindingItems
+                                            .add(Findings(name: favVal,
+                                            finding: _findingController.text
+
+                                        ));
+                                        Navigator.pop(context);
+                                        _findingController.clear();
+                                      }
+                                    } else {
+                                      BotToast.showText(text: "Field is empty");
+                                    }
+                                  //setState(() {});
+                                },
+
+                                icon: Icon(Icons.check), color: AppTheme.buttonActiveColor,),
+                              hintText: 'Findings',
+                              // suffixIcon: Padding(
+                              //   padding: EdgeInsets.only(right: width / 8.64),
+                              //   child: Container(
+                              //     width: 20,
+                              //     height: 15,
+                              //     decoration: BoxDecoration(
+                              //       shape: BoxShape.circle,
+                              //       color: AppTheme.appbarPrimary,
+                              //     ),
+                              //     child: GestureDetector(
+                              //         onTap: () {
+                              //           specialityController.clear();
+                              //           specializationSearch('');
+                              //         },
+                              //         child: Icon(
+                              //           Icons.clear,
+                              //           size: 15,
+                              //           color: Colors.white,
+                              //         )),
+                              //   ),
+                              // ),
+                              contentPadding: EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
+                            )),
+                        SizedBox(height: 10,),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
 class Findings{

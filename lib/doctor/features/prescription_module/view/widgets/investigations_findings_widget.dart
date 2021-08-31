@@ -358,53 +358,58 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                         var item = favoriteItems[index];
                         return Padding(
                           padding: EdgeInsets.only(left: 5.0, right: 20.0),
-                          child: CheckboxListTile(
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Text("${item.favouriteVal}"),
-                            value: item.isCheck,
-                            onChanged: (val) {
-                              item.isCheck = val;
-                              if (val == true) {
-                               if(investigationFindingItems.isNotEmpty){
-                                 if (investigationFindingItems.contains(item.favouriteVal)) {
-                                   BotToast.showText(text: "All ready added");
-                                 } else {
-                                     showAlert(context, item.favouriteVal);
-                                    // Navigator.pop(context);
+                          child: Container(
+                            color: (index % 2 == 0)
+                                ? Color(0xffEFF5FF)
+                                : Colors.white,
+                            child: CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              title: Text("${item.favouriteVal}"),
+                              value: item.isCheck,
+                              onChanged: (val) {
+                                item.isCheck = val;
+                                if (val == true) {
+                                 if(investigationFindingItems.isNotEmpty){
+                                   if (investigationFindingItems.contains(item.favouriteVal)) {
+                                     BotToast.showText(text: "All ready added");
+                                   } else {
+                                       showAlert(context, item.favouriteVal);
+                                      // Navigator.pop(context);
+                                     // investigationFindingItems
+                                     //     .add(Findings(name: item.favouriteVal));
+                                   }
+                                 }
+                                 else{
+                                    showAlert(context, item.favouriteVal);
+                                   // Navigator.pop(context);
                                    // investigationFindingItems
                                    //     .add(Findings(name: item.favouriteVal));
                                  }
-                               }
-                               else{
-                                  showAlert(context, item.favouriteVal);
-                                 // Navigator.pop(context);
-                                 // investigationFindingItems
-                                 //     .add(Findings(name: item.favouriteVal));
-                               }
 
-                              }
-                              setState(() {});
-                            },
-                            secondary: InkWell(
-                              onTap: () async {
-                                SVProgressHUD.show(status: "Deleting");
-                                await DeleteFavoriteLitRepository()
-                                    .deleteFavoriteList(id: item.id)
-                                    .then((value) async => await vm.getData());
-                                SVProgressHUD.dismiss();
-                                // _favoriteController.clear();
-                                favoriteItems.clear();
-                                if(_favoriteController.text.isNotEmpty){
-                                  searchFavoriteItem(_favoriteController.text.toLowerCase());
                                 }
-                                else{
-                                  favoriteItems = vm.favouriteList;
-                                }
-                                // favoriteItems.addAll(vm.favouriteList);
+                                setState(() {});
                               },
-                              child: Icon(
-                                Icons.clear,
-                                color: Colors.red,
+                              secondary: InkWell(
+                                onTap: () async {
+                                  SVProgressHUD.show(status: "Deleting");
+                                  await DeleteFavoriteLitRepository()
+                                      .deleteFavoriteList(id: item.id)
+                                      .then((value) async => await vm.getData());
+                                  SVProgressHUD.dismiss();
+                                  // _favoriteController.clear();
+                                  favoriteItems.clear();
+                                  if(_favoriteController.text.isNotEmpty){
+                                    searchFavoriteItem(_favoriteController.text.toLowerCase());
+                                  }
+                                  else{
+                                    favoriteItems = vm.favouriteList;
+                                  }
+                                  // favoriteItems.addAll(vm.favouriteList);
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ),

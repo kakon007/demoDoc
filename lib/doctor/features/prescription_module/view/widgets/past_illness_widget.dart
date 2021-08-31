@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
@@ -9,6 +10,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +25,45 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
   TextEditingController controller = TextEditingController();
   List<String> pastIllnessSelectedItems = [];
   int ind;
+  var vm = appNavigator.context.read<PastIllnessViewModel>();
+  TextEditingController _favoriteController = TextEditingController();
+  List<FavouriteItemModel> favoriteItems = [];
+  void searchFavoriteItem(String query) {
+    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    initialFavoriteSearch = vm.favouriteList;
+    print("init ${initialFavoriteSearch.length}");
+    if (query.isNotEmpty) {
+      List<FavouriteItemModel> initialFavoriteSearchItems =
+      List<FavouriteItemModel>();
+      initialFavoriteSearch.forEach((item) {
+        if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
+          initialFavoriteSearchItems.add(item);
+          print(initialFavoriteSearchItems.length);
+        }
+      });
+      setState(() {
+        print('shak');
+        favoriteItems.clear();
+        favoriteItems.addAll(initialFavoriteSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        print('sha');
+        favoriteItems.clear();
+        favoriteItems.addAll(vm.favouriteList);
+      });
+    }
+  }
+
+  void initState() {
+    Future.delayed(Duration.zero).then((value) async {
+      var vm = context.read<PastIllnessViewModel>();
+      await vm.getData();
+      favoriteItems.addAll(vm.favouriteList);
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<PastIllnessViewModel>();
@@ -161,6 +202,15 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                           pastIllnessSelectedItems[
                                           index])
                                           .then((value) => vm.getData());
+
+                                      favoriteItems.clear();
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
+                                        favoriteItems = vm.favouriteList;
+                                      }
                                       // setState(() {});
                                     },
                                     child: Icon(
@@ -238,6 +288,11 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                         Container(
                           width: 250,
                           child: TextField(
+                            onChanged: (value) {
+                              searchFavoriteItem(value.toLowerCase());
+                              // departmentSearch(value.toUpperCase());
+                            },
+                            controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
                               EdgeInsets.only(left: 10, top: 20),
@@ -254,9 +309,9 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: vm.favouriteList.length,
+                      itemCount: favoriteItems.length,
                       itemBuilder: (context, index) {
-                        var item = vm.favouriteList[index];
+                        var item = favoriteItems[index];
                         return Container(
                           color:(index%2==0)?Color(0xffEFF5FF) : Colors.white,
                           child: Padding(
@@ -283,6 +338,14 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                   SVProgressHUD.show(status: "Deleting");
                                   await DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
                                   SVProgressHUD.dismiss();
+
+                                  favoriteItems.clear();
+                                  if (_favoriteController.text.isNotEmpty) {
+                                    searchFavoriteItem(
+                                        _favoriteController.text.toLowerCase());
+                                  } else {
+                                    favoriteItems = vm.favouriteList;
+                                  }
                                 },
                                 child: Icon(
                                   Icons.clear,

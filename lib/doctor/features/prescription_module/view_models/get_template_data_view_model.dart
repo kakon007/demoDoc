@@ -14,6 +14,8 @@ class GetTamplateDataViewModel extends ChangeNotifier{
   bool _hasMoreData = false;
   get logger => null;
   List<CommonPrescriptionSearchItems> investigationSelectedItems = [];
+  List<String> clinicalHistorySelectedItems = [];
+  List<String> pastIllnessSelectedItems = [];
 
   Future<bool> getData({var templateId}) async {
     print('Enterer');
@@ -37,6 +39,26 @@ class GetTamplateDataViewModel extends ChangeNotifier{
         }
        print('shakil ${investigationSelectedItems.length}');
       });
+//clinical History
+      r.dataList.clinicalHistory3List.forEach((element) {
+        if(clinicalHistorySelectedItems.contains(element.preDiagnosisVal)){
+          print('already added');
+        }
+        else{
+          clinicalHistorySelectedItems.add( element.preDiagnosisVal);
+        }
+        print('shakil ${clinicalHistorySelectedItems.length}');
+      });
+//pastillness
+      r.dataList.clinicalHistory2List.forEach((element) {
+        if(pastIllnessSelectedItems.contains(element.preDiagnosisVal)){
+          print('already added');
+        }
+        else{
+          pastIllnessSelectedItems.add( element.preDiagnosisVal);
+        }
+      });
+
       _prescriptionTamplateList=r.dataList;
       notifyListeners();
       return true;

@@ -271,7 +271,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                         ))),
               ):Wrap(
                 children: List.generate(
-                    vm2.prescriptionTamplateListData.length,
+                    vm2.prescriptionTamplateListData.clinicalHistory3List.length,
                         (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -285,7 +285,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${vm2.prescriptionTamplateListData[index].preDiagnosisVal}",
+                                "${vm2.prescriptionTamplateListData.clinicalHistory3List[index].preDiagnosisVal}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),

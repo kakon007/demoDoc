@@ -7,7 +7,7 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_template_model.dart';
 
 class GetTamplateDataViewModel extends ChangeNotifier{
-  List<Note> _prescriptionTamplateList;
+  Obj _prescriptionTamplateList;
   AppError _appError;
   bool _isFetchingData = false;
   bool _hasMoreData = false;
@@ -26,7 +26,7 @@ class GetTamplateDataViewModel extends ChangeNotifier{
       return false;
     }, (r) {
       _isFetchingData = false;
-      _prescriptionTamplateList=r.dataList.clinicalHistory3List;
+      _prescriptionTamplateList=r.dataList;
       notifyListeners();
       return true;
     });
@@ -34,5 +34,5 @@ class GetTamplateDataViewModel extends ChangeNotifier{
 
   AppError get appError => _appError;
   bool get isFetchingData => _isFetchingData;
-  List<Note> get prescriptionTamplateListData => _prescriptionTamplateList;
+  Obj get prescriptionTamplateListData => _prescriptionTamplateList;
 }

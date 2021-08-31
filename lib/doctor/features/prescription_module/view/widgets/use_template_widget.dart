@@ -4,6 +4,7 @@ import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_template_list_repository.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -19,12 +20,15 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
   void initState() {
     var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: false);
     vm.getData();
+    var vm2=Provider.of<GetTamplateDataViewModel>(context,listen: false);
+    vm2.getData();
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
 
     var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: true);
+    var vm2 = Provider.of<GetTamplateDataViewModel>(context, listen: true);
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
@@ -193,6 +197,7 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
                                                         onChanged: (int value) {
                                                           setState(() {
                                                             selectedRadio = value;
+                                                            vm.getIdForTemplate(id: vm.prescriptionTamplateList[index].id);
                                                             print('value $selectedRadio');
                                                           });
                                                         },
@@ -208,40 +213,47 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
                                     ),
                                   ),
                                   SizedBox(height: 40,),
-                                  Material(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            5)),
-                                    color: HexColor("#AFBBFF"),
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      height: deviceWidth <= 360
-                                          ? 28
-                                          : 40,
+                                  InkWell(
+                                    onTap:(){
+                                      SVProgressHUD.show(status: "Please Wait");
+                                      vm2.getData(templateId: vm.id);
+                                      SVProgressHUD.dismiss();
+                                    },
+                                    child: Material(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(
+                                              5)),
+                                      color:selectedRadio==null?AppTheme.buttonInActiveColor:AppTheme.buttonActiveColor,
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        height: deviceWidth <= 360
+                                            ? 28
+                                            : 40,
 
-                                      child: Center(
-                                        child: Text(
-                                          "Apply",
-                                          style:
-                                          GoogleFonts.roboto(
-                                              color:
-                                              Colors.white,
-                                              fontSize: isTablet
-                                                  ? 15
-                                                  : deviceWidth <=
-                                                  360 &&
-                                                  deviceWidth >
-                                                      330
-                                                  ? 9
-                                                  : deviceWidth <=
-                                                  330
-                                                  ? 8
-                                                  : 12,
-                                              fontWeight:
-                                              FontWeight
-                                                  .w600),
+                                        child: Center(
+                                          child: Text(
+                                            "Apply",
+                                            style:
+                                            GoogleFonts.roboto(
+                                                color:
+                                                Colors.white,
+                                                fontSize: isTablet
+                                                    ? 15
+                                                    : deviceWidth <=
+                                                    360 &&
+                                                    deviceWidth >
+                                                        330
+                                                    ? 9
+                                                    : deviceWidth <=
+                                                    330
+                                                    ? 8
+                                                    : 12,
+                                                fontWeight:
+                                                FontWeight
+                                                    .w600),
+                                          ),
                                         ),
                                       ),
                                     ),

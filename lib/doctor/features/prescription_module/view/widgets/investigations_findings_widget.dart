@@ -433,7 +433,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
             child: SingleChildScrollView(
               child: AlertDialog(
                  insetPadding: EdgeInsets.symmetric(
-                     horizontal: MediaQuery.of(context).size.width * .1 ),
+                     horizontal: MediaQuery.of(context).size.width * .001 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 contentPadding: EdgeInsets.only(top: 10.0),

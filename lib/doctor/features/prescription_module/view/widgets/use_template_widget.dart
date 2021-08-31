@@ -218,6 +218,7 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
                                       SVProgressHUD.show(status: "Please Wait");
                                       vm2.getData(templateId: vm.id);
                                       SVProgressHUD.dismiss();
+                                      Navigator.pop(context);
                                     },
                                     child: Material(
                                       elevation: 0,

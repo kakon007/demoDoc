@@ -9,6 +9,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -61,6 +62,8 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
     Future.delayed(Duration.zero).then((value) async {
       var vm = context.read<ClinicalHistoryViewModel>();
       await vm.getData();
+      var vm2=Provider.of<GetTamplateDataViewModel>(context,listen: false);
+      vm2.getData();
       favoriteItems.addAll(vm.favouriteList);
     });
     super.initState();
@@ -68,6 +71,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ClinicalHistoryViewModel>();
+    var vm2=Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
       onChangeShowReport: (bool val) {
         showReport = val;
@@ -161,7 +165,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
               SizedBox(
                 height: 20,
               ),
-              Wrap(
+            vm2.prescriptionTamplateListData==null?Wrap(
                 children: List.generate(
                     clinicalHistorySelectedItems.length,
                         (index) => Container(
@@ -178,6 +182,110 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
                                 "${clinicalHistorySelectedItems[index]}",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Divider(
+                              thickness: 1,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      await CommonAddToFavoriteListRepository()
+                                          .addToFavouriteList(
+                                          favoriteType:
+                                          PrescriptionFavouriteType
+                                              .clinicalHistory
+                                              .toString(),
+                                          favoriteVal:
+                                          clinicalHistorySelectedItems[
+                                          index])
+                                          .then((value) async =>
+                                      await vm.getData());
+                                      favoriteItems.clear();
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
+                                        favoriteItems = vm.favouriteList;
+                                      }
+                                      // setState(() {});
+                                    },
+                                    child: Icon(
+                                      Icons.favorite_border,
+                                      color: Colors.red,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      controller.text =
+                                      clinicalHistorySelectedItems[index];
+                                      ind = index;
+                                    },
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(50),
+                                          color: Color(0xffE6374DF)),
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      clinicalHistorySelectedItems
+                                          .removeAt(index);
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(50),
+                                          color: Colors.red),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ))),
+              ):Wrap(
+                children: List.generate(
+                    vm2.prescriptionTamplateListData.length,
+                        (index) => Container(
+                        margin: EdgeInsets.only(top: 5),
+                        decoration: BoxDecoration(
+                          color: Color(0xffEFF5FF),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 15, top: 10.0, bottom: 5.0),
+                              child: Text(
+                                "${vm2.prescriptionTamplateListData[index].preDiagnosisVal}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),

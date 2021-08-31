@@ -9,6 +9,8 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_prescription_search_items_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -60,6 +62,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) async {
+      print('sakil2 ${investigationSelectedItems.length}');
       var vm = context.read<InvestigationViewModel>();
       await vm.getData();
       favoriteItems.addAll(vm.favouriteList);
@@ -72,6 +75,12 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<InvestigationViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
+    //var templateVm = Provider.of<GetTamplateDataViewModel>(context, listen: false);
+    // templateVm.prescriptionTamplateListData.investigationList.forEach((element) {
+    //   investigationSelectedItems.add(CommonPrescriptionSearchItems(itemName: element.preDiagnosisVal,itemTypeNo: element.preDiagnosisValType));
+    //   print('sakil ${investigationSelectedItems.length}');
+    // });
     return PrescriptionCommonWidget(
       onChangeShowReport: (bool val) {
         showReport = val;
@@ -103,13 +112,13 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              investigationSelectedItems[ind].itemName =
+                              templateVm.investigationSelectedItems[ind].itemName =
                                   controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (investigationSelectedItems
+                                if (templateVm.investigationSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
@@ -140,7 +149,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                                         onChanged: (int v) {
                                                           setState(() {
                                                             itemTypeNo = v;
-                                                            investigationSelectedItems.add(
+                                                            templateVm.investigationSelectedItems.add(
                                                                 CommonPrescriptionSearchItems(
                                                                     itemName:
                                                                         controller
@@ -164,7 +173,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                                         onChanged: (int v) {
                                                           setState(() {
                                                             itemTypeNo = v;
-                                                            investigationSelectedItems.add(
+                                                            templateVm.investigationSelectedItems.add(
                                                                 CommonPrescriptionSearchItems(
                                                                     itemName:
                                                                         controller
@@ -203,10 +212,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (investigationSelectedItems.contains(v)) {
+                  if (templateVm.investigationSelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    investigationSelectedItems.add(v);
+                    templateVm.investigationSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -223,7 +232,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    investigationSelectedItems.length,
+                    templateVm.investigationSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -240,14 +249,14 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                   padding: EdgeInsets.only(
                                       left: 15, top: 10.0, bottom: 5.0),
                                   child: Text(
-                                    "${investigationSelectedItems[index].itemName}",
+                                    "${templateVm.investigationSelectedItems[index].itemName}",
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 Tooltip(
-                                  message: investigationSelectedItems[index]
+                                  message: templateVm.investigationSelectedItems[index]
                                               .itemTypeNo ==
                                           1
                                       ? "Pathology"
@@ -265,7 +274,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                           bottom: 5.0,
                                           right: 10),
                                       child: Text(
-                                        investigationSelectedItems[index]
+                                        templateVm.investigationSelectedItems[index]
                                                     .itemTypeNo ==
                                                 1
                                             ? "P"
@@ -294,7 +303,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                           .addToFavouriteList(
                                               favoriteType: "36",
                                               favoriteVal:
-                                                  investigationSelectedItems[
+                                              templateVm.investigationSelectedItems[
                                                           index]
                                                       .itemName)
                                           .then((value) async =>
@@ -317,7 +326,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                   InkWell(
                                     onTap: () {
                                       controller.text =
-                                          investigationSelectedItems[index]
+                                          templateVm.investigationSelectedItems[index]
                                               .itemName;
                                       ind = index;
                                     },
@@ -337,7 +346,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      investigationSelectedItems
+                                      templateVm.investigationSelectedItems
                                           .removeAt(index);
                                       setState(() {});
                                     },
@@ -422,11 +431,11 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (investigationSelectedItems
+                                  if (templateVm.investigationSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    investigationSelectedItems.add(
+                                    templateVm.investigationSelectedItems.add(
                                         CommonPrescriptionSearchItems(
                                             itemName: item.favouriteVal,
                                             itemTypeNo: item.favouriteType));

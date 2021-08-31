@@ -34,6 +34,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/p
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
+import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
 class Module extends StatefulWidget {
@@ -89,6 +90,49 @@ class _ModuleState extends State<Module> {
           DisposalWidget(),
           NoteWidget(),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                height: 40,
+                width: MediaQuery.of(context).size.width * .4,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Color(0xffAFBBFF),
+                ),
+                child: Center(
+                    child: Text(
+                  "Save as template",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                height: 40,
+                width: MediaQuery.of(context).size.width * .4,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Color(0xffAFBBFF),
+                ),
+                child: Center(
+                    child: Text(
+                  "Submit prescription",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

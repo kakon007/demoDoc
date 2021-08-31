@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -72,6 +73,7 @@ class _ProvisionalDiagnosisWidgetState
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ProvisionalDiagnosisViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
       onChangeShowReport: (bool val) {
         showReport = val;
@@ -103,17 +105,17 @@ class _ProvisionalDiagnosisWidgetState
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              provisionalDiagnosisSelectedItems[ind] =
+                              templateVm.provisionalDiagnosisSelectedItems[ind] =
                                   controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (provisionalDiagnosisSelectedItems
+                                if (templateVm.provisionalDiagnosisSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  provisionalDiagnosisSelectedItems
+                                  templateVm.provisionalDiagnosisSelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -134,10 +136,10 @@ class _ProvisionalDiagnosisWidgetState
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (provisionalDiagnosisSelectedItems.contains(v)) {
+                  if (templateVm.provisionalDiagnosisSelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    provisionalDiagnosisSelectedItems.add(v);
+                    templateVm.provisionalDiagnosisSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -172,7 +174,7 @@ class _ProvisionalDiagnosisWidgetState
               ),
               Wrap(
                 children: List.generate(
-                    provisionalDiagnosisSelectedItems.length,
+                    templateVm.provisionalDiagnosisSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -186,7 +188,7 @@ class _ProvisionalDiagnosisWidgetState
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${provisionalDiagnosisSelectedItems[index]}",
+                                "${templateVm.provisionalDiagnosisSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -209,7 +211,7 @@ class _ProvisionalDiagnosisWidgetState
                                                       .provisionalDiagnosis
                                                       .toString(),
                                               favoriteVal:
-                                                  provisionalDiagnosisSelectedItems[
+                                              templateVm.provisionalDiagnosisSelectedItems[
                                                       index])
                                           .then((value) => vm.getData());
                                       favoriteItems.clear();
@@ -230,7 +232,7 @@ class _ProvisionalDiagnosisWidgetState
                                   InkWell(
                                     onTap: () {
                                       controller.text =
-                                          provisionalDiagnosisSelectedItems[
+                                      templateVm.provisionalDiagnosisSelectedItems[
                                               index];
                                       ind = index;
                                     },
@@ -250,7 +252,7 @@ class _ProvisionalDiagnosisWidgetState
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      provisionalDiagnosisSelectedItems
+                                      templateVm.provisionalDiagnosisSelectedItems
                                           .removeAt(index);
                                       setState(() {});
                                     },
@@ -335,11 +337,11 @@ class _ProvisionalDiagnosisWidgetState
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (provisionalDiagnosisSelectedItems
+                                  if (templateVm.provisionalDiagnosisSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    provisionalDiagnosisSelectedItems
+                                    templateVm.provisionalDiagnosisSelectedItems
                                         .add(item.favouriteVal);
                                   }
                                 }

@@ -14,7 +14,7 @@ class GetTamplateDataViewModel extends ChangeNotifier{
   bool _hasMoreData = false;
   get logger => null;
   List<CommonPrescriptionSearchItems> investigationSelectedItems = [];
-
+  List<String> provisionalDiagnosisSelectedItems = [];
   Future<bool> getData({var templateId}) async {
     print('Enterer');
     _isFetchingData = true;
@@ -36,6 +36,16 @@ class GetTamplateDataViewModel extends ChangeNotifier{
           investigationSelectedItems.add(CommonPrescriptionSearchItems(itemName: element.preDiagnosisVal,itemTypeNo: element.preDiagnosisValType,itemNo: element.preDiagnosisValType));
         }
        print('shakil ${investigationSelectedItems.length}');
+      });
+      r.dataList.diagnosisList.forEach((element) {
+        print('aaaaaaa');
+        if(provisionalDiagnosisSelectedItems.contains(element.preDiagnosisVal)){
+          print('already added');
+        }
+        else{
+          provisionalDiagnosisSelectedItems.add(element.preDiagnosisVal);
+        }
+        print('shakil ${provisionalDiagnosisSelectedItems.length}');
       });
       _prescriptionTamplateList=r.dataList;
       notifyListeners();

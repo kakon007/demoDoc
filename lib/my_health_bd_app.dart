@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view_model/prescription_list_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
@@ -173,6 +174,8 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => OrthosisViewModel()),
       ChangeNotifierProvider<ProcedureViewModel>(
           create: (context) => ProcedureViewModel()),
+      ChangeNotifierProvider<GetTamplateDataViewModel>(
+          create: (context) => GetTamplateDataViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

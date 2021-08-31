@@ -18,6 +18,7 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
   get logger => null;
   int limit=10;
   int startIndex=0;
+  var _id;
 
 
   void resetPageCounter() {
@@ -66,44 +67,12 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
     });
   }
 
-
-
-  // Future<bool> refresh() async {
-  //   _pageCount = 1;
-  //   notifyListeners();
-  //   return getData();
-  // }
-  // search(String query,String accessToken) {
-  //   _prescriptionTamplateList.clear();
-  //   _pageCount = 1;
-  //   searchQuery = query;
-  //   print("Searching for: $query");
-  //   getData();
-  // }
-  //
-  // toggleIsInSearchMode(String accessToken) {
-  //   _isInSearchMode = !_isInSearchMode;
-  //   count = 0;
-  //   resetPageCounter();
-  //   if (!_isInSearchMode) {
-  //     searchQuery = "";
-  //     getData();
-  //   }
-  //   notifyListeners();
-  // }
-
+  getIdForTemplate({var id}){
+    _id=id;
+    print('id new $_id');
+  }
   AppError get appError => _appError;
-
-
-
   bool get isFetchingData => _isFetchingData;
-
-  // bool get isFetchingMoreData => _isFetchingMoreData;
-  // set isFetchingMoreData(bool value) {
-  //   _isFetchingMoreData = value;
-  //   notifyListeners();
-  // }
-
   bool get isInSearchMode => _isInSearchMode;
 
   set isInSearchMode(bool value) {
@@ -124,4 +93,5 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
 
 
   List<Item> get prescriptionTamplateList => _prescriptionTamplateList;
+  int get id=>_id;
 }

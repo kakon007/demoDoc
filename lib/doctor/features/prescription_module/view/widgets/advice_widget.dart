@@ -9,6 +9,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/advice_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -70,6 +71,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     var vm = context.watch<AdviceViewModel>();
     return PrescriptionCommonWidget(
       onChangeShowReport: (bool val) {
@@ -102,15 +104,15 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              selectedItems[ind] = controller.text;
+                              templateVm.adviceSelectedItems[ind] = controller.text;
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (selectedItems
+                                if (templateVm.adviceSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  selectedItems.add(controller.text.trim());
+                                  templateVm.adviceSelectedItems.add(controller.text.trim());
                                   controller.clear();
                                 }
                               } else {
@@ -133,7 +135,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  selectedItems.add(v);
+                  templateVm.adviceSelectedItems.add(v);
                   setState(() {});
                 },
                 suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -166,7 +168,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    selectedItems.length,
+                    templateVm.adviceSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -180,7 +182,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${selectedItems[index]}",
+                                "${templateVm.adviceSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -202,7 +204,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                                   PrescriptionFavouriteType
                                                       .advice
                                                       .toString(),
-                                              favoriteVal: selectedItems[index])
+                                              favoriteVal: templateVm.adviceSelectedItems[index])
                                           .then((value) => vm.getData());
                                       _favoriteController.clear();
                                       favoriteItems.clear();
@@ -217,7 +219,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text = selectedItems[index];
+                                      controller.text = templateVm.adviceSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -236,7 +238,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      selectedItems.removeAt(index);
+                                      templateVm.adviceSelectedItems.removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -322,7 +324,7 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  selectedItems.add(item.favouriteVal);
+                                  templateVm.adviceSelectedItems.add(item.favouriteVal);
                                 }
                                 setState(() {});
                               },

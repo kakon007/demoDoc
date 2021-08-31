@@ -97,38 +97,44 @@ class _ModuleState extends State<Module> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width * .4,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xffAFBBFF),
-                ),
-                child: Center(
-                    child: Text(
-                  "Save as template",
-                  style: TextStyle(
-                    color: Colors.white,
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  height: 40,
+                  width: MediaQuery.of(context).size.width * .4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color(0xffAFBBFF),
                   ),
-                )),
+                  child: Center(
+                      child: Text(
+                    "Save as template",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width * .4,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xffAFBBFF),
-                ),
-                child: Center(
-                    child: Text(
-                  "Submit prescription",
-                  style: TextStyle(
-                    color: Colors.white,
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  height: 40,
+                  width: MediaQuery.of(context).size.width * .4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color(0xffAFBBFF),
                   ),
-                )),
+                  child: Center(
+                      child: Text(
+                    "Submit prescription",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
+                ),
               ),
             ),
           ],

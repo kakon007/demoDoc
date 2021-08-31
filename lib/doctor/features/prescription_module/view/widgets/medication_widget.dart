@@ -14,6 +14,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class MedicationWidget extends StatefulWidget {
@@ -50,6 +51,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   int tabIndex = 0;
   // value set to false
   bool _value = false;
+  List<MedicineList> medicineList = [];
 
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
@@ -107,7 +109,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<MedicationViewModel>();
-
+    bool isTablet = Responsive.isTablet(context);
     final Widget addMulIon = SvgPicture.asset(
       "assets/icons/addmultidose.svg",
       height: 20,
@@ -1116,133 +1118,248 @@ class _MedicationWidgetState extends State<MedicationWidget> {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: TypeAheadFormField<String>(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          textInputAction: TextInputAction.search,
-                          controller: continueDurationController,
-                          decoration: InputDecoration(
-                            labelText: "Duration",
-                            //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                            hintText: "Duration",
-                            // prefixIcon: Icon(
-                            //   Icons.search,
-                            //   color: Colors.grey,
-                            // ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+              _value
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          child: TypeAheadFormField<String>(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                textInputAction: TextInputAction.search,
+                                controller: continueDurationController,
+                                decoration: InputDecoration(
+                                  labelText: "Duration",
+                                  //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                                  hintText: "Duration",
+                                  // prefixIcon: Icon(
+                                  //   Icons.search,
+                                  //   color: Colors.grey,
+                                  // ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color(0xff3E58FF)),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                )),
+                            itemBuilder: (_, v) {
+                              return Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text("$v"),
+                              );
+                            },
+                            onSuggestionSelected: (v) {
+                              continueDurationController.text = v;
+                              // setState(() {});
+                            },
+                            suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Color(0xff3E58FF)),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          )),
-                      itemBuilder: (_, v) {
-                        return Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text("$v"),
-                        );
-                      },
-                      onSuggestionSelected: (v) {
-                        continueDurationController.text = v;
-                        // setState(() {});
-                      },
-                      suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      suggestionsCallback: (v) {
-                        return vm.medicationModelList.obj.durationList
-                            .map((e) => e.preDiagnosisVal)
-                            .where((element) =>
-                                element.toLowerCase().contains(v.toLowerCase()))
-                            .toList();
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TypeAheadFormField<String>(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          textInputAction: TextInputAction.search,
-                          controller: continueDaysController,
-                          decoration: InputDecoration(
-                            labelText: "Days",
-                            //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                            hintText: "Days",
-                            // prefixIcon: Icon(
-                            //   Icons.search,
-                            //   color: Colors.grey,
-                            // ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Color(0xff3E58FF)),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          )),
-                      itemBuilder: (_, v) {
-                        return Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text("$v"),
-                        );
-                      },
-                      onSuggestionSelected: (v) {
-                        continueDaysController.text = v;
-                        // setState(() {});
-                      },
-                      suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      suggestionsCallback: (v) {
-                        return vm.medicationModelList.obj.durationMuList
-                            .map((e) => e.preDiagnosisVal)
-                            .where((element) =>
-                                element.toLowerCase().contains(v.toLowerCase()))
-                            .toList();
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TextField(
-                      controller: continueQuantityController,
-                      autofocus: false,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xffEFF5FF),
-                        labelText: "Quantity",
-                        //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                        hintText: "Quantity",
-                        // prefixIcon: Icon(
-                        //   Icons.search,
-                        //   color: Colors.grey,
-                        // ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Color(0xffEFF5FF)),
-                          borderRadius: BorderRadius.circular(15.0),
+                            suggestionsCallback: (v) {
+                              return vm.medicationModelList.obj.durationList
+                                  .map((e) => e.preDiagnosisVal)
+                                  .where((element) => element
+                                      .toLowerCase()
+                                      .contains(v.toLowerCase()))
+                                  .toList();
+                            },
+                          ),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Color(0xffEFF5FF)),
-                          borderRadius: BorderRadius.circular(15.0),
+                        SizedBox(
+                          width: 100,
+                          child: TypeAheadFormField<String>(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                textInputAction: TextInputAction.search,
+                                controller: continueDaysController,
+                                decoration: InputDecoration(
+                                  labelText: "Days",
+                                  //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                                  hintText: "Days",
+                                  // prefixIcon: Icon(
+                                  //   Icons.search,
+                                  //   color: Colors.grey,
+                                  // ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color(0xff3E58FF)),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                )),
+                            itemBuilder: (_, v) {
+                              return Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text("$v"),
+                              );
+                            },
+                            onSuggestionSelected: (v) {
+                              continueDaysController.text = v;
+                              // setState(() {});
+                            },
+                            suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            suggestionsCallback: (v) {
+                              return vm.medicationModelList.obj.durationMuList
+                                  .map((e) => e.preDiagnosisVal)
+                                  .where((element) => element
+                                      .toLowerCase()
+                                      .contains(v.toLowerCase()))
+                                  .toList();
+                            },
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                        SizedBox(
+                          width: 100,
+                          child: TextField(
+                            controller: continueQuantityController,
+                            autofocus: false,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Color(0xffEFF5FF),
+                              labelText: "Quantity",
+                              //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                              hintText: "Quantity",
+                              // prefixIcon: Icon(
+                              //   Icons.search,
+                              //   color: Colors.grey,
+                              // ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xffEFF5FF)),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xffEFF5FF)),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
 
               //Buttons
               SizedBox(
                 height: 20,
+              ),
+              Wrap(
+                children: List.generate(
+                    medicineList.length,
+                    (index) => Container(
+                        margin: EdgeInsets.only(top: 5),
+                        decoration: BoxDecoration(
+                          color: Color(0xffEFF5FF),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: isTablet ? 20 : 15,
+                                  top: isTablet ? 15 : 10.0,
+                                  bottom: isTablet ? 10 : 5.0),
+                              child: Text(
+                                "${medicineList[index].genericName ?? ""} - ${medicineList[index].brandName ?? ""} - ${medicineList[index].route} - ${medicineList[index].dose} - ${medicineList[index].duration} ${medicineList[index].durationType} - ${medicineList[index].instruction}",
+                                style: TextStyle(
+                                    fontSize: isTablet ? 18 : 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Divider(
+                              thickness: 1,
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(bottom: isTablet ? 15 : 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      // await CommonAddToFavoriteListRepository()
+                                      //     .addToFavouriteList(
+                                      //         favoriteType:
+                                      //             PrescriptionFavouriteType
+                                      //                 .chiefComplaint
+                                      //                 .toString(),
+                                      //         favoriteVal:
+                                      //             chiefComplaintSelectedItems[
+                                      //                 index])
+                                      //     .then((value) async =>
+                                      //         await vm.getData());
+                                      // favoriteItems.clear();
+                                      // if (_favoriteController.text.isNotEmpty) {
+                                      //   searchFavoriteItem(_favoriteController
+                                      //       .text
+                                      //       .toLowerCase());
+                                      // } else {
+                                      //   favoriteItems = vm.favouriteList;
+                                      // }
+                                    },
+                                    child: Icon(
+                                      Icons.favorite_border,
+                                      color: Colors.red,
+                                      size: isTablet ? 35 : 30,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      // controller.text =
+                                      //     chiefComplaintSelectedItems[index];
+                                      ind = index;
+                                    },
+                                    child: Container(
+                                      height: isTablet ? 35 : 30,
+                                      width: isTablet ? 35 : 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Color(0xffE6374DF)),
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: isTablet ? 20 : 18,
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      // chiefComplaintSelectedItems
+                                      //     .removeAt(index);
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: isTablet ? 35 : 30,
+                                      width: isTablet ? 35 : 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Colors.red),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: isTablet ? 22 : 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ))),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -1278,27 +1395,48 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                   SizedBox(
                     width: 10,
                   ),
-                  Container(
-                    width: 90,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Color(0xff6374DF),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10, left: 10),
-                      child: Row(
-                        children: [
-                          Icon(Icons.add_circle_outline, color: Colors.white),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Add',
-                              style: GoogleFonts.roboto(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400))
-                        ],
+                  InkWell(
+                    onTap: () {
+                      medicineList.add(MedicineList(
+                        genericName: _genericController.text,
+                        brandName: _brandController.text,
+                        dose: doseController.text,
+                        duration: durationController.text,
+                        durationType: daysController.text,
+                        instruction: instructionController.text,
+                        route: routeController.text,
+                        multiDose: multiDoseController.text,
+                        multiDoseDuration: multiDoseDurationController.text,
+                        multiDoseDurationType: multiDoseDaysController.text,
+                        multiDoseInstruction:
+                            multiDoseInstructionController.text,
+                        continueDuration: continueDurationController.text,
+                        continueDurationType: continueDaysController.text,
+                      ));
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: 90,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Color(0xff6374DF),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10, left: 10),
+                        child: Row(
+                          children: [
+                            Icon(Icons.add_circle_outline, color: Colors.white),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Add',
+                                style: GoogleFonts.roboto(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400))
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -1310,4 +1448,35 @@ class _MedicationWidgetState extends State<MedicationWidget> {
       ),
     );
   }
+}
+
+class MedicineList {
+  String genericName;
+  String brandName;
+  String route;
+  String dose;
+  String duration;
+  String durationType;
+  String instruction;
+  String multiDose;
+  String multiDoseDuration;
+  String multiDoseDurationType;
+  String multiDoseInstruction;
+  String continueDuration;
+  String continueDurationType;
+  MedicineList({
+    this.brandName,
+    this.genericName,
+    this.continueDuration,
+    this.continueDurationType,
+    this.dose,
+    this.duration,
+    this.durationType,
+    this.instruction,
+    this.multiDose,
+    this.multiDoseDuration,
+    this.multiDoseDurationType,
+    this.multiDoseInstruction,
+    this.route,
+  });
 }

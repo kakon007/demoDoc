@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/get_template_data_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/get_template_data_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/prescription_template_repository.dart';
@@ -12,6 +13,7 @@ class GetTamplateDataViewModel extends ChangeNotifier{
   bool _isFetchingData = false;
   bool _hasMoreData = false;
   get logger => null;
+  List<CommonPrescriptionSearchItems> investigationSelectedItems = [];
 
   Future<bool> getData({var templateId}) async {
     print('Enterer');
@@ -26,6 +28,15 @@ class GetTamplateDataViewModel extends ChangeNotifier{
       return false;
     }, (r) {
       _isFetchingData = false;
+      r.dataList.investigationList.forEach((element) {
+        if(investigationSelectedItems.contains(element.preDiagnosisVal)){
+          print('already added');
+        }
+        else{
+          investigationSelectedItems.add(CommonPrescriptionSearchItems(itemName: element.preDiagnosisVal,itemTypeNo: element.preDiagnosisValType,itemNo: element.preDiagnosisValType));
+        }
+       print('shakil ${investigationSelectedItems.length}');
+      });
       _prescriptionTamplateList=r.dataList;
       notifyListeners();
       return true;

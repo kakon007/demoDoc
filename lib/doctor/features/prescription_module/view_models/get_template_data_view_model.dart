@@ -86,25 +86,24 @@ class GetTamplateDataViewModel extends ChangeNotifier {
       _prescriptionTamplateList = r.dataList;
       r.dataList.diagnosisList.forEach((element) {
         print('aaaaaaa');
-        if(provisionalDiagnosisSelectedItems.contains(element.preDiagnosisVal)){
+        if (provisionalDiagnosisSelectedItems
+            .contains(element.preDiagnosisVal)) {
           print('already added');
-        }
-        else{
+        } else {
           provisionalDiagnosisSelectedItems.add(element.preDiagnosisVal);
         }
         print('shakil ${provisionalDiagnosisSelectedItems.length}');
       });
       r.dataList.adviceList.forEach((element) {
         print('aaaaaaa');
-        if(adviceSelectedItems.contains(element.preDiagnosisVal)){
+        if (adviceSelectedItems.contains(element.preDiagnosisVal)) {
           print('already added');
-        }
-        else{
+        } else {
           adviceSelectedItems.add(element.preDiagnosisVal);
         }
         print('shakil ${provisionalDiagnosisSelectedItems.length}');
       });
-      _prescriptionTamplateList=r.dataList;
+      _prescriptionTamplateList = r.dataList;
       notifyListeners();
       return true;
     });

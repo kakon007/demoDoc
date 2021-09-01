@@ -18,7 +18,13 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<String> chiefComplaintSelectedItems = [];
   List<String> diseaseSelectedItems = [];
 
+  List<String> provisionalDiagnosisSelectedItems = [];
+  List<String> adviceSelectedItems = [];
   Future<bool> getData({var templateId}) async {
+    investigationSelectedItems.clear();
+    provisionalDiagnosisSelectedItems.clear();
+    adviceSelectedItems.clear();
+
     print('Enterer');
     _isFetchingData = true;
     var res = await GetTemplateDataRepository()
@@ -78,6 +84,27 @@ class GetTamplateDataViewModel extends ChangeNotifier {
         }
       });
       _prescriptionTamplateList = r.dataList;
+      r.dataList.diagnosisList.forEach((element) {
+        print('aaaaaaa');
+        if(provisionalDiagnosisSelectedItems.contains(element.preDiagnosisVal)){
+          print('already added');
+        }
+        else{
+          provisionalDiagnosisSelectedItems.add(element.preDiagnosisVal);
+        }
+        print('shakil ${provisionalDiagnosisSelectedItems.length}');
+      });
+      r.dataList.adviceList.forEach((element) {
+        print('aaaaaaa');
+        if(adviceSelectedItems.contains(element.preDiagnosisVal)){
+          print('already added');
+        }
+        else{
+          adviceSelectedItems.add(element.preDiagnosisVal);
+        }
+        print('shakil ${provisionalDiagnosisSelectedItems.length}');
+      });
+      _prescriptionTamplateList=r.dataList;
       notifyListeners();
       return true;
     });

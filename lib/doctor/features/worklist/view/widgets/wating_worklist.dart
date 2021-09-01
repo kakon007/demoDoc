@@ -157,8 +157,13 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
                   padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
                   child: WorklistAll(
                     patientName: vm.waitingData[index].patientName,
+                    age: vm.waitingData[index].age,
+                    bloodGroup: vm.waitingData[index].bloodGroup,
+                    gender: vm.waitingData[index].gender,
+                    phoneNumber: vm.waitingData[index].phoneMobile,
+                    serial: vm.waitingData[index].slotSl,
                     consultTime: vm.waitingData[index].consTime,
-                    consultType: vm.waitingData[index].consultTypeNo.toString(),
+                    consultType: vm.waitingData[index].consultationOut.toString(),
                   ),
                 );
               }),

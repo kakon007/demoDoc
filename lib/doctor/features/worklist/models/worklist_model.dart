@@ -152,7 +152,7 @@ class Datum {
   int ageYy;
   int ageMm;
   int ageDd;
-  Gender gender;
+  String gender;
   int consultTypeNo;
   dynamic consultTypeDesc;
   dynamic bloodGroup;
@@ -207,7 +207,7 @@ class Datum {
     ageYy: json["ageYy"],
     ageMm: json["ageMm"],
     ageDd: json["ageDd"],
-    gender: genderValues.map[json["gender"]],
+    gender: json["gender"],
     consultTypeNo: json["consultTypeNo"],
     consultTypeDesc: json["consultTypeDesc"],
     bloodGroup: json["bloodGroup"],

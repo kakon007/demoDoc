@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/doctor/features/patient_details/view/pateint_details_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class WorklistAll extends StatefulWidget {
   String patientName;
+  String age;
+  String gender;
+  String bloodGroup;
+  String phoneNumber;
   String consultTime;
   String consultType;
-  WorklistAll({this.consultTime, this.patientName, this.consultType});
+  int serial;
+  WorklistAll({this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType});
   @override
   _WorklistAllState createState() => _WorklistAllState();
 }
@@ -174,45 +180,51 @@ class _WorklistAllState extends State<WorklistAll> {
                   SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    width: isTablet
-                        ? width * .75
-                        : width <= 330
-                            ? width * .63
-                            : width * .64,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10, left: 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 0,
-                          ),
-                          Container(
-                            constraints: BoxConstraints(
-                              minWidth: 110,
+                  InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) => PatientDetails(name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultTime,consultType: widget.consultType,)));
+                    },
+                    child: Container(
+                      width: isTablet
+                          ? width * .75
+                          : width <= 330
+                              ? width * .63
+                              : width * .64,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 0,
                             ),
-                            height: 35,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: AppTheme.buttonActiveColor),
-                            //color: HexColor("#107B3E"),
-                            child: Center(
-                              child: Text(
-                                "View Details",
-                                style: GoogleFonts.roboto(
-                                    fontSize: isTablet
-                                        ? 16
-                                        : width <= 330
-                                            ? 12
-                                            : 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600),
+                            Container(
+                              constraints: BoxConstraints(
+                                minWidth: 110,
                               ),
+                              height: 35,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: AppTheme.buttonActiveColor),
+                              //color: HexColor("#107B3E"),
+                              child: Center(
+                                child: Text(
+                                  "View Details",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: isTablet
+                                          ? 16
+                                          : width <= 330
+                                              ? 12
+                                              : 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              //color: AppTheme.buttonActiveColor,
                             ),
-                            //color: AppTheme.buttonActiveColor,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

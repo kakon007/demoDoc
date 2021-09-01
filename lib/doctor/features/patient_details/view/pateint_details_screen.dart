@@ -2,9 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class PatientDetails extends StatefulWidget {
+  String name;
+  String age;
+  String gender;
+  String bloodGroup;
+  String phoneNumber;
+  String consultationTime;
+  String consultType;
+  int serial;
+  PatientDetails({this.name,
+    this.age,
+  this.gender,
+    this.bloodGroup,
+    this.phoneNumber,
+    this.consultationTime,
+    this.consultType,
+    this.serial
+  });
   @override
   _PatientDetailsState createState() => _PatientDetailsState();
 }
@@ -102,7 +120,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Md. Arman',
+                                          widget.name??'',
                                           style: GoogleFonts.poppins(
                                               // color: HexColor(
                                               //   '#354291',
@@ -130,7 +148,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              '28Y 10D',
+                                              widget.age??'',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',
@@ -161,7 +179,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              'Male',
+                                              widget.gender??'',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',
@@ -192,7 +210,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              'A+',
+                                              widget.bloodGroup??'',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',
@@ -223,7 +241,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              '01962823006',
+                                              widget.phoneNumber??'',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',
@@ -512,7 +530,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Today, 22 February 2021',
+                                      DateUtil().formattedDate(DateTime.parse(widget.consultationTime).toLocal()),
                                       style: GoogleFonts.poppins(
                                           // color: HexColor(
                                           //   '#354291',
@@ -528,7 +546,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                       height: 10,
                                     ),
                                     Text(
-                                      '08:00 pm-08:30 pm',
+                                        Time().formattedDate(DateTime.parse(widget.consultationTime).toLocal()),
                                       style: GoogleFonts.poppins(
                                           // color: HexColor(
                                           //   '#354291',
@@ -560,7 +578,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          'Waiting',
+                                          widget.consultType==1?"Complete":'Waiting',
                                           style: GoogleFonts.poppins(
                                               // color: HexColor(
                                               //   '#354291',
@@ -603,7 +621,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                 fontWeight: FontWeight.w700),
                                           ),
                                           Text(
-                                            "02",
+                                            widget.serial.toString(),
                                             //key: Key('rebookKey$index'),
                                             style: GoogleFonts.roboto(
                                                 color: Colors.white,
@@ -988,5 +1006,23 @@ class _PatientDetailsState extends State<PatientDetails> {
         ],
       ),
     );
+  }
+}
+
+class DateUtil {
+  static const DATE_FORMAT = 'dd/MM/yyyy';
+
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
+  }
+}
+
+class Time {
+  static const DATE_FORMAT = 'hh:mm a';
+
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

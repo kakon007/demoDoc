@@ -143,6 +143,11 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                   child: WorklistAll(
                     consultTime: vm.completedData[index].consTime,
                     patientName: vm.completedData[index].patientName,
+                    age: vm.waitingData[index].age,
+                    bloodGroup: vm.waitingData[index].bloodGroup,
+                    gender: vm.waitingData[index].gender,
+                    phoneNumber: vm.waitingData[index].phoneMobile,
+                    serial: vm.waitingData[index].slotSl,
                     consultType:
                         vm.completedData[index].consultTypeNo.toString(),
                   ),

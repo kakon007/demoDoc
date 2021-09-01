@@ -46,6 +46,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   TextEditingController _brandController = TextEditingController();
   List<String> medicationSelectedItems = [];
   List<AddMultiDose> multiDose = [];
+  List<MultiDose> multiDoseItemList = [];
   var myControllers = [];
   TextEditingController _controller;
   int ind;
@@ -838,274 +839,278 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                 height: 15,
               ),
               Wrap(
-                  children: List.generate(
-                multiDose.length,
-                (index) {
-                 //  _controller = TextEditingController();
-                 return  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    padding: EdgeInsets.only(left: 5, right: 5, top: 5),
-                    decoration: BoxDecoration(
-                        color: Color(0xffEFF5FF),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        InkWell(
+                  children: List.generate(multiDose.length, (index) {
+                //  _controller = TextEditingController();
+                return Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.only(left: 5, right: 5, top: 5),
+                  decoration: BoxDecoration(
+                      color: Color(0xffEFF5FF),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.red),
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                        ),
+                        onTap: () {
+                          multiDose.removeAt(index);
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TypeAheadFormField<String>(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            textInputAction: TextInputAction.search,
+                            controller: multiDose[index].multiDoseController,
+                            decoration: InputDecoration(
+                              labelText: "Multidose",
+                              //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                              hintText: "Multidose",
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xff3E58FF)),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                            )),
+                        itemBuilder: (_, v) {
+                          return Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("$v"),
+                          );
+                        },
+                        onSuggestionSelected: (v) {
+                          multiDose[index].multiDoseController.text = v;
+                          // setState(() {});
+                        },
+                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        suggestionsCallback: (v) {
+                          // return;
+                          return vm.medicationModelList.obj.doseList
+                              .map((e) => e.preDiagnosisVal)
+                              .where((element) => element
+                                  .toLowerCase()
+                                  .contains(v.toLowerCase()))
+                              .toList();
+                        },
+                      ),
 
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: Colors.red),
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.white,
+                      //Duration
+                      //Quantity
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            child: TypeAheadFormField<String>(
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  textInputAction: TextInputAction.search,
+                                  controller: multiDose[index]
+                                      .multiDoseDurationController,
+                                  decoration: InputDecoration(
+                                    labelText: "Duration",
+                                    //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                                    hintText: "Duration",
+                                    // prefixIcon: Icon(
+                                    //   Icons.search,
+                                    //   color: Colors.grey,
+                                    // ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Color(0xff3E58FF)),
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                  )),
+                              itemBuilder: (_, v) {
+                                return Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text("$v"),
+                                );
+                              },
+                              onSuggestionSelected: (v) {
+                                multiDose[index]
+                                    .multiDoseDurationController
+                                    .text = v;
+                                // setState(() {});
+                              },
+                              suggestionsBoxDecoration:
+                                  SuggestionsBoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              suggestionsCallback: (v) {
+                                return vm.medicationModelList.obj.durationList
+                                    .map((e) => e.preDiagnosisVal)
+                                    .where((element) => element
+                                        .toLowerCase()
+                                        .contains(v.toLowerCase()))
+                                    .toList();
+                              },
                             ),
                           ),
-                          onTap: () {
-                            multiDose.removeAt(index);
-                            setState(() {});
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TypeAheadFormField<String>(
-                          textFieldConfiguration: TextFieldConfiguration(
-                              textInputAction: TextInputAction.search,
-                              controller: multiDose[index].multiDoseController,
+                          SizedBox(
+                            width: 100,
+                            child: TypeAheadFormField<String>(
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  textInputAction: TextInputAction.search,
+                                  controller: multiDose[index]
+                                      .multiDoseDurationTypeController,
+                                  decoration: InputDecoration(
+                                    labelText: "Days",
+                                    //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                                    hintText: "Days",
+                                    // prefixIcon: Icon(
+                                    //   Icons.search,
+                                    //   color: Colors.grey,
+                                    // ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Color(0xff3E58FF)),
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                  )),
+                              itemBuilder: (_, v) {
+                                return Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text("$v"),
+                                );
+                              },
+                              onSuggestionSelected: (v) {
+                                multiDose[index]
+                                    .multiDoseDurationTypeController
+                                    .text = v;
+                                // if (chiefComplaintSelectedItems.contains(v)) {
+                                //   BotToast.showText(text: "All ready added");
+                                // } else {
+                                // //   chiefComplaintSelectedItems.add(v);
+                                // }
+                                // setState(() {});
+                              },
+                              suggestionsBoxDecoration:
+                                  SuggestionsBoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              suggestionsCallback: (v) {
+                                return vm.medicationModelList.obj.durationMuList
+                                    .map((e) => e.preDiagnosisVal)
+                                    .where((element) => element
+                                        .toLowerCase()
+                                        .contains(v.toLowerCase()))
+                                    .toList();
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 100,
+                            child: TextField(
+                              controller:
+                                  multiDose[index].multiDoseQuantityController,
+                              autofocus: false,
                               decoration: InputDecoration(
-                                labelText: "Multidose",
+                                //filled: true,
+                                labelText: "Quantity",
                                 //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                                hintText: "Multidose",
-                                prefixIcon: Icon(
-                                  Icons.search,
-                                  color: Colors.grey,
-                                ),
+                                hintText: "Quantity",
+                                // prefixIcon: Icon(
+                                //   Icons.search,
+                                //   color: Colors.grey,
+                                // ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(color: Color(0xff3E58FF)),
+                                  borderSide: const BorderSide(
+                                      color: Color(0xff3E58FF)),
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
-                              )),
-                          itemBuilder: (_, v) {
-                            return Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text("$v"),
-                            );
-                          },
-                          onSuggestionSelected: (v) {
-                            multiDose[index].multiDoseController.text = v;
-                            // setState(() {});
-                          },
-                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
                           ),
-                          suggestionsCallback: (v) {
-                            // return;
-                            return vm.medicationModelList.obj.doseList
-                                .map((e) => e.preDiagnosisVal)
-                                .where((element) => element
-                                .toLowerCase()
-                                .contains(v.toLowerCase()))
-                                .toList();
-                          },
-                        ),
+                        ],
+                      ),
 
-                        //Duration
-                        //Quantity
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: TypeAheadFormField<String>(
-                                textFieldConfiguration: TextFieldConfiguration(
-                                    textInputAction: TextInputAction.search,
-                                    controller: multiDose[index].multiDoseDurationController,
-                                    decoration: InputDecoration(
-                                      labelText: "Duration",
-                                      //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                                      hintText: "Duration",
-                                      // prefixIcon: Icon(
-                                      //   Icons.search,
-                                      //   color: Colors.grey,
-                                      // ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Color(0xff3E58FF)),
-                                        borderRadius: BorderRadius.circular(15.0),
-                                      ),
-                                    )),
-                                itemBuilder: (_, v) {
-                                  return Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Text("$v"),
-                                  );
-                                },
-                                onSuggestionSelected: (v) {
-                                  multiDose[index].multiDoseDurationController.text = v;
-                                  // setState(() {});
-                                },
-                                suggestionsBoxDecoration:
-                                SuggestionsBoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                suggestionsCallback: (v) {
-                                  return vm.medicationModelList.obj.durationList
-                                      .map((e) => e.preDiagnosisVal)
-                                      .where((element) => element
-                                      .toLowerCase()
-                                      .contains(v.toLowerCase()))
-                                      .toList();
-                                },
+                      //Instructions//
+                      SizedBox(
+                        height: 15,
+                      ),
+                      TypeAheadFormField<String>(
+                        textFieldConfiguration: TextFieldConfiguration(
+                            textInputAction: TextInputAction.search,
+                            controller:
+                                multiDose[index].multiDoseInstructionController,
+                            decoration: InputDecoration(
+                              labelText: "Instructions",
+                              //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                              hintText: "Instructions",
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.grey,
                               ),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              child: TypeAheadFormField<String>(
-                                textFieldConfiguration: TextFieldConfiguration(
-                                    textInputAction: TextInputAction.search,
-                                    controller: multiDose[index].multiDoseDurationTypeController,
-                                    decoration: InputDecoration(
-                                      labelText: "Days",
-                                      //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                                      hintText: "Days",
-                                      // prefixIcon: Icon(
-                                      //   Icons.search,
-                                      //   color: Colors.grey,
-                                      // ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Color(0xff3E58FF)),
-                                        borderRadius: BorderRadius.circular(15.0),
-                                      ),
-                                    )),
-                                itemBuilder: (_, v) {
-                                  return Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Text("$v"),
-                                  );
-                                },
-                                onSuggestionSelected: (v) {
-                                  multiDose[index].multiDoseDurationTypeController.text = v;
-                                  // if (chiefComplaintSelectedItems.contains(v)) {
-                                  //   BotToast.showText(text: "All ready added");
-                                  // } else {
-                                  // //   chiefComplaintSelectedItems.add(v);
-                                  // }
-                                  // setState(() {});
-                                },
-                                suggestionsBoxDecoration:
-                                SuggestionsBoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                suggestionsCallback: (v) {
-                                  return vm.medicationModelList.obj.durationMuList
-                                      .map((e) => e.preDiagnosisVal)
-                                      .where((element) => element
-                                      .toLowerCase()
-                                      .contains(v.toLowerCase()))
-                                      .toList();
-                                },
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
                               ),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              child: TextField(
-                                controller: multiDose[index].multiDoseQuantityController,
-                                autofocus: false,
-                                decoration: InputDecoration(
-                                  //filled: true,
-                                  labelText: "Quantity",
-                                  //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                                  hintText: "Quantity",
-                                  // prefixIcon: Icon(
-                                  //   Icons.search,
-                                  //   color: Colors.grey,
-                                  // ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Color(0xff3E58FF)),
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xff3E58FF)),
+                                borderRadius: BorderRadius.circular(15.0),
                               ),
-                            ),
-                          ],
+                            )),
+                        itemBuilder: (_, v) {
+                          return Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("$v"),
+                          );
+                        },
+                        onSuggestionSelected: (v) {
+                          multiDose[index].multiDoseInstructionController.text =
+                              v;
+                          // setState(() {});
+                        },
+                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
                         ),
-
-                        //Instructions//
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TypeAheadFormField<String>(
-                          textFieldConfiguration: TextFieldConfiguration(
-                              textInputAction: TextInputAction.search,
-                              controller: multiDose[index].multiDoseInstructionController,
-                              decoration: InputDecoration(
-                                labelText: "Instructions",
-                                //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                                hintText: "Instructions",
-                                prefixIcon: Icon(
-                                  Icons.search,
-                                  color: Colors.grey,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                  const BorderSide(color: Color(0xff3E58FF)),
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                              )),
-                          itemBuilder: (_, v) {
-                            return Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text("$v"),
-                            );
-                          },
-                          onSuggestionSelected: (v) {
-                            multiDose[index].multiDoseInstructionController.text = v;
-                            // setState(() {});
-                          },
-                          suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          suggestionsCallback: (v) {
-                            return vm.medicationModelList.obj.relationWithMealList
-                                .map((e) => e.preDiagnosisVal)
-                                .where((element) => element
-                                .toLowerCase()
-                                .contains(v.toLowerCase()))
-                                .toList();
-                          },
-                        ),
-                        SizedBox(
-                          height: 15,
-                        )
-                      ],
-                    ),
-                  );
-                }
-
-              )),
+                        suggestionsCallback: (v) {
+                          return vm.medicationModelList.obj.relationWithMealList
+                              .map((e) => e.preDiagnosisVal)
+                              .where((element) => element
+                                  .toLowerCase()
+                                  .contains(v.toLowerCase()))
+                              .toList();
+                        },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      )
+                    ],
+                  ),
+                );
+              })),
               //Continue this medicine
               SizedBox(
                 height: 15,
@@ -1256,7 +1261,6 @@ class _MedicationWidgetState extends State<MedicationWidget> {
 
               //Buttons
 
-
               SizedBox(
                 height: 10,
               ),
@@ -1266,12 +1270,14 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                   InkWell(
                     onTap: () {
                       multiDose.add(AddMultiDose(
-                        multiDoseController: TextEditingController(),
-                        multiDoseDurationController: TextEditingController(),
-                        multiDoseDurationTypeController: TextEditingController(),
-                        multiDoseInstructionController: TextEditingController(),
-                        multiDoseQuantityController: TextEditingController()
-                      ));
+                          multiDoseController: TextEditingController(),
+                          multiDoseDurationController: TextEditingController(),
+                          multiDoseDurationTypeController:
+                              TextEditingController(),
+                          multiDoseInstructionController:
+                              TextEditingController(),
+                          multiDoseQuantityController:
+                              TextEditingController()));
                       //myControllers.add(TextEditingController());
                       setState(() {});
                     },
@@ -1303,6 +1309,19 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                   ),
                   InkWell(
                     onTap: () {
+                      multiDoseItemList = [];
+                      multiDose.forEach((element) {
+                        multiDoseItemList?.add(MultiDose(
+                            multiDose: element.multiDoseController.text ?? "",
+                            multiDoseDuration:
+                                element.multiDoseDurationController.text ?? "",
+                            multiDoseDurationType:
+                                element.multiDoseDurationTypeController.text ??
+                                    "",
+                            multiDoseInstruction:
+                                element.multiDoseInstructionController.text ??
+                                    ""));
+                      });
                       medicineList.add(MedicineList(
                         genericName: _genericController.text,
                         brandName: _brandController.text,
@@ -1311,11 +1330,12 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                         durationType: daysController.text,
                         instruction: instructionController.text,
                         route: routeController.text,
-                        multiDose: multiDoseController.text,
-                        multiDoseDuration: multiDoseDurationController.text,
-                        multiDoseDurationType: multiDoseDaysController.text,
-                        multiDoseInstruction:
-                            multiDoseInstructionController.text,
+                        // multiDose: multiDoseController.text,
+                        // multiDoseDuration: multiDoseDurationController.text,
+                        // multiDoseDurationType: multiDoseDaysController.text,
+                        // multiDoseInstruction:
+                        //     multiDoseInstructionController.text,
+                        multiDoseList: multiDoseItemList,
                         continueDuration: continueDurationController.text,
                         continueDurationType: continueDaysController.text,
                       ));
@@ -1332,7 +1352,6 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       multiDoseInstructionController.clear();
                       continueDurationController.clear();
                       continueDaysController.clear();
-
                       setState(() {});
                     },
                     child: Container(
@@ -1368,7 +1387,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
               Wrap(
                 children: List.generate(
                     medicineList.length,
-                        (index) => Container(
+                    (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
                           color: Color(0xffEFF5FF),
@@ -1382,11 +1401,44 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                   left: isTablet ? 20 : 15,
                                   top: isTablet ? 15 : 10.0,
                                   bottom: isTablet ? 10 : 5.0),
-                              child: Text(
-                                "${medicineList[index].genericName ?? ""} - ${medicineList[index].brandName ?? ""} - ${medicineList[index].route} - ${medicineList[index].dose} - ${medicineList[index].duration} ${medicineList[index].durationType} - ${medicineList[index].instruction}",
-                                style: TextStyle(
-                                    fontSize: isTablet ? 18 : 16,
-                                    fontWeight: FontWeight.bold),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${medicineList[index].genericName ?? ""} - ${medicineList[index].brandName ?? ""} - ${medicineList[index].route} - ${medicineList[index].dose} - ${medicineList[index].duration} ${medicineList[index].durationType} - ${medicineList[index].instruction}",
+                                    style: TextStyle(
+                                        fontSize: isTablet ? 18 : 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  medicineList[index].multiDoseList.isNotEmpty
+                                      ? Text(
+                                          "Muiltidose-",
+                                          style: TextStyle(
+                                              fontSize: isTablet ? 18 : 16,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : SizedBox(),
+                                  Wrap(
+                                    children: List.generate(
+                                      medicineList[index].multiDoseList.length,
+                                      (i) => Text(
+                                        "${medicineList[index].multiDoseList[i].multiDose ?? ""} - ${medicineList[index].multiDoseList[i].multiDoseDuration ?? ""} ${medicineList[index].multiDoseList[i].multiDoseDurationType ?? ""} - ${medicineList[index].multiDoseList[i].multiDoseInstruction ?? ""}",
+                                        style: TextStyle(
+                                            fontSize: isTablet ? 18 : 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  _value
+                                      ? Text(
+                                          "Continue this medicine - ${medicineList[index].continueDuration ?? ""} ${medicineList[index].continueDurationType ?? ""}",
+                                          style: TextStyle(
+                                              fontSize: isTablet ? 18 : 16,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : SizedBox(),
+                                ],
                               ),
                             ),
                             Divider(
@@ -1394,10 +1446,10 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                             ),
                             Padding(
                               padding:
-                              EdgeInsets.only(bottom: isTablet ? 15 : 10),
+                                  EdgeInsets.only(bottom: isTablet ? 15 : 10),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
                                     onTap: () async {
@@ -1438,7 +1490,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                       width: isTablet ? 35 : 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(50),
+                                              BorderRadius.circular(50),
                                           color: Color(0xffE6374DF)),
                                       child: Icon(
                                         Icons.edit,
@@ -1449,8 +1501,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      // chiefComplaintSelectedItems
-                                      //     .removeAt(index);
+                                      medicineList.removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -1458,7 +1509,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                       width: isTablet ? 35 : 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(50),
+                                              BorderRadius.circular(50),
                                           color: Colors.red),
                                       child: Icon(
                                         Icons.close,
@@ -1489,10 +1540,7 @@ class MedicineList {
   String duration;
   String durationType;
   String instruction;
-  String multiDose;
-  String multiDoseDuration;
-  String multiDoseDurationType;
-  String multiDoseInstruction;
+  List<MultiDose> multiDoseList;
   String continueDuration;
   String continueDurationType;
   MedicineList({
@@ -1501,22 +1549,42 @@ class MedicineList {
     this.continueDuration,
     this.continueDurationType,
     this.dose,
+    this.multiDoseList,
     this.duration,
     this.durationType,
     this.instruction,
+    this.route,
+  });
+}
+
+class AddMultiDose {
+  int index;
+  TextEditingController multiDoseController = TextEditingController();
+  TextEditingController multiDoseDurationController = TextEditingController();
+  TextEditingController multiDoseDurationTypeController =
+      TextEditingController();
+  TextEditingController multiDoseQuantityController = TextEditingController();
+  TextEditingController multiDoseInstructionController =
+      TextEditingController();
+  AddMultiDose(
+      {this.index,
+      this.multiDoseInstructionController,
+      this.multiDoseController,
+      this.multiDoseDurationController,
+      this.multiDoseDurationTypeController,
+      this.multiDoseQuantityController});
+}
+
+class MultiDose {
+  String multiDose;
+  String multiDoseDuration;
+  String multiDoseDurationType;
+  String multiDoseInstruction;
+
+  MultiDose({
     this.multiDose,
     this.multiDoseDuration,
     this.multiDoseDurationType,
     this.multiDoseInstruction,
-    this.route,
   });
-}
-class AddMultiDose{
-  int index;
-  TextEditingController multiDoseController = TextEditingController();
-  TextEditingController multiDoseDurationController = TextEditingController();
-  TextEditingController multiDoseDurationTypeController = TextEditingController();
-  TextEditingController multiDoseQuantityController = TextEditingController();
-  TextEditingController multiDoseInstructionController = TextEditingController();
-  AddMultiDose({this.index,this.multiDoseInstructionController, this.multiDoseController, this.multiDoseDurationController, this.multiDoseDurationTypeController,this.multiDoseQuantityController});
 }

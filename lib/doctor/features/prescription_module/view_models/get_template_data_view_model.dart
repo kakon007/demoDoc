@@ -45,25 +45,23 @@ class GetTamplateDataViewModel extends ChangeNotifier {
       });
 //clinical History
       r.dataList.clinicalHistory3List.forEach((element) {
-        if(clinicalHistorySelectedItems.contains(element.preDiagnosisVal)){
+        if (clinicalHistorySelectedItems.contains(element.preDiagnosisVal)) {
           print('already added');
-        }
-        else{
-          clinicalHistorySelectedItems.add( element.preDiagnosisVal);
+        } else {
+          clinicalHistorySelectedItems.add(element.preDiagnosisVal);
         }
         print('shakil ${clinicalHistorySelectedItems.length}');
       });
 //pastillness
       r.dataList.clinicalHistory2List.forEach((element) {
-        if(pastIllnessSelectedItems.contains(element.preDiagnosisVal)){
+        if (pastIllnessSelectedItems.contains(element.preDiagnosisVal)) {
           print('already added');
-        }
-        else{
-          pastIllnessSelectedItems.add( element.preDiagnosisVal);
+        } else {
+          pastIllnessSelectedItems.add(element.preDiagnosisVal);
         }
       });
 
-      _prescriptionTamplateList=r.dataList;
+      _prescriptionTamplateList = r.dataList;
       r.dataList.chiefComplainList.forEach((element) {
         if (chiefComplaintSelectedItems.contains(element.preDiagnosisVal)) {
           print('already added');

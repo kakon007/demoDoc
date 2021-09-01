@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/advice_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/clinical_history_widget.dart';
@@ -35,6 +37,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/p
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class Module extends StatefulWidget {
@@ -43,6 +46,7 @@ class Module extends StatefulWidget {
 }
 
 class _ModuleState extends State<Module> {
+  TextEditingController templateNameController = TextEditingController();
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) => init());
@@ -64,6 +68,9 @@ class _ModuleState extends State<Module> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    var width = MediaQuery.of(context).size.width * 0.44;
+    var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text("Prescription Module"),
@@ -100,7 +107,146 @@ class _ModuleState extends State<Module> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        int selectedRadio = null;
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0))),
+                          title: Padding(
+                            padding: const EdgeInsets.only(left: 50.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Save Templates",
+                                  style: GoogleFonts.poppins(
+                                      // color: HexColor(
+                                      //   '#354291',
+                                      // ),
+                                      fontSize: isTablet
+                                          ? 20
+                                          : width <= 330
+                                              ? 14
+                                              : 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Icon(Icons.close))
+                              ],
+                            ),
+                          ),
+                          content: StatefulBuilder(
+                              builder: (context, StateSetter setState) {
+                            return Container(
+                              height: 140,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: deviceWidth <= 360
+                                        ? deviceWidth * .38
+                                        : MediaQuery.of(context).size.width *
+                                            .60,
+                                    height: 50,
+                                    // decoration: BoxDecoration(
+                                    //   borderRadius: BorderRadius.circular(25),
+                                    //   color: Colors.white,
+                                    //   border: Border.all(color: HexColor('#E1E1E1')),
+                                    // ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: TextField(
+                                        autofocus: false,
+                                        textInputAction: TextInputAction.search,
+                                        // focusNode: _searchFieldFocusNode,
+                                        controller: templateNameController,
+                                        cursorColor: Color(0xffC5CAE8),
+                                        decoration: InputDecoration(
+                                          //border: InputBorder.none,
+                                          hintText: 'Template Name',
+                                          hintStyle: GoogleFonts.poppins(
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  Colors.grey.withOpacity(0.5)),
+                                          fillColor: Colors.white,
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xff354291)
+                                                    .withOpacity(0.5),
+                                                width: 1.5),
+                                            //borderRadius: BorderRadius.circular(25.0),
+                                          ),
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xffF1F1F1)),
+                                            //  when the TextFormField in unfocused
+                                          ),
+                                        ),
+                                        key: Key('notCompletedSearchKey'),
+                                        onSubmitted: (v) {
+                                          //vm.search(_searchTextEditingController1.text, widget.accessToken);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      SVProgressHUD.show(status: "Please Wait");
+                                      SVProgressHUD.dismiss();
+                                      Navigator.pop(context);
+                                    },
+                                    child: Material(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      color: selectedRadio == null
+                                          ? AppTheme.buttonInActiveColor
+                                          : AppTheme.buttonActiveColor,
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        height: deviceWidth <= 360 ? 28 : 40,
+                                        child: Center(
+                                          child: Text(
+                                            "Save",
+                                            style: GoogleFonts.roboto(
+                                                color: Colors.white,
+                                                fontSize: isTablet
+                                                    ? 15
+                                                    : deviceWidth <= 360 &&
+                                                            deviceWidth > 330
+                                                        ? 9
+                                                        : deviceWidth <= 330
+                                                            ? 8
+                                                            : 12,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                        );
+                      },
+                    );
+                  },
                   child: Container(
                     height: 40,
                     width: MediaQuery.of(context).size.width * .4,

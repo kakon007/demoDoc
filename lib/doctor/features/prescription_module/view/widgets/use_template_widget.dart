@@ -3,9 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_template_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_template_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
@@ -16,14 +18,48 @@ class UseTemplateWidget extends StatefulWidget {
 }
 
 class _UseTemplateWidgetState extends State<UseTemplateWidget> {
+
+  var vm = Provider.of<PrescriptionTamplateViewModel>(appNavigator.context, listen: false);
+  TextEditingController _favoriteController = TextEditingController();
+
+  List<Item> favoriteItems = [];
+  void searchFavoriteItem(String query) {
+    List<Item> initialFavoriteSearch = List<Item>();
+    initialFavoriteSearch = vm.prescriptionTamplateList;
+    print("init ${initialFavoriteSearch.length}");
+    if (query.isNotEmpty) {
+      List<Item> initialFavoriteSearchItems =
+      List<Item>();
+      initialFavoriteSearch.forEach((item) {
+        if (item.templateName.toLowerCase().contains(query.toLowerCase())) {
+          initialFavoriteSearchItems.add(item);
+          print(initialFavoriteSearchItems.length);
+        }
+      });
+      setState(() {
+        favoriteItems.clear();
+        favoriteItems.addAll(initialFavoriteSearchItems);
+      });
+      return;
+    } else {
+      setState(() {
+        favoriteItems.clear();
+        favoriteItems.addAll(vm.prescriptionTamplateList);
+      });
+    }
+  }
+
+
   @override
   void initState() {
     var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: false);
     vm.getData();
     var vm2=Provider.of<GetTamplateDataViewModel>(context,listen: false);
     vm2.getData();
+    favoriteItems.addAll(vm.prescriptionTamplateList);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
 
@@ -42,6 +78,7 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
       color: Colors.white,
       //semanticsLabel: 'Acme Logo'
     );
+
     return Container(
       height: 80,
       decoration: BoxDecoration(
@@ -101,10 +138,15 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
                                     child: Padding(
                                       padding: const EdgeInsets.only( bottom: 8),
                                       child: TextField(
+                                        onChanged: (value) {
+                                          searchFavoriteItem(value.toLowerCase());
+                                          setState((){});
+                                          // departmentSearch(value.toUpperCase());
+                                        },
                                         autofocus: false,
                                         textInputAction: TextInputAction.search,
                                         // focusNode: _searchFieldFocusNode,
-                                        //controller: _searchTextEditingController1,
+                                        controller: _favoriteController,
                                         cursorColor: HexColor('#C5CAE8'),
                                         decoration: InputDecoration(
                                           //border: InputBorder.none,
@@ -150,7 +192,7 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
                                     child: Scaffold(
                                       body: Container(
                                         //mainAxisSize: MainAxisSize.min,
-                                        child: ListView.builder(itemCount: vm.prescriptionTamplateList.length,
+                                        child: ListView.builder(itemCount: favoriteItems.length,
                                             shrinkWrap: true,
                                             itemBuilder:
                                                 (BuildContext context,
@@ -166,14 +208,14 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
                                                           children: [
                                                             InkWell(onTap:() async {
                                                               SVProgressHUD.show(status: 'Deleting');
-                                                             await DeleteTemplateRepository().deleteList(id: vm.prescriptionTamplateList[index].id).then((value) async =>await vm.getData());
+                                                             await DeleteTemplateRepository().deleteList(id: favoriteItems[index].id).then((value) async =>await vm.getData());
                                                              SVProgressHUD.dismiss();
                                                               setState(() {});
                                                             },child: Icon(Icons.close,color: Color(0xffFB7F7F),)),
                                                             SizedBox(width: 12,),
                                                             Container(
                                                               width: 100,
-                                                              child: Text(vm.prescriptionTamplateList[index].templateName, style: GoogleFonts.poppins(
+                                                              child: Text(favoriteItems[index].templateName, style: GoogleFonts.poppins(
                                                                 fontSize: isTablet
                                                                     ? 20
                                                                     : width <= 330

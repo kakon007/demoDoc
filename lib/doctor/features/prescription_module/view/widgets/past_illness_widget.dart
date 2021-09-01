@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -23,7 +24,7 @@ class PastIllnessWidget extends StatefulWidget {
 class _PastIllnessWidgetState extends State<PastIllnessWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
-  List<String> pastIllnessSelectedItems = [];
+
   int ind;
   var vm = appNavigator.context.read<PastIllnessViewModel>();
   TextEditingController _favoriteController = TextEditingController();
@@ -60,6 +61,8 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
     Future.delayed(Duration.zero).then((value) async {
       var vm = context.read<PastIllnessViewModel>();
       await vm.getData();
+      var vm2=Provider.of<GetTamplateDataViewModel>(context,listen: false);
+      vm2.getData();
       favoriteItems.addAll(vm.favouriteList);
     });
     super.initState();
@@ -67,6 +70,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<PastIllnessViewModel>();
+    var vm2=Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
       onChangeShowReport: (bool val) {
         showReport = val;
@@ -94,17 +98,17 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              pastIllnessSelectedItems[ind] =
+                              vm2.pastIllnessSelectedItems[ind] =
                                   controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (pastIllnessSelectedItems
+                                if (vm2.pastIllnessSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  pastIllnessSelectedItems
+                                  vm2.pastIllnessSelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -125,10 +129,10 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (pastIllnessSelectedItems.contains(v)) {
+                  if (vm2.pastIllnessSelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    pastIllnessSelectedItems.add(v);
+                    vm2.pastIllnessSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -162,7 +166,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    pastIllnessSelectedItems.length,
+                    vm2.pastIllnessSelectedItems.length,
                         (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -176,7 +180,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${pastIllnessSelectedItems[index]}",
+                                "${vm2.pastIllnessSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -199,7 +203,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                               .pastIllness
                                               .toString(),
                                           favoriteVal:
-                                          pastIllnessSelectedItems[
+                                          vm2.pastIllnessSelectedItems[
                                           index])
                                           .then((value) => vm.getData());
 
@@ -222,7 +226,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                   InkWell(
                                     onTap: () {
                                       controller.text =
-                                      pastIllnessSelectedItems[index];
+                                      vm2.pastIllnessSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -241,7 +245,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      pastIllnessSelectedItems
+                                      vm2.pastIllnessSelectedItems
                                           .removeAt(index);
                                       setState(() {});
                                     },
@@ -323,11 +327,11 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (pastIllnessSelectedItems
+                                  if (vm2.pastIllnessSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    pastIllnessSelectedItems
+                                    vm2.pastIllnessSelectedItems
                                         .add(item.favouriteVal);
                                   }
                                 }

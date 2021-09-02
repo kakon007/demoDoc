@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:myhealthbd_app/doctor/features/emr_screen/models/prescription_list_model.dart';
-import 'package:myhealthbd_app/doctor/features/emr_screen/repositories/prescription_list_repository.dart';
+import 'package:myhealthbd_app/doctor/features/emr_screen/repositories/doctor_document_list_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
+import 'package:myhealthbd_app/doctor/features/emr_screen/models/doctor_documentation_list_model.dart';
 
 
 
 
-class PrescriptionListDocViewModel extends ChangeNotifier{
-  List<Datum> _prescriptionList =[];
+class DoctorDocumentationListDocViewModel extends ChangeNotifier{
+  List<Datum> _documentationList =[];
   AppError _appError;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
@@ -42,14 +42,13 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData({var fromDate,var todate,var id}) async {
-    print('Datem $fromDate');
+  Future<bool> getData({var regNo,var doctorNo}) async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    var res = await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:fromDate,startIndex: startIndex,id: id);
+    var res = await DoctorDocumentationListRepository().fetchDocList(regNo: regNo,doctorNo: doctorNo,startIndex: startIndex);
     notifyListeners();
-    _prescriptionList.clear();
+    _documentationList.clear();
     res.fold((l) {
       _appError = l;
       _isFetchingData = false;
@@ -58,21 +57,20 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
     }, (r) {
       hasMoreData = r.totalCount-1>startIndex;
       _isFetchingData = false;
-      _prescriptionList=r.datafromprescriptionList;
+      _documentationList=r.dataFromDocumentList;
       count = r.totalCount;
-      print('Dataaaaaaa2222222:: ' + _prescriptionList.toString());
       notifyListeners();
       return true;
     });
   }
 
-  getMoreData({var fromDate,var todate}) async {
+  getMoreData({var regNo,var doctorNo}) async {
     if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
       startIndex+=limit;
       _pageCount++;
       isFetchingMoreData = true;
-      Either<AppError, PrescriptionListM> result =
-      await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:fromDate,startIndex: startIndex);
+      Either<AppError, DocumentationM> result =
+      await  await DoctorDocumentationListRepository().fetchDocList(regNo: regNo,doctorNo: doctorNo);
       return result.fold((l) {
         isFetchingMoreData= false;
         hasMoreData = false;
@@ -82,7 +80,7 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
       }, (r) {
         hasMoreData = r.totalCount-1>startIndex+limit;
         isFetchingMoreData = false;
-        _prescriptionList.addAll(r.datafromprescriptionList);
+        _documentationList.addAll(r.dataFromDocumentList);
         count = r.totalCount;
         notifyListeners();
         return true;
@@ -97,7 +95,7 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
     return getData();
   }
   search(String query,String accessToken) {
-    _prescriptionList.clear();
+    _documentationList.clear();
     _pageCount = 1;
     searchQuery = query;
     print("Searching for: $query");
@@ -134,12 +132,12 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  bool get shouldShowNoPrescriptionFound => _prescriptionList.length == 0 && !isFetchingData;
+  bool get shouldShowNoPrescriptionFound => _documentationList.length == 0 && !isFetchingData;
 
   bool get shouldShowPageLoader =>
-      _isFetchingData && _prescriptionList.length == 0;
+      _isFetchingData && _documentationList.length == 0;
 
 
-  List<Datum> get prescriptionList => _prescriptionList;
+  List<Datum> get documentationList => _documentationList;
 
 }

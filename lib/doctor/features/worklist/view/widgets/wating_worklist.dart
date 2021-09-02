@@ -165,6 +165,8 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
                     serial: vm.waitingData[index].slotSl,
                     consultTime: vm.waitingData[index].consTime,
                     consultType: vm.waitingData[index].consultationOut.toString(),
+                    regNo: vm.waitingData[index].registrationNo,
+                    doctorNo: vm.waitingData[index].doctorNo,
                   ),
                 );
               }),

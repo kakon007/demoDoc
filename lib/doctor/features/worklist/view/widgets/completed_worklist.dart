@@ -151,6 +151,8 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                     serial: vm.completedData[index].slotSl,
                     consultType:
                         vm.completedData[index].consultTypeNo.toString(),
+                    regNo: vm.completedData[index].registrationNo,
+                    doctorNo: vm.completedData[index].doctorNo,
                   ),
                 );
               }),

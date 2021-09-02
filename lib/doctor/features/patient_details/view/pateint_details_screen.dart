@@ -20,6 +20,8 @@ class PatientDetails extends StatefulWidget {
   String consultationTime;
   String consultType;
   int serial;
+  int regNo;
+  int doctorNo;
   PatientDetails({
     this.id,
     this.name,
@@ -29,7 +31,9 @@ class PatientDetails extends StatefulWidget {
     this.phoneNumber,
     this.consultationTime,
     this.consultType,
-    this.serial
+    this.serial,
+    this.regNo,
+    this.doctorNo
   });
   @override
   _PatientDetailsState createState() => _PatientDetailsState();
@@ -106,7 +110,7 @@ class _PatientDetailsState extends State<PatientDetails> {
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
-
+print('fromDate $pickBirthDate');
 
     var fromDate = GestureDetector(
       child: Column(
@@ -501,7 +505,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                               onTap:(){
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                      return EmrScreen(pickBirthDate: pickBirthDate,pickBirthDate2: pickBirthDate2,);
+                                      return EmrScreen(pickBirthDate: pickBirthDate,pickBirthDate2: pickBirthDate2,docNo:widget.doctorNo,regNo:widget.regNo,id: widget.id,);
                                     }));
                               },
                               child: Material(

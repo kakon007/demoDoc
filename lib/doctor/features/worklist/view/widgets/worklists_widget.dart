@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class WorklistAll extends StatefulWidget {
+  String id;
   String patientName;
   String age;
   String gender;
@@ -15,7 +16,7 @@ class WorklistAll extends StatefulWidget {
   String consultTime;
   String consultType;
   int serial;
-  WorklistAll({this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType});
+  WorklistAll({this.id,this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType});
   @override
   _WorklistAllState createState() => _WorklistAllState();
 }
@@ -183,7 +184,7 @@ class _WorklistAllState extends State<WorklistAll> {
                   InkWell(
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) => PatientDetails(name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultTime,consultType: widget.consultType,)));
+                                  builder: (BuildContext context) => PatientDetails(id:widget.id,name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultTime,consultType: widget.consultType,)));
                     },
                     child: Container(
                       width: isTablet

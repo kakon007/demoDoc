@@ -156,6 +156,7 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
                   child: WorklistAll(
+                    id:vm.waitingData[index].hospitalId,
                     patientName: vm.waitingData[index].patientName,
                     age: vm.waitingData[index].age,
                     bloodGroup: vm.waitingData[index].bloodGroup,

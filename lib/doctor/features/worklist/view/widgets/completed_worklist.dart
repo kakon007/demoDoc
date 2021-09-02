@@ -141,13 +141,14 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
                   child: WorklistAll(
+                    id: vm.completedData[index].hospitalId,
                     consultTime: vm.completedData[index].consTime,
                     patientName: vm.completedData[index].patientName,
-                    age: vm.waitingData[index].age,
-                    bloodGroup: vm.waitingData[index].bloodGroup,
-                    gender: vm.waitingData[index].gender,
-                    phoneNumber: vm.waitingData[index].phoneMobile,
-                    serial: vm.waitingData[index].slotSl,
+                    age: vm.completedData[index].age,
+                    bloodGroup: vm.completedData[index].bloodGroup,
+                    gender: vm.completedData[index].gender,
+                    phoneNumber: vm.completedData[index].phoneMobile,
+                    serial: vm.completedData[index].slotSl,
                     consultType:
                         vm.completedData[index].consultTypeNo.toString(),
                   ),

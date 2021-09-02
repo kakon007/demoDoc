@@ -3,9 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/doctor/features/patient_details/view_models/consultation_history_view_model.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
+import 'package:provider/provider.dart';
 
 class PatientDetails extends StatefulWidget {
+  String id;
   String name;
   String age;
   String gender;
@@ -14,7 +17,9 @@ class PatientDetails extends StatefulWidget {
   String consultationTime;
   String consultType;
   int serial;
-  PatientDetails({this.name,
+  PatientDetails({
+    this.id,
+    this.name,
     this.age,
   this.gender,
     this.bloodGroup,
@@ -28,8 +33,17 @@ class PatientDetails extends StatefulWidget {
 }
 
 class _PatientDetailsState extends State<PatientDetails> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+ var vm=Provider.of<ConsultationHistoryListDocViewModel>(context,listen:false);
+ vm.getData(id:widget.id);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    var vm=Provider.of<ConsultationHistoryListDocViewModel>(context);
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
@@ -763,8 +777,10 @@ class _PatientDetailsState extends State<PatientDetails> {
                           Divider(),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ListView.separated(
-                                itemCount: 4,
+                            child:vm.consList==null?Center(
+                              child: Text('No Data Found'),
+                            ):ListView.separated(
+                                itemCount: vm.consList.length,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Padding(
@@ -786,7 +802,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                       ? 220
                                                       : 200,
                                               child: Text(
-                                                '1. Assoc. Prof. Dr. Mahmud Rahim',
+                                                vm.consList[index].doctorName,
                                                 style: GoogleFonts.poppins(
                                                     // color: HexColor(
                                                     //   '#354291',
@@ -824,7 +840,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                     width: 8,
                                                   ),
                                                   Text(
-                                                    '22 February 2021',
+                                                    DateUtil().formattedDate(DateTime.parse(vm.consList[index].createdDate).toLocal()),
                                                     style: GoogleFonts.poppins(
                                                         // color: HexColor(
                                                         //   '#354291',
@@ -861,7 +877,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                             '#FFA7A7')),
                                                   ),
                                                   Text(
-                                                    'Fever ',
+                                                    vm.consList[index].disease??'Not Available',
                                                     style: GoogleFonts.poppins(
                                                         // color: HexColor(
                                                         //   '#354291',

@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/get_template_data_model.dart';
@@ -31,6 +32,22 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<AddMultiDose> multiDose = [];
   List<MultiDose> multiDoseItemList = [];
   List<MedicineList> medicineList = [];
+  bool vitalsShowReport = false;
+  bool chiefComplentShowReport = false;
+  bool clinicalHistoryShowReport = false;
+  bool pastIllnessShowReport = false;
+  bool provisionalDiagnosisShowReport = false;
+  bool diseaseShowReport = false;
+  bool investigationShowReport = false;
+  bool investigationFindingsShowReport = false;
+  bool orthosisShowReport = false;
+  bool adviceShowReport = false;
+  bool procedureShowReport = false;
+  bool referredDoctorShowReport = false;
+  bool referredOPDShowReport = false;
+  bool disposalShowReport = false;
+  bool medicationShowReport = false;
+  bool noteShowReport = false;
   Future<bool> getData({var templateId}) async {
     investigationSelectedItems.clear();
     provisionalDiagnosisSelectedItems.clear();

@@ -30,12 +30,11 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
   TextEditingController _favoriteController = TextEditingController();
   List<FavouriteItemModel> favoriteItems = [];
   void searchFavoriteItem(String query) {
-    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    List<FavouriteItemModel> initialFavoriteSearch = [];
     initialFavoriteSearch = vm.favouriteList;
     print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
-      List<FavouriteItemModel> initialFavoriteSearchItems =
-      List<FavouriteItemModel>();
+      List<FavouriteItemModel> initialFavoriteSearchItems = [];
       initialFavoriteSearch.forEach((item) {
         if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
@@ -61,22 +60,24 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
     Future.delayed(Duration.zero).then((value) async {
       var vm = context.read<PastIllnessViewModel>();
       await vm.getData();
-      var vm2=Provider.of<GetTamplateDataViewModel>(context,listen: false);
-      vm2.getData();
+      var templateVM =
+          Provider.of<GetTamplateDataViewModel>(context, listen: false);
       favoriteItems.addAll(vm.favouriteList);
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<PastIllnessViewModel>();
-    var vm2=Provider.of<GetTamplateDataViewModel>(context);
+    var templateVM = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.pastIllnessController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVM.pastIllnessShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVM.pastIllnessShowReport,
       title: "Past Illness",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -98,17 +99,17 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              vm2.pastIllnessSelectedItems[ind] =
+                              templateVM.pastIllnessSelectedItems[ind] =
                                   controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (vm2.pastIllnessSelectedItems
+                                if (templateVM.pastIllnessSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  vm2.pastIllnessSelectedItems
+                                  templateVM.pastIllnessSelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -129,10 +130,10 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (vm2.pastIllnessSelectedItems.contains(v)) {
+                  if (templateVM.pastIllnessSelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    vm2.pastIllnessSelectedItems.add(v);
+                    templateVM.pastIllnessSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -143,7 +144,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                   return PreDiagnosisSearchRepository().fetchSearchList(
                       q: v,
                       favoriteType:
-                      PrescriptionFavouriteType.pastIllness.toString());
+                          PrescriptionFavouriteType.pastIllness.toString());
                 },
                 // noItemsFoundBuilder: noItemsFoundBuilder ??
                 //     (context) {
@@ -166,8 +167,8 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    vm2.pastIllnessSelectedItems.length,
-                        (index) => Container(
+                    templateVM.pastIllnessSelectedItems.length,
+                    (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
                           color: Color(0xffEFF5FF),
@@ -180,7 +181,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${vm2.pastIllnessSelectedItems[index]}",
+                                "${templateVM.pastIllnessSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -192,19 +193,19 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                               padding: EdgeInsets.only(bottom: 10),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
                                     onTap: () {
                                       CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
-                                          favoriteType:
-                                          PrescriptionFavouriteType
-                                              .pastIllness
-                                              .toString(),
-                                          favoriteVal:
-                                          vm2.pastIllnessSelectedItems[
-                                          index])
+                                              favoriteType:
+                                                  PrescriptionFavouriteType
+                                                      .pastIllness
+                                                      .toString(),
+                                              favoriteVal: templateVM
+                                                      .pastIllnessSelectedItems[
+                                                  index])
                                           .then((value) => vm.getData());
 
                                       favoriteItems.clear();
@@ -225,8 +226,8 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                      vm2.pastIllnessSelectedItems[index];
+                                      controller.text = templateVM
+                                          .pastIllnessSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -234,7 +235,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                       width: 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(50),
+                                              BorderRadius.circular(50),
                                           color: Color(0xffE6374DF)),
                                       child: Icon(
                                         Icons.edit,
@@ -245,7 +246,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      vm2.pastIllnessSelectedItems
+                                      templateVM.pastIllnessSelectedItems
                                           .removeAt(index);
                                       setState(() {});
                                     },
@@ -254,7 +255,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                       width: 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(50),
+                                              BorderRadius.circular(50),
                                           color: Colors.red),
                                       child: Icon(
                                         Icons.close,
@@ -279,7 +280,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                     Text(
                       "Favourite list",
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     Divider(
                       color: Colors.grey,
@@ -299,7 +300,7 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                             controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
-                              EdgeInsets.only(left: 10, top: 20),
+                                  EdgeInsets.only(left: 10, top: 20),
                               hintText: "Search Favourite list",
                               suffixIcon: Icon(
                                 Icons.search,
@@ -317,7 +318,9 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                       itemBuilder: (context, index) {
                         var item = favoriteItems[index];
                         return Container(
-                          color:(index%2==0)?Color(0xffEFF5FF) : Colors.white,
+                          color: (index % 2 == 0)
+                              ? Color(0xffEFF5FF)
+                              : Colors.white,
                           child: Padding(
                             padding: EdgeInsets.only(left: 5.0, right: 20.0),
                             child: CheckboxListTile(
@@ -327,11 +330,11 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (vm2.pastIllnessSelectedItems
+                                  if (templateVM.pastIllnessSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    vm2.pastIllnessSelectedItems
+                                    templateVM.pastIllnessSelectedItems
                                         .add(item.favouriteVal);
                                   }
                                 }
@@ -340,7 +343,10 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                               secondary: InkWell(
                                 onTap: () async {
                                   SVProgressHUD.show(status: "Deleting");
-                                  await DeleteFavoriteLitRepository().deleteFavoriteList(id: vm.favouriteList[index].id).then((value) => vm.getData());
+                                  await DeleteFavoriteLitRepository()
+                                      .deleteFavoriteList(
+                                          id: vm.favouriteList[index].id)
+                                      .then((value) => vm.getData());
                                   SVProgressHUD.dismiss();
 
                                   favoriteItems.clear();

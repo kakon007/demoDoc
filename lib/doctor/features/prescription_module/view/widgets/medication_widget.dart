@@ -123,12 +123,13 @@ class _MedicationWidgetState extends State<MedicationWidget> {
       //semanticsLabel: 'Acme Logo'
     );
     return PrescriptionCommonWidget(
+      controller: expandableControllers.medicationController,
       key: Key("medicationWidget"),
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.medicationShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport:         templateVm.medicationShowReport,
       title: "Medication",
       expandedWidget: Container(
         padding: EdgeInsets.symmetric(horizontal: 5),

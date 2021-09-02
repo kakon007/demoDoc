@@ -83,11 +83,12 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
     //   print('sakil ${investigationSelectedItems.length}');
     // });
     return PrescriptionCommonWidget(
+      controller: expandableControllers.investigationController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.investigationShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport:         templateVm.investigationShowReport,
       title: "Investigation",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -96,7 +97,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                 bottomRight: Radius.circular(10)),
             border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
         child: Padding(
-          padding: EdgeInsets.only(top: 10.0, bottom: 10,
+          padding: EdgeInsets.only(
+              top: 10.0,
+              bottom: 10,
               left: isTablet ? 15 : 5,
               right: isTablet ? 15 : 5),
           child: Column(
@@ -117,8 +120,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              templateVm.investigationSelectedItems[ind].itemName =
-                                  controller.text;
+                              templateVm.investigationSelectedItems[ind]
+                                  .itemName = controller.text;
                               controller.clear();
                               ind = null;
                             } else {
@@ -154,8 +157,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                                         onChanged: (int v) {
                                                           setState(() {
                                                             itemTypeNo = v;
-                                                            templateVm.investigationSelectedItems.add(
-                                                                CommonPrescriptionSearchItems(
+                                                            templateVm
+                                                                .investigationSelectedItems
+                                                                .add(CommonPrescriptionSearchItems(
                                                                     itemName:
                                                                         controller
                                                                             .text
@@ -178,8 +182,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                                         onChanged: (int v) {
                                                           setState(() {
                                                             itemTypeNo = v;
-                                                            templateVm.investigationSelectedItems.add(
-                                                                CommonPrescriptionSearchItems(
+                                                            templateVm
+                                                                .investigationSelectedItems
+                                                                .add(CommonPrescriptionSearchItems(
                                                                     itemName:
                                                                         controller
                                                                             .text
@@ -214,8 +219,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                 itemBuilder: (_, v) {
                   return Padding(
                     padding: EdgeInsets.all(isTablet ? 12 : 10),
-                    child: Text("${v.itemName}",
-                        style: TextStyle(fontSize: isTablet ? 18 : 16),),
+                    child: Text(
+                      "${v.itemName}",
+                      style: TextStyle(fontSize: isTablet ? 18 : 16),
+                    ),
                   );
                 },
                 onSuggestionSelected: (v) {
@@ -253,7 +260,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only( left: isTablet ? 20 : 15,
+                                  padding: EdgeInsets.only(
+                                      left: isTablet ? 20 : 15,
                                       top: isTablet ? 15 : 10.0,
                                       bottom: isTablet ? 10 : 5.0),
                                   child: Text(
@@ -264,7 +272,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                   ),
                                 ),
                                 Tooltip(
-                                  message: templateVm.investigationSelectedItems[index]
+                                  message: templateVm
+                                              .investigationSelectedItems[index]
                                               .itemTypeNo ==
                                           1
                                       ? "Pathology"
@@ -281,7 +290,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                           top: isTablet ? 15 : 10.0,
                                           bottom: isTablet ? 10 : 5.0),
                                       child: Text(
-                                        templateVm.investigationSelectedItems[index]
+                                        templateVm
+                                                    .investigationSelectedItems[
+                                                        index]
                                                     .itemTypeNo ==
                                                 1
                                             ? "P"
@@ -299,7 +310,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               thickness: 1,
                             ),
                             Padding(
-                              padding: EdgeInsets.only(bottom: isTablet ? 15 : 10),
+                              padding:
+                                  EdgeInsets.only(bottom: isTablet ? 15 : 10),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -309,10 +321,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                       await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
                                               favoriteType: "36",
-                                              favoriteVal:
-                                              templateVm.investigationSelectedItems[
-                                                          index]
-                                                      .itemName)
+                                              favoriteVal: templateVm
+                                                  .investigationSelectedItems[
+                                                      index]
+                                                  .itemName)
                                           .then((value) async =>
                                               await vm.getData());
                                       favoriteItems.clear();
@@ -327,14 +339,14 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     child: Icon(
                                       Icons.favorite_border,
                                       color: Colors.red,
-                                      size:  isTablet ? 35 : 30,
+                                      size: isTablet ? 35 : 30,
                                     ),
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                          templateVm.investigationSelectedItems[index]
-                                              .itemName;
+                                      controller.text = templateVm
+                                          .investigationSelectedItems[index]
+                                          .itemName;
                                       ind = index;
                                     },
                                     child: Container(
@@ -386,8 +398,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                   children: [
                     Text(
                       "Favourite list",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: isTablet ? 25 : 20),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: isTablet ? 25 : 20),
                     ),
                     Divider(
                       color: Colors.grey,
@@ -435,7 +448,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                 : Colors.white,
                             child: CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
-                              title: Text("${item.favouriteVal}",    style: TextStyle(fontSize: isTablet ? 18 : 16),),
+                              title: Text(
+                                "${item.favouriteVal}",
+                                style: TextStyle(fontSize: isTablet ? 18 : 16),
+                              ),
                               value: item.isCheck,
                               onChanged: (val) {
                                 item.isCheck = val;

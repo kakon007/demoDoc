@@ -77,11 +77,12 @@ class _ProvisionalDiagnosisWidgetState
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     bool isTablet = Responsive.isTablet(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.provisionalDiagnosisController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.provisionalDiagnosisShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.provisionalDiagnosisShowReport,
       title: "Provisional Diagnosis",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -90,7 +91,8 @@ class _ProvisionalDiagnosisWidgetState
                 bottomRight: Radius.circular(10)),
             border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
         child: Padding(
-          padding: EdgeInsets.only( top: 10.0,
+          padding: EdgeInsets.only(
+              top: 10.0,
               bottom: 10,
               left: isTablet ? 15 : 5,
               right: isTablet ? 15 : 5),
@@ -112,7 +114,8 @@ class _ProvisionalDiagnosisWidgetState
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              templateVm.provisionalDiagnosisSelectedItems[ind] =
+                              templateVm
+                                      .provisionalDiagnosisSelectedItems[ind] =
                                   controller.text;
                               controller.clear();
                               ind = null;
@@ -140,11 +143,15 @@ class _ProvisionalDiagnosisWidgetState
                 itemBuilder: (_, v) {
                   return Padding(
                     padding: EdgeInsets.all(isTablet ? 12 : 10),
-                    child: Text("$v", style: TextStyle(fontSize: isTablet ? 18 : 16),),
+                    child: Text(
+                      "$v",
+                      style: TextStyle(fontSize: isTablet ? 18 : 16),
+                    ),
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (templateVm.provisionalDiagnosisSelectedItems.contains(v)) {
+                  if (templateVm.provisionalDiagnosisSelectedItems
+                      .contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
                     templateVm.provisionalDiagnosisSelectedItems.add(v);
@@ -193,20 +200,23 @@ class _ProvisionalDiagnosisWidgetState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: isTablet ? 20 : 15,
+                              padding: EdgeInsets.only(
+                                  left: isTablet ? 20 : 15,
                                   top: isTablet ? 15 : 10.0,
                                   bottom: isTablet ? 10 : 5.0),
                               child: Text(
                                 "${templateVm.provisionalDiagnosisSelectedItems[index]}",
                                 style: TextStyle(
-                                    fontSize: isTablet ? 18 : 16,fontWeight: FontWeight.bold),
+                                    fontSize: isTablet ? 18 : 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Divider(
                               thickness: 1,
                             ),
                             Padding(
-                              padding: EdgeInsets.only(bottom: isTablet ? 15 : 10),
+                              padding:
+                                  EdgeInsets.only(bottom: isTablet ? 15 : 10),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -219,9 +229,9 @@ class _ProvisionalDiagnosisWidgetState
                                                   PrescriptionFavouriteType
                                                       .provisionalDiagnosis
                                                       .toString(),
-                                              favoriteVal:
-                                              templateVm.provisionalDiagnosisSelectedItems[
-                                                      index])
+                                              favoriteVal: templateVm
+                                                      .provisionalDiagnosisSelectedItems[
+                                                  index])
                                           .then((value) => vm.getData());
                                       favoriteItems.clear();
                                       if (_favoriteController.text.isNotEmpty) {
@@ -240,9 +250,9 @@ class _ProvisionalDiagnosisWidgetState
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                      templateVm.provisionalDiagnosisSelectedItems[
-                                              index];
+                                      controller.text = templateVm
+                                              .provisionalDiagnosisSelectedItems[
+                                          index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -261,7 +271,8 @@ class _ProvisionalDiagnosisWidgetState
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      templateVm.provisionalDiagnosisSelectedItems
+                                      templateVm
+                                          .provisionalDiagnosisSelectedItems
                                           .removeAt(index);
                                       setState(() {});
                                     },
@@ -294,8 +305,9 @@ class _ProvisionalDiagnosisWidgetState
                   children: [
                     Text(
                       "Favourite list",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold,   fontSize: isTablet ? 25 : 20),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: isTablet ? 25 : 20),
                     ),
                     Divider(
                       color: Colors.grey,
@@ -316,11 +328,11 @@ class _ProvisionalDiagnosisWidgetState
                             controller: _favoriteController,
                             style: TextStyle(fontSize: isTablet ? 18 : 16),
                             decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.only( left: isTablet ? 15 : 10, top: 20),
+                              contentPadding: EdgeInsets.only(
+                                  left: isTablet ? 15 : 10, top: 20),
                               hintText: "Search Favourite list",
                               hintStyle:
-                              TextStyle(fontSize: isTablet ? 18 : 16),
+                                  TextStyle(fontSize: isTablet ? 18 : 16),
                               suffixIcon: Icon(
                                 Icons.search,
                                 size: isTablet ? 30 : 25,
@@ -345,12 +357,16 @@ class _ProvisionalDiagnosisWidgetState
                                 : Colors.white,
                             child: CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
-                              title: Text("${item.favouriteVal}",  style: TextStyle(fontSize: isTablet ? 18 : 16),),
+                              title: Text(
+                                "${item.favouriteVal}",
+                                style: TextStyle(fontSize: isTablet ? 18 : 16),
+                              ),
                               value: item.isCheck,
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (templateVm.provisionalDiagnosisSelectedItems
+                                  if (templateVm
+                                      .provisionalDiagnosisSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {

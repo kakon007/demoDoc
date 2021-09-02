@@ -7,6 +7,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -70,12 +71,15 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<OrthosisViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.orthosisController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.orthosisShowReport = val;
+
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.orthosisShowReport,
       title: "Orthosis",
       expandedWidget: Container(
         decoration: BoxDecoration(

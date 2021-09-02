@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -22,7 +23,6 @@ class ProcedureWidget extends StatefulWidget {
 }
 
 class _ProcedureWidgetState extends State<ProcedureWidget> {
-  bool showReport = false;
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
 
@@ -70,13 +70,15 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     var vm = context.watch<ProcedureViewModel>();
     return PrescriptionCommonWidget(
+      controller: expandableControllers.procedureController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.procedureShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.procedureShowReport,
       title: "Procedure",
       expandedWidget: Container(
         decoration: BoxDecoration(

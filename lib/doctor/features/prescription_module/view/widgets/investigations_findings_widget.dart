@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_findings_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
@@ -24,10 +25,12 @@ class InvestigationFindingsWidget extends StatefulWidget {
   const InvestigationFindingsWidget({Key key}) : super(key: key);
 
   @override
-  _InvestigationFindingsWidgetState createState() => _InvestigationFindingsWidgetState();
+  _InvestigationFindingsWidgetState createState() =>
+      _InvestigationFindingsWidgetState();
 }
 
-class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidget> {
+class _InvestigationFindingsWidgetState
+    extends State<InvestigationFindingsWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
@@ -38,11 +41,11 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
 
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
-    initialFavoriteSearch= vm.favouriteList;
+    initialFavoriteSearch = vm.favouriteList;
     print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
       List<FavouriteItemModel> initialFavoriteSearchItems =
-      List<FavouriteItemModel>();
+          List<FavouriteItemModel>();
       initialFavoriteSearch.forEach((item) {
         if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
@@ -84,13 +87,15 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
   Widget build(BuildContext context) {
     var vm2 = context.watch<ChiefComplaintViewModel>();
     var vm = context.read<InvestigationFindingsViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.investigationFindingController,
       key: Key("InvestigationFindingWidget"),
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.investigationFindingsShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport:         templateVm.investigationFindingsShowReport,
       title: "Investigation Findings",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -128,7 +133,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                   if (investigationFindingItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                   showAlert(context, v);
+                    showAlert(context, v);
                     // investigationFindingItems.add(
                     //   Findings(name: v)
                     //);
@@ -141,75 +146,78 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                 suggestionsCallback: (v) {
                   return InvestigationFindingRepository().fetchSearchList(
                       q: v,
-                      favoriteType:
-                      PrescriptionFavouriteType.investigationFindingsSearch.toString());
+                      favoriteType: PrescriptionFavouriteType
+                          .investigationFindingsSearch
+                          .toString());
                 },
               ),
               SizedBox(
                 height: 20,
               ),
-              controller.text.isNotEmpty ? TextField(
-              controller: _findingController,
-              decoration: new InputDecoration(
-                hintStyle: GoogleFonts.poppins( fontSize: 14),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    if (ind != null) {
-                      investigationFindingItems[ind].name =
-                          controller.text;
-                      controller.clear();
-                      ind = null;
-                    } else {
-                      if (controller.text.trim().isNotEmpty) {
-                        if (investigationFindingItems
-                            .contains(controller.text.trim())) {
-                          BotToast.showText(text: "All ready added");
-                        } else {
-                          investigationFindingItems
-                              .add(Findings(name: controller.text.trim(),
-                            finding: _findingController.text
+              controller.text.isNotEmpty
+                  ? TextField(
+                      controller: _findingController,
+                      decoration: new InputDecoration(
+                        hintStyle: GoogleFonts.poppins(fontSize: 14),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            if (ind != null) {
+                              investigationFindingItems[ind].name =
+                                  controller.text;
+                              controller.clear();
+                              ind = null;
+                            } else {
+                              if (controller.text.trim().isNotEmpty) {
+                                if (investigationFindingItems
+                                    .contains(controller.text.trim())) {
+                                  BotToast.showText(text: "All ready added");
+                                } else {
+                                  investigationFindingItems.add(Findings(
+                                      name: controller.text.trim(),
+                                      finding: _findingController.text));
+                                  controller.clear();
+                                  _findingController.clear();
+                                }
+                              } else {
+                                BotToast.showText(text: "Field is empty");
+                              }
+                            }
 
-                          ));
-                          controller.clear();
-                          _findingController.clear();
-                        }
-                      } else {
-                        BotToast.showText(text: "Field is empty");
-                      }
-                    }
-
-                    setState(() {});
-                  },
-
-                  icon: Icon(Icons.check), color: AppTheme.buttonActiveColor,),
-                hintText: 'Findings',
-                // suffixIcon: Padding(
-                //   padding: EdgeInsets.only(right: width / 8.64),
-                //   child: Container(
-                //     width: 20,
-                //     height: 15,
-                //     decoration: BoxDecoration(
-                //       shape: BoxShape.circle,
-                //       color: AppTheme.appbarPrimary,
-                //     ),
-                //     child: GestureDetector(
-                //         onTap: () {
-                //           specialityController.clear();
-                //           specializationSearch('');
-                //         },
-                //         child: Icon(
-                //           Icons.clear,
-                //           size: 15,
-                //           color: Colors.white,
-                //         )),
-                //   ),
-                // ),
-                contentPadding: EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
-              )) : SizedBox(),
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.check),
+                          color: AppTheme.buttonActiveColor,
+                        ),
+                        hintText: 'Findings',
+                        // suffixIcon: Padding(
+                        //   padding: EdgeInsets.only(right: width / 8.64),
+                        //   child: Container(
+                        //     width: 20,
+                        //     height: 15,
+                        //     decoration: BoxDecoration(
+                        //       shape: BoxShape.circle,
+                        //       color: AppTheme.appbarPrimary,
+                        //     ),
+                        //     child: GestureDetector(
+                        //         onTap: () {
+                        //           specialityController.clear();
+                        //           specializationSearch('');
+                        //         },
+                        //         child: Icon(
+                        //           Icons.clear,
+                        //           size: 15,
+                        //           color: Colors.white,
+                        //         )),
+                        //   ),
+                        // ),
+                        contentPadding:
+                            EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
+                      ))
+                  : SizedBox(),
               Wrap(
                 children: List.generate(
                     investigationFindingItems.length,
-                        (index) => Container(
+                    (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
                           color: Color(0xffEFF5FF),
@@ -222,7 +230,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${investigationFindingItems[index].name} - ${investigationFindingItems[index]?.finding??""}",
+                                "${investigationFindingItems[index].name} - ${investigationFindingItems[index]?.finding ?? ""}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -234,26 +242,28 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                               padding: EdgeInsets.only(bottom: 10),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
                                     onTap: () async {
                                       await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
-                                          favoriteType:
-                                          PrescriptionFavouriteType
-                                              .chiefComplaint
-                                              .toString(),
-                                          favoriteVal:
-                                          investigationFindingItems[
-                                          index].name)
+                                              favoriteType:
+                                                  PrescriptionFavouriteType
+                                                      .chiefComplaint
+                                                      .toString(),
+                                              favoriteVal:
+                                                  investigationFindingItems[
+                                                          index]
+                                                      .name)
                                           .then((value) async =>
-                                      await vm2.getData());
+                                              await vm2.getData());
                                       favoriteItems.clear();
-                                      if(_favoriteController.text.isNotEmpty){
-                                        searchFavoriteItem(_favoriteController.text.toLowerCase());
-                                      }
-                                      else{
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
                                         favoriteItems = vm2.favouriteList;
                                       }
                                     },
@@ -266,7 +276,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                                   InkWell(
                                     onTap: () {
                                       controller.text =
-                                      investigationFindingItems[index].name;
+                                          investigationFindingItems[index].name;
                                       ind = index;
                                     },
                                     child: Container(
@@ -274,7 +284,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                                       width: 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(50),
+                                              BorderRadius.circular(50),
                                           color: Color(0xffE6374DF)),
                                       child: Icon(
                                         Icons.edit,
@@ -285,8 +295,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      investigationFindingItems
-                                          .removeAt(index);
+                                      investigationFindingItems.removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -294,7 +303,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                                       width: 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(50),
+                                              BorderRadius.circular(50),
                                           color: Colors.red),
                                       child: Icon(
                                         Icons.close,
@@ -319,7 +328,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                     Text(
                       "Favourite list",
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     Divider(
                       color: Colors.grey,
@@ -339,7 +348,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                             controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
-                              EdgeInsets.only(left: 10, top: 20),
+                                  EdgeInsets.only(left: 10, top: 20),
                               hintText: "Search Favourite list",
                               suffixIcon: Icon(
                                 Icons.search,
@@ -369,23 +378,23 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                 if(investigationFindingItems.isNotEmpty){
-                                   if (investigationFindingItems.contains(item.favouriteVal)) {
-                                     BotToast.showText(text: "All ready added");
-                                   } else {
-                                       showAlert(context, item.favouriteVal);
+                                  if (investigationFindingItems.isNotEmpty) {
+                                    if (investigationFindingItems
+                                        .contains(item.favouriteVal)) {
+                                      BotToast.showText(
+                                          text: "All ready added");
+                                    } else {
+                                      showAlert(context, item.favouriteVal);
                                       // Navigator.pop(context);
-                                     // investigationFindingItems
-                                     //     .add(Findings(name: item.favouriteVal));
-                                   }
-                                 }
-                                 else{
+                                      // investigationFindingItems
+                                      //     .add(Findings(name: item.favouriteVal));
+                                    }
+                                  } else {
                                     showAlert(context, item.favouriteVal);
-                                   // Navigator.pop(context);
-                                   // investigationFindingItems
-                                   //     .add(Findings(name: item.favouriteVal));
-                                 }
-
+                                    // Navigator.pop(context);
+                                    // investigationFindingItems
+                                    //     .add(Findings(name: item.favouriteVal));
+                                  }
                                 }
                                 setState(() {});
                               },
@@ -394,14 +403,15 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                                   SVProgressHUD.show(status: "Deleting");
                                   await DeleteFavoriteLitRepository()
                                       .deleteFavoriteList(id: item.id)
-                                      .then((value) async => await vm.getData());
+                                      .then(
+                                          (value) async => await vm.getData());
                                   SVProgressHUD.dismiss();
                                   // _favoriteController.clear();
                                   favoriteItems.clear();
-                                  if(_favoriteController.text.isNotEmpty){
-                                    searchFavoriteItem(_favoriteController.text.toLowerCase());
-                                  }
-                                  else{
+                                  if (_favoriteController.text.isNotEmpty) {
+                                    searchFavoriteItem(
+                                        _favoriteController.text.toLowerCase());
+                                  } else {
                                     favoriteItems = vm.favouriteList;
                                   }
                                   // favoriteItems.addAll(vm.favouriteList);
@@ -425,6 +435,7 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
       ),
     );
   }
+
   void showAlert(BuildContext context, String favVal) {
     showDialog(
         context: context,
@@ -432,8 +443,8 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
           return Center(
             child: SingleChildScrollView(
               child: AlertDialog(
-                 insetPadding: EdgeInsets.symmetric(
-                     horizontal: MediaQuery.of(context).size.width * .001 ),
+                insetPadding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * .001),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 contentPadding: EdgeInsets.only(top: 10.0),
@@ -454,29 +465,31 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                         TextField(
                             controller: _findingController,
                             decoration: new InputDecoration(
-                              hintStyle: GoogleFonts.poppins( fontSize: 14),
+                              hintStyle: GoogleFonts.poppins(fontSize: 14),
                               suffixIcon: IconButton(
                                 onPressed: () {
-                                    if (_findingController.text.trim().isNotEmpty) {
-                                      if (investigationFindingItems
-                                          .contains(favVal)) {
-                                        BotToast.showText(text: "All ready added");
-                                      } else {
-                                        investigationFindingItems
-                                            .add(Findings(name: favVal,
-                                            finding: _findingController.text
-
-                                        ));
-                                        Navigator.pop(context);
-                                        _findingController.clear();
-                                      }
+                                  if (_findingController.text
+                                      .trim()
+                                      .isNotEmpty) {
+                                    if (investigationFindingItems
+                                        .contains(favVal)) {
+                                      BotToast.showText(
+                                          text: "All ready added");
                                     } else {
-                                      BotToast.showText(text: "Field is empty");
+                                      investigationFindingItems.add(Findings(
+                                          name: favVal,
+                                          finding: _findingController.text));
+                                      Navigator.pop(context);
+                                      _findingController.clear();
                                     }
+                                  } else {
+                                    BotToast.showText(text: "Field is empty");
+                                  }
                                   //setState(() {});
                                 },
-
-                                icon: Icon(Icons.check), color: AppTheme.buttonActiveColor,),
+                                icon: Icon(Icons.check),
+                                color: AppTheme.buttonActiveColor,
+                              ),
                               hintText: 'Findings',
                               // suffixIcon: Padding(
                               //   padding: EdgeInsets.only(right: width / 8.64),
@@ -499,9 +512,12 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
                               //         )),
                               //   ),
                               // ),
-                              contentPadding: EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
                             )),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                       ],
                     ),
                   ),
@@ -512,7 +528,8 @@ class _InvestigationFindingsWidgetState extends State<InvestigationFindingsWidge
         });
   }
 }
-class Findings{
+
+class Findings {
   String name;
   String finding;
   Findings({this.name, this.finding});

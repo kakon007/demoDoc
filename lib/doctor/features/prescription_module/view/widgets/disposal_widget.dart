@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
+import 'package:provider/provider.dart';
 
 enum SingingCharacter { lafayette, jefferson }
 
@@ -37,6 +39,7 @@ class _DisposalWidgetState extends State<DisposalWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     // var vm = context.watch<ProcedureViewModel>();
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
@@ -107,11 +110,12 @@ class _DisposalWidgetState extends State<DisposalWidget> {
       ),
     );
     return PrescriptionCommonWidget(
+      controller: expandableControllers.disposalController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.disposalShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.disposalShowReport,
       title: "Disposal",
       expandedWidget: Container(
         height: 170,

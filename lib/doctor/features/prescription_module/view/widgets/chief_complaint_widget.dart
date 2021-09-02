@@ -77,12 +77,13 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     bool isTablet = Responsive.isTablet(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.chiefCompleteController,
       key: Key("ChiefComplaintWidget"),
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.chiefComplentShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.chiefComplentShowReport,
       title: "Chief Complaint",
       expandedWidget: Container(
         decoration: BoxDecoration(

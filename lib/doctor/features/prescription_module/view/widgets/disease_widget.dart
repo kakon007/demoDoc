@@ -71,11 +71,12 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
     var vm = context.watch<DiseaseViewModel>();
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.deseaseController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.diseaseShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.diseaseShowReport,
       title: "Disease",
       expandedWidget: Container(
         decoration: BoxDecoration(

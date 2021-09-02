@@ -23,7 +23,6 @@ class AdviceWidget extends StatefulWidget {
 }
 
 class _AdviceWidgetState extends State<AdviceWidget> {
-  bool showReport = false;
   int ind;
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
@@ -74,11 +73,12 @@ class _AdviceWidgetState extends State<AdviceWidget> {
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     var vm = context.watch<AdviceViewModel>();
     return PrescriptionCommonWidget(
+      controller: expandableControllers.adviceController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.adviceShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.adviceShowReport,
       title: "Advice",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -104,7 +104,8 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              templateVm.adviceSelectedItems[ind] = controller.text;
+                              templateVm.adviceSelectedItems[ind] =
+                                  controller.text;
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
@@ -112,7 +113,8 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  templateVm.adviceSelectedItems.add(controller.text.trim());
+                                  templateVm.adviceSelectedItems
+                                      .add(controller.text.trim());
                                   controller.clear();
                                 }
                               } else {
@@ -204,7 +206,8 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                                   PrescriptionFavouriteType
                                                       .advice
                                                       .toString(),
-                                              favoriteVal: templateVm.adviceSelectedItems[index])
+                                              favoriteVal: templateVm
+                                                  .adviceSelectedItems[index])
                                           .then((value) => vm.getData());
                                       _favoriteController.clear();
                                       favoriteItems.clear();
@@ -219,7 +222,8 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text = templateVm.adviceSelectedItems[index];
+                                      controller.text =
+                                          templateVm.adviceSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -238,7 +242,8 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      templateVm.adviceSelectedItems.removeAt(index);
+                                      templateVm.adviceSelectedItems
+                                          .removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -324,7 +329,8 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  templateVm.adviceSelectedItems.add(item.favouriteVal);
+                                  templateVm.adviceSelectedItems
+                                      .add(item.favouriteVal);
                                 }
                                 setState(() {});
                               },

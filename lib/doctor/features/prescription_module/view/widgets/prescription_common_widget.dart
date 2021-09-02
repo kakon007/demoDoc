@@ -7,15 +7,41 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
+_ExpandableControllers expandableControllers = _ExpandableControllers();
+
+class _ExpandableControllers {
+  var patientDemographyController = ExpandableController(initialExpanded: true);
+  var vitalsController = ExpandableController(initialExpanded: true);
+  var chiefCompleteController = ExpandableController(initialExpanded: true);
+  var clinicalHistoryController = ExpandableController(initialExpanded: true);
+  var pastIllnessController = ExpandableController(initialExpanded: true);
+  var provisionalDiagnosisController =
+      ExpandableController(initialExpanded: true);
+  var deseaseController = ExpandableController(initialExpanded: true);
+  var investigationController = ExpandableController(initialExpanded: true);
+  var investigationFindingController =
+      ExpandableController(initialExpanded: true);
+  var orthosisController = ExpandableController(initialExpanded: true);
+  var adviceController = ExpandableController(initialExpanded: true);
+  var procedureController = ExpandableController(initialExpanded: true);
+  var referredOPDController = ExpandableController(initialExpanded: true);
+  var medicationController = ExpandableController(initialExpanded: true);
+  var disposalController = ExpandableController(initialExpanded: true);
+  var noteController = ExpandableController(initialExpanded: true);
+  var referredDoctorController = ExpandableController(initialExpanded: true);
+}
+
 class PrescriptionCommonWidget extends StatefulWidget {
   final String title;
   final Widget expandedWidget;
   final Function(bool value) onChangeShowReport;
   final bool showReport;
   final bool isFixed;
+  final ExpandableController controller;
 
   const PrescriptionCommonWidget(
       {Key key,
+      @required this.controller,
       @required this.title,
       @required this.expandedWidget,
       @required this.onChangeShowReport,
@@ -29,10 +55,8 @@ class PrescriptionCommonWidget extends StatefulWidget {
 }
 
 class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
-  ExpandableController controller;
   @override
   void initState() {
-    controller = ExpandableController(initialExpanded: false);
     super.initState();
   }
 
@@ -40,7 +64,7 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
     return ExpandableNotifier(
-        controller: controller,
+        controller: widget.controller,
         child: Padding(
           padding: EdgeInsets.only(
             left: isTablet ? 20 : 10,
@@ -54,7 +78,7 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
               child: Column(
                 children: <Widget>[
                   ExpandablePanel(
-                    controller: controller,
+                    controller: widget.controller,
                     theme: ExpandableThemeData(
                       headerAlignment: ExpandablePanelHeaderAlignment.center,
                       tapBodyToExpand: true,

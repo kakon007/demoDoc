@@ -12,75 +12,22 @@ import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class EmrScreen extends StatefulWidget {
+  DateTime pickBirthDate;
+  DateTime pickBirthDate2;
+  EmrScreen({this.pickBirthDate,this.pickBirthDate2});
   @override
   _EmrScreenState createState() => _EmrScreenState();
 }
 
 class _EmrScreenState extends State<EmrScreen> {
 
-  DateTime pickBirthDate;
-  DateTime pickBirthDate2;
-  Future<Null> selectDate(BuildContext context) async {
-    final DateTime date = await showDatePicker(
-      //initialDatePickerMode: DatePickerMode.year,
-      context: context,
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppTheme.appbarPrimary,
-            accentColor: AppTheme.appbarPrimary,
-            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
-          child: child,
-        );
-      },
 
-      initialDate: pickBirthDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (date != null && date != pickBirthDate) {
-      setState(() {
-        pickBirthDate = date;
-      });
-    }
-  }
-
-  Future<Null> selectDate2(BuildContext context) async {
-    final DateTime date = await showDatePicker(
-      //initialDatePickerMode: DatePickerMode.year,
-      context: context,
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppTheme.appbarPrimary,
-            accentColor: AppTheme.appbarPrimary,
-            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
-          child: child,
-        );
-      },
-
-      initialDate: pickBirthDate2,
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (date != null && date != pickBirthDate2) {
-      setState(() {
-        pickBirthDate2 = date;
-      });
-    }
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     var vm=Provider.of<PrescriptionListDocViewModel>(context,listen: false);
     vm.getData();
-    pickBirthDate=pickBirthDate!=null?pickBirthDate:DateTime.now();
-    pickBirthDate2=pickBirthDate2!=null?pickBirthDate2:DateTime.now();
     super.initState();
   }
   @override
@@ -90,8 +37,8 @@ class _EmrScreenState extends State<EmrScreen> {
     var deviceWidth = MediaQuery.of(context).size.width;
     var vm=Provider.of<PrescriptionListDocViewModel>(context,listen: true);
 
-    print('Date $pickBirthDate');
-    print('Date2 $pickBirthDate2');
+    print('Date ${widget.pickBirthDate}');
+    print('Date2 ${widget.pickBirthDate2}');
 
     var fromDate = GestureDetector(
       child: Column(
@@ -131,9 +78,9 @@ class _EmrScreenState extends State<EmrScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Text(
-                    pickBirthDate == DateTime.now()
+                    widget.pickBirthDate == DateTime.now()
                         ? "Date of birth"
-                        : "${DateFormat("dd-MM-yyyy").format(pickBirthDate)}",
+                        : "${DateFormat("dd-MM-yyyy").format(widget.pickBirthDate)}",
                     style: TextStyle(fontSize: 13.0),
                   ),
                 ),
@@ -158,8 +105,8 @@ class _EmrScreenState extends State<EmrScreen> {
         ],
       ),
       onTap: () {
-        selectDate(context);
-        FocusManager.instance.primaryFocus.unfocus();
+        // selectDate(context);
+        // FocusManager.instance.primaryFocus.unfocus();
       },
     );
     var toDate = GestureDetector(
@@ -200,9 +147,9 @@ class _EmrScreenState extends State<EmrScreen> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Text(
-                    pickBirthDate2 == DateTime.now()
+                    widget.pickBirthDate2 == DateTime.now()
                         ? "Date of birth"
-                        : "${DateFormat("dd-MM-yyyy").format(pickBirthDate2)}",
+                        : "${DateFormat("dd-MM-yyyy").format(widget.pickBirthDate2)}",
                     style: TextStyle(fontSize: 13.0),
                   ),
                 ),
@@ -227,8 +174,8 @@ class _EmrScreenState extends State<EmrScreen> {
         ],
       ),
       onTap: () {
-        selectDate2(context);
-        FocusManager.instance.primaryFocus.unfocus();
+        // selectDate2(context);
+        // FocusManager.instance.primaryFocus.unfocus();
       },
     );
 
@@ -1159,7 +1106,7 @@ class _EmrScreenState extends State<EmrScreen> {
                             InkWell(
                               onTap: () async {
                                SVProgressHUD.show(status: "Please Wait");
-                               await vm.getData(fromDate: pickBirthDate,todate: pickBirthDate2);
+                               await vm.getData(fromDate: widget.pickBirthDate,todate: widget.pickBirthDate2);
                                 SVProgressHUD.dismiss();
                               },
                               child: Material(

@@ -1,7 +1,9 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/save_prescription_template_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/advice_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/clinical_history_widget.dart';
@@ -29,6 +31,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/a
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/clinical_history_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/disease_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
@@ -205,9 +208,15 @@ class _ModuleState extends State<Module> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      SVProgressHUD.show(status: "Please Wait");
-                                      SVProgressHUD.dismiss();
-                                      Navigator.pop(context);
+                                      if (templateNameController.text.isEmpty) {
+                                        BotToast.showText(text: "Empty");
+                                      } else {
+                                        var vm = GetTamplateDataViewModel.read(
+                                            context);
+                                        vm.templateName =
+                                            templateNameController.text;
+                                        vm.setPrescriptionData();
+                                      }
                                     },
                                     child: Material(
                                       elevation: 0,

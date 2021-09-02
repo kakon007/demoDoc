@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/generic_search_items_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/medication_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -44,18 +45,15 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   TextEditingController _favoriteController = TextEditingController();
   TextEditingController _genericController = TextEditingController();
   TextEditingController _brandController = TextEditingController();
-  List<String> medicationSelectedItems = [];
-  List<AddMultiDose> multiDose = [];
-  List<MultiDose> multiDoseItemList = [];
-  var myControllers = [];
-  TextEditingController _controller;
+  // List<String> medicationSelectedItems = [];
+  // List<AddMultiDose> multiDose = [];
+  // List<MultiDose> multiDoseItemList = [];
+  // List<MedicineList> medicineList = [];
   int ind;
-  int multiDoseLength = 0;
   var vm = appNavigator.context.read<MedicationViewModel>();
   int tabIndex = 0;
   // value set to false
   bool _value = false;
-  List<MedicineList> medicineList = [];
 
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
@@ -113,6 +111,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<MedicationViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     bool isTablet = Responsive.isTablet(context);
     final Widget addMulIon = SvgPicture.asset(
       "assets/icons/addmultidose.svg",
@@ -839,7 +838,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                 height: 15,
               ),
               Wrap(
-                  children: List.generate(multiDose.length, (index) {
+                  children: List.generate(templateVm.multiDose.length, (index) {
                 //  _controller = TextEditingController();
                 return Container(
                   margin: EdgeInsets.only(bottom: 10),
@@ -861,7 +860,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           ),
                         ),
                         onTap: () {
-                          multiDose.removeAt(index);
+                          templateVm.multiDose.removeAt(index);
                           setState(() {});
                         },
                       ),
@@ -871,7 +870,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       TypeAheadFormField<String>(
                         textFieldConfiguration: TextFieldConfiguration(
                             textInputAction: TextInputAction.search,
-                            controller: multiDose[index].multiDoseController,
+                            controller:
+                                templateVm.multiDose[index].multiDoseController,
                             decoration: InputDecoration(
                               labelText: "Multidose",
                               //labelStyle: TextStyle(color: Color(0xff3E58FF)),
@@ -896,7 +896,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           );
                         },
                         onSuggestionSelected: (v) {
-                          multiDose[index].multiDoseController.text = v;
+                          templateVm.multiDose[index].multiDoseController.text =
+                              v;
                           // setState(() {});
                         },
                         suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -926,7 +927,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                             child: TypeAheadFormField<String>(
                               textFieldConfiguration: TextFieldConfiguration(
                                   textInputAction: TextInputAction.search,
-                                  controller: multiDose[index]
+                                  controller: templateVm.multiDose[index]
                                       .multiDoseDurationController,
                                   decoration: InputDecoration(
                                     labelText: "Duration",
@@ -952,9 +953,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 );
                               },
                               onSuggestionSelected: (v) {
-                                multiDose[index]
-                                    .multiDoseDurationController
-                                    .text = v;
+                                templateVm.multiDose[index]
+                                    .multiDoseDurationController.text = v;
                                 // setState(() {});
                               },
                               suggestionsBoxDecoration:
@@ -976,7 +976,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                             child: TypeAheadFormField<String>(
                               textFieldConfiguration: TextFieldConfiguration(
                                   textInputAction: TextInputAction.search,
-                                  controller: multiDose[index]
+                                  controller: templateVm.multiDose[index]
                                       .multiDoseDurationTypeController,
                                   decoration: InputDecoration(
                                     labelText: "Days",
@@ -1002,9 +1002,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 );
                               },
                               onSuggestionSelected: (v) {
-                                multiDose[index]
-                                    .multiDoseDurationTypeController
-                                    .text = v;
+                                templateVm.multiDose[index]
+                                    .multiDoseDurationTypeController.text = v;
                                 // if (chiefComplaintSelectedItems.contains(v)) {
                                 //   BotToast.showText(text: "All ready added");
                                 // } else {
@@ -1029,8 +1028,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           SizedBox(
                             width: 100,
                             child: TextField(
-                              controller:
-                                  multiDose[index].multiDoseQuantityController,
+                              controller: templateVm
+                                  .multiDose[index].multiDoseQuantityController,
                               autofocus: false,
                               decoration: InputDecoration(
                                 //filled: true,
@@ -1062,8 +1061,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       TypeAheadFormField<String>(
                         textFieldConfiguration: TextFieldConfiguration(
                             textInputAction: TextInputAction.search,
-                            controller:
-                                multiDose[index].multiDoseInstructionController,
+                            controller: templateVm.multiDose[index]
+                                .multiDoseInstructionController,
                             decoration: InputDecoration(
                               labelText: "Instructions",
                               //labelStyle: TextStyle(color: Color(0xff3E58FF)),
@@ -1088,8 +1087,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           );
                         },
                         onSuggestionSelected: (v) {
-                          multiDose[index].multiDoseInstructionController.text =
-                              v;
+                          templateVm.multiDose[index]
+                              .multiDoseInstructionController.text = v;
                           // setState(() {});
                         },
                         suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -1269,7 +1268,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                 children: [
                   InkWell(
                     onTap: () {
-                      multiDose.add(AddMultiDose(
+                      templateVm.multiDose.add(AddMultiDose(
                           multiDoseController: TextEditingController(),
                           multiDoseDurationController: TextEditingController(),
                           multiDoseDurationTypeController:
@@ -1309,9 +1308,9 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                   ),
                   InkWell(
                     onTap: () {
-                      multiDoseItemList = [];
-                      multiDose.forEach((element) {
-                        multiDoseItemList?.add(MultiDose(
+                      templateVm.multiDoseItemList = [];
+                      templateVm.multiDose.forEach((element) {
+                        templateVm.multiDoseItemList?.add(MultiDose(
                             multiDose: element.multiDoseController.text ?? "",
                             multiDoseDuration:
                                 element.multiDoseDurationController.text ?? "",
@@ -1322,7 +1321,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 element.multiDoseInstructionController.text ??
                                     ""));
                       });
-                      medicineList.add(MedicineList(
+                      templateVm.medicineList.add(MedicineList(
                         genericName: _genericController.text,
                         brandName: _brandController.text,
                         dose: doseController.text,
@@ -1335,7 +1334,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                         // multiDoseDurationType: multiDoseDaysController.text,
                         // multiDoseInstruction:
                         //     multiDoseInstructionController.text,
-                        multiDoseList: multiDoseItemList,
+                        multiDoseList: templateVm.multiDoseItemList,
                         continueDuration: continueDurationController.text,
                         continueDurationType: continueDaysController.text,
                       ));
@@ -1386,7 +1385,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    medicineList.length,
+                    templateVm.medicineList.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -1406,12 +1405,13 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${medicineList[index].genericName ?? ""} - ${medicineList[index].brandName ?? ""} - ${medicineList[index].route} - ${medicineList[index].dose} - ${medicineList[index].duration} ${medicineList[index].durationType} - ${medicineList[index].instruction}",
+                                    "${templateVm.medicineList[index].genericName ?? ""} - ${templateVm.medicineList[index].brandName ?? ""} - ${templateVm.medicineList[index].route ?? ""} - ${templateVm.medicineList[index].dose ?? ""} - ${templateVm.medicineList[index].duration ?? ""} ${templateVm.medicineList[index].durationType ?? ""} - ${templateVm.medicineList[index].instruction ?? ""}",
                                     style: TextStyle(
                                         fontSize: isTablet ? 18 : 16,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  medicineList[index].multiDoseList.isNotEmpty
+                                  templateVm.medicineList[index].multiDoseList
+                                          .isNotEmpty
                                       ? Text(
                                           "Muiltidose-",
                                           style: TextStyle(
@@ -1421,9 +1421,10 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                       : SizedBox(),
                                   Wrap(
                                     children: List.generate(
-                                      medicineList[index].multiDoseList.length,
+                                      templateVm.medicineList[index]
+                                          .multiDoseList.length,
                                       (i) => Text(
-                                        "${medicineList[index].multiDoseList[i].multiDose ?? ""} - ${medicineList[index].multiDoseList[i].multiDoseDuration ?? ""} ${medicineList[index].multiDoseList[i].multiDoseDurationType ?? ""} - ${medicineList[index].multiDoseList[i].multiDoseInstruction ?? ""}",
+                                        "${templateVm.medicineList[index].multiDoseList[i].multiDose ?? ""} - ${templateVm.medicineList[index].multiDoseList[i].multiDoseDuration ?? ""} ${templateVm.medicineList[index].multiDoseList[i].multiDoseDurationType ?? ""} - ${templateVm.medicineList[index].multiDoseList[i].multiDoseInstruction ?? ""}",
                                         style: TextStyle(
                                             fontSize: isTablet ? 18 : 16,
                                             fontWeight: FontWeight.bold),
@@ -1432,7 +1433,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                   ),
                                   _value
                                       ? Text(
-                                          "Continue this medicine - ${medicineList[index].continueDuration ?? ""} ${medicineList[index].continueDurationType ?? ""}",
+                                          "Continue this medicine - ${templateVm.medicineList[index].continueDuration ?? ""} ${templateVm.medicineList[index].continueDurationType ?? ""}",
                                           style: TextStyle(
                                               fontSize: isTablet ? 18 : 16,
                                               fontWeight: FontWeight.bold),
@@ -1501,7 +1502,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      medicineList.removeAt(index);
+                                      templateVm.medicineList.removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(

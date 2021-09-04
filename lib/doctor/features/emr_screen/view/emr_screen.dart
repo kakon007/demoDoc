@@ -996,7 +996,7 @@ class _EmrScreenState extends State<EmrScreen> {
                                                                     width: 8,
                                                                   ),
                                                                   Text(
-                                                                    DateUtil().formattedDate(DateTime.parse(vm.prescriptionList[index].ssCreatedOn).toLocal()),
+                                                                    DateUtil().formattedDate(DateTime.parse(vm.prescriptionList[index].ssCreatedOn??DateTime.now()).toLocal()),
                                                                     style: GoogleFonts.poppins(
                                                                         // color: HexColor(
                                                                         //   '#354291',

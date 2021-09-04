@@ -623,6 +623,14 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       patientName: workVm.todayWorkList[index].patientName,
                       appointmentTime:workVm.todayWorkList[index].consTime ,
                       appointType: workVm.todayWorkList[index].consultTypeNo.toString(),
+                      id: workVm.todayWorkList[index].hospitalId,
+                      doctorNo: workVm.todayWorkList[index].doctorNo,
+                      age: workVm.todayWorkList[index].age,
+                      bloodGroup: workVm.todayWorkList[index].bloodGroup,
+                      phoneNumber: workVm.todayWorkList[index].phoneMobile,
+                      serial: workVm.todayWorkList[index].slotSl,
+                      gender: workVm.todayWorkList[index].gender,
+                      regNo: workVm.todayWorkList[index].registrationNo,
                     );
                   })
             ],

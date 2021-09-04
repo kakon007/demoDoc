@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/doctor/features/patient_details/view/pateint_details_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class TodayWorkList extends StatefulWidget {
+  String id;
   String patientName;
   String appointmentTime;
   String appointType;
+  String age;
+  String gender;
+  String bloodGroup;
+  String phoneNumber;
+  int serial;
+  int regNo;
+  int doctorNo;
 
-  TodayWorkList({this.patientName, this.appointmentTime, this.appointType});
+  TodayWorkList({this.id,this.patientName, this.appointmentTime, this.appointType,this.age,this.gender,this.bloodGroup,this.doctorNo,this.regNo,this.serial,this.phoneNumber});
 
   @override
   _TodayWorkListState createState() => _TodayWorkListState();
@@ -141,36 +150,42 @@ class _TodayWorkListState extends State<TodayWorkList> {
                   SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    width: width <= 330 ? width * .68 : width * .7,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10, left: 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 0,
-                          ),
-                          Container(
-                            constraints: BoxConstraints(
-                              minWidth: 90,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => PatientDetails(id:widget.id,name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.appointmentTime,consultType: widget.appointType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
+                    },
+                    child: Container(
+                      width: width <= 330 ? width * .68 : width * .7,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 0,
                             ),
-                            height: 35,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: AppTheme.buttonActiveColor),
-                            //color: HexColor("#107B3E"),
-                            child: Center(
-                              child: Text(
-                                "View Details",
-                                style: GoogleFonts.roboto(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
+                            Container(
+                              constraints: BoxConstraints(
+                                minWidth: 90,
                               ),
+                              height: 35,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: AppTheme.buttonActiveColor),
+                              //color: HexColor("#107B3E"),
+                              child: Center(
+                                child: Text(
+                                  "View Details",
+                                  style: GoogleFonts.roboto(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              //color: AppTheme.buttonActiveColor,
                             ),
-                            //color: AppTheme.buttonActiveColor,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

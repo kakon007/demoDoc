@@ -367,12 +367,12 @@ class GetTamplateDataViewModel extends ChangeNotifier {
           isPatientOut: 1,
           ipdFlag: 0,
           companyNo: 2),
-      vitalList: vitals
-          .map((e) => SaveVitalList(
-              preDiagnosisVal: e.preDiagnosisVal,
-              preDiagnosisValType: e.preDiagnosisValType,
-              findings: e.findings))
-          .toList(),
+      // vitalList: vitals
+      //     .map((e) => SaveVitalList(
+      //         preDiagnosisVal: e.preDiagnosisVal,
+      //         preDiagnosisValType: e.preDiagnosisValType,
+      //         findings: e.findings))
+      //     .toList(),
       chiefComplainList: chiefComplaintSelectedItems
           .map((e) =>
               SaveChiefComplainList(preDiagnosisVal: e, preDiagnosisValType: 7))
@@ -438,22 +438,25 @@ class GetTamplateDataViewModel extends ChangeNotifier {
               preDiagnosisVal: e,
               preDiagnosisValType: PrescriptionFavouriteType.advice))
           .toList(),
-      referralList: [
-        if (referredOPDSelectedItems != null) referredDoctorSelectedItems
-      ]
-          .map((e) => SaveClinicalHistory2ListElement(
-              preDiagnosisValType: PrescriptionFavouriteType.opd.toString(),
-              preDiagnosisVal: e))
-          .toList(),
-      referralDoctorList:
-          [if (referredDoctorSelectedItems != null) referredDoctorSelectedItems]
-              .map(
-                (e) => SaveClinicalHistory2ListElement(
-                    preDiagnosisVal: e,
-                    preDiagnosisValType:
-                        PrescriptionFavouriteType.doctor.toString()),
-              )
+      referralList: referredOPDSelectedItems == null ||
+              referredOPDSelectedItems == ''
+          ? []
+          : [referredDoctorSelectedItems]
+              .map((e) => SaveClinicalHistory2ListElement(
+                  preDiagnosisValType: PrescriptionFavouriteType.opd.toString(),
+                  preDiagnosisVal: e))
               .toList(),
+      referralDoctorList:
+          referredDoctorSelectedItems == null || referredOPDSelectedItems == ''
+              ? []
+              : [referredDoctorSelectedItems]
+                  .map(
+                    (e) => SaveClinicalHistory2ListElement(
+                        preDiagnosisVal: e,
+                        preDiagnosisValType:
+                            PrescriptionFavouriteType.doctor.toString()),
+                  )
+                  .toList(),
       investigationList: investigationSelectedItems
           .map((e) => SaveInvestigationList(
                 preDiagnosisValType:

@@ -61,7 +61,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
     Future.delayed(Duration.zero).then((value) async {
       var vm = context.read<ClinicalHistoryViewModel>();
       await vm.getData();
-      var vm2 = Provider.of<GetTamplateDataViewModel>(context, listen: false);
+      // var vm2 = Provider.of<GetTamplateDataViewModel>(context, listen: false);
       favoriteItems.addAll(vm.favouriteList);
     });
     super.initState();

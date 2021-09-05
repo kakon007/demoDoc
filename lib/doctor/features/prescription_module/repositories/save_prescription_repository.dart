@@ -1,8 +1,9 @@
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_save_model.dart';
 import 'package:myhealthbd_app/main_app/api_client.dart';
+
 class SavePrescriptionRepository {
-  Future fetchFileType(
-      PrescriptionSaveModel prescriptionSaveModel) async {
+  Future postPrescription(PrescriptionSaveModel prescriptionSaveModel) async {
+    print("mmmmmmmmmmmmmmmmmm");
     var response = await ApiClient().postRequest(
         'prescription-service-api/api/prescription/create',
         prescriptionSaveModel.toJson());
@@ -14,4 +15,3 @@ class SavePrescriptionRepository {
     }
   }
 }
-

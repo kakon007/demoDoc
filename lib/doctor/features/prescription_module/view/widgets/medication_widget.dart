@@ -129,7 +129,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
         templateVm.medicationShowReport = val;
         setState(() {});
       },
-      showReport:         templateVm.medicationShowReport,
+      showReport: templateVm.medicationShowReport,
       title: "Medication",
       expandedWidget: Container(
         padding: EdgeInsets.symmetric(horizontal: 5),
@@ -1310,6 +1310,12 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                   InkWell(
                     onTap: () {
                       templateVm.multiDoseItemList = [];
+                      templateVm.multiDoseItemList.add(MultiDose(
+                        multiDoseInstruction: instructionController.text,
+                        multiDose: doseController.text,
+                        multiDoseDuration: durationController.text,
+                        multiDoseDurationType: daysController.text,
+                      ));
                       templateVm.multiDose.forEach((element) {
                         templateVm.multiDoseItemList?.add(MultiDose(
                             multiDose: element.multiDoseController.text ?? "",
@@ -1325,10 +1331,10 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       templateVm.medicineList.add(MedicineList(
                         genericName: _genericController.text,
                         brandName: _brandController.text,
-                        dose: doseController.text,
-                        duration: durationController.text,
-                        durationType: daysController.text,
-                        instruction: instructionController.text,
+                        // dose: doseController.text,
+                        // duration: durationController.text,
+                        // durationType: daysController.text,
+                        // instruction: instructionController.text,
                         route: routeController.text,
                         // multiDose: multiDoseController.text,
                         // multiDoseDuration: multiDoseDurationController.text,
@@ -1406,25 +1412,17 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${templateVm.medicineList[index].genericName ?? ""} - ${templateVm.medicineList[index].brandName ?? ""} - ${templateVm.medicineList[index].route ?? ""} - ${templateVm.medicineList[index].dose ?? ""} - ${templateVm.medicineList[index].duration ?? ""} ${templateVm.medicineList[index].durationType ?? ""} - ${templateVm.medicineList[index].instruction ?? ""}",
+                                    "${templateVm.medicineList[index].genericName ?? ""} - ${templateVm.medicineList[index].brandName ?? ""} - ${templateVm.medicineList[index].route ?? ""}",
                                     style: TextStyle(
                                         fontSize: isTablet ? 18 : 16,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  templateVm.medicineList[index].multiDoseList
-                                          .isNotEmpty
-                                      ? Text(
-                                          "Muiltidose-",
-                                          style: TextStyle(
-                                              fontSize: isTablet ? 18 : 16,
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      : SizedBox(),
                                   Wrap(
                                     children: List.generate(
                                       templateVm.medicineList[index]
                                           .multiDoseList.length,
                                       (i) => Text(
+                                        "${i == 1 ? "Muiltidose-\n" : ""}"
                                         "${templateVm.medicineList[index].multiDoseList[i].multiDose ?? ""} - ${templateVm.medicineList[index].multiDoseList[i].multiDoseDuration ?? ""} ${templateVm.medicineList[index].multiDoseList[i].multiDoseDurationType ?? ""} - ${templateVm.medicineList[index].multiDoseList[i].multiDoseInstruction ?? ""}",
                                         style: TextStyle(
                                             fontSize: isTablet ? 18 : 16,
@@ -1538,10 +1536,10 @@ class MedicineList {
   String genericName;
   String brandName;
   String route;
-  String dose;
-  String duration;
-  String durationType;
-  String instruction;
+  // String dose;
+  // String duration;
+  // String durationType;
+  // String instruction;
   List<MultiDose> multiDoseList;
   String continueDuration;
   String continueDurationType;
@@ -1550,17 +1548,16 @@ class MedicineList {
     this.genericName,
     this.continueDuration,
     this.continueDurationType,
-    this.dose,
+    // this.dose,
     this.multiDoseList,
-    this.duration,
-    this.durationType,
-    this.instruction,
+    // this.duration,
+    // this.durationType,
+    // this.instruction,
     this.route,
   });
 }
 
 class AddMultiDose {
-  int index;
   TextEditingController multiDoseController = TextEditingController();
   TextEditingController multiDoseDurationController = TextEditingController();
   TextEditingController multiDoseDurationTypeController =
@@ -1569,8 +1566,7 @@ class AddMultiDose {
   TextEditingController multiDoseInstructionController =
       TextEditingController();
   AddMultiDose(
-      {this.index,
-      this.multiDoseInstructionController,
+      {this.multiDoseInstructionController,
       this.multiDoseController,
       this.multiDoseDurationController,
       this.multiDoseDurationTypeController,

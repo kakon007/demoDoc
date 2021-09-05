@@ -276,7 +276,10 @@ class _ModuleState extends State<Module> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    var vm = GetTamplateDataViewModel.read(context);
+                    vm.savePrescriptionData();
+                  },
                   child: Container(
                     height: 40,
                     width: MediaQuery.of(context).size.width * .4,

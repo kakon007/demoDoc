@@ -1,14 +1,15 @@
-import 'package:expandable/expandable.dart';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/get_template_data_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_save_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_template_save_data_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/get_template_data_repository.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/prescription_template_repository.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/save_prescription_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/save_prescription_template_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/medication_widget.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_template_model.dart';
 import 'package:provider/provider.dart';
 
 class GetTamplateDataViewModel extends ChangeNotifier {
@@ -148,10 +149,11 @@ class GetTamplateDataViewModel extends ChangeNotifier {
           medicineList.add(MedicineList(
             brandName: element.brandName,
             genericName: element.genericName,
-            duration: element.presMedDtlList.first.duration,
-            dose: element.presMedDtlList.first.dosage,
-            instruction: element.presMedDtlList.first.medicineComment,
-            durationType: element.presMedDtlList.first.durationMu,
+            //Todo: add this in multidose
+            // duration: element.presMedDtlList.first.duration,
+            // dose: element.presMedDtlList.first.dosage,
+            // instruction: element.presMedDtlList.first.medicineComment,
+            // durationType: element.presMedDtlList.first.durationMu,
             multiDoseList: [],
           ));
         }
@@ -204,18 +206,54 @@ class GetTamplateDataViewModel extends ChangeNotifier {
                 brandName: e.genericName,
                 preDiagnosisValType: 4,
                 route: e.route,
-                presMedDtlList: medicineList
-                    .map((e2) => PresMedDtlList2(
-                          duration: e2.duration,
-                          dosage: e2.dose,
-                          durationMu: e2.durationType,
-                          medicineComment: e2.instruction,
-                        ))
-                    .toList(),
+                presMedDtlList: medicineList.map((e2) => PresMedDtlList2(
+                    //todo:
+                    // duration: e2.duration,
+                    // dosage: e2.dose,
+                    // durationMu: e2.durationType,
+                    // medicineComment: e2.instruction,
+                    )).toList(),
               ))
           .toList(),
     );
     SavePrescripTionTemplateRepository().fetchFileType(prescriptionData);
+  }
+
+  savePrescriptionData() {
+    var prescription = PrescriptionSaveModel(
+        prescription: Prescription(
+            consultationTypeNo: 2000001,
+            patientTypeNo: 1,
+            shiftNo: 0,
+            id: null,
+            appointmentNo: 2210000040880,
+            registrationNo: 2210000086785,
+            hospitalId: "MH22108014456",
+            consultationNo: 2210000029009,
+            consultationId: "C22108012858",
+            departmentNo: 20000002,
+            departmentName: " ORTHOPEDIC SURGERY",
+            isPatientOut: 1,
+            ipdFlag: 0,
+            companyNo: 2),
+        chiefComplainList: chiefComplaintSelectedItems
+            .map((e) => SaveChiefComplainList(
+                preDiagnosisVal: e, preDiagnosisValType: 7))
+            .toList(),
+        medicationList: medicineList
+            .map((e) => SaveMedicationList(
+                brandName: e.brandName,
+                genericName: e.genericName,
+                preDiagnosisValType: 4,
+                presMedDtlList: e.multiDoseList
+                    .map((e2) => SavePresMedDtlList(
+                        medicineComment: e2.multiDoseInstruction,
+                        durationMu: e2.multiDoseDurationType,
+                        dosage: e2.multiDose,
+                        duration: e2.multiDoseDuration))
+                    .toList()))
+            .toList());
+    SavePrescriptionRepository().postPrescription(prescription);
   }
 
   AppError get appError => _appError;

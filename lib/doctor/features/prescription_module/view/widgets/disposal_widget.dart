@@ -290,3 +290,15 @@ class _DisposalWidgetState extends State<DisposalWidget> {
     );
   }
 }
+
+class DisposalItem {
+  String disposal;
+  String disposalDuration;
+  String disposalDurationType;
+  DateTime disposalDate;
+  DisposalItem(
+      {this.disposal,
+      this.disposalDuration,
+      this.disposalDurationType,
+      this.disposalDate});
+}

@@ -7,6 +7,8 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescr
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/get_template_data_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/save_prescription_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/save_prescription_template_repository.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disposal_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigations_findings_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/medication_widget.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
@@ -24,7 +26,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   get logger => null;
   String templateName = '';
   //Disposal
-  String chosenDisposalValue = "N/A";
+  String chosenDisposalValue;
   TextEditingController disposalDurationController =
       new TextEditingController();
   String disposalDurationType;
@@ -44,6 +46,11 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<MultiDose> multiDoseItemList = [];
   List<MedicineList> medicineList = [];
   List<String> procedureSelectedItems = [];
+  List<DisposalItem> disposeSelectedItems = [];
+  List<String> opdSelectedItems = [];
+  List<String> doctorSelectedItems = [];
+  List<String> orthosisSelectedItems = [];
+  List<Findings> investigationFindingItems = [];
   TextEditingController noteTextEditingController = TextEditingController();
   bool vitalsShowReport = false;
   bool chiefComplentShowReport = false;
@@ -232,6 +239,18 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   }
 
   savePrescriptionData() {
+    disposeSelectedItems = [];
+    disposeSelectedItems.add(DisposalItem(
+      disposal: chosenDisposalValue,
+      disposalDate: disposalSelectedDate,
+      disposalDuration: disposalDurationController.text,
+      disposalDurationType: disposalDurationType,
+    ));
+    doctorSelectedItems = [];
+    doctorSelectedItems.add(referredDoctorSelectedItems);
+    opdSelectedItems = [];
+    opdSelectedItems.add(referredOPDSelectedItems);
+
     var prescription = PrescriptionSaveModel(
       prescription: Prescription(
           consultationTypeNo: 2000001,
@@ -272,24 +291,28 @@ class GetTamplateDataViewModel extends ChangeNotifier {
                   PrescriptionFavouriteType.provisionalDiagnosis,
               preDiagnosisVal: e))
           .toList(),
-      // disposalList: [
-      //   SaveDisposalList(
-      //       preDiagnosisVal: chosenDisposalValue ?? '',
-      //       preDiagnosisValType: PrescriptionFavouriteType.disposal.toString(),
-      //       duration: disposalDurationController.text ?? '',
-      //       durationMu: disposalDurationType ?? '',
-      //       followUpDate: disposalSelectedDate ?? '')
-      // ],
-      // referralList: [
-      //   SaveClinicalHistory2ListElement(
-      //       preDiagnosisVal: referredOPDSelectedItems ?? '',
-      //       preDiagnosisValType: PrescriptionFavouriteType.opd.toString()),
-      // ],
-      adviceList: adviceSelectedItems
+      orthosisList: orthosisSelectedItems
           .map((e) => SaveAdviceListElement(
               preDiagnosisVal: e,
-              preDiagnosisValType: PrescriptionFavouriteType.advice))
+              preDiagnosisValType: PrescriptionFavouriteType.orthosis))
           .toList(),
+      investigationFindingsList: investigationFindingItems
+          .map((e) => SaveInvestigationList(
+                preDiagnosisValType:
+                    PrescriptionFavouriteType.investigationFindings,
+                preDiagnosisVal: e.name,
+              ))
+          .toList(),
+      disposalList: disposeSelectedItems
+          .map((e) => SaveDisposalList(
+              preDiagnosisVal: e.disposal,
+              preDiagnosisValType:
+                  PrescriptionFavouriteType.disposal.toString(),
+              followUpDate: e.disposalDate,
+              durationMu: e.disposalDurationType,
+              duration: e.disposalDuration))
+          .toList(),
+
       treatmentList: procedureSelectedItems
           .map((e) => SaveClinicalHistory2ListElement(
               preDiagnosisValType:
@@ -302,12 +325,33 @@ class GetTamplateDataViewModel extends ChangeNotifier {
               preDiagnosisValType:
                   PrescriptionFavouriteType.disease.toString()))
           .toList(),
-      // referralDoctorList: [
-      //   SaveClinicalHistory2ListElement(
-      //       preDiagnosisVal: referredDoctorSelectedItems ?? '',
-      //       preDiagnosisValType: PrescriptionFavouriteType.doctor.toString()),
-      // ],
-      investigationList: investigationSelectedItems,
+      // adviceList: adviceSelectedItems
+      //     .map((e) => SaveAdviceListElement(
+      //         preDiagnosisVal: e,
+      //         preDiagnosisValType: PrescriptionFavouriteType.advice))
+      //     .toList(),
+      // referralList: opdSelectedItems
+      //     .map((e) => SaveClinicalHistory2ListElement(
+      //     preDiagnosisValType: PrescriptionFavouriteType.opd.toString(),
+      //     preDiagnosisVal: e))
+      //     .toList(),
+      // referralDoctorList: doctorSelectedItems
+      //     .map(
+      //       (e) => SaveClinicalHistory2ListElement(
+      //           preDiagnosisVal: referredDoctorSelectedItems,
+      //           preDiagnosisValType:
+      //               PrescriptionFavouriteType.doctor.toString()),
+      //     )
+      //     .toList(),
+      investigationList: investigationSelectedItems
+          .map((e) => SaveInvestigationList(
+                preDiagnosisValType:
+                    PrescriptionFavouriteType.investigationFindingsSearch,
+                preDiagnosisVal: e.itemName,
+                itemTypeNo: e.itemTypeNo,
+              ))
+          .toList(),
+      //investigationFindingsList: ,
       medicationList: medicineList
           .map((e) => SaveMedicationList(
               brandName: e.brandName,

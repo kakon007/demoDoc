@@ -36,6 +36,7 @@ class PrescriptionSaveModel {
     this.referredToWard,
     this.note,
     this.medicationList,
+    this.orthosisList,
   });
 
   Prescription prescription;
@@ -46,6 +47,7 @@ class PrescriptionSaveModel {
   List<SaveChiefComplainList> chiefComplainList;
   List<SaveClinicalHistory2ListElement> clinicalHistory2List;
   List<SaveAdviceListElement> clinicalHistory3List;
+  List<SaveAdviceListElement> orthosisList;
   List<SaveDisposalList> disposalList;
   List<SaveClinicalHistory2ListElement> referralList;
   List<dynamic> physicalExamList;
@@ -172,6 +174,9 @@ class PrescriptionSaveModel {
         "clinicalHistory3List": clinicalHistory3List == null
             ? []
             : List<dynamic>.from(clinicalHistory3List.map((x) => x.toJson())),
+        "orthosisList": orthosisList == null
+            ? []
+            : List<dynamic>.from(orthosisList.map((x) => x.toJson())),
         "disposalList": disposalList == null
             ? []
             : List<dynamic>.from(disposalList.map((x) => x.toJson())),
@@ -520,52 +525,52 @@ class SaveDisposalList {
 
 class SaveInvestigationList {
   SaveInvestigationList({
-    this.activeStatus,
-    this.inReportSerial,
-    this.isDeleted,
+    // this.activeStatus,
+    // this.inReportSerial,
+    // this.isDeleted,
     this.itemTypeNo,
-    this.itemName,
+    // this.itemName,
     this.preDiagnosisVal,
     this.preDiagnosisValType,
-    this.referenceId,
+    // this.referenceId,
   });
 
-  int activeStatus;
-  int inReportSerial;
-  int isDeleted;
+  // int activeStatus;
+  // int inReportSerial;
+  // int isDeleted;
   int itemTypeNo;
-  String itemName;
+  // String itemName;
   String preDiagnosisVal;
   int preDiagnosisValType;
-  int referenceId;
+  // int referenceId;
 
   factory SaveInvestigationList.fromJson(Map<String, dynamic> json) =>
       SaveInvestigationList(
-        activeStatus:
-            json["activeStatus"] == null ? null : json["activeStatus"],
-        inReportSerial:
-            json["inReportSerial"] == null ? null : json["inReportSerial"],
-        isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
-        itemTypeNo: json["itemTypeNo"] == null ? null : json["itemTypeNo"],
-        itemName: json["itemName"] == null ? null : json["itemName"],
+        // activeStatus:
+        //     json["activeStatus"] == null ? null : json["activeStatus"],
+        // inReportSerial:
+        //     json["inReportSerial"] == null ? null : json["inReportSerial"],
+        // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
+        // itemTypeNo: json["itemTypeNo"] == null ? null : json["itemTypeNo"],
+        // itemName: json["itemName"] == null ? null : json["itemName"],
         preDiagnosisVal:
             json["preDiagnosisVal"] == null ? null : json["preDiagnosisVal"],
         preDiagnosisValType: json["preDiagnosisValType"] == null
             ? null
             : json["preDiagnosisValType"],
-        referenceId: json["referenceId"] == null ? null : json["referenceId"],
+        // referenceId: json["referenceId"] == null ? null : json["referenceId"],
       );
 
   Map<String, dynamic> toJson() => {
-        "activeStatus": activeStatus == null ? null : activeStatus,
-        "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        "isDeleted": isDeleted == null ? null : isDeleted,
-        "itemTypeNo": itemTypeNo == null ? null : itemTypeNo,
-        "itemName": itemName == null ? null : itemName,
+        // "activeStatus": activeStatus == null ? null : activeStatus,
+        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+        // "isDeleted": isDeleted == null ? null : isDeleted,
+        // "itemTypeNo": itemTypeNo == null ? null : itemTypeNo,
+        // "itemName": itemName == null ? null : itemName,
         "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
         "preDiagnosisValType":
             preDiagnosisValType == null ? null : preDiagnosisValType,
-        "referenceId": referenceId == null ? null : referenceId,
+        // "referenceId": referenceId == null ? null : referenceId,
       };
 }
 

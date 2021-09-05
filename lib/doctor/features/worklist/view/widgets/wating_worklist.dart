@@ -167,6 +167,7 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
                     consultType: vm.waitingData[index].consultationOut.toString(),
                     regNo: vm.waitingData[index].registrationNo,
                     doctorNo: vm.waitingData[index].doctorNo,
+                    consultationId: vm.waitingData[index].consultationId,
                   ),
                 );
               }),

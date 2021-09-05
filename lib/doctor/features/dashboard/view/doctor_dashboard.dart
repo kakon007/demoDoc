@@ -631,6 +631,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       serial: workVm.todayWorkList[index].slotSl,
                       gender: workVm.todayWorkList[index].gender,
                       regNo: workVm.todayWorkList[index].registrationNo,
+                      consultationId: workVm.todayWorkList[index].consultationId,
                     );
                   })
             ],

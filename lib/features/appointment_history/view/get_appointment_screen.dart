@@ -142,7 +142,7 @@ class _GetAppointmentState extends State<GetAppointment> {
 
   Future<void> getZoomLink({String con}) {
     var vm5 = Provider.of<ZoomViewModel>(context, listen: false);
-    vm5.getData(accessToken: widget.accessToken, consultationId: con);
+    vm5.getData(consultationId: con);
   }
 
   @override

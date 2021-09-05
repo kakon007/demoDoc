@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view/emr_screen.dart';
 import 'package:myhealthbd_app/doctor/features/patient_details/view_models/consultation_history_view_model.dart';
+import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
+import 'package:myhealthbd_app/main_app/util/url_launcher_helper.dart';
 import 'package:provider/provider.dart';
 
 class PatientDetails extends StatefulWidget {
@@ -22,7 +25,9 @@ class PatientDetails extends StatefulWidget {
   int serial;
   int regNo;
   int doctorNo;
+  String consultationId;
   PatientDetails({
+    this.consultationId,
     this.id,
     this.name,
     this.age,
@@ -102,6 +107,9 @@ class _PatientDetailsState extends State<PatientDetails> {
  vm.getData(id:widget.id);
  pickBirthDate=pickBirthDate!=null?pickBirthDate:DateTime.now();
  pickBirthDate2=pickBirthDate2!=null?pickBirthDate2:DateTime.now();
+
+ var vm5 = Provider.of<ZoomViewModel>(context, listen: false);
+ vm5.getData(consultationId: widget.consultationId);
     super.initState();
   }
   @override
@@ -110,6 +118,8 @@ class _PatientDetailsState extends State<PatientDetails> {
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
+
+    var vm5 = Provider.of<ZoomViewModel>(context);
 print('fromDate $pickBirthDate');
 
     var fromDate = GestureDetector(
@@ -724,63 +734,79 @@ print('fromDate $pickBirthDate');
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Material(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              color: HexColor("#AFBBFF"),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: isTablet
-                                    ? 45
-                                    : deviceWidth <= 360
-                                        ? 28
-                                        : 35,
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .center, //Center Row contents horizontally,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .center, //Center Row contents vertically,
-                                    children: [
-                                      Text(
-                                        "Start video consultation",
-                                        //key: Key('rebookKey$index'),
-                                        style: GoogleFonts.roboto(
-                                            color: Colors.white,
-                                            fontSize: isTablet
-                                                ? 18
-                                                : deviceWidth <= 360 &&
-                                                        deviceWidth > 330
-                                                    ? 9
-                                                    : deviceWidth <= 330
-                                                        ? 8
-                                                        : 14,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: VerticalDivider(
-                                          color: Colors.white,
-                                          thickness: 2,
+                            child: InkWell(
+                              onTap: (){
+                                vm5.zoomDetailsList ==
+                                    null
+                                    ? Fluttertoast.showToast(
+                                    msg:
+                                    'No Consultation Available.')
+                                    : UrlLauncherHelper.launchUrl(
+                                    vm5.zoomDetailsList
+                                        ?.startUrl ??
+                                        '');
+                              },
+                              child: Material(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                color: vm5.zoomDetailsList ==
+                                  null
+                                  ? HexColor("#AFBBFF")
+                                    : HexColor("#354291"),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: isTablet
+                                      ? 45
+                                      : deviceWidth <= 360
+                                          ? 28
+                                          : 35,
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .center, //Center Row contents horizontally,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .center, //Center Row contents vertically,
+                                      children: [
+                                        Text(
+                                          "Start video consultation",
+                                          //key: Key('rebookKey$index'),
+                                          style: GoogleFonts.roboto(
+                                              color: Colors.white,
+                                              fontSize: isTablet
+                                                  ? 18
+                                                  : deviceWidth <= 360 &&
+                                                          deviceWidth > 330
+                                                      ? 9
+                                                      : deviceWidth <= 330
+                                                          ? 8
+                                                          : 14,
+                                              fontWeight: FontWeight.w700),
                                         ),
-                                      ),
-                                      Text(
-                                        "00d 00h 24m 22s",
-                                        //key: Key('rebookKey$index'),
-                                        style: GoogleFonts.roboto(
-                                            color: Colors.white,
-                                            fontSize: isTablet
-                                                ? 18
-                                                : deviceWidth <= 360 &&
-                                                        deviceWidth > 330
-                                                    ? 9
-                                                    : deviceWidth <= 330
-                                                        ? 8
-                                                        : 14,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
+                                        // Padding(
+                                        //   padding: const EdgeInsets.all(8.0),
+                                        //   child: VerticalDivider(
+                                        //     color: Colors.white,
+                                        //     thickness: 2,
+                                        //   ),
+                                        // ),
+                                        // Text(
+                                        //   "00d 00h 24m 22s",
+                                        //   //key: Key('rebookKey$index'),
+                                        //   style: GoogleFonts.roboto(
+                                        //       color: Colors.white,
+                                        //       fontSize: isTablet
+                                        //           ? 18
+                                        //           : deviceWidth <= 360 &&
+                                        //                   deviceWidth > 330
+                                        //               ? 9
+                                        //               : deviceWidth <= 330
+                                        //                   ? 8
+                                        //                   : 14,
+                                        //       fontWeight: FontWeight.w700),
+                                        // ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

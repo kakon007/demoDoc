@@ -18,7 +18,8 @@ class WorklistAll extends StatefulWidget {
   int serial;
   int regNo;
   int doctorNo;
-  WorklistAll({this.id,this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType,this.regNo,this.doctorNo});
+  String consultationId;
+  WorklistAll({this.consultationId,this.id,this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType,this.regNo,this.doctorNo});
   @override
   _WorklistAllState createState() => _WorklistAllState();
 }
@@ -186,7 +187,7 @@ class _WorklistAllState extends State<WorklistAll> {
                   InkWell(
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) => PatientDetails(id:widget.id,name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
+                                  builder: (BuildContext context) => PatientDetails(consultationId: widget.consultationId,id:widget.id,name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
                     },
                     child: Container(
                       width: isTablet

@@ -22,18 +22,12 @@ class ZoomViewModel extends ChangeNotifier{
   //   return getData();
   // }
 
-  Future<void> getData({String accessToken,String consultationId}) async {
-
-    // if (isFromOnPageLoad) {
-    //   if (_lastFetchTime != null) if (_lastFetchTime
-    //       .difference(DateTime.now()) <
-    //       CommonServiceRule.onLoadPageReloadTime) return;
-    // }
+  Future<void> getData({String consultationId}) async {
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
     print("Consultation Id from Zoom View Model::: $consultationId");
     //var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
-    var res = await ZoomRepository().fetchZoomLink(accessToken:accessToken,consultationId: consultationId);
+    var res = await ZoomRepository().fetchZoomLink(consultationId: consultationId);
     notifyListeners();
     //_newsList.clear();
     res.fold((l) {
@@ -46,7 +40,6 @@ class ZoomViewModel extends ChangeNotifier{
       _message=r.message;
       notifyListeners();
     });
-    //print("hhhhhh:::::::"+_newsList.first.title);
   }
 
   AppError get appError => _appError;
@@ -57,10 +50,6 @@ class ZoomViewModel extends ChangeNotifier{
 
   bool get isFetchingMoreData => _isFetchingMoreData;
 
-  // bool get hasMoreData => _hasMoreData;
-  //
-  // bool get shouldFetchMoreData =>
-  //     _hasMoreData && !_isFetchingData && !_isFetchingMoreData;
 
   bool get shouldShowNoNewsFound => _zoomLinkList== null && !isFetchingData;
 

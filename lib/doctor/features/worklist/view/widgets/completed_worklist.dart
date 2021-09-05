@@ -153,6 +153,7 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                         vm.completedData[index].consultTypeNo.toString(),
                     regNo: vm.completedData[index].registrationNo,
                     doctorNo: vm.completedData[index].doctorNo,
+                    consultationId: vm.completedData[index].consultationId,
                   ),
                 );
               }),

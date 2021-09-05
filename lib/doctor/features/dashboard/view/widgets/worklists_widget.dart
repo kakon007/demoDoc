@@ -18,8 +18,9 @@ class TodayWorkList extends StatefulWidget {
   int serial;
   int regNo;
   int doctorNo;
+  String consultationId;
 
-  TodayWorkList({this.id,this.patientName, this.appointmentTime, this.appointType,this.age,this.gender,this.bloodGroup,this.doctorNo,this.regNo,this.serial,this.phoneNumber});
+  TodayWorkList({this.consultationId,this.id,this.patientName, this.appointmentTime, this.appointType,this.age,this.gender,this.bloodGroup,this.doctorNo,this.regNo,this.serial,this.phoneNumber});
 
   @override
   _TodayWorkListState createState() => _TodayWorkListState();
@@ -153,7 +154,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                   GestureDetector(
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => PatientDetails(id:widget.id,name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.appointmentTime,consultType: widget.appointType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
+                          builder: (BuildContext context) => PatientDetails(consultationId: widget.consultationId,id:widget.id,name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.appointmentTime,consultType: widget.appointType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
                     },
                     child: Container(
                       width: width <= 330 ? width * .68 : width * .7,

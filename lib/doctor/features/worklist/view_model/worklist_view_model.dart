@@ -13,6 +13,10 @@ class WorkListViewModel extends ChangeNotifier {
   bool _isLoadingWorkList = true;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
+  var freshTotal;
+  var reportCheck;
+  var followUpTotal;
+  var totalPatientConsult;
   AppError _appError;
   List<Datum> _workListData = [];
   List<Datum> _waitingWorkListData = [];
@@ -69,7 +73,10 @@ class WorkListViewModel extends ChangeNotifier {
   }
 
   getMoreWorkListData(
-      {String fromDate, String toDate, String searchValue, String shift}) async {
+      {String fromDate,
+      String toDate,
+      String searchValue,
+      String shift}) async {
     _isFetchingMoreData = true;
     notifyListeners();
     start = start + 10;
@@ -79,8 +86,7 @@ class WorkListViewModel extends ChangeNotifier {
         toDate: toDate,
         start: start.toString(),
         searchValue: searchValue,
-    shift: shift
-    );
+        shift: shift);
     _isLoading = true;
     notifyListeners();
     res.fold((l) {
@@ -106,16 +112,15 @@ class WorkListViewModel extends ChangeNotifier {
     });
   }
 
-
   Future<void> getTodaysWorklist() async {
     start = 0;
     var res = await WorkListRepository().fetchWorkListData(
-        //fromDate: '18-Jul-2021',
-        //toDate: '12-Aug-2021',
+      //fromDate: '18-Jul-2021',
+      //toDate: '12-Aug-2021',
       fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
       toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
       //DateFormat("dd-MMM-yyyy").format(DateTime.now())
-        start: start.toString(),
+      start: start.toString(),
     );
     notifyListeners();
     res.fold((l) {
@@ -130,14 +135,140 @@ class WorkListViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
+
   getFilteredList({List items}) {
     _filteredItems = items;
     notifyListeners();
   }
-  getShiftData({String shift}){
+
+  getShiftData({String shift}) {
     _shift = shift;
-   // notifyListeners();
+    // notifyListeners();
   }
+
+  Future<void> getFollowUpTotal(
+      {String fromDate,
+      String toDate,
+      String searchValue,
+      String shift}) async {
+    _isFetchingMoreData = true;
+    print(start);
+    start = 0;
+    var res = await WorkListRepository().fetchWorkListData(
+        fromDate: fromDate,
+        isFiltered: true,
+        filterValue: "1ST FOLLOW UP",
+        toDate: toDate,
+        start: start.toString(),
+        searchValue: searchValue,
+        shift: shift);
+    _isLoading = true;
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isLoading = false;
+      _isFetchingMoreData = false;
+      _isLoading = false;
+      notifyListeners();
+    }, (r) {
+      followUpTotal = r.obj.recordsTotal;
+      // _workListData= r.obj.data;
+      notifyListeners();
+    });
+  }
+
+  Future<void> getReportCheckTotal(
+      {String fromDate,
+      String toDate,
+      String searchValue,
+      String shift}) async {
+    _isFetchingMoreData = true;
+    print(start);
+    start = 0;
+    var res = await WorkListRepository().fetchWorkListData(
+        fromDate: fromDate,
+        isFiltered: true,
+        filterValue: "REPORT CHECK",
+        toDate: toDate,
+        start: start.toString(),
+        searchValue: searchValue,
+        shift: shift);
+    _isLoading = true;
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isLoading = false;
+      _isFetchingMoreData = false;
+      _isLoading = false;
+      notifyListeners();
+    }, (r) {
+      reportCheck = r.obj.recordsTotal;
+      // _workListData= r.obj.data;
+      notifyListeners();
+    });
+  }
+
+  Future<void> getFreshVisitTotal(
+      {String fromDate,
+      String toDate,
+      String searchValue,
+      String shift}) async {
+    _isFetchingMoreData = true;
+    print(start);
+    start = 0;
+    var res = await WorkListRepository().fetchWorkListData(
+        fromDate: fromDate,
+        isFiltered: true,
+        filterValue: "New Patient",
+        toDate: toDate,
+        start: start.toString(),
+        searchValue: searchValue,
+        shift: shift);
+    _isLoading = true;
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isLoading = false;
+      _isFetchingMoreData = false;
+      _isLoading = false;
+      notifyListeners();
+    }, (r) {
+      freshTotal = r.obj.recordsTotal;
+      // _workListData= r.obj.data;
+      notifyListeners();
+    });
+  }
+
+  Future<void> getPatientConsultTotal(
+      {String fromDate,
+      String toDate,
+      String searchValue,
+      String shift}) async {
+    _isFetchingMoreData = true;
+    print(start);
+    start = 0;
+    var res = await WorkListRepository().fetchWorkListData(
+        fromDate: fromDate,
+        isFiltered: true,
+        toDate: toDate,
+        start: start.toString(),
+        searchValue: searchValue,
+        shift: shift);
+    _isLoading = true;
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isLoading = false;
+      _isFetchingMoreData = false;
+      _isLoading = false;
+      notifyListeners();
+    }, (r) {
+      freshTotal = r.obj.recordsTotal;
+      // _workListData= r.obj.data;
+      notifyListeners();
+    });
+  }
+
   AppError get appError => _appError;
 
   bool get isFetchingData => _isFetchingData;

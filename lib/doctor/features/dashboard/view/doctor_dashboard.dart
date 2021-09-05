@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/dashboard_drawer.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_widget.dart';
@@ -33,6 +36,24 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
     Future.delayed(Duration.zero, () async {
       await companyInfoVm.userImage();
       await workVm.getTodaysWorklist();
+      await workVm.getFreshVisitTotal(
+        // fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+        // toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+        fromDate: "30-Aug-2020",
+        toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      );
+      await workVm.getFollowUpTotal(
+        // fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+        // toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+        fromDate: "30-Aug-2020",
+        toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      );
+      await workVm.getReportCheckTotal(
+        // fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+        // toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+        fromDate: "30-Aug-2020",
+        toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      );
     });
     // TODO: implement initState
     super.initState();
@@ -53,10 +74,10 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Welcome to ',
+          'Welcome Doctor ',
           style: GoogleFonts.poppins(
               fontWeight: FontWeight.w400,
-              fontSize: 18,
+              fontSize: 15,
               color: HexColor('#707070')),
         ),
         Text(
@@ -208,22 +229,22 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: SvgPicture.asset(
-                          totalConsultIcon,
-                          width: 20,
-                          height: 30,
-                          fit: BoxFit.fitWidth,
-                          allowDrawingOutsideViewBox: true,
-                          matchTextDirection: true,
-                        )
-                      ),
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: SvgPicture.asset(
+                            totalConsultIcon,
+                            width: 20,
+                            height: 30,
+                            fit: BoxFit.fitWidth,
+                            allowDrawingOutsideViewBox: true,
+                            matchTextDirection: true,
+                          )),
                       SizedBox(
                         width: 10,
                       ),
                       Text(
                         'Total patient consulted: ',
-                        style: GoogleFonts.poppins(color: Colors.white,fontSize: 18),
+                        style: GoogleFonts.poppins(
+                            color: Colors.white, fontSize: 18),
                       )
                     ],
                   ),
@@ -231,7 +252,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                     children: [
                       Text(
                         '10000',
-                        style: GoogleFonts.poppins(color: Colors.white,fontSize: 18),
+                        style: GoogleFonts.poppins(
+                            color: Colors.white, fontSize: 18),
                       ),
                       SizedBox(
                         width: 15,
@@ -250,22 +272,21 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                     ),
                   ),
                   constraints: BoxConstraints(minHeight: 120),
-                  width: MediaQuery.of(context).size.width * .308,
+                  width: MediaQuery.of(context).size.width * .461,
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 25.0),
-                        child: SvgPicture.asset(
-                          waitingIcon,
-                          width: 20,
-                          height: 30,
-                           fit: BoxFit.fitWidth,
-                          allowDrawingOutsideViewBox: true,
-                          matchTextDirection: true,
-                        )
-                      ),
+                          padding: const EdgeInsets.only(top: 25.0),
+                          child: SvgPicture.asset(
+                            waitingIcon,
+                            width: 20,
+                            height: 30,
+                            fit: BoxFit.fitWidth,
+                            allowDrawingOutsideViewBox: true,
+                            matchTextDirection: true,
+                          )),
                       Text(
-                        "Waiting",
+                        "Pending",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(fontSize: 12),
                       ),
@@ -287,54 +308,27 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                     ),
                   ),
                   constraints: BoxConstraints(minHeight: 120),
-                  width: MediaQuery.of(context).size.width * .308,
+                  width: MediaQuery.of(context).size.width * .462,
                   child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 25.0),
-                        child: SvgPicture.asset(
-                          freshVisitIcon,
-                          width: 20,
-                          height: 30,
-                          fit: BoxFit.fitWidth,
-                          allowDrawingOutsideViewBox: true,
-                          matchTextDirection: true,
-                        )
+                        child: Icon(
+                          Icons.check_circle,
+                          size: 35,
+                          color: Color(0xff9CAAFF),
+                        ),
+                        // child: SvgPicture.asset(
+                        //   completeIcon,
+                        //   width: 20,
+                        //   height: 30,
+                        //   fit: BoxFit.fitWidth,
+                        //   allowDrawingOutsideViewBox: true,
+                        //   matchTextDirection: true,
+                        // )
                       ),
                       Text(
-                        "Fresh Visit",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(fontSize: 12),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "100",
-                        style: GoogleFonts.poppins(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  constraints: BoxConstraints(minHeight: 120),
-                  width: MediaQuery.of(context).size.width * .31,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25.0),
-                        child: SvgPicture.asset(
-                          reportCheckIcon,
-                          width: 20,
-                          height: 30,
-                          fit: BoxFit.fitWidth,
-                          allowDrawingOutsideViewBox: true,
-                          matchTextDirection: true,
-                        )
-                      ),
-                      Text(
-                        "Report checked",
+                        "Completed",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(fontSize: 12),
                       ),
@@ -351,30 +345,94 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                 ),
               ],
             ),
+            Divider(
+              height: 1,
+              thickness: 2,
+            ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   decoration: BoxDecoration(
                     border: Border(
                       right: BorderSide(width: 0.5, color: Colors.grey),
-                      top: BorderSide(width: 0.5, color: Colors.grey),
                     ),
                   ),
                   constraints: BoxConstraints(minHeight: 120),
-                  width: MediaQuery.of(context).size.width * .308,
+                  width: MediaQuery.of(context).size.width * .3,
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 25.0),
-                        child: SvgPicture.asset(
-                          followUpIcon,
-                          width: 20,
-                          height: 30,
-                          fit: BoxFit.fitWidth,
-                          allowDrawingOutsideViewBox: true,
-                          matchTextDirection: true,
-                        )
+                          padding: const EdgeInsets.only(top: 25.0),
+                          child: SvgPicture.asset(
+                            freshVisitIcon,
+                            width: 20,
+                            height: 30,
+                            fit: BoxFit.fitWidth,
+                            allowDrawingOutsideViewBox: true,
+                            matchTextDirection: true,
+                          )),
+                      Text(
+                        "Fresh Visit",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(fontSize: 12),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      CircularPercentIndicator(
+                        rotateLinearGradient: true,
+                        reverse: true,
+                        backgroundWidth: 0.7,
+                        radius: width <= 330 ? 50 : 50.0,
+                        lineWidth: 5.0,
+                        animation: true,
+                        startAngle: 1,
+                        percent: .4,
+                        center: new Text(
+                          workVm.freshTotal ?? "0",
+                          style: GoogleFonts.poppins(
+                              //color: HexColor("#107B3E"),
+                              color: AppTheme.buttonActiveColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.0),
+                        ),
+                        backgroundColor: HexColor('#EFF5FF'),
+                        circularStrokeCap: CircularStrokeCap.round,
+                        //progressColor: Colors.green,
+                        progressColor: HexColor('#9CAAFF'),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      // Text(
+                      //   "100",
+                      //   style: GoogleFonts.poppins(
+                      //       fontSize: 16, fontWeight: FontWeight.w600),
+                      // )
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(width: 0.5, color: Colors.grey),
+                    ),
+                  ),
+                  constraints: BoxConstraints(minHeight: 120),
+                  width: MediaQuery.of(context).size.width * .3,
+                  child: Column(
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(top: 25.0),
+                          child: SvgPicture.asset(
+                            followUpIcon,
+                            width: 20,
+                            height: 30,
+                            fit: BoxFit.fitWidth,
+                            allowDrawingOutsideViewBox: true,
+                            matchTextDirection: true,
+                          )),
                       Text(
                         "Follow Up",
                         textAlign: TextAlign.center,
@@ -383,86 +441,92 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        "100",
-                        style: GoogleFonts.poppins(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                      CircularPercentIndicator(
+                        rotateLinearGradient: true,
+                        reverse: true,
+                        backgroundWidth: 0.7,
+                        radius: width <= 330 ? 50 : 50.0,
+                        lineWidth: 5.0,
+                        animation: true,
+                        startAngle: 1,
+                        percent: .4,
+                        center: new Text(
+                          workVm.followUpTotal ?? "0",
+                          style: GoogleFonts.poppins(
+                              //color: HexColor("#107B3E"),
+                              color: AppTheme.buttonActiveColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.0),
+                        ),
+                        backgroundColor: HexColor('#EFF5FF'),
+                        circularStrokeCap: CircularStrokeCap.round,
+                        //progressColor: Colors.green,
+                        progressColor: HexColor('#9CAAFF'),
+                      ),
+                      SizedBox(
+                        height: 20,
                       )
+                      // Text(
+                      //   "100",
+                      //   style: GoogleFonts.poppins(
+                      //       fontSize: 16, fontWeight: FontWeight.w600),
+                      // )
                     ],
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(width: 0.5, color: Colors.grey),
-                      top: BorderSide(width: 0.5, color: Colors.grey),
-                    ),
-                  ),
                   constraints: BoxConstraints(minHeight: 120),
-                  width: MediaQuery.of(context).size.width * .308,
+                  width: MediaQuery.of(context).size.width * .3,
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 25.0),
-                        child: SvgPicture.asset(
-                          doneIcon,
-                          width: 20,
-                          height: 30,
-                          fit: BoxFit.fitWidth,
-                          allowDrawingOutsideViewBox: true,
-                          matchTextDirection: true,
-                        )
-                      ),
+                          padding: const EdgeInsets.only(top: 25.0),
+                          child: SvgPicture.asset(
+                            reportCheckIcon,
+                            width: 20,
+                            height: 30,
+                            fit: BoxFit.fitWidth,
+                            allowDrawingOutsideViewBox: true,
+                            matchTextDirection: true,
+                          )),
                       Text(
-                        "Done",
+                        "Report checked",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(fontSize: 12),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        "100",
-                        style: GoogleFonts.poppins(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  constraints: BoxConstraints(minHeight: 120),
-                  width: MediaQuery.of(context).size.width * .31,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(width: 0.5, color: Colors.grey),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25.0),
-                        child: SvgPicture.asset(
-                          absentIcon,
-                          width: 20,
-                          height: 30,
-                          fit: BoxFit.fitWidth,
-                          allowDrawingOutsideViewBox: true,
-                          matchTextDirection: true,
-                        )
-                      ),
-                      Text(
-                        "Absent",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(fontSize: 12),
+                      CircularPercentIndicator(
+                        rotateLinearGradient: true,
+                        reverse: true,
+                        backgroundWidth: 0.7,
+                        radius: width <= 330 ? 50 : 50.0,
+                        lineWidth: 5.0,
+                        animation: true,
+                        startAngle: 1,
+                        percent: .4,
+                        center: new Text(
+                          workVm.reportCheck ?? "0",
+                          style: GoogleFonts.poppins(
+                              //color: HexColor("#107B3E"),
+                              color: AppTheme.buttonActiveColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.0),
+                        ),
+                        backgroundColor: HexColor('#EFF5FF'),
+                        circularStrokeCap: CircularStrokeCap.round,
+                        //progressColor: Colors.green,
+                        progressColor: HexColor('#9CAAFF'),
                       ),
                       SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "100",
-                        style: GoogleFonts.poppins(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                        height: 20,
                       )
+                      // Text(
+                      //   "10",
+                      //   style: GoogleFonts.poppins(
+                      //       fontSize: 16, fontWeight: FontWeight.w600),
+                      // )
                     ],
                   ),
                 ),
@@ -478,9 +542,16 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
     return Scaffold(
       backgroundColor: AppTheme.dashboardBackgroundColor,
       appBar: AppBar(
+        title: Text(
+          'Welcome Doctor ',
+          style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w400,
+              fontSize: 15,
+              color: HexColor('#707070')),
+        ),
         actions: [
           GestureDetector(
-            onTap: (){
+            onTap: () {
               showAlert(context);
             },
             child: Container(
@@ -556,15 +627,14 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       drawer: Drawer(child: DashboardDrawer()),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              welcomeToMyHealth,
-              spaceBetween,
-              spaceBetween,
-              appointmentsCard,
-              spaceBetween,
+              // spaceBetween,
+              // spaceBetween,
+              // appointmentsCard,
+              // spaceBetween,
               Padding(
                 padding: EdgeInsets.only(left: 3.0),
                 child: Text(
@@ -594,7 +664,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                                       DoctorHomeScreen(
                                         index: 1,
                                       )),
-                                  (Route<dynamic> route) => false);
+                              (Route<dynamic> route) => false);
                         },
                         child: Row(
                           children: [
@@ -608,33 +678,41 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       )
                     ],
                   )),
-              workVm.todayWorkList.length ==0 ? Center(child: Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: Text("There is no worklist today.",
-
-                style: GoogleFonts.poppins(),
-                ),
-              )) : ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: workVm.todayWorkList.length < 5 ? workVm.todayWorkList.length : 5,
-                  itemBuilder: (context, index) {
-                    return TodayWorkList(
-                      patientName: workVm.todayWorkList[index].patientName,
-                      appointmentTime:workVm.todayWorkList[index].consTime ,
-                      appointType: workVm.todayWorkList[index].consultTypeNo.toString(),
-                    );
-                  })
+              workVm.todayWorkList.length == 0
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: Text(
+                        "There is no worklist today.",
+                        style: GoogleFonts.poppins(),
+                      ),
+                    ))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: workVm.todayWorkList.length < 5
+                          ? workVm.todayWorkList.length
+                          : 5,
+                      itemBuilder: (context, index) {
+                        return TodayWorkList(
+                          patientName: workVm.todayWorkList[index].patientName,
+                          appointmentTime: workVm.todayWorkList[index].consTime,
+                          appointType: workVm.todayWorkList[index].consultTypeNo
+                              .toString(),
+                        );
+                      })
             ],
           ),
         ),
       ),
     );
   }
+
   void showAlert(BuildContext context) {
-   // var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+    // var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
     showDialog(
         context: context,
-        builder: (context) => Material(color: Colors.transparent, child: ManageDoctorProfilePrompt()));
+        builder: (context) => Material(
+            color: Colors.transparent, child: ManageDoctorProfilePrompt()));
   }
 }

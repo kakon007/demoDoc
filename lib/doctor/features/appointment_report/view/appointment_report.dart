@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/doctor/features/appointment_report/view_model/appointment_report_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/dashboard_drawer.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_widget.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
@@ -15,8 +17,8 @@ import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/all_workilist_view.dart';
-import 'widgets/manage_doctor_profile_prompt.dart';
+import '../../dashboard/view/widgets/all_workilist_view.dart';
+import '../../dashboard/view/widgets/manage_doctor_profile_prompt.dart';
 
 class AppointmentReport extends StatefulWidget {
   @override
@@ -30,6 +32,9 @@ class _AppointmentReportState extends State<AppointmentReport> {
     Future.delayed(Duration.zero, () async {
       await companyInfoVm.userImage();
     });
+
+    var appointmentReport= Provider.of<AppointmentReportListDocViewModel>(context, listen: false);
+    appointmentReport.getData(doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo);
     // TODO: implement initState
     super.initState();
   }
@@ -46,6 +51,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
     bool isMobile = Responsive.isMobile(context);
     var deviceHeight = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    var appointmentReport= Provider.of<AppointmentReportListDocViewModel>(context);
     var spaceBetween = SizedBox(
       height: 10,
     );
@@ -297,9 +303,9 @@ class _AppointmentReportState extends State<AppointmentReport> {
               ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 11,
+                  itemCount:appointmentReport.appointmentReportList.length,
                   itemBuilder: (context, index) {
-                    var indexInc = ++index;
+                    var indexInc = index;
                     return Container(
                         constraints: BoxConstraints(minHeight: width<=330? 60 : 80),
                         margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -316,9 +322,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                     color: AppTheme.buttonActiveColor),
                                 child: Center(
                                   child: Text(
-                                    indexInc < 10
-                                        ? "0${indexInc.toString()}"
-                                        : indexInc.toString(),
+                                    indexInc.toString(),
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontSize: isTablet? 20 :  width<=330? 15 : 17 ,
@@ -331,7 +335,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Zia Uddin Arman',
+                                    appointmentReport.appointmentReportList[index].patientName==null?"":appointmentReport.appointmentReportList[index].patientName,
                                     style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<=330? 12 :  14,
                                         fontWeight: FontWeight.w600),
                                   ),
@@ -344,7 +348,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                         constraints:
                                             BoxConstraints(minWidth: 90),
                                         child: Text(
-                                          'MH22012014368',
+                                          appointmentReport.appointmentReportList[index].hospitalNo??"Not Available",
                                           style:
                                               GoogleFonts.poppins(fontSize: isTablet? 16: 11),
                                         ),
@@ -360,7 +364,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                       widthSpace,
                                       isTablet? widthSpaceTab : SizedBox(),
                                       Text(
-                                        '2nd Follow Up',
+                                        appointmentReport.appointmentReportList[index].consultTypeName??"",
                                         style:
                                             GoogleFonts.poppins(fontSize:isTablet? 16 : 11),
                                       ),
@@ -381,7 +385,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                               constraints:
                                                   BoxConstraints(minWidth: 60),
                                               child: Text(
-                                                '08/08/2021',
+                                                 DateUtil().formattedDate(DateTime.parse( appointmentReport.appointmentReportList[index].appointDate??DateTime.now())),
                                                 style: GoogleFonts.poppins(
                                                     fontSize: isTablet? 16 : 11),
                                               ),
@@ -404,7 +408,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                               constraints:
                                                   BoxConstraints(minWidth: 90),
                                               child: Text(
-                                                'Morning',
+                                                appointmentReport.appointmentReportList[index].shiftName??"",
                                                 style: GoogleFonts.poppins(
                                                     fontSize: isTablet? 14 : 11),
                                               ),
@@ -419,7 +423,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                               constraints:
                                                   BoxConstraints(minWidth: 90),
                                               child: Text(
-                                                'Morning',
+                                                appointmentReport.appointmentReportList[index].shiftName??"",
                                                 style: GoogleFonts.poppins(
                                                     fontSize: isTablet? 14 : 11),
                                               ),
@@ -440,7 +444,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                                               constraints:
                                                   BoxConstraints(minWidth: 60),
                                               child: Text(
-                                                '08/08/2021',
+                                                DateUtil().formattedDate(DateTime.parse( appointmentReport.appointmentReportList[index].appointDate??DateTime.now())),
                                                 style: GoogleFonts.poppins(
                                                     fontSize: isTablet? 14 : 11),
                                               ),
@@ -467,5 +471,15 @@ class _AppointmentReportState extends State<AppointmentReport> {
         context: context,
         builder: (context) => Material(
             color: Colors.transparent, child: ManageDoctorProfilePrompt()));
+  }
+}
+
+
+class DateUtil {
+  static const DATE_FORMAT = 'dd/MM/yyyy ';
+
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

@@ -11,7 +11,7 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
-import '../appointment_report.dart';
+import '../../../appointment_report/view/appointment_report.dart';
 
 class DashboardDrawer extends StatefulWidget {
   const DashboardDrawer({Key key}) : super(key: key);
@@ -28,7 +28,8 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
     List<DrawerItems> drawerItems = [
       DrawerItems(imageString: dashboardImageIcon, title: 'Dashboard'),
       DrawerItems(imageString: workImageIcon, title: 'Worklist'),
-      // DrawerItems(imageString: descriptionImageIcon, title: 'Template'),
+      DrawerItems(
+          imageString: 'assets/icons/report.svg', title: 'Appointment Report'),
       // DrawerItems(imageString: prescriptionImageIcon, title: 'Rx Setup'),
       DrawerItems(imageString: moreImageIcon, title: 'More'),
     ];
@@ -152,11 +153,14 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                                         index: index,
                                       )),
                               (Route<dynamic> route) => false);
+                        } else if (index == 2) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AppointmentReport()));
                         } else {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      AppointmentReport()));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  SettingScreen()));
                         }
                       },
                     ),

@@ -453,7 +453,7 @@ class _EmrScreenState extends State<EmrScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            searchFieldForDocument,
+                            indexx==0?searchFieldForPrescription:searchFieldForDocument,
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 15.0, left: 25),

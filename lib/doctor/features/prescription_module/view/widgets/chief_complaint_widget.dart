@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -27,7 +28,6 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
-  List<String> chiefComplaintSelectedItems = [];
   int ind;
   var vm = appNavigator.context.read<ChiefComplaintViewModel>();
 
@@ -74,14 +74,16 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ChiefComplaintViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     bool isTablet = Responsive.isTablet(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.chiefCompleteController,
       key: Key("ChiefComplaintWidget"),
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.chiefComplentShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.chiefComplentShowReport,
       title: "Chief Complaint",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -113,17 +115,17 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              chiefComplaintSelectedItems[ind] =
+                              templateVm.chiefComplaintSelectedItems[ind] =
                                   controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (chiefComplaintSelectedItems
+                                if (templateVm.chiefComplaintSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  chiefComplaintSelectedItems
+                                  templateVm.chiefComplaintSelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -148,10 +150,10 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (chiefComplaintSelectedItems.contains(v)) {
+                  if (templateVm.chiefComplaintSelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    chiefComplaintSelectedItems.add(v);
+                    templateVm.chiefComplaintSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -170,7 +172,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    chiefComplaintSelectedItems.length,
+                    templateVm.chiefComplaintSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -186,7 +188,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                   top: isTablet ? 15 : 10.0,
                                   bottom: isTablet ? 10 : 5.0),
                               child: Text(
-                                "${chiefComplaintSelectedItems[index]}",
+                                "${templateVm.chiefComplaintSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: isTablet ? 18 : 16,
                                     fontWeight: FontWeight.bold),
@@ -210,9 +212,9 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                                   PrescriptionFavouriteType
                                                       .chiefComplaint
                                                       .toString(),
-                                              favoriteVal:
-                                                  chiefComplaintSelectedItems[
-                                                      index])
+                                              favoriteVal: templateVm
+                                                      .chiefComplaintSelectedItems[
+                                                  index])
                                           .then((value) async =>
                                               await vm.getData());
                                       favoriteItems.clear();
@@ -232,8 +234,8 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                          chiefComplaintSelectedItems[index];
+                                      controller.text = templateVm
+                                          .chiefComplaintSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -252,7 +254,7 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      chiefComplaintSelectedItems
+                                      templateVm.chiefComplaintSelectedItems
                                           .removeAt(index);
                                       setState(() {});
                                     },
@@ -345,11 +347,11 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (chiefComplaintSelectedItems
+                                  if (templateVm.chiefComplaintSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    chiefComplaintSelectedItems
+                                    templateVm.chiefComplaintSelectedItems
                                         .add(item.favouriteVal);
                                   }
                                 }

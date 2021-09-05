@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -10,17 +11,17 @@ class OrthosisWidget extends StatefulWidget {
 }
 
 class _OrthosisWidgetState extends State<OrthosisWidget> {
-  bool showReport = false;
-
   @override
   Widget build(BuildContext context) {
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     // var vm = context.watch<ChiefComplaintViewModel>();
     return PrescriptionCommonWidget(
+      controller: expandableControllers.orthosisController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.orthosisShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.orthosisShowReport,
       title: "Orthosis",
       expandedWidget: Container(
         decoration: BoxDecoration(

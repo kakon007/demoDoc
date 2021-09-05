@@ -7,7 +7,12 @@ class VitalsTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final String unitName;
-  const VitalsTextField({this.controller, this.validator, this.hintText, this.unitName});
+  final double topContentPadding;
+  final double hintSize;
+  final double unitSize;
+  final double unitHeight;
+  final double unitWidth;
+  const VitalsTextField({this.controller,this.unitHeight=46, this.unitWidth=80, this.hintSize = 12,this.unitSize = 12,  this.validator, this.hintText, this.unitName, this.topContentPadding=25});
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +28,27 @@ class VitalsTextField extends StatelessWidget {
                   rightContentPadding: 100,
                   // readOnly: isReadOnly,
                   //leftContentPadding: 85,
+                  topContentPadding: topContentPadding,
                   validator: validator,
                   controller: controller,
                   //validator: Validator().validateDoctorPhoneNumber,
                   hintText: hintText,
+                  hintSize: hintSize,
                   minimizeBottomPadding: true,
                 ),
                 Positioned(
                   top: 3,
                   right: 10,
                   child: Container(
-                    height: 46,
-                    width: 80,
+                    height: unitHeight,
+                    width: unitWidth,
                     child: Align(
                         alignment: Alignment.center,
                         child: Text(
                           unitName,
-                          style: GoogleFonts.poppins(color: Color(0xffD2D2D2)),
+                          style: GoogleFonts.poppins(color: Color(0xffD2D2D2),
+                          fontSize: unitSize
+                          ),
                         )),
                     decoration: BoxDecoration(
                         //  color: Color(0xffE8E8E8),

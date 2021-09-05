@@ -6,9 +6,11 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/vitals_text_form_field.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -26,6 +28,10 @@ class _VitalsWidgetState extends State<VitalsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var templateVm =
+        Provider.of<GetTamplateDataViewModel>(context, listen: true);
+
+    bool isTablet = Responsive.isTablet(context);
     var vm = context.watch<ChiefComplaintViewModel>();
     var spaceBetween = SizedBox(
       height: 10,
@@ -33,9 +39,16 @@ class _VitalsWidgetState extends State<VitalsWidget> {
     var bodyTemperature = VitalsTextField(
       hintText: 'Body Temperature',
       unitName: 'Fahrenheit',
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
+      unitSize: isTablet ? 17 : 12,
+      unitHeight: isTablet ? 60 : 46,
+      unitWidth: isTablet ? 100 : 80,
     );
     var pulse = DoctorFormField(
       enabledBorderColor: "#D2D2D2",
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
       hintText: 'Pulse',
       minimizeBottomPadding: true,
     );
@@ -43,45 +56,80 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       enabledBorderColor: "#D2D2D2",
       hintText: 'Heart Rate',
       minimizeBottomPadding: true,
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
     );
     var sp02 = DoctorFormField(
       enabledBorderColor: "#D2D2D2",
       hintText: 'SP02',
       minimizeBottomPadding: true,
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
     );
     var resRate = VitalsTextField(
       hintText: 'Res.Rate',
       unitName: 'Min.',
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
+      unitSize: isTablet ? 17 : 12,
+      unitHeight: isTablet ? 60 : 46,
+      unitWidth: isTablet ? 100 : 80,
     );
     var bpSys = VitalsTextField(
       hintText: 'BP Sys',
       unitName: 'mmHg',
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
+      unitSize: isTablet ? 17 : 12,
+      unitHeight: isTablet ? 60 : 46,
+      unitWidth: isTablet ? 100 : 80,
     );
     var bpDia = VitalsTextField(
       hintText: 'BP Dia',
       unitName: 'mmHg',
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
+      unitSize: isTablet ? 17 : 12,
+      unitHeight: isTablet ? 60 : 46,
+      unitWidth: isTablet ? 100 : 80,
     );
     var minBp = VitalsTextField(
       hintText: 'Min BP',
       unitName: 'mmHg',
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
+      unitSize: isTablet ? 17 : 12,
+      unitHeight: isTablet ? 60 : 46,
+      unitWidth: isTablet ? 100 : 80,
     );
     var weight = VitalsTextField(
       hintText: 'Weight',
       unitName: 'Kg',
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
+      unitSize: isTablet ? 17 : 12,
+      unitHeight: isTablet ? 60 : 46,
+      unitWidth: isTablet ? 100 : 80,
     );
     var height = VitalsTextField(
       hintText: 'Height',
       unitName: 'cm',
+      topContentPadding: isTablet ? 30 : 25,
+      hintSize: isTablet ? 17 : 12,
+      unitHeight: isTablet ? 60 : 46,
+      unitWidth: isTablet ? 100 : 80,
+      unitSize: isTablet ? 17 : 12,
     );
     // personalInfoVm.isPersonalInfoEditing?
 
     return PrescriptionCommonWidget(
+      controller: expandableControllers.vitalsController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.vitalsShowReport = val;
         setState(() {});
       },
       isFixed: true,
-      showReport: showReport,
+      showReport: templateVm.vitalsShowReport,
       title: "Vitals",
       expandedWidget: Container(
         decoration: BoxDecoration(

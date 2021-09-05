@@ -11,9 +11,11 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/generic_search_items_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/medication_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class MedicationWidget extends StatefulWidget {
@@ -43,9 +45,11 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   TextEditingController _favoriteController = TextEditingController();
   TextEditingController _genericController = TextEditingController();
   TextEditingController _brandController = TextEditingController();
-  List<String> medicationSelectedItems = [];
+  // List<String> medicationSelectedItems = [];
+  // List<AddMultiDose> multiDose = [];
+  // List<MultiDose> multiDoseItemList = [];
+  // List<MedicineList> medicineList = [];
   int ind;
-  int multiDoseLength = 0;
   var vm = appNavigator.context.read<MedicationViewModel>();
   int tabIndex = 0;
   // value set to false
@@ -107,7 +111,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<MedicationViewModel>();
-
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
+    bool isTablet = Responsive.isTablet(context);
     final Widget addMulIon = SvgPicture.asset(
       "assets/icons/addmultidose.svg",
       height: 20,
@@ -118,12 +123,13 @@ class _MedicationWidgetState extends State<MedicationWidget> {
       //semanticsLabel: 'Acme Logo'
     );
     return PrescriptionCommonWidget(
+      controller: expandableControllers.medicationController,
       key: Key("medicationWidget"),
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.medicationShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.medicationShowReport,
       title: "Medication",
       expandedWidget: Container(
         padding: EdgeInsets.symmetric(horizontal: 5),
@@ -833,9 +839,9 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                 height: 15,
               ),
               Wrap(
-                  children: List.generate(
-                multiDoseLength,
-                (index) => Container(
+                  children: List.generate(templateVm.multiDose.length, (index) {
+                //  _controller = TextEditingController();
+                return Container(
                   margin: EdgeInsets.only(bottom: 10),
                   padding: EdgeInsets.only(left: 5, right: 5, top: 5),
                   decoration: BoxDecoration(
@@ -855,7 +861,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           ),
                         ),
                         onTap: () {
-                          multiDoseLength--;
+                          templateVm.multiDose.removeAt(index);
                           setState(() {});
                         },
                       ),
@@ -865,7 +871,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       TypeAheadFormField<String>(
                         textFieldConfiguration: TextFieldConfiguration(
                             textInputAction: TextInputAction.search,
-                            controller: multiDoseController,
+                            controller:
+                                templateVm.multiDose[index].multiDoseController,
                             decoration: InputDecoration(
                               labelText: "Multidose",
                               //labelStyle: TextStyle(color: Color(0xff3E58FF)),
@@ -890,7 +897,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           );
                         },
                         onSuggestionSelected: (v) {
-                          multiDoseController.text = v;
+                          templateVm.multiDose[index].multiDoseController.text =
+                              v;
                           // setState(() {});
                         },
                         suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -920,7 +928,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                             child: TypeAheadFormField<String>(
                               textFieldConfiguration: TextFieldConfiguration(
                                   textInputAction: TextInputAction.search,
-                                  controller: multiDoseDurationController,
+                                  controller: templateVm.multiDose[index]
+                                      .multiDoseDurationController,
                                   decoration: InputDecoration(
                                     labelText: "Duration",
                                     //labelStyle: TextStyle(color: Color(0xff3E58FF)),
@@ -945,7 +954,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 );
                               },
                               onSuggestionSelected: (v) {
-                                multiDoseDurationController.text = v;
+                                templateVm.multiDose[index]
+                                    .multiDoseDurationController.text = v;
                                 // setState(() {});
                               },
                               suggestionsBoxDecoration:
@@ -967,7 +977,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                             child: TypeAheadFormField<String>(
                               textFieldConfiguration: TextFieldConfiguration(
                                   textInputAction: TextInputAction.search,
-                                  controller: multiDoseDaysController,
+                                  controller: templateVm.multiDose[index]
+                                      .multiDoseDurationTypeController,
                                   decoration: InputDecoration(
                                     labelText: "Days",
                                     //labelStyle: TextStyle(color: Color(0xff3E58FF)),
@@ -992,7 +1003,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 );
                               },
                               onSuggestionSelected: (v) {
-                                multiDoseDaysController.text = v;
+                                templateVm.multiDose[index]
+                                    .multiDoseDurationTypeController.text = v;
                                 // if (chiefComplaintSelectedItems.contains(v)) {
                                 //   BotToast.showText(text: "All ready added");
                                 // } else {
@@ -1017,7 +1029,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           SizedBox(
                             width: 100,
                             child: TextField(
-                              controller: multiDoseQuantityController,
+                              controller: templateVm
+                                  .multiDose[index].multiDoseQuantityController,
                               autofocus: false,
                               decoration: InputDecoration(
                                 //filled: true,
@@ -1049,7 +1062,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       TypeAheadFormField<String>(
                         textFieldConfiguration: TextFieldConfiguration(
                             textInputAction: TextInputAction.search,
-                            controller: multiDoseInstructionController,
+                            controller: templateVm.multiDose[index]
+                                .multiDoseInstructionController,
                             decoration: InputDecoration(
                               labelText: "Instructions",
                               //labelStyle: TextStyle(color: Color(0xff3E58FF)),
@@ -1074,7 +1088,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           );
                         },
                         onSuggestionSelected: (v) {
-                          multiDoseInstructionController.text = v;
+                          templateVm.multiDose[index]
+                              .multiDoseInstructionController.text = v;
                           // setState(() {});
                         },
                         suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -1094,8 +1109,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       )
                     ],
                   ),
-                ),
-              )),
+                );
+              })),
               //Continue this medicine
               SizedBox(
                 height: 15,
@@ -1116,140 +1131,154 @@ class _MedicationWidgetState extends State<MedicationWidget> {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: TypeAheadFormField<String>(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          textInputAction: TextInputAction.search,
-                          controller: continueDurationController,
-                          decoration: InputDecoration(
-                            labelText: "Duration",
-                            //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                            hintText: "Duration",
-                            // prefixIcon: Icon(
-                            //   Icons.search,
-                            //   color: Colors.grey,
-                            // ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+              _value
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          child: TypeAheadFormField<String>(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                textInputAction: TextInputAction.search,
+                                controller: continueDurationController,
+                                decoration: InputDecoration(
+                                  labelText: "Duration",
+                                  //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                                  hintText: "Duration",
+                                  // prefixIcon: Icon(
+                                  //   Icons.search,
+                                  //   color: Colors.grey,
+                                  // ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color(0xff3E58FF)),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                )),
+                            itemBuilder: (_, v) {
+                              return Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text("$v"),
+                              );
+                            },
+                            onSuggestionSelected: (v) {
+                              continueDurationController.text = v;
+                              // setState(() {});
+                            },
+                            suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Color(0xff3E58FF)),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          )),
-                      itemBuilder: (_, v) {
-                        return Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text("$v"),
-                        );
-                      },
-                      onSuggestionSelected: (v) {
-                        continueDurationController.text = v;
-                        // setState(() {});
-                      },
-                      suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      suggestionsCallback: (v) {
-                        return vm.medicationModelList.obj.durationList
-                            .map((e) => e.preDiagnosisVal)
-                            .where((element) =>
-                                element.toLowerCase().contains(v.toLowerCase()))
-                            .toList();
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TypeAheadFormField<String>(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          textInputAction: TextInputAction.search,
-                          controller: continueDaysController,
-                          decoration: InputDecoration(
-                            labelText: "Days",
-                            //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                            hintText: "Days",
-                            // prefixIcon: Icon(
-                            //   Icons.search,
-                            //   color: Colors.grey,
-                            // ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Color(0xff3E58FF)),
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          )),
-                      itemBuilder: (_, v) {
-                        return Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text("$v"),
-                        );
-                      },
-                      onSuggestionSelected: (v) {
-                        continueDaysController.text = v;
-                        // setState(() {});
-                      },
-                      suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      suggestionsCallback: (v) {
-                        return vm.medicationModelList.obj.durationMuList
-                            .map((e) => e.preDiagnosisVal)
-                            .where((element) =>
-                                element.toLowerCase().contains(v.toLowerCase()))
-                            .toList();
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TextField(
-                      controller: continueQuantityController,
-                      autofocus: false,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xffEFF5FF),
-                        labelText: "Quantity",
-                        //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                        hintText: "Quantity",
-                        // prefixIcon: Icon(
-                        //   Icons.search,
-                        //   color: Colors.grey,
-                        // ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Color(0xffEFF5FF)),
-                          borderRadius: BorderRadius.circular(15.0),
+                            suggestionsCallback: (v) {
+                              return vm.medicationModelList.obj.durationList
+                                  .map((e) => e.preDiagnosisVal)
+                                  .where((element) => element
+                                      .toLowerCase()
+                                      .contains(v.toLowerCase()))
+                                  .toList();
+                            },
+                          ),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Color(0xffEFF5FF)),
-                          borderRadius: BorderRadius.circular(15.0),
+                        SizedBox(
+                          width: 100,
+                          child: TypeAheadFormField<String>(
+                            textFieldConfiguration: TextFieldConfiguration(
+                                textInputAction: TextInputAction.search,
+                                controller: continueDaysController,
+                                decoration: InputDecoration(
+                                  labelText: "Days",
+                                  //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                                  hintText: "Days",
+                                  // prefixIcon: Icon(
+                                  //   Icons.search,
+                                  //   color: Colors.grey,
+                                  // ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color(0xff3E58FF)),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                )),
+                            itemBuilder: (_, v) {
+                              return Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Text("$v"),
+                              );
+                            },
+                            onSuggestionSelected: (v) {
+                              continueDaysController.text = v;
+                              // setState(() {});
+                            },
+                            suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            suggestionsCallback: (v) {
+                              return vm.medicationModelList.obj.durationMuList
+                                  .map((e) => e.preDiagnosisVal)
+                                  .where((element) => element
+                                      .toLowerCase()
+                                      .contains(v.toLowerCase()))
+                                  .toList();
+                            },
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                        SizedBox(
+                          width: 100,
+                          child: TextField(
+                            controller: continueQuantityController,
+                            autofocus: false,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Color(0xffEFF5FF),
+                              labelText: "Quantity",
+                              //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                              hintText: "Quantity",
+                              // prefixIcon: Icon(
+                              //   Icons.search,
+                              //   color: Colors.grey,
+                              // ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xffEFF5FF)),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xffEFF5FF)),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
 
               //Buttons
+
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
                     onTap: () {
-                      multiDoseLength++;
+                      templateVm.multiDose.add(AddMultiDose(
+                          multiDoseController: TextEditingController(),
+                          multiDoseDurationController: TextEditingController(),
+                          multiDoseDurationTypeController:
+                              TextEditingController(),
+                          multiDoseInstructionController:
+                              TextEditingController(),
+                          multiDoseQuantityController:
+                              TextEditingController()));
+                      //myControllers.add(TextEditingController());
                       setState(() {});
                     },
                     child: Container(
@@ -1278,36 +1307,282 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                   SizedBox(
                     width: 10,
                   ),
-                  Container(
-                    width: 90,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Color(0xff6374DF),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10, left: 10),
-                      child: Row(
-                        children: [
-                          Icon(Icons.add_circle_outline, color: Colors.white),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Add',
-                              style: GoogleFonts.roboto(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400))
-                        ],
+                  InkWell(
+                    onTap: () {
+                      templateVm.multiDoseItemList = [];
+                      templateVm.multiDoseItemList.add(MultiDose(
+                        multiDoseInstruction: instructionController.text,
+                        multiDose: doseController.text,
+                        multiDoseDuration: durationController.text,
+                        multiDoseDurationType: daysController.text,
+                      ));
+                      templateVm.multiDose.forEach((element) {
+                        templateVm.multiDoseItemList?.add(MultiDose(
+                            multiDose: element.multiDoseController.text ?? "",
+                            multiDoseDuration:
+                                element.multiDoseDurationController.text ?? "",
+                            multiDoseDurationType:
+                                element.multiDoseDurationTypeController.text ??
+                                    "",
+                            multiDoseInstruction:
+                                element.multiDoseInstructionController.text ??
+                                    ""));
+                      });
+                      templateVm.medicineList.add(MedicineList(
+                        genericName: _genericController.text,
+                        brandName: _brandController.text,
+                        // dose: doseController.text,
+                        // duration: durationController.text,
+                        // durationType: daysController.text,
+                        // instruction: instructionController.text,
+                        route: routeController.text,
+                        // multiDose: multiDoseController.text,
+                        // multiDoseDuration: multiDoseDurationController.text,
+                        // multiDoseDurationType: multiDoseDaysController.text,
+                        // multiDoseInstruction:
+                        //     multiDoseInstructionController.text,
+                        multiDoseList: templateVm.multiDoseItemList,
+                        continueDuration: continueDurationController.text,
+                        continueDurationType: continueDaysController.text,
+                      ));
+                      _genericController.clear();
+                      _brandController.clear();
+                      doseController.clear();
+                      durationController.clear();
+                      daysController.clear();
+                      instructionController.clear();
+                      routeController.clear();
+                      multiDoseController.clear();
+                      multiDoseDurationController.clear();
+                      multiDoseDaysController.clear();
+                      multiDoseInstructionController.clear();
+                      continueDurationController.clear();
+                      continueDaysController.clear();
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: 90,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Color(0xff6374DF),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10, left: 10),
+                        child: Row(
+                          children: [
+                            Icon(Icons.add_circle_outline, color: Colors.white),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Add',
+                                style: GoogleFonts.roboto(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400))
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ],
-              )
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Wrap(
+                children: List.generate(
+                    templateVm.medicineList.length,
+                    (index) => Container(
+                        margin: EdgeInsets.only(top: 5),
+                        decoration: BoxDecoration(
+                          color: Color(0xffEFF5FF),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: isTablet ? 20 : 15,
+                                  top: isTablet ? 15 : 10.0,
+                                  bottom: isTablet ? 10 : 5.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${templateVm.medicineList[index].genericName ?? ""} - ${templateVm.medicineList[index].brandName ?? ""} - ${templateVm.medicineList[index].route ?? ""}",
+                                    style: TextStyle(
+                                        fontSize: isTablet ? 18 : 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Wrap(
+                                    children: List.generate(
+                                      templateVm.medicineList[index]
+                                          .multiDoseList.length,
+                                      (i) => Text(
+                                        "${i == 1 ? "Muiltidose-\n" : ""}"
+                                        "${templateVm.medicineList[index].multiDoseList[i].multiDose ?? ""} - ${templateVm.medicineList[index].multiDoseList[i].multiDoseDuration ?? ""} ${templateVm.medicineList[index].multiDoseList[i].multiDoseDurationType ?? ""} - ${templateVm.medicineList[index].multiDoseList[i].multiDoseInstruction ?? ""}",
+                                        style: TextStyle(
+                                            fontSize: isTablet ? 18 : 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  _value
+                                      ? Text(
+                                          "Continue this medicine - ${templateVm.medicineList[index].continueDuration ?? ""} ${templateVm.medicineList[index].continueDurationType ?? ""}",
+                                          style: TextStyle(
+                                              fontSize: isTablet ? 18 : 16,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : SizedBox(),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              thickness: 1,
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(bottom: isTablet ? 15 : 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      // await CommonAddToFavoriteListRepository()
+                                      //     .addToFavouriteList(
+                                      //         favoriteType:
+                                      //             PrescriptionFavouriteType
+                                      //                 .chiefComplaint
+                                      //                 .toString(),
+                                      //         favoriteVal:
+                                      //             chiefComplaintSelectedItems[
+                                      //                 index])
+                                      //     .then((value) async =>
+                                      //         await vm.getData());
+                                      // favoriteItems.clear();
+                                      // if (_favoriteController.text.isNotEmpty) {
+                                      //   searchFavoriteItem(_favoriteController
+                                      //       .text
+                                      //       .toLowerCase());
+                                      // } else {
+                                      //   favoriteItems = vm.favouriteList;
+                                      // }
+                                    },
+                                    child: Icon(
+                                      Icons.favorite_border,
+                                      color: Colors.red,
+                                      size: isTablet ? 35 : 30,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      // controller.text =
+                                      //     chiefComplaintSelectedItems[index];
+                                      ind = index;
+                                    },
+                                    child: Container(
+                                      height: isTablet ? 35 : 30,
+                                      width: isTablet ? 35 : 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Color(0xffE6374DF)),
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: isTablet ? 20 : 18,
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      templateVm.medicineList.removeAt(index);
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      height: isTablet ? 35 : 30,
+                                      width: isTablet ? 35 : 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Colors.red),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: isTablet ? 22 : 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ))),
+              ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+class MedicineList {
+  String genericName;
+  String brandName;
+  String route;
+  // String dose;
+  // String duration;
+  // String durationType;
+  // String instruction;
+  List<MultiDose> multiDoseList;
+  String continueDuration;
+  String continueDurationType;
+  MedicineList({
+    this.brandName,
+    this.genericName,
+    this.continueDuration,
+    this.continueDurationType,
+    // this.dose,
+    this.multiDoseList,
+    // this.duration,
+    // this.durationType,
+    // this.instruction,
+    this.route,
+  });
+}
+
+class AddMultiDose {
+  TextEditingController multiDoseController = TextEditingController();
+  TextEditingController multiDoseDurationController = TextEditingController();
+  TextEditingController multiDoseDurationTypeController =
+      TextEditingController();
+  TextEditingController multiDoseQuantityController = TextEditingController();
+  TextEditingController multiDoseInstructionController =
+      TextEditingController();
+  AddMultiDose(
+      {this.multiDoseInstructionController,
+      this.multiDoseController,
+      this.multiDoseDurationController,
+      this.multiDoseDurationTypeController,
+      this.multiDoseQuantityController});
+}
+
+class MultiDose {
+  String multiDose;
+  String multiDoseDuration;
+  String multiDoseDurationType;
+  String multiDoseInstruction;
+
+  MultiDose({
+    this.multiDose,
+    this.multiDoseDuration,
+    this.multiDoseDurationType,
+    this.multiDoseInstruction,
+  });
 }

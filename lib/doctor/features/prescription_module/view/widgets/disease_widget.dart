@@ -8,6 +8,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/disease_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -23,7 +24,7 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
-  List<String> diseaseSelectedItems = [];
+
   int ind;
   var vm = appNavigator.context.read<DiseaseViewModel>();
   void searchFavoriteItem(String query) {
@@ -68,12 +69,14 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<DiseaseViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.deseaseController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.diseaseShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.diseaseShowReport,
       title: "Disease",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -99,16 +102,17 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              diseaseSelectedItems[ind] = controller.text;
+                              templateVm.diseaseSelectedItems[ind] =
+                                  controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (diseaseSelectedItems
+                                if (templateVm.diseaseSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  diseaseSelectedItems
+                                  templateVm.diseaseSelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -129,10 +133,10 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (diseaseSelectedItems.contains(v)) {
+                  if (templateVm.diseaseSelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    diseaseSelectedItems.add(v);
+                    templateVm.diseaseSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -151,7 +155,7 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    diseaseSelectedItems.length,
+                    templateVm.diseaseSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -165,7 +169,7 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${diseaseSelectedItems[index]}",
+                                "${templateVm.diseaseSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -187,8 +191,8 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                                                   PrescriptionFavouriteType
                                                       .disease
                                                       .toString(),
-                                              favoriteVal:
-                                                  diseaseSelectedItems[index])
+                                              favoriteVal: templateVm
+                                                  .diseaseSelectedItems[index])
                                           .then((value) async =>
                                               await vm.getData());
                                       favoriteItems.clear();
@@ -208,8 +212,8 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                          diseaseSelectedItems[index];
+                                      controller.text = templateVm
+                                          .diseaseSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -228,7 +232,8 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      diseaseSelectedItems.removeAt(index);
+                                      templateVm.diseaseSelectedItems
+                                          .removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -312,11 +317,12 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (diseaseSelectedItems
+                                  if (templateVm.diseaseSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    diseaseSelectedItems.add(item.favouriteVal);
+                                    templateVm.diseaseSelectedItems
+                                        .add(item.favouriteVal);
                                   }
                                 }
                                 setState(() {});

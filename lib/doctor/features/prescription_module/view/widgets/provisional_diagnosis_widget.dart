@@ -7,10 +7,12 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class ProvisionalDiagnosisWidget extends StatefulWidget {
@@ -72,12 +74,15 @@ class _ProvisionalDiagnosisWidgetState
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ProvisionalDiagnosisViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
+    bool isTablet = Responsive.isTablet(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.provisionalDiagnosisController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.provisionalDiagnosisShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.provisionalDiagnosisShowReport,
       title: "Provisional Diagnosis",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -86,7 +91,11 @@ class _ProvisionalDiagnosisWidgetState
                 bottomRight: Radius.circular(10)),
             border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
         child: Padding(
-          padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 5, right: 5),
+          padding: EdgeInsets.only(
+              top: 10.0,
+              bottom: 10,
+              left: isTablet ? 15 : 5,
+              right: isTablet ? 15 : 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -94,26 +103,29 @@ class _ProvisionalDiagnosisWidgetState
                 textFieldConfiguration: TextFieldConfiguration(
                     textInputAction: TextInputAction.search,
                     controller: controller,
+                    style: TextStyle(fontSize: isTablet ? 18 : 16),
                     decoration: InputDecoration(
                       hintText: "Provisional Diagnosis",
                       prefixIcon: Icon(
                         Icons.search,
+                        size: isTablet ? 30 : 25,
                         color: AppTheme.buttonActiveColor,
                       ),
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              provisionalDiagnosisSelectedItems[ind] =
+                              templateVm
+                                      .provisionalDiagnosisSelectedItems[ind] =
                                   controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (provisionalDiagnosisSelectedItems
+                                if (templateVm.provisionalDiagnosisSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  provisionalDiagnosisSelectedItems
+                                  templateVm.provisionalDiagnosisSelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -125,19 +137,24 @@ class _ProvisionalDiagnosisWidgetState
                             setState(() {});
                           },
                           icon: Icon(Icons.check,
+                              size: isTablet ? 30 : 25,
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
                   return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
+                    padding: EdgeInsets.all(isTablet ? 12 : 10),
+                    child: Text(
+                      "$v",
+                      style: TextStyle(fontSize: isTablet ? 18 : 16),
+                    ),
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (provisionalDiagnosisSelectedItems.contains(v)) {
+                  if (templateVm.provisionalDiagnosisSelectedItems
+                      .contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    provisionalDiagnosisSelectedItems.add(v);
+                    templateVm.provisionalDiagnosisSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -172,7 +189,7 @@ class _ProvisionalDiagnosisWidgetState
               ),
               Wrap(
                 children: List.generate(
-                    provisionalDiagnosisSelectedItems.length,
+                    templateVm.provisionalDiagnosisSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -184,18 +201,22 @@ class _ProvisionalDiagnosisWidgetState
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: 15, top: 10.0, bottom: 5.0),
+                                  left: isTablet ? 20 : 15,
+                                  top: isTablet ? 15 : 10.0,
+                                  bottom: isTablet ? 10 : 5.0),
                               child: Text(
-                                "${provisionalDiagnosisSelectedItems[index]}",
+                                "${templateVm.provisionalDiagnosisSelectedItems[index]}",
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
+                                    fontSize: isTablet ? 18 : 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Divider(
                               thickness: 1,
                             ),
                             Padding(
-                              padding: EdgeInsets.only(bottom: 10),
+                              padding:
+                                  EdgeInsets.only(bottom: isTablet ? 15 : 10),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -208,9 +229,9 @@ class _ProvisionalDiagnosisWidgetState
                                                   PrescriptionFavouriteType
                                                       .provisionalDiagnosis
                                                       .toString(),
-                                              favoriteVal:
-                                                  provisionalDiagnosisSelectedItems[
-                                                      index])
+                                              favoriteVal: templateVm
+                                                      .provisionalDiagnosisSelectedItems[
+                                                  index])
                                           .then((value) => vm.getData());
                                       favoriteItems.clear();
                                       if (_favoriteController.text.isNotEmpty) {
@@ -224,19 +245,19 @@ class _ProvisionalDiagnosisWidgetState
                                     child: Icon(
                                       Icons.favorite_border,
                                       color: Colors.red,
-                                      size: 30,
+                                      size: isTablet ? 35 : 30,
                                     ),
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                          provisionalDiagnosisSelectedItems[
-                                              index];
+                                      controller.text = templateVm
+                                              .provisionalDiagnosisSelectedItems[
+                                          index];
                                       ind = index;
                                     },
                                     child: Container(
-                                      height: 30,
-                                      width: 30,
+                                      height: isTablet ? 35 : 30,
+                                      width: isTablet ? 35 : 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(50),
@@ -244,19 +265,20 @@ class _ProvisionalDiagnosisWidgetState
                                       child: Icon(
                                         Icons.edit,
                                         color: Colors.white,
-                                        size: 18,
+                                        size: isTablet ? 20 : 18,
                                       ),
                                     ),
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      provisionalDiagnosisSelectedItems
+                                      templateVm
+                                          .provisionalDiagnosisSelectedItems
                                           .removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
-                                      height: 30,
-                                      width: 30,
+                                      height: isTablet ? 35 : 30,
+                                      width: isTablet ? 35 : 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(50),
@@ -264,7 +286,7 @@ class _ProvisionalDiagnosisWidgetState
                                       child: Icon(
                                         Icons.close,
                                         color: Colors.white,
-                                        size: 20,
+                                        size: isTablet ? 22 : 20,
                                       ),
                                     ),
                                   ),
@@ -275,7 +297,7 @@ class _ProvisionalDiagnosisWidgetState
                         ))),
               ),
               SizedBox(
-                height: 20,
+                height: isTablet ? 25 : 20,
               ),
               Container(
                 child: Column(
@@ -283,8 +305,9 @@ class _ProvisionalDiagnosisWidgetState
                   children: [
                     Text(
                       "Favourite list",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: isTablet ? 25 : 20),
                     ),
                     Divider(
                       color: Colors.grey,
@@ -295,20 +318,24 @@ class _ProvisionalDiagnosisWidgetState
                       children: [
                         SizedBox(),
                         Container(
-                          padding: EdgeInsets.only(bottom: 10),
-                          width: 250,
+                          padding: EdgeInsets.only(bottom: isTablet ? 15 : 10),
+                          width: isTablet ? 350 : 250,
                           child: TextField(
                             onChanged: (value) {
                               searchFavoriteItem(value.toLowerCase());
                               // departmentSearch(value.toUpperCase());
                             },
                             controller: _favoriteController,
+                            style: TextStyle(fontSize: isTablet ? 18 : 16),
                             decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.only(left: 10, top: 20),
+                              contentPadding: EdgeInsets.only(
+                                  left: isTablet ? 15 : 10, top: 20),
                               hintText: "Search Favourite list",
+                              hintStyle:
+                                  TextStyle(fontSize: isTablet ? 18 : 16),
                               suffixIcon: Icon(
                                 Icons.search,
+                                size: isTablet ? 30 : 25,
                                 color: AppTheme.buttonActiveColor,
                               ),
                             ),
@@ -330,16 +357,20 @@ class _ProvisionalDiagnosisWidgetState
                                 : Colors.white,
                             child: CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
-                              title: Text("${item.favouriteVal}"),
+                              title: Text(
+                                "${item.favouriteVal}",
+                                style: TextStyle(fontSize: isTablet ? 18 : 16),
+                              ),
                               value: item.isCheck,
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (provisionalDiagnosisSelectedItems
+                                  if (templateVm
+                                      .provisionalDiagnosisSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    provisionalDiagnosisSelectedItems
+                                    templateVm.provisionalDiagnosisSelectedItems
                                         .add(item.favouriteVal);
                                   }
                                 }
@@ -362,6 +393,7 @@ class _ProvisionalDiagnosisWidgetState
                                 },
                                 child: Icon(
                                   Icons.clear,
+                                  size: isTablet ? 30 : 25,
                                   color: Colors.red,
                                 ),
                               ),

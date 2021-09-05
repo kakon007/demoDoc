@@ -9,6 +9,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/referred_doctor_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -33,12 +34,14 @@ class _ReferredDoctorWidgetState extends State<ReferredDoctorWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ChiefComplaintViewModel>();
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.referredDoctorController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.referredDoctorShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.referredDoctorShowReport,
       title: "Referred Doctor",
       expandedWidget: Container(
         decoration: BoxDecoration(

@@ -14,6 +14,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/g
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/investigation_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class InvestigationWidget extends StatefulWidget {
@@ -62,7 +63,6 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) async {
-      print('sakil2 ${investigationSelectedItems.length}');
       var vm = context.read<InvestigationViewModel>();
       await vm.getData();
       favoriteItems.addAll(vm.favouriteList);
@@ -75,6 +75,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<InvestigationViewModel>();
+    bool isTablet = Responsive.isTablet(context);
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     //var templateVm = Provider.of<GetTamplateDataViewModel>(context, listen: false);
     // templateVm.prescriptionTamplateListData.investigationList.forEach((element) {
@@ -82,11 +83,12 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
     //   print('sakil ${investigationSelectedItems.length}');
     // });
     return PrescriptionCommonWidget(
+      controller: expandableControllers.investigationController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.investigationShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport:         templateVm.investigationShowReport,
       title: "Investigation",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -95,25 +97,31 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                 bottomRight: Radius.circular(10)),
             border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
         child: Padding(
-          padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 5, right: 5),
+          padding: EdgeInsets.only(
+              top: 10.0,
+              bottom: 10,
+              left: isTablet ? 15 : 5,
+              right: isTablet ? 15 : 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TypeAheadFormField<CommonPrescriptionSearchItems>(
                 textFieldConfiguration: TextFieldConfiguration(
+                    style: TextStyle(fontSize: isTablet ? 18 : 16),
                     textInputAction: TextInputAction.search,
                     controller: controller,
                     decoration: InputDecoration(
                       hintText: "Investigation",
                       prefixIcon: Icon(
                         Icons.search,
+                        size: isTablet ? 30 : 25,
                         color: AppTheme.buttonActiveColor,
                       ),
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              templateVm.investigationSelectedItems[ind].itemName =
-                                  controller.text;
+                              templateVm.investigationSelectedItems[ind]
+                                  .itemName = controller.text;
                               controller.clear();
                               ind = null;
                             } else {
@@ -149,8 +157,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                                         onChanged: (int v) {
                                                           setState(() {
                                                             itemTypeNo = v;
-                                                            templateVm.investigationSelectedItems.add(
-                                                                CommonPrescriptionSearchItems(
+                                                            templateVm
+                                                                .investigationSelectedItems
+                                                                .add(CommonPrescriptionSearchItems(
                                                                     itemName:
                                                                         controller
                                                                             .text
@@ -173,8 +182,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                                         onChanged: (int v) {
                                                           setState(() {
                                                             itemTypeNo = v;
-                                                            templateVm.investigationSelectedItems.add(
-                                                                CommonPrescriptionSearchItems(
+                                                            templateVm
+                                                                .investigationSelectedItems
+                                                                .add(CommonPrescriptionSearchItems(
                                                                     itemName:
                                                                         controller
                                                                             .text
@@ -203,12 +213,16 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                             setState(() {});
                           },
                           icon: Icon(Icons.check,
+                              size: isTablet ? 30 : 25,
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
                   return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("${v.itemName}"),
+                    padding: EdgeInsets.all(isTablet ? 12 : 10),
+                    child: Text(
+                      "${v.itemName}",
+                      style: TextStyle(fontSize: isTablet ? 18 : 16),
+                    ),
                   );
                 },
                 onSuggestionSelected: (v) {
@@ -247,16 +261,19 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 15, top: 10.0, bottom: 5.0),
+                                      left: isTablet ? 20 : 15,
+                                      top: isTablet ? 15 : 10.0,
+                                      bottom: isTablet ? 10 : 5.0),
                                   child: Text(
                                     "${templateVm.investigationSelectedItems[index].itemName}",
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: isTablet ? 18 : 16,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 Tooltip(
-                                  message: templateVm.investigationSelectedItems[index]
+                                  message: templateVm
+                                              .investigationSelectedItems[index]
                                               .itemTypeNo ==
                                           1
                                       ? "Pathology"
@@ -269,12 +286,13 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                          left: 10,
-                                          top: 5.0,
-                                          bottom: 5.0,
-                                          right: 10),
+                                          left: isTablet ? 20 : 15,
+                                          top: isTablet ? 15 : 10.0,
+                                          bottom: isTablet ? 10 : 5.0),
                                       child: Text(
-                                        templateVm.investigationSelectedItems[index]
+                                        templateVm
+                                                    .investigationSelectedItems[
+                                                        index]
                                                     .itemTypeNo ==
                                                 1
                                             ? "P"
@@ -292,7 +310,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               thickness: 1,
                             ),
                             Padding(
-                              padding: EdgeInsets.only(bottom: 10),
+                              padding:
+                                  EdgeInsets.only(bottom: isTablet ? 15 : 10),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -302,10 +321,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                       await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
                                               favoriteType: "36",
-                                              favoriteVal:
-                                              templateVm.investigationSelectedItems[
-                                                          index]
-                                                      .itemName)
+                                              favoriteVal: templateVm
+                                                  .investigationSelectedItems[
+                                                      index]
+                                                  .itemName)
                                           .then((value) async =>
                                               await vm.getData());
                                       favoriteItems.clear();
@@ -320,19 +339,19 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     child: Icon(
                                       Icons.favorite_border,
                                       color: Colors.red,
-                                      size: 30,
+                                      size: isTablet ? 35 : 30,
                                     ),
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                          templateVm.investigationSelectedItems[index]
-                                              .itemName;
+                                      controller.text = templateVm
+                                          .investigationSelectedItems[index]
+                                          .itemName;
                                       ind = index;
                                     },
                                     child: Container(
-                                      height: 30,
-                                      width: 30,
+                                      height: isTablet ? 35 : 30,
+                                      width: isTablet ? 35 : 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(50),
@@ -340,7 +359,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                       child: Icon(
                                         Icons.edit,
                                         color: Colors.white,
-                                        size: 18,
+                                        size: isTablet ? 20 : 18,
                                       ),
                                     ),
                                   ),
@@ -351,8 +370,8 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                       setState(() {});
                                     },
                                     child: Container(
-                                      height: 30,
-                                      width: 30,
+                                      height: isTablet ? 35 : 30,
+                                      width: isTablet ? 35 : 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(50),
@@ -360,7 +379,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                       child: Icon(
                                         Icons.close,
                                         color: Colors.white,
-                                        size: 20,
+                                        size: isTablet ? 22 : 20,
                                       ),
                                     ),
                                   ),
@@ -371,7 +390,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                         ))),
               ),
               SizedBox(
-                height: 20,
+                height: isTablet ? 25 : 20,
               ),
               Container(
                 child: Column(
@@ -379,8 +398,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                   children: [
                     Text(
                       "Favourite list",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: isTablet ? 25 : 20),
                     ),
                     Divider(
                       color: Colors.grey,
@@ -391,20 +411,22 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                       children: [
                         SizedBox(),
                         Container(
-                          padding: EdgeInsets.only(bottom: 10),
-                          width: 250,
+                          padding: EdgeInsets.only(bottom: isTablet ? 15 : 10),
+                          width: isTablet ? 350 : 250,
                           child: TextField(
                             onChanged: (value) {
                               searchFavoriteItem(value.toLowerCase());
                               // departmentSearch(value.toUpperCase());
                             },
+                            style: TextStyle(fontSize: isTablet ? 18 : 16),
                             controller: _favoriteController,
                             decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.only(left: 10, top: 20),
+                              contentPadding: EdgeInsets.only(
+                                  left: isTablet ? 15 : 10, top: 20),
                               hintText: "Search Favourite list",
                               suffixIcon: Icon(
                                 Icons.search,
+                                size: isTablet ? 30 : 25,
                                 color: AppTheme.buttonActiveColor,
                               ),
                             ),
@@ -426,7 +448,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                 : Colors.white,
                             child: CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
-                              title: Text("${item.favouriteVal}"),
+                              title: Text(
+                                "${item.favouriteVal}",
+                                style: TextStyle(fontSize: isTablet ? 18 : 16),
+                              ),
                               value: item.isCheck,
                               onChanged: (val) {
                                 item.isCheck = val;
@@ -462,6 +487,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                 child: Icon(
                                   Icons.clear,
                                   color: Colors.red,
+                                  size: isTablet ? 30 : 25,
                                 ),
                               ),
                             ),

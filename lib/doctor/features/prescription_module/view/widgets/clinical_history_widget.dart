@@ -33,7 +33,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
     print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
       List<FavouriteItemModel> initialFavoriteSearchItems =
-      List<FavouriteItemModel>();
+          List<FavouriteItemModel>();
       initialFavoriteSearch.forEach((item) {
         if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
@@ -61,22 +61,23 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
     Future.delayed(Duration.zero).then((value) async {
       var vm = context.read<ClinicalHistoryViewModel>();
       await vm.getData();
-      var vm2=Provider.of<GetTamplateDataViewModel>(context,listen: false);
-      vm2.getData();
+      // var vm2 = Provider.of<GetTamplateDataViewModel>(context, listen: false);
       favoriteItems.addAll(vm.favouriteList);
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var vm = context.watch<ClinicalHistoryViewModel>();
-    var vm2=Provider.of<GetTamplateDataViewModel>(context);
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
+      controller: expandableControllers.clinicalHistoryController,
       onChangeShowReport: (bool val) {
-        showReport = val;
+        templateVm.clinicalHistoryShowReport = val;
         setState(() {});
       },
-      showReport: showReport,
+      showReport: templateVm.clinicalHistoryShowReport,
       title: "Clinical History",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -98,17 +99,17 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              vm2.clinicalHistorySelectedItems[ind] =
+                              templateVm.clinicalHistorySelectedItems[ind] =
                                   controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (vm2.clinicalHistorySelectedItems
+                                if (templateVm.clinicalHistorySelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  vm2.clinicalHistorySelectedItems
+                                  templateVm.clinicalHistorySelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -129,10 +130,10 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (vm2.clinicalHistorySelectedItems.contains(v)) {
+                  if (templateVm.clinicalHistorySelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    vm2.clinicalHistorySelectedItems.add(v);
+                    templateVm.clinicalHistorySelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -143,7 +144,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                   return PreDiagnosisSearchRepository().fetchSearchList(
                       q: v,
                       favoriteType:
-                      PrescriptionFavouriteType.clinicalHistory.toString());
+                          PrescriptionFavouriteType.clinicalHistory.toString());
                 },
                 // noItemsFoundBuilder: noItemsFoundBuilder ??
                 //     (context) {
@@ -164,10 +165,10 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
               SizedBox(
                 height: 20,
               ),
-           Wrap(
+              Wrap(
                 children: List.generate(
-                    vm2.clinicalHistorySelectedItems.length,
-                        (index) => Container(
+                    templateVm.clinicalHistorySelectedItems.length,
+                    (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
                           color: Color(0xffEFF5FF),
@@ -180,7 +181,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${vm2.clinicalHistorySelectedItems[index]}",
+                                "${templateVm.clinicalHistorySelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -192,21 +193,21 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               padding: EdgeInsets.only(bottom: 10),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
                                     onTap: () async {
                                       await CommonAddToFavoriteListRepository()
                                           .addToFavouriteList(
-                                          favoriteType:
-                                          PrescriptionFavouriteType
-                                              .clinicalHistory
-                                              .toString(),
-                                          favoriteVal:
-                                          vm2.clinicalHistorySelectedItems[
-                                          index])
+                                              favoriteType:
+                                                  PrescriptionFavouriteType
+                                                      .clinicalHistory
+                                                      .toString(),
+                                              favoriteVal: templateVm
+                                                      .clinicalHistorySelectedItems[
+                                                  index])
                                           .then((value) async =>
-                                      await vm.getData());
+                                              await vm.getData());
                                       favoriteItems.clear();
                                       if (_favoriteController.text.isNotEmpty) {
                                         searchFavoriteItem(_favoriteController
@@ -225,8 +226,8 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                      vm2.clinicalHistorySelectedItems[index];
+                                      controller.text = templateVm
+                                          .clinicalHistorySelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -234,7 +235,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                       width: 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(50),
+                                              BorderRadius.circular(50),
                                           color: Color(0xffE6374DF)),
                                       child: Icon(
                                         Icons.edit,
@@ -245,7 +246,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      vm2.clinicalHistorySelectedItems
+                                      templateVm.clinicalHistorySelectedItems
                                           .removeAt(index);
                                       setState(() {});
                                     },
@@ -254,7 +255,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                       width: 30,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(50),
+                                              BorderRadius.circular(50),
                                           color: Colors.red),
                                       child: Icon(
                                         Icons.close,
@@ -279,7 +280,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                     Text(
                       "Favourite list",
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     Divider(
                       color: Colors.grey,
@@ -299,7 +300,7 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                             controller: _favoriteController,
                             decoration: InputDecoration(
                               contentPadding:
-                              EdgeInsets.only(left: 10, top: 20),
+                                  EdgeInsets.only(left: 10, top: 20),
                               hintText: "Search Favourite list",
                               suffixIcon: Icon(
                                 Icons.search,
@@ -317,7 +318,9 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                       itemBuilder: (context, index) {
                         var item = favoriteItems[index];
                         return Container(
-                          color: (index % 2 == 0) ? Color(0xffEFF5FF) : Colors.white,
+                          color: (index % 2 == 0)
+                              ? Color(0xffEFF5FF)
+                              : Colors.white,
                           child: Padding(
                             padding: EdgeInsets.only(left: 5.0, right: 20.0),
                             child: CheckboxListTile(
@@ -327,11 +330,11 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (vm2.clinicalHistorySelectedItems
+                                  if (templateVm.clinicalHistorySelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    vm2.clinicalHistorySelectedItems
+                                    templateVm.clinicalHistorySelectedItems
                                         .add(item.favouriteVal);
                                   }
                                 }
@@ -340,7 +343,10 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               secondary: InkWell(
                                 onTap: () async {
                                   SVProgressHUD.show(status: "Deleting");
-                                await  DeleteFavoriteLitRepository().deleteFavoriteList(id: item.id).then((value) async => await vm.getData());
+                                  await DeleteFavoriteLitRepository()
+                                      .deleteFavoriteList(id: item.id)
+                                      .then(
+                                          (value) async => await vm.getData());
                                   SVProgressHUD.dismiss();
 
                                   favoriteItems.clear();

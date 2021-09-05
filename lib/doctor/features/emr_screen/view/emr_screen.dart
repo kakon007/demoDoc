@@ -783,161 +783,181 @@ class _EmrScreenState extends State<EmrScreen> {
                                               //Pathology
                                               Scaffold(
                                                 backgroundColor: Colors.white,
-                                                body: SingleChildScrollView(
-                                                  child: ListView.separated(
-                                                      itemCount: 4,
-                                                      shrinkWrap: true,
-                                                      itemBuilder:
-                                                          (BuildContext context,
-                                                          int index) {
-                                                        return Padding(
-                                                          padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10.0,
-                                                              right: 10),
-                                                          child: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Column(
-                                                                  crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                                  children: [
-                                                                    Container(
-                                                                      width: isTablet
-                                                                          ? MediaQuery.of(context)
-                                                                          .size
-                                                                          .width *
-                                                                          0.65
-                                                                          : width <=
-                                                                          330
-                                                                          ? MediaQuery.of(context).size.width *
-                                                                          0.50
-                                                                          : MediaQuery.of(context).size.width *
-                                                                          0.50,
-                                                                      // width: MediaQuery.of(context)
-                                                                      //             .size
-                                                                      //             .width >
-                                                                      //         350
-                                                                      //     ? 220
-                                                                      //     : 200,
-                                                                      child: Text(
-                                                                        '1. Blood test lab report.jpg',
-                                                                        style: GoogleFonts.poppins(
-                                                                          // color: HexColor(
-                                                                          //   '#354291',
-                                                                          // ),
-                                                                            fontSize: isTablet
-                                                                                ? 20
-                                                                                : width <= 330
-                                                                                ? 13
-                                                                                : 16,
-                                                                            fontWeight: FontWeight.w500),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 10,
-                                                                    ),
-                                                                    Padding(
-                                                                      padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                          12.0),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          SvgPicture
-                                                                              .asset(
-                                                                            "assets/icons/calendoc.svg",
-                                                                            //key: Key('filterIconKey'),
-                                                                            width: 10,
-                                                                            height:
-                                                                            18,
-                                                                            fit: BoxFit
-                                                                                .fitWidth,
-                                                                            allowDrawingOutsideViewBox:
-                                                                            true,
-                                                                            matchTextDirection:
-                                                                            true,
-                                                                            //color:  Colors.grey.withOpacity(0.5),
-                                                                            //semanticsLabel: 'Acme Logo'
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: 8,
-                                                                          ),
-                                                                          Text(
-                                                                            '22 February 2021',
-                                                                            style: GoogleFonts.poppins(
-                                                                              // color: HexColor(
-                                                                              //   '#354291',
-                                                                              // ),
-                                                                                fontSize: isTablet
-                                                                                    ? 20
-                                                                                    : width <= 330
-                                                                                    ? 12
-                                                                                    : 15,
-                                                                                color: Colors.grey),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                Spacer(),
-                                                                Material(
-                                                                  elevation: 0,
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                          5)),
-                                                                  color: HexColor(
-                                                                      "#6374DF"),
-                                                                  child: SizedBox(
-                                                                    width: isTablet
-                                                                        ? 170
-                                                                        : deviceWidth <=
-                                                                        360 &&
-                                                                        deviceWidth >
-                                                                            330
-                                                                        ? 105
-                                                                        : deviceWidth <=
-                                                                        330
-                                                                        ? 50
-                                                                        : 80,
-                                                                    height:
-                                                                    deviceWidth <=
-                                                                        360
-                                                                        ? 28
-                                                                        : 25,
-                                                                    child: Center(
-                                                                      child: Text(
-                                                                        "View",
-                                                                        key: Key(
-                                                                            'rebookKey$index'),
-                                                                        style: GoogleFonts.roboto(
-                                                                            color: Colors.white,
-                                                                            fontSize: isTablet
-                                                                                ? 15
-                                                                                : deviceWidth <= 360 && deviceWidth > 330
-                                                                                ? 9
-                                                                                : deviceWidth <= 330
-                                                                                ? 8
-                                                                                : 10,
-                                                                            fontWeight: FontWeight.w700),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      separatorBuilder:
-                                                          (context, index) {
-                                                        return Divider();
-                                                      }),
+                                                // body: SingleChildScrollView(
+                                                //   child: ListView.separated(
+                                                //       itemCount: 4,
+                                                //       shrinkWrap: true,
+                                                //       itemBuilder:
+                                                //           (BuildContext context,
+                                                //           int index) {
+                                                //         return Padding(
+                                                //           padding:
+                                                //           const EdgeInsets.only(
+                                                //               left: 10.0,
+                                                //               right: 10),
+                                                //           child: Container(
+                                                //             child: Row(
+                                                //               children: [
+                                                //                 Column(
+                                                //                   crossAxisAlignment:
+                                                //                   CrossAxisAlignment
+                                                //                       .start,
+                                                //                   children: [
+                                                //                     Container(
+                                                //                       width: isTablet
+                                                //                           ? MediaQuery.of(context)
+                                                //                           .size
+                                                //                           .width *
+                                                //                           0.65
+                                                //                           : width <=
+                                                //                           330
+                                                //                           ? MediaQuery.of(context).size.width *
+                                                //                           0.50
+                                                //                           : MediaQuery.of(context).size.width *
+                                                //                           0.50,
+                                                //                       // width: MediaQuery.of(context)
+                                                //                       //             .size
+                                                //                       //             .width >
+                                                //                       //         350
+                                                //                       //     ? 220
+                                                //                       //     : 200,
+                                                //                       child: Text(
+                                                //                         '1. Blood test lab report.jpg',
+                                                //                         style: GoogleFonts.poppins(
+                                                //                           // color: HexColor(
+                                                //                           //   '#354291',
+                                                //                           // ),
+                                                //                             fontSize: isTablet
+                                                //                                 ? 20
+                                                //                                 : width <= 330
+                                                //                                 ? 13
+                                                //                                 : 16,
+                                                //                             fontWeight: FontWeight.w500),
+                                                //                       ),
+                                                //                     ),
+                                                //                     SizedBox(
+                                                //                       height: 10,
+                                                //                     ),
+                                                //                     Padding(
+                                                //                       padding:
+                                                //                       const EdgeInsets
+                                                //                           .only(
+                                                //                           left:
+                                                //                           12.0),
+                                                //                       child: Row(
+                                                //                         children: [
+                                                //                           SvgPicture
+                                                //                               .asset(
+                                                //                             "assets/icons/calendoc.svg",
+                                                //                             //key: Key('filterIconKey'),
+                                                //                             width: 10,
+                                                //                             height:
+                                                //                             18,
+                                                //                             fit: BoxFit
+                                                //                                 .fitWidth,
+                                                //                             allowDrawingOutsideViewBox:
+                                                //                             true,
+                                                //                             matchTextDirection:
+                                                //                             true,
+                                                //                             //color:  Colors.grey.withOpacity(0.5),
+                                                //                             //semanticsLabel: 'Acme Logo'
+                                                //                           ),
+                                                //                           SizedBox(
+                                                //                             width: 8,
+                                                //                           ),
+                                                //                           Text(
+                                                //                             '22 February 2021',
+                                                //                             style: GoogleFonts.poppins(
+                                                //                               // color: HexColor(
+                                                //                               //   '#354291',
+                                                //                               // ),
+                                                //                                 fontSize: isTablet
+                                                //                                     ? 20
+                                                //                                     : width <= 330
+                                                //                                     ? 12
+                                                //                                     : 15,
+                                                //                                 color: Colors.grey),
+                                                //                           ),
+                                                //                         ],
+                                                //                       ),
+                                                //                     ),
+                                                //                   ],
+                                                //                 ),
+                                                //                 Spacer(),
+                                                //                 Material(
+                                                //                   elevation: 0,
+                                                //                   shape: RoundedRectangleBorder(
+                                                //                       borderRadius:
+                                                //                       BorderRadius
+                                                //                           .circular(
+                                                //                           5)),
+                                                //                   color: HexColor(
+                                                //                       "#6374DF"),
+                                                //                   child: SizedBox(
+                                                //                     width: isTablet
+                                                //                         ? 170
+                                                //                         : deviceWidth <=
+                                                //                         360 &&
+                                                //                         deviceWidth >
+                                                //                             330
+                                                //                         ? 105
+                                                //                         : deviceWidth <=
+                                                //                         330
+                                                //                         ? 50
+                                                //                         : 80,
+                                                //                     height:
+                                                //                     deviceWidth <=
+                                                //                         360
+                                                //                         ? 28
+                                                //                         : 25,
+                                                //                     child: Center(
+                                                //                       child: Text(
+                                                //                         "View",
+                                                //                         key: Key(
+                                                //                             'rebookKey$index'),
+                                                //                         style: GoogleFonts.roboto(
+                                                //                             color: Colors.white,
+                                                //                             fontSize: isTablet
+                                                //                                 ? 15
+                                                //                                 : deviceWidth <= 360 && deviceWidth > 330
+                                                //                                 ? 9
+                                                //                                 : deviceWidth <= 330
+                                                //                                 ? 8
+                                                //                                 : 10,
+                                                //                             fontWeight: FontWeight.w700),
+                                                //                       ),
+                                                //                     ),
+                                                //                   ),
+                                                //                 ),
+                                                //               ],
+                                                //             ),
+                                                //           ),
+                                                //         );
+                                                //       },
+                                                //       separatorBuilder:
+                                                //           (context, index) {
+                                                //         return Divider();
+                                                //       }),
+                                                // ),
+
+                                                body:  Align(
+                                                  alignment: Alignment.center,
+                                                  child: Container(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        Text(
+                                                          'No pathology available now',
+                                                          textAlign: TextAlign.center,
+                                                          style: GoogleFonts.poppins(
+                                                              color: HexColor('#AEB0BA'),
+                                                              fontWeight: FontWeight.w400,
+                                                              fontSize: isTablet ? 22 : 16),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
 
@@ -945,160 +965,180 @@ class _EmrScreenState extends State<EmrScreen> {
 
                                               Scaffold(
                                                 backgroundColor: Colors.white,
-                                                body: SingleChildScrollView(
-                                                  child: ListView.separated(
-                                                      itemCount: 4,
-                                                      shrinkWrap: true,
-                                                      itemBuilder:
-                                                          (BuildContext context,
-                                                          int index) {
-                                                        return Padding(
-                                                          padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10.0,
-                                                              right: 10),
-                                                          child: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Column(
-                                                                  crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                                  children: [
-                                                                    Container(
-                                                                      // width: MediaQuery.of(context)
-                                                                      //             .size
-                                                                      //             .width >
-                                                                      //         350
-                                                                      //     ? 220
-                                                                      //     : 200,
-                                                                      width: isTablet
-                                                                          ? MediaQuery.of(context)
-                                                                          .size
-                                                                          .width *
-                                                                          0.65
-                                                                          : width <=
-                                                                          330
-                                                                          ? MediaQuery.of(context).size.width *
-                                                                          0.50
-                                                                          : MediaQuery.of(context).size.width *
-                                                                          0.50,
-                                                                      child: Text(
-                                                                        '1. X-Ray Image.jpg',
-                                                                        style: GoogleFonts.poppins(
-                                                                          // color: HexColor(
-                                                                          //   '#354291',
-                                                                          // ),
-                                                                            fontSize: isTablet
-                                                                                ? 20
-                                                                                : width <= 330
-                                                                                ? 13
-                                                                                : 16,
-                                                                            fontWeight: FontWeight.w500),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 10,
-                                                                    ),
-                                                                    Padding(
-                                                                      padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                          12.0),
-                                                                      child: Row(
-                                                                        children: [
-                                                                          SvgPicture
-                                                                              .asset(
-                                                                            "assets/icons/calendoc.svg",
-                                                                            //key: Key('filterIconKey'),
-                                                                            width: 10,
-                                                                            height:
-                                                                            18,
-                                                                            fit: BoxFit
-                                                                                .fitWidth,
-                                                                            allowDrawingOutsideViewBox:
-                                                                            true,
-                                                                            matchTextDirection:
-                                                                            true,
-                                                                            //color:  Colors.grey.withOpacity(0.5),
-                                                                            //semanticsLabel: 'Acme Logo'
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: 8,
-                                                                          ),
-                                                                          Text(
-                                                                            '22 February 2021',
-                                                                            style: GoogleFonts.poppins(
-                                                                              // color: HexColor(
-                                                                              //   '#354291',
-                                                                              // ),
-                                                                                fontSize: isTablet
-                                                                                    ? 20
-                                                                                    : width <= 330
-                                                                                    ? 12
-                                                                                    : 15,
-                                                                                color: Colors.grey),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                Spacer(),
-                                                                Material(
-                                                                  elevation: 0,
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                          5)),
-                                                                  color: Color(
-                                                                      0xff6374DF),
-                                                                  child: SizedBox(
-                                                                    width: isTablet
-                                                                        ? 170
-                                                                        : deviceWidth <=
-                                                                        360 &&
-                                                                        deviceWidth >
-                                                                            330
-                                                                        ? 105
-                                                                        : deviceWidth <=
-                                                                        330
-                                                                        ? 50
-                                                                        : 80,
-                                                                    height:
-                                                                    deviceWidth <=
-                                                                        360
-                                                                        ? 28
-                                                                        : 25,
-                                                                    child: Center(
-                                                                      child: Text(
-                                                                        "View",
-                                                                        //key: Key('rebookKey$index'),
-                                                                        style: GoogleFonts.roboto(
-                                                                            color: Colors.white,
-                                                                            fontSize: isTablet
-                                                                                ? 15
-                                                                                : deviceWidth <= 360 && deviceWidth > 330
-                                                                                ? 9
-                                                                                : deviceWidth <= 330
-                                                                                ? 8
-                                                                                : 10,
-                                                                            fontWeight: FontWeight.w700),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      separatorBuilder:
-                                                          (context, index) {
-                                                        return Divider();
-                                                      }),
+                                                // body: SingleChildScrollView(
+                                                //   child: ListView.separated(
+                                                //       itemCount: 4,
+                                                //       shrinkWrap: true,
+                                                //       itemBuilder:
+                                                //           (BuildContext context,
+                                                //           int index) {
+                                                //         return Padding(
+                                                //           padding:
+                                                //           const EdgeInsets.only(
+                                                //               left: 10.0,
+                                                //               right: 10),
+                                                //           child: Container(
+                                                //             child: Row(
+                                                //               children: [
+                                                //                 Column(
+                                                //                   crossAxisAlignment:
+                                                //                   CrossAxisAlignment
+                                                //                       .start,
+                                                //                   children: [
+                                                //                     Container(
+                                                //                       // width: MediaQuery.of(context)
+                                                //                       //             .size
+                                                //                       //             .width >
+                                                //                       //         350
+                                                //                       //     ? 220
+                                                //                       //     : 200,
+                                                //                       width: isTablet
+                                                //                           ? MediaQuery.of(context)
+                                                //                           .size
+                                                //                           .width *
+                                                //                           0.65
+                                                //                           : width <=
+                                                //                           330
+                                                //                           ? MediaQuery.of(context).size.width *
+                                                //                           0.50
+                                                //                           : MediaQuery.of(context).size.width *
+                                                //                           0.50,
+                                                //                       child: Text(
+                                                //                         '1. X-Ray Image.jpg',
+                                                //                         style: GoogleFonts.poppins(
+                                                //                           // color: HexColor(
+                                                //                           //   '#354291',
+                                                //                           // ),
+                                                //                             fontSize: isTablet
+                                                //                                 ? 20
+                                                //                                 : width <= 330
+                                                //                                 ? 13
+                                                //                                 : 16,
+                                                //                             fontWeight: FontWeight.w500),
+                                                //                       ),
+                                                //                     ),
+                                                //                     SizedBox(
+                                                //                       height: 10,
+                                                //                     ),
+                                                //                     Padding(
+                                                //                       padding:
+                                                //                       const EdgeInsets
+                                                //                           .only(
+                                                //                           left:
+                                                //                           12.0),
+                                                //                       child: Row(
+                                                //                         children: [
+                                                //                           SvgPicture
+                                                //                               .asset(
+                                                //                             "assets/icons/calendoc.svg",
+                                                //                             //key: Key('filterIconKey'),
+                                                //                             width: 10,
+                                                //                             height:
+                                                //                             18,
+                                                //                             fit: BoxFit
+                                                //                                 .fitWidth,
+                                                //                             allowDrawingOutsideViewBox:
+                                                //                             true,
+                                                //                             matchTextDirection:
+                                                //                             true,
+                                                //                             //color:  Colors.grey.withOpacity(0.5),
+                                                //                             //semanticsLabel: 'Acme Logo'
+                                                //                           ),
+                                                //                           SizedBox(
+                                                //                             width: 8,
+                                                //                           ),
+                                                //                           Text(
+                                                //                             '22 February 2021',
+                                                //                             style: GoogleFonts.poppins(
+                                                //                               // color: HexColor(
+                                                //                               //   '#354291',
+                                                //                               // ),
+                                                //                                 fontSize: isTablet
+                                                //                                     ? 20
+                                                //                                     : width <= 330
+                                                //                                     ? 12
+                                                //                                     : 15,
+                                                //                                 color: Colors.grey),
+                                                //                           ),
+                                                //                         ],
+                                                //                       ),
+                                                //                     ),
+                                                //                   ],
+                                                //                 ),
+                                                //                 Spacer(),
+                                                //                 Material(
+                                                //                   elevation: 0,
+                                                //                   shape: RoundedRectangleBorder(
+                                                //                       borderRadius:
+                                                //                       BorderRadius
+                                                //                           .circular(
+                                                //                           5)),
+                                                //                   color: Color(
+                                                //                       0xff6374DF),
+                                                //                   child: SizedBox(
+                                                //                     width: isTablet
+                                                //                         ? 170
+                                                //                         : deviceWidth <=
+                                                //                         360 &&
+                                                //                         deviceWidth >
+                                                //                             330
+                                                //                         ? 105
+                                                //                         : deviceWidth <=
+                                                //                         330
+                                                //                         ? 50
+                                                //                         : 80,
+                                                //                     height:
+                                                //                     deviceWidth <=
+                                                //                         360
+                                                //                         ? 28
+                                                //                         : 25,
+                                                //                     child: Center(
+                                                //                       child: Text(
+                                                //                         "View",
+                                                //                         //key: Key('rebookKey$index'),
+                                                //                         style: GoogleFonts.roboto(
+                                                //                             color: Colors.white,
+                                                //                             fontSize: isTablet
+                                                //                                 ? 15
+                                                //                                 : deviceWidth <= 360 && deviceWidth > 330
+                                                //                                 ? 9
+                                                //                                 : deviceWidth <= 330
+                                                //                                 ? 8
+                                                //                                 : 10,
+                                                //                             fontWeight: FontWeight.w700),
+                                                //                       ),
+                                                //                     ),
+                                                //                   ),
+                                                //                 ),
+                                                //               ],
+                                                //             ),
+                                                //           ),
+                                                //         );
+                                                //       },
+                                                //       separatorBuilder:
+                                                //           (context, index) {
+                                                //         return Divider();
+                                                //       }),
+                                                // ),
+
+                                                body:  Align(
+                                                  alignment: Alignment.center,
+                                                  child: Container(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        Text(
+                                                          'No imaging available now',
+                                                          textAlign: TextAlign.center,
+                                                          style: GoogleFonts.poppins(
+                                                              color: HexColor('#AEB0BA'),
+                                                              fontWeight: FontWeight.w400,
+                                                              fontSize: isTablet ? 22 : 16),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
 

@@ -27,8 +27,6 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
 
-  List<String> orthosisSelectedItems = [];
-
   var vm = appNavigator.context.read<OrthosisViewModel>();
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
@@ -105,15 +103,16 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              orthosisSelectedItems[ind] = controller.text;
+                              templateVm.orthosisSelectedItems[ind] =
+                                  controller.text;
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (orthosisSelectedItems
+                                if (templateVm.orthosisSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  orthosisSelectedItems
+                                  templateVm.orthosisSelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -134,10 +133,10 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (orthosisSelectedItems.contains(v)) {
+                  if (templateVm.orthosisSelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    orthosisSelectedItems.add(v);
+                    templateVm.orthosisSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -156,7 +155,7 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    orthosisSelectedItems.length,
+                    templateVm.orthosisSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -170,7 +169,7 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${orthosisSelectedItems[index]}",
+                                "${templateVm.orthosisSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -192,8 +191,8 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                                                   PrescriptionFavouriteType
                                                       .orthosis
                                                       .toString(),
-                                              favoriteVal:
-                                                  orthosisSelectedItems[index])
+                                              favoriteVal: templateVm
+                                                  .orthosisSelectedItems[index])
                                           .then((value) async =>
                                               await vm.getData());
                                       _favoriteController.clear();
@@ -209,8 +208,8 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                          orthosisSelectedItems[index];
+                                      controller.text = templateVm
+                                          .orthosisSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -229,7 +228,8 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      orthosisSelectedItems.removeAt(index);
+                                      templateVm.orthosisSelectedItems
+                                          .removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -315,11 +315,11 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (orthosisSelectedItems
+                                  if (templateVm.orthosisSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    orthosisSelectedItems
+                                    templateVm.orthosisSelectedItems
                                         .add(item.favouriteVal);
                                   }
                                 }

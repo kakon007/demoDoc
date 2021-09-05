@@ -26,7 +26,6 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
 
-  List<String> procedureSelectedItems = [];
   int ind;
 
   var vm = appNavigator.context.read<ProcedureViewModel>();
@@ -104,15 +103,16 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              procedureSelectedItems[ind] = controller.text;
+                              templateVm.procedureSelectedItems[ind] =
+                                  controller.text;
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (procedureSelectedItems
+                                if (templateVm.procedureSelectedItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  procedureSelectedItems
+                                  templateVm.procedureSelectedItems
                                       .add(controller.text.trim());
                                   controller.clear();
                                 }
@@ -133,10 +133,10 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (procedureSelectedItems.contains(v)) {
+                  if (templateVm.procedureSelectedItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    procedureSelectedItems.add(v);
+                    templateVm.procedureSelectedItems.add(v);
                   }
                   setState(() {});
                 },
@@ -155,7 +155,7 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
               ),
               Wrap(
                 children: List.generate(
-                    procedureSelectedItems.length,
+                    templateVm.procedureSelectedItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -169,7 +169,7 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${procedureSelectedItems[index]}",
+                                "${templateVm.procedureSelectedItems[index]}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -191,8 +191,9 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                                                   PrescriptionFavouriteType
                                                       .procedure
                                                       .toString(),
-                                              favoriteVal:
-                                                  procedureSelectedItems[index])
+                                              favoriteVal: templateVm
+                                                      .procedureSelectedItems[
+                                                  index])
                                           .then((value) => vm.getData());
                                       _favoriteController.clear();
                                       favoriteItems.clear();
@@ -207,8 +208,8 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                          procedureSelectedItems[index];
+                                      controller.text = templateVm
+                                          .procedureSelectedItems[index];
                                       ind = index;
                                     },
                                     child: Container(
@@ -227,7 +228,8 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      procedureSelectedItems.removeAt(index);
+                                      templateVm.procedureSelectedItems
+                                          .removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -312,11 +314,11 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (procedureSelectedItems
+                                  if (templateVm.procedureSelectedItems
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
-                                    procedureSelectedItems
+                                    templateVm.procedureSelectedItems
                                         .add(item.favouriteVal);
                                   }
                                 }

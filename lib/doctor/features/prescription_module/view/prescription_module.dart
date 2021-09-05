@@ -53,6 +53,46 @@ class _ModuleState extends State<Module> {
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) => init());
+    //Disposal
+    var templateVm =
+        Provider.of<GetTamplateDataViewModel>(context, listen: false);
+    templateVm.chosenDisposalValue = null;
+    templateVm.disposalDurationController.clear();
+    templateVm.disposalDurationType = null;
+    templateVm.disposalSelectedDate = DateTime.now();
+//OPD
+    templateVm.referredOPDSelectedItems = '';
+    //Doctor
+    templateVm.referredDoctorSelectedItems = '';
+    templateVm.investigationSelectedItems = [];
+    templateVm.clinicalHistorySelectedItems = [];
+    templateVm.pastIllnessSelectedItems = [];
+    templateVm.chiefComplaintSelectedItems = [];
+    templateVm.diseaseSelectedItems = [];
+    templateVm.provisionalDiagnosisSelectedItems = [];
+    templateVm.adviceSelectedItems = [];
+    templateVm.multiDose = [];
+    templateVm.vitals = [];
+    templateVm.multiDoseItemList = [];
+    templateVm.medicineList = [];
+    templateVm.procedureSelectedItems = [];
+    templateVm.disposeSelectedItems = [];
+    templateVm.opdSelectedItems = [];
+    templateVm.doctorSelectedItems = [];
+    templateVm.orthosisSelectedItems = [];
+    templateVm.investigationFindingItems = [];
+    templateVm.noteTextEditingController.clear();
+    //vitals
+    templateVm.tempTextEditingController.clear();
+    templateVm.pulseTextEditingController.clear();
+    templateVm.heartRateTextEditingController.clear();
+    templateVm.spo2TextEditingController.clear();
+    templateVm.resRateTextEditingController.clear();
+    templateVm.bpSysTextEditingController.clear();
+    templateVm.bpDiaTextEditingController.clear();
+    templateVm.minBpTextEditingController.clear();
+    templateVm.weightTextEditingController.clear();
+    templateVm.heightTextEditingController.clear();
     super.initState();
   }
 

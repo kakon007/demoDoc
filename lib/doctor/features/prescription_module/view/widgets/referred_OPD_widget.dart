@@ -28,7 +28,6 @@ class _ReferredOPDWidgetState extends State<ReferredOPDWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
-  List<String> referredOPDSelectedItems = [];
   int ind;
 
   @override
@@ -97,10 +96,10 @@ class _ReferredOPDWidgetState extends State<ReferredOPDWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (referredOPDSelectedItems.contains(v)) {
-                    BotToast.showText(text: "All ready added");
+                  if (templateVm.referredOPDSelectedItems == v) {
+                    BotToast.showText(text: "All ready Selected");
                   } else {
-                    referredOPDSelectedItems.add(v);
+                    templateVm.referredOPDSelectedItems = v;
                   }
                   setState(() {});
                 },
@@ -114,61 +113,58 @@ class _ReferredOPDWidgetState extends State<ReferredOPDWidget> {
               SizedBox(
                 height: 20,
               ),
-              Wrap(
-                children: List.generate(
-                    referredOPDSelectedItems.length,
-                    (index) => Container(
-                        margin: EdgeInsets.only(top: 5),
-                        decoration: BoxDecoration(
-                          color: Color(0xffEFF5FF),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 15, top: 10.0, bottom: 5.0),
-                              child: Text(
-                                "${referredOPDSelectedItems[index]}",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
+              templateVm.referredOPDSelectedItems == null ||
+                      templateVm.referredOPDSelectedItems == ""
+                  ? SizedBox()
+                  : Container(
+                      margin: EdgeInsets.only(top: 5),
+                      decoration: BoxDecoration(
+                        color: Color(0xffEFF5FF),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 15, top: 10.0, bottom: 5.0),
+                            child: Text(
+                              "${templateVm.referredOPDSelectedItems}",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
-                            Divider(
-                              thickness: 1,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      referredOPDSelectedItems.removeAt(index);
-                                      setState(() {});
-                                    },
-                                    child: Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          color: Colors.red),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
+                          ),
+                          Divider(
+                            thickness: 1,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    templateVm.referredOPDSelectedItems = "";
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: Colors.red),
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                      size: 20,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ))),
-              ),
+                          ),
+                        ],
+                      )),
               SizedBox(
                 height: 20,
               ),

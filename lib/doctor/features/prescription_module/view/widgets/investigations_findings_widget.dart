@@ -35,7 +35,7 @@ class _InvestigationFindingsWidgetState
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
   TextEditingController _findingController = TextEditingController();
-  List<Findings> investigationFindingItems = [];
+
   int ind;
   var vm = appNavigator.context.read<InvestigationFindingsViewModel>();
 
@@ -95,7 +95,7 @@ class _InvestigationFindingsWidgetState
         templateVm.investigationFindingsShowReport = val;
         setState(() {});
       },
-      showReport:         templateVm.investigationFindingsShowReport,
+      showReport: templateVm.investigationFindingsShowReport,
       title: "Investigation Findings",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -130,7 +130,7 @@ class _InvestigationFindingsWidgetState
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (investigationFindingItems.contains(v)) {
+                  if (templateVm.investigationFindingItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
                     showAlert(context, v);
@@ -162,19 +162,20 @@ class _InvestigationFindingsWidgetState
                         suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              investigationFindingItems[ind].name =
+                              templateVm.investigationFindingItems[ind].name =
                                   controller.text;
                               controller.clear();
                               ind = null;
                             } else {
                               if (controller.text.trim().isNotEmpty) {
-                                if (investigationFindingItems
+                                if (templateVm.investigationFindingItems
                                     .contains(controller.text.trim())) {
                                   BotToast.showText(text: "All ready added");
                                 } else {
-                                  investigationFindingItems.add(Findings(
-                                      name: controller.text.trim(),
-                                      finding: _findingController.text));
+                                  templateVm.investigationFindingItems.add(
+                                      Findings(
+                                          name: controller.text.trim(),
+                                          finding: _findingController.text));
                                   controller.clear();
                                   _findingController.clear();
                                 }
@@ -216,7 +217,7 @@ class _InvestigationFindingsWidgetState
                   : SizedBox(),
               Wrap(
                 children: List.generate(
-                    investigationFindingItems.length,
+                    templateVm.investigationFindingItems.length,
                     (index) => Container(
                         margin: EdgeInsets.only(top: 5),
                         decoration: BoxDecoration(
@@ -230,7 +231,7 @@ class _InvestigationFindingsWidgetState
                               padding: EdgeInsets.only(
                                   left: 15, top: 10.0, bottom: 5.0),
                               child: Text(
-                                "${investigationFindingItems[index].name} - ${investigationFindingItems[index]?.finding ?? ""}",
+                                "${templateVm.investigationFindingItems[index].name} - ${templateVm.investigationFindingItems[index]?.finding ?? ""}",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -252,10 +253,10 @@ class _InvestigationFindingsWidgetState
                                                   PrescriptionFavouriteType
                                                       .chiefComplaint
                                                       .toString(),
-                                              favoriteVal:
-                                                  investigationFindingItems[
-                                                          index]
-                                                      .name)
+                                              favoriteVal: templateVm
+                                                  .investigationFindingItems[
+                                                      index]
+                                                  .name)
                                           .then((value) async =>
                                               await vm2.getData());
                                       favoriteItems.clear();
@@ -275,8 +276,9 @@ class _InvestigationFindingsWidgetState
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      controller.text =
-                                          investigationFindingItems[index].name;
+                                      controller.text = templateVm
+                                          .investigationFindingItems[index]
+                                          .name;
                                       ind = index;
                                     },
                                     child: Container(
@@ -295,7 +297,8 @@ class _InvestigationFindingsWidgetState
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      investigationFindingItems.removeAt(index);
+                                      templateVm.investigationFindingItems
+                                          .removeAt(index);
                                       setState(() {});
                                     },
                                     child: Container(
@@ -378,8 +381,9 @@ class _InvestigationFindingsWidgetState
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (investigationFindingItems.isNotEmpty) {
-                                    if (investigationFindingItems
+                                  if (templateVm
+                                      .investigationFindingItems.isNotEmpty) {
+                                    if (templateVm.investigationFindingItems
                                         .contains(item.favouriteVal)) {
                                       BotToast.showText(
                                           text: "All ready added");
@@ -437,6 +441,8 @@ class _InvestigationFindingsWidgetState
   }
 
   void showAlert(BuildContext context, String favVal) {
+    var templateVm =
+        Provider.of<GetTamplateDataViewModel>(context, listen: false);
     showDialog(
         context: context,
         builder: (context) {
@@ -471,14 +477,16 @@ class _InvestigationFindingsWidgetState
                                   if (_findingController.text
                                       .trim()
                                       .isNotEmpty) {
-                                    if (investigationFindingItems
+                                    if (templateVm.investigationFindingItems
                                         .contains(favVal)) {
                                       BotToast.showText(
                                           text: "All ready added");
                                     } else {
-                                      investigationFindingItems.add(Findings(
-                                          name: favVal,
-                                          finding: _findingController.text));
+                                      templateVm.investigationFindingItems.add(
+                                          Findings(
+                                              name: favVal,
+                                              finding:
+                                                  _findingController.text));
                                       Navigator.pop(context);
                                       _findingController.clear();
                                     }

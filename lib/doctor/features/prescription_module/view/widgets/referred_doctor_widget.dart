@@ -27,8 +27,7 @@ class ReferredDoctorWidget extends StatefulWidget {
 class _ReferredDoctorWidgetState extends State<ReferredDoctorWidget> {
   bool showReport = false;
   TextEditingController controller = TextEditingController();
-  TextEditingController _favoriteController = TextEditingController();
-  List<String> referredDoctorSelectedItems = [];
+
   int ind;
 
   @override
@@ -98,10 +97,10 @@ class _ReferredDoctorWidgetState extends State<ReferredDoctorWidget> {
                   );
                 },
                 onSuggestionSelected: (v) {
-                  if (referredDoctorSelectedItems.contains(v)) {
-                    BotToast.showText(text: "All ready added");
+                  if (templateVm.referredDoctorSelectedItems == v) {
+                    BotToast.showText(text: "All ready Selected");
                   } else {
-                    referredDoctorSelectedItems.add(v);
+                    templateVm.referredDoctorSelectedItems = v;
                   }
                   setState(() {});
                 },
@@ -115,62 +114,58 @@ class _ReferredDoctorWidgetState extends State<ReferredDoctorWidget> {
               SizedBox(
                 height: 20,
               ),
-              Wrap(
-                children: List.generate(
-                    referredDoctorSelectedItems.length,
-                    (index) => Container(
-                        margin: EdgeInsets.only(top: 5),
-                        decoration: BoxDecoration(
-                          color: Color(0xffEFF5FF),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 15, top: 10.0, bottom: 5.0),
-                              child: Text(
-                                "${referredDoctorSelectedItems[index]}",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
+              templateVm.referredDoctorSelectedItems == null ||
+                      templateVm.referredDoctorSelectedItems == ""
+                  ? SizedBox()
+                  : Container(
+                      margin: EdgeInsets.only(top: 5),
+                      decoration: BoxDecoration(
+                        color: Color(0xffEFF5FF),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 15, top: 10.0, bottom: 5.0),
+                            child: Text(
+                              "${templateVm.referredDoctorSelectedItems}",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
-                            Divider(
-                              thickness: 1,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      referredDoctorSelectedItems
-                                          .removeAt(index);
-                                      setState(() {});
-                                    },
-                                    child: Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          color: Colors.red),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
+                          ),
+                          Divider(
+                            thickness: 1,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    templateVm.referredDoctorSelectedItems = '';
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: Colors.red),
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                      size: 20,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ))),
-              ),
+                          ),
+                        ],
+                      )),
               SizedBox(
                 height: 20,
               ),

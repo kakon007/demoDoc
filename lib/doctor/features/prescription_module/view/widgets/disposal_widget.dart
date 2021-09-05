@@ -17,21 +17,20 @@ class DisposalWidget extends StatefulWidget {
 class _DisposalWidgetState extends State<DisposalWidget> {
   bool showReport = false;
   TextEditingController _date = new TextEditingController();
-  TextEditingController _numberController = new TextEditingController();
+
   SingingCharacter _character = SingingCharacter.lafayette;
-  String _chosenValue;
-  String _durationValue;
-  DateTime selectedDate = DateTime.now();
 
   Future<Null> _selectDate(BuildContext context) async {
+    var templateVm =
+        Provider.of<GetTamplateDataViewModel>(context, listen: false);
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime.now());
-    if (picked != null && picked != selectedDate)
+        initialDate: templateVm.disposalSelectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2050, 1));
+    if (picked != null && picked != templateVm.disposalSelectedDate)
       setState(() {
-        selectedDate = picked;
+        templateVm.disposalSelectedDate = picked;
         var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
         _date.value = TextEditingValue(text: "${formattedDate.toString()}");
       });
@@ -47,7 +46,7 @@ class _DisposalWidgetState extends State<DisposalWidget> {
     var selectDisposal = DropdownButtonHideUnderline(
         child: DropdownButton<String>(
       icon: Icon(Icons.keyboard_arrow_down_sharp),
-      value: _chosenValue,
+      value: templateVm.chosenDisposalValue,
       //elevation: 5,
       style: TextStyle(color: Colors.black),
       items: <String>[
@@ -69,14 +68,14 @@ class _DisposalWidgetState extends State<DisposalWidget> {
       ),
       onChanged: (String value) {
         setState(() {
-          _chosenValue = value;
+          templateVm.chosenDisposalValue = value;
         });
       },
     ));
     var selectDuration = DropdownButtonHideUnderline(
       child: DropdownButton<String>(
         icon: Icon(Icons.keyboard_arrow_down_sharp),
-        value: _durationValue,
+        value: templateVm.disposalDurationType,
         //elevation: 5,
         style: TextStyle(color: Colors.black),
         items: <String>[
@@ -104,7 +103,7 @@ class _DisposalWidgetState extends State<DisposalWidget> {
         ),
         onChanged: (String value) {
           setState(() {
-            _durationValue = value;
+            templateVm.disposalDurationType = value;
           });
         },
       ),
@@ -208,7 +207,7 @@ class _DisposalWidgetState extends State<DisposalWidget> {
             //   ],
             // ),
 
-            _chosenValue == "Follow Up"
+            templateVm.chosenDisposalValue == "Follow Up"
                 ? Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Row(
@@ -218,7 +217,7 @@ class _DisposalWidgetState extends State<DisposalWidget> {
                           width: MediaQuery.of(context).size.width * 0.17,
                           height: 40,
                           child: TextField(
-                            controller: _numberController,
+                            controller: templateVm.disposalDurationController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                             ),
@@ -290,4 +289,16 @@ class _DisposalWidgetState extends State<DisposalWidget> {
       ),
     );
   }
+}
+
+class DisposalItem {
+  String disposal;
+  String disposalDuration;
+  String disposalDurationType;
+  DateTime disposalDate;
+  DisposalItem(
+      {this.disposal,
+      this.disposalDuration,
+      this.disposalDurationType,
+      this.disposalDate});
 }

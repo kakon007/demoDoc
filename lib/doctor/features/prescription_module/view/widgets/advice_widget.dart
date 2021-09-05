@@ -27,8 +27,6 @@ class _AdviceWidgetState extends State<AdviceWidget> {
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
 
-  List<String> selectedItems = [];
-
   var vm = appNavigator.context.read<AdviceViewModel>();
   void searchFavoriteItem(String query) {
     List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
@@ -63,8 +61,6 @@ class _AdviceWidgetState extends State<AdviceWidget> {
       await vm.getData();
       favoriteItems.addAll(vm.favouriteList);
     });
-
-    // TODO: implement initState
     super.initState();
   }
 

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/features/appointment_report/view_model/appointment_report_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/appointment_report/view_model/shift_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/dashboard_drawer.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_widget.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
@@ -26,6 +27,8 @@ class AppointmentReport extends StatefulWidget {
 }
 
 class _AppointmentReportState extends State<AppointmentReport> {
+
+  int selectedIndex;
   @override
   void initState() {
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: false);
@@ -35,11 +38,15 @@ class _AppointmentReportState extends State<AppointmentReport> {
 
     var appointmentReport= Provider.of<AppointmentReportListDocViewModel>(context, listen: false);
     appointmentReport.getData(doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo);
+
+    var shift= Provider.of<ShiftListDocViewModel>(context, listen: false);
+    shift.getData(ogNo: companyInfoVm.details.organizationNo);
+    selectedIndex = 0;
     // TODO: implement initState
     super.initState();
   }
 
-  int selectedIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +59,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
     var deviceHeight = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var appointmentReport= Provider.of<AppointmentReportListDocViewModel>(context);
+    var shift= Provider.of<ShiftListDocViewModel>(context, listen: false);
     var spaceBetween = SizedBox(
       height: 10,
     );
@@ -184,6 +192,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
                     onTap: () {
                       setState(() {
                         selectedIndex = index;
+                        print('inddss $selectedIndex');
                       });
                     },
                     child: Container(

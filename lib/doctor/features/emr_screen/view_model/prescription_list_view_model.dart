@@ -42,12 +42,12 @@ class PrescriptionListDocViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData({var fromDate,var todate,var id}) async {
+  Future<bool> getData({var fromDate,var todate,var id,var searchValue}) async {
     print('Datem $fromDate');
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    var res = await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:fromDate,startIndex: startIndex,id: id);
+    var res = await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:todate,startIndex: startIndex,id: id,searchValue:searchValue);
     notifyListeners();
     _prescriptionList.clear();
     res.fold((l) {

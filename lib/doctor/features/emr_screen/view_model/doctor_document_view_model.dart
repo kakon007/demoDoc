@@ -42,11 +42,11 @@ class DoctorDocumentationListDocViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData({var regNo,var doctorNo}) async {
+  Future<bool> getData({var regNo,var doctorNo,var searchValue}) async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    var res = await DoctorDocumentationListRepository().fetchDocList(regNo: regNo,doctorNo: doctorNo,startIndex: startIndex);
+    var res = await DoctorDocumentationListRepository().fetchDocList(regNo: regNo,doctorNo: doctorNo,startIndex: startIndex,searchValue: searchValue);
     notifyListeners();
     _documentationList.clear();
     res.fold((l) {

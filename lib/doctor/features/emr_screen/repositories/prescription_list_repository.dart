@@ -9,16 +9,19 @@ import 'package:http/http.dart' as http;
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 class PrescriptionListRepository{
   Future<Either<AppError, PrescriptionListM>> fetchPrescriptionList(
-      {var fromDate,var toDate,int startIndex,var id}) async {
-     try{
-      var response= await ApiClient().getRequest(
-        'diagnostic-api/api/emr/view-prescription/gridList?draw=1&columns%5B0%5D%5Bdata%5D=ssModifiedOn&columns%5B0%5D%5Bname%5D=ssModifiedOn&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=ssModifiedOn&columns%5B1%5D%5Bname%5D&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=consultationId&columns%5B2%5D%5Bname%5D=consultationId&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=doctorName&columns%5B3%5D%5Bname%5D=doctorName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=0&length=10&search%5Bvalue%5D=Assoc. Prof. Dr. Mahmud Rahim&search%5Bregex%5D=false&hospitalId=$id&ipdFlag=0&fromDate=$fromDate&toDate=$toDate&_=1628675251994#/external-service/patient-portal/patient-portal-home'
-           );
+      {var fromDate,var toDate,int startIndex,var id,var searchValue}) async {
+
+    var url = searchValue == null || searchValue.isEmpty?
+    'diagnostic-api/api/emr/view-prescription/gridList?draw=1&columns%5B0%5D%5Bdata%5D=ssModifiedOn&columns%5B0%5D%5Bname%5D=ssModifiedOn&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=ssModifiedOn&columns%5B1%5D%5Bname%5D&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=consultationId&columns%5B2%5D%5Bname%5D=consultationId&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=doctorName&columns%5B3%5D%5Bname%5D=doctorName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=$startIndex&length=10&search%5Bvalue%5D&search%5Bregex%5D=false&hospitalId=$id&ipdFlag=0&fromDate=$fromDate&toDate=$toDate&_=1628675251994#/external-service/patient-portal/patient-portal-home'
+:        'diagnostic-api/api/emr/view-prescription/gridList?draw=1&columns%5B0%5D%5Bdata%5D=ssModifiedOn&columns%5B0%5D%5Bname%5D=ssModifiedOn&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=ssModifiedOn&columns%5B1%5D%5Bname%5D&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=consultationId&columns%5B2%5D%5Bname%5D=consultationId&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=doctorName&columns%5B3%5D%5Bname%5D=doctorName&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=desc&start=$startIndex&length=10&search%5Bvalue%5D=$searchValue&search%5Bregex%5D=false&hospitalId=$id&ipdFlag=0&fromDate=$fromDate&toDate=$toDate&_=1628675251994#/external-service/patient-portal/patient-portal-home';
+
+    try{
+      var response= await ApiClient().getRequest(url);
 
 print('response ${response.statusCode}');
 print('iddt $id');
 print('iddt $fromDate');
-print('iddt $toDate');
+print('iddttt $toDate');
        if (response.statusCode == 200) {
          var body=response.body;
          EmrPrescriptionListModel data=emrPrescriptionListModelFromJson(body);

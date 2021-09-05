@@ -1982,23 +1982,6 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                           ),
                         ),
 
-                        // body:
-                        // Align(
-                        //   alignment: Alignment.center,
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.only(top:200.0),
-                        //     child: Container(
-                        //       child: Column(
-                        //         children: [
-                        //           pp,
-                        //           Text('Upload your documents here.',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16),),
-                        //           Text('(JPG,PNG,PDF only)',style: GoogleFonts.poppins(color: HexColor('#AEB0BA'),fontWeight: FontWeight.w400,fontSize: 16)),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-
                         body: Column(
                           children: [
                             Row(
@@ -2363,7 +2346,7 @@ class _PrescriptionListScreenState extends State<PrescriptionListScreen> {
                                                                             ),
                                                                             SizedBox(width: 10,),
                                                                             Text(
-                                                                                vm3.documentList[index].reportDate==null?'${DateTime.now()}':'${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate).toLocal())}',
+                                                                                vm3.documentList[index].reportDate==null?'${DateTime.now()}':'${DateUtil().formattedDate(DateTime.parse(vm3.documentList[index].reportDate))}',
                                                                               style: GoogleFonts.poppins(
                                                                                   color: HexColor('#141D53'),
                                                                                   fontSize:  isTablet

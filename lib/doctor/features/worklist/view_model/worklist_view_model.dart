@@ -249,8 +249,9 @@ class WorkListViewModel extends ChangeNotifier {
     start = 0;
     var res = await WorkListRepository().fetchWorkListData(
         fromDate: fromDate,
-        isFiltered: true,
+        // isFiltered: true,
         toDate: toDate,
+        isTotal: true,
         start: start.toString(),
         searchValue: searchValue,
         shift: shift);
@@ -263,7 +264,7 @@ class WorkListViewModel extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }, (r) {
-      freshTotal = r.obj.recordsTotal;
+      totalPatientConsult = r.obj.recordsTotal;
       // _workListData= r.obj.data;
       notifyListeners();
     });

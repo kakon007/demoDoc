@@ -37,21 +37,19 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       await companyInfoVm.userImage();
       await workVm.getTodaysWorklist();
       await workVm.getFreshVisitTotal(
-        // fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        // toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        fromDate: "30-Aug-2020",
+        fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
         toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
       );
       await workVm.getFollowUpTotal(
-        // fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        // toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        fromDate: "30-Aug-2020",
+        fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
         toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
       );
       await workVm.getReportCheckTotal(
-        // fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        // toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        fromDate: "30-Aug-2020",
+        fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+        toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      );
+      await workVm.getPatientConsultTotal(
+        fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
         toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
       );
     });
@@ -251,7 +249,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   Row(
                     children: [
                       Text(
-                        '10000',
+                        workVm.totalPatientConsult ?? "",
                         style: GoogleFonts.poppins(
                             color: Colors.white, fontSize: 18),
                       ),

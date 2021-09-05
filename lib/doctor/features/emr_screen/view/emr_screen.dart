@@ -1,18 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view_model/doctor_document_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view_model/prescription_list_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/main_app/api_client.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart' as pp;
+import 'package:http/http.dart' as http;
 
 class EmrScreen extends StatefulWidget {
   String id;
@@ -29,6 +38,47 @@ class _EmrScreenState extends State<EmrScreen> {
   int indexx=0;
   TextEditingController _searchValueForDocumentation = TextEditingController();
   TextEditingController _searchValueForPrescription = TextEditingController();
+
+  Future fetchPDF(String index) async {
+    try {
+      print("FETCHPDFDATA");
+      print('INDEX' + index);
+      var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+      var headers = {'Authorization': 'Bearer $accessToken'};
+      var request = http.MultipartRequest('POST', Uri.parse(Urls.prescriptionViewUrl));
+      request.fields.addAll({'prescriptionId': index, 'pClient': 'aalok', 'pLayout': '1'});
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      print('impress ${response.statusCode}');
+      if (response.statusCode == 200) {
+        var body = await response.stream.toBytes();
+        print("BODYOFSTRING:::" + body.toString());
+        return body;
+      } else {
+        print("ERROROFSTRING::::" + response.reasonPhrase);
+        return null;
+      }
+    } on Exception catch (e) {
+      // TODO
+      print("PDFDATAERROR");
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future<File> _createPdfFileFromString(String index) async {
+    SVProgressHUD.show(status: 'Opening Pdf');
+    String dir = (await pp.getApplicationDocumentsDirectory()).path;
+    File file = File("$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+    await file.writeAsBytes(await fetchPDF(index), flush: true);
+    print("FILEEEEE" + file.toString());
+    SVProgressHUD.dismiss();
+    return file;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -592,47 +642,74 @@ class _EmrScreenState extends State<EmrScreen> {
                                                                 ],
                                                               ),
                                                               Spacer(),
-                                                              Material(
-                                                                elevation: 0,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        5)),
-                                                                color: HexColor(
-                                                                    "#6374DF"),
-                                                                child: SizedBox(
-                                                                  width: isTablet
-                                                                      ? 170
-                                                                      : deviceWidth <=
-                                                                      360 &&
-                                                                      deviceWidth >
-                                                                          330
-                                                                      ? 90
-                                                                      : deviceWidth <=
-                                                                      330
-                                                                      ? 50
-                                                                      : 80,
-                                                                  height:
-                                                                  deviceWidth <=
-                                                                      360
-                                                                      ? 28
-                                                                      : 25,
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      "View",
-                                                                      key: Key(
-                                                                          'rebookKey$index'),
-                                                                      style: GoogleFonts.roboto(
-                                                                          color: Colors.white,
-                                                                          fontSize: isTablet
-                                                                              ? 15
-                                                                              : deviceWidth <= 360 && deviceWidth > 330
-                                                                              ? 9
-                                                                              : deviceWidth <= 330
-                                                                              ? 8
-                                                                              : 10,
-                                                                          fontWeight: FontWeight.w700),
+                                                              InkWell(
+                                                                onTap: () async {
+                                                                  final file =
+                                                                  vm.prescriptionList[index].id ==
+                                                                      null
+                                                                      ? Fluttertoast.showToast(
+                                                                      msg: 'Prescription Not Saved yet!')
+                                                                      : await _createPdfFileFromString(vm
+                                                                      .prescriptionList[index]
+                                                                      .id
+                                                                      .toString());
+                                                                  vm.prescriptionList[index].id ==
+                                                                      null
+                                                                      ? Fluttertoast.showToast(
+                                                                      msg: 'Prescription Not Saved yet!')
+                                                                      : Navigator.push(
+                                                                    context,
+                                                                    PageTransition(
+                                                                      type: PageTransitionType.rightToLeft,
+                                                                      child: PdfFileViewerScreen(
+                                                                          file,
+                                                                          vm.prescriptionList[index]
+                                                                              .consultationId),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                                child: Material(
+                                                                  elevation: 0,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                          5)),
+                                                                  color: HexColor(
+                                                                      "#6374DF"),
+                                                                  child: SizedBox(
+                                                                    width: isTablet
+                                                                        ? 170
+                                                                        : deviceWidth <=
+                                                                        360 &&
+                                                                        deviceWidth >
+                                                                            330
+                                                                        ? 90
+                                                                        : deviceWidth <=
+                                                                        330
+                                                                        ? 50
+                                                                        : 80,
+                                                                    height:
+                                                                    deviceWidth <=
+                                                                        360
+                                                                        ? 28
+                                                                        : 25,
+                                                                    child: Center(
+                                                                      child: Text(
+                                                                        "View",
+                                                                        key: Key(
+                                                                            'rebookKey$index'),
+                                                                        style: GoogleFonts.roboto(
+                                                                            color: Colors.white,
+                                                                            fontSize: isTablet
+                                                                                ? 15
+                                                                                : deviceWidth <= 360 && deviceWidth > 330
+                                                                                ? 9
+                                                                                : deviceWidth <= 330
+                                                                                ? 8
+                                                                                : 10,
+                                                                            fontWeight: FontWeight.w700),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),

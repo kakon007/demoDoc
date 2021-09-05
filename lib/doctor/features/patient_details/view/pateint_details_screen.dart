@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -7,11 +10,18 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view/emr_screen.dart';
 import 'package:myhealthbd_app/doctor/features/patient_details/view_models/consultation_history_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
+import 'package:myhealthbd_app/main_app/resource/urls.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/url_launcher_helper.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/pdf_viewer.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart' as pp;
+import 'package:http/http.dart' as http;
 
 class PatientDetails extends StatefulWidget {
   String id;
@@ -99,6 +109,47 @@ class _PatientDetailsState extends State<PatientDetails> {
         pickBirthDate2 = date;
       });
     }
+  }
+
+
+  Future fetchPDF(String index) async {
+    try {
+      print("FETCHPDFDATA");
+      print('INDEX' + index);
+      var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+      var headers = {'Authorization': 'Bearer $accessToken'};
+      var request = http.MultipartRequest('POST', Uri.parse(Urls.prescriptionViewUrl));
+      request.fields.addAll({'prescriptionId': index, 'pClient': 'aalok', 'pLayout': '1'});
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      print('impress ${response.statusCode}');
+      if (response.statusCode == 200) {
+        var body = await response.stream.toBytes();
+        print("BODYOFSTRING:::" + body.toString());
+        return body;
+      } else {
+        print("ERROROFSTRING::::" + response.reasonPhrase);
+        return null;
+      }
+    } on Exception catch (e) {
+      // TODO
+      print("PDFDATAERROR");
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Future<File> _createPdfFileFromString(String index) async {
+    SVProgressHUD.show(status: 'Opening Pdf');
+    String dir = (await pp.getApplicationDocumentsDirectory()).path;
+    File file = File("$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+    await file.writeAsBytes(await fetchPDF(index), flush: true);
+    print("FILEEEEE" + file.toString());
+    SVProgressHUD.dismiss();
+    return file;
   }
   @override
   void initState() {
@@ -987,43 +1038,68 @@ print('fromDate $pickBirthDate');
                                           ],
                                         ),
                                         Spacer(),
-                                        Material(
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          color: HexColor("#6374DF"),
-                                          child: SizedBox(
-                                            width: isTablet
-                                                ? 170
-                                                : deviceWidth <= 360 &&
-                                                        deviceWidth > 330
-                                                    ? 105
-                                                    : deviceWidth <= 330
-                                                        ? 50
-                                                        : 80,
-                                            height: isTablet
-                                                ? 40
-                                                : deviceWidth <= 360
-                                                    ? 28
-                                                    : 25,
-                                            child: Center(
-                                              child: Text(
-                                                "View",
-                                                key: Key('rebookKey$index'),
-                                                style: GoogleFonts.roboto(
-                                                    color: Colors.white,
-                                                    fontSize: isTablet
-                                                        ? 18
-                                                        : deviceWidth <= 360 &&
-                                                                deviceWidth >
-                                                                    330
-                                                            ? 9
-                                                            : deviceWidth <= 330
-                                                                ? 8
-                                                                : 10,
-                                                    fontWeight:
-                                                        FontWeight.w700),
+                                        InkWell(
+                                          onTap: () async {
+                                            final file =
+                                            vm.consList[index].prescriptionId ==
+                                                null
+                                                ? Fluttertoast.showToast(
+                                                msg: 'Prescription Not Saved yet!')
+                                                : await _createPdfFileFromString(vm.consList[index].prescriptionId
+                                                .toString());
+                                            vm.consList[index].prescriptionId ==
+                                                null
+                                                ? Fluttertoast.showToast(
+                                                msg: 'Prescription Not Saved yet!')
+                                                : Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                type: PageTransitionType.rightToLeft,
+                                                child: PdfFileViewerScreen(
+                                                    file,
+                                                    vm.consList[index]
+                                                        .consultationId),
+                                              ),
+                                            );
+                                          },
+                                          child: Material(
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            color: HexColor("#6374DF"),
+                                            child: SizedBox(
+                                              width: isTablet
+                                                  ? 170
+                                                  : deviceWidth <= 360 &&
+                                                          deviceWidth > 330
+                                                      ? 105
+                                                      : deviceWidth <= 330
+                                                          ? 50
+                                                          : 80,
+                                              height: isTablet
+                                                  ? 40
+                                                  : deviceWidth <= 360
+                                                      ? 28
+                                                      : 25,
+                                              child: Center(
+                                                child: Text(
+                                                  "View",
+                                                  key: Key('rebookKey$index'),
+                                                  style: GoogleFonts.roboto(
+                                                      color: Colors.white,
+                                                      fontSize: isTablet
+                                                          ? 18
+                                                          : deviceWidth <= 360 &&
+                                                                  deviceWidth >
+                                                                      330
+                                                              ? 9
+                                                              : deviceWidth <= 330
+                                                                  ? 8
+                                                                  : 10,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
                                               ),
                                             ),
                                           ),

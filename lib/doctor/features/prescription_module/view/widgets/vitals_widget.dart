@@ -1,18 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/pre_diagnosis_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/vitals_text_form_field.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
-import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
-import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class VitalsWidget extends StatefulWidget {
   const VitalsWidget({Key key}) : super(key: key);
@@ -44,6 +38,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       unitSize: isTablet ? 17 : 12,
       unitHeight: isTablet ? 60 : 46,
       unitWidth: isTablet ? 100 : 80,
+      controller: templateVm.tempTextEditingController,
     );
     var pulse = DoctorFormField(
       enabledBorderColor: "#D2D2D2",
@@ -51,6 +46,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       hintSize: isTablet ? 17 : 12,
       hintText: 'Pulse',
       minimizeBottomPadding: true,
+      controller: templateVm.pulseTextEditingController,
     );
     var heartRate = DoctorFormField(
       enabledBorderColor: "#D2D2D2",
@@ -58,6 +54,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       minimizeBottomPadding: true,
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
+      controller: templateVm.heartRateTextEditingController,
     );
     var sp02 = DoctorFormField(
       enabledBorderColor: "#D2D2D2",
@@ -65,6 +62,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       minimizeBottomPadding: true,
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
+      controller: templateVm.spo2TextEditingController,
     );
     var resRate = VitalsTextField(
       hintText: 'Res.Rate',
@@ -74,6 +72,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       unitSize: isTablet ? 17 : 12,
       unitHeight: isTablet ? 60 : 46,
       unitWidth: isTablet ? 100 : 80,
+      controller: templateVm.resRateTextEditingController,
     );
     var bpSys = VitalsTextField(
       hintText: 'BP Sys',
@@ -83,6 +82,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       unitSize: isTablet ? 17 : 12,
       unitHeight: isTablet ? 60 : 46,
       unitWidth: isTablet ? 100 : 80,
+      controller: templateVm.bpSysTextEditingController,
     );
     var bpDia = VitalsTextField(
       hintText: 'BP Dia',
@@ -92,6 +92,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       unitSize: isTablet ? 17 : 12,
       unitHeight: isTablet ? 60 : 46,
       unitWidth: isTablet ? 100 : 80,
+      controller: templateVm.bpDiaTextEditingController,
     );
     var minBp = VitalsTextField(
       hintText: 'Min BP',
@@ -101,6 +102,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       unitSize: isTablet ? 17 : 12,
       unitHeight: isTablet ? 60 : 46,
       unitWidth: isTablet ? 100 : 80,
+      controller: templateVm.minBpTextEditingController,
     );
     var weight = VitalsTextField(
       hintText: 'Weight',
@@ -110,6 +112,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       unitSize: isTablet ? 17 : 12,
       unitHeight: isTablet ? 60 : 46,
       unitWidth: isTablet ? 100 : 80,
+      controller: templateVm.weightTextEditingController,
     );
     var height = VitalsTextField(
       hintText: 'Height',
@@ -119,6 +122,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       unitHeight: isTablet ? 60 : 46,
       unitWidth: isTablet ? 100 : 80,
       unitSize: isTablet ? 17 : 12,
+      controller: templateVm.heightTextEditingController,
     );
     // personalInfoVm.isPersonalInfoEditing?
 

@@ -43,6 +43,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<String> provisionalDiagnosisSelectedItems = [];
   List<String> adviceSelectedItems = [];
   List<AddMultiDose> multiDose = [];
+  List<SaveVitalList> vitals = [];
   List<MultiDose> multiDoseItemList = [];
   List<MedicineList> medicineList = [];
   List<String> procedureSelectedItems = [];
@@ -52,6 +53,18 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<String> orthosisSelectedItems = [];
   List<Findings> investigationFindingItems = [];
   TextEditingController noteTextEditingController = TextEditingController();
+  //vitals
+  TextEditingController tempTextEditingController = TextEditingController();
+  TextEditingController pulseTextEditingController = TextEditingController();
+  TextEditingController heartRateTextEditingController =
+      TextEditingController();
+  TextEditingController spo2TextEditingController = TextEditingController();
+  TextEditingController resRateTextEditingController = TextEditingController();
+  TextEditingController bpSysTextEditingController = TextEditingController();
+  TextEditingController bpDiaTextEditingController = TextEditingController();
+  TextEditingController minBpTextEditingController = TextEditingController();
+  TextEditingController weightTextEditingController = TextEditingController();
+  TextEditingController heightTextEditingController = TextEditingController();
   bool vitalsShowReport = false;
   bool chiefComplentShowReport = false;
   bool clinicalHistoryShowReport = false;
@@ -225,13 +238,14 @@ class GetTamplateDataViewModel extends ChangeNotifier {
                 brandName: e.genericName,
                 preDiagnosisValType: 4,
                 route: e.route,
-                presMedDtlList: medicineList.map((e2) => PresMedDtlList2(
-                    //todo:
-                    // duration: e2.duration,
-                    // dosage: e2.dose,
-                    // durationMu: e2.durationType,
-                    // medicineComment: e2.instruction,
-                    )).toList(),
+                presMedDtlList: e.multiDoseList
+                    .map((e2) => PresMedDtlList2(
+                          dosage: e2.multiDose,
+                          duration: e2.multiDoseDuration,
+                          durationMu: e2.multiDoseDurationType,
+                          medicineComment: e2.multiDoseInstruction,
+                        ))
+                    .toList(),
               ))
           .toList(),
     );
@@ -239,6 +253,92 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   }
 
   savePrescriptionData() {
+    vitals = [];
+    if (tempTextEditingController.text != null ||
+        tempTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: tempTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "Body Temp",
+      ));
+    }
+    if (pulseTextEditingController.text != null ||
+        pulseTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: pulseTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "Pulse",
+      ));
+    }
+    if (heartRateTextEditingController.text != null ||
+        heartRateTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: heartRateTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "Heart Rate",
+      ));
+    }
+    if (spo2TextEditingController.text != null ||
+        spo2TextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: spo2TextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "SPO2",
+      ));
+    }
+    if (resRateTextEditingController.text != null ||
+        resRateTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: resRateTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "Res.Rate",
+      ));
+    }
+    if (bpDiaTextEditingController.text != null ||
+        bpDiaTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: bpDiaTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "BP_Dia",
+      ));
+    }
+    if (bpSysTextEditingController.text != null ||
+        bpSysTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: bpSysTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "BP_SYS",
+      ));
+    }
+
+    if (minBpTextEditingController.text != null ||
+        minBpTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: minBpTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "Min_BP",
+      ));
+    }
+
+    if (weightTextEditingController.text != null ||
+        weightTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: weightTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "Weight",
+      ));
+    }
+
+    if (heightTextEditingController.text != null ||
+        heightTextEditingController.text != '') {
+      vitals.add(SaveVitalList(
+        findings: heightTextEditingController.text,
+        preDiagnosisValType: 53,
+        preDiagnosisVal: "Height",
+      ));
+    }
+
+    print("vitals l ${vitals.length}");
     disposeSelectedItems = [];
     disposeSelectedItems.add(DisposalItem(
       disposal: chosenDisposalValue,
@@ -246,8 +346,8 @@ class GetTamplateDataViewModel extends ChangeNotifier {
       disposalDuration: disposalDurationController.text,
       disposalDurationType: disposalDurationType,
     ));
-    doctorSelectedItems = [];
-    doctorSelectedItems.add(referredDoctorSelectedItems);
+    // doctorSelectedItems = [];
+    // doctorSelectedItems.add(referredDoctorSelectedItems);
     opdSelectedItems = [];
     opdSelectedItems.add(referredOPDSelectedItems);
 
@@ -267,6 +367,12 @@ class GetTamplateDataViewModel extends ChangeNotifier {
           isPatientOut: 1,
           ipdFlag: 0,
           companyNo: 2),
+      vitalList: vitals
+          .map((e) => SaveVitalList(
+              preDiagnosisVal: e.preDiagnosisVal,
+              preDiagnosisValType: e.preDiagnosisValType,
+              findings: e.findings))
+          .toList(),
       chiefComplainList: chiefComplaintSelectedItems
           .map((e) =>
               SaveChiefComplainList(preDiagnosisVal: e, preDiagnosisValType: 7))
@@ -301,18 +407,20 @@ class GetTamplateDataViewModel extends ChangeNotifier {
                 preDiagnosisValType:
                     PrescriptionFavouriteType.investigationFindings,
                 preDiagnosisVal: e.name,
+                findings: e.finding,
               ))
           .toList(),
-      disposalList: disposeSelectedItems
-          .map((e) => SaveDisposalList(
-              preDiagnosisVal: e.disposal,
-              preDiagnosisValType:
-                  PrescriptionFavouriteType.disposal.toString(),
-              followUpDate: e.disposalDate,
-              durationMu: e.disposalDurationType,
-              duration: e.disposalDuration))
-          .toList(),
-
+      disposalList: chosenDisposalValue == null
+          ? []
+          : disposeSelectedItems
+              .map((e) => SaveDisposalList(
+                  preDiagnosisVal: e.disposal,
+                  preDiagnosisValType:
+                      PrescriptionFavouriteType.disposal.toString(),
+                  followUpDate: e.disposalDate,
+                  durationMu: e.disposalDurationType,
+                  duration: e.disposalDuration))
+              .toList(),
       treatmentList: procedureSelectedItems
           .map((e) => SaveClinicalHistory2ListElement(
               preDiagnosisValType:
@@ -325,24 +433,27 @@ class GetTamplateDataViewModel extends ChangeNotifier {
               preDiagnosisValType:
                   PrescriptionFavouriteType.disease.toString()))
           .toList(),
-      // adviceList: adviceSelectedItems
-      //     .map((e) => SaveAdviceListElement(
-      //         preDiagnosisVal: e,
-      //         preDiagnosisValType: PrescriptionFavouriteType.advice))
-      //     .toList(),
-      // referralList: opdSelectedItems
-      //     .map((e) => SaveClinicalHistory2ListElement(
-      //     preDiagnosisValType: PrescriptionFavouriteType.opd.toString(),
-      //     preDiagnosisVal: e))
-      //     .toList(),
-      // referralDoctorList: doctorSelectedItems
-      //     .map(
-      //       (e) => SaveClinicalHistory2ListElement(
-      //           preDiagnosisVal: referredDoctorSelectedItems,
-      //           preDiagnosisValType:
-      //               PrescriptionFavouriteType.doctor.toString()),
-      //     )
-      //     .toList(),
+      adviceList: adviceSelectedItems
+          .map((e) => SaveAdviceListElement(
+              preDiagnosisVal: e,
+              preDiagnosisValType: PrescriptionFavouriteType.advice))
+          .toList(),
+      referralList: [
+        if (referredOPDSelectedItems != null) referredDoctorSelectedItems
+      ]
+          .map((e) => SaveClinicalHistory2ListElement(
+              preDiagnosisValType: PrescriptionFavouriteType.opd.toString(),
+              preDiagnosisVal: e))
+          .toList(),
+      referralDoctorList:
+          [if (referredDoctorSelectedItems != null) referredDoctorSelectedItems]
+              .map(
+                (e) => SaveClinicalHistory2ListElement(
+                    preDiagnosisVal: e,
+                    preDiagnosisValType:
+                        PrescriptionFavouriteType.doctor.toString()),
+              )
+              .toList(),
       investigationList: investigationSelectedItems
           .map((e) => SaveInvestigationList(
                 preDiagnosisValType:
@@ -351,7 +462,6 @@ class GetTamplateDataViewModel extends ChangeNotifier {
                 itemTypeNo: e.itemTypeNo,
               ))
           .toList(),
-      //investigationFindingsList: ,
       medicationList: medicineList
           .map((e) => SaveMedicationList(
               brandName: e.brandName,

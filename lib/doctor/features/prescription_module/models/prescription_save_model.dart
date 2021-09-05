@@ -151,76 +151,80 @@ class PrescriptionSaveModel {
                 .map((x) => SaveMedicationList.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "prescription": prescription == null ? null : prescription.toJson(),
-        "vitalList": vitalList == null
-            ? []
-            : List<dynamic>.from(vitalList.map((x) => x.toJson())),
-        "adviceList": adviceList == null
-            ? []
-            : List<dynamic>.from(adviceList.map((x) => x.toJson())),
-        "medicineList": medicineList == null
-            ? []
-            : List<dynamic>.from(medicineList.map((x) => x)),
-        "diagnosisList": diagnosisList == null
-            ? []
-            : List<dynamic>.from(diagnosisList.map((x) => x.toJson())),
-        "chiefComplainList": chiefComplainList == null
-            ? []
-            : List<dynamic>.from(chiefComplainList.map((x) => x.toJson())),
-        "clinicalHistory2List": clinicalHistory2List == null
-            ? []
-            : List<dynamic>.from(clinicalHistory2List.map((x) => x.toJson())),
-        "clinicalHistory3List": clinicalHistory3List == null
-            ? []
-            : List<dynamic>.from(clinicalHistory3List.map((x) => x.toJson())),
-        "orthosisList": orthosisList == null
-            ? []
-            : List<dynamic>.from(orthosisList.map((x) => x.toJson())),
-        "disposalList": disposalList == null
-            ? []
-            : List<dynamic>.from(disposalList.map((x) => x.toJson())),
-        "referralList": referralList == null
-            ? []
-            : List<dynamic>.from(referralList.map((x) => x.toJson())),
-        "physicalExamList": physicalExamList == null
-            ? []
-            : List<dynamic>.from(physicalExamList.map((x) => x)),
-        "opdVitalList": opdVitalList == null
-            ? []
-            : List<dynamic>.from(opdVitalList.map((x) => x)),
-        "investigationList": investigationList == null
-            ? []
-            : List<dynamic>.from(investigationList.map((x) => x.toJson())),
-        "investigationFindingsList": investigationFindingsList == null
-            ? []
-            : List<dynamic>.from(
-                investigationFindingsList.map((x) => x.toJson())),
-        "diseaseList": diseaseList == null
-            ? []
-            : List<dynamic>.from(diseaseList.map((x) => x.toJson())),
-        "dentalFindingsList": dentalFindingsList == null
-            ? []
-            : List<dynamic>.from(dentalFindingsList.map((x) => x)),
-        "dentalTreatment": dentalTreatment,
-        "eyeFindingsList": eyeFindingsList == null
-            ? []
-            : List<dynamic>.from(eyeFindingsList.map((x) => x)),
-        "treatmentList": treatmentList == null
-            ? []
-            : List<dynamic>.from(treatmentList.map((x) => x.toJson())),
-        "referralDoctorList": referralDoctorList == null
-            ? []
-            : List<dynamic>.from(referralDoctorList.map((x) => x.toJson())),
-        "dietAdviceList": dietAdviceList == null
-            ? []
-            : List<dynamic>.from(dietAdviceList.map((x) => x)),
-        "referredToWard": referredToWard,
-        "note": note == null ? "" : note.toJson(),
-        "medicationList": medicationList == null
-            ? []
-            : List<dynamic>.from(medicationList.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() {
+    var pres = {
+      "prescription": prescription == null ? null : prescription.toJson(),
+      "vitalList": vitalList == null
+          ? []
+          : List<dynamic>.from(vitalList.map((x) => x.toJson())),
+      "adviceList": adviceList == null
+          ? []
+          : List<dynamic>.from(adviceList.map((x) => x.toJson())),
+      "medicineList": medicineList == null
+          ? []
+          : List<dynamic>.from(medicineList.map((x) => x)),
+      "diagnosisList": diagnosisList == null
+          ? []
+          : List<dynamic>.from(diagnosisList.map((x) => x.toJson())),
+      "chiefComplainList": chiefComplainList == null
+          ? []
+          : List<dynamic>.from(chiefComplainList.map((x) => x.toJson())),
+      "clinicalHistory2List": clinicalHistory2List == null
+          ? []
+          : List<dynamic>.from(clinicalHistory2List.map((x) => x.toJson())),
+      "clinicalHistory3List": clinicalHistory3List == null
+          ? []
+          : List<dynamic>.from(clinicalHistory3List.map((x) => x.toJson())),
+      "orthosisList": orthosisList == null
+          ? []
+          : List<dynamic>.from(orthosisList.map((x) => x.toJson())),
+      "disposalList": disposalList == null
+          ? []
+          : List<dynamic>.from(disposalList.map((x) => x.toJson())),
+      "referralList": referralList == null
+          ? []
+          : List<dynamic>.from(referralList.map((x) => x.toJson())),
+      "physicalExamList": physicalExamList == null
+          ? []
+          : List<dynamic>.from(physicalExamList.map((x) => x)),
+      "opdVitalList": opdVitalList == null
+          ? []
+          : List<dynamic>.from(opdVitalList.map((x) => x)),
+      "investigationList": investigationList == null
+          ? []
+          : List<dynamic>.from(investigationList.map((x) => x.toJson())),
+      "investigationFindingsList": investigationFindingsList == null
+          ? []
+          : List<dynamic>.from(
+              investigationFindingsList.map((x) => x.toJson())),
+      "diseaseList": diseaseList == null
+          ? []
+          : List<dynamic>.from(diseaseList.map((x) => x.toJson())),
+      "dentalFindingsList": dentalFindingsList == null
+          ? []
+          : List<dynamic>.from(dentalFindingsList.map((x) => x)),
+      "dentalTreatment": dentalTreatment,
+      "eyeFindingsList": eyeFindingsList == null
+          ? []
+          : List<dynamic>.from(eyeFindingsList.map((x) => x)),
+      "treatmentList": treatmentList == null
+          ? []
+          : List<dynamic>.from(treatmentList.map((x) => x.toJson())),
+      "referralDoctorList": referralDoctorList == null
+          ? []
+          : List<dynamic>.from(referralDoctorList.map((x) => x.toJson())),
+      "dietAdviceList": dietAdviceList == null
+          ? []
+          : List<dynamic>.from(dietAdviceList.map((x) => x)),
+      "referredToWard": referredToWard,
+      "note": note == null ? "" : note.toJson(),
+      "medicationList": medicationList == null
+          ? []
+          : List<dynamic>.from(medicationList.map((x) => x.toJson())),
+    };
+    pres.removeWhere((key, value) => value == null || value == '');
+    return pres;
+  }
 }
 
 class SaveAdviceListElement {
@@ -263,9 +267,9 @@ class SaveAdviceListElement {
         // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
         // referenceId: json["referenceId"],
         preDiagnosisVal:
-            json["preDiagnosisVal"] == null ? '' : json["preDiagnosisVal"],
+            json["preDiagnosisVal"] == null ? null : json["preDiagnosisVal"],
         preDiagnosisValType: json["preDiagnosisValType"] == null
-            ? ''
+            ? null
             : json["preDiagnosisValType"],
         // doctorNo: json["doctorNo"] == null ? null : json["doctorNo"],
         // duration: json["duration"],
@@ -274,22 +278,26 @@ class SaveAdviceListElement {
         // findingsClob: json["findingsClob"],
       );
 
-  Map<String, dynamic> toJson() => {
-        // "followUpDate":
-        //     followUpDate == null ? null : followUpDate.toIso8601String(),
-        // "selected": selected == null ? null : selected,
-        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        // "isDeleted": isDeleted == null ? null : isDeleted,
-        // "referenceId": referenceId,
-        "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
-        "preDiagnosisValType":
-            preDiagnosisValType == null ? '' : preDiagnosisValType,
-        // "doctorNo": doctorNo == null ? null : doctorNo,
-        // "duration": duration,
-        // "durationMu": durationMu,
-        // "continueFlag": continueFlag,
-        // "findingsClob": findingsClob,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      // "followUpDate":
+      //     followUpDate == null ? null : followUpDate.toIso8601String(),
+      // "selected": selected == null ? null : selected,
+      // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+      // "isDeleted": isDeleted == null ? null : isDeleted,
+      // "referenceId": referenceId,
+      "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+      "preDiagnosisValType":
+          preDiagnosisValType == null ? null : preDiagnosisValType,
+      // "doctorNo": doctorNo == null ? null : doctorNo,
+      // "duration": duration,
+      // "durationMu": durationMu,
+      // "continueFlag": continueFlag,
+      // "findingsClob": findingsClob,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class SaveChiefComplainList {
@@ -379,33 +387,37 @@ class SaveChiefComplainList {
         //     json["organizationNo"] == null ? null : json["organizationNo"],
       );
 
-  Map<String, dynamic> toJson() => {
-        // "followUpDate":
-        //     followUpDate == null ? null : followUpDate.toIso8601String(),
-        // "selected": selected == null ? null : selected,
-        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        // "isDeleted": isDeleted == null ? null : isDeleted,
-        // "referenceId": referenceId,
-        "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
-        "preDiagnosisValType": preDiagnosisValType,
-        // "doctorNo": doctorNo == null ? null : doctorNo,
-        // "duration": duration,
-        // "durationMu": durationMu,
-        // "continueFlag": continueFlag,
-        // "findingsClob": findingsClob,
-        // "id": id == null ? null : id,
-        // "preDiagnosisValLocal": preDiagnosisValLocal,
-        // "preDiagnosisValShort": preDiagnosisValShort,
-        // "preDiagnosisValUnit": preDiagnosisValUnit,
-        // "preDiagnosisValDefaultVal": preDiagnosisValDefaultVal,
-        // "orderSl": orderSl,
-        // "preDiagnosisValInputType": preDiagnosisValInputType,
-        // "departmentNo": departmentNo,
-        // "activeStatus": activeStatus == null ? null : activeStatus,
-        // "calculationMethod": calculationMethod,
-        // "companyNo": companyNo == null ? null : companyNo,
-        // "organizationNo": organizationNo == null ? null : organizationNo,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      // "followUpDate":
+      //     followUpDate == null ? null : followUpDate.toIso8601String(),
+      // "selected": selected == null ? null : selected,
+      // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+      // "isDeleted": isDeleted == null ? null : isDeleted,
+      // "referenceId": referenceId,
+      "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+      "preDiagnosisValType": preDiagnosisValType,
+      // "doctorNo": doctorNo == null ? null : doctorNo,
+      // "duration": duration,
+      // "durationMu": durationMu,
+      // "continueFlag": continueFlag,
+      // "findingsClob": findingsClob,
+      // "id": id == null ? null : id,
+      // "preDiagnosisValLocal": preDiagnosisValLocal,
+      // "preDiagnosisValShort": preDiagnosisValShort,
+      // "preDiagnosisValUnit": preDiagnosisValUnit,
+      // "preDiagnosisValDefaultVal": preDiagnosisValDefaultVal,
+      // "orderSl": orderSl,
+      // "preDiagnosisValInputType": preDiagnosisValInputType,
+      // "departmentNo": departmentNo,
+      // "activeStatus": activeStatus == null ? null : activeStatus,
+      // "calculationMethod": calculationMethod,
+      // "companyNo": companyNo == null ? null : companyNo,
+      // "organizationNo": organizationNo == null ? null : organizationNo,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class SaveClinicalHistory2ListElement {
@@ -441,25 +453,29 @@ class SaveClinicalHistory2ListElement {
         // activeStatus:
         //     json["activeStatus"] == null ? null : json["activeStatus"],
         preDiagnosisVal:
-            json["preDiagnosisVal"] == null ? "" : json["preDiagnosisVal"],
+            json["preDiagnosisVal"] == null ? null : json["preDiagnosisVal"],
         preDiagnosisValType: json["preDiagnosisValType"] == null
-            ? ""
+            ? null
             : json["preDiagnosisValType"],
         // referenceId: json["referenceId"] == null ? null : json["referenceId"],
       );
 
-  Map<String, dynamic> toJson() => {
-        // "followUpDate":
-        //     followUpDate == null ? null : followUpDate.toIso8601String(),
-        // "selected": selected == null ? null : selected,
-        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        // "isDeleted": isDeleted == null ? null : isDeleted,
-        // "activeStatus": activeStatus == null ? null : activeStatus,
-        "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
-        "preDiagnosisValType":
-            preDiagnosisValType == null ? '' : preDiagnosisValType,
-        // "referenceId": referenceId == null ? null : referenceId,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      // "followUpDate":
+      //     followUpDate == null ? null : followUpDate.toIso8601String(),
+      // "selected": selected == null ? null : selected,
+      // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+      // "isDeleted": isDeleted == null ? null : isDeleted,
+      // "activeStatus": activeStatus == null ? null : activeStatus,
+      "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+      "preDiagnosisValType":
+          preDiagnosisValType == null ? null : preDiagnosisValType,
+      // "referenceId": referenceId == null ? null : referenceId,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class SaveDisposalList {
@@ -507,20 +523,24 @@ class SaveDisposalList {
         durationMu: json["durationMu"] == null ? null : json["durationMu"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "followUpDate":
-            followUpDate == null ? '' : followUpDate.toIso8601String(),
-        // "selected": selected == null ? null : selected,
-        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        // "isDeleted": isDeleted == null ? null : isDeleted,
-        "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
-        // "referenceId": referenceId == null ? null : referenceId,
-        // "slNo": slNo == null ? null : slNo,
-        "preDiagnosisValType":
-            preDiagnosisValType == null ? '' : preDiagnosisValType,
-        "duration": duration == null ? '' : duration,
-        "durationMu": durationMu == null ? '' : durationMu,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      "followUpDate":
+          followUpDate == null ? null : followUpDate.toIso8601String(),
+      // "selected": selected == null ? null : selected,
+      // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+      // "isDeleted": isDeleted == null ? null : isDeleted,
+      "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
+      // "referenceId": referenceId == null ? null : referenceId,
+      // "slNo": slNo == null ? null : slNo,
+      "preDiagnosisValType":
+          preDiagnosisValType == null ? null : preDiagnosisValType,
+      "duration": duration == null ? null : duration,
+      "durationMu": durationMu == null ? null : durationMu,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class SaveInvestigationList {
@@ -532,6 +552,8 @@ class SaveInvestigationList {
     // this.itemName,
     this.preDiagnosisVal,
     this.preDiagnosisValType,
+    this.findings,
+    this.isBold,
     // this.referenceId,
   });
 
@@ -543,6 +565,8 @@ class SaveInvestigationList {
   String preDiagnosisVal;
   int preDiagnosisValType;
   // int referenceId;
+  String findings;
+  int isBold;
 
   factory SaveInvestigationList.fromJson(Map<String, dynamic> json) =>
       SaveInvestigationList(
@@ -558,20 +582,28 @@ class SaveInvestigationList {
         preDiagnosisValType: json["preDiagnosisValType"] == null
             ? null
             : json["preDiagnosisValType"],
+        findings: json["findings"] == null ? null : json["findings"],
+        isBold: json["isBold"] == null ? null : json["isBold"],
         // referenceId: json["referenceId"] == null ? null : json["referenceId"],
       );
 
-  Map<String, dynamic> toJson() => {
-        // "activeStatus": activeStatus == null ? null : activeStatus,
-        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        // "isDeleted": isDeleted == null ? null : isDeleted,
-        // "itemTypeNo": itemTypeNo == null ? null : itemTypeNo,
-        // "itemName": itemName == null ? null : itemName,
-        "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
-        "preDiagnosisValType":
-            preDiagnosisValType == null ? null : preDiagnosisValType,
-        // "referenceId": referenceId == null ? null : referenceId,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      // "activeStatus": activeStatus == null ? null : activeStatus,
+      // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+      // "isDeleted": isDeleted == null ? null : isDeleted,
+      // "itemTypeNo": itemTypeNo == null ? null : itemTypeNo,
+      // "itemName": itemName == null ? null : itemName,
+      "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+      "preDiagnosisValType":
+          preDiagnosisValType == null ? null : preDiagnosisValType,
+      // "referenceId": referenceId == null ? null : referenceId,
+      "findings": findings == null ? null : findings,
+      "isBold": isBold == null ? null : isBold,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class SaveMedicationList {
@@ -626,23 +658,27 @@ class SaveMedicationList {
             json["inReportSerial"] == null ? null : json["inReportSerial"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "presMedDtlList": presMedDtlList == null
-            ? []
-            : List<dynamic>.from(presMedDtlList.map((x) => x.toJson())),
-        "genericName": genericName == null ? null : genericName,
-        "brandName": brandName == null ? null : brandName,
-        "form": form,
-        "formName": formName,
-        "itemNo": itemNo,
-        "strength": strength,
-        "route": route == null ? null : route,
-        "preDiagnosisValType":
-            preDiagnosisValType == null ? null : preDiagnosisValType,
-        "medicineStat": medicineStat == null ? null : medicineStat,
-        "isDeleted": isDeleted == null ? null : isDeleted,
-        "inReportSerial": inReportSerial == null ? null : inReportSerial,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      "presMedDtlList": presMedDtlList == null
+          ? []
+          : List<dynamic>.from(presMedDtlList.map((x) => x.toJson())),
+      "genericName": genericName == null ? null : genericName,
+      "brandName": brandName == null ? null : brandName,
+      "form": form,
+      "formName": formName,
+      "itemNo": itemNo,
+      "strength": strength,
+      "route": route == null ? null : route,
+      "preDiagnosisValType":
+          preDiagnosisValType == null ? null : preDiagnosisValType,
+      "medicineStat": medicineStat == null ? null : medicineStat,
+      "isDeleted": isDeleted == null ? null : isDeleted,
+      "inReportSerial": inReportSerial == null ? null : inReportSerial,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class SavePresMedDtlList {
@@ -694,20 +730,24 @@ class SavePresMedDtlList {
         relationWithMeal: json["relationWithMeal"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "itemQty": itemQty == null ? null : itemQty,
-        "continueFlag": continueFlag == null ? null : continueFlag,
-        "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        "isDeleted": isDeleted == null ? null : isDeleted,
-        "dosage": dosage == null ? null : dosage,
-        "duration": duration == null ? null : duration,
-        "durationMu": durationMu == null ? null : durationMu,
-        "durationComment": durationComment == null ? null : durationComment,
-        "medicineComment": medicineComment == null ? null : medicineComment,
-        "eye": eye,
-        "eyeDrop": eyeDrop,
-        "relationWithMeal": relationWithMeal,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      "itemQty": itemQty == null ? null : itemQty,
+      "continueFlag": continueFlag == null ? null : continueFlag,
+      "inReportSerial": inReportSerial == null ? null : inReportSerial,
+      "isDeleted": isDeleted == null ? null : isDeleted,
+      "dosage": dosage == null ? null : dosage,
+      "duration": duration == null ? null : duration,
+      "durationMu": durationMu == null ? null : durationMu,
+      "durationComment": durationComment == null ? null : durationComment,
+      "medicineComment": medicineComment == null ? null : medicineComment,
+      "eye": eye,
+      "eyeDrop": eyeDrop,
+      "relationWithMeal": relationWithMeal,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class SaveNote {
@@ -742,16 +782,20 @@ class SaveNote {
             json["preDiagnosisVal"] == null ? null : json["preDiagnosisVal"],
       );
 
-  Map<String, dynamic> toJson() => {
-        // "followUpDate":
-        //     followUpDate == null ? null : followUpDate.toIso8601String(),
-        // "selected": selected == null ? null : selected,
-        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        // "isDeleted": isDeleted == null ? null : isDeleted,
-        "preDiagnosisValType":
-            preDiagnosisValType == null ? null : preDiagnosisValType,
-        "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      // "followUpDate":
+      //     followUpDate == null ? null : followUpDate.toIso8601String(),
+      // "selected": selected == null ? null : selected,
+      // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+      // "isDeleted": isDeleted == null ? null : isDeleted,
+      "preDiagnosisValType":
+          preDiagnosisValType == null ? null : preDiagnosisValType,
+      "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class Prescription {
@@ -814,23 +858,27 @@ class Prescription {
         companyNo: json["companyNo"] == null ? null : json["companyNo"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "consultationTypeNo":
-            consultationTypeNo == null ? null : consultationTypeNo,
-        "patientTypeNo": patientTypeNo == null ? null : patientTypeNo,
-        "shiftNo": shiftNo == null ? null : shiftNo,
-        "id": id,
-        "appointmentNo": appointmentNo == null ? null : appointmentNo,
-        "registrationNo": registrationNo == null ? null : registrationNo,
-        "hospitalId": hospitalId == null ? null : hospitalId,
-        "consultationNo": consultationNo == null ? null : consultationNo,
-        "consultationId": consultationId == null ? null : consultationId,
-        "departmentNo": departmentNo == null ? null : departmentNo,
-        "departmentName": departmentName == null ? null : departmentName,
-        "isPatientOut": isPatientOut == null ? null : isPatientOut,
-        "ipdFlag": ipdFlag == null ? null : ipdFlag,
-        "companyNo": companyNo == null ? null : companyNo,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      "consultationTypeNo":
+          consultationTypeNo == null ? null : consultationTypeNo,
+      "patientTypeNo": patientTypeNo == null ? null : patientTypeNo,
+      "shiftNo": shiftNo == null ? null : shiftNo,
+      "id": id,
+      "appointmentNo": appointmentNo == null ? null : appointmentNo,
+      "registrationNo": registrationNo == null ? null : registrationNo,
+      "hospitalId": hospitalId == null ? null : hospitalId,
+      "consultationNo": consultationNo == null ? null : consultationNo,
+      "consultationId": consultationId == null ? null : consultationId,
+      "departmentNo": departmentNo == null ? null : departmentNo,
+      "departmentName": departmentName == null ? null : departmentName,
+      "isPatientOut": isPatientOut == null ? null : isPatientOut,
+      "ipdFlag": ipdFlag == null ? null : ipdFlag,
+      "companyNo": companyNo == null ? null : companyNo,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }
 
 class SaveVitalList {
@@ -939,38 +987,41 @@ class SaveVitalList {
         unit: json["unit"] == null ? null : json["unit"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "ssCreator": ssCreator == null ? null : ssCreator,
-        "ssCreatedOn": ssCreatedOn == null ? null : ssCreatedOn,
-        "ssCreateSession": ssCreateSession == null ? null : ssCreateSession,
-        "ssModifier": ssModifier == null ? null : ssModifier,
-        "ssModifiedOn": ssModifiedOn == null ? null : ssModifiedOn,
-        "ssModifiedSession":
-            ssModifiedSession == null ? null : ssModifiedSession,
-        "companyNo": companyNo == null ? null : companyNo,
-        "organizationNo": organizationNo == null ? null : organizationNo,
-        "id": id,
-        "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
-        "preDiagnosisValType":
-            preDiagnosisValType == null ? null : preDiagnosisValType,
-        "preDiagnosisValLocal": preDiagnosisValLocal,
-        "preDiagnosisValShort": preDiagnosisValShort,
-        "preDiagnosisValUnit":
-            preDiagnosisValUnit == null ? null : preDiagnosisValUnit,
-        "preDiagnosisValDefaultVal": preDiagnosisValDefaultVal,
-        "orderSl": orderSl == null ? null : orderSl,
-        "preDiagnosisValInputType":
-            preDiagnosisValInputType == null ? null : preDiagnosisValInputType,
-        "calculationMethod": calculationMethod,
-        "departmentNo": departmentNo,
-        "doctorNo": doctorNo == null ? null : doctorNo,
-        "activeStatus": activeStatus == null ? null : activeStatus,
-        "idNotEqual": idNotEqual,
-        "preDiagnosisValTypes": preDiagnosisValTypes,
-        "deptNoNull": deptNoNull == null ? null : deptNoNull,
-        "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        "referenceId": referenceId == null ? null : referenceId,
-        "findings": findings == null ? null : findings,
-        "unit": unit == null ? null : unit,
-      };
+  Map<String, dynamic> toJson() {
+    var data = {
+      "ssCreator": ssCreator == null ? null : ssCreator,
+      "ssCreatedOn": ssCreatedOn == null ? null : ssCreatedOn,
+      "ssCreateSession": ssCreateSession == null ? null : ssCreateSession,
+      "ssModifier": ssModifier == null ? null : ssModifier,
+      "ssModifiedOn": ssModifiedOn == null ? null : ssModifiedOn,
+      "ssModifiedSession": ssModifiedSession == null ? null : ssModifiedSession,
+      "companyNo": companyNo == null ? null : companyNo,
+      "organizationNo": organizationNo == null ? null : organizationNo,
+      "id": id,
+      "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+      "preDiagnosisValType":
+          preDiagnosisValType == null ? null : preDiagnosisValType,
+      "preDiagnosisValLocal": preDiagnosisValLocal,
+      "preDiagnosisValShort": preDiagnosisValShort,
+      "preDiagnosisValUnit":
+          preDiagnosisValUnit == null ? null : preDiagnosisValUnit,
+      "preDiagnosisValDefaultVal": preDiagnosisValDefaultVal,
+      "orderSl": orderSl == null ? null : orderSl,
+      "preDiagnosisValInputType":
+          preDiagnosisValInputType == null ? null : preDiagnosisValInputType,
+      "calculationMethod": calculationMethod,
+      "departmentNo": departmentNo,
+      "doctorNo": doctorNo == null ? null : doctorNo,
+      "activeStatus": activeStatus == null ? null : activeStatus,
+      "idNotEqual": idNotEqual,
+      "preDiagnosisValTypes": preDiagnosisValTypes,
+      "deptNoNull": deptNoNull == null ? null : deptNoNull,
+      "inReportSerial": inReportSerial == null ? null : inReportSerial,
+      "referenceId": referenceId == null ? null : referenceId,
+      "findings": findings == null ? null : findings,
+      "unit": unit == null ? null : unit,
+    };
+    data.removeWhere((key, value) => value == null || value == '');
+    return data;
+  }
 }

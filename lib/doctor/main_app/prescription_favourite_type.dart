@@ -10,4 +10,9 @@ class PrescriptionFavouriteType {
   static const medication = 4;
   static const orthosis = 43;
   static const procedure = 35;
+  static const note = 48;
+  static const vitals = 53;
+  static const disposal = 10;
+  static const opd = 11;
+  static const doctor = 30;
 }

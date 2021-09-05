@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/get_template_data_model.dart';
@@ -9,6 +8,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/save_prescription_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/save_prescription_template_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/medication_widget.dart';
+import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +23,16 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   bool _hasMoreData = false;
   get logger => null;
   String templateName = '';
+  //Disposal
+  String chosenDisposalValue = "N/A";
+  TextEditingController disposalDurationController =
+      new TextEditingController();
+  String disposalDurationType;
+  DateTime disposalSelectedDate = DateTime.now();
+//OPD
+  String referredOPDSelectedItems;
+  //Doctor
+  String referredDoctorSelectedItems;
   List<CommonPrescriptionSearchItems> investigationSelectedItems = [];
   List<String> clinicalHistorySelectedItems = [];
   List<String> pastIllnessSelectedItems = [];
@@ -33,6 +43,8 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<AddMultiDose> multiDose = [];
   List<MultiDose> multiDoseItemList = [];
   List<MedicineList> medicineList = [];
+  List<String> procedureSelectedItems = [];
+  TextEditingController noteTextEditingController = TextEditingController();
   bool vitalsShowReport = false;
   bool chiefComplentShowReport = false;
   bool clinicalHistoryShowReport = false;
@@ -221,38 +233,95 @@ class GetTamplateDataViewModel extends ChangeNotifier {
 
   savePrescriptionData() {
     var prescription = PrescriptionSaveModel(
-        prescription: Prescription(
-            consultationTypeNo: 2000001,
-            patientTypeNo: 1,
-            shiftNo: 0,
-            id: null,
-            appointmentNo: 2210000040880,
-            registrationNo: 2210000086785,
-            hospitalId: "MH22108014456",
-            consultationNo: 2210000029009,
-            consultationId: "C22108012858",
-            departmentNo: 20000002,
-            departmentName: " ORTHOPEDIC SURGERY",
-            isPatientOut: 1,
-            ipdFlag: 0,
-            companyNo: 2),
-        chiefComplainList: chiefComplaintSelectedItems
-            .map((e) => SaveChiefComplainList(
-                preDiagnosisVal: e, preDiagnosisValType: 7))
-            .toList(),
-        medicationList: medicineList
-            .map((e) => SaveMedicationList(
-                brandName: e.brandName,
-                genericName: e.genericName,
-                preDiagnosisValType: 4,
-                presMedDtlList: e.multiDoseList
-                    .map((e2) => SavePresMedDtlList(
-                        medicineComment: e2.multiDoseInstruction,
-                        durationMu: e2.multiDoseDurationType,
-                        dosage: e2.multiDose,
-                        duration: e2.multiDoseDuration))
-                    .toList()))
-            .toList());
+      prescription: Prescription(
+          consultationTypeNo: 2000001,
+          patientTypeNo: 1,
+          shiftNo: 0,
+          id: null,
+          appointmentNo: 2210000040880,
+          registrationNo: 2210000086785,
+          hospitalId: "MH22108014456",
+          consultationNo: 2210000029009,
+          consultationId: "C22108012858",
+          departmentNo: 20000002,
+          departmentName: " ORTHOPEDIC SURGERY",
+          isPatientOut: 1,
+          ipdFlag: 0,
+          companyNo: 2),
+      chiefComplainList: chiefComplaintSelectedItems
+          .map((e) =>
+              SaveChiefComplainList(preDiagnosisVal: e, preDiagnosisValType: 7))
+          .toList(),
+      note: SaveNote(
+          preDiagnosisVal: noteTextEditingController.text,
+          preDiagnosisValType: PrescriptionFavouriteType.note),
+      clinicalHistory3List: clinicalHistorySelectedItems
+          .map((e) => SaveAdviceListElement(
+              preDiagnosisValType: PrescriptionFavouriteType.clinicalHistory,
+              preDiagnosisVal: e))
+          .toList(),
+      clinicalHistory2List: pastIllnessSelectedItems
+          .map((e) => SaveClinicalHistory2ListElement(
+              preDiagnosisVal: e,
+              preDiagnosisValType:
+                  PrescriptionFavouriteType.pastIllness.toString()))
+          .toList(),
+      diagnosisList: provisionalDiagnosisSelectedItems
+          .map((e) => SaveAdviceListElement(
+              preDiagnosisValType:
+                  PrescriptionFavouriteType.provisionalDiagnosis,
+              preDiagnosisVal: e))
+          .toList(),
+      // disposalList: [
+      //   SaveDisposalList(
+      //       preDiagnosisVal: chosenDisposalValue ?? '',
+      //       preDiagnosisValType: PrescriptionFavouriteType.disposal.toString(),
+      //       duration: disposalDurationController.text ?? '',
+      //       durationMu: disposalDurationType ?? '',
+      //       followUpDate: disposalSelectedDate ?? '')
+      // ],
+      // referralList: [
+      //   SaveClinicalHistory2ListElement(
+      //       preDiagnosisVal: referredOPDSelectedItems ?? '',
+      //       preDiagnosisValType: PrescriptionFavouriteType.opd.toString()),
+      // ],
+      adviceList: adviceSelectedItems
+          .map((e) => SaveAdviceListElement(
+              preDiagnosisVal: e,
+              preDiagnosisValType: PrescriptionFavouriteType.advice))
+          .toList(),
+      treatmentList: procedureSelectedItems
+          .map((e) => SaveClinicalHistory2ListElement(
+              preDiagnosisValType:
+                  PrescriptionFavouriteType.procedure.toString(),
+              preDiagnosisVal: e))
+          .toList(),
+      diseaseList: diseaseSelectedItems
+          .map((e) => SaveClinicalHistory2ListElement(
+              preDiagnosisVal: e,
+              preDiagnosisValType:
+                  PrescriptionFavouriteType.disease.toString()))
+          .toList(),
+      // referralDoctorList: [
+      //   SaveClinicalHistory2ListElement(
+      //       preDiagnosisVal: referredDoctorSelectedItems ?? '',
+      //       preDiagnosisValType: PrescriptionFavouriteType.doctor.toString()),
+      // ],
+      investigationList: investigationSelectedItems,
+      medicationList: medicineList
+          .map((e) => SaveMedicationList(
+              brandName: e.brandName,
+              genericName: e.genericName,
+              preDiagnosisValType: 4,
+              presMedDtlList: e.multiDoseList
+                  .map((e2) => SavePresMedDtlList(
+                      medicineComment: e2.multiDoseInstruction,
+                      durationMu: e2.multiDoseDurationType,
+                      dosage: e2.multiDose,
+                      duration: e2.multiDoseDuration))
+                  .toList()))
+          .toList(),
+    );
     SavePrescriptionRepository().postPrescription(prescription);
   }
 

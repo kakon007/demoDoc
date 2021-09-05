@@ -60,7 +60,7 @@ class PrescriptionSaveModel {
   List<SaveClinicalHistory2ListElement> referralDoctorList;
   List<dynamic> dietAdviceList;
   dynamic referredToWard;
-  Note note;
+  SaveNote note;
   List<SaveMedicationList> medicationList;
 
   factory PrescriptionSaveModel.fromJson(Map<String, dynamic> json) =>
@@ -142,7 +142,7 @@ class PrescriptionSaveModel {
             ? null
             : List<dynamic>.from(json["dietAdviceList"].map((x) => x)),
         referredToWard: json["referredToWard"],
-        note: json["note"] == null ? null : Note.fromJson(json["note"]),
+        note: json["note"] == null ? null : SaveNote.fromJson(json["note"]),
         medicationList: json["medicationList"] == null
             ? null
             : List<SaveMedicationList>.from(json["medicationList"]
@@ -211,7 +211,7 @@ class PrescriptionSaveModel {
             ? []
             : List<dynamic>.from(dietAdviceList.map((x) => x)),
         "referredToWard": referredToWard,
-        "note": note == null ? null : note.toJson(),
+        "note": note == null ? "" : note.toJson(),
         "medicationList": medicationList == null
             ? []
             : List<dynamic>.from(medicationList.map((x) => x.toJson())),
@@ -220,70 +220,70 @@ class PrescriptionSaveModel {
 
 class SaveAdviceListElement {
   SaveAdviceListElement({
-    this.followUpDate,
-    this.selected,
-    this.inReportSerial,
-    this.isDeleted,
-    this.referenceId,
+    // this.followUpDate,
+    // this.selected,
+    // this.inReportSerial,
+    // this.isDeleted,
+    // this.referenceId,
     this.preDiagnosisVal,
     this.preDiagnosisValType,
-    this.doctorNo,
-    this.duration,
-    this.durationMu,
-    this.continueFlag,
-    this.findingsClob,
+    // this.doctorNo,
+    // this.duration,
+    // this.durationMu,
+    // this.continueFlag,
+    // this.findingsClob,
   });
 
-  DateTime followUpDate;
-  int selected;
-  int inReportSerial;
-  int isDeleted;
-  dynamic referenceId;
+  // DateTime followUpDate;
+  // int selected;
+  // int inReportSerial;
+  // int isDeleted;
+  // dynamic referenceId;
   String preDiagnosisVal;
   int preDiagnosisValType;
-  int doctorNo;
-  dynamic duration;
-  dynamic durationMu;
-  dynamic continueFlag;
-  dynamic findingsClob;
+  // int doctorNo;
+  // dynamic duration;
+  // dynamic durationMu;
+  // dynamic continueFlag;
+  // dynamic findingsClob;
 
   factory SaveAdviceListElement.fromJson(Map<String, dynamic> json) =>
       SaveAdviceListElement(
-        followUpDate: json["followUpDate"] == null
-            ? null
-            : DateTime.parse(json["followUpDate"]),
-        selected: json["selected"] == null ? null : json["selected"],
-        inReportSerial:
-            json["inReportSerial"] == null ? null : json["inReportSerial"],
-        isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
-        referenceId: json["referenceId"],
+        // followUpDate: json["followUpDate"] == null
+        //     ? null
+        //     : DateTime.parse(json["followUpDate"]),
+        // selected: json["selected"] == null ? null : json["selected"],
+        // inReportSerial:
+        //     json["inReportSerial"] == null ? null : json["inReportSerial"],
+        // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
+        // referenceId: json["referenceId"],
         preDiagnosisVal:
-            json["preDiagnosisVal"] == null ? null : json["preDiagnosisVal"],
+            json["preDiagnosisVal"] == null ? '' : json["preDiagnosisVal"],
         preDiagnosisValType: json["preDiagnosisValType"] == null
-            ? null
+            ? ''
             : json["preDiagnosisValType"],
-        doctorNo: json["doctorNo"] == null ? null : json["doctorNo"],
-        duration: json["duration"],
-        durationMu: json["durationMu"],
-        continueFlag: json["continueFlag"],
-        findingsClob: json["findingsClob"],
+        // doctorNo: json["doctorNo"] == null ? null : json["doctorNo"],
+        // duration: json["duration"],
+        // durationMu: json["durationMu"],
+        // continueFlag: json["continueFlag"],
+        // findingsClob: json["findingsClob"],
       );
 
   Map<String, dynamic> toJson() => {
-        "followUpDate":
-            followUpDate == null ? null : followUpDate.toIso8601String(),
-        "selected": selected == null ? null : selected,
-        "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        "isDeleted": isDeleted == null ? null : isDeleted,
-        "referenceId": referenceId,
-        "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+        // "followUpDate":
+        //     followUpDate == null ? null : followUpDate.toIso8601String(),
+        // "selected": selected == null ? null : selected,
+        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+        // "isDeleted": isDeleted == null ? null : isDeleted,
+        // "referenceId": referenceId,
+        "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
         "preDiagnosisValType":
-            preDiagnosisValType == null ? null : preDiagnosisValType,
-        "doctorNo": doctorNo == null ? null : doctorNo,
-        "duration": duration,
-        "durationMu": durationMu,
-        "continueFlag": continueFlag,
-        "findingsClob": findingsClob,
+            preDiagnosisValType == null ? '' : preDiagnosisValType,
+        // "doctorNo": doctorNo == null ? null : doctorNo,
+        // "duration": duration,
+        // "durationMu": durationMu,
+        // "continueFlag": continueFlag,
+        // "findingsClob": findingsClob,
       };
 }
 
@@ -381,7 +381,7 @@ class SaveChiefComplainList {
         // "inReportSerial": inReportSerial == null ? null : inReportSerial,
         // "isDeleted": isDeleted == null ? null : isDeleted,
         // "referenceId": referenceId,
-        "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+        "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
         "preDiagnosisValType": preDiagnosisValType,
         // "doctorNo": doctorNo == null ? null : doctorNo,
         // "duration": duration,
@@ -405,81 +405,81 @@ class SaveChiefComplainList {
 
 class SaveClinicalHistory2ListElement {
   SaveClinicalHistory2ListElement({
-    this.followUpDate,
-    this.selected,
-    this.inReportSerial,
-    this.isDeleted,
-    this.activeStatus,
+    // this.followUpDate,
+    // this.selected,
+    // this.inReportSerial,
+    // this.isDeleted,
+    // this.activeStatus,
     this.preDiagnosisVal,
     this.preDiagnosisValType,
-    this.referenceId,
+    // this.referenceId,
   });
 
-  DateTime followUpDate;
-  int selected;
-  int inReportSerial;
-  int isDeleted;
-  int activeStatus;
+  // DateTime followUpDate;
+  // int selected;
+  // int inReportSerial;
+  // int isDeleted;
+  // int activeStatus;
   String preDiagnosisVal;
   String preDiagnosisValType;
-  int referenceId;
+  // int referenceId;
 
   factory SaveClinicalHistory2ListElement.fromJson(Map<String, dynamic> json) =>
       SaveClinicalHistory2ListElement(
-        followUpDate: json["followUpDate"] == null
-            ? null
-            : DateTime.parse(json["followUpDate"]),
-        selected: json["selected"] == null ? null : json["selected"],
-        inReportSerial:
-            json["inReportSerial"] == null ? null : json["inReportSerial"],
-        isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
-        activeStatus:
-            json["activeStatus"] == null ? null : json["activeStatus"],
+        // followUpDate: json["followUpDate"] == null
+        //     ? null
+        //     : DateTime.parse(json["followUpDate"]),
+        // selected: json["selected"] == null ? null : json["selected"],
+        // inReportSerial:
+        //     json["inReportSerial"] == null ? null : json["inReportSerial"],
+        // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
+        // activeStatus:
+        //     json["activeStatus"] == null ? null : json["activeStatus"],
         preDiagnosisVal:
-            json["preDiagnosisVal"] == null ? null : json["preDiagnosisVal"],
+            json["preDiagnosisVal"] == null ? "" : json["preDiagnosisVal"],
         preDiagnosisValType: json["preDiagnosisValType"] == null
-            ? null
+            ? ""
             : json["preDiagnosisValType"],
-        referenceId: json["referenceId"] == null ? null : json["referenceId"],
+        // referenceId: json["referenceId"] == null ? null : json["referenceId"],
       );
 
   Map<String, dynamic> toJson() => {
-        "followUpDate":
-            followUpDate == null ? null : followUpDate.toIso8601String(),
-        "selected": selected == null ? null : selected,
-        "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        "isDeleted": isDeleted == null ? null : isDeleted,
-        "activeStatus": activeStatus == null ? null : activeStatus,
-        "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
+        // "followUpDate":
+        //     followUpDate == null ? null : followUpDate.toIso8601String(),
+        // "selected": selected == null ? null : selected,
+        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+        // "isDeleted": isDeleted == null ? null : isDeleted,
+        // "activeStatus": activeStatus == null ? null : activeStatus,
+        "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
         "preDiagnosisValType":
-            preDiagnosisValType == null ? null : preDiagnosisValType,
-        "referenceId": referenceId == null ? null : referenceId,
+            preDiagnosisValType == null ? '' : preDiagnosisValType,
+        // "referenceId": referenceId == null ? null : referenceId,
       };
 }
 
 class SaveDisposalList {
   SaveDisposalList({
     this.followUpDate,
-    this.selected,
-    this.inReportSerial,
-    this.isDeleted,
+    // this.selected,
+    // this.inReportSerial,
+    // this.isDeleted,
     this.preDiagnosisVal,
-    this.referenceId,
-    this.slNo,
+    // this.referenceId,
+    // this.slNo,
     this.preDiagnosisValType,
     this.duration,
     this.durationMu,
   });
 
   DateTime followUpDate;
-  int selected;
-  int inReportSerial;
-  int isDeleted;
+  // int selected;
+  // int inReportSerial;
+  // int isDeleted;
   String preDiagnosisVal;
-  int referenceId;
-  int slNo;
+  // int referenceId;
+  // int slNo;
   String preDiagnosisValType;
-  int duration;
+  String duration;
   String durationMu;
 
   factory SaveDisposalList.fromJson(Map<String, dynamic> json) =>
@@ -487,14 +487,14 @@ class SaveDisposalList {
         followUpDate: json["followUpDate"] == null
             ? null
             : DateTime.parse(json["followUpDate"]),
-        selected: json["selected"] == null ? null : json["selected"],
-        inReportSerial:
-            json["inReportSerial"] == null ? null : json["inReportSerial"],
-        isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
+        // selected: json["selected"] == null ? null : json["selected"],
+        // inReportSerial:
+        //     json["inReportSerial"] == null ? null : json["inReportSerial"],
+        // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
         preDiagnosisVal:
             json["preDiagnosisVal"] == null ? null : json["preDiagnosisVal"],
-        referenceId: json["referenceId"] == null ? null : json["referenceId"],
-        slNo: json["slNo"] == null ? null : json["slNo"],
+        // referenceId: json["referenceId"] == null ? null : json["referenceId"],
+        // slNo: json["slNo"] == null ? null : json["slNo"],
         preDiagnosisValType: json["preDiagnosisValType"] == null
             ? null
             : json["preDiagnosisValType"],
@@ -504,17 +504,17 @@ class SaveDisposalList {
 
   Map<String, dynamic> toJson() => {
         "followUpDate":
-            followUpDate == null ? null : followUpDate.toIso8601String(),
-        "selected": selected == null ? null : selected,
-        "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        "isDeleted": isDeleted == null ? null : isDeleted,
-        "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,
-        "referenceId": referenceId == null ? null : referenceId,
-        "slNo": slNo == null ? null : slNo,
+            followUpDate == null ? '' : followUpDate.toIso8601String(),
+        // "selected": selected == null ? null : selected,
+        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+        // "isDeleted": isDeleted == null ? null : isDeleted,
+        "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
+        // "referenceId": referenceId == null ? null : referenceId,
+        // "slNo": slNo == null ? null : slNo,
         "preDiagnosisValType":
-            preDiagnosisValType == null ? null : preDiagnosisValType,
-        "duration": duration == null ? null : duration,
-        "durationMu": durationMu == null ? null : durationMu,
+            preDiagnosisValType == null ? '' : preDiagnosisValType,
+        "duration": duration == null ? '' : duration,
+        "durationMu": durationMu == null ? '' : durationMu,
       };
 }
 
@@ -601,7 +601,7 @@ class SaveMedicationList {
   factory SaveMedicationList.fromJson(Map<String, dynamic> json) =>
       SaveMedicationList(
         presMedDtlList: json["presMedDtlList"] == null
-            ? null
+            ? []
             : List<SavePresMedDtlList>.from(json["presMedDtlList"]
                 .map((x) => SavePresMedDtlList.fromJson(x))),
         genericName: json["genericName"] == null ? null : json["genericName"],
@@ -623,7 +623,7 @@ class SaveMedicationList {
 
   Map<String, dynamic> toJson() => {
         "presMedDtlList": presMedDtlList == null
-            ? null
+            ? []
             : List<dynamic>.from(presMedDtlList.map((x) => x.toJson())),
         "genericName": genericName == null ? null : genericName,
         "brandName": brandName == null ? null : brandName,
@@ -705,31 +705,31 @@ class SavePresMedDtlList {
       };
 }
 
-class Note {
-  Note({
-    this.followUpDate,
-    this.selected,
-    this.inReportSerial,
-    this.isDeleted,
+class SaveNote {
+  SaveNote({
+    // this.followUpDate,
+    // this.selected,
+    // this.inReportSerial,
+    // this.isDeleted,
     this.preDiagnosisValType,
     this.preDiagnosisVal,
   });
 
-  DateTime followUpDate;
-  int selected;
-  int inReportSerial;
-  int isDeleted;
+  // DateTime followUpDate;
+  // int selected;
+  // int inReportSerial;
+  // int isDeleted;
   int preDiagnosisValType;
   String preDiagnosisVal;
 
-  factory Note.fromJson(Map<String, dynamic> json) => Note(
-        followUpDate: json["followUpDate"] == null
-            ? null
-            : DateTime.parse(json["followUpDate"]),
-        selected: json["selected"] == null ? null : json["selected"],
-        inReportSerial:
-            json["inReportSerial"] == null ? null : json["inReportSerial"],
-        isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
+  factory SaveNote.fromJson(Map<String, dynamic> json) => SaveNote(
+        // followUpDate: json["followUpDate"] == null
+        //     ? null
+        //     : DateTime.parse(json["followUpDate"]),
+        // selected: json["selected"] == null ? null : json["selected"],
+        // inReportSerial:
+        //     json["inReportSerial"] == null ? null : json["inReportSerial"],
+        // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
         preDiagnosisValType: json["preDiagnosisValType"] == null
             ? null
             : json["preDiagnosisValType"],
@@ -738,11 +738,11 @@ class Note {
       );
 
   Map<String, dynamic> toJson() => {
-        "followUpDate":
-            followUpDate == null ? null : followUpDate.toIso8601String(),
-        "selected": selected == null ? null : selected,
-        "inReportSerial": inReportSerial == null ? null : inReportSerial,
-        "isDeleted": isDeleted == null ? null : isDeleted,
+        // "followUpDate":
+        //     followUpDate == null ? null : followUpDate.toIso8601String(),
+        // "selected": selected == null ? null : selected,
+        // "inReportSerial": inReportSerial == null ? null : inReportSerial,
+        // "isDeleted": isDeleted == null ? null : isDeleted,
         "preDiagnosisValType":
             preDiagnosisValType == null ? null : preDiagnosisValType,
         "preDiagnosisVal": preDiagnosisVal == null ? null : preDiagnosisVal,

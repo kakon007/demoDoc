@@ -18,9 +18,6 @@ class NoteWidget extends StatefulWidget {
 
 class _NoteWidgetState extends State<NoteWidget> {
   bool showReport = false;
-  TextEditingController controller = TextEditingController();
-  List<String> chiefComplaintSelectedItems = [];
-  TextEditingController _noteTextEditingController = TextEditingController();
   var _noteFieldFocusNode2 = FocusNode();
 
   Widget build(BuildContext context) {
@@ -41,7 +38,7 @@ class _NoteWidgetState extends State<NoteWidget> {
           autofocus: false,
           textInputAction: TextInputAction.newline,
           focusNode: _noteFieldFocusNode2,
-          controller: _noteTextEditingController,
+          controller: templateVm.noteTextEditingController,
           cursorColor: HexColor('#C5CAE8'),
           decoration: InputDecoration(
             border: InputBorder.none,

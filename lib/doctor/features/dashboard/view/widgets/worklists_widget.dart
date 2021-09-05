@@ -19,8 +19,38 @@ class TodayWorkList extends StatefulWidget {
   int regNo;
   int doctorNo;
   String consultationId;
+  var consultationTypeNo;
+  var patTypeNumber;
+  var appointmentNumber;
+  var departmentNumber;
+  var departmentName;
+  var consultationNumber;
+  var isPatientOut;
+  var ipdFlag;
+  var companyNumber;
 
-  TodayWorkList({this.consultationId,this.id,this.patientName, this.appointmentTime, this.appointType,this.age,this.gender,this.bloodGroup,this.doctorNo,this.regNo,this.serial,this.phoneNumber});
+  TodayWorkList(
+      {this.appointmentNumber,
+      this.companyNumber,
+      this.consultationNumber,
+      this.consultationTypeNo,
+      this.departmentName,
+      this.departmentNumber,
+      this.ipdFlag,
+      this.isPatientOut,
+      this.patTypeNumber,
+      this.consultationId,
+      this.id,
+      this.patientName,
+      this.appointmentTime,
+      this.appointType,
+      this.age,
+      this.gender,
+      this.bloodGroup,
+      this.doctorNo,
+      this.regNo,
+      this.serial,
+      this.phoneNumber});
 
   @override
   _TodayWorkListState createState() => _TodayWorkListState();
@@ -80,7 +110,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.patientName==null? "" :  widget.patientName,
+                    widget.patientName == null ? "" : widget.patientName,
                     style: GoogleFonts.poppins(
                         fontSize: width <= 330 ? 12 : 15,
                         fontWeight: FontWeight.w500),
@@ -95,8 +125,11 @@ class _TodayWorkListState extends State<TodayWorkList> {
                         ),
                       ),
                       Text(
-                        widget.appointmentTime==null ? "08:00 PM, 22/05/2021" : DateFormat("hh:mm a, dd/MM/yyyy").format(DateTime.parse(widget.appointmentTime)
-                            .toLocal()),
+                        widget.appointmentTime == null
+                            ? "08:00 PM, 22/05/2021"
+                            : DateFormat("hh:mm a, dd/MM/yyyy").format(
+                                DateTime.parse(widget.appointmentTime)
+                                    .toLocal()),
                         style: GoogleFonts.poppins(
                           fontSize: width <= 330 ? 10 : 12,
                           fontWeight: FontWeight.w600,
@@ -116,9 +149,15 @@ class _TodayWorkListState extends State<TodayWorkList> {
                         ),
                       ),
                       Text(
-                        widget.appointType==null? "1st Follow Up" :
-                        widget.appointType=='1'?"Fresh Visit" : widget.appointType=="2"?"Follow Up" :
-                        widget.appointType=="3" ? "2nd Follow Up" : "Report Check",
+                        widget.appointType == null
+                            ? "1st Follow Up"
+                            : widget.appointType == '1'
+                                ? "Fresh Visit"
+                                : widget.appointType == "2"
+                                    ? "Follow Up"
+                                    : widget.appointType == "3"
+                                        ? "2nd Follow Up"
+                                        : "Report Check",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           // fontWeight: FontWeight.w600,
@@ -152,9 +191,31 @@ class _TodayWorkListState extends State<TodayWorkList> {
                     height: 5,
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => PatientDetails(consultationId: widget.consultationId,id:widget.id,name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.appointmentTime,consultType: widget.appointType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
+                          builder: (BuildContext context) => PatientDetails(
+                            patTypeNumber: widget.patTypeNumber,
+                                isPatientOut: widget.isPatientOut,
+                                ipdFlag: widget.ipdFlag,
+                                departmentNumber: widget.departmentNumber,
+                                departmentName: widget.departmentName,
+                                consultationTypeNo: widget.consultationTypeNo,
+                                consultationNumber: widget.consultationNumber,
+                                companyNumber: widget.companyNumber,
+                                appointmentNumber: widget.appointmentNumber,
+                                consultationId: widget.consultationId,
+                                id: widget.id,
+                                name: widget.patientName,
+                                gender: widget.gender,
+                                serial: widget.serial,
+                                phoneNumber: widget.phoneNumber,
+                                bloodGroup: widget.bloodGroup,
+                                age: widget.age,
+                                consultationTime: widget.appointmentTime,
+                                consultType: widget.appointType,
+                                regNo: widget.regNo,
+                                doctorNo: widget.doctorNo,
+                              )));
                     },
                     child: Container(
                       width: width <= 330 ? width * .68 : width * .7,

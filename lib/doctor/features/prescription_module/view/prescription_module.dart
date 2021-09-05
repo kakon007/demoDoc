@@ -44,6 +44,43 @@ import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class Module extends StatefulWidget {
+  String id;
+  String name;
+  String age;
+  String gender;
+  String bloodGroup;
+  String phoneNumber;
+  String consultationTime;
+  String consultType;
+  int serial;
+  int regNo;
+  int doctorNo;
+  String consultationId;
+  var consultationTypeNo;
+  var patTypeNumber;
+  var appointmentNumber;
+  var departmentNumber;
+  var departmentName;
+  var consultationNumber;
+  var isPatientOut;
+  var ipdFlag;
+  var companyNumber;
+
+  Module({
+    this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,
+    this.consultationId,
+    this.id,
+    this.name,
+    this.age,
+    this.gender,
+    this.bloodGroup,
+    this.phoneNumber,
+    this.consultationTime,
+    this.consultType,
+    this.serial,
+    this.regNo,
+    this.doctorNo
+  });
   @override
   _ModuleState createState() => _ModuleState();
 }
@@ -122,7 +159,7 @@ class _ModuleState extends State<Module> {
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           UseTemplateWidget(),
-          PatientDermographyWidget(),
+          PatientDermographyWidget(consultationId: widget.consultationId,id:widget.id,name: widget.name,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultationTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,),
           VitalsWidget(),
           ChiefComplaintWidget(),
           ClinicalHistoryWidget(),
@@ -318,7 +355,15 @@ class _ModuleState extends State<Module> {
                 child: InkWell(
                   onTap: () {
                     var vm = GetTamplateDataViewModel.read(context);
-                    vm.savePrescriptionData();
+                    vm.savePrescriptionData(  patTypeNumber: widget.patTypeNumber,
+                      isPatientOut: widget.isPatientOut,
+                      ipdFlag: widget.ipdFlag,
+                      departmentNumber: widget.departmentNumber,
+                      departmentName: widget.departmentName,
+                      consultationTypeNo: widget.consultationTypeNo,
+                      consultationNumber: widget.consultationNumber,
+                      companyNumber: widget.companyNumber,
+                      appointmentNumber: widget.appointmentNumber,consultationId: widget.consultationId,id:widget.id,name: widget.name,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultationTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,);
                   },
                   child: Container(
                     height: 40,

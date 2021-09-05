@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view/emr_screen.dart';
 import 'package:myhealthbd_app/doctor/features/patient_details/view_models/consultation_history_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/prescription_module.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -36,7 +37,17 @@ class PatientDetails extends StatefulWidget {
   int regNo;
   int doctorNo;
   String consultationId;
+  var consultationTypeNo;
+  var patTypeNumber;
+  var appointmentNumber;
+  var departmentNumber;
+  var departmentName;
+  var consultationNumber;
+  var isPatientOut;
+  var ipdFlag;
+  var companyNumber;
   PatientDetails({
+    this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,
     this.consultationId,
     this.id,
     this.name,
@@ -1130,55 +1141,68 @@ print('fromDate $pickBirthDate');
           Align(
             // padding: EdgeInsets.only(top: 650.0),
             alignment: Alignment.bottomCenter,
-            child: Container(
-              width: double.infinity,
-              height: isTablet
-                  ? 70
-                  : deviceWidth <= 360
-                      ? 50
-                      : 60,
-              decoration: BoxDecoration(
-                color: HexColor("#FFFFFF"),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black38.withOpacity(0.2),
-                    spreadRadius: 6,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding:
-                    EdgeInsets.only(left: 15.0, right: 15, top: 10, bottom: 10),
-                child: Material(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  color: HexColor("#6374DF"),
-                  child: SizedBox(
-                    width: isTablet
-                        ? 170
-                        : deviceWidth <= 360 && deviceWidth > 330
-                            ? 105
-                            : deviceWidth <= 330
-                                ? 95
-                                : 180,
-                    height: deviceWidth <= 360 ? 28 : 35,
-                    child: Center(
-                      child: Text(
-                        "Create Prescription",
-                        //key: Key('rebookKey$index'),
-                        style: GoogleFonts.roboto(
-                            color: Colors.white,
-                            fontSize: isTablet
-                                ? 18
-                                : deviceWidth <= 360 && deviceWidth > 330
-                                    ? 9
-                                    : deviceWidth <= 330
-                                        ? 8
-                                        : 14,
-                            fontWeight: FontWeight.w700),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Module(         patTypeNumber: widget.patTypeNumber,
+                  isPatientOut: widget.isPatientOut,
+                  ipdFlag: widget.ipdFlag,
+                  departmentNumber: widget.departmentNumber,
+                  departmentName: widget.departmentName,
+                  consultationTypeNo: widget.consultationTypeNo,
+                  consultationNumber: widget.consultationNumber,
+                  companyNumber: widget.companyNumber,
+                  appointmentNumber: widget.appointmentNumber,consultationId: widget.consultationId,id:widget.id,name: widget.name,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultationTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
+              },
+              child: Container(
+                width: double.infinity,
+                height: isTablet
+                    ? 70
+                    : deviceWidth <= 360
+                        ? 50
+                        : 60,
+                decoration: BoxDecoration(
+                  color: HexColor("#FFFFFF"),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38.withOpacity(0.2),
+                      spreadRadius: 6,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 15.0, right: 15, top: 10, bottom: 10),
+                  child: Material(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    color: HexColor("#6374DF"),
+                    child: SizedBox(
+                      width: isTablet
+                          ? 170
+                          : deviceWidth <= 360 && deviceWidth > 330
+                              ? 105
+                              : deviceWidth <= 330
+                                  ? 95
+                                  : 180,
+                      height: deviceWidth <= 360 ? 28 : 35,
+                      child: Center(
+                        child: Text(
+                          "Create Prescription",
+                          //key: Key('rebookKey$index'),
+                          style: GoogleFonts.roboto(
+                              color: Colors.white,
+                              fontSize: isTablet
+                                  ? 18
+                                  : deviceWidth <= 360 && deviceWidth > 330
+                                      ? 9
+                                      : deviceWidth <= 330
+                                          ? 8
+                                          : 14,
+                              fontWeight: FontWeight.w700),
+                        ),
                       ),
                     ),
                   ),

@@ -7,7 +7,33 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class PatientDermographyWidget extends StatefulWidget {
-  const PatientDermographyWidget({Key key}) : super(key: key);
+  String id;
+  String name;
+  String age;
+  String gender;
+  String bloodGroup;
+  String phoneNumber;
+  String consultationTime;
+  String consultType;
+  int serial;
+  int regNo;
+  int doctorNo;
+  String consultationId;
+
+  PatientDermographyWidget({
+    this.consultationId,
+    this.id,
+    this.name,
+    this.age,
+    this.gender,
+    this.bloodGroup,
+    this.phoneNumber,
+    this.consultationTime,
+    this.consultType,
+    this.serial,
+    this.regNo,
+    this.doctorNo
+  });
   @override
   _PatientDermographyWidgetState createState() =>
       _PatientDermographyWidgetState();
@@ -81,7 +107,7 @@ class _PatientDermographyWidgetState extends State<PatientDermographyWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Md. Arman',
+                    widget.name??'',
                     style: GoogleFonts.poppins(
                         // color: HexColor(
                         //   '#354291',
@@ -107,7 +133,7 @@ class _PatientDermographyWidgetState extends State<PatientDermographyWidget> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        '28Y 10D',
+                        widget.age??'',
                         style: GoogleFonts.poppins(
                           color: Color(0xff333333),
                           fontSize: isTablet
@@ -134,7 +160,7 @@ class _PatientDermographyWidgetState extends State<PatientDermographyWidget> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        'Male',
+                        widget.gender??'',
                         style: GoogleFonts.poppins(
                           color: Color(0xff333333),
                           fontSize: isTablet
@@ -161,7 +187,7 @@ class _PatientDermographyWidgetState extends State<PatientDermographyWidget> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        'A+',
+                        widget.bloodGroup??'Not Available',
                         style: GoogleFonts.poppins(
                           color: Color(0xff333333),
                           fontSize: isTablet
@@ -188,7 +214,7 @@ class _PatientDermographyWidgetState extends State<PatientDermographyWidget> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        '01962823006',
+                        widget.phoneNumber??'',
                         style: GoogleFonts.poppins(
                           color: Color(0xff333333),
                           fontSize: isTablet

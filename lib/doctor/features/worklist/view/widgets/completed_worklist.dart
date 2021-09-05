@@ -152,6 +152,13 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                     consultType:
                         vm.completedData[index].consultTypeNo.toString(),
                     regNo: vm.completedData[index].registrationNo,
+                    appointmentNumber:vm.completedData[index].appointId ,
+                    companyNumber: vm.completedData[index].companyNo,
+                    consultationNumber: vm.completedData[index].consultationNo,
+                    consultationTypeNo: vm.completedData[index].consultTypeNo,
+                    departmentName: vm.completedData[index].departmentName,
+                    departmentNumber: vm.completedData[index].departmentNo,
+                    isPatientOut: vm.completedData[index].isPatientOut,
                     doctorNo: vm.completedData[index].doctorNo,
                     consultationId: vm.completedData[index].consultationId,
                   ),

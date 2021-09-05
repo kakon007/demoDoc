@@ -106,7 +106,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
     List pages = <Widget>[
       DoctorDashboard(),
       Worklist(),
-      Module(),
+      // Module(),
       //PrescriptionTemplatesPopup(),
       DoctorProfile()
     ];
@@ -158,20 +158,20 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
               )),
           //hospitals
           // ignore: deprecated_member_use
-          BottomNavigationBarItem(
-              icon: Material(
-                color: Colors.transparent,
-                child: prescriptionIcon,
-
-                // ignore: deprecated_member_use
-              ),
-              title: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  "Rx Setup",
-                  style: GoogleFonts.poppins(),
-                ),
-              )),
+          // BottomNavigationBarItem(
+          //     icon: Material(
+          //       color: Colors.transparent,
+          //       child: prescriptionIcon,
+          //
+          //       // ignore: deprecated_member_use
+          //     ),
+          //     title: Padding(
+          //       padding: const EdgeInsets.only(top: 8.0),
+          //       child: Text(
+          //         "Rx Setup",
+          //         style: GoogleFonts.poppins(),
+          //       ),
+          //     )),
           //my_health
           // ignore: deprecated_member_use
           BottomNavigationBarItem(

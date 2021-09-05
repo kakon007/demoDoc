@@ -700,6 +700,13 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       gender: workVm.todayWorkList[index].gender,
                       regNo: workVm.todayWorkList[index].registrationNo,
                       consultationId: workVm.todayWorkList[index].consultationId,
+                      appointmentNumber:workVm.todayWorkList[index].appointId ,
+                      companyNumber: workVm.todayWorkList[index].companyNo,
+                      consultationNumber: workVm.todayWorkList[index].consultationNo,
+                      consultationTypeNo: workVm.todayWorkList[index].consultTypeNo,
+                      departmentName: workVm.todayWorkList[index].departmentName,
+                      departmentNumber: workVm.todayWorkList[index].departmentNo,
+                      isPatientOut: workVm.todayWorkList[index].isPatientOut,
                     );
                   })
             ],

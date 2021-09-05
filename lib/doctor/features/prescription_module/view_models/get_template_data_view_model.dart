@@ -252,7 +252,29 @@ class GetTamplateDataViewModel extends ChangeNotifier {
     SavePrescripTionTemplateRepository().fetchFileType(prescriptionData);
   }
 
-  savePrescriptionData() {
+  savePrescriptionData({String id,
+    String name,
+    String age,
+    String gender,
+    String bloodGroup,
+    String phoneNumber,
+    String consultationTime,
+    String consultType,
+    int serial,
+    int regNo,
+    int doctorNo,
+    String consultationId,
+    var consultationTypeNo,
+    var patTypeNumber,
+    var appointmentNumber,
+    var departmentNumber,
+    var departmentName,
+    var consultationNumber,
+    var isPatientOut,
+    var ipdFlag,
+    var companyNumber
+
+  }) {
     vitals = [];
     if (tempTextEditingController.text != null ||
         tempTextEditingController.text != '') {
@@ -350,29 +372,29 @@ class GetTamplateDataViewModel extends ChangeNotifier {
     // doctorSelectedItems.add(referredDoctorSelectedItems);
     opdSelectedItems = [];
     opdSelectedItems.add(referredOPDSelectedItems);
-
+print("DHUURR $departmentName");
     var prescription = PrescriptionSaveModel(
       prescription: Prescription(
-          consultationTypeNo: 2000001,
+          consultationTypeNo:consultationTypeNo,
           patientTypeNo: 1,
           shiftNo: 0,
           id: null,
-          appointmentNo: 2210000040880,
-          registrationNo: 2210000086785,
-          hospitalId: "MH22108014456",
-          consultationNo: 2210000029009,
-          consultationId: "C22108012858",
-          departmentNo: 20000002,
-          departmentName: " ORTHOPEDIC SURGERY",
-          isPatientOut: 1,
+          appointmentNo: int.parse(appointmentNumber),
+          registrationNo: regNo,
+          hospitalId: id,
+          consultationNo: consultationNumber,
+          consultationId: consultationId,
+          departmentNo: departmentNumber,
+          departmentName: departmentName,
+          isPatientOut: isPatientOut,
           ipdFlag: 0,
-          companyNo: 2),
-      // vitalList: vitals
-      //     .map((e) => SaveVitalList(
-      //         preDiagnosisVal: e.preDiagnosisVal,
-      //         preDiagnosisValType: e.preDiagnosisValType,
-      //         findings: e.findings))
-      //     .toList(),
+          companyNo: companyNumber),
+      vitalList: vitals
+          .map((e) => SaveVitalList(
+              preDiagnosisVal: e.preDiagnosisVal,
+              preDiagnosisValType: e.preDiagnosisValType,
+              findings: e.findings))
+          .toList(),
       chiefComplainList: chiefComplaintSelectedItems
           .map((e) =>
               SaveChiefComplainList(preDiagnosisVal: e, preDiagnosisValType: 7))

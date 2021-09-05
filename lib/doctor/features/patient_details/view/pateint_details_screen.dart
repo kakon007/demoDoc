@@ -488,7 +488,7 @@ print('fromDate $pickBirthDate');
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              widget.bloodGroup??'',
+                                              widget.bloodGroup??'Not Available',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',

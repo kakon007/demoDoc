@@ -39,6 +39,60 @@ class _EmrScreenState extends State<EmrScreen> {
   TextEditingController _searchValueForDocumentation = TextEditingController();
   TextEditingController _searchValueForPrescription = TextEditingController();
 
+  Future<Null> selectDate(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      //initialDatePickerMode: DatePickerMode.year,
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppTheme.appbarPrimary,
+            accentColor: AppTheme.appbarPrimary,
+            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
+
+      initialDate: widget.pickBirthDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (date != null && date != widget.pickBirthDate) {
+      setState(() {
+        widget.pickBirthDate = date;
+      });
+    }
+  }
+
+  Future<Null> selectDate2(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      //initialDatePickerMode: DatePickerMode.year,
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppTheme.appbarPrimary,
+            accentColor: AppTheme.appbarPrimary,
+            colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child,
+        );
+      },
+
+      initialDate: widget.pickBirthDate2,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (date != null && date != widget.pickBirthDate2) {
+      setState(() {
+        widget.pickBirthDate2 = date;
+      });
+    }
+  }
+
   Future fetchPDF(String index) async {
     try {
       print("FETCHPDFDATA");
@@ -276,10 +330,11 @@ class _EmrScreenState extends State<EmrScreen> {
         ],
       ),
       onTap: () {
-        // selectDate(context);
-        // FocusManager.instance.primaryFocus.unfocus();
+        selectDate(context);
+        FocusManager.instance.primaryFocus.unfocus();
       },
     );
+
     var toDate = GestureDetector(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,8 +400,8 @@ class _EmrScreenState extends State<EmrScreen> {
         ],
       ),
       onTap: () {
-        // selectDate2(context);
-        // FocusManager.instance.primaryFocus.unfocus();
+        selectDate2(context);
+        FocusManager.instance.primaryFocus.unfocus();
       },
     );
 

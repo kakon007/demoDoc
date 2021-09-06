@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:function_tree/function_tree.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
@@ -52,6 +53,61 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   // List<AddMultiDose> multiDose = [];
   // List<MultiDose> multiDoseItemList = [];
   // List<MedicineList> medicineList = [];
+
+  String quantityCalculation(
+      {String dose, String durationType, String duration}) {
+    String f = dose
+        .replaceAll("১", "1")
+        .replaceAll("২", "2")
+        .replaceAll("৩", "3")
+        .replaceAll("৪", "4")
+        .replaceAll("5", "5")
+        .replaceAll("৬", "6")
+        .replaceAll("৭", "7")
+        .replaceAll("৮", "8")
+        .replaceAll("৯", "9")
+        .replaceAll("০", "0");
+
+    double a = 1;
+    a = f.interpret();
+    double b = 1;
+    double c = 1;
+    double d = 1;
+    double e = 1;
+    String g = duration
+        .replaceAll("১", "1")
+        .replaceAll("২", "2")
+        .replaceAll("৩", "3")
+        .replaceAll("৪", "4")
+        .replaceAll("5", "5")
+        .replaceAll("৬", "6")
+        .replaceAll("৭", "7")
+        .replaceAll("৮", "8")
+        .replaceAll("৯", "9")
+        .replaceAll("০", "0");
+    d = double.parse(g);
+    if (durationType.toLowerCase() == "days") {
+      b = 1;
+    } else if (durationType.toLowerCase() == "weeks") {
+      b = 7;
+    } else if (durationType.toLowerCase() == "month") {
+      b = 30;
+    } else if (durationType.toLowerCase() == "year") {
+      b = 365;
+    } else if (durationType.toLowerCase() == "দিন") {
+      b = 1;
+    } else if (durationType.toLowerCase() == "সপ্তাহ") {
+      b = 7;
+    } else if (durationType.toLowerCase() == "মাস") {
+      b = 30;
+    } else if (durationType.toLowerCase() == "বছর") {
+      b = 365;
+    }
+    c = a * b * d;
+    print("ak----{$a + $b + $c + $d}");
+    return c.toString();
+  }
+
   int ind;
   var vm = appNavigator.context.read<MedicationViewModel>();
   int tabIndex = 0;
@@ -251,7 +307,15 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                               color: AppTheme.buttonActiveColor,
                                             ),
                                             suffixIcon: IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  print(quantityCalculation(
+                                                      dose: doseController.text,
+                                                      durationType:
+                                                          daysController.text,
+                                                      duration:
+                                                          durationController
+                                                              .text));
+                                                },
                                                 icon: Icon(Icons.check,
                                                     color: AppTheme
                                                         .buttonActiveColor)),
@@ -743,6 +807,12 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       },
                       onSuggestionSelected: (v) {
                         daysController.text = v;
+                        quantityController.text = quantityCalculation(
+                                dose: doseController.text,
+                                durationType: daysController.text,
+                                duration: durationController.text)
+                            .split(".")
+                            .first;
                         // setState(() {});
                       },
                       suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -1009,12 +1079,20 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                               onSuggestionSelected: (v) {
                                 templateVm.multiDose[index]
                                     .multiDoseDurationTypeController.text = v;
-                                // if (chiefComplaintSelectedItems.contains(v)) {
-                                //   BotToast.showText(text: "All ready added");
-                                // } else {
-                                // //   chiefComplaintSelectedItems.add(v);
-                                // }
-                                // setState(() {});
+                                templateVm
+                                    .multiDose[index]
+                                    .multiDoseQuantityController
+                                    .text = quantityCalculation(
+                                        dose: templateVm.multiDose[index]
+                                            .multiDoseController.text,
+                                        durationType: templateVm
+                                            .multiDose[index]
+                                            .multiDoseDurationTypeController
+                                            .text,
+                                        duration: templateVm.multiDose[index]
+                                            .multiDoseDurationController.text)
+                                    .split(".")
+                                    .first;
                               },
                               suggestionsBoxDecoration:
                                   SuggestionsBoxDecoration(
@@ -1477,17 +1555,37 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                     onTap: () async {
                                       await CommonAddToFavoriteListRepository()
                                           .addToMedicineFavouriteList(
-                                        genericName: templateVm.medicineList[index].genericName,
-                                        brandName: templateVm.medicineList[index].brandName,
-                                        route: templateVm.medicineList[index].route,
-                                        duration: templateVm.medicineList[index].multiDoseList.first.multiDoseDuration,
-                                        durationType:  templateVm.medicineList[index].multiDoseList.first.multiDoseDurationType,
-                                        instructions: templateVm.medicineList[index].multiDoseList.first.multiDoseInstruction,
-                                        dose: templateVm.medicineList[index].multiDoseList.first.multiDose,
-                                      favoriteType: PrescriptionFavouriteType.medication.toString(),
-                                       // quantity:
-                                       //continueMedi:
-                                      )
+                                            genericName: templateVm
+                                                .medicineList[index]
+                                                .genericName,
+                                            brandName: templateVm
+                                                .medicineList[index].brandName,
+                                            route: templateVm
+                                                .medicineList[index].route,
+                                            duration: templateVm
+                                                .medicineList[index]
+                                                .multiDoseList
+                                                .first
+                                                .multiDoseDuration,
+                                            durationType: templateVm
+                                                .medicineList[index]
+                                                .multiDoseList
+                                                .first
+                                                .multiDoseDurationType,
+                                            instructions: templateVm
+                                                .medicineList[index]
+                                                .multiDoseList
+                                                .first
+                                                .multiDoseInstruction,
+                                            dose: templateVm.medicineList[index]
+                                                .multiDoseList.first.multiDose,
+                                            favoriteType:
+                                                PrescriptionFavouriteType
+                                                    .medication
+                                                    .toString(),
+                                            // quantity:
+                                            //continueMedi:
+                                          )
                                           .then((value) async =>
                                               await vm.getData());
                                       favoriteItems.clear();

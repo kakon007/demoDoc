@@ -18,4 +18,47 @@ class CommonAddToFavoriteListRepository {
       // }
     } catch (e) {}
   }
+
+  Future addToMedicineFavouriteList(
+      {String favoriteType,
+      String brandName,
+      String genericName,
+      String route,
+      String dose,
+      String duration,
+      String durationType,
+      String instructions,
+        String quantity,
+        String continueMedi,
+      }) async {
+    try {
+     var response= await ApiClient()
+          .postRequest("prescription-service-api/api/favourites/create", {
+        "favouriteType": favoriteType,
+        "brandName": brandName,
+        "route": route,
+        "genericName": genericName,
+        "favMedDtlList": [
+          {
+            "dosage": dose,
+            "duration":duration,
+            "durationMu": durationType,
+            "durationComment":instructions,
+            //"itemQty": quantity,
+            "medicineComment": instructions,
+            //"inReportSerial": 0,
+            //"continueFlag": continueMedi
+          }
+        ]
+      });
+       print(response.body);
+      // if (response.statusCode == 200) {
+      //   var body = response.body;
+      //   FavouriteListModel data = favouriteListModelFromJson(body);
+      //   return data;
+      // } else {
+      //   return FavouriteListModel();
+      // }
+    } catch (e) {}
+  }
 }

@@ -46,7 +46,9 @@ class PatientDetails extends StatefulWidget {
   var isPatientOut;
   var ipdFlag;
   var companyNumber;
+  var consultationOut;
   PatientDetails({
+    this.consultationOut,
     this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,
     this.consultationId,
     this.id,
@@ -729,7 +731,7 @@ print('fromDate $pickBirthDate');
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          widget.consultType==1?"Complete":'Waiting',
+                                          widget.consultationOut==1?"Complete":'Waiting',
                                           style: GoogleFonts.poppins(
                                               // color: HexColor(
                                               //   '#354291',

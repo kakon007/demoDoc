@@ -298,16 +298,16 @@ class _DoctorProfileState extends State<DoctorProfile> {
             ),
           ),
         ],
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(
-              Icons.notes,
-              size: 30,
-              color: Colors.white,
-            ),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
+        // leading: Builder(
+        //   builder: (context) => IconButton(
+        //     icon: Icon(
+        //       Icons.notes,
+        //       size: 30,
+        //       color: Colors.white,
+        //     ),
+        //     onPressed: () => Scaffold.of(context).openDrawer(),
+        //   ),
+        // ),
         title: Text(
           "My Profile",
         ),

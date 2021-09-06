@@ -161,6 +161,7 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                     isPatientOut: vm.completedData[index].isPatientOut,
                     doctorNo: vm.completedData[index].doctorNo,
                     consultationId: vm.completedData[index].consultationId,
+                    consultationOut: vm.completedData[index].consultationOut,
                   ),
                 );
               }),

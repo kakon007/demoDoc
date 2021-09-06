@@ -496,16 +496,16 @@ class _WorklistState extends State<Worklist> {
             ),
           ),
         ],
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(
-              Icons.notes,
-              size: 30,
-              color: Colors.white,
-            ),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
+        // leading: Builder(
+        //   builder: (context) => IconButton(
+        //     icon: Icon(
+        //       Icons.notes,
+        //       size: 30,
+        //       color: Colors.white,
+        //     ),
+        //     onPressed: () => Scaffold.of(context).openDrawer(),
+        //   ),
+        // ),
         title: Text(
           "Worklist",
         ),

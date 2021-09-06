@@ -359,7 +359,7 @@ class _ModuleState extends State<Module> {
                       isPatientOut: widget.isPatientOut,
                       ipdFlag: widget.ipdFlag,
                       departmentNumber: widget.departmentNumber,
-                      departmentName: widget.departmentName,
+                      departmentName: widget.departmentName.toString(),
                       consultationTypeNo: widget.consultationTypeNo,
                       consultationNumber: widget.consultationNumber,
                       companyNumber: widget.companyNumber,

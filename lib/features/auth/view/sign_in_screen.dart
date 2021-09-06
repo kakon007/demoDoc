@@ -385,7 +385,7 @@ class _SignInState extends State<SignIn> {
                                           SwitchAccounts switchAccounts =
                                               new SwitchAccounts(
                                             name:
-                                                vm4.userSwitchDetailsList.fname,
+                                                vm4.userSwitchDetailsList?.fname==null ? "" :vm4.userSwitchDetailsList.fname ,
                                             relation:
                                                 vm3.switchDetails?.photo == null
                                                     ? ""

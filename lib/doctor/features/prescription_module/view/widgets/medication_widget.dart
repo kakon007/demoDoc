@@ -6,6 +6,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/favourite_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_add_to_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/common_prescription_search_items_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/delete_favorite_list_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/generic_search_items_repository.dart';
@@ -13,6 +14,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
+import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -45,6 +47,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   TextEditingController _favoriteController = TextEditingController();
   TextEditingController _genericController = TextEditingController();
   TextEditingController _brandController = TextEditingController();
+
   // List<String> medicationSelectedItems = [];
   // List<AddMultiDose> multiDose = [];
   // List<MultiDose> multiDoseItemList = [];
@@ -52,6 +55,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
   int ind;
   var vm = appNavigator.context.read<MedicationViewModel>();
   int tabIndex = 0;
+
   // value set to false
   bool _value = false;
 
@@ -1328,23 +1332,41 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 element.multiDoseInstructionController.text ??
                                     ""));
                       });
-                      templateVm.medicineList.add(MedicineList(
-                        genericName: _genericController.text,
-                        brandName: _brandController.text,
-                        // dose: doseController.text,
-                        // duration: durationController.text,
-                        // durationType: daysController.text,
-                        // instruction: instructionController.text,
-                        route: routeController.text,
-                        // multiDose: multiDoseController.text,
-                        // multiDoseDuration: multiDoseDurationController.text,
-                        // multiDoseDurationType: multiDoseDaysController.text,
-                        // multiDoseInstruction:
-                        //     multiDoseInstructionController.text,
-                        multiDoseList: templateVm.multiDoseItemList,
-                        continueDuration: continueDurationController.text,
-                        continueDurationType: continueDaysController.text,
-                      ));
+                      if (ind != null) {
+                        templateVm.medicineList[ind].genericName =
+                            _genericController.text;
+                        templateVm.medicineList[ind].brandName =
+                            _brandController.text;
+                        templateVm.medicineList[ind].route =
+                            routeController.text;
+                        templateVm.medicineList[ind].multiDoseList.first
+                            .multiDose = doseController.text;
+                        templateVm.medicineList[ind].multiDoseList.first
+                            .multiDoseInstruction = instructionController.text;
+                        templateVm.medicineList[ind].multiDoseList.first
+                            .multiDoseDurationType = daysController.text;
+                        templateVm.medicineList[ind].multiDoseList.first
+                            .multiDoseDuration = durationController.text;
+                        ind = null;
+                      } else {
+                        templateVm.medicineList.add(MedicineList(
+                          genericName: _genericController.text,
+                          brandName: _brandController.text,
+                          // dose: doseController.text,
+                          // duration: durationController.text,
+                          // durationType: daysController.text,
+                          // instruction: instructionController.text,
+                          route: routeController.text,
+                          // multiDose: multiDoseController.text,
+                          // multiDoseDuration: multiDoseDurationController.text,
+                          // multiDoseDurationType: multiDoseDaysController.text,
+                          // multiDoseInstruction:
+                          //     multiDoseInstructionController.text,
+                          multiDoseList: templateVm.multiDoseItemList,
+                          continueDuration: continueDurationController.text,
+                          continueDurationType: continueDaysController.text,
+                        ));
+                      }
                       _genericController.clear();
                       _brandController.clear();
                       doseController.clear();
@@ -1453,25 +1475,29 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      // await CommonAddToFavoriteListRepository()
-                                      //     .addToFavouriteList(
-                                      //         favoriteType:
-                                      //             PrescriptionFavouriteType
-                                      //                 .chiefComplaint
-                                      //                 .toString(),
-                                      //         favoriteVal:
-                                      //             chiefComplaintSelectedItems[
-                                      //                 index])
-                                      //     .then((value) async =>
-                                      //         await vm.getData());
-                                      // favoriteItems.clear();
-                                      // if (_favoriteController.text.isNotEmpty) {
-                                      //   searchFavoriteItem(_favoriteController
-                                      //       .text
-                                      //       .toLowerCase());
-                                      // } else {
-                                      //   favoriteItems = vm.favouriteList;
-                                      // }
+                                      await CommonAddToFavoriteListRepository()
+                                          .addToMedicineFavouriteList(
+                                        genericName: templateVm.medicineList[index].genericName,
+                                        brandName: templateVm.medicineList[index].brandName,
+                                        route: templateVm.medicineList[index].route,
+                                        duration: templateVm.medicineList[index].multiDoseList.first.multiDoseDuration,
+                                        durationType:  templateVm.medicineList[index].multiDoseList.first.multiDoseDurationType,
+                                        instructions: templateVm.medicineList[index].multiDoseList.first.multiDoseInstruction,
+                                        dose: templateVm.medicineList[index].multiDoseList.first.multiDose,
+                                      favoriteType: PrescriptionFavouriteType.medication.toString(),
+                                       // quantity:
+                                       //continueMedi:
+                                      )
+                                          .then((value) async =>
+                                              await vm.getData());
+                                      favoriteItems.clear();
+                                      if (_favoriteController.text.isNotEmpty) {
+                                        searchFavoriteItem(_favoriteController
+                                            .text
+                                            .toLowerCase());
+                                      } else {
+                                        favoriteItems = vm.favouriteList;
+                                      }
                                     },
                                     child: Icon(
                                       Icons.favorite_border,
@@ -1481,9 +1507,36 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      // controller.text =
-                                      //     chiefComplaintSelectedItems[index];
-                                      ind = index;
+                                      setState(() {
+                                        _brandController.text = templateVm
+                                            .medicineList[index].brandName;
+                                        _genericController.text = templateVm
+                                            .medicineList[index].genericName;
+                                        routeController.text = templateVm
+                                            .medicineList[index].route;
+                                        doseController.text = templateVm
+                                            .medicineList[index]
+                                            .multiDoseList
+                                            .first
+                                            .multiDose;
+                                        durationController.text = templateVm
+                                            .medicineList[index]
+                                            .multiDoseList
+                                            .first
+                                            .multiDoseDuration;
+                                        daysController.text = templateVm
+                                            .medicineList[index]
+                                            .multiDoseList
+                                            .first
+                                            .multiDoseDurationType;
+                                        instructionController.text = templateVm
+                                            .medicineList[index]
+                                            .multiDoseList
+                                            .first
+                                            .multiDoseInstruction;
+
+                                        ind = index;
+                                      });
                                     },
                                     child: Container(
                                       height: isTablet ? 35 : 30,
@@ -1536,6 +1589,7 @@ class MedicineList {
   String genericName;
   String brandName;
   String route;
+
   // String dose;
   // String duration;
   // String durationType;
@@ -1543,6 +1597,7 @@ class MedicineList {
   List<MultiDose> multiDoseList;
   String continueDuration;
   String continueDurationType;
+
   MedicineList({
     this.brandName,
     this.genericName,
@@ -1565,6 +1620,7 @@ class AddMultiDose {
   TextEditingController multiDoseQuantityController = TextEditingController();
   TextEditingController multiDoseInstructionController =
       TextEditingController();
+
   AddMultiDose(
       {this.multiDoseInstructionController,
       this.multiDoseController,

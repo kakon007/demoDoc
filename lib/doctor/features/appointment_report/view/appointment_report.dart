@@ -28,6 +28,8 @@ class AppointmentReport extends StatefulWidget {
 
 class _AppointmentReportState extends State<AppointmentReport> {
 
+  DateTime pickedToDate;
+  DateTime pickedFromDate;
   int selectedIndex;
   @override
   void initState() {
@@ -35,7 +37,8 @@ class _AppointmentReportState extends State<AppointmentReport> {
     Future.delayed(Duration.zero, () async {
       await companyInfoVm.userImage();
     });
-
+    pickedToDate= DateTime.now();
+    pickedFromDate= DateTime.now();
     var appointmentReport= Provider.of<AppointmentReportListDocViewModel>(context, listen: false);
     appointmentReport.getData(doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo);
 
@@ -47,6 +50,60 @@ class _AppointmentReportState extends State<AppointmentReport> {
   }
 
 
+  Future<Null> selectFromDate(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Container(
+          child: Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: AppTheme.appbarPrimary,
+              accentColor: AppTheme.appbarPrimary,
+              colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child,
+          ),
+        );
+      },
+      initialDate: pickedFromDate,
+      firstDate: DateTime(2010),
+      lastDate: pickedToDate,
+    );
+    if (date != null && pickedFromDate != null) {
+      setState(() {
+        pickedFromDate= date;
+      });
+    } else {
+
+    }
+  }
+
+  Future<Null> selectToDate(BuildContext context) async {
+    final DateTime date = await showDatePicker(
+      context: context,
+      builder: (BuildContext context, Widget child) {
+        return Container(
+          child: Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: AppTheme.appbarPrimary,
+              accentColor: AppTheme.appbarPrimary,
+              colorScheme: ColorScheme.light(primary: AppTheme.appbarPrimary),
+              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            ),
+            child: child,
+          ),
+        );
+      },
+      initialDate: pickedToDate,
+      firstDate: pickedFromDate,
+      lastDate: DateTime.now(),
+    );
+    if (date != null && date != pickedToDate) {
+      setState(() {
+        pickedToDate = date;
+      });
+    }}
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +120,82 @@ class _AppointmentReportState extends State<AppointmentReport> {
     var spaceBetween = SizedBox(
       height: 10,
     );
-    var fromDate = Column(
+    var fromDate = GestureDetector(
+      onTap: (){
+        selectFromDate(context);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'From',
+            style: GoogleFonts.poppins(
+                fontSize: isTablet
+                    ? 18
+                    : width <= 330
+                    ? 12
+                    : 16,
+                fontWeight: FontWeight.w500),
+          ),
+          Container(
+            height: width<=330? 35 : 45,
+            width: isTablet? 160 : width <= 330 ? 110 : 140,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: HexColor("#6374DF"), // set border color
+                //width: 3.0
+              ), // set border width
+              borderRadius: BorderRadius.all(
+                  Radius.circular(10.0)), // set rounded corner radius
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  DateFormat("dd/MM/yyyy").format(pickedFromDate),
+                  style: GoogleFonts.poppins(
+                    fontSize: isTablet
+                        ? 18
+                        : width <= 330
+                        ? 12
+                        : 14,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                SvgPicture.asset(
+                  "assets/icons/calendoc.svg",
+                  //key: Key('filterIconKey'),
+                  width: 10,
+                  height: 18,
+                  fit: BoxFit.fitWidth,
+                  allowDrawingOutsideViewBox: true,
+                  matchTextDirection: true,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+    var toDate = GestureDetector(
+      onTap: (){
+        selectToDate(context);
+      },
+      child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'From',
+          'To',
           style: GoogleFonts.poppins(
               fontSize: isTablet
                   ? 18
                   : width <= 330
-                      ? 12
-                      : 16,
+                  ? 12
+                  : 16,
               fontWeight: FontWeight.w500),
         ),
         Container(
@@ -92,14 +214,14 @@ class _AppointmentReportState extends State<AppointmentReport> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '22/12/18',
+                DateFormat("dd/MM/yyyy").format(pickedToDate),
                 style: GoogleFonts.poppins(
-                    fontSize: isTablet
-                        ? 18
-                        : width <= 330
-                            ? 12
-                            : 14,
-                    color: Colors.black,
+                  fontSize: isTablet
+                      ? 18
+                      : width <= 330
+                      ? 12
+                      : 14,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(
@@ -118,63 +240,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
           ),
         )
       ],
-    );
-    var toDate = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'To',
-          style: GoogleFonts.poppins(
-              fontSize: isTablet
-                  ? 18
-                  : width <= 330
-                      ? 12
-                      : 16,
-              fontWeight: FontWeight.w500),
-        ),
-        Container(
-          height: width<=330? 35 : 45,
-          width: isTablet? 160 : width <= 330 ? 110 : 140,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: HexColor("#6374DF"), // set border color
-              //width: 3.0
-            ), // set border width
-            borderRadius: BorderRadius.all(
-                Radius.circular(10.0)), // set rounded corner radius
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '30/12/18',
-                style: GoogleFonts.poppins(
-                    fontSize: isTablet
-                        ? 18
-                        : width <= 330
-                            ? 12
-                            : 14,
-                    color: Colors.black,
-                    ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              SvgPicture.asset(
-                "assets/icons/calendoc.svg",
-                //key: Key('filterIconKey'),
-                width: 10,
-                height: 18,
-                fit: BoxFit.fitWidth,
-                allowDrawingOutsideViewBox: true,
-                matchTextDirection: true,
-              ),
-            ],
-          ),
-        )
-      ],
-    );
+    ),);
     var shiftHeading = Text(
       'Shift:',
       style: GoogleFonts.poppins(fontSize: isTablet? 18 : width<=330? 12 : 16),

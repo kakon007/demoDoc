@@ -1484,7 +1484,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                         durationType:  templateVm.medicineList[index].multiDoseList.first.multiDoseDurationType,
                                         instructions: templateVm.medicineList[index].multiDoseList.first.multiDoseInstruction,
                                         dose: templateVm.medicineList[index].multiDoseList.first.multiDose,
-                                      favoriteType: "4",
+                                      favoriteType: PrescriptionFavouriteType.medication.toString(),
                                        // quantity:
                                        //continueMedi:
                                       )

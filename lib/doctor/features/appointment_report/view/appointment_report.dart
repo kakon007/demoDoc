@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -31,23 +32,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
   DateTime pickedToDate;
   DateTime pickedFromDate;
   int selectedIndex;
-  @override
-  void initState() {
-    var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: false);
-    Future.delayed(Duration.zero, () async {
-      await companyInfoVm.userImage();
-    });
-    pickedToDate= DateTime.now();
-    pickedFromDate= DateTime.now();
-    var appointmentReport= Provider.of<AppointmentReportListDocViewModel>(context, listen: false);
-    appointmentReport.getData(doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo);
 
-    var shift= Provider.of<ShiftListDocViewModel>(context, listen: false);
-    shift.getData(ogNo: companyInfoVm.details.organizationNo);
-    selectedIndex = 0;
-    // TODO: implement initState
-    super.initState();
-  }
 
 
   Future<Null> selectFromDate(BuildContext context) async {
@@ -104,6 +89,27 @@ class _AppointmentReportState extends State<AppointmentReport> {
         pickedToDate = date;
       });
     }}
+
+
+  @override
+  void initState() {
+    var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: false);
+    Future.delayed(Duration.zero, () async {
+      await companyInfoVm.userImage();
+    });
+    pickedToDate= DateTime.now();
+    pickedFromDate= DateTime.now();
+    var appointmentReport= Provider.of<AppointmentReportListDocViewModel>(context, listen: false);
+    appointmentReport.getData(doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo);
+
+    var shift= Provider.of<ShiftListDocViewModel>(context, listen: false);
+    shift.getData(ogNo: companyInfoVm.details.organizationNo);
+    selectedIndex = 0;
+    // TODO: implement initState
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -311,7 +317,11 @@ class _AppointmentReportState extends State<AppointmentReport> {
           minWidth: isTablet? width*.4 : width * .45,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: AppTheme.buttonActiveColor,
-          onPressed: () async {},
+          onPressed: () async {
+            SVProgressHUD.show(status: 'Loading');
+           await appointmentReport.getData(doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,fromDate: pickedFromDate,toDate: pickedToDate);
+            SVProgressHUD.dismiss();
+           },
           child: Text(
             'View Report',
             style: GoogleFonts.roboto(

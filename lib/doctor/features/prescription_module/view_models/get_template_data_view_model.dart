@@ -268,7 +268,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
     var patTypeNumber,
     var appointmentNumber,
     var departmentNumber,
-    var departmentName,
+    String departmentName,
     var consultationNumber,
     var isPatientOut,
     var ipdFlag,

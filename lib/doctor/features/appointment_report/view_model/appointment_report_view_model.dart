@@ -12,9 +12,9 @@ class AppointmentReportListDocViewModel extends ChangeNotifier{
   bool _isFetchingData = false;
   get logger => null;
 
-  Future<bool> getData({int doctorNo,int ogNo,var fromDate,var toDate}) async {
+  Future<bool> getData({int doctorNo,int ogNo, String fromDate, String toDate}) async {
     _isFetchingData = true;
-    var res = await AppointmentReportHistory().fetchAppointmentReportList(doctorNo: doctorNo,ogNo: ogNo,fromDate: fromDate,toDate: toDate);
+    var res = await AppointmentReportHistory().fetchAppointmentReportList(doctorNo: doctorNo,ogNo: ogNo,toDate: toDate,fromDate: fromDate);
     notifyListeners();
     _appointmentReportList.clear();
     res.fold((l) {

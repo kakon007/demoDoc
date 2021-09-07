@@ -175,6 +175,7 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
                     departmentNumber: vm.waitingData[index].departmentNo,
                     isPatientOut: vm.waitingData[index].isPatientOut,
                     consultationId: vm.waitingData[index].consultationId,
+                    consultationOut: vm.waitingData[index].consultationOut,
                   ),
                 );
               }),

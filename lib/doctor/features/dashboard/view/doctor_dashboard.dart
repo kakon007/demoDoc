@@ -707,6 +707,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       departmentName: workVm.todayWorkList[index].departmentName,
                       departmentNumber: workVm.todayWorkList[index].departmentNo,
                       isPatientOut: workVm.todayWorkList[index].isPatientOut,
+                      consultationOut: workVm.todayWorkList[index].consultationOut,
                     );
                   })
             ],

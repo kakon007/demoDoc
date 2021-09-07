@@ -28,7 +28,8 @@ class WorklistAll extends StatefulWidget {
   var isPatientOut;
   var ipdFlag;
   var companyNumber;
-  WorklistAll({this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,this.consultationId,this.id,this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType,this.regNo,this.doctorNo});
+  var consultationOut;
+  WorklistAll({this.consultationOut,this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,this.consultationId,this.id,this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType,this.regNo,this.doctorNo});
   @override
   _WorklistAllState createState() => _WorklistAllState();
 }
@@ -198,6 +199,7 @@ class _WorklistAllState extends State<WorklistAll> {
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) => PatientDetails(patTypeNumber: widget.patTypeNumber,
+                                    consultationOut: widget.consultationOut,
                                     isPatientOut: widget.isPatientOut,
                                     ipdFlag: widget.ipdFlag,
                                     departmentNumber: widget.departmentNumber,

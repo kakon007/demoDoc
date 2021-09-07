@@ -28,9 +28,11 @@ class TodayWorkList extends StatefulWidget {
   var isPatientOut;
   var ipdFlag;
   var companyNumber;
+  var consultationOut;
 
   TodayWorkList(
-      {this.appointmentNumber,
+      {this.consultationOut,
+        this.appointmentNumber,
       this.companyNumber,
       this.consultationNumber,
       this.consultationTypeNo,
@@ -216,6 +218,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                                 consultType: widget.appointType,
                                 regNo: widget.regNo,
                                 doctorNo: widget.doctorNo,
+                            consultationOut: widget.consultationOut,
                               )));
                     },
                     child: Container(

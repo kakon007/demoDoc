@@ -385,9 +385,9 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                     GestureDetector(
                                                                                       key: Key('switchAccountYesButtonKey'),
                                                                                       onTap: () async {
+                                                                                        BotToast.showLoading();
                                                                                         await vm5.getAuthData(st.username, st.password, switchAccount: true);
                                                                                         if (vm5.accessToken != null) {
-                                                                                          BotToast.showLoading();
                                                                                           var vm3 = Provider.of<UserImageViewModel>(context, listen: false);
                                                                                           var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
                                                                                           await vm4.getSwitchData(vm5.accessToken);
@@ -403,6 +403,7 @@ class _SwitchAccountState extends State<SwitchAccount> {
                                                                                               });
                                                                                         } else {
                                                                                           print('shakil');
+                                                                                          BotToast.closeAllLoading();
                                                                                         }
                                                                                         //BotToast.closeAllLoading();
                                                                                         if (vm5.accessToken != null) {

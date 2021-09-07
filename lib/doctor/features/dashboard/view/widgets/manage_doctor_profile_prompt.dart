@@ -38,7 +38,7 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     var vm = Provider.of<UserDetailsViewModel>(context, listen: true);
-    var vm2 = Provider.of<AccessTokenProvider>(context, listen: true);
+    var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var vm10 = Provider.of<UserImageViewModel>(context, listen: true);
     var width = MediaQuery.of(context).size.width;
     var photo = vm10.details?.photo ?? "";
@@ -54,32 +54,27 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
           : width < 330
               ? 300
               : 320.0,
-      constraints: BoxConstraints(
-        minHeight: isTablet ? 165 : 130,
-      ),
+      // constraints: BoxConstraints(
+      //   minHeight: isTablet ? 165 : 130,
+      // ),
       height: isTablet
           ? 400
           : width < 330
               ? 280
-              : 300.0,
+              : 180.0,
       child: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(width: 0.5, color: Colors.grey),
-                  ),
-                ),
-                constraints: BoxConstraints(
-                  minHeight: isTablet
-                      ? 200
-                      : width < 330
-                          ? 140
-                          : 150.0,
-                ),
+                // constraints: BoxConstraints(
+                //   minHeight: isTablet
+                //       ? 100
+                //       : width < 330
+                //           ? 140
+                //           : 150.0,
+                // ),
                 //  height: isTablet? 200  : width < 330 ? 140 : 150.0,
                 child: Padding(
                   padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
@@ -90,7 +85,7 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Accounts",
+                            "Account",
                             style: GoogleFonts.poppins(
                                 fontSize: isTablet
                                     ? 20
@@ -179,15 +174,22 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
                             width: isTablet ? 20 : 10,
                           ),
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                child: Text(companyInfoVm.details?.name ?? '',  style: GoogleFonts.poppins(
+                                   // color: AppTheme.buttonActiveColor,
+                                    fontSize: isTablet ? 18 : 12),),
+                              ),
+                              SizedBox(height: 10,),
                               GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (BuildContext context) =>
                                               DoctorHomeScreen(
-                                                index: 3,
+                                                index: 2,
                                               )),
                                       (Route<dynamic> route) => false);
                                 },

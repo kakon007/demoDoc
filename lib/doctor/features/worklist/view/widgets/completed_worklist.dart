@@ -154,7 +154,7 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                     regNo: vm.completedData[index].registrationNo,
                     appointmentNumber:vm.completedData[index].appointId ,
                     companyNumber: vm.completedData[index].companyNo,
-                    consultationNumber: vm.completedData[index].consultationNo,
+                    consultationNumber: vm.completedData[index].consultationOut,
                     consultationTypeNo: vm.completedData[index].consultTypeNo,
                     departmentName: vm.completedData[index].departmentName,
                     departmentNumber: vm.completedData[index].departmentNo,

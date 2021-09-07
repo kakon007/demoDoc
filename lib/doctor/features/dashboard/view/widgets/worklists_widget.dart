@@ -69,6 +69,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
     var spaceBetween = SizedBox(
       height: 5,
     );
+    print(widget.appointType);
     return Container(
       constraints: BoxConstraints(minHeight: 130),
       margin: EdgeInsets.only(bottom: 7),
@@ -217,7 +218,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                                 consultType: widget.appointType,
                                 regNo: widget.regNo,
                                 doctorNo: widget.doctorNo,
-                            consultationOut: widget.consultationOut,
+                           // consultationOut: widget.consultationOut,
                               )));
                     },
                     child: Container(

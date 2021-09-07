@@ -375,7 +375,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
 print("DHUURR $departmentName");
     var prescription = PrescriptionSaveModel(
       prescription: Prescription(
-          consultationTypeNo:consultationTypeNo,
+          consultationTypeNo:int.parse(consultationTypeNo),
           patientTypeNo: 1,
           shiftNo: 0,
           id: null,

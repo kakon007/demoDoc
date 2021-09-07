@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/admin/dashboard/dashboard_admin.dart';
 import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
 import 'package:myhealthbd_app/features/auth/view/sign_up_screen.dart';
@@ -350,18 +351,21 @@ class _SignInState extends State<SignIn> {
                                       var vm5 = Provider.of<AuthViewModel>(
                                           context,
                                           listen: false);
+                                      var companyVm= Provider.of<UserImageViewModel>(context, listen: false);
                                       await vm5.getAuthData(
                                           _username.text, _password.text);
-                                      if (_username
-                                          .toString()
-                                          .toLowerCase()
-                                          .contains('ahc')) {
-                                        setState(() {
-                                          isDoctor = true;
-                                        });
-                                      }
+                                      await companyVm.userDetails(accessToken: vm5.accessToken);
+                                      print('usertype ${companyVm.userType}');
+                                      // if (_username
+                                      //     .toString()
+                                      //     .toLowerCase()
+                                      //     .contains('ahc')) {
+                                      //   setState(() {
+                                      //     isDoctor = true;
+                                      //   });
+                                      // }
                                       if (vm5.accessToken != null &&
-                                          isDoctor == false) {
+                                          companyVm.userType==3) {
                                         accountsList.forEach((item) {
                                           if (item.username.contains(
                                               _username.text.toUpperCase())) {
@@ -418,7 +422,7 @@ class _SignInState extends State<SignIn> {
                                         appNavigator
                                             .getProvider<AccessTokenProvider>()
                                             .setToken(vm5.accessToken);
-                                        if (isDoctor) {
+                                        if (companyVm.userType==2) {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
                                                   MaterialPageRoute(
@@ -428,7 +432,7 @@ class _SignInState extends State<SignIn> {
                                                   ),
                                                   (Route<dynamic> route) =>
                                                       false);
-                                        } else {
+                                        } else if(companyVm.userType==3) {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
                                                   MaterialPageRoute(
@@ -441,6 +445,17 @@ class _SignInState extends State<SignIn> {
                                                   ),
                                                   (Route<dynamic> route) =>
                                                       false);
+                                        }
+                                        else if(companyVm.userType==0){
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                              MaterialPageRoute(
+                                                builder: (BuildContext
+                                                context) =>
+                                                AdminDashboard()
+                                              ),
+                                                  (Route<dynamic> route) =>
+                                              false);
                                         }
                                         if (this.value == true) {
                                           prefs.setBool("value", true);

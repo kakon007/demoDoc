@@ -36,6 +36,7 @@ class WorklistAll extends StatefulWidget {
 class _WorklistAllState extends State<WorklistAll> {
   @override
   Widget build(BuildContext context) {
+    print('constypeNo ${widget.consultType}');
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
@@ -142,11 +143,11 @@ class _WorklistAllState extends State<WorklistAll> {
                       Text(
                         widget.consultType == null
                             ? "1st Follow Up"
-                            : widget.consultType == '1'
+                            : widget.consultType.toString() == '1'
                                 ? "Fresh Visit"
-                                : widget.consultType == "2"
+                                : widget.consultType.toString() == "2"
                                     ? "Follow Up"
-                                    : widget.consultType == "3"
+                                    : widget.consultType.toString() == "3"
                                         ? "2nd Follow Up"
                                         : "Report Check",
                         style: GoogleFonts.poppins(

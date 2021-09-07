@@ -67,6 +67,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
     var spaceBetween = SizedBox(
       height: 5,
     );
+    print(widget.appointType);
     return Container(
       constraints: BoxConstraints(minHeight: 130),
       margin: EdgeInsets.only(bottom: 7),

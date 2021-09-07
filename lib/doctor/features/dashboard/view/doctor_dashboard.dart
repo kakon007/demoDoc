@@ -702,7 +702,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       consultationId: workVm.todayWorkList[index].consultationId,
                       appointmentNumber:workVm.todayWorkList[index].appointId ,
                       companyNumber: workVm.todayWorkList[index].companyNo,
-                      consultationNumber: workVm.todayWorkList[index].consultationNo,
+                      consultationNumber: workVm.todayWorkList[index].consultationOut,
                       consultationTypeNo: workVm.todayWorkList[index].consultTypeNo,
                       departmentName: workVm.todayWorkList[index].departmentName,
                       departmentNumber: workVm.todayWorkList[index].departmentNo,

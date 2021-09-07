@@ -729,7 +729,7 @@ print('fromDate $pickBirthDate');
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          widget.consultType==1?"Complete":'Waiting',
+                                          widget.consultationNumber==1?"Complete":'Waiting',
                                           style: GoogleFonts.poppins(
                                               // color: HexColor(
                                               //   '#354291',

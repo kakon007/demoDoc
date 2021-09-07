@@ -199,7 +199,7 @@ class _WorklistAllState extends State<WorklistAll> {
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) => PatientDetails(patTypeNumber: widget.patTypeNumber,
-                                    consultationOut: widget.consultationOut,
+                                    //consultationOut: widget.consultationOut,
                                     isPatientOut: widget.isPatientOut,
                                     ipdFlag: widget.ipdFlag,
                                     departmentNumber: widget.departmentNumber,

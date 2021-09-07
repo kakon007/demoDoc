@@ -218,7 +218,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                                 consultType: widget.appointType,
                                 regNo: widget.regNo,
                                 doctorNo: widget.doctorNo,
-                            consultationOut: widget.consultationOut,
+                           // consultationOut: widget.consultationOut,
                               )));
                     },
                     child: Container(

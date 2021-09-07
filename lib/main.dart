@@ -6,6 +6,8 @@ import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
 import 'package:myhealthbd_app/my_health_bd_app.dart';
 import 'package:provider/provider.dart';
 
+import 'features/book_test/view/order_confirmation_screen_after_sign_in.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -17,8 +19,8 @@ void main() async {
     color: Colors.deepPurpleAccent,
   );
   runApp(
-    ChangeNotifierProvider(
-        create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
-    //MaterialApp(home: EmrScreen()),
+    // ChangeNotifierProvider(
+    //     create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
+    MaterialApp(home: OrderConfirmationAfterSignIn()),
   );
 }

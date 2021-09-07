@@ -1,37 +1,36 @@
-
-
 class StringResources {
   //Dashboard
-  static String dashboardNavBarText="Dashboard";
-  static String dasboardAppBarText="Welcome to MyHealthBD";
-  static String dasboardAppBarSignInText="Sign In";
-  static String esayDoctorAppointmentText="Easy Doctor Appointment";
-  static String hospitalDiagnosticsText="Hospitals & Diagnostics";
+  static String dashboardNavBarText = "Dashboard";
+  static String dasboardAppBarText = "Welcome to MyHealthBD";
+  static String dasboardAppBarSignInText = "Sign In";
+  static String esayDoctorAppointmentText = "Easy Doctor Appointment";
+  static String hospitalDiagnosticsText = "Hospitals & Diagnostics";
   //static String viewAllText="View All";
   //Apointment
-  static String appointmentNavBarText="Appointments";
+  static String appointmentNavBarText = "Appointments";
   //Hospitals
-  static String hospitalNavBarText="Hospitals";
+  static String hospitalNavBarText = "Hospitals";
   //My_health
-  static String myHealthNavBarText="My Health";
+  static String myHealthNavBarText = "My Health";
 
   //common resource
-  static String imageAWSbaseUrl = "https://jobxprss-media.s3.us-east-2.amazonaws.com";
+  static String imageAWSbaseUrl =
+      "https://jobxprss-media.s3.us-east-2.amazonaws.com";
 
   /// login screen
 
   static String signSuccessfulText =
       "Sign up Successful \n Check your email to verify account !";
-  static String signInButton= "SIGN IN";
-  static String signInWith= "Sign in with";
-  static String or= "or ";
-  static String dontHaveAccount ="Don't have an account? ";
-  static String signUpText= "Sign Up";
-  static String welcomeBack= "Welcome Back";
-  static String rememberMe= "Remember Me";
-  static String forgetPassword= "Forgot Password?";
-  static String usernameHint= 'Username';
-  static String passwordHint= 'Password';
+  static String signInButton = "SIGN IN";
+  static String signInWith = "Sign in with";
+  static String or = "or ";
+  static String dontHaveAccount = "Don't have an account? ";
+  static String signUpText = "Sign Up";
+  static String welcomeBack = "Welcome Back";
+  static String rememberMe = "Remember Me";
+  static String forgetPassword = "Forgot Password?";
+  static String usernameHint = 'Username';
+  static String passwordHint = 'Password';
 
   static String passwordChangeSuccessful =
       "Your password has been changed successfully";
@@ -43,81 +42,100 @@ class StringResources {
   static String signInButtonText = "Sign In";
   static String loginSuccessMessage = "Sign in Successful";
   static String loginUnsuccessfulMessage = "Sign in unsuccessful";
-  static String unableToReachServerMessage = "Showing previous data. \nPlease check your internet connection.";
+  static String unableToReachServerMessage =
+      "Showing previous data. \nPlease check your internet connection.";
   //static String net = "Unable To Reach Server";
   static String forgotPassword = "Forgot Password ?";
   static String loginToYourExistingAccount = "Sign in to your existing account";
   //Hospital List
-  static String hospitalListAppbar= "Hospitals & Diagnostics";
-  static String searchBoxHint =" Search Hospitals or Diagnostics";
+  static String hospitalListAppbar = "Hospitals & Diagnostics";
+  static String searchBoxHint = " Search Hospitals or Diagnostics";
   static String getAppointmentButton = "GET APPOINTMENT";
 
   //Doctors list
-  static String applyFilterText= "Apply Filter";
-  static String clearFilterText= "Clear Filter";
-  static String filters= "Filters";
-  static String searchDepartment="Search Department";
-  static String searchSpeciality= "Search Speciality";
+  static String applyFilterText = "Apply Filter";
+  static String clearFilterText = "Clear Filter";
+  static String filters = "Filters";
+  static String searchDepartment = "Search Department";
+  static String searchSpeciality = "Search Speciality";
   // sign up screen
-  static String name= "Name";
-  static String email= "Email Address";
-  static String mobileNumber=  "Mobile Number";
-  static String password= "Password";
-  static String confirmPassword= "Confirm password";
-  static String address= "Type your address";
-  static String gender ="Select Gender";
-  static String bloodGroup ="Blood Group";
-  static String relation ="Relation";
-  static String signUpButton= "SIGN UP";
-  static String dateOfBirth= "Birth Date";
-  static String fromText= "From";
-  static String createAccount= "Create an Account";
- static String alreadyHaveAnAccount= "Already have an account? ";
- static String agreeToTerms= "By creating an account, you agree to our";
- static String terms= "Terms of Service";
- static String policy = "Privacy Policy";
-  static List<String> genderList = [
- "Male", "Female", "Other"
-  ];
+  static String name = "Name";
+  static String orderConfirmation = "Order Confirmation";
+  static String email = "Email Address";
+  static String mobileNumber = "Mobile Number";
+  static String password = "Password";
+  static String confirmPassword = "Confirm password";
+  static String address = "Type your address";
+  static String gender = "Select Gender";
+  static String bloodGroup = "Blood Group";
+  static String relation = "Relation";
+  static String signUpButton = "SIGN UP";
+  static String dateOfBirth = "Birth Date";
+  static String fromText = "From";
+  static String createAccount = "Create an Account";
+  static String alreadyHaveAnAccount = "Already have an account? ";
+  static String agreeToTerms = "By creating an account, you agree to our";
+  static String terms = "Terms of Service";
+  static String policy = "Privacy Policy";
+  static List<String> genderList = ["Male", "Female", "Other"];
   static List<String> bloodGroupList = [
-  'A+', 'A-',  'B+', 'B-',  'O+', 'O-',  'AB+', 'AB-'
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'O+',
+    'O-',
+    'AB+',
+    'AB-'
   ];
   static List<String> relationList = [
-   'Brother', 'Mother',  'Father', 'Sister',  'Aunt', 'Uncle',  'Friend',
+    'Brother',
+    'Mother',
+    'Father',
+    'Sister',
+    'Aunt',
+    'Uncle',
+    'Friend',
   ];
-  static List<String> memberList = [
-   "Family Member", "Others"
-  ];
+  static List<String> memberList = ["Family Member", "Others"];
   static List<String> ShareType = [
-   "Share With All", "Share With Selective Doctor(s)"
+    "Share With All",
+    "Share With Selective Doctor(s)"
   ];
   static List<String> memberNameList = [
-   "Feroz Alam", "Shakil", "Jahid","Monir","Akram"
+    "Feroz Alam",
+    "Shakil",
+    "Jahid",
+    "Monir",
+    "Akram"
   ];
 
-   //Book an appointment
-  static List<String> patientType = [
-   "New Patient", "Registered Patient"
-  ];
+  //Book an appointment
+  static List<String> patientType = ["New Patient", "Registered Patient"];
   static List<String> consultationType = [
-   "New Patient","1st Follow Up", "Report Check"
+    "New Patient",
+    "1st Follow Up",
+    "Report Check"
   ];
   static String patientTypeText = "Patient type";
   static String consultationTypeText = "Select Consultation Type";
   //Verify Email Screen
   static String verifyEmailAppbarTitle = "Verify Email";
-  static String verifyEmailMessage = "A verification link has been sent to your email address. Please open it to confirm your email account.";
+  static String verifyEmailMessage =
+      "A verification link has been sent to your email address. Please open it to confirm your email account.";
 
   //Verify phone screen
   static String verifyPhoneAppbarTitle = "Mobile Number Verification";
   static String mobileNumberHintText = "Mobile Number";
   static String verificationCodeHintText = "Verification Code";
-  static String verificationSuccessfulText = "Thank You! Your mobile number is successfully verified.";
-  static String verificationFailedText = "The code entered does not match with the code we sent. Please enter the correct code again.";
-  static String areYouReadyMessage = "We will send you a 6-digit code to the above number. Please click on Send Code below.";
+  static String verificationSuccessfulText =
+      "Thank You! Your mobile number is successfully verified.";
+  static String verificationFailedText =
+      "The code entered does not match with the code we sent. Please enter the correct code again.";
+  static String areYouReadyMessage =
+      "We will send you a 6-digit code to the above number. Please click on Send Code below.";
   static String sendVerificationCodeText = "Send Code";
   static String enterOtpText = "Verify";
-
 
   /// Validator
 
@@ -133,19 +151,23 @@ class StringResources {
   static String valueWithinRange = "Please enter a value within 0-10";
   static String invalidPassword = "Invalid Password";
   static String passwordMustBeEight = "Please enter at least 8 characters";
-  static String passwordRequirementText = "Password requires at least one digit and one letter";
+  static String passwordRequirementText =
+      "Password requires at least one digit and one letter";
   static String passwordDoesNotMatch = "Password doesn't match";
   static String enterValidEmail = 'Enter Valid Email';
-  static String enterValidPhoneNumber = 'Please Enter a Valid Bangladeshi Mobile Number';
-  static String phoneVerificationEnterValidPhoneNumber = 'Mobile Verification is Applicable for Bangladeshi Mobile Number Only (+88)';
+  static String enterValidPhoneNumber =
+      'Please Enter a Valid Bangladeshi Mobile Number';
+  static String phoneVerificationEnterValidPhoneNumber =
+      'Mobile Verification is Applicable for Bangladeshi Mobile Number Only (+88)';
   static String twoDecimal =
       "Please enter a value within 0-9 and with two decimal values max";
 
   ///
   static String doneText = "Done";
   static String okText = 'OK';
-  static String dashboardLoginMessage = "To get access to all the great features.";
-  static String dashboardLoginPleaseSigning= "Please Sign In";
+  static String dashboardLoginMessage =
+      "To get access to all the great features.";
+  static String dashboardLoginPleaseSigning = "Please Sign In";
   static String passwordText = "Password";
   static String confirmPasswordText = "Confirm Password";
   static String labelTextFullName = "Full Name";
@@ -268,7 +290,8 @@ class StringResources {
   /// **************** Dashboard *****************
 
   static String dashBoardText = "Dashboard";
-  static String phoneVerificationWarningText = "To apply for a job, you need to have a verified mobile number. To enter/verify your number, please ";
+  static String phoneVerificationWarningText =
+      "To apply for a job, you need to have a verified mobile number. To enter/verify your number, please ";
   static String areYouSure = "Are you sure?";
   static String clickHere = "Click Here";
   static String recentJobsText = "Recent Jobs";
@@ -478,8 +501,10 @@ class StringResources {
   static var signUpWithEmailText = "Sign Up with email";
   static var emailAlreadyExistText =
       "Email Already exist! Try login or rest password";
-  static var somethingIsWrong = "Unable to reach the server! \nPlease try again after some time.";
-  static var somethingIsWrongPleaseUserDifferentGoogleAccount = "Something is wrong,\nPlease use different google account";
+  static var somethingIsWrong =
+      "Unable to reach the server! \nPlease try again after some time.";
+  static var somethingIsWrongPleaseUserDifferentGoogleAccount =
+      "Something is wrong,\nPlease use different google account";
   static var somethingIsWrongSingleLine = "Something is wrong!";
   static var unauthorizedText = "Unauthorized";
   static var googleText = "Google";
@@ -495,7 +520,7 @@ class StringResources {
   static var expertiseLevel = "Expertise level:";
   static var searchSkillText = "Search your skill";
   static const String typeAtLeast2Letter = "Type at least 2 letter";
-  static  List<String>expertiseMessage = [
+  static List<String> expertiseMessage = [
     'I\'m aware of its existence.',
     'I have a general knowledge on it.',
     'I have studied similar skill/language.',
@@ -520,9 +545,11 @@ class StringResources {
 
   //Feedback Screen
   static var feedbackText = "Feedback";
-  static var feedbackScreenHeaderText = "We would love to hear from you. Let us know your feedback/queries/suggestions about JobXprss.";
+  static var feedbackScreenHeaderText =
+      "We would love to hear from you. Let us know your feedback/queries/suggestions about JobXprss.";
   static var feedbackFormFillText = "Please fill in the form below and Submit.";
-  static var feedbackHintText = "Please write your feedback here (within 1000 characters)";
+  static var feedbackHintText =
+      "Please write your feedback here (within 1000 characters)";
   static var feedbackCharacterLengthText = "(Within 1000 characters)";
 
   /// Edit Profile Screen Texts
@@ -583,7 +610,8 @@ class StringResources {
   static var unableToLoadExpertiseListText = "Unable to load expertise list";
   static var unableToLoadSkillListText = "Unable to load skill list";
   static var enterValidSkillText = "Please enter a valid skill";
-  static var youHaveAlreadyAddedThisSkillBeforeText = "You have already added this skill before";
+  static var youHaveAlreadyAddedThisSkillBeforeText =
+      "You have already added this skill before";
   static var onlyFiveTopSkillsAllowed = "Only 5 top skills are allowed";
 
   /// password reset
@@ -610,7 +638,8 @@ class StringResources {
 
   static var homText = "Home";
   static var allTheGreatJobsInOnePlace = "All the Great Jobs in One Place!";
-  static var findJobsEmploymentText = "Find Jobs, Employment & Career Opportunities";
+  static var findJobsEmploymentText =
+      "Find Jobs, Employment & Career Opportunities";
 
   static String enumName(String enumToString) {
     List<String> paths = enumToString.split(".");
@@ -633,7 +662,8 @@ class StringResources {
   static const String appliedText = "Applied";
   static const String limitReached = "Limit Reached!";
   static const String aplicationSuccessful = "Job applied successfully. ";
-  static const String limitReachedMessage = "Sorry! You have reached your daily job application limit.To apply for more jobs. please subcribe to our paid membership";
+  static const String limitReachedMessage =
+      "Sorry! You have reached your daily job application limit.To apply for more jobs. please subcribe to our paid membership";
 
   static const String favoriteText = "Favorite";
   static const String addToFavoriteText = "Add to favorite";
@@ -662,7 +692,8 @@ class StringResources {
   static const String contactUsSubjectText = 'Subject';
   static const String contactUsMessageText = 'Message';
   static const String contactUsLocationText = 'Location';
-  static const String contactUsSubmittedText = 'Thanks for contacting us! We will get in touch with you shortly.';
+  static const String contactUsSubmittedText =
+      'Thanks for contacting us! We will get in touch with you shortly.';
 
   ///Job Details
   static const String jobDetailsAppBarTitle = 'Job Details';
@@ -721,10 +752,12 @@ class StringResources {
   static const String doYouWantToApplyText =
       'Do you want to apply for this job?';
   static const String signInRequiredText = 'Sign In required !';
-  static const String pleaseCompleteYourProfile = 'Please complete your profile with necessary and authentic information.';
+  static const String pleaseCompleteYourProfile =
+      'Please complete your profile with necessary and authentic information.';
   static const String doYouWantToSingInNowText = 'Do you want to sign in now?';
   static const String doYouWantToDeleteText = "Do You Want to Delete?";
-  static const String doYouWantToDownloadResume = "Do you want to download your resume?";
+  static const String doYouWantToDownloadResume =
+      "Do you want to download your resume?";
   static const String jobsFoundText = 'jobs found';
   static const String sortBy = 'Sort By';
   static const String advanceFilterText = "Advance Filter";
@@ -756,23 +789,22 @@ class StringResources {
   static String askQuestionText = "Ask a question about this job.";
   static String postAnonymously = "Post question anonymously";
 
-
   //hospital and diagnostics
   static String hospitalAndDiagnostics = 'No hospital/diagnostic found';
   //Payment Session
-  static String paymentSessionText= "Payment Session";
+  static String paymentSessionText = "Payment Session";
 
   //Payment Confirmation
 
-  static String paymentConfirmText= "Payment Confirmation";
-  static String packageChooseText= "Choose Package for Standard Membership:";
-  static String monthlyText= "Monthly";
-  static String yearlyText= "Yearly";
-  static String numberOfMonthText= "Number of Month(s):";
-  static String numberOfYearText= "Number of Year(s):";
-  static String totalPayableText= "Total Payable Amount:";
-  static String paymentCancelText= "Cancel";
-  static String proceedToPayText= "Proceed to Pay";
+  static String paymentConfirmText = "Payment Confirmation";
+  static String packageChooseText = "Choose Package for Standard Membership:";
+  static String monthlyText = "Monthly";
+  static String yearlyText = "Yearly";
+  static String numberOfMonthText = "Number of Month(s):";
+  static String numberOfYearText = "Number of Year(s):";
+  static String totalPayableText = "Total Payable Amount:";
+  static String paymentCancelText = "Cancel";
+  static String proceedToPayText = "Proceed to Pay";
   static List<String> yearsList = [
     "1",
     "2",
@@ -787,8 +819,8 @@ class StringResources {
     "9",
   ];
 
-  static String paymentCheckoutCongoText='Your account is successfully upgraded! Now you are a Standard JobXprss member.\nThank you for being with us!';
-
+  static String paymentCheckoutCongoText =
+      'Your account is successfully upgraded! Now you are a Standard JobXprss member.\nThank you for being with us!';
 
   //EMR
 

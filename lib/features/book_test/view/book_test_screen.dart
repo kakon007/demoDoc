@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/features/book_test/view/booking_summery_screen.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:provider/provider.dart';
 
 class BookTestScreen extends StatefulWidget {
   const BookTestScreen({Key key}) : super(key: key);
@@ -16,7 +18,14 @@ class _BookTestScreenState extends State<BookTestScreen> {
   final double itemHeight = (442 - kToolbarHeight - 24) / 3;
   final double itemWidth = 200 / 2;
   @override
+  void initState() {
+    Provider.of<TestItemViewModel>(context, listen: false).getData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var testItemVm = Provider.of<TestItemViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Book Test"),
@@ -47,7 +56,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
               crossAxisSpacing: 0,
               mainAxisSpacing: 0,
             ),
-            itemCount: 20,
+            itemCount: testItemVm.testItemList.length,
             itemBuilder: (context, index) {
               return Container(
                 child: Stack(

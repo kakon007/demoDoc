@@ -76,7 +76,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 15.0),
                             child: Center(
                               child: Text(
-                                "'O' Cell (PRBC) Suspended in AB",
+                                testItemVm.testItemList[index].itemName,
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
@@ -99,19 +99,20 @@ class _BookTestScreenState extends State<BookTestScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  testItemVm.testItemList[index].maxDisPct!=0.0?
                                   Text(
-                                    "TK. 5440",
+                                    testItemVm.testItemList[index].salesPrice.toString(),
                                     style: GoogleFonts.poppins(
                                       color: Color(0xff9EA5D2),
                                       decoration: TextDecoration.lineThrough,
                                       fontSize: 14,
                                     ),
-                                  ),
+                                  ):SizedBox(),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   Text(
-                                    "TK. 5440",
+                                    testItemVm.testItemList[index].discountPrice.toString(),
                                     style: GoogleFonts.poppins(
                                         color: Color(0xff3343A4),
                                         fontSize: 14,
@@ -125,7 +126,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
                             height: 25,
                             child: Center(
                               child: Text(
-                                "DEPT: BLOOD TRANSFUSION",
+                                "DEPT: ${testItemVm.testItemList[index].buName}",
                                 style: GoogleFonts.poppins(
                                     color: Color(0xff3343A4), fontSize: 12),
                               ),
@@ -183,7 +184,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            "-15%",
+                            '-${testItemVm.testItemList[index].maxDisPct}',
                             style: GoogleFonts.poppins(
                                 color: Colors.white, fontSize: 12),
                           ),

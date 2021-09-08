@@ -19,7 +19,8 @@ class _BookTestScreenState extends State<BookTestScreen> {
   final double itemWidth = 200 / 2;
   @override
   void initState() {
-    Provider.of<TestItemViewModel>(context, listen: false).getData();
+   var vm= Provider.of<TestItemViewModel>(context, listen: false);
+   vm.getData();
     super.initState();
   }
 

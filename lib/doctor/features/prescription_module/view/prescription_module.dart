@@ -56,7 +56,7 @@ class Module extends StatefulWidget {
   int regNo;
   int doctorNo;
   String consultationId;
-  var consultationTypeNo;
+  String consultationTypeNo;
   var patTypeNumber;
   var appointmentNumber;
   var departmentNumber;
@@ -66,21 +66,28 @@ class Module extends StatefulWidget {
   var ipdFlag;
   var companyNumber;
 
-  Module({
-    this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,
-    this.consultationId,
-    this.id,
-    this.name,
-    this.age,
-    this.gender,
-    this.bloodGroup,
-    this.phoneNumber,
-    this.consultationTime,
-    this.consultType,
-    this.serial,
-    this.regNo,
-    this.doctorNo
-  });
+  Module(
+      {this.appointmentNumber,
+      this.companyNumber,
+      this.consultationNumber,
+      this.consultationTypeNo,
+      this.departmentName,
+      this.departmentNumber,
+      this.ipdFlag,
+      this.isPatientOut,
+      this.patTypeNumber,
+      this.consultationId,
+      this.id,
+      this.name,
+      this.age,
+      this.gender,
+      this.bloodGroup,
+      this.phoneNumber,
+      this.consultationTime,
+      this.consultType,
+      this.serial,
+      this.regNo,
+      this.doctorNo});
   @override
   _ModuleState createState() => _ModuleState();
 }
@@ -159,7 +166,20 @@ class _ModuleState extends State<Module> {
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           UseTemplateWidget(),
-          PatientDermographyWidget(consultationId: widget.consultationId,id:widget.id,name: widget.name,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultationTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,),
+          PatientDermographyWidget(
+            consultationId: widget.consultationId,
+            id: widget.id,
+            name: widget.name,
+            gender: widget.gender,
+            serial: widget.serial,
+            phoneNumber: widget.phoneNumber,
+            bloodGroup: widget.bloodGroup,
+            age: widget.age,
+            consultationTime: widget.consultationTime,
+            consultType: widget.consultType,
+            regNo: widget.regNo,
+            doctorNo: widget.doctorNo,
+          ),
           VitalsWidget(),
           ChiefComplaintWidget(),
           ClinicalHistoryWidget(),
@@ -355,7 +375,8 @@ class _ModuleState extends State<Module> {
                 child: InkWell(
                   onTap: () {
                     var vm = GetTamplateDataViewModel.read(context);
-                    vm.savePrescriptionData(  patTypeNumber: widget.patTypeNumber,
+                    vm.savePrescriptionData(
+                      patTypeNumber: widget.patTypeNumber,
                       isPatientOut: widget.isPatientOut,
                       ipdFlag: widget.ipdFlag,
                       departmentNumber: widget.departmentNumber,
@@ -363,7 +384,20 @@ class _ModuleState extends State<Module> {
                       consultationTypeNo: widget.consultationTypeNo,
                       consultationNumber: widget.consultationNumber,
                       companyNumber: widget.companyNumber,
-                      appointmentNumber: widget.appointmentNumber,consultationId: widget.consultationId,id:widget.id,name: widget.name,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultationTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,);
+                      appointmentNumber: widget.appointmentNumber,
+                      consultationId: widget.consultationId,
+                      id: widget.id,
+                      name: widget.name,
+                      gender: widget.gender,
+                      serial: widget.serial,
+                      phoneNumber: widget.phoneNumber,
+                      bloodGroup: widget.bloodGroup,
+                      age: widget.age,
+                      consultationTime: widget.consultationTime,
+                      consultType: widget.consultType,
+                      regNo: widget.regNo,
+                      doctorNo: widget.doctorNo,
+                    );
                   },
                   child: Container(
                     height: 40,

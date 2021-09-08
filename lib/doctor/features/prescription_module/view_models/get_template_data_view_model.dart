@@ -252,29 +252,28 @@ class GetTamplateDataViewModel extends ChangeNotifier {
     SavePrescripTionTemplateRepository().fetchFileType(prescriptionData);
   }
 
-  savePrescriptionData({String id,
-    String name,
-    String age,
-    String gender,
-    String bloodGroup,
-    String phoneNumber,
-    String consultationTime,
-    String consultType,
-    int serial,
-    int regNo,
-    int doctorNo,
-    String consultationId,
-    var consultationTypeNo,
-    var patTypeNumber,
-    var appointmentNumber,
-    var departmentNumber,
-    String departmentName,
-    var consultationNumber,
-    var isPatientOut,
-    var ipdFlag,
-    var companyNumber
-
-  }) {
+  savePrescriptionData(
+      {String id,
+      String name,
+      String age,
+      String gender,
+      String bloodGroup,
+      String phoneNumber,
+      String consultationTime,
+      String consultType,
+      int serial,
+      int regNo,
+      int doctorNo,
+      String consultationId,
+      String consultationTypeNo,
+      var patTypeNumber,
+      var appointmentNumber,
+      var departmentNumber,
+      String departmentName,
+      var consultationNumber,
+      var isPatientOut,
+      var ipdFlag,
+      var companyNumber}) {
     vitals = [];
     if (tempTextEditingController.text != null ||
         tempTextEditingController.text != '') {
@@ -372,10 +371,10 @@ class GetTamplateDataViewModel extends ChangeNotifier {
     // doctorSelectedItems.add(referredDoctorSelectedItems);
     opdSelectedItems = [];
     opdSelectedItems.add(referredOPDSelectedItems);
-print("DHUURR $departmentName");
+    print("DHUURR $departmentName");
     var prescription = PrescriptionSaveModel(
       prescription: Prescription(
-          consultationTypeNo:int.parse(consultationTypeNo),
+          consultationTypeNo: consultationTypeNo.toString(),
           patientTypeNo: 1,
           shiftNo: 0,
           id: null,

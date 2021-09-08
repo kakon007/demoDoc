@@ -676,40 +676,55 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       )
                     ],
                   )),
-              workVm.todayWorkList.length ==0 ? Center(child: Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: Text("There is no worklist today.",
-
-                style: GoogleFonts.poppins(),
-                ),
-              )) : ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: workVm.todayWorkList.length < 5 ? workVm.todayWorkList.length : 5,
-                  itemBuilder: (context, index) {
-                    return TodayWorkList(
-                      patientName: workVm.todayWorkList[index].patientName,
-                      appointmentTime:workVm.todayWorkList[index].consTime ,
-                      appointType: workVm.todayWorkList[index].consultTypeNo.toString(),
-                      id: workVm.todayWorkList[index].hospitalId,
-                      doctorNo: workVm.todayWorkList[index].doctorNo,
-                      age: workVm.todayWorkList[index].age,
-                      bloodGroup: workVm.todayWorkList[index].bloodGroup,
-                      phoneNumber: workVm.todayWorkList[index].phoneMobile,
-                      serial: workVm.todayWorkList[index].slotSl,
-                      gender: workVm.todayWorkList[index].gender,
-                      regNo: workVm.todayWorkList[index].registrationNo,
-                      consultationId: workVm.todayWorkList[index].consultationId,
-                      appointmentNumber:workVm.todayWorkList[index].appointId ,
-                      companyNumber: workVm.todayWorkList[index].companyNo,
-                      consultationNumber: workVm.todayWorkList[index].consultationOut,
-                      consultationTypeNo: workVm.todayWorkList[index].consultTypeNo,
-                      departmentName: workVm.todayWorkList[index].departmentName,
-                      departmentNumber: workVm.todayWorkList[index].departmentNo,
-                      isPatientOut: workVm.todayWorkList[index].isPatientOut,
-                      consultationOut: workVm.todayWorkList[index].consultationOut,
-                    );
-                  })
+              workVm.todayWorkList.length == 0
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: Text(
+                        "There is no worklist today.",
+                        style: GoogleFonts.poppins(),
+                      ),
+                    ))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: workVm.todayWorkList.length < 5
+                          ? workVm.todayWorkList.length
+                          : 5,
+                      itemBuilder: (context, index) {
+                        return TodayWorkList(
+                          patientName: workVm.todayWorkList[index].patientName,
+                          appointmentTime: workVm.todayWorkList[index].consTime,
+                          appointType: workVm.todayWorkList[index].consultTypeNo
+                              .toString(),
+                          id: workVm.todayWorkList[index].hospitalId,
+                          doctorNo: workVm.todayWorkList[index].doctorNo,
+                          age: workVm.todayWorkList[index].age,
+                          bloodGroup: workVm.todayWorkList[index].bloodGroup,
+                          phoneNumber: workVm.todayWorkList[index].phoneMobile,
+                          serial: workVm.todayWorkList[index].slotSl,
+                          gender: workVm.todayWorkList[index].gender,
+                          regNo: workVm.todayWorkList[index].registrationNo,
+                          consultationId:
+                              workVm.todayWorkList[index].consultationId,
+                          appointmentNumber:
+                              workVm.todayWorkList[index].appointId,
+                          companyNumber: workVm.todayWorkList[index].companyNo,
+                          consultationNumber:
+                              workVm.todayWorkList[index].consultationOut,
+                          consultationTypeNo: workVm
+                              .todayWorkList[index].consultTypeNo
+                              .toString(),
+                          departmentName:
+                              workVm.todayWorkList[index].departmentName,
+                          departmentNumber:
+                              workVm.todayWorkList[index].departmentNo,
+                          isPatientOut:
+                              workVm.todayWorkList[index].isPatientOut,
+                          consultationOut:
+                              workVm.todayWorkList[index].consultationOut,
+                        );
+                      })
             ],
           ),
         ),

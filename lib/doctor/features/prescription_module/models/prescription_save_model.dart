@@ -816,7 +816,7 @@ class Prescription {
     this.companyNo,
   });
 
-  int consultationTypeNo;
+  String consultationTypeNo;
   int patientTypeNo;
   int shiftNo;
   dynamic id;

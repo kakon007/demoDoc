@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -1410,40 +1411,47 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 element.multiDoseInstructionController.text ??
                                     ""));
                       });
-                      if (ind != null) {
-                        templateVm.medicineList[ind].genericName =
-                            _genericController.text;
-                        templateVm.medicineList[ind].brandName =
-                            _brandController.text;
-                        templateVm.medicineList[ind].route =
-                            routeController.text;
-                        templateVm.medicineList[ind].multiDoseList.first
-                            .multiDose = doseController.text;
-                        templateVm.medicineList[ind].multiDoseList.first
-                            .multiDoseInstruction = instructionController.text;
-                        templateVm.medicineList[ind].multiDoseList.first
-                            .multiDoseDurationType = daysController.text;
-                        templateVm.medicineList[ind].multiDoseList.first
-                            .multiDoseDuration = durationController.text;
-                        ind = null;
+                      if (_genericController.text.isEmpty &&
+                          _brandController.text.isEmpty) {
+                        BotToast.showText(
+                            text: "Brand or Generic name is empty");
                       } else {
-                        templateVm.medicineList.add(MedicineList(
-                          genericName: _genericController.text,
-                          brandName: _brandController.text,
-                          // dose: doseController.text,
-                          // duration: durationController.text,
-                          // durationType: daysController.text,
-                          // instruction: instructionController.text,
-                          route: routeController.text,
-                          // multiDose: multiDoseController.text,
-                          // multiDoseDuration: multiDoseDurationController.text,
-                          // multiDoseDurationType: multiDoseDaysController.text,
-                          // multiDoseInstruction:
-                          //     multiDoseInstructionController.text,
-                          multiDoseList: templateVm.multiDoseItemList,
-                          continueDuration: continueDurationController.text,
-                          continueDurationType: continueDaysController.text,
-                        ));
+                        if (ind != null) {
+                          templateVm.medicineList[ind].genericName =
+                              _genericController.text;
+                          templateVm.medicineList[ind].brandName =
+                              _brandController.text;
+                          templateVm.medicineList[ind].route =
+                              routeController.text;
+                          templateVm.medicineList[ind].multiDoseList.first
+                              .multiDose = doseController.text;
+                          templateVm.medicineList[ind].multiDoseList.first
+                                  .multiDoseInstruction =
+                              instructionController.text;
+                          templateVm.medicineList[ind].multiDoseList.first
+                              .multiDoseDurationType = daysController.text;
+                          templateVm.medicineList[ind].multiDoseList.first
+                              .multiDoseDuration = durationController.text;
+                          ind = null;
+                        } else {
+                          templateVm.medicineList.add(MedicineList(
+                            genericName: _genericController.text,
+                            brandName: _brandController.text,
+                            // dose: doseController.text,
+                            // duration: durationController.text,
+                            // durationType: daysController.text,
+                            // instruction: instructionController.text,
+                            route: routeController.text,
+                            // multiDose: multiDoseController.text,
+                            // multiDoseDuration: multiDoseDurationController.text,
+                            // multiDoseDurationType: multiDoseDaysController.text,
+                            // multiDoseInstruction:
+                            //     multiDoseInstructionController.text,
+                            multiDoseList: templateVm.multiDoseItemList,
+                            continueDuration: continueDurationController.text,
+                            continueDurationType: continueDaysController.text,
+                          ));
+                        }
                       }
                       _genericController.clear();
                       _brandController.clear();

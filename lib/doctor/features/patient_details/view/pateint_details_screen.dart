@@ -37,7 +37,7 @@ class PatientDetails extends StatefulWidget {
   int regNo;
   int doctorNo;
   String consultationId;
-  var consultationTypeNo;
+  String consultationTypeNo;
   var patTypeNumber;
   var appointmentNumber;
   var departmentNumber;
@@ -46,21 +46,28 @@ class PatientDetails extends StatefulWidget {
   var isPatientOut;
   var ipdFlag;
   var companyNumber;
-  PatientDetails({
-    this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,
-    this.consultationId,
-    this.id,
-    this.name,
-    this.age,
-  this.gender,
-    this.bloodGroup,
-    this.phoneNumber,
-    this.consultationTime,
-    this.consultType,
-    this.serial,
-    this.regNo,
-    this.doctorNo
-  });
+  PatientDetails(
+      {this.appointmentNumber,
+      this.companyNumber,
+      this.consultationNumber,
+      this.consultationTypeNo,
+      this.departmentName,
+      this.departmentNumber,
+      this.ipdFlag,
+      this.isPatientOut,
+      this.patTypeNumber,
+      this.consultationId,
+      this.id,
+      this.name,
+      this.age,
+      this.gender,
+      this.bloodGroup,
+      this.phoneNumber,
+      this.consultationTime,
+      this.consultType,
+      this.serial,
+      this.regNo,
+      this.doctorNo});
   @override
   _PatientDetailsState createState() => _PatientDetailsState();
 }
@@ -122,15 +129,19 @@ class _PatientDetailsState extends State<PatientDetails> {
     }
   }
 
-
   Future fetchPDF(String index) async {
     try {
       print("FETCHPDFDATA");
       print('INDEX' + index);
-      var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
+      var accessToken = await Provider.of<AccessTokenProvider>(
+              appNavigator.context,
+              listen: false)
+          .getToken();
       var headers = {'Authorization': 'Bearer $accessToken'};
-      var request = http.MultipartRequest('POST', Uri.parse(Urls.prescriptionViewUrl));
-      request.fields.addAll({'prescriptionId': index, 'pClient': 'aalok', 'pLayout': '1'});
+      var request =
+          http.MultipartRequest('POST', Uri.parse(Urls.prescriptionViewUrl));
+      request.fields.addAll(
+          {'prescriptionId': index, 'pClient': 'aalok', 'pLayout': '1'});
 
       request.headers.addAll(headers);
 
@@ -156,33 +167,37 @@ class _PatientDetailsState extends State<PatientDetails> {
   Future<File> _createPdfFileFromString(String index) async {
     SVProgressHUD.show(status: 'Opening Pdf');
     String dir = (await pp.getApplicationDocumentsDirectory()).path;
-    File file = File("$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
+    File file = File(
+        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".pdf");
     await file.writeAsBytes(await fetchPDF(index), flush: true);
     print("FILEEEEE" + file.toString());
     SVProgressHUD.dismiss();
     return file;
   }
+
   @override
   void initState() {
     // TODO: implement initState
- var vm=Provider.of<ConsultationHistoryListDocViewModel>(context,listen:false);
- vm.getData(id:widget.id);
- pickBirthDate=pickBirthDate!=null?pickBirthDate:DateTime.now();
- pickBirthDate2=pickBirthDate2!=null?pickBirthDate2:DateTime.now();
+    var vm = Provider.of<ConsultationHistoryListDocViewModel>(context,
+        listen: false);
+    vm.getData(id: widget.id);
+    pickBirthDate = pickBirthDate != null ? pickBirthDate : DateTime.now();
+    pickBirthDate2 = pickBirthDate2 != null ? pickBirthDate2 : DateTime.now();
 
- var vm5 = Provider.of<ZoomViewModel>(context, listen: false);
- vm5.getData(consultationId: widget.consultationId);
+    var vm5 = Provider.of<ZoomViewModel>(context, listen: false);
+    vm5.getData(consultationId: widget.consultationId);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    var vm=Provider.of<ConsultationHistoryListDocViewModel>(context);
+    var vm = Provider.of<ConsultationHistoryListDocViewModel>(context);
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
 
     var vm5 = Provider.of<ZoomViewModel>(context);
-print('fromDate $pickBirthDate');
+    print('fromDate $pickBirthDate');
 
     var fromDate = GestureDetector(
       child: Column(
@@ -201,20 +216,16 @@ print('fromDate $pickBirthDate');
             width: isTablet
                 ? MediaQuery.of(context).size.width * 0.35
                 : width <= 330
-                ? MediaQuery.of(context).size.width *
-                0.32
-                : MediaQuery.of(context).size.width *
-                0.35,
+                    ? MediaQuery.of(context).size.width * 0.32
+                    : MediaQuery.of(context).size.width * 0.35,
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                color: HexColor(
-                    "#6374DF"), // set border color
+                color: HexColor("#6374DF"), // set border color
                 //width: 3.0
               ), // set border width
               borderRadius: BorderRadius.all(
-                  Radius.circular(
-                      10.0)), // set rounded corner radius
+                  Radius.circular(10.0)), // set rounded corner radius
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -230,8 +241,7 @@ print('fromDate $pickBirthDate');
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 4.0),
-                  child:
-                  SvgPicture.asset(
+                  child: SvgPicture.asset(
                     "assets/icons/calendoc.svg",
                     //key: Key('filterIconKey'),
                     width: 10,
@@ -270,20 +280,16 @@ print('fromDate $pickBirthDate');
             width: isTablet
                 ? MediaQuery.of(context).size.width * 0.35
                 : width <= 330
-                ? MediaQuery.of(context).size.width *
-                0.32
-                : MediaQuery.of(context).size.width *
-                0.35,
+                    ? MediaQuery.of(context).size.width * 0.32
+                    : MediaQuery.of(context).size.width * 0.35,
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
-                color: HexColor(
-                    "#6374DF"), // set border color
+                color: HexColor("#6374DF"), // set border color
                 //width: 3.0
               ), // set border width
               borderRadius: BorderRadius.all(
-                  Radius.circular(
-                      10.0)), // set rounded corner radius
+                  Radius.circular(10.0)), // set rounded corner radius
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -299,8 +305,7 @@ print('fromDate $pickBirthDate');
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 4.0),
-                  child:
-                  SvgPicture.asset(
+                  child: SvgPicture.asset(
                     "assets/icons/calendoc.svg",
                     //key: Key('filterIconKey'),
                     width: 10,
@@ -409,7 +414,7 @@ print('fromDate $pickBirthDate');
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          widget.name??'',
+                                          widget.name ?? '',
                                           style: GoogleFonts.poppins(
                                               // color: HexColor(
                                               //   '#354291',
@@ -437,7 +442,7 @@ print('fromDate $pickBirthDate');
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              widget.age??'',
+                                              widget.age ?? '',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',
@@ -468,7 +473,7 @@ print('fromDate $pickBirthDate');
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              widget.gender??'',
+                                              widget.gender ?? '',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',
@@ -499,7 +504,8 @@ print('fromDate $pickBirthDate');
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              widget.bloodGroup??'Not Available',
+                                              widget.bloodGroup ??
+                                                  'Not Available',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',
@@ -530,7 +536,7 @@ print('fromDate $pickBirthDate');
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             Text(
-                                              widget.phoneNumber??'',
+                                              widget.phoneNumber ?? '',
                                               style: GoogleFonts.poppins(
                                                   // color: HexColor(
                                                   //   '#354291',
@@ -574,11 +580,17 @@ print('fromDate $pickBirthDate');
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: InkWell(
-                              onTap:(){
+                              onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                      return EmrScreen(pickBirthDate: pickBirthDate,pickBirthDate2: pickBirthDate2,docNo:widget.doctorNo,regNo:widget.regNo,id: widget.id,);
-                                    }));
+                                  return EmrScreen(
+                                    pickBirthDate: pickBirthDate,
+                                    pickBirthDate2: pickBirthDate2,
+                                    docNo: widget.doctorNo,
+                                    regNo: widget.regNo,
+                                    id: widget.id,
+                                  );
+                                }));
                               },
                               child: Material(
                                 elevation: 0,
@@ -681,7 +693,9 @@ print('fromDate $pickBirthDate');
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      DateUtil().formattedDate(DateTime.parse(widget.consultationTime).toLocal()),
+                                      DateUtil().formattedDate(DateTime.parse(
+                                              widget.consultationTime)
+                                          .toLocal()),
                                       style: GoogleFonts.poppins(
                                           // color: HexColor(
                                           //   '#354291',
@@ -697,7 +711,9 @@ print('fromDate $pickBirthDate');
                                       height: 10,
                                     ),
                                     Text(
-                                        Time().formattedDate(DateTime.parse(widget.consultationTime).toLocal()),
+                                      Time().formattedDate(DateTime.parse(
+                                              widget.consultationTime)
+                                          .toLocal()),
                                       style: GoogleFonts.poppins(
                                           // color: HexColor(
                                           //   '#354291',
@@ -729,7 +745,9 @@ print('fromDate $pickBirthDate');
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          widget.consultationNumber==1?"Completed":'Waiting',
+                                          widget.consultationNumber == 1
+                                              ? "Completed"
+                                              : 'Waiting',
                                           style: GoogleFonts.poppins(
                                               // color: HexColor(
                                               //   '#354291',
@@ -797,24 +815,19 @@ print('fromDate $pickBirthDate');
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
-                              onTap: (){
-                                vm5.zoomDetailsList ==
-                                    null
+                              onTap: () {
+                                vm5.zoomDetailsList == null
                                     ? Fluttertoast.showToast(
-                                    msg:
-                                    'No Consultation Available.')
+                                        msg: 'No Consultation Available.')
                                     : UrlLauncherHelper.launchUrl(
-                                    vm5.zoomDetailsList
-                                        ?.startUrl ??
-                                        '');
+                                        vm5.zoomDetailsList?.startUrl ?? '');
                               },
                               child: Material(
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5)),
-                                color: vm5.zoomDetailsList ==
-                                  null
-                                  ? HexColor("#AFBBFF")
+                                color: vm5.zoomDetailsList == null
+                                    ? HexColor("#AFBBFF")
                                     : HexColor("#354291"),
                                 child: SizedBox(
                                   width: double.infinity,
@@ -930,107 +943,36 @@ print('fromDate $pickBirthDate');
                           Divider(),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child:vm.consList==null?Center(
-                              child: Text('No Data Found'),
-                            ):ListView.separated(
-                                itemCount: vm.consList.length,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5.0, right: 5),
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                            child: vm.consList == null
+                                ? Center(
+                                    child: Text('No Data Found'),
+                                  )
+                                : ListView.separated(
+                                    itemCount: vm.consList.length,
+                                    shrinkWrap: true,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5.0, right: 5),
+                                        child: Row(
                                           children: [
-                                            Container(
-                                              width: isTablet
-                                                  ? 350
-                                                  : MediaQuery.of(context)
-                                                              .size
-                                                              .width >
-                                                          350
-                                                      ? 220
-                                                      : 200,
-                                              child: Text(
-                                                vm.consList[index].doctorName,
-                                                style: GoogleFonts.poppins(
-                                                    // color: HexColor(
-                                                    //   '#354291',
-                                                    // ),
-                                                    fontSize: isTablet
-                                                        ? 20
-                                                        : width <= 330
-                                                            ? 13
-                                                            : 16,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 12.0),
-                                              child: Row(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    "assets/icons/calendoc.svg",
-                                                    //key: Key('filterIconKey'),
-                                                    width: 10,
-                                                    height: 18,
-                                                    fit: BoxFit.fitWidth,
-                                                    allowDrawingOutsideViewBox:
-                                                        true,
-                                                    matchTextDirection: true,
-                                                    color: Color(0xffAFBBFF),
-                                                    //semanticsLabel: 'Acme Logo'
-                                                  ),
-                                                  SizedBox(
-                                                    width: 8,
-                                                  ),
-                                                  Text(
-                                                    DateUtil().formattedDate(DateTime.parse(vm.consList[index].createdDate).toLocal()),
-                                                    style: GoogleFonts.poppins(
-                                                        // color: HexColor(
-                                                        //   '#354291',
-                                                        // ),
-                                                        fontSize: isTablet
-                                                            ? 20
-                                                            : width <= 330
-                                                                ? 12
-                                                                : 15,
-                                                        color: Colors.grey),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 12.0, top: 5),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    'Disease: ',
-                                                    style: GoogleFonts.poppins(
-                                                        // color: HexColor(
-                                                        //   '#354291',
-                                                        // ),
-                                                        fontSize: isTablet
-                                                            ? 20
-                                                            : width <= 330
-                                                                ? 13
-                                                                : 16,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: HexColor(
-                                                            '#FFA7A7')),
-                                                  ),
-                                                  Text(
-                                                    vm.consList[index].disease??'Not Available',
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width: isTablet
+                                                      ? 350
+                                                      : MediaQuery.of(context)
+                                                                  .size
+                                                                  .width >
+                                                              350
+                                                          ? 220
+                                                          : 200,
+                                                  child: Text(
+                                                    vm.consList[index]
+                                                        .doctorName,
                                                     style: GoogleFonts.poppins(
                                                         // color: HexColor(
                                                         //   '#354291',
@@ -1043,85 +985,190 @@ print('fromDate $pickBirthDate');
                                                         fontWeight:
                                                             FontWeight.w500),
                                                   ),
-                                                ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12.0),
+                                                  child: Row(
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        "assets/icons/calendoc.svg",
+                                                        //key: Key('filterIconKey'),
+                                                        width: 10,
+                                                        height: 18,
+                                                        fit: BoxFit.fitWidth,
+                                                        allowDrawingOutsideViewBox:
+                                                            true,
+                                                        matchTextDirection:
+                                                            true,
+                                                        color:
+                                                            Color(0xffAFBBFF),
+                                                        //semanticsLabel: 'Acme Logo'
+                                                      ),
+                                                      SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Text(
+                                                        DateUtil().formattedDate(
+                                                            DateTime.parse(vm
+                                                                    .consList[
+                                                                        index]
+                                                                    .createdDate)
+                                                                .toLocal()),
+                                                        style: GoogleFonts.poppins(
+                                                            // color: HexColor(
+                                                            //   '#354291',
+                                                            // ),
+                                                            fontSize: isTablet
+                                                                ? 20
+                                                                : width <= 330
+                                                                    ? 12
+                                                                    : 15,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 12.0, top: 5),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        'Disease: ',
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                                // color: HexColor(
+                                                                //   '#354291',
+                                                                // ),
+                                                                fontSize:
+                                                                    isTablet
+                                                                        ? 20
+                                                                        : width <=
+                                                                                330
+                                                                            ? 13
+                                                                            : 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: HexColor(
+                                                                    '#FFA7A7')),
+                                                      ),
+                                                      Text(
+                                                        vm.consList[index]
+                                                                .disease ??
+                                                            'Not Available',
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                                // color: HexColor(
+                                                                //   '#354291',
+                                                                // ),
+                                                                fontSize:
+                                                                    isTablet
+                                                                        ? 20
+                                                                        : width <=
+                                                                                330
+                                                                            ? 13
+                                                                            : 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Spacer(),
+                                            InkWell(
+                                              onTap: () async {
+                                                final file = vm.consList[index]
+                                                            .prescriptionId ==
+                                                        null
+                                                    ? Fluttertoast.showToast(
+                                                        msg:
+                                                            'Prescription Not Saved yet!')
+                                                    : await _createPdfFileFromString(
+                                                        vm.consList[index]
+                                                            .prescriptionId
+                                                            .toString());
+                                                vm.consList[index]
+                                                            .prescriptionId ==
+                                                        null
+                                                    ? Fluttertoast.showToast(
+                                                        msg:
+                                                            'Prescription Not Saved yet!')
+                                                    : Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .rightToLeft,
+                                                          child: PdfFileViewerScreen(
+                                                              file,
+                                                              vm.consList[index]
+                                                                  .consultationId),
+                                                        ),
+                                                      );
+                                              },
+                                              child: Material(
+                                                elevation: 0,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                color: HexColor("#6374DF"),
+                                                child: SizedBox(
+                                                  width: isTablet
+                                                      ? 170
+                                                      : deviceWidth <= 360 &&
+                                                              deviceWidth > 330
+                                                          ? 105
+                                                          : deviceWidth <= 330
+                                                              ? 50
+                                                              : 80,
+                                                  height: isTablet
+                                                      ? 40
+                                                      : deviceWidth <= 360
+                                                          ? 28
+                                                          : 25,
+                                                  child: Center(
+                                                    child: Text(
+                                                      "View",
+                                                      key: Key(
+                                                          'rebookKey$index'),
+                                                      style: GoogleFonts.roboto(
+                                                          color: Colors.white,
+                                                          fontSize: isTablet
+                                                              ? 18
+                                                              : deviceWidth <=
+                                                                          360 &&
+                                                                      deviceWidth >
+                                                                          330
+                                                                  ? 9
+                                                                  : deviceWidth <=
+                                                                          330
+                                                                      ? 8
+                                                                      : 10,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
-                                        Spacer(),
-                                        InkWell(
-                                          onTap: () async {
-                                            final file =
-                                            vm.consList[index].prescriptionId ==
-                                                null
-                                                ? Fluttertoast.showToast(
-                                                msg: 'Prescription Not Saved yet!')
-                                                : await _createPdfFileFromString(vm.consList[index].prescriptionId
-                                                .toString());
-                                            vm.consList[index].prescriptionId ==
-                                                null
-                                                ? Fluttertoast.showToast(
-                                                msg: 'Prescription Not Saved yet!')
-                                                : Navigator.push(
-                                              context,
-                                              PageTransition(
-                                                type: PageTransitionType.rightToLeft,
-                                                child: PdfFileViewerScreen(
-                                                    file,
-                                                    vm.consList[index]
-                                                        .consultationId),
-                                              ),
-                                            );
-                                          },
-                                          child: Material(
-                                            elevation: 0,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            color: HexColor("#6374DF"),
-                                            child: SizedBox(
-                                              width: isTablet
-                                                  ? 170
-                                                  : deviceWidth <= 360 &&
-                                                          deviceWidth > 330
-                                                      ? 105
-                                                      : deviceWidth <= 330
-                                                          ? 50
-                                                          : 80,
-                                              height: isTablet
-                                                  ? 40
-                                                  : deviceWidth <= 360
-                                                      ? 28
-                                                      : 25,
-                                              child: Center(
-                                                child: Text(
-                                                  "View",
-                                                  key: Key('rebookKey$index'),
-                                                  style: GoogleFonts.roboto(
-                                                      color: Colors.white,
-                                                      fontSize: isTablet
-                                                          ? 18
-                                                          : deviceWidth <= 360 &&
-                                                                  deviceWidth >
-                                                                      330
-                                                              ? 9
-                                                              : deviceWidth <= 330
-                                                                  ? 8
-                                                                  : 10,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return Divider();
-                                }),
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return Divider();
+                                    }),
                           ),
                           SizedBox(
                             height: isTablet
@@ -1142,16 +1189,33 @@ print('fromDate $pickBirthDate');
             // padding: EdgeInsets.only(top: 650.0),
             alignment: Alignment.bottomCenter,
             child: InkWell(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Module(         patTypeNumber: widget.patTypeNumber,
-                  isPatientOut: widget.isPatientOut,
-                  ipdFlag: widget.ipdFlag,
-                  departmentNumber: widget.departmentNumber,
-                  departmentName: widget.departmentName,
-                  consultationTypeNo: widget.consultationTypeNo,
-                  consultationNumber: widget.consultationNumber,
-                  companyNumber: widget.companyNumber,
-                  appointmentNumber: widget.appointmentNumber,consultationId: widget.consultationId,id:widget.id,name: widget.name,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultationTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Module(
+                              patTypeNumber: widget.patTypeNumber,
+                              isPatientOut: widget.isPatientOut,
+                              ipdFlag: widget.ipdFlag,
+                              departmentNumber: widget.departmentNumber,
+                              departmentName: widget.departmentName,
+                              consultationTypeNo: widget.consultationTypeNo,
+                              consultationNumber: widget.consultationNumber,
+                              companyNumber: widget.companyNumber,
+                              appointmentNumber: widget.appointmentNumber,
+                              consultationId: widget.consultationId,
+                              id: widget.id,
+                              name: widget.name,
+                              gender: widget.gender,
+                              serial: widget.serial,
+                              phoneNumber: widget.phoneNumber,
+                              bloodGroup: widget.bloodGroup,
+                              age: widget.age,
+                              consultationTime: widget.consultationTime,
+                              consultType: widget.consultType,
+                              regNo: widget.regNo,
+                              doctorNo: widget.doctorNo,
+                            )));
               },
               child: Container(
                 width: double.infinity,
@@ -1172,8 +1236,8 @@ print('fromDate $pickBirthDate');
                   ],
                 ),
                 child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 15.0, right: 15, top: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      left: 15.0, right: 15, top: 10, bottom: 10),
                   child: Material(
                     elevation: 0,
                     shape: RoundedRectangleBorder(

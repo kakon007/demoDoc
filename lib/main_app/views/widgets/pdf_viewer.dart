@@ -236,7 +236,7 @@ class _ImagebyteViewerScreenState extends State<ImagebyteViewerScreen> {
   Widget build(BuildContext context) {
     final name = widget.attachmentName;
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(name),
       ),
@@ -244,11 +244,12 @@ class _ImagebyteViewerScreenState extends State<ImagebyteViewerScreen> {
           ? Loader()
           : Center(
               child: Container(
-                child: byteArray,
-                // PhotoView(
-                //   // filePath: widget.file.path,
-                //   imageProvider: byteArray,
-                // ),
+                height: double.infinity,
+                child: InteractiveViewer(
+                  scaleEnabled: true,
+                  maxScale: 2.5,
+                  child: byteArray,
+                ),
               ),
             ),
     );

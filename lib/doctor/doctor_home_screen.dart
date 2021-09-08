@@ -98,7 +98,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen>
       fit: BoxFit.cover,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
-      color: currentIndex == 3
+      color: currentIndex == 2
           ? AppTheme.navBarActiveColor
           : AppTheme.navBarInActiveColor,
     );

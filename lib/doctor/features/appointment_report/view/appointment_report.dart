@@ -100,7 +100,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
     pickedToDate= DateTime.now();
     pickedFromDate= DateTime.now();
     var appointmentReport= Provider.of<AppointmentReportListDocViewModel>(context, listen: false);
-    appointmentReport.getData(doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo);
+    appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo);
 
     var shift= Provider.of<ShiftListDocViewModel>(context, listen: false);
     shift.getData(ogNo: companyInfoVm.details.organizationNo);
@@ -319,7 +319,7 @@ class _AppointmentReportState extends State<AppointmentReport> {
           color: AppTheme.buttonActiveColor,
           onPressed: () async {
             SVProgressHUD.show(status: 'Loading');
-           await appointmentReport.getData(doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,fromDate: pickedFromDate,toDate: pickedToDate);
+           await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
             SVProgressHUD.dismiss();
            },
           child: Text(
@@ -385,7 +385,25 @@ class _AppointmentReportState extends State<AppointmentReport> {
               width<=330?  SizedBox() : spaceBetween,
               dateSection,
               spaceBetween,
-              ListView.builder(
+              appointmentReport.appointmentReportList==null?Align(
+                alignment: Alignment.center,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'No report found',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                            color: HexColor('#AEB0BA'),
+                            fontWeight: FontWeight.w400,
+                            fontSize: isTablet ? 22 : 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ) :ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount:appointmentReport.appointmentReportList.length,
@@ -562,6 +580,15 @@ class _AppointmentReportState extends State<AppointmentReport> {
 
 class DateUtil {
   static const DATE_FORMAT = 'dd/MM/yyyy ';
+
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
+  }
+}
+
+class TimeUtil {
+  static const DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');

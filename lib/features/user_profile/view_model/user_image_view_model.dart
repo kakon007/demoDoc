@@ -217,7 +217,38 @@ class UserImageViewModel extends ChangeNotifier {
     } catch (e) {
     }
   }
+  var userType;
+  Future<void> userDetails({String accessToken}) async {
+    //userType=null;
+   // _isImageLoading = true;
+    var headers = {
+      'Authorization':
+      'Bearer $accessToken'
+    };
 
+    var request =
+    http.Request('GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode);
+    try {
+      if (response.statusCode == 200) {
+        var res = await response.stream.bytesToString();
+        print(res);
+        UserImageModel data = userImageModelFromJson(res);
+        userType = data.obj.userTypeNo;
+        // _details = data.obj;
+        // _isImageLoading = false;
+        notifyListeners();
+      } else {
+        userType=null;
+       // _isImageLoading = false;
+      }
+    } catch (e) {
+      userType=null;
+      //_isImageLoading = false;
+    }
+  }
   AppError get appError => _appError;
 
   bool get isFetchingData => _isFetchingData;

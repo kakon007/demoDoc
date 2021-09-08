@@ -50,6 +50,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   init() async {
     var digitalSignVm = DigitalSignatureViewModel.read(context);
+    await Provider.of<UserImageViewModel>(context, listen: false).userImage();
     await PersonalInfoViewModel.read(context).getPersonalInfo();
     await PersonalInfoViewModel.read(context).getSpecializationName();
     await PersonalInfoViewModel.read(context).getDesignationList();
@@ -123,7 +124,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         controller: _doctorName,
         validator: Validator().nullFieldValidate,
         minimizeBottomPadding: true,
-        hintText: 'Enter Your Name',
+        hintText:   !personalInfoVm.isPersonalInfoEditing ? "" : 'Enter Your Name',
       ),
     );
 
@@ -182,7 +183,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         readOnly: isReadOnly,
         controller: _designation,
         minimizeBottomPadding: true,
-        hintText: 'Enter Your Designation',
+        hintText: !personalInfoVm.isPersonalInfoEditing ? "" : 'Enter Your Designation',
       ),
     );
     //     :
@@ -246,7 +247,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             ),
                             iconSize: isTablet ? 30 : 25,
                             hint: Text(
-                              'Select Designation',
+                              !personalInfoVm.isPersonalInfoEditing ? "" :  'Select Designation',
                               style: GoogleFonts.roboto(
                                   fontSize: isTablet ? 18 : 15,
                                   color: HexColor("#D2D2D2")),
@@ -424,7 +425,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         readOnly: isReadOnly,
         controller: _specialization,
         minimizeBottomPadding: true,
-        hintText: 'Enter Your specialization',
+        hintText: !personalInfoVm.isPersonalInfoEditing ? "" :  'Enter Your specialization',
       ),
     );
     var mobileText = Padding(
@@ -465,7 +466,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         enabledBorderColor: isReadOnly ? "#AFBBFF" : "#EAEBED",
         readOnly: isReadOnly,
         minimizeBottomPadding: true,
-        hintText: 'Enter Degree',
+        hintText: !personalInfoVm.isPersonalInfoEditing ? "" : 'Enter Degree',
         controller: _degree,
       ),
     );
@@ -572,7 +573,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   leftContentPadding: 85,
                   controller: _userMobile,
                   validator: Validator().validateDoctorPhoneNumber,
-                  hintText: '1310000000',
+                  hintText:!personalInfoVm.isPersonalInfoEditing ? "" :  '1310000000',
                   minimizeBottomPadding: true,
                 ),
                 Positioned(
@@ -777,7 +778,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         enabledBorderColor: isReadOnly ? "#AFBBFF" : "#EAEBED",
         readOnly: isReadOnly,
         minimizeBottomPadding: true,
-        hintText: 'Enter Signature',
+        hintText: !personalInfoVm.isPersonalInfoEditing ? "" : 'Enter Signature',
         maxLines: 5,
         controller: _doctorSignature,
       ),
@@ -888,7 +889,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
         validator: Validator().validateEmail,
         controller: _userEmail,
         minimizeBottomPadding: true,
-        hintText: 'Enter Your Email',
+        hintText: !personalInfoVm.isPersonalInfoEditing ? "" : 'Enter Your Email',
       ),
     );
     // : Padding(

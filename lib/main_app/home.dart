@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/book_test/view/booking_summery_screen.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
@@ -132,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         },
         locationData: _currentPosition,
       ),
+      BookingSummeryScreen(),
       if (!isLoggedIn) ...[
         SignInDashboardForAppoinmentPrompt("To access your Appointments,"),
         SignInDashboardForPatientPrompt("To access your Patient Portal,"),

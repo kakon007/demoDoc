@@ -42,7 +42,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<String> diseaseSelectedItems = [];
   List<String> provisionalDiagnosisSelectedItems = [];
   List<String> adviceSelectedItems = [];
-  List<AddMultiDose> multiDose = [];
+  List<AddMultiDose> multiDoseControlerList = [];
   List<SaveVitalList> vitals = [];
   List<MultiDose> multiDoseItemList = [];
   List<MedicineList> medicineList = [];

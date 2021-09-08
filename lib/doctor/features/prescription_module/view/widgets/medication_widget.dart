@@ -914,7 +914,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                 height: 15,
               ),
               Wrap(
-                  children: List.generate(templateVm.multiDose.length, (index) {
+                  children: List.generate(
+                      templateVm.multiDoseControlerList.length, (index) {
                 //  _controller = TextEditingController();
                 return Container(
                   margin: EdgeInsets.only(bottom: 10),
@@ -936,7 +937,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           ),
                         ),
                         onTap: () {
-                          templateVm.multiDose.removeAt(index);
+                          templateVm.multiDoseControlerList.removeAt(index);
                           setState(() {});
                         },
                       ),
@@ -946,8 +947,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       TypeAheadFormField<String>(
                         textFieldConfiguration: TextFieldConfiguration(
                             textInputAction: TextInputAction.search,
-                            controller:
-                                templateVm.multiDose[index].multiDoseController,
+                            controller: templateVm.multiDoseControlerList[index]
+                                .multiDoseController,
                             decoration: InputDecoration(
                               labelText: "Multidose",
                               //labelStyle: TextStyle(color: Color(0xff3E58FF)),
@@ -972,8 +973,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           );
                         },
                         onSuggestionSelected: (v) {
-                          templateVm.multiDose[index].multiDoseController.text =
-                              v;
+                          templateVm.multiDoseControlerList[index]
+                              .multiDoseController.text = v;
                           // setState(() {});
                         },
                         suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -1003,7 +1004,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                             child: TypeAheadFormField<String>(
                               textFieldConfiguration: TextFieldConfiguration(
                                   textInputAction: TextInputAction.search,
-                                  controller: templateVm.multiDose[index]
+                                  controller: templateVm
+                                      .multiDoseControlerList[index]
                                       .multiDoseDurationController,
                                   decoration: InputDecoration(
                                     labelText: "Duration",
@@ -1029,7 +1031,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 );
                               },
                               onSuggestionSelected: (v) {
-                                templateVm.multiDose[index]
+                                templateVm.multiDoseControlerList[index]
                                     .multiDoseDurationController.text = v;
                                 // setState(() {});
                               },
@@ -1052,7 +1054,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                             child: TypeAheadFormField<String>(
                               textFieldConfiguration: TextFieldConfiguration(
                                   textInputAction: TextInputAction.search,
-                                  controller: templateVm.multiDose[index]
+                                  controller: templateVm
+                                      .multiDoseControlerList[index]
                                       .multiDoseDurationTypeController,
                                   decoration: InputDecoration(
                                     labelText: "Days",
@@ -1078,20 +1081,24 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 );
                               },
                               onSuggestionSelected: (v) {
-                                templateVm.multiDose[index]
+                                templateVm.multiDoseControlerList[index]
                                     .multiDoseDurationTypeController.text = v;
                                 templateVm
-                                    .multiDose[index]
+                                    .multiDoseControlerList[index]
                                     .multiDoseQuantityController
                                     .text = quantityCalculation(
-                                        dose: templateVm.multiDose[index]
-                                            .multiDoseController.text,
+                                        dose: templateVm
+                                            .multiDoseControlerList[index]
+                                            .multiDoseController
+                                            .text,
                                         durationType: templateVm
-                                            .multiDose[index]
+                                            .multiDoseControlerList[index]
                                             .multiDoseDurationTypeController
                                             .text,
-                                        duration: templateVm.multiDose[index]
-                                            .multiDoseDurationController.text)
+                                        duration: templateVm
+                                            .multiDoseControlerList[index]
+                                            .multiDoseDurationController
+                                            .text)
                                     .split(".")
                                     .first;
                               },
@@ -1113,7 +1120,8 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                             width: 100,
                             child: TextField(
                               controller: templateVm
-                                  .multiDose[index].multiDoseQuantityController,
+                                  .multiDoseControlerList[index]
+                                  .multiDoseQuantityController,
                               autofocus: false,
                               decoration: InputDecoration(
                                 //filled: true,
@@ -1145,7 +1153,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                       TypeAheadFormField<String>(
                         textFieldConfiguration: TextFieldConfiguration(
                             textInputAction: TextInputAction.search,
-                            controller: templateVm.multiDose[index]
+                            controller: templateVm.multiDoseControlerList[index]
                                 .multiDoseInstructionController,
                             decoration: InputDecoration(
                               labelText: "Instructions",
@@ -1171,7 +1179,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                           );
                         },
                         onSuggestionSelected: (v) {
-                          templateVm.multiDose[index]
+                          templateVm.multiDoseControlerList[index]
                               .multiDoseInstructionController.text = v;
                           // setState(() {});
                         },
@@ -1352,15 +1360,14 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                 children: [
                   InkWell(
                     onTap: () {
-                      templateVm.multiDose.add(AddMultiDose(
-                          multiDoseController: TextEditingController(),
-                          multiDoseDurationController: TextEditingController(),
-                          multiDoseDurationTypeController:
-                              TextEditingController(),
-                          multiDoseInstructionController:
-                              TextEditingController(),
-                          multiDoseQuantityController:
-                              TextEditingController()));
+                      templateVm.multiDoseControlerList.add(AddMultiDose(
+                          // multiDoseController: TextEditingController(),
+                          // multiDoseDurationController: TextEditingController(),
+                          // multiDoseDurationTypeController:
+                          //     TextEditingController(),
+                          // multiDoseInstructionController: TextEditingController(),
+                          // multiDoseQuantityController: TextEditingController(),
+                          ));
                       //myControllers.add(TextEditingController());
                       setState(() {});
                     },
@@ -1399,7 +1406,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                         multiDoseDuration: durationController.text,
                         multiDoseDurationType: daysController.text,
                       ));
-                      templateVm.multiDose.forEach((element) {
+                      templateVm.multiDoseControlerList.forEach((element) {
                         templateVm.multiDoseItemList?.add(MultiDose(
                             multiDose: element.multiDoseController.text ?? "",
                             multiDoseDuration:
@@ -1520,7 +1527,11 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${templateVm.medicineList[index].genericName ?? ""} - ${templateVm.medicineList[index].brandName ?? ""} - ${templateVm.medicineList[index].route ?? ""}",
+                                    "${templateVm.medicineList[index].genericName ?? ""}"
+                                    "${templateVm.medicineList[index].genericName == null || templateVm.medicineList[index].genericName == "" ? "" : "-"}"
+                                    "${templateVm.medicineList[index].brandName ?? ""}"
+                                    "${templateVm.medicineList[index].genericName == null || templateVm.medicineList[index].genericName == "" ? "" : "-"}"
+                                    "${templateVm.medicineList[index].route ?? ""}",
                                     style: TextStyle(
                                         fontSize: isTablet ? 18 : 16,
                                         fontWeight: FontWeight.bold),
@@ -1641,6 +1652,23 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                             .first
                                             .multiDoseInstruction;
 
+                                        templateVm.multiDoseControlerList =
+                                            templateVm.medicineList[index]
+                                                .multiDoseList
+                                                .map((e) {
+                                          var multi = AddMultiDose();
+                                          multi.multiDoseController.text =
+                                              e.multiDose;
+                                          multi.multiDoseDurationController
+                                              .text = e.multiDoseDuration;
+                                          multi.multiDoseDurationTypeController
+                                              .text = e.multiDoseDurationType;
+                                          multi.multiDoseInstructionController
+                                              .text = e.multiDoseInstruction;
+                                          return multi;
+                                        }).toList()
+                                                  ..removeAt(0);
+
                                         ind = index;
                                       });
                                     },
@@ -1727,12 +1755,7 @@ class AddMultiDose {
   TextEditingController multiDoseInstructionController =
       TextEditingController();
 
-  AddMultiDose(
-      {this.multiDoseInstructionController,
-      this.multiDoseController,
-      this.multiDoseDurationController,
-      this.multiDoseDurationTypeController,
-      this.multiDoseQuantityController});
+  AddMultiDose();
 }
 
 class MultiDose {

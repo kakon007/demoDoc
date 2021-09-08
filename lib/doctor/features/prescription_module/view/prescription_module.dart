@@ -115,7 +115,7 @@ class _ModuleState extends State<Module> {
     templateVm.diseaseSelectedItems = [];
     templateVm.provisionalDiagnosisSelectedItems = [];
     templateVm.adviceSelectedItems = [];
-    templateVm.multiDose = [];
+    templateVm.multiDoseControlerList = [];
     templateVm.vitals = [];
     templateVm.multiDoseItemList = [];
     templateVm.medicineList = [];

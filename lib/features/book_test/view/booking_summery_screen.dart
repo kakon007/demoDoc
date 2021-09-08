@@ -14,10 +14,13 @@ class BookingSummeryScreen extends StatefulWidget {
 }
 
 class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
+
   @override
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
     var testItemVm = Provider.of<TestItemViewModel>(context);
+    num subTotal= 0;
+    testItemVm.salesPrice.forEach((num e){subTotal += e;});
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -347,7 +350,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                   fontSize: isTablet ? 20 : 14, color: Colors.black),
                             ),
                             Text(
-                              '31,210.00 Tk',
+                              subTotal.toString(),
                               style: GoogleFonts.poppins(
                                   fontSize: isTablet ? 20 : 14, color: Colors.black),
                             ),

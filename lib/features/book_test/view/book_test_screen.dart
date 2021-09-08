@@ -134,7 +134,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
                           ),
                           InkWell(
                             onTap: ()async{
-                              await testItemVm.addToCart(cartList: testItemVm.testItemList[index]);
+                              await testItemVm.addToCart(cartList: testItemVm.testItemList[index],salesPrice: testItemVm.testItemList[index].salesPrice);
                             },
                             child: Container(
                               decoration: BoxDecoration(

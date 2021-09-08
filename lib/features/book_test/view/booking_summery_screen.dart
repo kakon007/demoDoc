@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
+import 'package:provider/provider.dart';
 
 class BookingSummeryScreen extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
   @override
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
+    var testItemVm = Provider.of<TestItemViewModel>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -274,7 +277,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.separated(
-                      itemCount: 8,
+                      itemCount: testItemVm.cartList.length,
                       shrinkWrap: true,
                       itemBuilder:
                           (BuildContext context,
@@ -291,7 +294,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                 Container(
                                   width:260,
                                   child: Text(
-                                    'O Cell (PRBC) Suspended in AB Plasma',
+                                    testItemVm.cartList[index].itemName,
                                     style: GoogleFonts.poppins(
                                         fontSize: isTablet ? 20 : 14, color: Colors.black),
                                     maxLines: 2,overflow: TextOverflow.ellipsis,

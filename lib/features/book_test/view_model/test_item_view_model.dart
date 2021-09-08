@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 class TestItemViewModel extends ChangeNotifier{
   List<Item> _testItem =[];
+  List<Item> _cartList =[];
   AppError _appError;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
@@ -85,6 +86,10 @@ class TestItemViewModel extends ChangeNotifier{
   //   }
   // }
 
+  addToCart({Item cartList}){
+    _cartList.add(cartList);
+  }
+
 
   Future<bool> refresh(String accessToken) async {
     _pageCount = 1;
@@ -136,5 +141,6 @@ class TestItemViewModel extends ChangeNotifier{
 
 
   List<Item> get testItemList => _testItem;
+  List<Item> get cartList => _cartList;
 
 }

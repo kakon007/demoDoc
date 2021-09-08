@@ -132,36 +132,41 @@ class _BookTestScreenState extends State<BookTestScreen> {
                               ),
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(14),
-                                bottomLeft: Radius.circular(14),
+                          InkWell(
+                            onTap: ()async{
+                              await testItemVm.addToCart(cartList: testItemVm.testItemList[index]);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(14),
+                                  bottomLeft: Radius.circular(14),
+                                ),
+                                //color: Colors.teal,
+                                color: AppTheme.appbarPrimary,
                               ),
-                              //color: Colors.teal,
-                              color: AppTheme.appbarPrimary,
-                            ),
-                            height: 35,
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    FontAwesomeIcons.cartPlus,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Add to Cart",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 15),
-                                  ),
-                                ],
+                              height: 35,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.cartPlus,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "Add to Cart",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 15),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

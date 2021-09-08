@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myhealthbd_app/features/book_test/view/booking_summery_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 
 class BookTestScreen extends StatefulWidget {
@@ -23,7 +24,16 @@ class _BookTestScreenState extends State<BookTestScreen> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 20.0),
-            child: InkWell(child: Icon(Icons.shopping_cart_rounded)),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookingSummeryScreen(),
+                    ));
+              },
+              child: Icon(Icons.shopping_cart_rounded),
+            ),
           ),
         ],
       ),
@@ -31,11 +41,12 @@ class _BookTestScreenState extends State<BookTestScreen> {
         padding: EdgeInsets.symmetric(vertical: 10),
         child: GridView.builder(
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisExtent: 150,
-                maxCrossAxisExtent: 300,
-                childAspectRatio: (itemWidth / itemHeight),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10),
+              mainAxisExtent: 150,
+              maxCrossAxisExtent: 300,
+              childAspectRatio: (itemWidth / itemHeight),
+              crossAxisSpacing: 0,
+              mainAxisSpacing: 0,
+            ),
             itemCount: 20,
             itemBuilder: (context, index) {
               return Container(
@@ -52,10 +63,10 @@ class _BookTestScreenState extends State<BookTestScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
                             child: Center(
                               child: Text(
-                                "''O'' Cell (PRBC) Suspended in AB",
+                                "'O' Cell (PRBC) Suspended in AB",
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
@@ -147,7 +158,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
                       ),
                     ),
                     Positioned(
-                      left: 155,
+                      left: 160,
                       bottom: 115,
                       child: Container(
                         height: 35,

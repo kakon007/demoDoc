@@ -18,8 +18,8 @@ void main() async {
     color: Colors.deepPurpleAccent,
   );
   runApp(
-    // ChangeNotifierProvider(
-    //     create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
-    MaterialApp(home: BookTestScreen()),
+    ChangeNotifierProvider(
+        create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
+    // MaterialApp(home: BookTestScreen()),
   );
 }

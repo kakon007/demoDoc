@@ -445,7 +445,10 @@ class _DoctorImagebyteViewerScreenState extends State<DoctorImagebyteViewerScree
           ? Loader()
           : Center(
         child: Container(
-          child: byteArray,
+          child: InteractiveViewer(
+              scaleEnabled: true,
+              maxScale: 2.5,
+              child: byteArray),
           // PhotoView(
           //   // filePath: widget.file.path,
           //   imageProvider: byteArray,

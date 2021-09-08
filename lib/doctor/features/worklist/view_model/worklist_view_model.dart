@@ -23,6 +23,7 @@ class WorkListViewModel extends ChangeNotifier {
   List<Datum> _completedListData = [];
   List<Datum> _todayWorkList = [];
   List _filteredItems = [];
+  String _filterItemName;
   var start = 0;
   int _totalRecords = 0;
   String _shift;
@@ -31,7 +32,8 @@ class WorkListViewModel extends ChangeNotifier {
       {String fromDate,
       String toDate,
       String searchValue,
-      String shift}) async {
+      String shift,
+       String filterValue}) async {
     _isFetchingMoreData = true;
     print(start);
     start = 0;
@@ -40,7 +42,9 @@ class WorkListViewModel extends ChangeNotifier {
         toDate: toDate,
         start: start.toString(),
         searchValue: searchValue,
-        shift: shift);
+        shift: shift,
+    filterValue: filterValue
+    );
     _isLoading = true;
     notifyListeners();
     res.fold((l) {
@@ -76,7 +80,9 @@ class WorkListViewModel extends ChangeNotifier {
       {String fromDate,
       String toDate,
       String searchValue,
-      String shift}) async {
+      String shift,
+        String filterValue
+      }) async {
     _isFetchingMoreData = true;
     notifyListeners();
     start = start + 10;
@@ -86,7 +92,9 @@ class WorkListViewModel extends ChangeNotifier {
         toDate: toDate,
         start: start.toString(),
         searchValue: searchValue,
-        shift: shift);
+        shift: shift,
+        filterValue: filterValue
+    );
     _isLoading = true;
     notifyListeners();
     res.fold((l) {
@@ -114,7 +122,7 @@ class WorkListViewModel extends ChangeNotifier {
 
   Future<void> getTodaysWorklist() async {
     start = 0;
-    var res = await WorkListRepository().fetchWorkListData(
+    var res = await WorkListRepository().fetchTodaysWorkListData(
       //fromDate: '18-Jul-2021',
       //toDate: '12-Aug-2021',
       fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
@@ -135,7 +143,10 @@ class WorkListViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-
+  getFilterItemName({String name}){
+    _filterItemName = name;
+    notifyListeners();
+  }
   getFilteredList({List items}) {
     _filteredItems = items;
     notifyListeners();
@@ -291,4 +302,6 @@ class WorkListViewModel extends ChangeNotifier {
   List get filteredItems => _filteredItems;
 
   String get shift => _shift;
+
+  String get filterItemName => _filterItemName;
 }

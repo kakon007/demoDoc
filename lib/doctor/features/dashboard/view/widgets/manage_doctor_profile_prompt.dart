@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/sign_out_prompt.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/switch_account.dart';
@@ -127,7 +128,7 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
                                           ? 50
                                           : 60,
                                   child: Center(
-                                      child: vm10.loadProfileImage(
+                                      child: vm10.loadDoctorProfileImage(
                                           photo,
                                           isTablet
                                               ? 70
@@ -178,9 +179,9 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 5.0),
-                                child: Text(companyInfoVm.details?.name ?? '',  style: GoogleFonts.poppins(
+                                child: Text( PersonalInfoViewModel.watch(context).personalInfoData.doctorName??"",  style: GoogleFonts.poppins(
                                    // color: AppTheme.buttonActiveColor,
-                                    fontSize: isTablet ? 18 : 12),),
+                                    fontSize: isTablet ? 18 : 13),),
                               ),
                               SizedBox(height: 10,),
                               GestureDetector(

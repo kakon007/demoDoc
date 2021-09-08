@@ -41,7 +41,20 @@ class UserImageViewModel extends ChangeNotifier {
       ),
     );
   }
-
+  loadDoctorProfileImage(String image, double height, double width, double border) {
+    Uint8List _bytesImage = Base64Decoder().convert(image);
+    //print(_bytesImage);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(border),
+      child: Image.memory(
+        _bytesImage,
+        fit: BoxFit.fill,
+        width: width,
+        height: height,
+        gaplessPlayback: true,
+      ),
+    );
+  }
   Future<void> updateImage(File image, String hospitalNo, String id) async {
     _isImageLoading = true;
     var headers = {

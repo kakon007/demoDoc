@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -53,7 +54,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (BuildContext context) => DoctorHomeScreen(
-                              index: 3,
+                              index: 2,
                             )),
                     (Route<dynamic> route) => false);
               },
@@ -70,7 +71,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                           height: width <= 330 ? 45 : 50,
                           width: width <= 330 ? 45 : 50,
                           child: photo != ''
-                              ? companyInfoVm.loadProfileImage(
+                              ? companyInfoVm.loadDoctorProfileImage(
                                   photo, 30, 30, 50)
                               : Center(
                                   child: Image.asset(
@@ -87,11 +88,11 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Dr. Fazlul Haque',
+                            PersonalInfoViewModel.watch(context).personalInfoData.doctorName??"",
                             style: GoogleFonts.poppins(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 15),
+                                fontSize: 12),
                           ),
                           SizedBox(
                             height: 5,

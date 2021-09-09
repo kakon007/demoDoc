@@ -13,6 +13,7 @@ import 'package:myhealthbd_app/features/appointment_history/view_model/previous_
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
 import 'package:myhealthbd_app/features/appointments/view/appointments_screen.dart';
+import 'package:myhealthbd_app/features/book_test/view/order_confirmation_signed_in.dart';
 import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
 import 'package:myhealthbd_app/features/notification/view/notification_screen.dart';
@@ -298,6 +299,14 @@ class _GetAppointmentState extends State<GetAppointment> {
           key: Key('appointmentsAppbarKey'),
           style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
         ),
+      //   actions: [
+      //     IconButton(onPressed: (){
+      //       Navigator.push(context, MaterialPageRoute(builder: (context){
+      //         return OrderConfirmation();
+      //       }));
+      //     }, icon:Icon( Icons.notifications_outlined))
+      // ],
+
       ),
       body: DefaultTabController(
         length: 2,

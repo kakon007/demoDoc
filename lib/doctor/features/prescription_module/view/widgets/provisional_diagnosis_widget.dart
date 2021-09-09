@@ -223,23 +223,31 @@ class _ProvisionalDiagnosisWidgetState
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      await CommonAddToFavoriteListRepository()
-                                          .addToFavouriteList(
-                                              favoriteType:
-                                                  PrescriptionFavouriteType
-                                                      .provisionalDiagnosis
-                                                      .toString(),
-                                              favoriteVal: templateVm
-                                                      .provisionalDiagnosisSelectedItems[
-                                                  index])
-                                          .then((value) => vm.getData());
-                                      favoriteItems.clear();
-                                      if (_favoriteController.text.isNotEmpty) {
-                                        searchFavoriteItem(_favoriteController
-                                            .text
-                                            .toLowerCase());
-                                      } else {
-                                        favoriteItems = vm.favouriteList;
+                                      List<String> favItem = [];
+                                      favoriteItems.map((e) {
+                                        favItem.add(e.favouriteVal);
+                                      }).toList();
+                                      if(favItem.contains(templateVm.provisionalDiagnosisSelectedItems[index])){
+                                        BotToast.showText(text: 'Already in the favorite list');
+                                      }else{
+                                        await CommonAddToFavoriteListRepository()
+                                            .addToFavouriteList(
+                                            favoriteType:
+                                            PrescriptionFavouriteType
+                                                .provisionalDiagnosis
+                                                .toString(),
+                                            favoriteVal: templateVm
+                                                .provisionalDiagnosisSelectedItems[
+                                            index])
+                                            .then((value) async => await vm.getData());
+                                        favoriteItems.clear();
+                                        if (_favoriteController.text.isNotEmpty) {
+                                          searchFavoriteItem(_favoriteController
+                                              .text
+                                              .toLowerCase());
+                                        } else {
+                                          favoriteItems = vm.favouriteList;
+                                        }
                                       }
                                     },
                                     child: Icon(

@@ -29,7 +29,8 @@ class WorklistAll extends StatefulWidget {
   var ipdFlag;
   var companyNumber;
   var consultationOut;
-  WorklistAll({this.consultationOut,this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,this.consultationId,this.id,this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType,this.regNo,this.doctorNo});
+  String consultTypeDesc;
+  WorklistAll({this.consultTypeDesc,this.consultationOut,this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,this.consultationId,this.id,this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType,this.regNo,this.doctorNo});
   @override
   _WorklistAllState createState() => _WorklistAllState();
 }
@@ -37,6 +38,7 @@ class WorklistAll extends StatefulWidget {
 class _WorklistAllState extends State<WorklistAll> {
   @override
   Widget build(BuildContext context) {
+    //String consultType = widget.consultTypeDesc?.toLowerCase() == "new patient"? "Fresh Visit" : widget.consultTypeDesc?.toLowerCase() == "1st follow up"? "Follow Up" : "Report Check";
     print('constypeNo ${widget.consultType}');
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
@@ -78,7 +80,7 @@ class _WorklistAllState extends State<WorklistAll> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
-                    "assets/images/doc.png",
+                    "assets/images/dPro.png",
                     fit: BoxFit.fill,
                   )),
             ),
@@ -142,15 +144,16 @@ class _WorklistAllState extends State<WorklistAll> {
                         ),
                       ),
                       Text(
-                        widget.consultType == null
-                            ? "1st Follow Up"
-                            : widget.consultType.toString() == '1'
-                                ? "Fresh Visit"
-                                : widget.consultType.toString() == "2"
-                                    ? "Follow Up"
-                                    : widget.consultType.toString() == "3"
-                                        ? "2nd Follow Up"
-                                        : "Report Check",
+                         widget.consultTypeDesc??"",
+                          // widget.consultTypeDesc!=null?      widget.consultTypeDesc :  widget.consultType == null
+                          //   ? "1st Follow Up"
+                          //   : widget.consultType.toString() == '1'
+                          //       ? "Fresh Visit"
+                          //       : widget.consultType.toString() == "2"
+                          //           ? "Follow Up"
+                          //           : widget.consultType.toString() == "3"
+                          //               ? "2nd Follow Up"
+                          //               : "Report Check",
                         style: GoogleFonts.poppins(
                           fontSize: isTablet
                               ? 14

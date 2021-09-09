@@ -49,6 +49,12 @@ class FamilyMembersListViewModel extends ChangeNotifier {
     String imageMem,
     String relation,
   ) {
+  print(selectedCard);
+  print(isSelected);
+  print(familyMemName);
+  print(familyMemAddress);
+  print(familyMemGender);
+  print(familyMemRegNo);
     _selectedCard=selectedCard;
     _isSelected = isSelected;
     _familyMemName = familyMemName;

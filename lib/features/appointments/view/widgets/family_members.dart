@@ -157,7 +157,7 @@ class _FamilyMembersState extends State<FamilyMembers> {
                               relation = familyVm
                                   .familyMembersList[index].relationName
                                   .toString();
-                              familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                               familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
                               Navigator.pop(context);
                             });
                           });

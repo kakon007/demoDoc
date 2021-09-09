@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -1553,48 +1554,57 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      await CommonAddToFavoriteListRepository()
-                                          .addToMedicineFavouriteList(
-                                            genericName: templateVm
-                                                .medicineList[index]
-                                                .genericName,
-                                            brandName: templateVm
-                                                .medicineList[index].brandName,
-                                            route: templateVm
-                                                .medicineList[index].route,
-                                            duration: templateVm
-                                                .medicineList[index]
-                                                .multiDoseList
-                                                .first
-                                                .multiDoseDuration,
-                                            durationType: templateVm
-                                                .medicineList[index]
-                                                .multiDoseList
-                                                .first
-                                                .multiDoseDurationType,
-                                            instructions: templateVm
-                                                .medicineList[index]
-                                                .multiDoseList
-                                                .first
-                                                .multiDoseInstruction,
-                                            dose: templateVm.medicineList[index]
-                                                .multiDoseList.first.multiDose,
-                                            favoriteType:
-                                                PrescriptionFavouriteType
-                                                    .medication
-                                                    .toString(),
-                                            // quantity:
-                                            //continueMedi:
-                                          )
-                                          .then((value) async =>
-                                              await vm.getData());
-                                      favoriteItems.clear();
-                                      if (_favoriteController.text.isNotEmpty) {
-                                        searchFavoriteItem(_favoriteController
-                                            .text
-                                            .toLowerCase());
-                                      } else {
-                                        favoriteItems = vm.favouriteList;
+                                      List<String> favItem = [];
+                                      favoriteItems.map((e) {
+                                        favItem.add(e.genericName);
+                                        favItem.add(e.brandName);
+                                      }).toList();
+                                      if(favItem.contains(templateVm.medicineList[index].brandName) && favItem.contains(templateVm.medicineList[index].genericName)){
+                                        BotToast.showText(text: 'Already in the favorite list');
+                                      }else{
+                                        await CommonAddToFavoriteListRepository()
+                                            .addToMedicineFavouriteList(
+                                          genericName: templateVm
+                                              .medicineList[index]
+                                              .genericName,
+                                          brandName: templateVm
+                                              .medicineList[index].brandName,
+                                          route: templateVm
+                                              .medicineList[index].route,
+                                          duration: templateVm
+                                              .medicineList[index]
+                                              .multiDoseList
+                                              .first
+                                              .multiDoseDuration,
+                                          durationType: templateVm
+                                              .medicineList[index]
+                                              .multiDoseList
+                                              .first
+                                              .multiDoseDurationType,
+                                          instructions: templateVm
+                                              .medicineList[index]
+                                              .multiDoseList
+                                              .first
+                                              .multiDoseInstruction,
+                                          dose: templateVm.medicineList[index]
+                                              .multiDoseList.first.multiDose,
+                                          favoriteType:
+                                          PrescriptionFavouriteType
+                                              .medication
+                                              .toString(),
+                                          // quantity:
+                                          //continueMedi:
+                                        )
+                                            .then((value) async =>
+                                        await vm.getData());
+                                        favoriteItems.clear();
+                                        if (_favoriteController.text.isNotEmpty) {
+                                          searchFavoriteItem(_favoriteController
+                                              .text
+                                              .toLowerCase());
+                                        } else {
+                                          favoriteItems = vm.favouriteList;
+                                        }
                                       }
                                     },
                                     child: Icon(

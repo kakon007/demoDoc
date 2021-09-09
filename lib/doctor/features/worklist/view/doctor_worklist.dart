@@ -49,7 +49,8 @@ class _WorklistState extends State<Worklist> {
               toDate: toDate,
               fromDate: fromDate,
               searchValue: _searchValue.text,
-              shift: vm.shift);
+              shift: vm.shift,
+              filterValue: vm.filterItemName);
         }
       }
     });
@@ -97,11 +98,14 @@ class _WorklistState extends State<Worklist> {
             toDate: toDate,
             fromDate: fromDate,
             searchValue: _searchValue.text,
-            shift: vm.shift);
+            shift: vm.shift,
+            filterValue: vm.filterItemName
+        );
       });
-    } else {
+    } else if (date != null) {
       setState(() {
         pickedFromDate = date;
+        fromDate = DateFormat("dd-MMM-yyyy").format(pickedFromDate);
         _fromDate = DateFormat("dd/MM/yyyy").format(date);
       });
     }
@@ -142,7 +146,7 @@ class _WorklistState extends State<Worklist> {
         print(fromDate);
         print(toDate);
       });
-    } else {
+    } else if (date != null) {
       setState(() {
         pickedToDate = date;
         fromDate = DateFormat("dd-MMM-yyyy").format(pickedFromDate);
@@ -152,7 +156,9 @@ class _WorklistState extends State<Worklist> {
             toDate: toDate,
             fromDate: fromDate,
             searchValue: _searchValue.text,
-            shift: vm.shift);
+            shift: vm.shift,
+        filterValue: vm.filterItemName
+        );
         _toDate = DateFormat("dd/MM/yyyy").format(pickedToDate);
         print(fromDate);
         print(toDate);
@@ -382,7 +388,9 @@ class _WorklistState extends State<Worklist> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        selectToDate(context);
+                        if (fromDate != null) {
+                          selectToDate(context);
+                        }
                       },
                       child: Container(
                         height: 45,
@@ -394,7 +402,7 @@ class _WorklistState extends State<Worklist> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: HexColor("#6374DF"), // set border color
+                            color: fromDate!=null ? HexColor("#6374DF") :  Colors.grey, // set border color
                             //width: 3.0
                           ), // set border width
                           borderRadius: BorderRadius.all(Radius.circular(

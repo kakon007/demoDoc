@@ -29,11 +29,13 @@ class TodayWorkList extends StatefulWidget {
   var ipdFlag;
   var companyNumber;
   var consultationOut;
+  String consultTypeDesc;
 
   TodayWorkList(
       {this.consultationOut,
         this.appointmentNumber,
       this.companyNumber,
+        this.consultTypeDesc,
       this.consultationNumber,
       this.consultationTypeNo,
       this.departmentName,
@@ -103,7 +105,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
-                    "assets/images/doc.png",
+                    "assets/images/dPro.png",
                     fit: BoxFit.fill,
                   )),
             ),
@@ -152,15 +154,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                         ),
                       ),
                       Text(
-                        widget.appointType == null
-                            ? "1st Follow Up"
-                            : widget.appointType == '1'
-                                ? "Fresh Visit"
-                                : widget.appointType == "2"
-                                    ? "Follow Up"
-                                    : widget.appointType == "3"
-                                        ? "2nd Follow Up"
-                                        : "Report Check",
+                        widget.consultTypeDesc??"",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           // fontWeight: FontWeight.w600,

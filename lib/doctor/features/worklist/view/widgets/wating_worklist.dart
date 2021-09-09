@@ -157,6 +157,7 @@ class _WaitingWorkListState extends State<WaitingWorkList> {
                   padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
                   child: WorklistAll(
                     id:vm.waitingData[index].hospitalId,
+                    consultTypeDesc: vm.workListData[index].consultTypeDesc==null? null : vm.workListData[index].consultTypeDesc?.toLowerCase() == "new patient"? "Fresh Visit" : vm.workListData[index].consultTypeDesc?.toLowerCase() == "1st follow up"? "Follow Up" : "Report Check",
                     patientName: vm.waitingData[index].patientName,
                     age: vm.waitingData[index].age,
                     bloodGroup: vm.waitingData[index].bloodGroup,

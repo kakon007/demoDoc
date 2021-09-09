@@ -35,6 +35,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
     var workVm = Provider.of<WorkListViewModel>(context, listen: false);
     Future.delayed(Duration.zero, () async {
       await companyInfoVm.userImage();
+      await PersonalInfoViewModel.read(context).getPersonalInfo();
       await workVm.getTodaysWorklist();
       await workVm.getFreshVisitTotal(
         fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
@@ -226,21 +227,21 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                 children: [
                   Row(
                     children: [
-                      Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: SvgPicture.asset(
-                            totalConsultIcon,
-                            width: 20,
-                            height: 30,
-                            fit: BoxFit.fitWidth,
-                            allowDrawingOutsideViewBox: true,
-                            matchTextDirection: true,
-                          )),
+                      // Padding(
+                      //     padding: const EdgeInsets.only(left: 15.0),
+                      //     child: SvgPicture.asset(
+                      //       totalConsultIcon,
+                      //       width: 20,
+                      //       height: 30,
+                      //       fit: BoxFit.fitWidth,
+                      //       allowDrawingOutsideViewBox: true,
+                      //       matchTextDirection: true,
+                      //     )),
                       SizedBox(
                         width: 10,
                       ),
                       Text(
-                        'Total patient consulted: ',
+                        'Your total patient today ',
                         style: GoogleFonts.poppins(
                             color: Colors.white, fontSize: 18),
                       )
@@ -541,7 +542,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       backgroundColor: AppTheme.dashboardBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'Welcome Doctor ',
+          'Welcome Doctor,',
           style: GoogleFonts.poppins(
               fontWeight: FontWeight.w400,
               fontSize: 15,
@@ -574,7 +575,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         : 30,
                 child: Center(
                   child: photo != ''
-                      ? companyInfoVm.loadProfileImage(
+                      ? companyInfoVm.loadDoctorProfileImage(
                           photo,
                           isTablet
                               ? 25
@@ -690,6 +691,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                     return TodayWorkList(
                       patientName: workVm.todayWorkList[index].patientName,
                       appointmentTime:workVm.todayWorkList[index].consTime ,
+                      consultTypeDesc: workVm.todayWorkList[index].consultTypeDesc==null? null :workVm.todayWorkList[index].consultTypeDesc?.toLowerCase() == "new patient"? "Fresh Visit" :workVm.todayWorkList[index].consultTypeDesc?.toLowerCase() == "1st follow up"? "Follow Up" : "Report Check",
                       appointType: workVm.todayWorkList[index].consultTypeNo.toString(),
                       id: workVm.todayWorkList[index].hospitalId,
                       doctorNo: workVm.todayWorkList[index].doctorNo,

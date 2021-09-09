@@ -19,7 +19,7 @@ class WorklistAll extends StatefulWidget {
   int regNo;
   int doctorNo;
   String consultationId;
-  var consultationTypeNo;
+  String consultationTypeNo;
   var patTypeNumber;
   var appointmentNumber;
   var departmentNumber;
@@ -29,8 +29,29 @@ class WorklistAll extends StatefulWidget {
   var ipdFlag;
   var companyNumber;
   var consultationOut;
-  String consultTypeDesc;
-  WorklistAll({this.consultTypeDesc,this.consultationOut,this.appointmentNumber,this.companyNumber,this.consultationNumber,this.consultationTypeNo,this.departmentName,this.departmentNumber,this.ipdFlag,this.isPatientOut,this.patTypeNumber,this.consultationId,this.id,this.consultTime, this.patientName,this.age,this.gender,this.bloodGroup,this.phoneNumber,this.serial, this.consultType,this.regNo,this.doctorNo});
+  WorklistAll(
+      {this.consultationOut,
+      this.appointmentNumber,
+      this.companyNumber,
+      this.consultationNumber,
+      this.consultationTypeNo,
+      this.departmentName,
+      this.departmentNumber,
+      this.ipdFlag,
+      this.isPatientOut,
+      this.patTypeNumber,
+      this.consultationId,
+      this.id,
+      this.consultTime,
+      this.patientName,
+      this.age,
+      this.gender,
+      this.bloodGroup,
+      this.phoneNumber,
+      this.serial,
+      this.consultType,
+      this.regNo,
+      this.doctorNo});
   @override
   _WorklistAllState createState() => _WorklistAllState();
 }
@@ -38,7 +59,6 @@ class WorklistAll extends StatefulWidget {
 class _WorklistAllState extends State<WorklistAll> {
   @override
   Widget build(BuildContext context) {
-    //String consultType = widget.consultTypeDesc?.toLowerCase() == "new patient"? "Fresh Visit" : widget.consultTypeDesc?.toLowerCase() == "1st follow up"? "Follow Up" : "Report Check";
     print('constypeNo ${widget.consultType}');
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
@@ -199,18 +219,32 @@ class _WorklistAllState extends State<WorklistAll> {
                     height: 5,
                   ),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) => PatientDetails(patTypeNumber: widget.patTypeNumber,
-                                    //consultationOut: widget.consultationOut,
-                                    isPatientOut: widget.isPatientOut,
-                                    ipdFlag: widget.ipdFlag,
-                                    departmentNumber: widget.departmentNumber,
-                                    departmentName: widget.departmentName,
-                                    consultationTypeNo: widget.consultationTypeNo,
-                                    consultationNumber: widget.consultationNumber,
-                                    companyNumber: widget.companyNumber,
-                                    appointmentNumber: widget.appointmentNumber,consultationId: widget.consultationId,id:widget.id,name: widget.patientName,gender: widget.gender,serial: widget.serial,phoneNumber: widget.phoneNumber,bloodGroup: widget.bloodGroup,age: widget.age,consultationTime: widget.consultTime,consultType: widget.consultType,regNo: widget.regNo,doctorNo: widget.doctorNo,)));
+                          builder: (BuildContext context) => PatientDetails(
+                                patTypeNumber: widget.patTypeNumber,
+                                //consultationOut: widget.consultationOut,
+                                isPatientOut: widget.isPatientOut,
+                                ipdFlag: widget.ipdFlag,
+                                departmentNumber: widget.departmentNumber,
+                                departmentName: widget.departmentName,
+                                consultationTypeNo: widget.consultationTypeNo,
+                                consultationNumber: widget.consultationNumber,
+                                companyNumber: widget.companyNumber,
+                                appointmentNumber: widget.appointmentNumber,
+                                consultationId: widget.consultationId,
+                                id: widget.id,
+                                name: widget.patientName,
+                                gender: widget.gender,
+                                serial: widget.serial,
+                                phoneNumber: widget.phoneNumber,
+                                bloodGroup: widget.bloodGroup,
+                                age: widget.age,
+                                consultationTime: widget.consultTime,
+                                consultType: widget.consultType,
+                                regNo: widget.regNo,
+                                doctorNo: widget.doctorNo,
+                              )));
                     },
                     child: Container(
                       width: isTablet

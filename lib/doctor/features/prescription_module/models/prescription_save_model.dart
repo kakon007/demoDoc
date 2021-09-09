@@ -230,7 +230,7 @@ class PrescriptionSaveModel {
 class SaveAdviceListElement {
   SaveAdviceListElement({
     // this.followUpDate,
-    // this.selected,
+    this.selected,
     // this.inReportSerial,
     // this.isDeleted,
     // this.referenceId,
@@ -244,7 +244,7 @@ class SaveAdviceListElement {
   });
 
   // DateTime followUpDate;
-  // int selected;
+  String selected;
   // int inReportSerial;
   // int isDeleted;
   // dynamic referenceId;
@@ -261,7 +261,7 @@ class SaveAdviceListElement {
         // followUpDate: json["followUpDate"] == null
         //     ? null
         //     : DateTime.parse(json["followUpDate"]),
-        // selected: json["selected"] == null ? null : json["selected"],
+        selected: json["selected"] == null ? null : json["selected"],
         // inReportSerial:
         //     json["inReportSerial"] == null ? null : json["inReportSerial"],
         // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
@@ -282,7 +282,7 @@ class SaveAdviceListElement {
     var data = {
       // "followUpDate":
       //     followUpDate == null ? null : followUpDate.toIso8601String(),
-      // "selected": selected == null ? null : selected,
+      "selected": selected == null ? null : selected,
       // "inReportSerial": inReportSerial == null ? null : inReportSerial,
       // "isDeleted": isDeleted == null ? null : isDeleted,
       // "referenceId": referenceId,
@@ -303,7 +303,7 @@ class SaveAdviceListElement {
 class SaveChiefComplainList {
   SaveChiefComplainList({
     // this.followUpDate,
-    // this.selected,
+    this.selected,
     // this.inReportSerial,
     // this.isDeleted,
     // this.referenceId,
@@ -329,7 +329,7 @@ class SaveChiefComplainList {
   });
 
   // DateTime followUpDate;
-  // int selected;
+  String selected;
   // int inReportSerial;
   // int isDeleted;
   // dynamic referenceId;
@@ -358,7 +358,7 @@ class SaveChiefComplainList {
         // followUpDate: json["followUpDate"] == null
         //     ? null
         //     : DateTime.parse(json["followUpDate"]),
-        // selected: json["selected"] == null ? null : json["selected"],
+        selected: json["selected"] == null ? null : json["selected"],
         // inReportSerial:
         //     json["inReportSerial"] == null ? null : json["inReportSerial"],
         // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
@@ -391,7 +391,7 @@ class SaveChiefComplainList {
     var data = {
       // "followUpDate":
       //     followUpDate == null ? null : followUpDate.toIso8601String(),
-      // "selected": selected == null ? null : selected,
+      "selected": selected == null ? null : selected,
       // "inReportSerial": inReportSerial == null ? null : inReportSerial,
       // "isDeleted": isDeleted == null ? null : isDeleted,
       // "referenceId": referenceId,
@@ -423,7 +423,7 @@ class SaveChiefComplainList {
 class SaveClinicalHistory2ListElement {
   SaveClinicalHistory2ListElement({
     // this.followUpDate,
-    // this.selected,
+    this.selected,
     // this.inReportSerial,
     // this.isDeleted,
     // this.activeStatus,
@@ -433,7 +433,7 @@ class SaveClinicalHistory2ListElement {
   });
 
   // DateTime followUpDate;
-  // int selected;
+  String selected;
   // int inReportSerial;
   // int isDeleted;
   // int activeStatus;
@@ -446,7 +446,7 @@ class SaveClinicalHistory2ListElement {
         // followUpDate: json["followUpDate"] == null
         //     ? null
         //     : DateTime.parse(json["followUpDate"]),
-        // selected: json["selected"] == null ? null : json["selected"],
+        selected: json["selected"] == null ? null : json["selected"],
         // inReportSerial:
         //     json["inReportSerial"] == null ? null : json["inReportSerial"],
         // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
@@ -464,7 +464,7 @@ class SaveClinicalHistory2ListElement {
     var data = {
       // "followUpDate":
       //     followUpDate == null ? null : followUpDate.toIso8601String(),
-      // "selected": selected == null ? null : selected,
+      "selected": selected == null ? null : selected,
       // "inReportSerial": inReportSerial == null ? null : inReportSerial,
       // "isDeleted": isDeleted == null ? null : isDeleted,
       // "activeStatus": activeStatus == null ? null : activeStatus,
@@ -481,7 +481,7 @@ class SaveClinicalHistory2ListElement {
 class SaveDisposalList {
   SaveDisposalList({
     this.followUpDate,
-    // this.selected,
+    this.selected,
     // this.inReportSerial,
     // this.isDeleted,
     this.preDiagnosisVal,
@@ -493,7 +493,7 @@ class SaveDisposalList {
   });
 
   DateTime followUpDate;
-  // int selected;
+  String selected;
   // int inReportSerial;
   // int isDeleted;
   String preDiagnosisVal;
@@ -508,7 +508,7 @@ class SaveDisposalList {
         followUpDate: json["followUpDate"] == null
             ? null
             : DateTime.parse(json["followUpDate"]),
-        // selected: json["selected"] == null ? null : json["selected"],
+        selected: json["selected"] == null ? null : json["selected"],
         // inReportSerial:
         //     json["inReportSerial"] == null ? null : json["inReportSerial"],
         // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
@@ -527,7 +527,7 @@ class SaveDisposalList {
     var data = {
       "followUpDate":
           followUpDate == null ? null : followUpDate.toIso8601String(),
-      // "selected": selected == null ? null : selected,
+      "selected": selected == null ? null : selected,
       // "inReportSerial": inReportSerial == null ? null : inReportSerial,
       // "isDeleted": isDeleted == null ? null : isDeleted,
       "preDiagnosisVal": preDiagnosisVal == null ? '' : preDiagnosisVal,
@@ -753,7 +753,7 @@ class SavePresMedDtlList {
 class SaveNote {
   SaveNote({
     // this.followUpDate,
-    // this.selected,
+    this.selected,
     // this.inReportSerial,
     // this.isDeleted,
     this.preDiagnosisValType,
@@ -761,7 +761,7 @@ class SaveNote {
   });
 
   // DateTime followUpDate;
-  // int selected;
+  String selected;
   // int inReportSerial;
   // int isDeleted;
   int preDiagnosisValType;
@@ -771,7 +771,7 @@ class SaveNote {
         // followUpDate: json["followUpDate"] == null
         //     ? null
         //     : DateTime.parse(json["followUpDate"]),
-        // selected: json["selected"] == null ? null : json["selected"],
+        selected: json["selected"] == null ? null : json["selected"],
         // inReportSerial:
         //     json["inReportSerial"] == null ? null : json["inReportSerial"],
         // isDeleted: json["isDeleted"] == null ? null : json["isDeleted"],
@@ -786,7 +786,7 @@ class SaveNote {
     var data = {
       // "followUpDate":
       //     followUpDate == null ? null : followUpDate.toIso8601String(),
-      // "selected": selected == null ? null : selected,
+      "selected": selected == null ? null : selected,
       // "inReportSerial": inReportSerial == null ? null : inReportSerial,
       // "isDeleted": isDeleted == null ? null : isDeleted,
       "preDiagnosisValType":
@@ -816,7 +816,7 @@ class Prescription {
     this.companyNo,
   });
 
-  int consultationTypeNo;
+  String consultationTypeNo;
   int patientTypeNo;
   int shiftNo;
   dynamic id;

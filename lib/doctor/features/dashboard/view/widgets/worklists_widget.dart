@@ -19,7 +19,7 @@ class TodayWorkList extends StatefulWidget {
   int regNo;
   int doctorNo;
   String consultationId;
-  var consultationTypeNo;
+  String consultationTypeNo;
   var patTypeNumber;
   var appointmentNumber;
   var departmentNumber;
@@ -33,7 +33,7 @@ class TodayWorkList extends StatefulWidget {
 
   TodayWorkList(
       {this.consultationOut,
-        this.appointmentNumber,
+      this.appointmentNumber,
       this.companyNumber,
         this.consultTypeDesc,
       this.consultationNumber,
@@ -191,7 +191,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) => PatientDetails(
-                            patTypeNumber: widget.patTypeNumber,
+                                patTypeNumber: widget.patTypeNumber,
                                 isPatientOut: widget.isPatientOut,
                                 ipdFlag: widget.ipdFlag,
                                 departmentNumber: widget.departmentNumber,
@@ -212,7 +212,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                                 consultType: widget.appointType,
                                 regNo: widget.regNo,
                                 doctorNo: widget.doctorNo,
-                           // consultationOut: widget.consultationOut,
+                                // consultationOut: widget.consultationOut,
                               )));
                     },
                     child: Container(

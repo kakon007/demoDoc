@@ -147,31 +147,36 @@ class _PrescriptionCommonWidgetState extends State<PrescriptionCommonWidget> {
                             SizedBox(
                               height: isTablet ? 8 : 5,
                             ),
-                            Padding(
-                              padding:
-                                  EdgeInsets.only(bottom: isTablet ? 8 : 5),
-                              child: Row(
-                                children: [
-                                  FlutterSwitch(
-                                    activeText: "Hide",
-                                    activeTextFontWeight: FontWeight.normal,
-                                    inactiveTextColor: Colors.white,
-                                    inactiveTextFontWeight: FontWeight.normal,
-                                    activeTextColor: Colors.white,
-                                    inactiveText: "Show",
-                                    valueFontSize: isTablet ? 14 : 12,
-                                    activeColor: Color(0xff55CFA6),
-                                    inactiveColor: Color(0xffB1B1B1),
-                                    showOnOff: true,
-                                    height: isTablet ? 25 : 22,
-                                    width: isTablet ? 70 : 60,
-                                    toggleSize: isTablet ? 20 : 17,
-                                    value: widget.showReport,
-                                    onToggle: widget.onChangeShowReport,
+                            widget.title.contains('Patient Demography') ||
+                                    widget.title.contains('Vitals')
+                                ? SizedBox()
+                                : Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: isTablet ? 8 : 5),
+                                    child: Row(
+                                      children: [
+                                        FlutterSwitch(
+                                          activeText: "Hide",
+                                          activeTextFontWeight:
+                                              FontWeight.normal,
+                                          inactiveTextColor: Colors.white,
+                                          inactiveTextFontWeight:
+                                              FontWeight.normal,
+                                          activeTextColor: Colors.white,
+                                          inactiveText: "Show",
+                                          valueFontSize: isTablet ? 14 : 12,
+                                          activeColor: Color(0xff55CFA6),
+                                          inactiveColor: Color(0xffB1B1B1),
+                                          showOnOff: true,
+                                          height: isTablet ? 25 : 22,
+                                          width: isTablet ? 70 : 60,
+                                          toggleSize: isTablet ? 20 : 17,
+                                          value: widget.showReport,
+                                          onToggle: widget.onChangeShowReport,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
                           ],
                         ),
                       ),

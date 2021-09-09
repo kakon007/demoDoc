@@ -17,6 +17,7 @@ class CompanyListViewModel extends ChangeNotifier{
   get logger => null;
   int limit=10;
   int startIndex=0;
+  int _companyNo=2;
 
 
   void resetPageCounter() {
@@ -48,6 +49,12 @@ class CompanyListViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
+  companyInfo({int companyNo}){
+    _companyNo=companyNo;
+    return _companyNo;
+    //print("modelllc $_ogNO");
+  }
+
   Future<bool> refresh(String accessToken) async {
     _pageCount = 1;
     notifyListeners();
@@ -61,16 +68,16 @@ class CompanyListViewModel extends ChangeNotifier{
   //   getData();
   // }
 
-  toggleIsInSearchMode(String accessToken) {
-    _isInSearchMode = !_isInSearchMode;
-    count = 0;
-    resetPageCounter();
-    if (!_isInSearchMode) {
-      searchQuery = "";
-      getData();
-    }
-    notifyListeners();
-  }
+  // toggleIsInSearchMode(String accessToken) {
+  //   _isInSearchMode = !_isInSearchMode;
+  //   count = 0;
+  //   resetPageCounter();
+  //   if (!_isInSearchMode) {
+  //     searchQuery = "";
+  //     getData();
+  //   }
+  //   notifyListeners();
+  // }
 
   AppError get appError => _appError;
 
@@ -98,5 +105,6 @@ class CompanyListViewModel extends ChangeNotifier{
 
 
   CompanyListModel get companyList => _companyList;
+  int get  companyNo=>_companyNo;
 
 }

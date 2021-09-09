@@ -22,12 +22,16 @@ class BookTestScreen extends StatefulWidget {
 class _BookTestScreenState extends State<BookTestScreen> {
   final double itemHeight = (442 - kToolbarHeight - 24) / 3;
   final double itemWidth = 200 / 2;
+  TextEditingController bookTestController = TextEditingController();
   @override
-  void initState() {
-   var vm= Provider.of<TestItemViewModel>(context, listen: false);
-   vm.getData();
-   var vm2= Provider.of<CompanyListViewModel>(context, listen: false);
-   vm2.getData();
+  Future<void> initState() {
+    Future.delayed(Duration.zero, () async {
+      var vm2= Provider.of<CompanyListViewModel>(context, listen: false);
+      await vm2.getData();
+      var vm= Provider.of<TestItemViewModel>(context, listen: false);
+      vm.getData(companyNo: 2);
+      bookTestController.text=vm2.companyList.items.first.companyName;
+    });
     super.initState();
   }
 
@@ -35,7 +39,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
   Widget build(BuildContext context) {
     var testItemVm = Provider.of<TestItemViewModel>(context);
     var vm = Provider.of<CompanyListViewModel>(context);
-    TextEditingController routeController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Book Test"),
@@ -68,49 +72,80 @@ class _BookTestScreenState extends State<BookTestScreen> {
       body:
       Column(
         children: [
-          // TypeAheadFormField<CompanyItem>(
-          //   textFieldConfiguration: TextFieldConfiguration(
-          //       textInputAction: TextInputAction.search,
-          //       controller: routeController,
-          //       decoration: InputDecoration(
-          //         labelText: "Route",
-          //         //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-          //         hintText: "Route",
-          //         hintStyle: TextStyle(color: Colors.grey),
-          //         prefixIcon: Icon(
-          //           Icons.search,
-          //           color: Colors.grey,
-          //         ),
-          //         border: OutlineInputBorder(
-          //           borderRadius: BorderRadius.circular(15.0),
-          //         ),
-          //         focusedBorder: OutlineInputBorder(
-          //           borderSide: const BorderSide(color: Color(0xff3E58FF)),
-          //           borderRadius: BorderRadius.circular(15.0),
-          //         ),
-          //       )),
-          //   itemBuilder: (_, v) {
-          //     return Padding(
-          //       padding: EdgeInsets.all(10.0),
-          //       child: Text("${v.companyName}"),
-          //     );
-          //   },
-          //   onSuggestionSelected: (v) {
-          //     routeController.text = v.companyName;
-          //   },
-          //   suggestionsBoxDecoration: SuggestionsBoxDecoration(
-          //     borderRadius: BorderRadius.circular(5),
-          //   ),
-          //   suggestionsCallback: (v) {
-          //     // return vm.medicationModelList.items.where((element) => element.preDiagnosisVal.toString().contains(v));
-          //     // return vm.companyList.items
-          //     //     .map((e) => e.companyName)
-          //     //     .where((element) =>
-          //     //     element.toLowerCase().contains(v.toLowerCase()))
-          //     //     .toList();
-          //     return vm.companyList.items.where((element) => element.companyName.toString().toLowerCase().contains(v.toLowerCase()));
-          //   },
-          // ),
+
+          Container(
+            height: 60,
+            width: double.infinity,
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: new BorderRadius.only(
+                bottomLeft: const Radius.circular(12.0),
+                bottomRight: const Radius.circular(12.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 5,
+                  blurRadius: 5,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
+            ),
+            child:
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TypeAheadFormField<CompanyItem>(
+                textFieldConfiguration: TextFieldConfiguration(
+                    textInputAction: TextInputAction.search,
+                    controller: bookTestController,
+                    decoration: InputDecoration(
+                      // labelText: "Route",
+                      //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                      //hintText: "Route",
+                      //hintStyle: TextStyle(color: Colors.grey),
+                      // prefixIcon: Icon(
+                      //   Icons.search,
+                      //   color: Colors.grey,
+                      // ),
+                      suffix: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Colors.grey,
+                          ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xff3E58FF)),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    )),
+                itemBuilder: (_, v) {
+                  return Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text("${v.companyName}"),
+                  );
+                },
+                onSuggestionSelected: (v) async {
+                  bookTestController.text = v.companyName;
+                 await vm.companyInfo(companyNo: v.companyNo);
+                  testItemVm.getData(companyNo: vm.companyNo);
+                  setState(() {
+
+                  });
+                },
+
+                suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                suggestionsCallback: (v) {
+                  return vm.companyList.items.where((element) => element.companyName.toString().toLowerCase().contains(v.toLowerCase()));
+                },
+              ),
+            ),
+          ),
           Expanded(child: testItemVm.testItemList==null?Loader(): Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child:GridView.builder(
@@ -253,9 +288,9 @@ class _BookTestScreenState extends State<BookTestScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                '-${testItemVm.testItemList[index].maxDisPct}',
+                                '-${testItemVm.testItemList[index].maxDisPct}%',
                                 style: GoogleFonts.poppins(
-                                    color: Colors.white, fontSize: 12),
+                                    color: Colors.white, fontSize: 10),
                               ),
                             ),
                           ),

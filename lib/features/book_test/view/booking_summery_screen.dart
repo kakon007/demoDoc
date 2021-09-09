@@ -112,7 +112,8 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                                       color: Colors.black,
                                                     ),
                                                     children: <TextSpan>[
-                                                      TextSpan(text: 'Are you sure want to delete all the added items ? '),
+                                                      TextSpan(text: 'Do you want to delete all these items?\n This action can\'t be undone.'),
+                                                     // TextSpan(text: 'This action can\'t be undone.'),
                                                       // TextSpan(text: 'sure', style: GoogleFonts.poppins()),
                                                       // TextSpan(text: " you want to Delete?", style: GoogleFonts.poppins()),
                                                     ],

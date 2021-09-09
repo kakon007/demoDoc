@@ -43,11 +43,11 @@ class TestItemViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData() async {
+  Future<bool> getData({int companyNo}) async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    var res = await TestItemListRepository().fetchTestListDataData();
+    var res = await TestItemListRepository().fetchTestListDataData(companyNo: companyNo);
     notifyListeners();
     res.fold((l) {
       _appError = l;

@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/features/book_test/view/widgets/add_more_information.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -37,6 +38,8 @@ class _OrderConfirmationAfterSignInState
   TextEditingController _lastNameController = new TextEditingController();
   TextEditingController _countryArrivalController = new TextEditingController();
   TextEditingController _ticketNumberController = new TextEditingController();
+  TextEditingController _spouseController = new TextEditingController();
+  TextEditingController _religionController = new TextEditingController();
   TextEditingController _tentativeVisitDateController =
       new TextEditingController();
   // var width = MediaQuery.of(context).size.width;
@@ -65,6 +68,21 @@ class _OrderConfirmationAfterSignInState
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
+    String _formatDate = DateFormat("dd/MM/yyyy").format(selectedDate);
+    Future<Null> _selectDate(BuildContext context) async {
+      final DateTime picked = await showDatePicker(
+          context: context,
+          initialDate: selectedDate,
+          firstDate: DateTime.now(),
+          lastDate: DateTime(2050, 1));
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+          var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
+          _date.value = TextEditingValue(text: "${formattedDate.toString()}");
+        });
+    }
+
     var username = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
       hintText: 'Username',
@@ -271,6 +289,7 @@ class _OrderConfirmationAfterSignInState
             children: [
               Container(
                 width: MediaQuery.of(context).size.width * 0.27,
+                margin: EdgeInsets.only(bottom: 20),
                 height: 45,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -286,7 +305,7 @@ class _OrderConfirmationAfterSignInState
       ],
     );
     var firstName = Container(
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.of(context).size.width * 0.57,
         child: SignUpFormField(
           labelText: 'First Name',
           isRequired: true,
@@ -302,47 +321,53 @@ class _OrderConfirmationAfterSignInState
       minimizeBottomPadding: true,
       controller: _lastNameController,
     );
-    var birthDate = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Birth Date'),
-        SizedBox(
-          height: 5,
-        ),
-        InkWell(
-          onTap: () => _selectDate(context),
-          child: Container(
-            width: MediaQuery.of(context).size.width * .6,
-            height: 45,
+    var width = MediaQuery.of(context).size.width;
+    var birthDate = GestureDetector(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text('Birth Date'),
+          ),
+          Container(
+            height: 45.0,
+            margin: EdgeInsets.only(bottom: 15),
+            width: isTablet
+                ? width * .94
+                : width <= 330
+                    ? MediaQuery.of(context).size.width * .87
+                    : MediaQuery.of(context).size.width * .6,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: Icon(
-                    Icons.date_range_outlined,
-                    size: 20,
-                    color: Colors.grey,
+                color: Colors.white,
+                border: Border.all(color: HexColor("#808080")),
+                borderRadius: BorderRadius.circular(5)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "$_formatDate",
+                    style: GoogleFonts.poppins(
+                        color: AppTheme.signInSignUpColor,
+                        fontSize: isTablet ? 18 : 13.0),
                   ),
-                ),
-                Center(
-                  child: TextField(
-                    controller: _date,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Duration',
-                        // isDense: true,
-                        labelStyle: TextStyle(fontSize: isMobile ? 14 : 18)),
-                  ),
-                ),
-              ],
+                  Container(
+                      height: 25,
+                      child: Icon(
+                        Icons.calendar_today_outlined,
+                        color: HexColor("#808080"),
+                      )),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
+      onTap: () {
+        _selectDate(context);
+      },
     );
     var mobileNumber = SignUpFormField(
       isRequired: true,
@@ -401,6 +426,7 @@ class _OrderConfirmationAfterSignInState
                         hintSize: isTablet ? 17 : 12,
                         hintText: 'year',
                         minimizeBottomPadding: true,
+                        leftContentPadding: 30,
                         controller: _yearController,
                       ),
                     ),
@@ -432,6 +458,7 @@ class _OrderConfirmationAfterSignInState
                     Center(
                       child: SignUpFormField(
                         hintSize: isTablet ? 17 : 12,
+                        leftContentPadding: 30,
                         hintText: 'Month',
                         minimizeBottomPadding: true,
                         controller: _monthController,
@@ -466,6 +493,7 @@ class _OrderConfirmationAfterSignInState
                       child: SignUpFormField(
                         hintSize: isTablet ? 17 : 12,
                         hintText: 'Day',
+                        leftContentPadding: 30,
                         minimizeBottomPadding: true,
                         controller: _dayController,
                       ),
@@ -484,12 +512,16 @@ class _OrderConfirmationAfterSignInState
       hintText: 'Father Name',
       minimizeBottomPadding: true,
       controller: _fathersName,
+      fillColor: "#FFFFFF",
+      isFilled: true,
     );
     var mothersName = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
       labelText: 'Mother Name',
       hintText: 'Mother Name',
       minimizeBottomPadding: true,
+      fillColor: "#FFFFFF",
+      isFilled: true,
       controller: _mothersName,
     );
     var bloodGroupAndMarital = Padding(
@@ -512,13 +544,19 @@ class _OrderConfirmationAfterSignInState
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
+                height: 50,
                 child: TypeAheadFormField<String>(
                   textFieldConfiguration: TextFieldConfiguration(
                       style: TextStyle(fontSize: isTablet ? 18 : 16),
                       textInputAction: TextInputAction.search,
                       controller: _bloodController,
                       decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
                         hintText: "Select One",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         suffixIcon: IconButton(
                             onPressed: () {},
                             icon: Icon(Icons.keyboard_arrow_down,
@@ -562,13 +600,19 @@ class _OrderConfirmationAfterSignInState
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
+                height: 50,
                 child: TypeAheadFormField<String>(
                   textFieldConfiguration: TextFieldConfiguration(
                       style: TextStyle(fontSize: isTablet ? 18 : 16),
                       textInputAction: TextInputAction.search,
                       controller: _maritalStatusController,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
                         hintText: "Select One",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         suffixIcon: IconButton(
                             onPressed: () {},
                             icon: Icon(Icons.keyboard_arrow_down,
@@ -603,10 +647,30 @@ class _OrderConfirmationAfterSignInState
         ],
       ),
     );
+    var spouseName = SignUpFormField(
+      hintSize: isTablet ? 17 : 12,
+      labelText: 'Spouse Name',
+      hintText: 'Spouse Name',
+      minimizeBottomPadding: true,
+      fillColor: '#FFFFFF',
+      isFilled: true,
+      controller: _spouseController,
+    );
+    var religion = SignUpFormField(
+      hintSize: isTablet ? 17 : 12,
+      labelText: 'Religion',
+      hintText: 'Religion',
+      minimizeBottomPadding: true,
+      fillColor: '#FFFFFF',
+      isFilled: true,
+      controller: _religionController,
+    );
     var email = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
       labelText: 'Email',
       hintText: 'Email',
+      fillColor: '#FFFFFF',
+      isFilled: true,
       minimizeBottomPadding: true,
       controller: _emailController,
     );
@@ -615,34 +679,113 @@ class _OrderConfirmationAfterSignInState
       labelText: 'National ID',
       hintText: 'National ID',
       minimizeBottomPadding: true,
+      fillColor: '#FFFFFF',
+      isFilled: true,
       controller: _nidController,
     );
     var passport = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
       labelText: 'Passport',
       hintText: 'Passport',
+      fillColor: '#FFFFFF',
+      isFilled: true,
       minimizeBottomPadding: true,
       controller: _passportController,
     );
-    var preferredDate = Container(
-      width: MediaQuery.of(context).size.width * 0.45,
-      child: SignUpFormField(
-        hintSize: isTablet ? 17 : 12,
-        labelText: 'Preferred Sample Coll. Date',
-        hintText: 'DD/MM/YY',
-        minimizeBottomPadding: true,
-        controller: _mothersName,
+    var preferredDate = GestureDetector(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text('Birth Date'),
+          ),
+          Container(
+            height: 45.0,
+            margin: EdgeInsets.only(bottom: 15),
+            width: isTablet
+                ? width * .94
+                : width <= 330
+                    ? MediaQuery.of(context).size.width * .87
+                    : MediaQuery.of(context).size.width * .45,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: HexColor("#808080")),
+                borderRadius: BorderRadius.circular(5)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "$_formatDate",
+                    style: GoogleFonts.poppins(
+                        color: AppTheme.signInSignUpColor,
+                        fontSize: isTablet ? 18 : 13.0),
+                  ),
+                  Container(
+                      height: 25,
+                      child: Icon(
+                        Icons.calendar_today_outlined,
+                        color: HexColor("#808080"),
+                      )),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
+      onTap: () {
+        _selectDate(context);
+      },
     );
-    var expectedDate = Container(
-        width: MediaQuery.of(context).size.width * 0.45,
-        child: SignUpFormField(
-          hintSize: isTablet ? 17 : 12,
-          labelText: 'Expected Report Date',
-          hintText: 'DD/MM/YY',
-          minimizeBottomPadding: true,
-          controller: _mothersName,
-        ));
+    var expectedDate = GestureDetector(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text('Birth Date'),
+          ),
+          Container(
+            height: 45.0,
+            margin: EdgeInsets.only(bottom: 15),
+            width: isTablet
+                ? width * .94
+                : width <= 330
+                    ? MediaQuery.of(context).size.width * .87
+                    : MediaQuery.of(context).size.width * .45,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: HexColor("#808080")),
+                borderRadius: BorderRadius.circular(5)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "$_formatDate",
+                    style: GoogleFonts.poppins(
+                        color: AppTheme.signInSignUpColor,
+                        fontSize: isTablet ? 18 : 13.0),
+                  ),
+                  Container(
+                      height: 25,
+                      child: Icon(
+                        Icons.calendar_today_outlined,
+                        color: HexColor("#808080"),
+                      )),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      onTap: () {
+        _selectDate(context);
+      },
+    );
     var tentativeVisitDate = SignUpFormField(
       isRequired: true,
       hintSize: isTablet ? 17 : 12,

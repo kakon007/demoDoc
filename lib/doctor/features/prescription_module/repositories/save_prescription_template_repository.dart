@@ -1,7 +1,11 @@
 import 'dart:convert';
 
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_template_save_data_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/api_client.dart';
+import 'package:provider/provider.dart';
 
 class SavePrescripTionTemplateRepository {
   Future fetchFileType(
@@ -14,7 +18,10 @@ class SavePrescripTionTemplateRepository {
     print("${response.statusCode}");
     print("${response.body}");
     if (response.statusCode == 200) {
+      await Provider.of<PrescriptionTamplateViewModel>(appNavigator.context, listen: false).getData();
       var body = response.body;
+      // GetTamplateDataViewModel.read(
+      //     appNavigator.context).getData();
       return body;
     }
     // else {

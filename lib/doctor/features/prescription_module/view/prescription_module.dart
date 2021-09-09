@@ -318,7 +318,10 @@ class _ModuleState extends State<Module> {
                                                   context);
                                           vm.templateName =
                                               templateNameController.text;
+                                          BotToast.showLoading();
                                           await vm.setPrescriptionData();
+                                          BotToast.closeAllLoading();
+                                          templateNameController.clear();
                                           Navigator.of(context).pop();
                                         }
                                       },
@@ -356,7 +359,7 @@ class _ModuleState extends State<Module> {
                             }),
                           );
                         },
-                      ).then((value) async => await vm.getData());
+                      ).then((value) async => await Provider.of<PrescriptionTamplateViewModel>(context, listen: false).getData());
                     },
                     child: Container(
                       height: 40,

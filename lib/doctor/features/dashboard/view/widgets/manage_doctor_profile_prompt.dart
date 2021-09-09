@@ -179,7 +179,7 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 5.0),
-                                child: Text( PersonalInfoViewModel.watch(context).personalInfoData.doctorName??"",  style: GoogleFonts.poppins(
+                                child: Text( PersonalInfoViewModel.watch(context).personalInfoData?.doctorName??"",  style: GoogleFonts.poppins(
                                    // color: AppTheme.buttonActiveColor,
                                     fontSize: isTablet ? 18 : 13),),
                               ),

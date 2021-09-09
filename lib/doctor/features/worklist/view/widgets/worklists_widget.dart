@@ -18,6 +18,7 @@ class WorklistAll extends StatefulWidget {
   int serial;
   int regNo;
   int doctorNo;
+  String consultTypeDesc;
   String consultationId;
   String consultationTypeNo;
   var patTypeNumber;
@@ -32,6 +33,7 @@ class WorklistAll extends StatefulWidget {
   WorklistAll(
       {this.consultationOut,
       this.appointmentNumber,
+        this.consultTypeDesc,
       this.companyNumber,
       this.consultationNumber,
       this.consultationTypeNo,

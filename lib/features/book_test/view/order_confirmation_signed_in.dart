@@ -12,7 +12,7 @@ import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 import 'package:provider/provider.dart';
 
-import '../order_confirm_view_model.dart';
+import '../view_model/order_confirm_view_model.dart';
 
 class OrderConfirmation extends StatefulWidget {
   const OrderConfirmation({Key key}) : super(key: key);

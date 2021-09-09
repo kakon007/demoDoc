@@ -5,11 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/book_test/view/widgets/add_more_information.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
+import 'package:provider/provider.dart';
 
 class OrderConfirmationAfterSignIn extends StatefulWidget {
   @override
@@ -19,57 +22,40 @@ class OrderConfirmationAfterSignIn extends StatefulWidget {
 
 class _OrderConfirmationAfterSignInState
     extends State<OrderConfirmationAfterSignIn> {
-  TextEditingController _username = TextEditingController();
-  TextEditingController _password = TextEditingController();
-  TextEditingController _date = new TextEditingController();
-  TextEditingController _firstNameController = new TextEditingController();
-  TextEditingController _fathersName = new TextEditingController();
-  TextEditingController _mothersName = new TextEditingController();
-  TextEditingController _bloodController = new TextEditingController();
-  TextEditingController _maritalStatusController = new TextEditingController();
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _nidController = new TextEditingController();
-  TextEditingController _passportController = new TextEditingController();
-  TextEditingController _dayController = new TextEditingController();
-  TextEditingController _monthController = new TextEditingController();
-  TextEditingController _yearController = new TextEditingController();
-  TextEditingController _addressController = new TextEditingController();
-  TextEditingController _mobileNumberController = new TextEditingController();
-  TextEditingController _lastNameController = new TextEditingController();
-  TextEditingController _countryArrivalController = new TextEditingController();
-  TextEditingController _ticketNumberController = new TextEditingController();
-  TextEditingController _spouseController = new TextEditingController();
-  TextEditingController _religionController = new TextEditingController();
-  TextEditingController _tentativeVisitDateController =
-      new TextEditingController();
   // var width = MediaQuery.of(context).size.width;
   bool isCheckReg = false;
   bool isCheckSample = false;
   String _chosenValue;
   String _chosenGender;
   DateTime selectedDate = DateTime.now();
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2050, 1));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-        var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
-        _date.value = TextEditingValue(text: "${formattedDate.toString()}");
-      });
-  }
 
   int valOne = 1;
 
   @override
   Widget build(BuildContext context) {
+    var cartVM =
+        Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     String _formatDate = DateFormat("dd/MM/yyyy").format(selectedDate);
     Future<Null> _selectDate(BuildContext context) async {
+      final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(1800, 1),
+        lastDate: DateTime.now(),
+      );
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+          cartVM.saveOrderConfirmDataData(selectedDate: selectedDate);
+          var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
+          cartVM.date.value =
+              TextEditingValue(text: "${formattedDate.toString()}");
+        });
+    }
+
+    Future<Null> _preferredDate(BuildContext context) async {
       final DateTime picked = await showDatePicker(
           context: context,
           initialDate: selectedDate,
@@ -78,8 +64,26 @@ class _OrderConfirmationAfterSignInState
       if (picked != null && picked != selectedDate)
         setState(() {
           selectedDate = picked;
+          cartVM.saveOrderConfirmDataData(preferredDate: selectedDate);
           var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
-          _date.value = TextEditingValue(text: "${formattedDate.toString()}");
+          cartVM.preferredDate.value =
+              TextEditingValue(text: "${formattedDate.toString()}");
+        });
+    }
+
+    Future<Null> _expectedDate(BuildContext context) async {
+      final DateTime picked = await showDatePicker(
+          context: context,
+          initialDate: selectedDate,
+          firstDate: DateTime.now(),
+          lastDate: DateTime(2050, 1));
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+          cartVM.saveOrderConfirmDataData(expectedDate: selectedDate);
+          var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
+          cartVM.expectedDate.value =
+              TextEditingValue(text: "${formattedDate.toString()}");
         });
     }
 
@@ -87,13 +91,13 @@ class _OrderConfirmationAfterSignInState
       hintSize: isTablet ? 17 : 12,
       hintText: 'Username',
       minimizeBottomPadding: true,
-      controller: _username,
+      controller: cartVM.username,
     );
     var password = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
       hintText: 'Password',
       minimizeBottomPadding: true,
-      controller: _password,
+      controller: cartVM.password,
     );
     var verifyButton = Padding(
       padding: EdgeInsets.all(6),
@@ -126,7 +130,9 @@ class _OrderConfirmationAfterSignInState
               : MediaQuery.of(context).size.width * .3,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: Color(0xff354291),
-          onPressed: () async {},
+          onPressed: () async {
+            cartVM.saveOrderConfirmDataData();
+          },
           child: Text(
             'Save',
             style: GoogleFonts.roboto(
@@ -196,6 +202,7 @@ class _OrderConfirmationAfterSignInState
         onChanged: (String value) {
           setState(() {
             _chosenValue = value;
+            cartVM.saveOrderConfirmDataData(salutation: _chosenValue);
           });
         },
       ),
@@ -232,6 +239,8 @@ class _OrderConfirmationAfterSignInState
         onChanged: (String value) {
           setState(() {
             _chosenGender = value;
+            cartVM.saveOrderConfirmDataData(gender: _chosenGender);
+            print(_chosenGender);
           });
         },
       ),
@@ -312,14 +321,14 @@ class _OrderConfirmationAfterSignInState
           hintSize: isTablet ? 17 : 12,
           hintText: 'Username',
           minimizeBottomPadding: true,
-          controller: _firstNameController,
+          controller: cartVM.firstNameController,
         ));
     var lastName = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
       labelText: 'Last Name',
       hintText: 'Last Name',
       minimizeBottomPadding: true,
-      controller: _lastNameController,
+      controller: cartVM.lastNameController,
     );
     var width = MediaQuery.of(context).size.width;
     var birthDate = GestureDetector(
@@ -367,6 +376,7 @@ class _OrderConfirmationAfterSignInState
       ),
       onTap: () {
         _selectDate(context);
+        print(_selectDate(context));
       },
     );
     var mobileNumber = SignUpFormField(
@@ -375,14 +385,14 @@ class _OrderConfirmationAfterSignInState
       hintSize: isTablet ? 17 : 12,
       hintText: 'mobile Number',
       minimizeBottomPadding: true,
-      controller: _mobileNumberController,
+      controller: cartVM.mobileNumberController,
     );
     var address = SignUpFormField(
       labelText: 'Address',
       hintSize: isTablet ? 17 : 12,
       hintText: 'Address',
       minimizeBottomPadding: true,
-      controller: _addressController,
+      controller: cartVM.addressController,
     );
     var age = Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
@@ -427,7 +437,7 @@ class _OrderConfirmationAfterSignInState
                         hintText: 'year',
                         minimizeBottomPadding: true,
                         leftContentPadding: 30,
-                        controller: _yearController,
+                        controller: cartVM.yearController,
                       ),
                     ),
                   ],
@@ -461,7 +471,7 @@ class _OrderConfirmationAfterSignInState
                         leftContentPadding: 30,
                         hintText: 'Month',
                         minimizeBottomPadding: true,
-                        controller: _monthController,
+                        controller: cartVM.monthController,
                       ),
                     ),
                   ],
@@ -495,7 +505,7 @@ class _OrderConfirmationAfterSignInState
                         hintText: 'Day',
                         leftContentPadding: 30,
                         minimizeBottomPadding: true,
-                        controller: _dayController,
+                        controller: cartVM.dayController,
                       ),
                     ),
                   ],
@@ -511,7 +521,7 @@ class _OrderConfirmationAfterSignInState
       labelText: 'Father Name',
       hintText: 'Father Name',
       minimizeBottomPadding: true,
-      controller: _fathersName,
+      controller: cartVM.fathersName,
       fillColor: "#FFFFFF",
       isFilled: true,
     );
@@ -522,7 +532,7 @@ class _OrderConfirmationAfterSignInState
       minimizeBottomPadding: true,
       fillColor: "#FFFFFF",
       isFilled: true,
-      controller: _mothersName,
+      controller: cartVM.mothersName,
     );
     var bloodGroupAndMarital = Padding(
       padding: EdgeInsets.only(
@@ -549,7 +559,7 @@ class _OrderConfirmationAfterSignInState
                   textFieldConfiguration: TextFieldConfiguration(
                       style: TextStyle(fontSize: isTablet ? 18 : 16),
                       textInputAction: TextInputAction.search,
-                      controller: _bloodController,
+                      controller: cartVM.bloodController,
                       decoration: InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
@@ -578,12 +588,7 @@ class _OrderConfirmationAfterSignInState
                   suggestionsBoxDecoration: SuggestionsBoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  suggestionsCallback: (v) {
-                    // return PreDiagnosisSearchRepository().fetchSearchList(
-                    //     q: v,
-                    //     favoriteType:
-                    //     PrescriptionFavouriteType.chiefComplaint.toString());
-                  },
+                  suggestionsCallback: (v) {},
                 ),
               ),
             ],
@@ -605,7 +610,7 @@ class _OrderConfirmationAfterSignInState
                   textFieldConfiguration: TextFieldConfiguration(
                       style: TextStyle(fontSize: isTablet ? 18 : 16),
                       textInputAction: TextInputAction.search,
-                      controller: _maritalStatusController,
+                      controller: cartVM.maritalStatusController,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
@@ -654,7 +659,7 @@ class _OrderConfirmationAfterSignInState
       minimizeBottomPadding: true,
       fillColor: '#FFFFFF',
       isFilled: true,
-      controller: _spouseController,
+      controller: cartVM.spouseController,
     );
     var religion = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
@@ -663,7 +668,7 @@ class _OrderConfirmationAfterSignInState
       minimizeBottomPadding: true,
       fillColor: '#FFFFFF',
       isFilled: true,
-      controller: _religionController,
+      controller: cartVM.religionController,
     );
     var email = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
@@ -672,7 +677,7 @@ class _OrderConfirmationAfterSignInState
       fillColor: '#FFFFFF',
       isFilled: true,
       minimizeBottomPadding: true,
-      controller: _emailController,
+      controller: cartVM.emailController,
     );
     var nationalId = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
@@ -681,7 +686,7 @@ class _OrderConfirmationAfterSignInState
       minimizeBottomPadding: true,
       fillColor: '#FFFFFF',
       isFilled: true,
-      controller: _nidController,
+      controller: cartVM.nidController,
     );
     var passport = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
@@ -690,7 +695,7 @@ class _OrderConfirmationAfterSignInState
       fillColor: '#FFFFFF',
       isFilled: true,
       minimizeBottomPadding: true,
-      controller: _passportController,
+      controller: cartVM.passportController,
     );
     var preferredDate = GestureDetector(
       child: Column(
@@ -698,7 +703,7 @@ class _OrderConfirmationAfterSignInState
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: Text('Birth Date'),
+            child: Text('Preferred Sample Date'),
           ),
           Container(
             height: 45.0,
@@ -736,7 +741,7 @@ class _OrderConfirmationAfterSignInState
         ],
       ),
       onTap: () {
-        _selectDate(context);
+        _preferredDate(context);
       },
     );
     var expectedDate = GestureDetector(
@@ -745,7 +750,7 @@ class _OrderConfirmationAfterSignInState
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: Text('Birth Date'),
+            child: Text('Expected Report Date'),
           ),
           Container(
             height: 45.0,
@@ -783,7 +788,7 @@ class _OrderConfirmationAfterSignInState
         ],
       ),
       onTap: () {
-        _selectDate(context);
+        _expectedDate(context);
       },
     );
     var tentativeVisitDate = SignUpFormField(
@@ -792,7 +797,7 @@ class _OrderConfirmationAfterSignInState
       labelText: 'Tentative Visit Date',
       hintText: 'Tentative Visit Date',
       minimizeBottomPadding: true,
-      controller: _tentativeVisitDateController,
+      controller: cartVM.tentativeVisitDateController,
     );
     var ticketNumber = SignUpFormField(
       isRequired: true,
@@ -800,7 +805,7 @@ class _OrderConfirmationAfterSignInState
       labelText: 'Ticket Number',
       hintText: 'Ticket Number',
       minimizeBottomPadding: true,
-      controller: _ticketNumberController,
+      controller: cartVM.ticketNumberController,
     );
     var countryOfArrival = SignUpFormField(
       isRequired: true,
@@ -808,7 +813,7 @@ class _OrderConfirmationAfterSignInState
       labelText: 'Country of Arrival',
       hintText: 'Country of Arrival',
       minimizeBottomPadding: true,
-      controller: _countryArrivalController,
+      controller: cartVM.countryArrivalController,
     );
 
     return Scaffold(
@@ -838,12 +843,19 @@ class _OrderConfirmationAfterSignInState
                   setState(() {});
                 },
               ),
-              username,
-              SizedBox(
-                height: 10,
-              ),
-              password,
-              verifyButton,
+              isCheckReg
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        username,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        password,
+                        verifyButton,
+                      ],
+                    )
+                  : SizedBox(),
               Row(
                 children: [
                   salutation,
@@ -994,15 +1006,21 @@ class _OrderConfirmationAfterSignInState
                   ),
                 ],
               ),
-              tentativeVisitDate,
-              SizedBox(
-                height: 10,
-              ),
-              ticketNumber,
-              SizedBox(
-                height: 10,
-              ),
-              countryOfArrival,
+              valOne == 0
+                  ? Column(
+                      children: [
+                        tentativeVisitDate,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ticketNumber,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        countryOfArrival,
+                      ],
+                    )
+                  : SizedBox(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1038,7 +1056,7 @@ class _OrderConfirmationAfterSignInState
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

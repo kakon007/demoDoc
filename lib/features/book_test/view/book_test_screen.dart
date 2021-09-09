@@ -272,7 +272,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
                             ],
                           ),
                         ),
-                        Positioned(
+                        testItemVm.testItemList[index].maxDisPct==0.0?SizedBox():Positioned(
                           left: 160,
                           bottom: 115,
                           child: Container(

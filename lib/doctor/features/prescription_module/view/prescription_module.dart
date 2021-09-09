@@ -352,7 +352,7 @@ class _ModuleState extends State<Module> {
                     width: MediaQuery.of(context).size.width * .4,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Color(0xffAFBBFF),
+                      color: AppTheme.buttonActiveColor,
                     ),
                     child: Center(
                         child: Text(

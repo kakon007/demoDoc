@@ -41,7 +41,20 @@ class UserImageViewModel extends ChangeNotifier {
       ),
     );
   }
-
+  loadDoctorProfileImage(String image, double height, double width, double border) {
+    Uint8List _bytesImage = Base64Decoder().convert(image);
+    //print(_bytesImage);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(border),
+      child: Image.memory(
+        _bytesImage,
+        fit: BoxFit.fill,
+        width: width,
+        height: height,
+        gaplessPlayback: true,
+      ),
+    );
+  }
   Future<void> updateImage(File image, String hospitalNo, String id) async {
     _isImageLoading = true;
     var headers = {
@@ -217,7 +230,38 @@ class UserImageViewModel extends ChangeNotifier {
     } catch (e) {
     }
   }
+  var userType;
+  Future<void> userDetails({String accessToken}) async {
+    //userType=null;
+   // _isImageLoading = true;
+    var headers = {
+      'Authorization':
+      'Bearer $accessToken'
+    };
 
+    var request =
+    http.Request('GET', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/user-details'));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode);
+    try {
+      if (response.statusCode == 200) {
+        var res = await response.stream.bytesToString();
+        print(res);
+        UserImageModel data = userImageModelFromJson(res);
+        userType = data.obj.userTypeNo;
+        // _details = data.obj;
+        // _isImageLoading = false;
+        notifyListeners();
+      } else {
+        userType=null;
+       // _isImageLoading = false;
+      }
+    } catch (e) {
+      userType=null;
+      //_isImageLoading = false;
+    }
+  }
   AppError get appError => _appError;
 
   bool get isFetchingData => _isFetchingData;

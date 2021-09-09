@@ -4,6 +4,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 //import 'package:dartz/dartz_streaming.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/admin/dashboard/dashboard_admin.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view/emr_screen.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/main_app/home.dart';
@@ -15,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'doctor/doctor_home_screen.dart';
 import 'features/auth/view_model/app_navigator.dart';
 import 'features/auth/view_model/auth_view_model.dart';
+import 'features/user_profile/view_model/user_image_view_model.dart';
 import 'main_app/util/app_version.dart';
 
 class Root extends StatefulWidget {
@@ -39,15 +41,18 @@ class _RootState extends State<Root> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       _username = prefs.getString("username");
       _passWord = prefs.getString("password");
-      if (_username.toString().toLowerCase().contains('ahc')) {
-        setState(() {
-          isDoctor = true;
-          print('shakil2');
-        });
-      }
+      // if (_username.toString().toLowerCase().contains('ahc')) {
+      //   setState(() {
+      //     isDoctor = true;
+      //     print('shakil2');
+      //   });
+      // }
       if (connection) {
         var vm5 = Provider.of<AuthViewModel>(context, listen: false);
         await vm5.getAuthData(_username, _passWord);
+        var companyVm= Provider.of<UserImageViewModel>(context, listen: false);
+        await companyVm.userDetails(accessToken: vm5.accessToken);
+        print('usertype ${companyVm.userType}');
         if (accessToken != null &&
             vm5.accessToken != accessToken &&
             vm5.accessToken != null) {
@@ -58,36 +63,49 @@ class _RootState extends State<Root> {
               await Provider.of<AccessTokenProvider>(context, listen: false)
                   .getToken();
           Future.delayed(Duration(microseconds: 500));
-          isDoctor
-              ? Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) => DoctorHomeScreen()))
-              : Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      // DoctorHomeScreen(
-                      HomeScreen(
-                        accessToken: accessToken,
-                        connection: connection,
-                      )
-                  //PrescriptionTemplatesPopup()
-
-              //EmrScreen(),
-                  ));
+          if(companyVm.userType==2){
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) => DoctorHomeScreen()));
+          }
+          else if(companyVm.userType==3 || companyVm.userType==null){
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                // DoctorHomeScreen(
+                HomeScreen(
+                  accessToken: accessToken,
+                  connection: connection,
+                )));
+          }
+          else if(companyVm.userType==0) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                // DoctorHomeScreen(
+                AdminDashboard(
+                )));
+          }
         } else if (vm5.accessToken == accessToken) {
           Future.delayed(Duration(microseconds: 500));
-          isDoctor
-              ? Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) => DoctorHomeScreen()))
-              : Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      //DoctorHomeScreen(
-                      HomeScreen(
-                        accessToken: accessToken,
-                        connection: connection,
-                      )
-                  //PrescriptionTemplatesPopup()
+          if(companyVm.userType==2){
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) => DoctorHomeScreen()));
+          }
+          else if(companyVm.userType==3 || companyVm.userType==null){
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                // DoctorHomeScreen(
+                HomeScreen(
+                  accessToken: accessToken,
+                  connection: connection,
+                )));
+          }
+          else if(companyVm.userType==0) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                // DoctorHomeScreen(
+                AdminDashboard(
+                )));
+          }
 
-                  //EmrScreen(),
-                  ));
         } else {
           Provider.of<AccessTokenProvider>(context, listen: false).signOut();
         }

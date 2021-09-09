@@ -65,6 +65,7 @@ import 'doctor/features/prescription_module/view_models/medication_view_model.da
 import 'doctor/features/profile/view_model/digital_signature_view_model.dart';
 import 'doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'doctor/features/worklist/view_model/worklist_view_model.dart';
+import 'features/book_test/order_confirm_view_model.dart';
 
 class MyHealthBdApp extends StatelessWidget {
   @override
@@ -188,6 +189,8 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => AppointmentReportListDocViewModel()),
       ChangeNotifierProvider<ShiftListDocViewModel>(
           create: (context) => ShiftListDocViewModel()),
+      ChangeNotifierProvider<OrderConfirmViewModel>(
+          create: (context) => OrderConfirmViewModel()),
 
     ];
     return AuthViewWrapper(

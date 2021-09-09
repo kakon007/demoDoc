@@ -35,7 +35,7 @@ class _InvestigationFindingsWidgetState
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
   TextEditingController _findingController = TextEditingController();
-
+bool isNameSelected = false;
   int ind;
   var vm = appNavigator.context.read<InvestigationFindingsViewModel>();
 
@@ -118,10 +118,15 @@ class _InvestigationFindingsWidgetState
                         Icons.search,
                         color: AppTheme.buttonActiveColor,
                       ),
-                      // suffixIcon: IconButton(
-                      //
-                      //     icon: Icon(Icons.check,
-                      //         color: AppTheme.buttonActiveColor)),
+                      suffixIcon: isNameSelected ==false? IconButton(
+                          onPressed: (){
+                            setState(() {
+                              FocusScope.of(context).unfocus();
+                              isNameSelected=true;
+                            });
+                          },
+                          icon: Icon(Icons.check,
+                              color: AppTheme.buttonActiveColor)) : SizedBox(),
                     )),
                 itemBuilder: (_, v) {
                   return Padding(
@@ -133,11 +138,13 @@ class _InvestigationFindingsWidgetState
                   if (templateVm.investigationFindingItems.contains(v)) {
                     BotToast.showText(text: "All ready added");
                   } else {
-                    showAlert(context, v);
+                    //showAlert(context, v);
                     // investigationFindingItems.add(
                     //   Findings(name: v)
                     //);
+                    controller.text=v;
                   }
+                  isNameSelected=true;
                   setState(() {});
                 },
                 suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -154,7 +161,7 @@ class _InvestigationFindingsWidgetState
               SizedBox(
                 height: 20,
               ),
-              controller.text.isNotEmpty
+              isNameSelected
                   ? TextField(
                       controller: _findingController,
                       decoration: new InputDecoration(
@@ -162,27 +169,34 @@ class _InvestigationFindingsWidgetState
                         suffixIcon: IconButton(
                           onPressed: () {
                             if (ind != null) {
-                              templateVm.investigationFindingItems[ind].name =
-                                  controller.text;
+                              print('name $ind');
+                              //templateVm.investigationFindingItems.indexOf(Findings(name: controller.text, finding: _findingController.text), ind);
+                               templateVm.investigationFindingItems.removeAt(ind);
+                               templateVm.investigationFindingItems.add(Findings(name: controller.text,finding: _findingController.text));
+                              //   controller.text;
+                              _findingController.clear();
                               controller.clear();
                               ind = null;
-                            } else {
-                              if (controller.text.trim().isNotEmpty) {
+                            }
+                            // else {
+                              else if (controller.text.isNotEmpty) {
                                 if (templateVm.investigationFindingItems
-                                    .contains(controller.text.trim())) {
+                                    .contains(controller.text)) {
+                                  print('shakil');
                                   BotToast.showText(text: "All ready added");
                                 } else {
+                                  print('shakil2');
                                   templateVm.investigationFindingItems.add(
                                       Findings(
                                           name: controller.text.trim(),
                                           finding: _findingController.text));
+                                  isNameSelected=false;
                                   controller.clear();
                                   _findingController.clear();
                                 }
                               } else {
                                 BotToast.showText(text: "Field is empty");
                               }
-                            }
 
                             setState(() {});
                           },
@@ -279,8 +293,13 @@ class _InvestigationFindingsWidgetState
                                       controller.text = templateVm
                                           .investigationFindingItems[index]
                                           .name;
+                                      _findingController.text = templateVm.investigationFindingItems[index].finding;
+                                     isNameSelected= true;
                                       ind = index;
-                                    },
+                                    setState(() {
+
+                                    });
+                                      },
                                     child: Container(
                                       height: 30,
                                       width: 30,
@@ -388,13 +407,22 @@ class _InvestigationFindingsWidgetState
                                       BotToast.showText(
                                           text: "All ready added");
                                     } else {
-                                      showAlert(context, item.favouriteVal);
+
+                                      setState(() {
+                                        controller.text=item.favouriteVal;
+                                        isNameSelected= true;
+                                      });
+                                     // showAlert(context, item.favouriteVal);
                                       // Navigator.pop(context);
                                       // investigationFindingItems
                                       //     .add(Findings(name: item.favouriteVal));
                                     }
                                   } else {
-                                    showAlert(context, item.favouriteVal);
+                                    setState(() {
+                                      controller.text=item.favouriteVal;
+                                      isNameSelected= true;
+                                    });
+                                   // showAlert(context, item.favouriteVal);
                                     // Navigator.pop(context);
                                     // investigationFindingItems
                                     //     .add(Findings(name: item.favouriteVal));

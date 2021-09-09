@@ -24,8 +24,10 @@ class PersonalInfoRepository {
 
   Future<Either<AppError, PersonalInfoModel>>   fetchPersonalInfo() async {
     var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
+    var companyInfoVm = Provider.of<UserImageViewModel>(appNavigator.context, listen: false);
+    print("doctor numbner" + companyInfoVm.details.doctorNo.toString());
     var url =
-        "${Urls.baseUrl}auth-api/api/doctor/findDoctorByNo?doctorNo=2000011";
+        "${Urls.baseUrl}auth-api/api/doctor/findDoctorByNo?doctorNo=${companyInfoVm.details.doctorNo}";
     final http.Response response = await http.get(Uri.parse(url),headers: {'Authorization': 'Bearer $accessToken',},);
     print(response.body);
     try {

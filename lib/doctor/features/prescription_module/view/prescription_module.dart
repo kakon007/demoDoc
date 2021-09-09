@@ -29,6 +29,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/i
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 import 'package:myhealthbd_app/features/constant.dart';
@@ -144,6 +145,8 @@ class _ModuleState extends State<Module> {
     await MedicationViewModel.read(context).getData();
     await OrthosisViewModel.read(context).getData();
     await ProcedureViewModel.read(context).getData();
+    await Provider.of<PrescriptionTamplateViewModel>(context, listen: false)
+        .getData();
   }
 
   @override
@@ -152,6 +155,7 @@ class _ModuleState extends State<Module> {
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
+    var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: true);
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
@@ -204,7 +208,6 @@ class _ModuleState extends State<Module> {
                   padding: const EdgeInsets.all(10.0),
                   child: InkWell(
                     onTap: () {
-                      print("vitals--------${templateVm.isActive}");
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -303,17 +306,20 @@ class _ModuleState extends State<Module> {
                                       height: 40,
                                     ),
                                     InkWell(
-                                      onTap: () {
+                                      onTap: () async {
                                         if (templateNameController
                                             .text.isEmpty) {
-                                          BotToast.showText(text: "Empty");
+                                          BotToast.showText(
+                                              text:
+                                                  "Template name field is empty");
                                         } else {
                                           var vm =
                                               GetTamplateDataViewModel.read(
                                                   context);
                                           vm.templateName =
                                               templateNameController.text;
-                                          vm.setPrescriptionData();
+                                          await vm.setPrescriptionData();
+                                          Navigator.of(context).pop();
                                         }
                                       },
                                       child: Material(
@@ -321,9 +327,7 @@ class _ModuleState extends State<Module> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(5)),
-                                        color: selectedRadio == null
-                                            ? AppTheme.buttonInActiveColor
-                                            : AppTheme.buttonActiveColor,
+                                        color: AppTheme.buttonActiveColor,
                                         child: SizedBox(
                                           width: double.infinity,
                                           height: deviceWidth <= 360 ? 28 : 40,
@@ -352,7 +356,7 @@ class _ModuleState extends State<Module> {
                             }),
                           );
                         },
-                      );
+                      ).then((value) async => await vm.getData());
                     },
                     child: Container(
                       height: 40,

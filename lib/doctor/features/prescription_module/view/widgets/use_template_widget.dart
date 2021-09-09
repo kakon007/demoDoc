@@ -50,10 +50,13 @@ class _UseTemplateWidgetState extends State<UseTemplateWidget> {
 
   @override
   void initState() {
-    var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: false);
-    vm.getData();
-    var vm2 = Provider.of<GetTamplateDataViewModel>(context, listen: false);
-    favoriteItems.addAll(vm.prescriptionTamplateList);
+    Future.delayed(Duration.zero, () async {
+      var vm =
+          Provider.of<PrescriptionTamplateViewModel>(context, listen: false);
+      await vm.getData();
+      var vm2 = Provider.of<GetTamplateDataViewModel>(context, listen: false);
+      favoriteItems.addAll(vm.prescriptionTamplateList);
+    });
     super.initState();
   }
 

@@ -1360,7 +1360,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                 children: [
                   InkWell(
                     onTap: () {
-                      templateVm.multiDoseControlerList.add(AddMultiDose(
+                      templateVm.multiDoseControlerList.add(AddMultiDoseController(
                           // multiDoseController: TextEditingController(),
                           // multiDoseDurationController: TextEditingController(),
                           // multiDoseDurationTypeController:
@@ -1656,7 +1656,7 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                             templateVm.medicineList[index]
                                                 .multiDoseList
                                                 .map((e) {
-                                          var multi = AddMultiDose();
+                                          var multi = AddMultiDoseController();
                                           multi.multiDoseController.text =
                                               e.multiDose;
                                           multi.multiDoseDurationController
@@ -1746,7 +1746,7 @@ class MedicineList {
   });
 }
 
-class AddMultiDose {
+class AddMultiDoseController {
   TextEditingController multiDoseController = TextEditingController();
   TextEditingController multiDoseDurationController = TextEditingController();
   TextEditingController multiDoseDurationTypeController =
@@ -1755,7 +1755,7 @@ class AddMultiDose {
   TextEditingController multiDoseInstructionController =
       TextEditingController();
 
-  AddMultiDose();
+  AddMultiDoseController();
 }
 
 class MultiDose {

@@ -42,7 +42,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<String> diseaseSelectedItems = [];
   List<String> provisionalDiagnosisSelectedItems = [];
   List<String> adviceSelectedItems = [];
-  List<AddMultiDose> multiDoseControlerList = [];
+  List<AddMultiDoseController> multiDoseControlerList = [];
   List<SaveVitalList> vitals = [];
   List<MultiDose> multiDoseItemList = [];
   List<MedicineList> medicineList = [];
@@ -65,6 +65,27 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   TextEditingController minBpTextEditingController = TextEditingController();
   TextEditingController weightTextEditingController = TextEditingController();
   TextEditingController heightTextEditingController = TextEditingController();
+  bool get isActive =>
+      (pulseTextEditingController.text == null ||
+          pulseTextEditingController.text == "") &&
+      (heartRateTextEditingController.text == null ||
+          heartRateTextEditingController.text == "") &&
+      (tempTextEditingController.text == null ||
+          tempTextEditingController.text == "") &&
+      (spo2TextEditingController.text == null ||
+          spo2TextEditingController.text == "") &&
+      (resRateTextEditingController.text == null ||
+          resRateTextEditingController.text == "") &&
+      (bpSysTextEditingController.text == null ||
+          bpSysTextEditingController.text == "") &&
+      (bpDiaTextEditingController.text == null ||
+          bpDiaTextEditingController.text == "") &&
+      (minBpTextEditingController.text == null ||
+          minBpTextEditingController.text == "") &&
+      (weightTextEditingController.text == null ||
+          weightTextEditingController.text == "") &&
+      (heightTextEditingController.text == null ||
+          heightTextEditingController.text == "");
   bool vitalsShowReport = false;
   bool chiefComplentShowReport = false;
   bool clinicalHistoryShowReport = false;

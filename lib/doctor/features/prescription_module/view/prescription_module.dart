@@ -1,26 +1,19 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/save_prescription_template_repository.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/advice_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/clinical_history_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/note_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disposal_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disease_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disposal_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigation_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigations_findings_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/medication_widget.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/patient_dermography.dart';
-import 'dart:math' as math;
-
-import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/note_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/orthosis_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/past_illness_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/patient_dermography.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/procedure_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/provisional_diagnosis_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/referred_OPD_widget.dart';
@@ -36,7 +29,6 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/i
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
-import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -158,6 +150,7 @@ class _ModuleState extends State<Module> {
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
+    var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Prescription Module"),
@@ -208,6 +201,7 @@ class _ModuleState extends State<Module> {
                 padding: const EdgeInsets.all(10.0),
                 child: InkWell(
                   onTap: () {
+                    print("vitals--------${templateVm.isActive}");
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -373,38 +367,42 @@ class _ModuleState extends State<Module> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: InkWell(
-                  onTap: () {
-                    var vm = GetTamplateDataViewModel.read(context);
-                    vm.savePrescriptionData(
-                      patTypeNumber: widget.patTypeNumber,
-                      isPatientOut: widget.isPatientOut,
-                      ipdFlag: widget.ipdFlag,
-                      departmentNumber: widget.departmentNumber,
-                      departmentName: widget.departmentName.toString(),
-                      consultationTypeNo: widget.consultationTypeNo,
-                      consultationNumber: widget.consultationNumber,
-                      companyNumber: widget.companyNumber,
-                      appointmentNumber: widget.appointmentNumber,
-                      consultationId: widget.consultationId,
-                      id: widget.id,
-                      name: widget.name,
-                      gender: widget.gender,
-                      serial: widget.serial,
-                      phoneNumber: widget.phoneNumber,
-                      bloodGroup: widget.bloodGroup,
-                      age: widget.age,
-                      consultationTime: widget.consultationTime,
-                      consultType: widget.consultType,
-                      regNo: widget.regNo,
-                      doctorNo: widget.doctorNo,
-                    );
-                  },
+                  onTap: templateVm.isActive
+                      ? null
+                      : () {
+                          var vm = GetTamplateDataViewModel.read(context);
+                          vm.savePrescriptionData(
+                            patTypeNumber: widget.patTypeNumber,
+                            isPatientOut: widget.isPatientOut,
+                            ipdFlag: widget.ipdFlag,
+                            departmentNumber: widget.departmentNumber,
+                            departmentName: widget.departmentName.toString(),
+                            consultationTypeNo: widget.consultationTypeNo,
+                            consultationNumber: widget.consultationNumber,
+                            companyNumber: widget.companyNumber,
+                            appointmentNumber: widget.appointmentNumber,
+                            consultationId: widget.consultationId,
+                            id: widget.id,
+                            name: widget.name,
+                            gender: widget.gender,
+                            serial: widget.serial,
+                            phoneNumber: widget.phoneNumber,
+                            bloodGroup: widget.bloodGroup,
+                            age: widget.age,
+                            consultationTime: widget.consultationTime,
+                            consultType: widget.consultType,
+                            regNo: widget.regNo,
+                            doctorNo: widget.doctorNo,
+                          );
+                        },
                   child: Container(
                     height: 40,
                     width: MediaQuery.of(context).size.width * .4,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Color(0xffAFBBFF),
+                      color: templateVm.isActive
+                          ? Color(0xffAFBBFF)
+                          : AppTheme.buttonActiveColor,
                     ),
                     child: Center(
                         child: Text(

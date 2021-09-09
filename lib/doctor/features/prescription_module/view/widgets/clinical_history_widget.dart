@@ -197,24 +197,32 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      await CommonAddToFavoriteListRepository()
-                                          .addToFavouriteList(
-                                              favoriteType:
-                                                  PrescriptionFavouriteType
-                                                      .clinicalHistory
-                                                      .toString(),
-                                              favoriteVal: templateVm
-                                                      .clinicalHistorySelectedItems[
-                                                  index])
-                                          .then((value) async =>
-                                              await vm.getData());
-                                      favoriteItems.clear();
-                                      if (_favoriteController.text.isNotEmpty) {
-                                        searchFavoriteItem(_favoriteController
-                                            .text
-                                            .toLowerCase());
-                                      } else {
-                                        favoriteItems = vm.favouriteList;
+                                      List<String> clinicalList =[];
+                                      favoriteItems.map((e) {
+                                        clinicalList.add(e.favouriteVal);
+                                      }).toList();
+                                      if(clinicalList.contains(templateVm.clinicalHistorySelectedItems[index])){
+                                        BotToast.showText(text: 'Already in the favorite list');
+                                      }else{
+                                        await CommonAddToFavoriteListRepository()
+                                            .addToFavouriteList(
+                                            favoriteType:
+                                            PrescriptionFavouriteType
+                                                .clinicalHistory
+                                                .toString(),
+                                            favoriteVal: templateVm
+                                                .clinicalHistorySelectedItems[
+                                            index])
+                                            .then((value) async =>
+                                        await vm.getData());
+                                        favoriteItems.clear();
+                                        if (_favoriteController.text.isNotEmpty) {
+                                          searchFavoriteItem(_favoriteController
+                                              .text
+                                              .toLowerCase());
+                                        } else {
+                                          favoriteItems = vm.favouriteList;
+                                        }
                                       }
                                       // setState(() {});
                                     },

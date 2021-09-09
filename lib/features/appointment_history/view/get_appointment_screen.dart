@@ -298,13 +298,14 @@ class _GetAppointmentState extends State<GetAppointment> {
           'Appointments',
           key: Key('appointmentsAppbarKey'),
           style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500),
-        ),actions: [
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-              return OrderConfirmation();
-            }));
-          }, icon:Icon( Icons.notifications_outlined))
-      ],
+        ),
+      //   actions: [
+      //     IconButton(onPressed: (){
+      //       Navigator.push(context, MaterialPageRoute(builder: (context){
+      //         return OrderConfirmation();
+      //       }));
+      //     }, icon:Icon( Icons.notifications_outlined))
+      // ],
 
       ),
       body: DefaultTabController(

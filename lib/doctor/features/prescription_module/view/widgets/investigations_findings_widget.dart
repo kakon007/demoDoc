@@ -40,12 +40,12 @@ bool isNameSelected = false;
   var vm = appNavigator.context.read<InvestigationFindingsViewModel>();
 
   void searchFavoriteItem(String query) {
-    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    List<FavouriteItemModel> initialFavoriteSearch = [];
     initialFavoriteSearch = vm.favouriteList;
     print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
       List<FavouriteItemModel> initialFavoriteSearchItems =
-          List<FavouriteItemModel>();
+          [];
       initialFavoriteSearch.forEach((item) {
         if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
@@ -72,10 +72,8 @@ bool isNameSelected = false;
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) async {
-      var vm2 = context.read<ChiefComplaintViewModel>();
       var vm = context.read<InvestigationFindingsViewModel>();
       await vm.getData();
-      await vm2.getData();
       favoriteItems.addAll(vm.favouriteList);
     });
 
@@ -85,8 +83,7 @@ bool isNameSelected = false;
 
   @override
   Widget build(BuildContext context) {
-    var vm2 = context.watch<ChiefComplaintViewModel>();
-    var vm = context.read<InvestigationFindingsViewModel>();
+    var vm = context.watch<InvestigationFindingsViewModel>();
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     return PrescriptionCommonWidget(
       controller: expandableControllers.investigationFindingController,
@@ -168,32 +165,47 @@ bool isNameSelected = false;
                         hintStyle: GoogleFonts.poppins(fontSize: 14),
                         suffixIcon: IconButton(
                           onPressed: () {
+                            List<Findings> findingList = templateVm.investigationFindingItems;
+                            List<String> finding=[];
+                            templateVm.investigationFindingItems.map((e){
+                              finding.add(e.name);
+                            }).toList();
                             if (ind != null) {
                               print('name $ind');
                               //templateVm.investigationFindingItems.indexOf(Findings(name: controller.text, finding: _findingController.text), ind);
                                templateVm.investigationFindingItems.removeAt(ind);
                                templateVm.investigationFindingItems.add(Findings(name: controller.text,finding: _findingController.text));
                               //   controller.text;
+                              isNameSelected=false;
                               _findingController.clear();
                               controller.clear();
                               ind = null;
+                              setState(() {
+
+                              });
                             }
                             // else {
                               else if (controller.text.isNotEmpty) {
-                                if (templateVm.investigationFindingItems
-                                    .contains(controller.text)) {
-                                  print('shakil');
-                                  BotToast.showText(text: "All ready added");
-                                } else {
-                                  print('shakil2');
-                                  templateVm.investigationFindingItems.add(
-                                      Findings(
-                                          name: controller.text.trim(),
-                                          finding: _findingController.text));
-                                  isNameSelected=false;
-                                  controller.clear();
-                                  _findingController.clear();
-                                }
+                                // templateVm.investigationFindingItems.forEach((element) {
+                                //   if(element.name==controller.text)
+                                //   {
+                                //     print('priiiii');
+                                //   }
+                                // });
+                              print('length ${finding.length}');
+                                  if(finding.contains(controller.text)){
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    print('shakil2');
+                                    templateVm.investigationFindingItems.add(
+                                        Findings(
+                                            name: controller.text.trim(),
+                                            finding: _findingController.text));
+                                    isNameSelected=false;
+                                    controller.clear();
+                                    _findingController.clear();
+                                  }
+
                               } else {
                                 BotToast.showText(text: "Field is empty");
                               }
@@ -204,27 +216,6 @@ bool isNameSelected = false;
                           color: AppTheme.buttonActiveColor,
                         ),
                         hintText: 'Findings',
-                        // suffixIcon: Padding(
-                        //   padding: EdgeInsets.only(right: width / 8.64),
-                        //   child: Container(
-                        //     width: 20,
-                        //     height: 15,
-                        //     decoration: BoxDecoration(
-                        //       shape: BoxShape.circle,
-                        //       color: AppTheme.appbarPrimary,
-                        //     ),
-                        //     child: GestureDetector(
-                        //         onTap: () {
-                        //           specialityController.clear();
-                        //           specializationSearch('');
-                        //         },
-                        //         child: Icon(
-                        //           Icons.clear,
-                        //           size: 15,
-                        //           color: Colors.white,
-                        //         )),
-                        //   ),
-                        // ),
                         contentPadding:
                             EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
                       ))
@@ -261,25 +252,33 @@ bool isNameSelected = false;
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      await CommonAddToFavoriteListRepository()
-                                          .addToFavouriteList(
-                                              favoriteType:
-                                                  PrescriptionFavouriteType
-                                                      .chiefComplaint
-                                                      .toString(),
-                                              favoriteVal: templateVm
-                                                  .investigationFindingItems[
-                                                      index]
-                                                  .name)
-                                          .then((value) async =>
-                                              await vm2.getData());
-                                      favoriteItems.clear();
-                                      if (_favoriteController.text.isNotEmpty) {
-                                        searchFavoriteItem(_favoriteController
-                                            .text
-                                            .toLowerCase());
-                                      } else {
-                                        favoriteItems = vm2.favouriteList;
+                                      List<String> favItem = [];
+                                      favoriteItems.map((e) {
+                                        favItem.add(e.favouriteVal);
+                                      }).toList();
+                                      if(favItem.contains(templateVm.investigationFindingItems[index].name)){
+                                        BotToast.showText(text: 'Already in the favorite list');
+                                      }else{
+                                        await CommonAddToFavoriteListRepository()
+                                            .addToFavouriteList(
+                                            favoriteType:
+                                            PrescriptionFavouriteType
+                                                .investigationFindings
+                                                .toString(),
+                                            favoriteVal: templateVm
+                                                .investigationFindingItems[
+                                            index]
+                                                .name)
+                                            .then((value) async =>
+                                        await vm.getData());
+                                        favoriteItems.clear();
+                                        if (_favoriteController.text.isNotEmpty) {
+                                          searchFavoriteItem(_favoriteController
+                                              .text
+                                              .toLowerCase());
+                                        } else {
+                                          favoriteItems = vm.favouriteList;
+                                        }
                                       }
                                     },
                                     child: Icon(
@@ -466,102 +465,6 @@ bool isNameSelected = false;
         ),
       ),
     );
-  }
-
-  void showAlert(BuildContext context, String favVal) {
-    var templateVm =
-        Provider.of<GetTamplateDataViewModel>(context, listen: false);
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-            child: SingleChildScrollView(
-              child: AlertDialog(
-                insetPadding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * .001),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                contentPadding: EdgeInsets.only(top: 10.0),
-                content: Container(
-                  // constraints: BoxConstraints(
-                  //     minHeight: isTablet
-                  //         ? 360
-                  //         : deviceWidth <= 330
-                  //         ? 330
-                  //         : 340),
-                  child: Form(
-                    // key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        TextField(
-                            controller: _findingController,
-                            decoration: new InputDecoration(
-                              hintStyle: GoogleFonts.poppins(fontSize: 14),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  if (_findingController.text
-                                      .trim()
-                                      .isNotEmpty) {
-                                    if (templateVm.investigationFindingItems
-                                        .contains(favVal)) {
-                                      BotToast.showText(
-                                          text: "All ready added");
-                                    } else {
-                                      templateVm.investigationFindingItems.add(
-                                          Findings(
-                                              name: favVal,
-                                              finding:
-                                                  _findingController.text));
-                                      Navigator.pop(context);
-                                      _findingController.clear();
-                                    }
-                                  } else {
-                                    BotToast.showText(text: "Field is empty");
-                                  }
-                                  //setState(() {});
-                                },
-                                icon: Icon(Icons.check),
-                                color: AppTheme.buttonActiveColor,
-                              ),
-                              hintText: 'Findings',
-                              // suffixIcon: Padding(
-                              //   padding: EdgeInsets.only(right: width / 8.64),
-                              //   child: Container(
-                              //     width: 20,
-                              //     height: 15,
-                              //     decoration: BoxDecoration(
-                              //       shape: BoxShape.circle,
-                              //       color: AppTheme.appbarPrimary,
-                              //     ),
-                              //     child: GestureDetector(
-                              //         onTap: () {
-                              //           specialityController.clear();
-                              //           specializationSearch('');
-                              //         },
-                              //         child: Icon(
-                              //           Icons.clear,
-                              //           size: 15,
-                              //           color: Colors.white,
-                              //         )),
-                              //   ),
-                              // ),
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(15.0, 20.0, 40.0, 0.0),
-                            )),
-                        SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
-        });
   }
 }
 

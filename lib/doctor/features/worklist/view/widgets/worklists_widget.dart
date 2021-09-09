@@ -80,7 +80,7 @@ class _WorklistAllState extends State<WorklistAll> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
-                    "assets/images/doc.png",
+                    "assets/images/dPro.png",
                     fit: BoxFit.fill,
                   )),
             ),

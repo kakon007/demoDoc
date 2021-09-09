@@ -318,22 +318,33 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      await CommonAddToFavoriteListRepository()
-                                          .addToFavouriteList(
-                                              favoriteType: "36",
-                                              favoriteVal: templateVm
-                                                  .investigationSelectedItems[
-                                                      index]
-                                                  .itemName)
-                                          .then((value) async =>
-                                              await vm.getData());
-                                      favoriteItems.clear();
-                                      if (_favoriteController.text.isNotEmpty) {
-                                        searchFavoriteItem(_favoriteController
-                                            .text
-                                            .toLowerCase());
-                                      } else {
-                                        favoriteItems = vm.favouriteList;
+                                      List<String> favItem = [];
+                                      favoriteItems.map((e) {
+                                        favItem.add(e.favouriteVal);
+                                      }).toList();
+                                      if(favItem.contains(templateVm.investigationSelectedItems[index].itemName)){
+                                        BotToast.showText(text: 'Already in the favorite list');
+                                      }else{
+                                        await CommonAddToFavoriteListRepository()
+                                            .addToFavouriteList(
+                                            favoriteType: templateVm
+                                                .investigationSelectedItems[
+                                            index]
+                                                .itemTypeNo.toString(),
+                                            favoriteVal: templateVm
+                                                .investigationSelectedItems[
+                                            index]
+                                                .itemName)
+                                            .then((value) async =>
+                                        await vm.getData());
+                                        favoriteItems.clear();
+                                        if (_favoriteController.text.isNotEmpty) {
+                                          searchFavoriteItem(_favoriteController
+                                              .text
+                                              .toLowerCase());
+                                        } else {
+                                          favoriteItems = vm.favouriteList;
+                                        }
                                       }
                                     },
                                     child: Icon(
@@ -456,7 +467,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (templateVm.investigationSelectedItems
+                                  if (templateVm.investigationSelectedItems[index].itemName
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {

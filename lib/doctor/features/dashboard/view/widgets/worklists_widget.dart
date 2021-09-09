@@ -105,7 +105,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
-                    "assets/images/doc.png",
+                    "assets/images/dPro.png",
                     fit: BoxFit.fill,
                   )),
             ),

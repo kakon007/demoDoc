@@ -196,18 +196,26 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      await CommonAddToFavoriteListRepository()
-                                          .addToFavouriteList(
-                                              favoriteType:
-                                                  PrescriptionFavouriteType
-                                                      .advice
-                                                      .toString(),
-                                              favoriteVal: templateVm
-                                                  .adviceSelectedItems[index])
-                                          .then((value) => vm.getData());
-                                      _favoriteController.clear();
-                                      favoriteItems.clear();
-                                      favoriteItems.addAll(vm.favouriteList);
+                                      List<String> favItem = [];
+                                      favoriteItems.map((e) {
+                                        favItem.add(e.favouriteVal);
+                                      }).toList();
+                                      if(favItem.contains(templateVm.adviceSelectedItems[index])){
+                                        BotToast.showText(text: 'Already in the favorite list');
+                                      }else{
+                                        await CommonAddToFavoriteListRepository()
+                                            .addToFavouriteList(
+                                            favoriteType:
+                                            PrescriptionFavouriteType
+                                                .advice
+                                                .toString(),
+                                            favoriteVal: templateVm
+                                                .adviceSelectedItems[index])
+                                            .then((value) async=> await vm.getData());
+                                        _favoriteController.clear();
+                                        favoriteItems.clear();
+                                        favoriteItems.addAll(vm.favouriteList);
+                                      }
                                       // setState(() {});
                                     },
                                     child: Icon(
@@ -325,9 +333,18 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  templateVm.adviceSelectedItems
-                                      .add(item.favouriteVal);
+                                  if (templateVm.adviceSelectedItems
+                                      .contains(item.favouriteVal)) {
+                                    BotToast.showText(text: "All ready added");
+                                  } else {
+                                    templateVm.adviceSelectedItems
+                                        .add(item.favouriteVal);
+                                  }
                                 }
+                                // if (val == true) {
+                                //   templateVm.adviceSelectedItems
+                                //       .add(item.favouriteVal);
+                                // }
                                 setState(() {});
                               },
                               secondary: InkWell(

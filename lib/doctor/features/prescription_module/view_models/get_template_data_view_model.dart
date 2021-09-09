@@ -86,22 +86,22 @@ class GetTamplateDataViewModel extends ChangeNotifier {
           weightTextEditingController.text == "") &&
       (heightTextEditingController.text == null ||
           heightTextEditingController.text == "");
-  bool vitalsShowReport = false;
-  bool chiefComplentShowReport = false;
-  bool clinicalHistoryShowReport = false;
-  bool pastIllnessShowReport = false;
-  bool provisionalDiagnosisShowReport = false;
-  bool diseaseShowReport = false;
-  bool investigationShowReport = false;
-  bool investigationFindingsShowReport = false;
-  bool orthosisShowReport = false;
-  bool adviceShowReport = false;
-  bool procedureShowReport = false;
-  bool referredDoctorShowReport = false;
-  bool referredOPDShowReport = false;
-  bool disposalShowReport = false;
-  bool medicationShowReport = false;
-  bool noteShowReport = false;
+  bool vitalsShowReport = true;
+  bool chiefComplentShowReport = true;
+  bool clinicalHistoryShowReport = true;
+  bool pastIllnessShowReport = true;
+  bool provisionalDiagnosisShowReport = true;
+  bool diseaseShowReport = true;
+  bool investigationShowReport = true;
+  bool investigationFindingsShowReport = true;
+  bool orthosisShowReport = true;
+  bool adviceShowReport = true;
+  bool procedureShowReport = true;
+  bool referredDoctorShowReport = true;
+  bool referredOPDShowReport = true;
+  bool disposalShowReport = true;
+  bool medicationShowReport = true;
+  bool noteShowReport = true;
   Future<bool> getData({var templateId}) async {
     investigationSelectedItems.clear();
     provisionalDiagnosisSelectedItems.clear();
@@ -416,77 +416,119 @@ class GetTamplateDataViewModel extends ChangeNotifier {
               findings: e.findings))
           .toList(),
       chiefComplainList: chiefComplaintSelectedItems
-          .map((e) =>
-              SaveChiefComplainList(preDiagnosisVal: e, preDiagnosisValType: 7))
+          .map(
+            (e) => SaveChiefComplainList(
+              preDiagnosisVal: e,
+              preDiagnosisValType: 7,
+              selected: chiefComplentShowReport == true ? "1" : "0",
+            ),
+          )
           .toList(),
       note: SaveNote(
           preDiagnosisVal: noteTextEditingController.text,
           preDiagnosisValType: PrescriptionFavouriteType.note),
       clinicalHistory3List: clinicalHistorySelectedItems
-          .map((e) => SaveAdviceListElement(
+          .map(
+            (e) => SaveAdviceListElement(
               preDiagnosisValType: PrescriptionFavouriteType.clinicalHistory,
-              preDiagnosisVal: e))
+              preDiagnosisVal: e,
+              selected: noteShowReport == true ? "1" : "0",
+            ),
+          )
           .toList(),
       clinicalHistory2List: pastIllnessSelectedItems
-          .map((e) => SaveClinicalHistory2ListElement(
+          .map(
+            (e) => SaveClinicalHistory2ListElement(
               preDiagnosisVal: e,
               preDiagnosisValType:
-                  PrescriptionFavouriteType.pastIllness.toString()))
+                  PrescriptionFavouriteType.pastIllness.toString(),
+              selected: pastIllnessShowReport == true ? "1" : "0",
+            ),
+          )
           .toList(),
       diagnosisList: provisionalDiagnosisSelectedItems
-          .map((e) => SaveAdviceListElement(
+          .map(
+            (e) => SaveAdviceListElement(
               preDiagnosisValType:
                   PrescriptionFavouriteType.provisionalDiagnosis,
-              preDiagnosisVal: e))
+              preDiagnosisVal: e,
+              selected: provisionalDiagnosisShowReport == true ? "1" : "0",
+            ),
+          )
           .toList(),
       orthosisList: orthosisSelectedItems
-          .map((e) => SaveAdviceListElement(
+          .map(
+            (e) => SaveAdviceListElement(
               preDiagnosisVal: e,
-              preDiagnosisValType: PrescriptionFavouriteType.orthosis))
+              preDiagnosisValType: PrescriptionFavouriteType.orthosis,
+              selected: orthosisShowReport == true ? "1" : "0",
+            ),
+          )
           .toList(),
       investigationFindingsList: investigationFindingItems
-          .map((e) => SaveInvestigationList(
-                preDiagnosisValType:
-                    PrescriptionFavouriteType.investigationFindings,
-                preDiagnosisVal: e.name,
-                findings: e.finding,
-              ))
+          .map(
+            (e) => SaveInvestigationList(
+              preDiagnosisValType:
+                  PrescriptionFavouriteType.investigationFindings,
+              preDiagnosisVal: e.name,
+              findings: e.finding,
+            ),
+          )
           .toList(),
       disposalList: chosenDisposalValue == null
           ? []
           : disposeSelectedItems
-              .map((e) => SaveDisposalList(
+              .map(
+                (e) => SaveDisposalList(
                   preDiagnosisVal: e.disposal,
                   preDiagnosisValType:
                       PrescriptionFavouriteType.disposal.toString(),
                   followUpDate: e.disposalDate,
                   durationMu: e.disposalDurationType,
-                  duration: e.disposalDuration))
+                  duration: e.disposalDuration,
+                  selected: disposalShowReport == true ? "1" : "0",
+                ),
+              )
               .toList(),
       treatmentList: procedureSelectedItems
-          .map((e) => SaveClinicalHistory2ListElement(
+          .map(
+            (e) => SaveClinicalHistory2ListElement(
               preDiagnosisValType:
                   PrescriptionFavouriteType.procedure.toString(),
-              preDiagnosisVal: e))
+              preDiagnosisVal: e,
+              selected: procedureShowReport == true ? "1" : "0",
+            ),
+          )
           .toList(),
       diseaseList: diseaseSelectedItems
-          .map((e) => SaveClinicalHistory2ListElement(
+          .map(
+            (e) => SaveClinicalHistory2ListElement(
               preDiagnosisVal: e,
-              preDiagnosisValType:
-                  PrescriptionFavouriteType.disease.toString()))
+              preDiagnosisValType: PrescriptionFavouriteType.disease.toString(),
+              selected: diseaseShowReport == true ? "1" : "0",
+            ),
+          )
           .toList(),
       adviceList: adviceSelectedItems
-          .map((e) => SaveAdviceListElement(
+          .map(
+            (e) => SaveAdviceListElement(
               preDiagnosisVal: e,
-              preDiagnosisValType: PrescriptionFavouriteType.advice))
+              preDiagnosisValType: PrescriptionFavouriteType.advice,
+              selected: adviceShowReport == true ? "1" : "0",
+            ),
+          )
           .toList(),
       referralList: referredOPDSelectedItems == null ||
               referredOPDSelectedItems == ''
           ? []
           : [referredDoctorSelectedItems]
-              .map((e) => SaveClinicalHistory2ListElement(
+              .map(
+                (e) => SaveClinicalHistory2ListElement(
                   preDiagnosisValType: PrescriptionFavouriteType.opd.toString(),
-                  preDiagnosisVal: e))
+                  preDiagnosisVal: e,
+                  selected: referredDoctorShowReport == true ? "1" : "0",
+                ),
+              )
               .toList(),
       referralDoctorList:
           referredDoctorSelectedItems == null || referredOPDSelectedItems == ''
@@ -494,18 +536,22 @@ class GetTamplateDataViewModel extends ChangeNotifier {
               : [referredDoctorSelectedItems]
                   .map(
                     (e) => SaveClinicalHistory2ListElement(
-                        preDiagnosisVal: e,
-                        preDiagnosisValType:
-                            PrescriptionFavouriteType.doctor.toString()),
+                      preDiagnosisVal: e,
+                      preDiagnosisValType:
+                          PrescriptionFavouriteType.doctor.toString(),
+                      selected: referredOPDShowReport == true ? "1" : "0",
+                    ),
                   )
                   .toList(),
       investigationList: investigationSelectedItems
-          .map((e) => SaveInvestigationList(
-                preDiagnosisValType:
-                    PrescriptionFavouriteType.investigationFindingsSearch,
-                preDiagnosisVal: e.itemName,
-                itemTypeNo: e.itemTypeNo,
-              ))
+          .map(
+            (e) => SaveInvestigationList(
+              preDiagnosisValType:
+                  PrescriptionFavouriteType.investigationFindingsSearch,
+              preDiagnosisVal: e.itemName,
+              itemTypeNo: e.itemTypeNo,
+            ),
+          )
           .toList(),
       medicationList: medicineList
           .map((e) => SaveMedicationList(
@@ -513,11 +559,14 @@ class GetTamplateDataViewModel extends ChangeNotifier {
               genericName: e.genericName,
               preDiagnosisValType: 4,
               presMedDtlList: e.multiDoseList
-                  .map((e2) => SavePresMedDtlList(
+                  .map(
+                    (e2) => SavePresMedDtlList(
                       medicineComment: e2.multiDoseInstruction,
                       durationMu: e2.multiDoseDurationType,
                       dosage: e2.multiDose,
-                      duration: e2.multiDoseDuration))
+                      duration: e2.multiDoseDuration,
+                    ),
+                  )
                   .toList()))
           .toList(),
     );

@@ -24,6 +24,8 @@ import 'package:myhealthbd_app/features/auth/view_model/reset_password_view_mode
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/term_view_model.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/company_list_view_model.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
@@ -191,6 +193,10 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => ShiftListDocViewModel()),
       ChangeNotifierProvider<OrderConfirmViewModel>(
           create: (context) => OrderConfirmViewModel()),
+      ChangeNotifierProvider<TestItemViewModel>(
+          create: (context) => TestItemViewModel()),
+      ChangeNotifierProvider<CompanyListViewModel>(
+          create: (context) => CompanyListViewModel()),
 
     ];
     return AuthViewWrapper(

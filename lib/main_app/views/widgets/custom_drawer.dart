@@ -36,6 +36,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
   List<String> menuItem = [
     "Dashboard",
+    "Book Test",
     "Appointments",
     "Prescriptions",
     // "Reports",
@@ -48,6 +49,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
   List<String> menuItem2 = [
     "Dashboard",
+    "Book Test",
     "Appointments",
     "Prescriptions",
     // "Reports",

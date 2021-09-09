@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/book_test/view/book_test_screen.dart';
+import 'package:myhealthbd_app/features/book_test/view/booking_summery_screen.dart';
 import 'package:myhealthbd_app/features/dashboard/view/dash_board_screen.dart';
 import 'package:myhealthbd_app/features/hospitals/models/nearest_hospital_model.dart';
 import 'package:myhealthbd_app/features/hospitals/view/hospital_screen.dart';
@@ -29,7 +31,8 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> scaleAnimation;
   Duration duration = Duration(milliseconds: 200);
@@ -72,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _currentPosition = await location.getLocation();
     var vm9 = Provider.of<NearestHospitalViewModel>(context, listen: false);
     vm9.getData(
-        userLatitude: _currentPosition?.latitude, userLongitude: _currentPosition?.longitude);
+        userLatitude: _currentPosition?.latitude,
+        userLongitude: _currentPosition?.longitude);
     hospitalList2 = vm9.hospitalList2;
   }
 
@@ -91,7 +95,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       }
     });
     _animationController = AnimationController(vsync: this, duration: duration);
-    scaleAnimation = Tween<double>(begin: 1.0, end: 0.7).animate(_animationController);
+    scaleAnimation =
+        Tween<double>(begin: 1.0, end: 0.7).animate(_animationController);
     getLocationPermission();
   }
 
@@ -132,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         },
         locationData: _currentPosition,
       ),
+      BookTestScreen(),
       if (!isLoggedIn) ...[
         SignInDashboardForAppoinmentPrompt("To access your Appointments,"),
         SignInDashboardForPatientPrompt("To access your Patient Portal,"),
@@ -158,7 +164,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     final Widget dashboardicon = SvgPicture.asset(
       dashboardiconiamg,
       width: 10,
-      color: currentBottomIndex == 0 ? HexColor('#354291') : HexColor('#969EC8'),
+      color:
+          currentBottomIndex == 0 ? HexColor('#354291') : HexColor('#969EC8'),
       height: 20,
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
@@ -172,7 +179,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       appointmenticonimg,
       width: 10,
       height: 20,
-      color: currentBottomIndex == 1 ? HexColor('#354291') : HexColor('#969EC8'),
+      color:
+          currentBottomIndex == 1 ? HexColor('#354291') : HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -186,7 +194,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       key: Key('hospitalBottomNavbarKey'),
       width: 10,
       height: 20,
-      color: currentBottomIndex == 2 ? HexColor('#354291') : HexColor('#969EC8'),
+      color:
+          currentBottomIndex == 2 ? HexColor('#354291') : HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -198,7 +207,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       myhealthiconimag,
       width: 10,
       height: 20,
-      color: currentBottomIndex == 3 ? HexColor('#354291') : HexColor('#969EC8'),
+      color:
+          currentBottomIndex == 3 ? HexColor('#354291') : HexColor('#969EC8'),
       fit: BoxFit.fitWidth,
       allowDrawingOutsideViewBox: true,
       matchTextDirection: true,
@@ -215,7 +225,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             _closeDrawer();
             if (selectedIndex != 0) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => screenList[selectedIndex]));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => screenList[selectedIndex]));
             }
           },
         ),

@@ -8,6 +8,8 @@ class TestItemViewModel extends ChangeNotifier{
   List<Item> _testItem =[];
   List<Item> _cartList =[];
   List<double> _salesPrice=[];
+  List<double> _discountAmt=[];
+  List<double> _discountPrice=[];
   AppError _appError;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
@@ -87,9 +89,12 @@ class TestItemViewModel extends ChangeNotifier{
   //   }
   // }
 
-  addToCart({Item cartList,double salesPrice}){
+  addToCart({Item cartList,double salesPrice,double discountAmt,double discountPrice}){
     _cartList.add(cartList);
     _salesPrice.add(salesPrice);
+    _discountAmt.add(discountAmt);
+    _discountPrice.add(discountPrice);
+    notifyListeners();
   }
 
 
@@ -145,5 +150,7 @@ class TestItemViewModel extends ChangeNotifier{
   List<Item> get testItemList => _testItem;
   List<Item> get cartList => _cartList;
   List<double> get salesPrice => _salesPrice;
+  List<double> get discountAmt => _discountAmt;
+  List<double> get discountPrice => _discountPrice;
 
 }

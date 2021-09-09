@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/features/book_test/view/booking_summery_screen.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/views/widgets/loader.dart';
 import 'package:provider/provider.dart';
 
 class BookTestScreen extends StatefulWidget {
@@ -47,9 +48,9 @@ class _BookTestScreenState extends State<BookTestScreen> {
           ),
         ],
       ),
-      body: Padding(
+      body:testItemVm.testItemList==null?Loader(): Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
-        child: GridView.builder(
+        child:GridView.builder(
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               mainAxisExtent: 150,
               maxCrossAxisExtent: 300,
@@ -134,7 +135,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
                           ),
                           InkWell(
                             onTap: ()async{
-                              await testItemVm.addToCart(cartList: testItemVm.testItemList[index],salesPrice: testItemVm.testItemList[index].salesPrice);
+                              await testItemVm.addToCart(cartList: testItemVm.testItemList[index],salesPrice: testItemVm.testItemList[index].salesPrice,discountAmt: testItemVm.testItemList[index].discountAmt,discountPrice: testItemVm.testItemList[index].discountPrice);
                             },
                             child: Container(
                               decoration: BoxDecoration(

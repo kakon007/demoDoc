@@ -21,6 +21,10 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
     var testItemVm = Provider.of<TestItemViewModel>(context);
     num subTotal= 0;
     testItemVm.salesPrice.forEach((num e){subTotal += e;});
+    num discountAmt=0;
+    testItemVm.discountAmt.forEach((num e){discountAmt += e;});
+    num discountPrice=0;
+    testItemVm.discountPrice.forEach((num e){discountPrice += e;});
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -167,6 +171,14 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                                     height: isTablet? 50 : 45,
                                                     child: FlatButton(
                                                         onPressed: () async{
+                                                          testItemVm.cartList.clear();
+                                                          testItemVm.salesPrice.clear();
+                                                          testItemVm.discountAmt.clear();
+                                                          testItemVm.discountPrice.clear();
+                                                          Navigator.pop(context);
+                                                          setState(() {
+
+                                                          });
                                                         },
                                                         shape: RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.circular(10)),
@@ -259,12 +271,12 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Items  (8)',
+                        'Items  ${(testItemVm.cartList.length)}',
                         style: GoogleFonts.poppins(
                             fontSize: isTablet ? 20 : 15,fontWeight: FontWeight.w600, color: Color(0xff354291)),
                       ),
                       Text(
-                        'Price  (8)',
+                        'Price  (TK)',
                         style: GoogleFonts.poppins(
                             fontSize: isTablet ? 20 : 15, fontWeight: FontWeight.w600, color: Color(0xff354291)),
                       ),
@@ -276,10 +288,10 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                height: 10,
              ),
               Container(
-                height: 450,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.separated(
+                     physics: NeverScrollableScrollPhysics(),
                       itemCount: testItemVm.cartList.length,
                       shrinkWrap: true,
                       itemBuilder:
@@ -305,13 +317,24 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                 ),
 
                                 Text(
-                                  '12,000.00',
+                                  testItemVm.cartList[index].salesPrice.toString(),
                                   style: GoogleFonts.poppins(
                                       fontSize: isTablet ? 20 : 15, color: Colors.black),
                                 ),
-                                Icon(Icons.delete_sweep,
-                                    size: isTablet ? 27 : 20,
-                                    color:Color(0xffFFA7A7)),
+                                InkWell(
+                                  onTap: (){
+                                    testItemVm.cartList.removeAt(index);
+                                    testItemVm.salesPrice.removeAt(index);
+                                    testItemVm.discountAmt.removeAt(index);
+                                    testItemVm.discountPrice.removeAt(index);
+                                    setState(() {
+
+                                    });
+                                  },
+                                  child: Icon(Icons.delete_sweep,
+                                      size: isTablet ? 27 : 20,
+                                      color:Color(0xffFFA7A7)),
+                                ),
                               ],
                             )
                           ),
@@ -350,7 +373,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                   fontSize: isTablet ? 20 : 14, color: Colors.black),
                             ),
                             Text(
-                              subTotal.toString(),
+                              '$subTotal Tk',
                               style: GoogleFonts.poppins(
                                   fontSize: isTablet ? 20 : 14, color: Colors.black),
                             ),
@@ -365,7 +388,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                   fontSize: isTablet ? 20 : 14, color: Color(0xff037BB7)),
                             ),
                             Text(
-                              '1,526.00 Tk',
+                              '$discountAmt Tk',
                               style: GoogleFonts.poppins(
                                   fontSize: isTablet ? 20 : 14, color: Color(0xff037BB7)),
                             ),
@@ -381,7 +404,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                   fontSize: isTablet ? 20 : 14, color: Colors.black),
                             ),
                             Text(
-                              '29,684.00 Tk',
+                              '$discountPrice Tk',
                               style: GoogleFonts.poppins(
                                   fontSize: isTablet ? 20 : 14, color: Colors.black),
                             ),

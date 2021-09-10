@@ -18,6 +18,7 @@ class TestItemModel {
     this.id,
     this.model,
     this.items,
+
   });
 
   bool success;
@@ -68,6 +69,7 @@ class Item {
     this.discountPrice,
     this.promoCode,
     this.companyName,
+    this.isAdded=false,
   });
 
   int itemNo;
@@ -84,6 +86,7 @@ class Item {
   double discountPrice;
   dynamic promoCode;
   dynamic companyName;
+  bool isAdded;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     itemNo: json["itemNo"] == null ? null : json["itemNo"],
@@ -100,6 +103,7 @@ class Item {
     discountPrice: json["discountPrice"] == null ? null : json["discountPrice"].toDouble(),
     promoCode: json["promoCode"],
     companyName: json["companyName"],
+    isAdded:false,
   );
 
   Map<String, dynamic> toJson() => {

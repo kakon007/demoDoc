@@ -153,4 +153,12 @@ class TestItemViewModel extends ChangeNotifier{
   List<double> get discountAmt => _discountAmt;
   List<double> get discountPrice => _discountPrice;
 
+  // set testItemList(List<Item> value) {
+  //   this._testItem= value;
+  //   notifyListeners();
+  // }
+ void isAdded({int index}){
+    _testItem[index].isAdded=!_testItem[index].isAdded;
+  }
+
 }

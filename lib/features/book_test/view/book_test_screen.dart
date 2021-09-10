@@ -231,9 +231,13 @@ class _BookTestScreenState extends State<BookTestScreen> {
                                   ),
                                 ),
                               ),
-                              InkWell(
+                              testItemVm.testItemList[index].isAdded?SizedBox():InkWell(
                                 onTap: ()async{
                                   await testItemVm.addToCart(cartList: testItemVm.testItemList[index],salesPrice: testItemVm.testItemList[index].salesPrice,discountAmt: testItemVm.testItemList[index].discountAmt,discountPrice: testItemVm.testItemList[index].discountPrice);
+                                  testItemVm.isAdded(index: index);
+                                  setState(() {
+
+                                  });
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

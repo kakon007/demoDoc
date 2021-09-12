@@ -87,9 +87,9 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
                   )),
                 ),
                 onTap: () {
-                  orderVm.forMe= true;
-                  orderVm.addPatient = false;
-                  // orderVm.getAppointType(true, false);
+                  // orderVm.forMe= true;
+                  // orderVm.addPatient = false;
+                   orderVm.getAppointType(true, false);
                   if (orderVm.addPatient == false) {
                     orderVm.getButtonColor(
                         "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
@@ -115,9 +115,9 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
                           color: HexColor(orderVm.addPatientTextColor)),
                     ))),
                 onTap: () {
-                  // orderVm.getAppointType(false, true);
-                  orderVm.forMe= true;
-                  orderVm.addPatient = false;
+                  orderVm.getAppointType(false, true);
+                  // orderVm.forMe= true;
+                  // orderVm.addPatient = false;
                   if (orderVm.forMe == false) {
                     orderVm.getButtonColor(
                         "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");

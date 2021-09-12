@@ -511,9 +511,9 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                     var cartVM =
                     Provider.of<OrderConfirmViewModel>(context, listen: false);
                     Future.delayed(Duration.zero, () {
-                      cartVM.forMe = true;
-                      cartVM.addPatient = false;
-                      // cartVM.getAppointType(true, false);
+                      // cartVM.forMe = true;
+                      // cartVM.addPatient = false;
+                       cartVM.getAppointType(true, false);
                     });
                     //await vm3.getData2();
                     if(cartVM.forMe){

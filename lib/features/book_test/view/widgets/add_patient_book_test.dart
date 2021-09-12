@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/family_members.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -176,9 +177,48 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                                 _selectedMemberType = newValue;
                                 if (_selectedMemberType !=   cartVM.selectedMemberType) {
                                   if (_selectedMemberType == "Family Member") {
+                                    var vm3 =
+                                    Provider.of<UserDetailsViewModel>(context, listen: false);
                                     cartVM.memberList = true;
+                                    cartVM.fathersName.text = vm3.patDetails.fatherName ?? "";
+                                    cartVM.mothersName.text = vm3.patDetails.motherName ?? "";
+                                    cartVM.lastNameController.text =
+                                        vm3.patDetails.lname ?? "";
+                                    cartVM.firstNameController.text =
+                                        vm3.patDetails.fname ?? "";
+                                    cartVM.mobileNumberController.text =
+                                        vm3.patDetails.phoneMobile ?? "";
+                                    cartVM.emailController.text = vm3.patDetails.email ?? "";
+                                    cartVM.nidController.text =
+                                        vm3.patDetails.nationalId ?? "";
+                                    cartVM.passportController.text =
+                                        vm3.patDetails.passportNo ?? "";
+                                    cartVM.addressController.text =
+                                        vm3.patDetails.address ?? "";
+                                    cartVM.dayController.text =
+                                        vm3.userDetailsList.ageDd.toString() ?? "";
+                                    cartVM.monthController.text =
+                                        vm3.userDetailsList.ageMm.toString() ?? "";
+                                    cartVM.yearController.text =
+                                        vm3.userDetailsList.ageYy.toString() ?? "";
                                   } else {
                                     cartVM.memberList = false;
+                                    cartVM.fathersName.text = "";
+                                    cartVM.mothersName.text ="";
+                                    cartVM.lastNameController.text ="";
+                                    cartVM.firstNameController.text ="";
+                                    cartVM.mobileNumberController.text = "";
+                                    cartVM.emailController.text = "";
+                                    cartVM.nidController.text = "";
+                                    cartVM.passportController.text = "";
+                                    cartVM.addressController.text ="";
+                                    cartVM.dayController.text = "";
+                                    cartVM.monthController.text = "";
+                                    cartVM.yearController.text ="";
+                                    // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                                    // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                                    cartVM.selectedDob =
+                                        DateTime.now();
                                   }
                                   cartVM.selectedMemberType = newValue;
                                   Future.delayed(Duration.zero, () async {

@@ -14,8 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:myhealthbd_app/features/book_test/model/test_item_model.dart';
 
 class OrderConfirmViewModel extends ChangeNotifier {
-  bool forMe = true;
-  bool addPatient = false;
+  bool _forMe = true;
+  bool _addPatient = false;
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController date = new TextEditingController();
@@ -68,9 +68,8 @@ class OrderConfirmViewModel extends ChangeNotifier {
   DateTime selectedExpectedDate = DateTime.now();
   DateTime selectTentativeDate = DateTime.now();
   getAppointType(bool forMe, bool addPatient) {
-    // _forMe = forMe;
-    // _addPatient = addPatient;
-    notifyListeners();
+    _forMe = forMe;
+    _addPatient = addPatient;
   }
 
   getButtonColor(String forMeBackColor, String forMeTextColor,
@@ -193,9 +192,9 @@ class OrderConfirmViewModel extends ChangeNotifier {
     OrderConfirmationRepository().fetchBookConfirmationType(order);
   }
 
-  // bool get forMe => _forMe;
-  //
-  // bool get addPatient => _addPatient;
+  bool get forMe => _forMe;
+
+  bool get addPatient => _addPatient;
 
   String get forMeBackColor => _forMeBackColor;
 

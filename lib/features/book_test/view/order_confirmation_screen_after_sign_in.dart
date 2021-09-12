@@ -102,8 +102,7 @@ class _OrderConfirmationAfterSignInState
 
   @override
   void initState() {
-    cartVM.forMe= true;
-    cartVM.addPatient = false;
+    cartVM.getAppointType(true, false);
     super.initState();
   }
 
@@ -153,9 +152,9 @@ class _OrderConfirmationAfterSignInState
                 onTap: () {
                   var vm3 =
                       Provider.of<UserDetailsViewModel>(context, listen: false);
-                  // cartVM.getAppointType(true, false);
-                  cartVM.forMe= true;
-                  cartVM.addPatient = false;
+                   cartVM.getAppointType(true, false);
+                  // cartVM.forMe= true;
+                  // cartVM.addPatient = false;
                   if (cartVM.addPatient == false) {
                     cartVM.getButtonColor(
                         "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
@@ -215,9 +214,9 @@ class _OrderConfirmationAfterSignInState
                 onTap: () {
                   var vm3 =
                       Provider.of<UserDetailsViewModel>(context, listen: false);
-                  // cartVM.getAppointType(false, true);
-                  cartVM.forMe= false;
-                  cartVM.addPatient = true;
+                  cartVM.getAppointType(false, true);
+                  // cartVM.forMe= false;
+                  // cartVM.addPatient = true;
                   if (cartVM.forMe == false) {
                     cartVM.getButtonColor(
                         "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");

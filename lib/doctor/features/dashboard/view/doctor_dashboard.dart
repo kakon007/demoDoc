@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/dashboard_drawer.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view/widgets/worklists_widget.dart';
+import 'package:myhealthbd_app/doctor/features/dashboard/view_model/consultation_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/worklist/view_model/worklist_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/resource/doctor_const.dart';
@@ -37,22 +38,23 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       await companyInfoVm.userImage();
       await PersonalInfoViewModel.read(context).getPersonalInfo();
       await workVm.getTodaysWorklist();
-      await workVm.getFreshVisitTotal(
-        fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-      );
-      await workVm.getFollowUpTotal(
-        fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-      );
-      await workVm.getReportCheckTotal(
-        fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-      );
-      await workVm.getPatientConsultTotal(
-        fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-        toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
-      );
+      await ConsultationViewModel.read(context).getConsultationStatus();
+      // await workVm.getFreshVisitTotal(
+      //   fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      //   toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      // );
+      // await workVm.getFollowUpTotal(
+      //   fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      //   toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      // );
+      // await workVm.getReportCheckTotal(
+      //   fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      //   toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      // );
+      // await workVm.getPatientConsultTotal(
+      //   fromDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      //   toDate: DateFormat("dd-MMM-yyyy").format(DateTime.now()),
+      // );
     });
     // TODO: implement initState
     super.initState();
@@ -62,6 +64,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
   Widget build(BuildContext context) {
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var workVm = Provider.of<WorkListViewModel>(context, listen: true);
+    var consultStatus = ConsultationViewModel.watch(context);
     var photo = companyInfoVm.details?.photo ?? '';
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
@@ -250,7 +253,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   Row(
                     children: [
                       Text(
-                        workVm.totalPatientConsult ?? "",
+                        consultStatus?.consultationStatus?.obj?.totalAppointed?.toString()?? "",
                         style: GoogleFonts.poppins(
                             color: Colors.white, fontSize: 18),
                       ),
@@ -293,7 +296,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         height: 10,
                       ),
                       Text(
-                        "100",
+                        consultStatus?.consultationStatus?.obj?.consultationPending?.toString() ?? "",
                         style: GoogleFonts.poppins(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       )
@@ -335,7 +338,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         height: 10,
                       ),
                       Text(
-                        "100",
+                        consultStatus?.consultationStatus?.obj?.done?.toString() ?? "",
                         style: GoogleFonts.poppins(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       )
@@ -388,8 +391,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         animation: true,
                         startAngle: 1,
                         percent: .4,
-                        center: new Text(
-                          workVm.freshTotal ?? "0",
+                        center:  Text(
+                          consultStatus?.consultationStatus?.obj?.freshVisit?.toString() ?? "",
                           style: GoogleFonts.poppins(
                               //color: HexColor("#107B3E"),
                               color: AppTheme.buttonActiveColor,
@@ -450,7 +453,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         startAngle: 1,
                         percent: .4,
                         center: new Text(
-                          workVm.followUpTotal ?? "0",
+                          consultStatus?.consultationStatus?.obj?.firstFollowUp?.toString() ?? "",
                           style: GoogleFonts.poppins(
                               //color: HexColor("#107B3E"),
                               color: AppTheme.buttonActiveColor,
@@ -506,7 +509,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         startAngle: 1,
                         percent: .4,
                         center: new Text(
-                          workVm.reportCheck ?? "0",
+                          consultStatus?.consultationStatus?.obj?.reportCheck?.toString() ?? "",
                           style: GoogleFonts.poppins(
                               //color: HexColor("#107B3E"),
                               color: AppTheme.buttonActiveColor,

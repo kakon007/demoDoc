@@ -43,8 +43,8 @@ class _BookTestScreenState extends State<BookTestScreen> {
       bookTestController.text = vm2.companyList.items.first.companyName;
       _scrollController = ScrollController();
 
-      _scrollController.addListener(() {
-        if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
+      _scrollController2.addListener(() {
+        if (_scrollController2.position.pixels >= _scrollController2.position.maxScrollExtent - 100) {
           vm.getMoreData(companyNo: 2);
         }
       });
@@ -512,7 +512,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
                   : Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: GridView.builder(
-                          controller: _scrollController,
+                          controller: _scrollController2,
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
                             mainAxisExtent: 150,
@@ -525,9 +525,9 @@ class _BookTestScreenState extends State<BookTestScreen> {
                           itemBuilder: (context, index) {
 
                             if (index == testItemVm.testItemList.length) {
-                              return vm.isFetchingMoreData
+                              return testItemVm.isFetchingMoreData
                                   ? SizedBox(
-                                  height: 60,
+                                  height: 80,
                                   child:
                                   Center(child: CircularProgressIndicator()))
                                   : SizedBox();

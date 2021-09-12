@@ -174,6 +174,7 @@ class UserDetailsViewModel extends ChangeNotifier {
       cartVM.dayController.text = r.dataList.ageDd.toString() ?? "";
       cartVM.monthController.text = r.dataList.ageMm.toString() ?? "";
       cartVM.yearController.text = r.dataList.ageYy.toString() ?? "";
+      cartVM.selectedDob = DateTime.parse(r.dataList.dob) ?? "";
       notifyListeners();
     });
   }

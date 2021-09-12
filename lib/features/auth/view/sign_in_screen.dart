@@ -351,10 +351,14 @@ class _SignInState extends State<SignIn> {
                                       var vm5 = Provider.of<AuthViewModel>(
                                           context,
                                           listen: false);
-                                      var companyVm= Provider.of<UserImageViewModel>(context, listen: false);
+                                      var companyVm =
+                                          Provider.of<UserImageViewModel>(
+                                              context,
+                                              listen: false);
                                       await vm5.getAuthData(
                                           _username.text, _password.text);
-                                      await companyVm.userDetails(accessToken: vm5.accessToken);
+                                      await companyVm.userDetails(
+                                          accessToken: vm5.accessToken);
                                       print('usertype ${companyVm.userType}');
                                       // if (_username
                                       //     .toString()
@@ -365,7 +369,7 @@ class _SignInState extends State<SignIn> {
                                       //   });
                                       // }
                                       if (vm5.accessToken != null &&
-                                          companyVm.userType==3) {
+                                          companyVm.userType == 3) {
                                         accountsList.forEach((item) {
                                           if (item.username.contains(
                                               _username.text.toUpperCase())) {
@@ -388,8 +392,12 @@ class _SignInState extends State<SignIn> {
                                           print("abcd");
                                           SwitchAccounts switchAccounts =
                                               new SwitchAccounts(
-                                            name:
-                                                vm4.userSwitchDetailsList?.fname==null ? "" :vm4.userSwitchDetailsList.fname ,
+                                            name: vm4.userSwitchDetailsList
+                                                        ?.fname ==
+                                                    null
+                                                ? ""
+                                                : vm4.userSwitchDetailsList
+                                                    .fname,
                                             relation:
                                                 vm3.switchDetails?.photo == null
                                                     ? ""
@@ -422,7 +430,7 @@ class _SignInState extends State<SignIn> {
                                         appNavigator
                                             .getProvider<AccessTokenProvider>()
                                             .setToken(vm5.accessToken);
-                                        if (companyVm.userType==2) {
+                                        if (companyVm.userType == 2) {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
                                                   MaterialPageRoute(
@@ -432,7 +440,7 @@ class _SignInState extends State<SignIn> {
                                                   ),
                                                   (Route<dynamic> route) =>
                                                       false);
-                                        } else if(companyVm.userType==3) {
+                                        } else if (companyVm.userType == 3) {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
                                                   MaterialPageRoute(
@@ -445,17 +453,16 @@ class _SignInState extends State<SignIn> {
                                                   ),
                                                   (Route<dynamic> route) =>
                                                       false);
-                                        }
-                                        else if(companyVm.userType==0){
+                                        } else if (companyVm.userType == 0) {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                builder: (BuildContext
-                                                context) =>
-                                                AdminDashboard()
-                                              ),
+                                                  MaterialPageRoute(
+                                                      builder:
+                                                          (BuildContext
+                                                                  context) =>
+                                                              AdminDashboard()),
                                                   (Route<dynamic> route) =>
-                                              false);
+                                                      false);
                                         }
                                         if (this.value == true) {
                                           prefs.setBool("value", true);

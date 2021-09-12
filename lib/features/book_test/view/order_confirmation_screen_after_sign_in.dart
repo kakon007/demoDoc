@@ -404,9 +404,31 @@ class _OrderConfirmationAfterSignInState
         //elevation: 5,
         style: TextStyle(color: Colors.black),
         items: <String>[
-          'Mr',
-          'Msc',
-          'Other',
+          'MD',
+          'MD.',
+          'MRS.',
+          'MR.',
+          'Miss.',
+          'Miss.',
+          'MOHAMMAD',
+          'SON OF.',
+          'DAUGHTER OF',
+          'BABY OF',
+          'MST.',
+          'SREEMOTEE',
+          'Prof.',
+          'ALHAJ',
+          'ST.',
+          'MIAJI',
+          'DR.',
+          'ENGG',
+          'MS',
+          'ENGINEER',
+          'KUMARI',
+          'KUMAR',
+          'MASTER',
+          'DR',
+          'MOST.',
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
@@ -1167,21 +1189,21 @@ class _OrderConfirmationAfterSignInState
               mobileNumber,
               spaceBetween,
               address,
-              CheckboxListTile(
-                activeColor: Colors.indigo,
-                controlAffinity: ListTileControlAffinity.leading,
-                title: Text(
-                  "Home Sample Collection",
-                  style: TextStyle(
-                      fontSize: isTablet ? 18 : 16,
-                      fontWeight: FontWeight.w500),
-                ),
-                value: isCheckSample,
-                onChanged: (val) {
-                  isCheckSample = val;
-                  setState(() {});
-                },
-              ),
+              // CheckboxListTile(
+              //   activeColor: Colors.indigo,
+              //   controlAffinity: ListTileControlAffinity.leading,
+              //   title: Text(
+              //     "Home Sample Collection",
+              //     style: TextStyle(
+              //         fontSize: isTablet ? 18 : 16,
+              //         fontWeight: FontWeight.w500),
+              //   ),
+              //   value: isCheckSample,
+              //   onChanged: (val) {
+              //     isCheckSample = val;
+              //     setState(() {});
+              //   },
+              // ),
               SizedBox(
                 height: 20,
               ),

@@ -187,21 +187,27 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem.add(e.favouriteVal);
+                                        favItem
+                                            .add(e.favouriteVal.toLowerCase());
                                       }).toList();
-                                      if(favItem.contains(templateVm.orthosisSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .orthosisSelectedItems[index]
+                                          .toLowerCase())) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .orthosis
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .orthosisSelectedItems[index])
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .orthosis
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                        .orthosisSelectedItems[
+                                                    index])
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         _favoriteController.clear();
                                         favoriteItems.clear();
                                         favoriteItems.addAll(vm.favouriteList);

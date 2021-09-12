@@ -35,7 +35,7 @@ class _InvestigationFindingsWidgetState
   TextEditingController controller = TextEditingController();
   TextEditingController _favoriteController = TextEditingController();
   TextEditingController _findingController = TextEditingController();
-bool isNameSelected = false;
+  bool isNameSelected = false;
   int ind;
   var vm = appNavigator.context.read<InvestigationFindingsViewModel>();
 
@@ -44,8 +44,7 @@ bool isNameSelected = false;
     initialFavoriteSearch = vm.favouriteList;
     print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
-      List<FavouriteItemModel> initialFavoriteSearchItems =
-          [];
+      List<FavouriteItemModel> initialFavoriteSearchItems = [];
       initialFavoriteSearch.forEach((item) {
         if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
@@ -115,15 +114,17 @@ bool isNameSelected = false;
                         Icons.search,
                         color: AppTheme.buttonActiveColor,
                       ),
-                      suffixIcon: isNameSelected ==false? IconButton(
-                          onPressed: (){
-                            setState(() {
-                              FocusScope.of(context).unfocus();
-                              isNameSelected=true;
-                            });
-                          },
-                          icon: Icon(Icons.check,
-                              color: AppTheme.buttonActiveColor)) : SizedBox(),
+                      suffixIcon: isNameSelected == false
+                          ? IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  FocusScope.of(context).unfocus();
+                                  isNameSelected = true;
+                                });
+                              },
+                              icon: Icon(Icons.check,
+                                  color: AppTheme.buttonActiveColor))
+                          : SizedBox(),
                     )),
                 itemBuilder: (_, v) {
                   return Padding(
@@ -139,9 +140,9 @@ bool isNameSelected = false;
                     // investigationFindingItems.add(
                     //   Findings(name: v)
                     //);
-                    controller.text=v;
+                    controller.text = v;
                   }
-                  isNameSelected=true;
+                  isNameSelected = true;
                   setState(() {});
                 },
                 suggestionsBoxDecoration: SuggestionsBoxDecoration(
@@ -165,50 +166,51 @@ bool isNameSelected = false;
                         hintStyle: GoogleFonts.poppins(fontSize: 14),
                         suffixIcon: IconButton(
                           onPressed: () {
-                            List<Findings> findingList = templateVm.investigationFindingItems;
-                            List<String> finding=[];
-                            templateVm.investigationFindingItems.map((e){
+                            List<Findings> findingList =
+                                templateVm.investigationFindingItems;
+                            List<String> finding = [];
+                            templateVm.investigationFindingItems.map((e) {
                               finding.add(e.name);
                             }).toList();
                             if (ind != null) {
                               print('name $ind');
                               //templateVm.investigationFindingItems.indexOf(Findings(name: controller.text, finding: _findingController.text), ind);
-                               templateVm.investigationFindingItems.removeAt(ind);
-                               templateVm.investigationFindingItems.add(Findings(name: controller.text,finding: _findingController.text));
+                              templateVm.investigationFindingItems
+                                  .removeAt(ind);
+                              templateVm.investigationFindingItems.add(Findings(
+                                  name: controller.text,
+                                  finding: _findingController.text));
                               //   controller.text;
-                              isNameSelected=false;
+                              isNameSelected = false;
                               _findingController.clear();
                               controller.clear();
                               ind = null;
-                              setState(() {
-
-                              });
+                              setState(() {});
                             }
                             // else {
-                              else if (controller.text.isNotEmpty) {
-                                // templateVm.investigationFindingItems.forEach((element) {
-                                //   if(element.name==controller.text)
-                                //   {
-                                //     print('priiiii');
-                                //   }
-                                // });
+                            else if (controller.text.isNotEmpty) {
+                              // templateVm.investigationFindingItems.forEach((element) {
+                              //   if(element.name==controller.text)
+                              //   {
+                              //     print('priiiii');
+                              //   }
+                              // });
                               print('length ${finding.length}');
-                                  if(finding.contains(controller.text)){
-                                    BotToast.showText(text: "All ready added");
-                                  } else {
-                                    print('shakil2');
-                                    templateVm.investigationFindingItems.add(
-                                        Findings(
-                                            name: controller.text.trim(),
-                                            finding: _findingController.text));
-                                    isNameSelected=false;
-                                    controller.clear();
-                                    _findingController.clear();
-                                  }
-
+                              if (finding.contains(controller.text)) {
+                                BotToast.showText(text: "All ready added");
                               } else {
-                                BotToast.showText(text: "Field is empty");
+                                print('shakil2');
+                                templateVm.investigationFindingItems.add(
+                                    Findings(
+                                        name: controller.text.trim(),
+                                        finding: _findingController.text));
+                                isNameSelected = false;
+                                controller.clear();
+                                _findingController.clear();
                               }
+                            } else {
+                              BotToast.showText(text: "Field is empty");
+                            }
 
                             setState(() {});
                           },
@@ -254,25 +256,31 @@ bool isNameSelected = false;
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem.add(e.favouriteVal);
+                                        favItem
+                                            .add(e.favouriteVal.toLowerCase());
                                       }).toList();
-                                      if(favItem.contains(templateVm.investigationFindingItems[index].name)){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .investigationFindingItems[index].name
+                                          .toLowerCase())) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .investigationFindings
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .investigationFindingItems[
-                                            index]
-                                                .name)
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .investigationFindings
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                    .investigationFindingItems[
+                                                        index]
+                                                    .name)
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());
@@ -292,13 +300,13 @@ bool isNameSelected = false;
                                       controller.text = templateVm
                                           .investigationFindingItems[index]
                                           .name;
-                                      _findingController.text = templateVm.investigationFindingItems[index].finding;
-                                     isNameSelected= true;
+                                      _findingController.text = templateVm
+                                          .investigationFindingItems[index]
+                                          .finding;
+                                      isNameSelected = true;
                                       ind = index;
-                                    setState(() {
-
-                                    });
-                                      },
+                                      setState(() {});
+                                    },
                                     child: Container(
                                       height: 30,
                                       width: 30,
@@ -406,22 +414,21 @@ bool isNameSelected = false;
                                       BotToast.showText(
                                           text: "All ready added");
                                     } else {
-
                                       setState(() {
-                                        controller.text=item.favouriteVal;
-                                        isNameSelected= true;
+                                        controller.text = item.favouriteVal;
+                                        isNameSelected = true;
                                       });
-                                     // showAlert(context, item.favouriteVal);
+                                      // showAlert(context, item.favouriteVal);
                                       // Navigator.pop(context);
                                       // investigationFindingItems
                                       //     .add(Findings(name: item.favouriteVal));
                                     }
                                   } else {
                                     setState(() {
-                                      controller.text=item.favouriteVal;
-                                      isNameSelected= true;
+                                      controller.text = item.favouriteVal;
+                                      isNameSelected = true;
                                     });
-                                   // showAlert(context, item.favouriteVal);
+                                    // showAlert(context, item.favouriteVal);
                                     // Navigator.pop(context);
                                     // investigationFindingItems
                                     //     .add(Findings(name: item.favouriteVal));

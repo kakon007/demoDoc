@@ -208,25 +208,30 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem.add(e.favouriteVal);
+                                        favItem
+                                            .add(e.favouriteVal.toLowerCase());
                                       }).toList();
-                                      if(favItem.contains(templateVm.chiefComplaintSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }
-                                      else{
+                                      if (favItem.contains(templateVm
+                                          .chiefComplaintSelectedItems[index]
+                                          .toLowerCase())) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .chiefComplaint
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .chiefComplaintSelectedItems[
-                                            index])
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .chiefComplaint
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                        .chiefComplaintSelectedItems[
+                                                    index])
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());
@@ -234,7 +239,6 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                           favoriteItems = vm.favouriteList;
                                         }
                                       }
-
                                     },
                                     child: Icon(
                                       Icons.favorite_border,

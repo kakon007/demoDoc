@@ -93,31 +93,21 @@ class _DisposalWidgetState extends State<DisposalWidget> {
                 width: isTablet
                     ? width * .3
                     : width <= 330
-                    ? MediaQuery.of(context)
-                    .size
-                    .width *
-                    .3
-                    : MediaQuery.of(context)
-                    .size
-                    .width *
-                    .3,
+                        ? MediaQuery.of(context).size.width * .3
+                        : MediaQuery.of(context).size.width * .3,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(
-                        color: HexColor("#808080")),
+                    border: Border.all(color: HexColor("#808080")),
                     borderRadius: BorderRadius.circular(5)),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12.0, right: 12),
+                  padding: const EdgeInsets.only(left: 12.0, right: 12),
                   child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "$_formatDate",
                         style: GoogleFonts.poppins(
-                            color:
-                            AppTheme.signInSignUpColor,
+                            color: AppTheme.signInSignUpColor,
                             fontSize: isTablet ? 18 : 13.0),
                       ),
                       Container(
@@ -153,7 +143,6 @@ class _DisposalWidgetState extends State<DisposalWidget> {
           'Months',
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
-
             value: value,
             child: Text(
               value,
@@ -165,25 +154,29 @@ class _DisposalWidgetState extends State<DisposalWidget> {
           padding: const EdgeInsets.only(left: 0),
           child: Text(
             "Duration Type",
-            style: TextStyle(
-                color: Color(0xffD2D2D2),
-              fontSize: 12
-             ),
+            style: TextStyle(color: Color(0xffD2D2D2), fontSize: 12),
           ),
         ),
         onChanged: (String value) {
           setState(() {
             templateVm.disposalDurationType = value;
-            if(templateVm.disposalDurationType.toString().toLowerCase()=='days'){
-              templateVm.disposalSelectedDate = DateTime.now().add(Duration(days: int.parse(templateVm.disposalDurationController.text)));
+            if (templateVm.disposalDurationType.toString().toLowerCase() ==
+                'days') {
+              templateVm.disposalSelectedDate = DateTime.now().add(Duration(
+                  days: int.parse(templateVm.disposalDurationController.text)));
+            } else if (templateVm.disposalDurationType
+                    .toString()
+                    .toLowerCase() ==
+                'months') {
+              templateVm.disposalSelectedDate = DateTime.now().add(Duration(
+                  days: int.parse(templateVm.disposalDurationController.text) *
+                      30));
+            } else {
+              templateVm.disposalSelectedDate = DateTime.now().add(Duration(
+                  days: int.parse(templateVm.disposalDurationController.text) *
+                      7));
             }
-            else if(templateVm.disposalDurationType.toString().toLowerCase()=='months'){
-              templateVm.disposalSelectedDate = DateTime.now().add(Duration(days: int.parse(templateVm.disposalDurationController.text)*30));
-            }
-            else{
-              templateVm.disposalSelectedDate = DateTime.now().add(Duration(days: int.parse(templateVm.disposalDurationController.text)*7));
-            }
-             // setState(() {
+            // setState(() {
             //   // if(v.toString()==null || v.toString()==''){
             //   //   templateVm.disposalSelectedDate = DateTime.now();
             //   // }
@@ -282,7 +275,7 @@ class _DisposalWidgetState extends State<DisposalWidget> {
                           //       labelStyle: TextStyle(fontSize: 14)),
                           // ),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 10),
+                            padding: const EdgeInsets.only(left: 5),
                             child: selectDuration,
                           ),
                         ),

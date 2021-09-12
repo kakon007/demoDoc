@@ -187,20 +187,25 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem.add(e.favouriteVal);
+                                        favItem
+                                            .add(e.favouriteVal.toLowerCase());
                                       }).toList();
-                                      if(favItem.contains(templateVm.procedureSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .procedureSelectedItems[index]
+                                          .toLowerCase())) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .procedure
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .procedureSelectedItems[
-                                            index])
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .procedure
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                        .procedureSelectedItems[
+                                                    index])
                                             .then((value) => vm.getData());
                                         _favoriteController.clear();
                                         favoriteItems.clear();

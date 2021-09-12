@@ -198,20 +198,26 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem.add(e.favouriteVal);
+                                        favItem
+                                            .add(e.favouriteVal.toLowerCase());
                                       }).toList();
-                                      if(favItem.contains(templateVm.adviceSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .adviceSelectedItems[index]
+                                          .toLowerCase())) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .advice
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .adviceSelectedItems[index])
-                                            .then((value) async=> await vm.getData());
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .advice
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                    .adviceSelectedItems[index])
+                                            .then((value) async =>
+                                                await vm.getData());
                                         _favoriteController.clear();
                                         favoriteItems.clear();
                                         favoriteItems.addAll(vm.favouriteList);

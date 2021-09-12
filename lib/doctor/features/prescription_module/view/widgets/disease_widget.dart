@@ -187,23 +187,30 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem.add(e.favouriteVal);
+                                        favItem
+                                            .add(e.favouriteVal.toLowerCase());
                                       }).toList();
-                                      if(favItem.contains(templateVm.diseaseSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .diseaseSelectedItems[index]
+                                          .toLowerCase())) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .disease
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .diseaseSelectedItems[index])
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .disease
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                        .diseaseSelectedItems[
+                                                    index])
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());

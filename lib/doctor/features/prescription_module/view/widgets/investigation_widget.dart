@@ -88,7 +88,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
         templateVm.investigationShowReport = val;
         setState(() {});
       },
-      showReport:         templateVm.investigationShowReport,
+      showReport: templateVm.investigationShowReport,
       title: "Investigation",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -320,25 +320,33 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem.add(e.favouriteVal);
+                                        favItem
+                                            .add(e.favouriteVal.toLowerCase());
                                       }).toList();
-                                      if(favItem.contains(templateVm.investigationSelectedItems[index].itemName)){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .investigationSelectedItems[index]
+                                          .itemName
+                                          .toLowerCase())) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType: templateVm
-                                                .investigationSelectedItems[
-                                            index]
-                                                .itemTypeNo.toString(),
-                                            favoriteVal: templateVm
-                                                .investigationSelectedItems[
-                                            index]
-                                                .itemName)
+                                                favoriteType: templateVm
+                                                    .investigationSelectedItems[
+                                                        index]
+                                                    .itemTypeNo
+                                                    .toString(),
+                                                favoriteVal: templateVm
+                                                    .investigationSelectedItems[
+                                                        index]
+                                                    .itemName)
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());
@@ -467,8 +475,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (templateVm.investigationSelectedItems[index].itemName
-                                      .contains(item.favouriteVal)) {
+                                  if (templateVm.investigationSelectedItems.any(
+                                      (element) =>
+                                          element.itemName ==
+                                          item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
                                     templateVm.investigationSelectedItems.add(

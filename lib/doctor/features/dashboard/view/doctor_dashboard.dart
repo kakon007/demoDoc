@@ -253,7 +253,9 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                   Row(
                     children: [
                       Text(
-                        consultStatus?.consultationStatus?.obj?.totalAppointed?.toString()?? "",
+                        consultStatus?.consultationStatus?.obj?.totalAppointed
+                                ?.toString() ??
+                            "",
                         style: GoogleFonts.poppins(
                             color: Colors.white, fontSize: 18),
                       ),
@@ -296,7 +298,10 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         height: 10,
                       ),
                       Text(
-                        consultStatus?.consultationStatus?.obj?.consultationPending?.toString() ?? "",
+                        consultStatus
+                                ?.consultationStatus?.obj?.consultationPending
+                                ?.toString() ??
+                            "",
                         style: GoogleFonts.poppins(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       )
@@ -338,7 +343,9 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         height: 10,
                       ),
                       Text(
-                        consultStatus?.consultationStatus?.obj?.done?.toString() ?? "",
+                        consultStatus?.consultationStatus?.obj?.done
+                                ?.toString() ??
+                            "",
                         style: GoogleFonts.poppins(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       )
@@ -383,16 +390,18 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         height: 10,
                       ),
                       CircularPercentIndicator(
-                        rotateLinearGradient: true,
+                        rotateLinearGradient: false,
                         reverse: true,
                         backgroundWidth: 0.7,
                         radius: width <= 330 ? 50 : 50.0,
                         lineWidth: 5.0,
                         animation: true,
                         startAngle: 1,
-                        percent: .4,
-                        center:  Text(
-                          consultStatus?.consultationStatus?.obj?.freshVisit?.toString() ?? "",
+                        percent: 0,
+                        center: Text(
+                          consultStatus?.consultationStatus?.obj?.freshVisit
+                                  ?.toString() ??
+                              "",
                           style: GoogleFonts.poppins(
                               //color: HexColor("#107B3E"),
                               color: AppTheme.buttonActiveColor,
@@ -451,9 +460,11 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         lineWidth: 5.0,
                         animation: true,
                         startAngle: 1,
-                        percent: .4,
+                        percent: 0,
                         center: new Text(
-                          consultStatus?.consultationStatus?.obj?.firstFollowUp?.toString() ?? "",
+                          consultStatus?.consultationStatus?.obj?.firstFollowUp
+                                  ?.toString() ??
+                              "",
                           style: GoogleFonts.poppins(
                               //color: HexColor("#107B3E"),
                               color: AppTheme.buttonActiveColor,
@@ -507,9 +518,11 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                         lineWidth: 5.0,
                         animation: true,
                         startAngle: 1,
-                        percent: .4,
+                        percent: 0,
                         center: new Text(
-                          consultStatus?.consultationStatus?.obj?.reportCheck?.toString() ?? "",
+                          consultStatus?.consultationStatus?.obj?.reportCheck
+                                  ?.toString() ??
+                              "",
                           style: GoogleFonts.poppins(
                               //color: HexColor("#107B3E"),
                               color: AppTheme.buttonActiveColor,
@@ -680,41 +693,68 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                       )
                     ],
                   )),
-              workVm.todayWorkList.length ==0 ? Center(child: Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: Text("There is no worklist today.",
-
-                style: GoogleFonts.poppins(),
-                ),
-              )) : ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: workVm.todayWorkList.length < 5 ? workVm.todayWorkList.length : 5,
-                  itemBuilder: (context, index) {
-                    return TodayWorkList(
-                      patientName: workVm.todayWorkList[index].patientName,
-                      appointmentTime:workVm.todayWorkList[index].consTime ,
-                      consultTypeDesc: workVm.todayWorkList[index].consultTypeDesc==null? null :workVm.todayWorkList[index].consultTypeDesc?.toLowerCase() == "new patient"? "Fresh Visit" :workVm.todayWorkList[index].consultTypeDesc?.toLowerCase() == "1st follow up"? "Follow Up" : "Report Check",
-                      appointType: workVm.todayWorkList[index].consultTypeNo.toString(),
-                      id: workVm.todayWorkList[index].hospitalId,
-                      doctorNo: workVm.todayWorkList[index].doctorNo,
-                      age: workVm.todayWorkList[index].age,
-                      bloodGroup: workVm.todayWorkList[index].bloodGroup,
-                      phoneNumber: workVm.todayWorkList[index].phoneMobile,
-                      serial: workVm.todayWorkList[index].slotSl,
-                      gender: workVm.todayWorkList[index].gender,
-                      regNo: workVm.todayWorkList[index].registrationNo,
-                      consultationId: workVm.todayWorkList[index].consultationId,
-                      appointmentNumber:workVm.todayWorkList[index].appointId ,
-                      companyNumber: workVm.todayWorkList[index].companyNo,
-                      consultationNumber: workVm.todayWorkList[index].consultationOut,
-                      consultationTypeNo: workVm.todayWorkList[index].consultTypeNo.toString(),
-                      departmentName: workVm.todayWorkList[index].departmentName,
-                      departmentNumber: workVm.todayWorkList[index].departmentNo,
-                      isPatientOut: workVm.todayWorkList[index].isPatientOut,
-                      consultationOut: workVm.todayWorkList[index].consultationOut,
-                    );
-                  })
+              workVm.todayWorkList.length == 0
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: Text(
+                        "There is no worklist today.",
+                        style: GoogleFonts.poppins(),
+                      ),
+                    ))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: workVm.todayWorkList.length < 5
+                          ? workVm.todayWorkList.length
+                          : 5,
+                      itemBuilder: (context, index) {
+                        return TodayWorkList(
+                          patientName: workVm.todayWorkList[index].patientName,
+                          appointmentTime: workVm.todayWorkList[index].consTime,
+                          consultTypeDesc: workVm
+                                      .todayWorkList[index].consultTypeDesc ==
+                                  null
+                              ? null
+                              : workVm.todayWorkList[index].consultTypeDesc
+                                          ?.toLowerCase() ==
+                                      "new patient"
+                                  ? "Fresh Visit"
+                                  : workVm.todayWorkList[index].consultTypeDesc
+                                              ?.toLowerCase() ==
+                                          "1st follow up"
+                                      ? "Follow Up"
+                                      : "Report Check",
+                          appointType: workVm.todayWorkList[index].consultTypeNo
+                              .toString(),
+                          id: workVm.todayWorkList[index].hospitalId,
+                          doctorNo: workVm.todayWorkList[index].doctorNo,
+                          age: workVm.todayWorkList[index].age,
+                          bloodGroup: workVm.todayWorkList[index].bloodGroup,
+                          phoneNumber: workVm.todayWorkList[index].phoneMobile,
+                          serial: workVm.todayWorkList[index].slotSl,
+                          gender: workVm.todayWorkList[index].gender,
+                          regNo: workVm.todayWorkList[index].registrationNo,
+                          consultationId:
+                              workVm.todayWorkList[index].consultationId,
+                          appointmentNumber:
+                              workVm.todayWorkList[index].appointId,
+                          companyNumber: workVm.todayWorkList[index].companyNo,
+                          consultationNumber:
+                              workVm.todayWorkList[index].consultationOut,
+                          consultationTypeNo: workVm
+                              .todayWorkList[index].consultTypeNo
+                              .toString(),
+                          departmentName:
+                              workVm.todayWorkList[index].departmentName,
+                          departmentNumber:
+                              workVm.todayWorkList[index].departmentNo,
+                          isPatientOut:
+                              workVm.todayWorkList[index].isPatientOut,
+                          consultationOut:
+                              workVm.todayWorkList[index].consultationOut,
+                        );
+                      })
             ],
           ),
         ),

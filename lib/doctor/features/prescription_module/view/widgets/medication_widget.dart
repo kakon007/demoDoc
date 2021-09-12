@@ -1574,49 +1574,62 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem.add(e.genericName);
-                                        favItem.add(e.brandName);
+                                        favItem
+                                            .add(e.genericName?.toLowerCase());
+                                        favItem.add(e.brandName?.toLowerCase());
                                       }).toList();
-                                      if(favItem.contains(templateVm.medicineList[index].brandName) && favItem.contains(templateVm.medicineList[index].genericName)){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                              .medicineList[index].brandName
+                                              ?.toLowerCase()) ||
+                                          favItem.contains(templateVm
+                                              .medicineList[index].genericName
+                                              ?.toLowerCase())) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToMedicineFavouriteList(
-                                          genericName: templateVm
-                                              .medicineList[index]
-                                              .genericName,
-                                          brandName: templateVm
-                                              .medicineList[index].brandName,
-                                          route: templateVm
-                                              .medicineList[index].route,
-                                          duration: templateVm
-                                              .medicineList[index]
-                                              .multiDoseList
-                                              .first
-                                              .multiDoseDuration,
-                                          durationType: templateVm
-                                              .medicineList[index]
-                                              .multiDoseList
-                                              .first
-                                              .multiDoseDurationType,
-                                          instructions: templateVm
-                                              .medicineList[index]
-                                              .multiDoseList
-                                              .first
-                                              .multiDoseInstruction,
-                                          dose: templateVm.medicineList[index]
-                                              .multiDoseList.first.multiDose,
-                                          favoriteType:
-                                          PrescriptionFavouriteType
-                                              .medication
-                                              .toString(),
-                                          // quantity:
-                                          //continueMedi:
-                                        )
+                                              genericName: templateVm
+                                                  .medicineList[index]
+                                                  .genericName,
+                                              brandName: templateVm
+                                                  .medicineList[index]
+                                                  .brandName,
+                                              route: templateVm
+                                                  .medicineList[index].route,
+                                              duration: templateVm
+                                                  .medicineList[index]
+                                                  .multiDoseList
+                                                  .first
+                                                  .multiDoseDuration,
+                                              durationType: templateVm
+                                                  .medicineList[index]
+                                                  .multiDoseList
+                                                  .first
+                                                  .multiDoseDurationType,
+                                              instructions: templateVm
+                                                  .medicineList[index]
+                                                  .multiDoseList
+                                                  .first
+                                                  .multiDoseInstruction,
+                                              dose: templateVm
+                                                  .medicineList[index]
+                                                  .multiDoseList
+                                                  .first
+                                                  .multiDose,
+                                              favoriteType:
+                                                  PrescriptionFavouriteType
+                                                      .medication
+                                                      .toString(),
+                                              // quantity:
+                                              //continueMedi:
+                                            )
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());

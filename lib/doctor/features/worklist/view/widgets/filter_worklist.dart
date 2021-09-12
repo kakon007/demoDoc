@@ -28,8 +28,11 @@ class _WorkListFilterState extends State<WorkListFilter> {
     var workVm = Provider.of<WorkListViewModel>(context, listen: false);
     filterItems.addAll(workVm.filteredItems);
     print(filterItems.length);
+    filterValue = workVm.filterItemName;
     super.initState();
   }
+
+  var filterValue;
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +130,13 @@ class _WorkListFilterState extends State<WorkListFilter> {
                                   onTap: () {
                                     setState(() {
                                       filterItems.removeAt(index);
+                                      if(filterItems.toString().toLowerCase().contains('report check') || filterItems.toString().toLowerCase().contains('fresh visit') || filterItems.toString().toLowerCase().contains('follow up')){
+                                        filterValue= filterValue;
+                                        print('abir $filterValue');
+                                      }else{
+                                        filterValue=null;
+                                        print("abir1 $filterValue");
+                                      }
                                     });
                                   },
                                   child: Icon(
@@ -165,34 +175,76 @@ class _WorkListFilterState extends State<WorkListFilter> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      filterItems.contains('Fresh Visit')
-                          ? Container(
+                      // filterItems.contains('Fresh Visit')
+                      //     ? Container(
+                      //         decoration: BoxDecoration(
+                      //             color: AppTheme.buttonActiveColor,
+                      //             border: Border.all(
+                      //                 color: AppTheme.buttonActiveColor),
+                      //             borderRadius: BorderRadius.circular(50)),
+                      //         child: Icon(
+                      //           Icons.check,
+                      //           color: Colors.white,
+                      //         ))
+                      //     : Container(
+                      //         decoration: BoxDecoration(
+                      //             border: Border.all(
+                      //                 color: AppTheme.buttonActiveColor),
+                      //             borderRadius: BorderRadius.circular(50)),
+                      //         child: GestureDetector(
+                      //           onTap: () {
+                      //             setState(() {
+                      //               filterValue= 'New Patient';
+                      //               print('filter $filterValue');
+                      //               filterItems.add('Fresh Visit');
+                      //               print(filterItems.length);
+                      //             });
+                      //           },
+                      //           child: Icon(
+                      //             Icons.add,
+                      //             color: AppTheme.buttonActiveColor,
+                      //           ),
+                      //         )),
+                      GestureDetector(
+                        onTap: () {
+                         setState(() {
+                           if(filterItems.toString().toLowerCase().contains('follow up') ||filterItems.toString().toLowerCase().contains('report check')){
+                             filterItems.remove('Follow Up');
+                             filterItems.remove('Report Check');
+                           }
+                           if(filterValue.toString().toLowerCase()!='fresh visit'){
+                             filterItems.add('Fresh Visit');
+                           }
+                           print('filter $filterValue');
+                           filterValue = 'New Patient';
+                         });
+                        },
+                        child: Container(
+                          height: isTablet ? 25 : 20,
+                          width: isTablet ? 25 : 20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              width: 2,
+                              color: AppTheme.appbarPrimary,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Container(
+                              height: isTablet ? 15 : 10,
+                              width: isTablet ? 15 : 10,
                               decoration: BoxDecoration(
-                                  color: AppTheme.buttonActiveColor,
-                                  border: Border.all(
-                                      color: AppTheme.buttonActiveColor),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.white,
-                              ))
-                          : Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppTheme.buttonActiveColor),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    filterItems.add('Fresh Visit');
-                                    print(filterItems.length);
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  color: AppTheme.buttonActiveColor,
-                                ),
-                              )),
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: filterValue.toString().toLowerCase() ==
+                                          "new patient" || filterItems.toString().toLowerCase().contains('fresh visit')
+                                      ? AppTheme.appbarPrimary
+                                      : Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -215,36 +267,79 @@ class _WorkListFilterState extends State<WorkListFilter> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      filterItems.contains('Follow Up')
-                          ? Container(
+                      // filterItems.contains('Follow Up')
+                      //     ? Container(
+                      //         decoration: BoxDecoration(
+                      //             color: AppTheme.buttonActiveColor,
+                      //             border: Border.all(
+                      //                 color: AppTheme.buttonActiveColor),
+                      //             borderRadius: BorderRadius.circular(50)),
+                      //         child: Icon(
+                      //           Icons.check,
+                      //           color: Colors.white,
+                      //         ))
+                      //     : Container(
+                      //         decoration: BoxDecoration(
+                      //             border: Border.all(
+                      //                 color: AppTheme.buttonActiveColor),
+                      //             borderRadius: BorderRadius.circular(50)),
+                      //         child: GestureDetector(
+                      //           onTap: () {
+                      //             setState(() {
+                      //               setState(() {
+                      //                 filterValue = '1st Follow Up';
+                      //                 print('filter $filterValue');
+                      //                 filterItems.add('Follow Up');
+                      //                 print(filterItems.length);
+                      //               });
+                      //             });
+                      //           },
+                      //           child: Icon(
+                      //             Icons.add,
+                      //             color: AppTheme.buttonActiveColor,
+                      //           ),
+                      //         )),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if(filterItems.toString().toLowerCase().contains('report check') ||filterItems.toString().toLowerCase().contains('fresh visit')){
+                              filterItems.remove('Fresh Visit');
+                              filterItems.remove('Report Check');
+                            }
+                            if(filterValue.toString().toLowerCase()!='follow up'){
+                              filterItems.add('Follow Up');
+                            }
+
+                            print('filter $filterValue');
+                            filterValue = '1st Follow Up';
+                          });
+                        },
+                        child: Container(
+                          height: isTablet ? 25 : 20,
+                          width: isTablet ? 25 : 20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              width: 2,
+                              color: AppTheme.appbarPrimary,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Container(
+                              height: isTablet ? 15 : 10,
+                              width: isTablet ? 15 : 10,
                               decoration: BoxDecoration(
-                                  color: AppTheme.buttonActiveColor,
-                                  border: Border.all(
-                                      color: AppTheme.buttonActiveColor),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.white,
-                              ))
-                          : Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppTheme.buttonActiveColor),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    setState(() {
-                                      filterItems.add('Follow Up');
-                                      print(filterItems.length);
-                                    });
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  color: AppTheme.buttonActiveColor,
-                                ),
-                              )),
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: filterValue.toString().toLowerCase() ==
+                                      "1st follow up"  || filterItems.toString().toLowerCase().contains('follow up')
+                                      ? AppTheme.appbarPrimary
+                                      : Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -267,34 +362,76 @@ class _WorkListFilterState extends State<WorkListFilter> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      filterItems.contains('Report Check')
-                          ? Container(
+                      // filterItems.contains('Report Check')
+                      //     ? Container(
+                      //         decoration: BoxDecoration(
+                      //             color: AppTheme.buttonActiveColor,
+                      //             border: Border.all(
+                      //                 color: AppTheme.buttonActiveColor),
+                      //             borderRadius: BorderRadius.circular(50)),
+                      //         child: Icon(
+                      //           Icons.check,
+                      //           color: Colors.white,
+                      //         ))
+                      //     : Container(
+                      //         decoration: BoxDecoration(
+                      //             border: Border.all(
+                      //                 color: AppTheme.buttonActiveColor),
+                      //             borderRadius: BorderRadius.circular(50)),
+                      //         child: GestureDetector(
+                      //           onTap: () {
+                      //             setState(() {
+                      //               filterValue = 'Report Check';
+                      //               print('filter $filterValue');
+                      //               filterItems.add('Report Check');
+                      //               print(filterItems.length);
+                      //             });
+                      //           },
+                      //           child: Icon(
+                      //             Icons.add,
+                      //             color: AppTheme.buttonActiveColor,
+                      //           ),
+                      //         )),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                           if(filterItems.toString().toLowerCase().contains('follow up') ||filterItems.toString().toLowerCase().contains('fresh visit')){
+                             filterItems.remove('Follow Up');
+                             filterItems.remove('Fresh Visit');
+                           }
+                            if(filterValue.toString().toLowerCase()!='report check'){
+                            filterItems.add('Report Check');
+                            }
+                            print('filter $filterValue');
+                            filterValue = 'Report Check';
+                          });
+                        },
+                        child: Container(
+                          height: isTablet ? 25 : 20,
+                          width: isTablet ? 25 : 20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              width: 2,
+                              color: AppTheme.appbarPrimary,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Container(
+                              height: isTablet ? 15 : 10,
+                              width: isTablet ? 15 : 10,
                               decoration: BoxDecoration(
-                                  color: AppTheme.buttonActiveColor,
-                                  border: Border.all(
-                                      color: AppTheme.buttonActiveColor),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.white,
-                              ))
-                          : Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppTheme.buttonActiveColor),
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    filterItems.add('Report Check');
-                                    print(filterItems.length);
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  color: AppTheme.buttonActiveColor,
-                                ),
-                              )),
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: filterValue.toString().toLowerCase() ==
+                                      "report check"  || filterItems.toString().toLowerCase().contains('report check')
+                                      ? AppTheme.appbarPrimary
+                                      : Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -311,55 +448,55 @@ class _WorkListFilterState extends State<WorkListFilter> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 0, right: 0),
-              child: Row(
-                children: [
-                  filterItems.contains('2nd Follow Up')
-                      ? Container(
-                          decoration: BoxDecoration(
-                              color: AppTheme.buttonActiveColor,
-                              border:
-                                  Border.all(color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          ))
-                      : Container(
-                          decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: AppTheme.buttonActiveColor),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                filterItems.add('2nd Follow Up');
-                                print(filterItems.length);
-                              });
-                            },
-                            child: Icon(
-                              Icons.add,
-                              color: AppTheme.buttonActiveColor,
-                            ),
-                          )),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    '2nd Follow Up',
-                    style: GoogleFonts.poppins(
-                        color: Colors.black, fontSize: isTablet ? 16 : 14),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                ],
-              ),
-            ),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.only(left: 0, right: 0),
+            //   child: Row(
+            //     children: [
+            //       filterItems.contains('2nd Follow Up')
+            //           ? Container(
+            //               decoration: BoxDecoration(
+            //                   color: AppTheme.buttonActiveColor,
+            //                   border:
+            //                       Border.all(color: AppTheme.buttonActiveColor),
+            //                   borderRadius: BorderRadius.circular(50)),
+            //               child: Icon(
+            //                 Icons.check,
+            //                 color: Colors.white,
+            //               ))
+            //           : Container(
+            //               decoration: BoxDecoration(
+            //                   border:
+            //                       Border.all(color: AppTheme.buttonActiveColor),
+            //                   borderRadius: BorderRadius.circular(50)),
+            //               child: GestureDetector(
+            //                 onTap: () {
+            //                   setState(() {
+            //                     filterItems.add('2nd Follow Up');
+            //                     print(filterItems.length);
+            //                   });
+            //                 },
+            //                 child: Icon(
+            //                   Icons.add,
+            //                   color: AppTheme.buttonActiveColor,
+            //                 ),
+            //               )),
+            //       SizedBox(
+            //         width: 5,
+            //       ),
+            //       Text(
+            //         '2nd Follow Up',
+            //         style: GoogleFonts.poppins(
+            //             color: Colors.black, fontSize: isTablet ? 16 : 14),
+            //       ),
+            //       SizedBox(
+            //         width: 5,
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(
               height: 20,
             ),
@@ -530,14 +667,15 @@ class _WorkListFilterState extends State<WorkListFilter> {
                       shift = 0;
                       print(shift);
                     }
-                    workVm.getShiftData(
-                      shift: shift.toString()
-                    );
+                    workVm.getShiftData(shift: shift.toString());
+                    workVm.getFilterItemName(name: filterValue);
+                    print('filter $filterValue');
                     workVm.getWorkListData(
                         shift: shift.toString(),
                         searchValue: widget.searchValue,
                         fromDate: widget.fromDate,
-                        toDate: widget.toDate);
+                        toDate: widget.toDate,
+                        filterValue: filterValue);
                     Navigator.pop(context);
                     //doctorVm.filterInfo(filteredList: filterItems);
                   },

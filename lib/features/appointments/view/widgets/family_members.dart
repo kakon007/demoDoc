@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/models/get_family_member_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view/widgets/search_family_member.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
@@ -12,6 +13,8 @@ import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
 class FamilyMembers extends StatefulWidget {
+  bool isFromOrder;
+  FamilyMembers({this.isFromOrder= false});
   @override
   _FamilyMembersState createState() => _FamilyMembersState();
 }
@@ -129,37 +132,92 @@ class _FamilyMembersState extends State<FamilyMembers> {
                           setState(() {
                             selectedCard = index;
                             isSelected = true;
-                            Future.delayed(Duration.zero, () async {
-                              var vm3 = Provider.of<UserDetailsViewModel>(
-                                  context,
-                                  listen: false);
-                              var familyVm = Provider.of<FamilyMembersListViewModel>(
-                                  context,
-                                  listen: false);
-                              await vm3.getPatData(familyVm
-                                  .familyMembersList[index].fmRegId);
-                              familyMemEmail = vm3.patDetails.email;
-                              familyMemMobile =
-                                  vm3.patDetails.phoneMobile;
-                              familyMemGender = vm3.patDetails.gender;
-                              familyMemName = familyVm
-                                  .familyMembersList[index].fmName;
-                              familyMemAddress = familyVm
-                                  .familyMembersList[index].fmAddress;
-                              familyMemDob =
-                                  familyVm.familyMembersList[index].fmDob;
-                              familyMemRegNo = familyVm
-                                  .familyMembersList[index].fmRegNo
-                                  .toString();
-                              image = familyVm
-                                  .familyMembersList[index]?.photo ??
-                                  "";
-                              relation = familyVm
-                                  .familyMembersList[index].relationName
-                                  .toString();
-                              familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
-                              Navigator.pop(context);
-                            });
+                            var cartVM =
+                            Provider.of<OrderConfirmViewModel>(context, listen: false);
+                            if(widget.isFromOrder){
+                              Future.delayed(Duration.zero, () async {
+                                var vm3 = Provider.of<UserDetailsViewModel>(
+                                    context,
+                                    listen: false);
+                                var familyVm = Provider.of<FamilyMembersListViewModel>(
+                                    context,
+                                    listen: false);
+                                await vm3.getPatData(familyVm
+                                    .familyMembersList[index].fmRegId);
+                                familyMemEmail = vm3.patDetails?.email;
+                                familyMemMobile =
+                                    vm3.patDetails.phoneMobile;
+                                familyMemGender = vm3.patDetails.gender;
+                                familyMemName = familyVm
+                                    .familyMembersList[index].fmName;
+                                familyMemAddress = familyVm
+                                    .familyMembersList[index].fmAddress;
+                                familyMemDob =
+                                    familyVm.familyMembersList[index].fmDob;
+                                familyMemRegNo = familyVm
+                                    .familyMembersList[index].fmRegNo
+                                    .toString();
+                                image = familyVm
+                                    .familyMembersList[index]?.photo ??
+                                    "";
+                                relation = familyVm
+                                    .familyMembersList[index].relationName
+                                    .toString();
+                                cartVM.fathersName.text = vm3.patDetails.fatherName?? "";
+                                cartVM.mothersName.text = vm3.patDetails.motherName?? "";
+                                cartVM.lastNameController.text = vm3.patDetails.lname?? "";
+                                cartVM.firstNameController.text = vm3.patDetails.fname?? "";
+                                cartVM.mobileNumberController.text = vm3.patDetails.phoneMobile?? "";
+                                cartVM.emailController.text = vm3.patDetails.email?? "";
+                                cartVM.nidController.text = vm3.patDetails.nationalId?? "";
+                                cartVM.passportController.text = vm3.patDetails.passportNo?? "";
+                                cartVM.addressController.text = vm3.patDetails.address?? "";
+                                cartVM.dayController.text = vm3.userDetailsList.ageDd.toString()?? "";
+                                cartVM.monthController.text = vm3.userDetailsList.ageMm.toString()?? "";
+                                cartVM.yearController.text = vm3.userDetailsList.ageYy.toString() ?? "";
+                                // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                                // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                                cartVM.selectedDob = DateTime.parse(vm3.patDetails.dob) ?? DateTime.now();
+                                print('qqqqq ${DateTime.parse(vm3.patDetails.dob) }');
+                                familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                                print('ppppp ${ cartVM.fathersName.text}');
+                                Navigator.pop(context);
+                              });
+                            }
+                            else{
+                              Future.delayed(Duration.zero, () async {
+                                var vm3 = Provider.of<UserDetailsViewModel>(
+                                    context,
+                                    listen: false);
+                                var familyVm = Provider.of<FamilyMembersListViewModel>(
+                                    context,
+                                    listen: false);
+                                await vm3.getPatData(familyVm
+                                    .familyMembersList[index].fmRegId);
+                                familyMemEmail = vm3.patDetails?.email;
+                                familyMemMobile =
+                                    vm3.patDetails.phoneMobile;
+                                familyMemGender = vm3.patDetails.gender;
+                                familyMemName = familyVm
+                                    .familyMembersList[index].fmName;
+                                familyMemAddress = familyVm
+                                    .familyMembersList[index].fmAddress;
+                                familyMemDob =
+                                    familyVm.familyMembersList[index].fmDob;
+                                familyMemRegNo = familyVm
+                                    .familyMembersList[index].fmRegNo
+                                    .toString();
+                                image = familyVm
+                                    .familyMembersList[index]?.photo ??
+                                    "";
+                                relation = familyVm
+                                    .familyMembersList[index].relationName
+                                    .toString();
+                                familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                                Navigator.pop(context);
+                              });
+                            }
+
                           });
                         },
                         key:Key('selectFamilyMemberKey$index'),

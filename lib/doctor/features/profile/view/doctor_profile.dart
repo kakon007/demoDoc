@@ -118,7 +118,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                         fit: BoxFit.fill,
                       ))
                   : photo != ''
-                      ? companyInfoVm.loadProfileImage(photo, 110, 110, 19)
+                      ? companyInfoVm.loadDoctorProfileImage(photo, 110, 110, 19)
                       : Image.asset(
                           'assets/images/dPro.png',
                           height: 80,

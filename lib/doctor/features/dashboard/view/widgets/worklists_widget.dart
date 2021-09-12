@@ -29,11 +29,13 @@ class TodayWorkList extends StatefulWidget {
   var ipdFlag;
   var companyNumber;
   var consultationOut;
+  String consultTypeDesc;
 
   TodayWorkList(
       {this.consultationOut,
-        this.appointmentNumber,
+      this.appointmentNumber,
       this.companyNumber,
+      this.consultTypeDesc,
       this.consultationNumber,
       this.consultationTypeNo,
       this.departmentName,
@@ -152,15 +154,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                         ),
                       ),
                       Text(
-                        widget.appointType == null
-                            ? "1st Follow Up"
-                            : widget.appointType == '1'
-                                ? "Fresh Visit"
-                                : widget.appointType == "2"
-                                    ? "Follow Up"
-                                    : widget.appointType == "3"
-                                        ? "2nd Follow Up"
-                                        : "Report Check",
+                        widget.consultTypeDesc ?? "",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           // fontWeight: FontWeight.w600,
@@ -197,7 +191,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) => PatientDetails(
-                            patTypeNumber: widget.patTypeNumber,
+                                patTypeNumber: widget.patTypeNumber,
                                 isPatientOut: widget.isPatientOut,
                                 ipdFlag: widget.ipdFlag,
                                 departmentNumber: widget.departmentNumber,
@@ -218,7 +212,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                                 consultType: widget.appointType,
                                 regNo: widget.regNo,
                                 doctorNo: widget.doctorNo,
-                           // consultationOut: widget.consultationOut,
+                                // consultationOut: widget.consultationOut,
                               )));
                     },
                     child: Container(

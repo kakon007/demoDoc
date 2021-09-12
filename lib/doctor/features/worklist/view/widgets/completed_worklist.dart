@@ -142,6 +142,7 @@ class _CompletedWorkListState extends State<CompletedWorkList> {
                   padding: const EdgeInsets.only(top: 8.0, left: 0, right: 0),
                   child: WorklistAll(
                     id: vm.completedData[index].hospitalId,
+                    consultTypeDesc: vm.completedData[index].consultTypeDesc==null? null : vm.completedData[index].consultTypeDesc?.toLowerCase() == "new patient"? "Fresh Visit" : vm.completedData[index].consultTypeDesc?.toLowerCase() == "1st follow up"? "Follow Up" : "Report Check",
                     consultTime: vm.completedData[index].consTime,
                     patientName: vm.completedData[index].patientName,
                     age: vm.completedData[index].age,

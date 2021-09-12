@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/view/widgets/add_more_information.dart';
 import 'package:myhealthbd_app/features/book_test/view/widgets/add_patient_book_test.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
@@ -109,6 +111,7 @@ class _OrderConfirmationAfterSignInState
   @override
   Widget build(BuildContext context) {
     var cartVM = Provider.of<OrderConfirmViewModel>(context, listen: true);
+    var authVm = Provider.of<AuthViewModel>(context, listen: false);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     var username = SignUpFormField(
@@ -152,7 +155,7 @@ class _OrderConfirmationAfterSignInState
                 onTap: () {
                   var vm3 =
                       Provider.of<UserDetailsViewModel>(context, listen: false);
-                   cartVM.getAppointType(true, false);
+                  cartVM.getAppointType(true, false);
                   // cartVM.forMe= true;
                   // cartVM.addPatient = false;
                   if (cartVM.addPatient == false) {
@@ -220,7 +223,7 @@ class _OrderConfirmationAfterSignInState
                   if (cartVM.forMe == false) {
                     cartVM.getButtonColor(
                         "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");
-                    if (vm3.patDetails != null &&  cartVM.memberList) {
+                    if (vm3.patDetails != null && cartVM.memberList) {
                       cartVM.fathersName.text = vm3.patDetails.fatherName ?? "";
                       cartVM.mothersName.text = vm3.patDetails.motherName ?? "";
                       cartVM.lastNameController.text =
@@ -249,24 +252,22 @@ class _OrderConfirmationAfterSignInState
                       // print('qqqqq ${DateTime.parse(vm3.patDetails.dob)}');
                       // //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
                       // print('ppppp ${cartVM.fathersName.text}');
-                    }
-                    else{
+                    } else {
                       cartVM.fathersName.text = "";
-                      cartVM.mothersName.text ="";
-                      cartVM.lastNameController.text ="";
-                      cartVM.firstNameController.text ="";
+                      cartVM.mothersName.text = "";
+                      cartVM.lastNameController.text = "";
+                      cartVM.firstNameController.text = "";
                       cartVM.mobileNumberController.text = "";
                       cartVM.emailController.text = "";
                       cartVM.nidController.text = "";
                       cartVM.passportController.text = "";
-                      cartVM.addressController.text ="";
+                      cartVM.addressController.text = "";
                       cartVM.dayController.text = "";
                       cartVM.monthController.text = "";
-                      cartVM.yearController.text ="";
+                      cartVM.yearController.text = "";
                       // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
                       // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
-                      cartVM.selectedDob =
-                              DateTime.now();
+                      cartVM.selectedDob = DateTime.now();
 
                       //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
                       print('ppppp ${cartVM.fathersName.text}');
@@ -301,7 +302,39 @@ class _OrderConfirmationAfterSignInState
               : MediaQuery.of(context).size.width * .3,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: Color(0xff354291),
-          onPressed: () async {},
+          onPressed: () async {
+            BotToast.showLoading();
+            await authVm.getAuthData(
+              cartVM.username.text,
+              cartVM.password.text,
+            );
+            var vm4 = Provider.of<UserDetailsViewModel>(context, listen: false);
+            print("akram");
+            await vm4.getData2(authVm.accessToken);
+            print("shakil");
+            // if (authVm.accessToken != null && vm4.userDetailsList2 != null) {
+            //   cartVM.fathersName.text = vm4.userDetailsList2.fatherName ?? "";
+            //   cartVM.mothersName.text = vm4.userDetailsList2.motherName ?? "";
+            //   cartVM.lastNameController.text = vm4.userDetailsList2.lname ?? "";
+            //   cartVM.firstNameController.text =
+            //       vm4.userDetailsList2.fname ?? "";
+            //   cartVM.mobileNumberController.text =
+            //       vm4.userDetailsList2.phoneMobile ?? "";
+            //   cartVM.emailController.text = vm4.userDetailsList2.email ?? "";
+            //   cartVM.nidController.text = vm4.userDetailsList2.nationalId ?? "";
+            //   cartVM.passportController.text =
+            //       vm4.userDetailsList2.passportNo ?? "";
+            //   cartVM.addressController.text =
+            //       vm4.userDetailsList2.address ?? "";
+            //   cartVM.dayController.text =
+            //       vm4.userDetailsList2.ageDd.toString() ?? "";
+            //   cartVM.monthController.text =
+            //       vm4.userDetailsList2.ageMm.toString() ?? "";
+            //   cartVM.yearController.text =
+            //       vm4.userDetailsList2.ageYy.toString() ?? "";
+            // }
+            BotToast.closeAllLoading();
+          },
           child: Text(
             'VERIFY',
             style: GoogleFonts.roboto(

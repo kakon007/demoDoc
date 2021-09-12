@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
 import 'package:myhealthbd_app/features/cache/cache_repositories.dart';
 import 'package:myhealthbd_app/features/user_profile/models/userDetails_model.dart';
 import 'package:myhealthbd_app/features/user_profile/repositories/userdetails_repository.dart';
@@ -87,7 +88,7 @@ class UserDetailsViewModel extends ChangeNotifier {
   Future<void> getPatData(String hospitalNumber) async {
     CacheRepositories.loadCachedUserDetails().then((value) {
       if (value != null) {
-       // _userDetailsList = value.obj;
+        // _userDetailsList = value.obj;
         notifyListeners();
       }
     });
@@ -127,6 +128,7 @@ class UserDetailsViewModel extends ChangeNotifier {
     }, (r) {
       _isFetchingMoreData = false;
       _userDetailsList = r.dataList;
+
       notifyListeners();
     });
   }
@@ -145,13 +147,10 @@ class UserDetailsViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-  Future<void> getData2() async {
+
+  Future<void> getData2(String accessToken) async {
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
-    var accessToken = await Provider.of<AccessTokenProvider>(
-        appNavigator.context,
-        listen: false)
-        .getToken();
     var res = await UserDetailsRepository().fetchUserDetails2(accessToken);
     notifyListeners();
     res.fold((l) {
@@ -161,6 +160,20 @@ class UserDetailsViewModel extends ChangeNotifier {
     }, (r) {
       _isFetchingMoreData = false;
       _userDetailsList2 = r.dataList;
+      var cartVM = Provider.of<OrderConfirmViewModel>(appNavigator.context,
+          listen: false);
+      cartVM.fathersName.text = r.dataList.fatherName ?? "";
+      cartVM.mothersName.text = r.dataList.motherName ?? "";
+      cartVM.lastNameController.text = r.dataList.lname ?? "";
+      cartVM.firstNameController.text = r.dataList.fname ?? "";
+      cartVM.mobileNumberController.text = r.dataList.phoneMobile ?? "";
+      cartVM.emailController.text = r.dataList.email ?? "";
+      cartVM.nidController.text = r.dataList.nationalId ?? "";
+      cartVM.passportController.text = r.dataList.passportNo ?? "";
+      cartVM.addressController.text = r.dataList.address ?? "";
+      cartVM.dayController.text = r.dataList.ageDd.toString() ?? "";
+      cartVM.monthController.text = r.dataList.ageMm.toString() ?? "";
+      cartVM.yearController.text = r.dataList.ageYy.toString() ?? "";
       notifyListeners();
     });
   }

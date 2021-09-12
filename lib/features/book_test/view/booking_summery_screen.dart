@@ -505,70 +505,88 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(
                   onTap: () async {
-                    var vm3 = Provider.of<UserDetailsViewModel>(
-                        context,
+                    var vm3 = Provider.of<UserDetailsViewModel>(context,
                         listen: false);
-                    var cartVM =
-                    Provider.of<OrderConfirmViewModel>(context, listen: false);
+                    var cartVM = Provider.of<OrderConfirmViewModel>(context,
+                        listen: false);
                     Future.delayed(Duration.zero, () {
                       // cartVM.forMe = true;
                       // cartVM.addPatient = false;
-                       cartVM.getAppointType(true, false);
+                      cartVM.getAppointType(true, false);
                     });
                     //await vm3.getData2();
-                    if(cartVM.forMe){
-                      cartVM.memberList = false;
-                      cartVM.selectedMemberType=null;
-                      var familyVm =
-                      Provider.of<FamilyMembersListViewModel>(context, listen: false);
-                      familyVm.memberDetail(
-                          -1, false, "", "", "", "", "", "", "", "", "");
-                      cartVM.fathersName.text = vm3.userDetailsList.fatherName?? "";
-                      cartVM.mothersName.text = vm3.userDetailsList.motherName?? "";
-                      cartVM.lastNameController.text = vm3.userDetailsList.lname?? "";
-                      cartVM.firstNameController.text = vm3.userDetailsList.fname?? "";
-                      print('ssss ${vm3.userDetailsList.fname}');
-                      cartVM.mobileNumberController.text = vm3.userDetailsList.phoneMobile?? "";
-                      cartVM.emailController.text = vm3.userDetailsList.email?? "";
-                      cartVM.nidController.text = vm3.userDetailsList.nationalId?? "";
-                      cartVM.passportController.text = vm3.userDetailsList.passportNo?? "";
-                      cartVM.addressController.text = vm3.userDetailsList.address?? "";
-                      cartVM.dayController.text = vm3.userDetailsList.ageDd.toString()?? "";
-                      cartVM.monthController.text = vm3.userDetailsList.ageMm.toString()?? "";
-                      cartVM.yearController.text = vm3.userDetailsList.ageYy.toString() ?? "";
-                      // // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
-                      // // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
-                      cartVM.selectedDob = DateTime.parse(vm3.userDetailsList.dob) ?? DateTime.now();
-                      print('qqqqq ${DateTime.parse(vm3.userDetailsList.dob) }');
-                    }else{
-                      cartVM.memberList = false;
-                      var familyVm =
-                      Provider.of<FamilyMembersListViewModel>(context, listen: false);
-                      familyVm.memberDetail(
-                          -1, false, "", "", "", "", "", "", "", "", "");
-                      cartVM.selectedMemberType=null;
-                      cartVM.fathersName.text = "";
-                      cartVM.mothersName.text ="";
-                      cartVM.lastNameController.text ="";
-                      cartVM.firstNameController.text ="";
-                      cartVM.mobileNumberController.text = "";
-                      cartVM.emailController.text = "";
-                      cartVM.nidController.text = "";
-                      cartVM.passportController.text = "";
-                      cartVM.addressController.text ="";
-                      cartVM.dayController.text = "";
-                      cartVM.monthController.text = "";
-                      cartVM.yearController.text ="";
-                      // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
-                      // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
-                      cartVM.selectedDob =
-                              DateTime.now();
-                      //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
-                      print('ppppp ${cartVM.fathersName.text}');
+                    if (Provider.of<AccessTokenProvider>(context, listen: false)
+                            .accessToken !=
+                        null) {
+                      if (cartVM.forMe) {
+                        cartVM.memberList = false;
+                        cartVM.selectedMemberType = null;
+                        var familyVm = Provider.of<FamilyMembersListViewModel>(
+                            context,
+                            listen: false);
+                        familyVm.memberDetail(
+                            -1, false, "", "", "", "", "", "", "", "", "");
+                        cartVM.fathersName.text =
+                            vm3.userDetailsList.fatherName ?? "";
+                        cartVM.mothersName.text =
+                            vm3.userDetailsList.motherName ?? "";
+                        cartVM.lastNameController.text =
+                            vm3.userDetailsList.lname ?? "";
+                        cartVM.firstNameController.text =
+                            vm3.userDetailsList.fname ?? "";
+                        print('ssss ${vm3.userDetailsList.fname}');
+                        cartVM.mobileNumberController.text =
+                            vm3.userDetailsList.phoneMobile ?? "";
+                        cartVM.emailController.text =
+                            vm3.userDetailsList.email ?? "";
+                        cartVM.nidController.text =
+                            vm3.userDetailsList.nationalId ?? "";
+                        cartVM.passportController.text =
+                            vm3.userDetailsList.passportNo ?? "";
+                        cartVM.addressController.text =
+                            vm3.userDetailsList.address ?? "";
+                        cartVM.dayController.text =
+                            vm3.userDetailsList.ageDd.toString() ?? "";
+                        cartVM.monthController.text =
+                            vm3.userDetailsList.ageMm.toString() ?? "";
+                        cartVM.yearController.text =
+                            vm3.userDetailsList.ageYy.toString() ?? "";
+                        // // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                        // // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                        cartVM.selectedDob =
+                            DateTime.parse(vm3.userDetailsList.dob) ??
+                                DateTime.now();
+                        print(
+                            'qqqqq ${DateTime.parse(vm3.userDetailsList.dob)}');
+                      } else {
+                        cartVM.memberList = false;
+                        var familyVm = Provider.of<FamilyMembersListViewModel>(
+                            context,
+                            listen: false);
+                        familyVm.memberDetail(
+                            -1, false, "", "", "", "", "", "", "", "", "");
+                        cartVM.selectedMemberType = null;
+                        cartVM.fathersName.text = "";
+                        cartVM.mothersName.text = "";
+                        cartVM.lastNameController.text = "";
+                        cartVM.firstNameController.text = "";
+                        cartVM.mobileNumberController.text = "";
+                        cartVM.emailController.text = "";
+                        cartVM.nidController.text = "";
+                        cartVM.passportController.text = "";
+                        cartVM.addressController.text = "";
+                        cartVM.dayController.text = "";
+                        cartVM.monthController.text = "";
+                        cartVM.yearController.text = "";
+                        // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                        // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                        cartVM.selectedDob = DateTime.now();
+                        //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                        print('ppppp ${cartVM.fathersName.text}');
+                      }
                     }
 
-                   // familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
-                    print('ppppp ${ cartVM.fathersName.text}');
+                    // familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

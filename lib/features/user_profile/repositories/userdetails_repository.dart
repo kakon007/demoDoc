@@ -34,6 +34,7 @@ class UserDetailsRepository {
       return Left(AppError.unknownError);
     }
   }
+
   Future<Either<AppError, UserM>> fetchUserDetails2(String accessToken) async {
     var url = "${Urls.baseUrl}"
         "diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
@@ -44,7 +45,7 @@ class UserDetailsRepository {
       });
       if (response.statusCode == 200) {
         UserDetailsModel data2 = userDetailsModelFromJson(response.body);
-        //print(response.body);
+        print(response.body);
         return Right(UserM(
           dataList: data2.obj,
         ));
@@ -58,6 +59,7 @@ class UserDetailsRepository {
       return Left(AppError.unknownError);
     }
   }
+
   Future<Either<AppError, UserM>> fetchPatInfo(
       String accessToken, String hospitalNumber) async {
     var url =

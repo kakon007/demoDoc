@@ -43,11 +43,11 @@ class TestItemViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData() async {
+  Future<bool> getData({int companyNo}) async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    var res = await TestItemListRepository().fetchTestListDataData();
+    var res = await TestItemListRepository().fetchTestListDataData(companyNo: companyNo);
     notifyListeners();
     res.fold((l) {
       _appError = l;
@@ -152,5 +152,13 @@ class TestItemViewModel extends ChangeNotifier{
   List<double> get salesPrice => _salesPrice;
   List<double> get discountAmt => _discountAmt;
   List<double> get discountPrice => _discountPrice;
+
+  // set testItemList(List<Item> value) {
+  //   this._testItem= value;
+  //   notifyListeners();
+  // }
+ void isAdded({int index}){
+    _testItem[index].isAdded=!_testItem[index].isAdded;
+  }
 
 }

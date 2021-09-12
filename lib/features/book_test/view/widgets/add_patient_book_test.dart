@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/family_members.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -18,26 +20,27 @@ class ForMeBookTest extends StatefulWidget {
 }
 
 class _ForMeBookTestState extends State<ForMeBookTest> {
-  bool memberList = false;
   var memberBorderColor = "#EAEBED";
   String _selectedMemberType;
   var patientBorderColor = "#EAEBED";
-  var selectedMemberType = "";
+
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    var cartVM = Provider.of<OrderConfirmViewModel>(context, listen: true);
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     var familyVm =
-    Provider.of<FamilyMembersListViewModel>(context, listen: true);
+        Provider.of<FamilyMembersListViewModel>(context, listen: true);
     var imageVm = Provider.of<UserImageViewModel>(context, listen: true);
     var membersNameList = Row(
       children: [
@@ -47,9 +50,9 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ? width * .86 : width * .95,
+                width: isTablet ? width * .86 : width * .88,
                 decoration: BoxDecoration(
-                    color: familyVm.isSelected && memberList
+                    color: familyVm.isSelected && cartVM.memberList
                         ? AppTheme.appbarPrimary
                         : Colors.white,
                     border: Border.all(color: HexColor(memberBorderColor)),
@@ -63,42 +66,43 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
-                            memberList = true;
+                            cartVM.memberList = true;
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                                  return FamilyMembers();
-                                })).then((value) {
-                                  setState(() {
-
-                                  });
+                              return FamilyMembers(
+                                isFromOrder: true,
+                              );
+                            })).then((value) {
+                              setState(() {});
                             });
                           });
                         },
                         child: Container(
-                          width: isTablet ? width * .82 : width * .88,
+                          width: isTablet ? width * .82 : width * .8,
                           child: DropdownButtonHideUnderline(
                             child: DropdownButtonFormField(
                               icon: Icon(
-                                familyVm.isSelected && memberList
+                                familyVm.isSelected && cartVM.memberList
                                     ? Icons.keyboard_arrow_right_outlined
                                     : Icons.keyboard_arrow_down_sharp,
-                                color: familyVm.isSelected && memberList
+                                color: familyVm.isSelected && cartVM.memberList
                                     ? Colors.white
                                     : HexColor("#D2D2D2"),
                               ),
                               iconSize: isTablet ? 30 : 25,
                               decoration: InputDecoration(
                                   contentPadding:
-                                  EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                      EdgeInsets.fromLTRB(0, 0, 0, 0),
                                   enabledBorder: InputBorder.none),
                               isExpanded: true,
                               hint: Text(
                                 "Select your family member",
                                 style: GoogleFonts.roboto(
                                     fontSize: isTablet ? 18 : 15,
-                                    color: familyVm.isSelected && memberList
-                                        ? Colors.white
-                                        : HexColor("#D2D2D2")),
+                                    color:
+                                        familyVm.isSelected && cartVM.memberList
+                                            ? Colors.white
+                                            : HexColor("#D2D2D2")),
                               ),
                             ),
                           ),
@@ -110,16 +114,16 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
               ),
               memberBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                  padding:
-                  const EdgeInsets.only(left: 16, top: 8, right: 38),
-                  child: Text(
-                    "This Field Is Required",
-                    style: GoogleFonts.poppins(
-                        color: Colors.red, fontSize: 12),
-                  )),
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 8, right: 38),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      )),
             ],
           ),
         ),
@@ -133,7 +137,7 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ? width * .86 : width * .95,
+                width: isTablet ? width * .86 : width * .88,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(patientBorderColor)),
@@ -144,10 +148,9 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: isTablet ? width * .82 : width * .88,
+                        width: isTablet ? width * .82 : width * .8,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
-                            key: Key('selectAddPatientType'),
                             icon: Icon(
                               Icons.keyboard_arrow_down_sharp,
                               color: _selectedMemberType != null
@@ -167,20 +170,67 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                                   color: HexColor("#D2D2D2")),
                             ),
                             // Not necessary for Option 1
-                            value: _selectedMemberType,
+                            value: cartVM.selectedMemberType,
                             onChanged: (newValue) {
                               setState(() {
                                 patientBorderColor = "#EAEBED";
                                 _selectedMemberType = newValue;
-                                if (_selectedMemberType != selectedMemberType) {
+                                if (_selectedMemberType !=
+                                    cartVM.selectedMemberType) {
                                   if (_selectedMemberType == "Family Member") {
-                                    memberList = true;
+                                    cartVM.memberList = true;
+                                    var vm3 = Provider.of<UserDetailsViewModel>(
+                                        context,
+                                        listen: false);
+                                    if (vm3.patDetails != null) {
+                                      cartVM.fathersName.text =
+                                          vm3.patDetails.fatherName ?? "";
+                                      cartVM.mothersName.text =
+                                          vm3.patDetails.motherName ?? "";
+                                      cartVM.lastNameController.text =
+                                          vm3.patDetails.lname ?? "";
+                                      cartVM.firstNameController.text =
+                                          vm3.patDetails.fname ?? "";
+                                      cartVM.mobileNumberController.text =
+                                          vm3.patDetails.phoneMobile ?? "";
+                                      cartVM.emailController.text =
+                                          vm3.patDetails.email ?? "";
+                                      cartVM.nidController.text =
+                                          vm3.patDetails.nationalId ?? "";
+                                      cartVM.passportController.text =
+                                          vm3.patDetails.passportNo ?? "";
+                                      cartVM.addressController.text =
+                                          vm3.patDetails.address ?? "";
+                                      cartVM.dayController.text =
+                                          vm3.patDetails.ageDd.toString() ?? "";
+                                      cartVM.monthController.text =
+                                          vm3.patDetails.ageMm.toString() ?? "";
+                                      cartVM.yearController.text =
+                                          vm3.patDetails.ageYy.toString() ?? "";
+                                      cartVM.selectedDob =
+                                          DateTime.parse(vm3.patDetails.dob) ??
+                                              "";
+                                    }
                                   } else {
-                                    memberList = false;
+                                    cartVM.memberList = false;
+                                    cartVM.fathersName.text = "";
+                                    cartVM.mothersName.text = "";
+                                    cartVM.lastNameController.text = "";
+                                    cartVM.firstNameController.text = "";
+                                    cartVM.mobileNumberController.text = "";
+                                    cartVM.emailController.text = "";
+                                    cartVM.nidController.text = "";
+                                    cartVM.passportController.text = "";
+                                    cartVM.addressController.text = "";
+                                    cartVM.dayController.text = "";
+                                    cartVM.monthController.text = "";
+                                    cartVM.yearController.text = "";
+                                    // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                                    // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                                    cartVM.selectedDob = DateTime.now();
                                   }
-                                  selectedMemberType = newValue;
-                                  Future.delayed(Duration.zero, () async {
-                                  });
+                                  cartVM.selectedMemberType = newValue;
+                                  Future.delayed(Duration.zero, () async {});
                                 }
                               });
                             },
@@ -207,16 +257,16 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
               ),
               patientBorderColor != "#FF0000"
                   ? SizedBox(
-                width: 2,
-              )
+                      width: 2,
+                    )
                   : Padding(
-                  padding:
-                  const EdgeInsets.only(left: 16, top: 8, right: 38),
-                  child: Text(
-                    "This Field Is Required",
-                    style: GoogleFonts.poppins(
-                        color: Colors.red, fontSize: 12),
-                  )),
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 8, right: 38),
+                      child: Text(
+                        "This Field Is Required",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red, fontSize: 12),
+                      )),
             ],
           ),
         ),
@@ -232,8 +282,8 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
         height: isTablet
             ? 80
             : width <= 330
-            ? 60
-            : 70,
+                ? 60
+                : 70,
         // width: MediaQuery.of(context).size.width * .78,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -245,65 +295,65 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                 ),
                 familyVm.imageMem != ""
                     ? Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppTheme.appbarPrimary),
-                      //color: AppTheme.appbarPrimary,
-                      shape: BoxShape.circle,
-                    ),
-                    height: isTablet
-                        ? 55
-                        : width <= 330
-                        ? 40
-                        : 50,
-                    width: isTablet
-                        ? 55
-                        : width <= 330
-                        ? 40
-                        : 50,
-                    child: Center(
-                        child: imageVm.loadProfileImage(
-                            familyVm.imageMem,
-                            isTablet
-                                ? 50
-                                : width <= 330
-                                ? 35
-                                : 45,
-                            isTablet
-                                ? 50
-                                : width <= 330
-                                ? 35
-                                : 45,
-                            50)))
-                    : Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.appbarPrimary,
-                      shape: BoxShape.circle,
-                    ),
-                    height: isTablet
-                        ? 55
-                        : width <= 330
-                        ? 40
-                        : 50,
-                    width: isTablet
-                        ? 55
-                        : width <= 330
-                        ? 40
-                        : 50,
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/dPro.png',
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppTheme.appbarPrimary),
+                          //color: AppTheme.appbarPrimary,
+                          shape: BoxShape.circle,
+                        ),
                         height: isTablet
-                            ? 32
+                            ? 55
                             : width <= 330
-                            ? 22
-                            : 28,
+                                ? 40
+                                : 50,
                         width: isTablet
-                            ? 32
+                            ? 55
                             : width <= 330
-                            ? 22
-                            : 28,
-                      ),
-                    )),
+                                ? 40
+                                : 50,
+                        child: Center(
+                            child: imageVm.loadProfileImage(
+                                familyVm.imageMem,
+                                isTablet
+                                    ? 50
+                                    : width <= 330
+                                        ? 35
+                                        : 45,
+                                isTablet
+                                    ? 50
+                                    : width <= 330
+                                        ? 35
+                                        : 45,
+                                50)))
+                    : Container(
+                        decoration: BoxDecoration(
+                          color: AppTheme.appbarPrimary,
+                          shape: BoxShape.circle,
+                        ),
+                        height: isTablet
+                            ? 55
+                            : width <= 330
+                                ? 40
+                                : 50,
+                        width: isTablet
+                            ? 55
+                            : width <= 330
+                                ? 40
+                                : 50,
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/dPro.png',
+                            height: isTablet
+                                ? 32
+                                : width <= 330
+                                    ? 22
+                                    : 28,
+                            width: isTablet
+                                ? 32
+                                : width <= 330
+                                    ? 22
+                                    : 28,
+                          ),
+                        )),
                 SizedBox(
                   width: 20,
                 ),
@@ -320,8 +370,8 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                             fontSize: isTablet
                                 ? 17
                                 : width <= 330
-                                ? 12
-                                : 14,
+                                    ? 12
+                                    : 14,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
@@ -331,8 +381,8 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                         fontSize: isTablet
                             ? 18
                             : width <= 330
-                            ? 13
-                            : 15,
+                                ? 13
+                                : 15,
                         color: AppTheme.appbarPrimary,
                       ),
                     )
@@ -361,7 +411,9 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
             ),
           ],
         ));
-    var spaceBetween = SizedBox(height: 10,);
+    var spaceBetween = SizedBox(
+      height: 10,
+    );
     print('family name ${familyVm.familyMemName}');
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -370,12 +422,13 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
         children: [
           membersTypeList,
           spaceBetween,
-          membersNameList,
-          spaceBetween,
-          familyVm.isSelected && memberList
-              ? memberDetail
+          cartVM.selectedMemberType == "Family Member"
+              ? membersNameList
               : SizedBox(),
-        ],),
+          spaceBetween,
+          familyVm.isSelected && cartVM.memberList ? memberDetail : SizedBox(),
+        ],
+      ),
     );
   }
 }

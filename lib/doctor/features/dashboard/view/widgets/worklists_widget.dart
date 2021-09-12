@@ -35,7 +35,7 @@ class TodayWorkList extends StatefulWidget {
       {this.consultationOut,
       this.appointmentNumber,
       this.companyNumber,
-        this.consultTypeDesc,
+      this.consultTypeDesc,
       this.consultationNumber,
       this.consultationTypeNo,
       this.departmentName,
@@ -154,7 +154,7 @@ class _TodayWorkListState extends State<TodayWorkList> {
                         ),
                       ),
                       Text(
-                        widget.consultTypeDesc??"",
+                        widget.consultTypeDesc ?? "",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
                           // fontWeight: FontWeight.w600,

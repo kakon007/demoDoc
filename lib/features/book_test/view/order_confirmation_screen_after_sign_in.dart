@@ -5,9 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/book_test/view/widgets/add_more_information.dart';
+import 'package:myhealthbd_app/features/book_test/view/widgets/add_patient_book_test.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -28,9 +31,9 @@ class _OrderConfirmationAfterSignInState
   String _chosenValue;
   String _chosenGender;
 
-
   var cartVM =
-  Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+      Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+
   //String _formatDate = DateFormat("dd/MM/yyyy").format(Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false).selectedDob);
   Future<Null> _selectBirthDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -43,15 +46,12 @@ class _OrderConfirmationAfterSignInState
       setState(() {
         cartVM.selectedDob = picked;
         //cartVM.saveOrderConfirmDataData(selectedDate: selectedDate);
-        var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
-        cartVM.date.value =
-            TextEditingValue(text: "${formattedDate.toString()}");
       });
   }
 
   Future<Null> _preferredDate(BuildContext context) async {
     var cartVM =
-    Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+        Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: cartVM.selectedPreferredDate,
@@ -66,9 +66,10 @@ class _OrderConfirmationAfterSignInState
             TextEditingValue(text: "${formattedDate.toString()}");
       });
   }
+
   Future<Null> _expectedDate(BuildContext context) async {
     var cartVM =
-    Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+        Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: cartVM.selectedExpectedDate,
@@ -83,9 +84,10 @@ class _OrderConfirmationAfterSignInState
             TextEditingValue(text: "${formattedDate.toString()}");
       });
   }
+
   Future<Null> _selectVisitdate(BuildContext context) async {
     var cartVM =
-    Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+        Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: cartVM.selectTentativeDate,
@@ -97,10 +99,17 @@ class _OrderConfirmationAfterSignInState
         //cartVM.saveOrderConfirmDataData(preferredDate: selectedDob);
       });
   }
+
+  @override
+  void initState() {
+    cartVM.forMe= true;
+    cartVM.addPatient = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var cartVM =
-        Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+    var cartVM = Provider.of<OrderConfirmViewModel>(context, listen: true);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     var username = SignUpFormField(
@@ -108,6 +117,175 @@ class _OrderConfirmationAfterSignInState
       hintText: 'Username',
       minimizeBottomPadding: true,
       controller: cartVM.username,
+    );
+    var selectType = Padding(
+      padding:
+          EdgeInsets.only(left: isTablet ? 15 : 0, right: isTablet ? 15 : 0),
+      child: Container(
+        height: isTablet ? 90 : 65.0,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: HexColor("#E9ECFE"),
+            borderRadius: BorderRadius.circular(13)),
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: isTablet ? 30 : 10.0, right: isTablet ? 30 : 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: HexColor(cartVM.forMeBackColor),
+                      borderRadius: BorderRadius.circular(10)),
+                  height:
+                      isTablet ? 60 : MediaQuery.of(context).size.height * 0.06,
+                  width: MediaQuery.of(context).size.width * .4,
+                  child: Center(
+                      child: Text(
+                    "For Me",
+                    key: Key('forMeKey'),
+                    style: GoogleFonts.poppins(
+                        fontSize: isTablet ? 20 : 15,
+                        color: HexColor(cartVM.forMeTextColor)),
+                  )),
+                ),
+                onTap: () {
+                  var vm3 =
+                      Provider.of<UserDetailsViewModel>(context, listen: false);
+                  // cartVM.getAppointType(true, false);
+                  cartVM.forMe= true;
+                  cartVM.addPatient = false;
+                  if (cartVM.addPatient == false) {
+                    cartVM.getButtonColor(
+                        "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");
+                    cartVM.fathersName.text =
+                        vm3.userDetailsList.fatherName ?? "";
+                    cartVM.mothersName.text =
+                        vm3.userDetailsList.motherName ?? "";
+                    cartVM.lastNameController.text =
+                        vm3.userDetailsList.lname ?? "";
+                    cartVM.firstNameController.text =
+                        vm3.userDetailsList.fname ?? "";
+                    cartVM.mobileNumberController.text =
+                        vm3.userDetailsList.phoneMobile ?? "";
+                    cartVM.emailController.text =
+                        vm3.userDetailsList.email ?? "";
+                    cartVM.nidController.text =
+                        vm3.userDetailsList.nationalId ?? "";
+                    cartVM.passportController.text =
+                        vm3.userDetailsList.passportNo ?? "";
+                    cartVM.addressController.text =
+                        vm3.userDetailsList.address ?? "";
+                    cartVM.dayController.text =
+                        vm3.userDetailsList.ageDd.toString() ?? "";
+                    cartVM.monthController.text =
+                        vm3.userDetailsList.ageMm.toString() ?? "";
+                    cartVM.yearController.text =
+                        vm3.userDetailsList.ageYy.toString() ?? "";
+                    // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                    // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                    cartVM.selectedDob =
+                        DateTime.parse(vm3.userDetailsList.dob) ??
+                            DateTime.now();
+                    print('qqqqq ${DateTime.parse(vm3.userDetailsList.dob)}');
+                    //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                    print('ppppp ${cartVM.fathersName.text}');
+                  }
+                  print(cartVM.forMeBackColor);
+                },
+              ),
+              InkWell(
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: HexColor(cartVM.addPatientBackColor),
+                        borderRadius: BorderRadius.circular(10)),
+                    height: isTablet
+                        ? 65
+                        : MediaQuery.of(context).size.height * 0.06,
+                    width: MediaQuery.of(context).size.width * .4,
+                    child: Center(
+                        child: Text(
+                      "Add patient",
+                      key: Key('addPatientKey'),
+                      style: GoogleFonts.poppins(
+                          fontSize: isTablet ? 20 : 15,
+                          color: HexColor(cartVM.addPatientTextColor)),
+                    ))),
+                onTap: () {
+                  var vm3 =
+                      Provider.of<UserDetailsViewModel>(context, listen: false);
+                  // cartVM.getAppointType(false, true);
+                  cartVM.forMe= false;
+                  cartVM.addPatient = true;
+                  if (cartVM.forMe == false) {
+                    cartVM.getButtonColor(
+                        "#00FFFFFF", "#8389A9", "#141D53", "#FFFFFF");
+                    if (vm3.patDetails != null &&  cartVM.memberList) {
+                      cartVM.fathersName.text = vm3.patDetails.fatherName ?? "";
+                      cartVM.mothersName.text = vm3.patDetails.motherName ?? "";
+                      cartVM.lastNameController.text =
+                          vm3.patDetails.lname ?? "";
+                      cartVM.firstNameController.text =
+                          vm3.patDetails.fname ?? "";
+                      cartVM.mobileNumberController.text =
+                          vm3.patDetails.phoneMobile ?? "";
+                      cartVM.emailController.text = vm3.patDetails.email ?? "";
+                      cartVM.nidController.text =
+                          vm3.patDetails.nationalId ?? "";
+                      cartVM.passportController.text =
+                          vm3.patDetails.passportNo ?? "";
+                      cartVM.addressController.text =
+                          vm3.patDetails.address ?? "";
+                      cartVM.dayController.text =
+                          vm3.userDetailsList.ageDd.toString() ?? "";
+                      cartVM.monthController.text =
+                          vm3.userDetailsList.ageMm.toString() ?? "";
+                      cartVM.yearController.text =
+                          vm3.userDetailsList.ageYy.toString() ?? "";
+                      // // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                      // // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                      // cartVM.selectedDob =
+                      //     DateTime.parse(vm3.patDetails.dob) ?? DateTime.now();
+                      // print('qqqqq ${DateTime.parse(vm3.patDetails.dob)}');
+                      // //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                      // print('ppppp ${cartVM.fathersName.text}');
+                    }
+                    else{
+                      cartVM.fathersName.text = "";
+                      cartVM.mothersName.text ="";
+                      cartVM.lastNameController.text ="";
+                      cartVM.firstNameController.text ="";
+                      cartVM.mobileNumberController.text = "";
+                      cartVM.emailController.text = "";
+                      cartVM.nidController.text = "";
+                      cartVM.passportController.text = "";
+                      cartVM.addressController.text ="";
+                      cartVM.dayController.text = "";
+                      cartVM.monthController.text = "";
+                      cartVM.yearController.text ="";
+                      // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                      // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                      cartVM.selectedDob =
+                              DateTime.now();
+
+                      //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                      print('ppppp ${cartVM.fathersName.text}');
+                    }
+                  }
+                  // cartVM.fathersName.text = Provider.of<UserDetailsViewModel>(context, listen: false)?.patDetails?.fatherName ?? "";
+                  // cartVM.mothersName.text = Provider.of<UserDetailsViewModel>(context, listen: false)?.patDetails?.fatherName ?? "";
+                  // cartVM.lastNameController.text = Provider.of<UserDetailsViewModel>(context, listen: false)?.patDetails?.fname ?? "";
+                  // cartVM.firstNameController.text = Provider.of<UserDetailsViewModel>(context, listen: false)?.patDetails?.lname ?? "";
+                  // cartVM.selectedDob = DateTime.parse(Provider.of<UserDetailsViewModel>(context, listen: true)?.patDetails?.dob) ?? DateTime.now();
+                  // cartVM.choseGender = "Male";
+                  print(cartVM.forMeBackColor);
+                },
+              )
+            ],
+          ),
+        ),
+      ),
     );
     var password = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
@@ -147,7 +325,8 @@ class _OrderConfirmationAfterSignInState
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: Color(0xff354291),
           onPressed: () async {
-            cartVM.saveOrderConfirmDataData();
+            print('priice  ${cartVM.subTotal}');
+            await cartVM.saveOrderConfirmDataData();
           },
           child: Text(
             'Save',
@@ -218,7 +397,7 @@ class _OrderConfirmationAfterSignInState
         onChanged: (String value) {
           setState(() {
             cartVM.salutation = value;
-          //  cartVM.saveOrderConfirmDataData(salutation: _chosenValue);
+            //  cartVM.saveOrderConfirmDataData(salutation: _chosenValue);
           });
         },
       ),
@@ -254,7 +433,7 @@ class _OrderConfirmationAfterSignInState
         ),
         onChanged: (String value) {
           setState(() {
-          cartVM.choseGender = value;
+            cartVM.choseGender = value;
             //cartVM.saveOrderConfirmDataData(gender: _chosenGender);
             print(_chosenGender);
           });
@@ -417,7 +596,8 @@ class _OrderConfirmationAfterSignInState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    DateFormat("dd-MMM-yyyy").format(cartVM.selectTentativeDate),
+                    DateFormat("dd-MMM-yyyy")
+                        .format(cartVM.selectTentativeDate),
                     style: GoogleFonts.poppins(
                         color: AppTheme.signInSignUpColor,
                         fontSize: isTablet ? 18 : 13.0),
@@ -615,26 +795,32 @@ class _OrderConfirmationAfterSignInState
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: Colors.grey)),
                 height: 50,
-                child:   Padding(
+                child: Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Container(
                     width: 145,
                     child: DropdownButtonHideUnderline(
-
                       child: DropdownButton(
                         icon: Padding(
                           padding: const EdgeInsets.only(right: 8),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
-                            color:cartVM.choseBlood  != null ? Colors.black54 : HexColor("#D2D2D2"),
+                            color: cartVM.choseBlood != null
+                                ? Colors.black54
+                                : HexColor("#D2D2D2"),
                           ),
                         ),
                         iconSize: 25.0,
-                        hint: Text('Blood Group', style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                        hint: Text(
+                          'Blood Group',
+                          style: GoogleFonts.roboto(
+                              fontSize: 15, color: HexColor("#D2D2D2")),
+                        ),
+                        // Not necessary for Option 1
                         value: cartVM.choseBlood,
                         onChanged: (newValue) {
                           setState(() {
@@ -643,7 +829,10 @@ class _OrderConfirmationAfterSignInState
                         },
                         items: StringResources.bloodGroupList.map((gender) {
                           return DropdownMenuItem(
-                            child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                            child: new Text(
+                              gender,
+                              style: GoogleFonts.roboto(fontSize: 14),
+                            ),
                             value: gender,
                           );
                         }).toList(),
@@ -671,22 +860,28 @@ class _OrderConfirmationAfterSignInState
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: Colors.grey)),
                 height: 50,
-                child:   Padding(
+                child: Padding(
                   padding: const EdgeInsets.only(left: 15.0),
                   child: Container(
                     width: 145,
                     child: DropdownButtonHideUnderline(
-
                       child: DropdownButton(
                         icon: Padding(
                           padding: const EdgeInsets.only(right: 8),
                           child: Icon(
                             Icons.keyboard_arrow_down_sharp,
-                            color:cartVM.choseMaritalStatus  != null ? Colors.black54 : HexColor("#D2D2D2"),
+                            color: cartVM.choseMaritalStatus != null
+                                ? Colors.black54
+                                : HexColor("#D2D2D2"),
                           ),
                         ),
                         iconSize: 25.0,
-                        hint: Text('Select One', style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                        hint: Text(
+                          'Select One',
+                          style: GoogleFonts.roboto(
+                              fontSize: 15, color: HexColor("#D2D2D2")),
+                        ),
+                        // Not necessary for Option 1
                         value: cartVM.choseMaritalStatus,
                         onChanged: (newValue) {
                           setState(() {
@@ -695,7 +890,10 @@ class _OrderConfirmationAfterSignInState
                         },
                         items: StringResources.maritalList.map((gender) {
                           return DropdownMenuItem(
-                            child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                            child: new Text(
+                              gender,
+                              style: GoogleFonts.roboto(fontSize: 14),
+                            ),
                             value: gender,
                           );
                         }).toList(),
@@ -780,7 +978,8 @@ class _OrderConfirmationAfterSignInState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    DateFormat("dd-MMM-yyyy").format(cartVM.selectedPreferredDate),
+                    DateFormat("dd-MMM-yyyy")
+                        .format(cartVM.selectedPreferredDate),
                     style: GoogleFonts.poppins(
                         color: AppTheme.signInSignUpColor,
                         fontSize: isTablet ? 18 : 13.0),
@@ -827,7 +1026,8 @@ class _OrderConfirmationAfterSignInState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    DateFormat("dd-MMM-yyyy").format(cartVM.selectedExpectedDate),
+                    DateFormat("dd-MMM-yyyy")
+                        .format(cartVM.selectedExpectedDate),
                     style: GoogleFonts.poppins(
                         color: AppTheme.signInSignUpColor,
                         fontSize: isTablet ? 18 : 13.0),
@@ -872,7 +1072,9 @@ class _OrderConfirmationAfterSignInState
       minimizeBottomPadding: true,
       controller: cartVM.countryArrivalController,
     );
-
+    var spaceBetween = SizedBox(
+      height: 10,
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),
@@ -885,61 +1087,53 @@ class _OrderConfirmationAfterSignInState
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              CheckboxListTile(
-                activeColor: Colors.indigo,
-                controlAffinity: ListTileControlAffinity.leading,
-                title: Text(
-                  "I am a registered Patient ?",
-                  style: TextStyle(
-                      fontSize: isTablet ? 18 : 16,
-                      fontWeight: FontWeight.w500),
-                ),
-                value: isCheckReg,
-                onChanged: (val) {
-                  isCheckReg = val;
-                  setState(() {});
-                },
-              ),
+              spaceBetween,
+              Provider.of<AccessTokenProvider>(context).accessToken != null
+                  ? selectType
+                  : CheckboxListTile(
+                      activeColor: Colors.indigo,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text(
+                        "I am a registered Patient ?",
+                        style: TextStyle(
+                            fontSize: isTablet ? 18 : 16,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      value: isCheckReg,
+                      onChanged: (val) {
+                        isCheckReg = val;
+                        setState(() {});
+                      },
+                    ),
               isCheckReg
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         username,
-                        SizedBox(
-                          height: 10,
-                        ),
+                        spaceBetween,
                         password,
                         verifyButton,
                       ],
                     )
                   : SizedBox(),
+              cartVM.forMe ? SizedBox() : ForMeBookTest(),
               Row(
                 children: [
                   salutation,
                   firstName,
                 ],
               ),
-              SizedBox(
-                height: 10,
-              ),
+              spaceBetween,
               lastName,
-              SizedBox(
-                height: 10,
-              ),
+              spaceBetween,
               Row(
                 children: [gender, birthDate],
               ),
-              SizedBox(
-                height: 15,
-              ),
+              spaceBetween,
               age,
-              SizedBox(
-                height: 10,
-              ),
+              spaceBetween,
               mobileNumber,
-              SizedBox(
-                height: 10,
-              ),
+              spaceBetween,
               address,
               CheckboxListTile(
                 activeColor: Colors.indigo,
@@ -980,29 +1174,17 @@ class _OrderConfirmationAfterSignInState
                     child: Column(
                       children: [
                         fatherName,
-                        SizedBox(
-                          height: 10,
-                        ),
+                        spaceBetween,
                         mothersName,
-                        SizedBox(
-                          height: 10,
-                        ),
+                        spaceBetween,
                         bloodGroupAndMarital,
-                        SizedBox(
-                          height: 10,
-                        ),
+                        spaceBetween,
                         email,
-                        SizedBox(
-                          height: 10,
-                        ),
+                        spaceBetween,
                         nationalId,
-                        SizedBox(
-                          height: 10,
-                        ),
+                        spaceBetween,
                         passport,
-                        SizedBox(
-                          height: 10,
-                        )
+                        spaceBetween,
                       ],
                     ),
                   ),
@@ -1068,13 +1250,9 @@ class _OrderConfirmationAfterSignInState
                       children: [
                         tentativeDate,
                         //tentativeVisitDate,
-                        SizedBox(
-                          height: 10,
-                        ),
+                        spaceBetween,
                         ticketNumber,
-                        SizedBox(
-                          height: 10,
-                        ),
+                        spaceBetween,
                         countryOfArrival,
                       ],
                     )

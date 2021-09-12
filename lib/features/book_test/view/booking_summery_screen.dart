@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/features/constant.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
+
+import 'order_confirmation_screen_after_sign_in.dart';
+import 'order_confirmation_signed_in.dart';
 
 class BookingSummeryScreen extends StatefulWidget {
   @override
@@ -14,17 +21,25 @@ class BookingSummeryScreen extends StatefulWidget {
 }
 
 class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
-
   @override
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
     var testItemVm = Provider.of<TestItemViewModel>(context);
-    num subTotal= 0;
-    testItemVm.salesPrice.forEach((num e){subTotal += e;});
-    num discountAmt=0;
-    testItemVm.discountAmt.forEach((num e){discountAmt += e;});
-    num discountPrice=0;
-    testItemVm.discountPrice.forEach((num e){discountPrice += e;});
+    var submitVm = Provider.of<OrderConfirmViewModel>(context);
+    num subTotal = 0;
+    testItemVm.salesPrice.forEach((num e) {
+      subTotal += e;
+    });
+    num discountAmt = 0;
+    submitVm.subTotal = subTotal;
+    testItemVm.discountAmt.forEach((num e) {
+      discountAmt += e;
+    });
+    num discountPrice = 0;
+    testItemVm.discountPrice.forEach((num e) {
+      discountPrice += e;
+    });
+    submitVm.total = discountPrice;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -37,83 +52,78 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
           ),
           actions: [
             InkWell(
-              onTap: (){
+              onTap: () {
                 showGeneralDialog(
                   barrierLabel: "Label",
                   barrierDismissible: true,
-                  barrierColor:
-                  Colors.black.withOpacity(0.5),
-                  transitionDuration:
-                  Duration(milliseconds: 700),
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  transitionDuration: Duration(milliseconds: 700),
                   context: context,
-                  pageBuilder:
-                      (context, anim1, anim2) {
+                  pageBuilder: (context, anim1, anim2) {
                     return Material(
-                      type: MaterialType
-                          .transparency,
+                      type: MaterialType.transparency,
                       child: Align(
-                        alignment:
-                        Alignment.center,
+                        alignment: Alignment.center,
                         child: Material(
-                          type: MaterialType
-                              .transparency,
+                          type: MaterialType.transparency,
                           child: Stack(
                             children: [
                               Container(
                                 height: 300,
-                                width: isTablet?MediaQuery.of(context).size.width *.7 : MediaQuery.of(context).size.width,
+                                width: isTablet
+                                    ? MediaQuery.of(context).size.width * .7
+                                    : MediaQuery.of(context).size.width,
                                 child: Center(
                                   child: Container(
                                     height: 200,
                                     margin:
-                                    EdgeInsets.only(
-                                        left: 15,
-                                        right: 15),
-                                    decoration:
-                                    BoxDecoration(
-                                      gradient:
-                                      LinearGradient(
-                                        begin: Alignment
-                                            .topCenter,
-                                        end: Alignment
-                                            .bottomCenter,
+                                        EdgeInsets.only(left: 15, right: 15),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
                                         colors: [
-                                          HexColor(
-                                              '#fdf0f2'),
-                                          HexColor(
-                                              '#FFFFFF')
+                                          HexColor('#fdf0f2'),
+                                          HexColor('#FFFFFF')
                                         ],
-                                        tileMode: TileMode
-                                            .repeated,
+                                        tileMode: TileMode.repeated,
                                       ),
-                                      borderRadius:
-                                      BorderRadius
-                                          .circular(
-                                          20),
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Padding(
-                                      padding:
-                                      const EdgeInsets
-                                          .only(
-                                          top: 60.0),
+                                      padding: const EdgeInsets.only(top: 60.0),
                                       child: Column(
                                         children: [
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               Padding(
-                                                padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.08, right: MediaQuery.of(context).size.width*0.08),
+                                                padding: EdgeInsets.only(
+                                                    left: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        .08,
+                                                    right:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.08),
                                                 child: RichText(
                                                   textAlign: TextAlign.center,
-                                                  text:  TextSpan(
-                                                    style:  GoogleFonts.poppins(
-                                                      fontSize: isTablet? 18 : 14.0,
+                                                  text: TextSpan(
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize:
+                                                          isTablet ? 18 : 14.0,
                                                       color: Colors.black,
                                                     ),
                                                     children: <TextSpan>[
-                                                      TextSpan(text: 'Do you want to delete all these items?\n This action can\'t be undone.'),
-                                                     // TextSpan(text: 'This action can\'t be undone.'),
+                                                      TextSpan(
+                                                          text:
+                                                              'Do you want to delete all these items?\n This action can\'t be undone.'),
+                                                      // TextSpan(text: 'This action can\'t be undone.'),
                                                       // TextSpan(text: 'sure', style: GoogleFonts.poppins()),
                                                       // TextSpan(text: " you want to Delete?", style: GoogleFonts.poppins()),
                                                     ],
@@ -139,52 +149,118 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                             height: 5,
                                           ),
                                           SizedBox(
-                                            height: isTablet? 10 : MediaQuery.of(context).size.width<=330 ? 10 : 20,
+                                            height: isTablet
+                                                ? 10
+                                                : MediaQuery.of(context)
+                                                            .size
+                                                            .width <=
+                                                        330
+                                                    ? 10
+                                                    : 20,
                                           ),
                                           Padding(
-                                            padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*.08, right: MediaQuery.of(context).size.width*0.08),
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .08,
+                                                right: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.08),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(left: 0.0, right: 0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 0.0, right: 0),
                                                   child: Container(
-                                                    width: isTablet? MediaQuery.of(context).size.width*.22: MediaQuery.of(context).size.width/3,
+                                                    width: isTablet
+                                                        ? MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            .22
+                                                        : MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            3,
                                                     decoration: BoxDecoration(),
-                                                    height: isTablet? 50 : 45,
+                                                    height: isTablet ? 50 : 45,
                                                     child: FlatButton(
-                                                        onPressed: (){
-                                                          Navigator.pop(context);
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                         shape: RoundedRectangleBorder(
                                                             side: BorderSide(
-                                                                color: AppTheme.appbarPrimary
-                                                                ,width: 1),
-                                                            borderRadius: BorderRadius.circular(10)),
-                                                        textColor: AppTheme.appbarPrimary ,
-                                                        color: Colors.white ,child: Text("Cancel",style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
+                                                                color: AppTheme
+                                                                    .appbarPrimary,
+                                                                width: 1),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        textColor: AppTheme
+                                                            .appbarPrimary,
+                                                        color: Colors.white,
+                                                        child: Text("Cancel",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                    fontSize:
+                                                                        isTablet
+                                                                            ? 18
+                                                                            : 15))),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(left: 0.0, right: 0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 0.0, right: 0),
                                                   child: Container(
-                                                    width: isTablet? MediaQuery.of(context).size.width*.22: MediaQuery.of(context).size.width/3,
-                                                    height: isTablet? 50 : 45,
+                                                    width: isTablet
+                                                        ? MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            .22
+                                                        : MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            3,
+                                                    height: isTablet ? 50 : 45,
                                                     child: FlatButton(
-                                                        onPressed: () async{
-                                                          testItemVm.cartList.clear();
-                                                          testItemVm.salesPrice.clear();
-                                                          testItemVm.discountAmt.clear();
-                                                          testItemVm.discountPrice.clear();
-                                                          Navigator.pop(context);
-                                                          setState(() {
-
-                                                          });
+                                                        onPressed: () async {
+                                                          testItemVm.cartList
+                                                              .clear();
+                                                          testItemVm.salesPrice
+                                                              .clear();
+                                                          testItemVm.discountAmt
+                                                              .clear();
+                                                          testItemVm
+                                                              .discountPrice
+                                                              .clear();
+                                                          Navigator.pop(
+                                                              context);
+                                                          setState(() {});
                                                         },
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(10)),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
                                                         textColor: Colors.white,
-                                                        color: AppTheme.appbarPrimary ,child: Text("Delete",  style: GoogleFonts.poppins(fontSize: isTablet? 18 : 15))),
+                                                        color: AppTheme
+                                                            .appbarPrimary,
+                                                        child: Text("Delete",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                    fontSize:
+                                                                        isTablet
+                                                                            ? 18
+                                                                            : 15))),
                                                   ),
                                                 ),
                                               ],
@@ -201,18 +277,17 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                 left: 100,
                                 right: 100,
                                 child: CircleAvatar(
-                                  backgroundColor:
-                                  Colors.transparent,
-                                  radius: Constants
-                                      .avatarRadius,
+                                  backgroundColor: Colors.transparent,
+                                  radius: Constants.avatarRadius,
                                   child: ClipRRect(
-                                      borderRadius:
-                                      BorderRadius.all(
+                                      borderRadius: BorderRadius.all(
                                           Radius.circular(
-                                              Constants
-                                                  .avatarRadius)),
+                                              Constants.avatarRadius)),
                                       child: Image.asset(
-                                        "assets/images/deletewaring.png",height: 90,width: 90,)),
+                                        "assets/images/deletewaring.png",
+                                        height: 90,
+                                        width: 90,
+                                      )),
                                 ),
                               ),
                             ],
@@ -221,12 +296,9 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                       ),
                     );
                   },
-                  transitionBuilder: (context,
-                      anim1, anim2, child) {
+                  transitionBuilder: (context, anim1, anim2, child) {
                     return SlideTransition(
-                      position: Tween(
-                          begin: Offset(0, 2),
-                          end: Offset(0, 0))
+                      position: Tween(begin: Offset(0, 2), end: Offset(0, 0))
                           .animate(anim1),
                       child: child,
                     );
@@ -239,7 +311,8 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                   'Delete All',
                   //key: Key('emrAppbarKey'),
                   style: GoogleFonts.poppins(
-                      fontSize: isTablet ? 20 : 13, fontWeight: FontWeight.w700),
+                      fontSize: isTablet ? 20 : 13,
+                      fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -267,83 +340,83 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 25.0,right: 25),
+                  padding: const EdgeInsets.only(left: 25.0, right: 25),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Items  ${(testItemVm.cartList.length)}',
                         style: GoogleFonts.poppins(
-                            fontSize: isTablet ? 20 : 15,fontWeight: FontWeight.w600, color: Color(0xff354291)),
+                            fontSize: isTablet ? 20 : 15,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xff354291)),
                       ),
                       Text(
                         'Price  (TK)',
                         style: GoogleFonts.poppins(
-                            fontSize: isTablet ? 20 : 15, fontWeight: FontWeight.w600, color: Color(0xff354291)),
+                            fontSize: isTablet ? 20 : 15,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xff354291)),
                       ),
                     ],
                   ),
                 ),
               ),
-             SizedBox(
-               height: 10,
-             ),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.separated(
-                     physics: NeverScrollableScrollPhysics(),
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: testItemVm.cartList.length,
                       shrinkWrap: true,
-                      itemBuilder:
-                          (BuildContext context,
-                          int index) {
+                      itemBuilder: (BuildContext context, int index) {
                         return Padding(
-                          padding:
-                          const EdgeInsets.only(
-                              left: 10.0,
-                              right: 10),
+                          padding: const EdgeInsets.only(left: 10.0, right: 10),
                           child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width:260,
-                                  child: Text(
-                                    testItemVm.cartList[index].itemName,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: isTablet ? 20 : 14, color: Colors.black),
-                                    maxLines: 2,overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-
-                                Text(
-                                  testItemVm.cartList[index].salesPrice.toString(),
+                              child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 260,
+                                child: Text(
+                                  testItemVm.cartList[index].itemName,
                                   style: GoogleFonts.poppins(
-                                      fontSize: isTablet ? 20 : 15, color: Colors.black),
+                                      fontSize: isTablet ? 20 : 14,
+                                      color: Colors.black),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                InkWell(
-                                  onTap: (){
-                                    testItemVm.cartList.removeAt(index);
-                                    testItemVm.salesPrice.removeAt(index);
-                                    testItemVm.discountAmt.removeAt(index);
-                                    testItemVm.discountPrice.removeAt(index);
-                                    setState(() {
-
-                                    });
-                                  },
-                                  child: Icon(Icons.delete_sweep,
-                                      size: isTablet ? 27 : 20,
-                                      color:Color(0xffFFA7A7)),
-                                ),
-                              ],
-                            )
-                          ),
+                              ),
+                              Text(
+                                testItemVm.cartList[index].salesPrice
+                                    .toString(),
+                                style: GoogleFonts.poppins(
+                                    fontSize: isTablet ? 20 : 15,
+                                    color: Colors.black),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  testItemVm.cartList.removeAt(index);
+                                  testItemVm.salesPrice.removeAt(index);
+                                  testItemVm.discountAmt.removeAt(index);
+                                  testItemVm.discountPrice.removeAt(index);
+                                  setState(() {});
+                                },
+                                child: Icon(Icons.delete_sweep,
+                                    size: isTablet ? 27 : 20,
+                                    color: Color(0xffFFA7A7)),
+                              ),
+                            ],
+                          )),
                         );
                       },
-                      separatorBuilder:
-                          (context, index) {
-                        return Divider(thickness: 2,);
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          thickness: 2,
+                        );
                       }),
                 ),
               ),
@@ -352,15 +425,14 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
                   decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:  BorderRadius.only(
-                      bottomLeft:  Radius.circular(12.0),
-                      bottomRight:  Radius.circular(12.0),
-                      topLeft: Radius.circular(12.0),
-                      topRight: Radius.circular(12.0),
-                    ),
-                      border: Border.all(color: Colors.grey.withOpacity(0.2))
-                ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(12.0),
+                        bottomRight: Radius.circular(12.0),
+                        topLeft: Radius.circular(12.0),
+                        topRight: Radius.circular(12.0),
+                      ),
+                      border: Border.all(color: Colors.grey.withOpacity(0.2))),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -371,12 +443,14 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                             Text(
                               'Subtotal',
                               style: GoogleFonts.poppins(
-                                  fontSize: isTablet ? 20 : 14, color: Colors.black),
+                                  fontSize: isTablet ? 20 : 14,
+                                  color: Colors.black),
                             ),
                             Text(
                               '$subTotal Tk',
                               style: GoogleFonts.poppins(
-                                  fontSize: isTablet ? 20 : 14, color: Colors.black),
+                                  fontSize: isTablet ? 20 : 14,
+                                  color: Colors.black),
                             ),
                           ],
                         ),
@@ -386,30 +460,36 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                             Text(
                               'Discount',
                               style: GoogleFonts.poppins(
-                                  fontSize: isTablet ? 20 : 14, color: Color(0xff037BB7)),
+                                  fontSize: isTablet ? 20 : 14,
+                                  color: Color(0xff037BB7)),
                             ),
                             Text(
                               '$discountAmt Tk',
                               style: GoogleFonts.poppins(
-                                  fontSize: isTablet ? 20 : 14, color: Color(0xff037BB7)),
+                                  fontSize: isTablet ? 20 : 14,
+                                  color: Color(0xff037BB7)),
                             ),
                           ],
                         ),
-                        Divider(thickness: 1.5,color: Colors.black,),
+                        Divider(
+                          thickness: 1.5,
+                          color: Colors.black,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               'Total',
                               style: GoogleFonts.poppins(
-                                  fontSize: isTablet ? 20 : 14, color: Colors.black),
+                                  fontSize: isTablet ? 20 : 14,
+                                  color: Colors.black),
                             ),
                             Text(
                               '$discountPrice Tk',
                               style: GoogleFonts.poppins(
-                                  fontSize: isTablet ? 20 : 14, color: Colors.black),
+                                  fontSize: isTablet ? 20 : 14,
+                                  color: Colors.black),
                             ),
-
                           ],
                         ),
                       ],
@@ -424,8 +504,90 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    var vm3 = Provider.of<UserDetailsViewModel>(
+                        context,
+                        listen: false);
+                    var cartVM =
+                    Provider.of<OrderConfirmViewModel>(context, listen: false);
+                    Future.delayed(Duration.zero, () {
+                      cartVM.forMe = true;
+                      cartVM.addPatient = false;
+                      // cartVM.getAppointType(true, false);
+                    });
+                    //await vm3.getData2();
+                    if(cartVM.forMe){
+                      cartVM.memberList = false;
+                      cartVM.selectedMemberType=null;
+                      var familyVm =
+                      Provider.of<FamilyMembersListViewModel>(context, listen: false);
+                      familyVm.memberDetail(
+                          -1, false, "", "", "", "", "", "", "", "", "");
+                      cartVM.fathersName.text = vm3.userDetailsList.fatherName?? "";
+                      cartVM.mothersName.text = vm3.userDetailsList.motherName?? "";
+                      cartVM.lastNameController.text = vm3.userDetailsList.lname?? "";
+                      cartVM.firstNameController.text = vm3.userDetailsList.fname?? "";
+                      print('ssss ${vm3.userDetailsList.fname}');
+                      cartVM.mobileNumberController.text = vm3.userDetailsList.phoneMobile?? "";
+                      cartVM.emailController.text = vm3.userDetailsList.email?? "";
+                      cartVM.nidController.text = vm3.userDetailsList.nationalId?? "";
+                      cartVM.passportController.text = vm3.userDetailsList.passportNo?? "";
+                      cartVM.addressController.text = vm3.userDetailsList.address?? "";
+                      cartVM.dayController.text = vm3.userDetailsList.ageDd.toString()?? "";
+                      cartVM.monthController.text = vm3.userDetailsList.ageMm.toString()?? "";
+                      cartVM.yearController.text = vm3.userDetailsList.ageYy.toString() ?? "";
+                      // // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                      // // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                      cartVM.selectedDob = DateTime.parse(vm3.userDetailsList.dob) ?? DateTime.now();
+                      print('qqqqq ${DateTime.parse(vm3.userDetailsList.dob) }');
+                    }else{
+                      cartVM.memberList = false;
+                      var familyVm =
+                      Provider.of<FamilyMembersListViewModel>(context, listen: false);
+                      familyVm.memberDetail(
+                          -1, false, "", "", "", "", "", "", "", "", "");
+                      cartVM.selectedMemberType=null;
+                      cartVM.fathersName.text = "";
+                      cartVM.mothersName.text ="";
+                      cartVM.lastNameController.text ="";
+                      cartVM.firstNameController.text ="";
+                      cartVM.mobileNumberController.text = "";
+                      cartVM.emailController.text = "";
+                      cartVM.nidController.text = "";
+                      cartVM.passportController.text = "";
+                      cartVM.addressController.text ="";
+                      cartVM.dayController.text = "";
+                      cartVM.monthController.text = "";
+                      cartVM.yearController.text ="";
+                      // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                      // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                      cartVM.selectedDob =
+                              DateTime.now();
+                      //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                      print('ppppp ${cartVM.fathersName.text}');
+                    }
 
+                   // familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
+                    print('ppppp ${ cartVM.fathersName.text}');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                OrderConfirmationAfterSignIn()));
+                    // if (Provider.of<AccessTokenProvider>(context, listen: false)
+                    //         .accessToken ==
+                    //     null) {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               OrderConfirmationAfterSignIn()));
+                    // } else {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => OrderConfirmation()));
+                    // }
                   },
                   child: Material(
                     elevation: 2,
@@ -436,9 +598,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                       // width: MediaQuery.of(context).size.width > 600
                       //     ? 335
                       //     : 300,
-                      height: MediaQuery.of(context).size.width > 600
-                          ? 35
-                          : 45,
+                      height: MediaQuery.of(context).size.width > 600 ? 35 : 45,
                       child: Center(
                         child: Text(
                           "Confirm Booking",

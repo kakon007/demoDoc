@@ -34,7 +34,30 @@ class UserDetailsRepository {
       return Left(AppError.unknownError);
     }
   }
-
+  Future<Either<AppError, UserM>> fetchUserDetails2(String accessToken) async {
+    var url = "${Urls.baseUrl}"
+        "diagnostic-api/api/pat-investigation-report/find-hospitalNumber";
+    try {
+      var client = http.Client();
+      var response = await client.post(Uri.parse(url), headers: {
+        'Authorization': 'Bearer $accessToken',
+      });
+      if (response.statusCode == 200) {
+        UserDetailsModel data2 = userDetailsModelFromJson(response.body);
+        //print(response.body);
+        return Right(UserM(
+          dataList: data2.obj,
+        ));
+      } else {
+        return Left(AppError.serverError);
+      }
+    } on SocketException catch (e) {
+      BotToast.showText(text: StringResources.unableToReachServerMessage);
+      return Left(AppError.networkError);
+    } catch (e) {
+      return Left(AppError.unknownError);
+    }
+  }
   Future<Either<AppError, UserM>> fetchPatInfo(
       String accessToken, String hospitalNumber) async {
     var url =

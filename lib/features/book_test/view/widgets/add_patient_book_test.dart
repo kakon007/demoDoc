@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/appointments/view/widgets/family_members.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/family_members_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -18,11 +19,11 @@ class ForMeBookTest extends StatefulWidget {
 }
 
 class _ForMeBookTestState extends State<ForMeBookTest> {
-  bool memberList = false;
+
   var memberBorderColor = "#EAEBED";
   String _selectedMemberType;
   var patientBorderColor = "#EAEBED";
-  var selectedMemberType = "";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -31,6 +32,8 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
   }
   @override
   Widget build(BuildContext context) {
+    var cartVM =
+    Provider.of<OrderConfirmViewModel>(context, listen: true);
     bool isDesktop = Responsive.isDesktop(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
@@ -47,9 +50,9 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ? width * .86 : width * .95,
+                width: isTablet ? width * .86 : width * .88,
                 decoration: BoxDecoration(
-                    color: familyVm.isSelected && memberList
+                    color: familyVm.isSelected &&   cartVM.memberList
                         ? AppTheme.appbarPrimary
                         : Colors.white,
                     border: Border.all(color: HexColor(memberBorderColor)),
@@ -63,10 +66,10 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
-                            memberList = true;
+                            cartVM.memberList = true;
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                                  return FamilyMembers();
+                                  return FamilyMembers(isFromOrder: true,);
                                 })).then((value) {
                                   setState(() {
 
@@ -75,14 +78,14 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                           });
                         },
                         child: Container(
-                          width: isTablet ? width * .82 : width * .88,
+                          width: isTablet ? width * .82 : width * .8,
                           child: DropdownButtonHideUnderline(
                             child: DropdownButtonFormField(
                               icon: Icon(
-                                familyVm.isSelected && memberList
+                                familyVm.isSelected &&   cartVM.memberList
                                     ? Icons.keyboard_arrow_right_outlined
                                     : Icons.keyboard_arrow_down_sharp,
-                                color: familyVm.isSelected && memberList
+                                color: familyVm.isSelected &&   cartVM.memberList
                                     ? Colors.white
                                     : HexColor("#D2D2D2"),
                               ),
@@ -96,7 +99,7 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                                 "Select your family member",
                                 style: GoogleFonts.roboto(
                                     fontSize: isTablet ? 18 : 15,
-                                    color: familyVm.isSelected && memberList
+                                    color: familyVm.isSelected &&   cartVM.memberList
                                         ? Colors.white
                                         : HexColor("#D2D2D2")),
                               ),
@@ -133,7 +136,7 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
             children: [
               Container(
                 height: 50.0,
-                width: isTablet ? width * .86 : width * .95,
+                width: isTablet ? width * .86 : width * .88,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: HexColor(patientBorderColor)),
@@ -144,10 +147,9 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Container(
-                        width: isTablet ? width * .82 : width * .88,
+                        width: isTablet ? width * .82 : width * .8,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
-                            key: Key('selectAddPatientType'),
                             icon: Icon(
                               Icons.keyboard_arrow_down_sharp,
                               color: _selectedMemberType != null
@@ -167,18 +169,18 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                                   color: HexColor("#D2D2D2")),
                             ),
                             // Not necessary for Option 1
-                            value: _selectedMemberType,
+                            value: cartVM.selectedMemberType,
                             onChanged: (newValue) {
                               setState(() {
                                 patientBorderColor = "#EAEBED";
                                 _selectedMemberType = newValue;
-                                if (_selectedMemberType != selectedMemberType) {
+                                if (_selectedMemberType !=   cartVM.selectedMemberType) {
                                   if (_selectedMemberType == "Family Member") {
-                                    memberList = true;
+                                    cartVM.memberList = true;
                                   } else {
-                                    memberList = false;
+                                    cartVM.memberList = false;
                                   }
-                                  selectedMemberType = newValue;
+                                  cartVM.selectedMemberType = newValue;
                                   Future.delayed(Duration.zero, () async {
                                   });
                                 }
@@ -370,9 +372,9 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
         children: [
           membersTypeList,
           spaceBetween,
-          membersNameList,
+          cartVM.selectedMemberType =="Family Member"? membersNameList : SizedBox(),
           spaceBetween,
-          familyVm.isSelected && memberList
+          familyVm.isSelected &&   cartVM.memberList
               ? memberDetail
               : SizedBox(),
         ],),

@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 class UserDetailsViewModel extends ChangeNotifier {
   Obj _userDetailsList;
+  Obj _userDetailsList2;
   Obj _patDetails;
   Obj _userSwitchDetailsList;
   String _message;
@@ -86,7 +87,7 @@ class UserDetailsViewModel extends ChangeNotifier {
   Future<void> getPatData(String hospitalNumber) async {
     CacheRepositories.loadCachedUserDetails().then((value) {
       if (value != null) {
-        _userDetailsList = value.obj;
+       // _userDetailsList = value.obj;
         notifyListeners();
       }
     });
@@ -144,6 +145,25 @@ class UserDetailsViewModel extends ChangeNotifier {
       notifyListeners();
     });
   }
+  Future<void> getData2() async {
+    _isFetchingData = true;
+    _lastFetchTime = DateTime.now();
+    var accessToken = await Provider.of<AccessTokenProvider>(
+        appNavigator.context,
+        listen: false)
+        .getToken();
+    var res = await UserDetailsRepository().fetchUserDetails2(accessToken);
+    notifyListeners();
+    res.fold((l) {
+      _appError = l;
+      _isFetchingMoreData = false;
+      notifyListeners();
+    }, (r) {
+      _isFetchingMoreData = false;
+      _userDetailsList2 = r.dataList;
+      notifyListeners();
+    });
+  }
 
   AppError get appError => _appError;
 
@@ -160,6 +180,8 @@ class UserDetailsViewModel extends ChangeNotifier {
   String get message => _message;
 
   Obj get userDetailsList => _userDetailsList;
+
+  Obj get userDetailsList2 => _userDetailsList2;
 
   Obj get userSwitchDetailsList => _userSwitchDetailsList;
 

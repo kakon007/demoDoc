@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:myhealthbd_app/features/book_test/model/test_item_model.dart';
 
 class OrderConfirmViewModel extends ChangeNotifier {
+  bool forMe = true;
+  bool addPatient = false;
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController date = new TextEditingController();
@@ -43,8 +45,6 @@ class OrderConfirmViewModel extends ChangeNotifier {
   String phoneMobile;
   TextEditingController tentativeVisitDateController =
       new TextEditingController();
-  bool _forMe = true;
-  bool _addPatient = false;
   String _forMeBackColor = "#141D53";
   String _forMeTextColor = "#FFFFFF";
   String _addPatientBackColor = "#00FFFFFF";
@@ -53,7 +53,8 @@ class OrderConfirmViewModel extends ChangeNotifier {
   String salutation;
   String choseGender;
   String regNo;
-
+  num subTotal = 0;
+  num total = 0;
   String choseBlood;
   String choseMaritalStatus;
   var cartVM =
@@ -61,12 +62,14 @@ class OrderConfirmViewModel extends ChangeNotifier {
 
   List<Item> cartList = [];
   DateTime selectedDob = DateTime.now();
+  bool memberList = false;
+  var selectedMemberType;
   DateTime selectedPreferredDate = DateTime.now();
   DateTime selectedExpectedDate = DateTime.now();
   DateTime selectTentativeDate = DateTime.now();
   getAppointType(bool forMe, bool addPatient) {
-    _forMe = forMe;
-    _addPatient = addPatient;
+    // _forMe = forMe;
+    // _addPatient = addPatient;
     notifyListeners();
   }
 
@@ -147,7 +150,7 @@ class OrderConfirmViewModel extends ChangeNotifier {
         maritalStatus:choseMaritalStatus,
         motherName:mothersName.text,
         nationalId:nidController.text,
-        netTotalAmt:cartVM.subTotal.toString(),
+        netTotalAmt: subTotal.toString(),
       organizationNo: orgNo,
       passportNo: passportController.text,
       patientName: patientName,
@@ -159,7 +162,7 @@ class OrderConfirmViewModel extends ChangeNotifier {
       spouseName: spouseController.text,
       tentativeVisitDate:DateFormat("yyyy-MM-dd").format(selectTentativeDate),
       ticketNumber: ticketNumberController.text,
-      totalAmt: cartVM.subTotal.toString()
+      totalAmt: subTotal.toString()
         // activeStatus: "1",
         // foreignTraveler: "0",
         // gender: gender,
@@ -190,9 +193,9 @@ class OrderConfirmViewModel extends ChangeNotifier {
     OrderConfirmationRepository().fetchBookConfirmationType(order);
   }
 
-  bool get forMe => _forMe;
-
-  bool get addPatient => _addPatient;
+  // bool get forMe => _forMe;
+  //
+  // bool get addPatient => _addPatient;
 
   String get forMeBackColor => _forMeBackColor;
 

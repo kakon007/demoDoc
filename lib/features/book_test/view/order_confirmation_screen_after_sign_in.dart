@@ -1189,21 +1189,21 @@ class _OrderConfirmationAfterSignInState
               mobileNumber,
               spaceBetween,
               address,
-              CheckboxListTile(
-                activeColor: Colors.indigo,
-                controlAffinity: ListTileControlAffinity.leading,
-                title: Text(
-                  "Home Sample Collection",
-                  style: TextStyle(
-                      fontSize: isTablet ? 18 : 16,
-                      fontWeight: FontWeight.w500),
-                ),
-                value: isCheckSample,
-                onChanged: (val) {
-                  isCheckSample = val;
-                  setState(() {});
-                },
-              ),
+              // CheckboxListTile(
+              //   activeColor: Colors.indigo,
+              //   controlAffinity: ListTileControlAffinity.leading,
+              //   title: Text(
+              //     "Home Sample Collection",
+              //     style: TextStyle(
+              //         fontSize: isTablet ? 18 : 16,
+              //         fontWeight: FontWeight.w500),
+              //   ),
+              //   value: isCheckSample,
+              //   onChanged: (val) {
+              //     isCheckSample = val;
+              //     setState(() {});
+              //   },
+              // ),
               SizedBox(
                 height: 20,
               ),

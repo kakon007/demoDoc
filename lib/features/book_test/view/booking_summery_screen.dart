@@ -513,7 +513,8 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                       // cartVM.forMe = true;
                       // cartVM.addPatient = false;
                       cartVM.getAppointType(true, false);
-                    });
+                       cartVM.getButtonColor(
+                           "#141D53", "#FFFFFF", "#00FFFFFF", "#8389A9");    });
                     //await vm3.getData2();
                     if (Provider.of<AccessTokenProvider>(context, listen: false)
                             .accessToken !=

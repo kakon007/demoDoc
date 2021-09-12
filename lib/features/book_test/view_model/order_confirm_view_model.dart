@@ -102,7 +102,7 @@ class OrderConfirmViewModel extends ChangeNotifier {
                 itemId: e.itemId,
                 itemName: e.itemName,
                 itemNo: e.itemNo,
-                itemTypeName: e.itemTypeName,
+                itemTypeName: e.itemTypeName.toString(),
                 itemTypeNo: e.itemTypeNo,
                 maxDisPct: e.maxDisPct.toString(),
                 promoCode: e.promoCode,

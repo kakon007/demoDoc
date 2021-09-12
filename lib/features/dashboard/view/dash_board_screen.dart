@@ -13,6 +13,7 @@ import 'package:myhealthbd_app/features/appointments/models/book_appointment_mod
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/get_discount_widget.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/home_screen_background.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/manage_account_prompt.dart';
 import 'package:myhealthbd_app/features/dashboard/view/widgets/video_article_blog_details.dart';
@@ -776,6 +777,10 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                                     ),
                                   ),
                                 ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      GetDiscountButton(),
                       SizedBox(
                         height: 18,
                       ),

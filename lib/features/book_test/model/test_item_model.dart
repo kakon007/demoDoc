@@ -18,7 +18,7 @@ class TestItemModel {
     this.id,
     this.model,
     this.items,
-
+    this.obj,
   });
 
   bool success;
@@ -29,6 +29,7 @@ class TestItemModel {
   dynamic id;
   dynamic model;
   List<Item> items;
+  Obj obj;
 
   factory TestItemModel.fromJson(Map<String, dynamic> json) => TestItemModel(
     success: json["success"] == null ? null : json["success"],
@@ -39,6 +40,7 @@ class TestItemModel {
     id: json["id"],
     model: json["model"],
     items: json["items"] == null ? null : List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+    obj: json["obj"] == null ? null : Obj.fromJson(json["obj"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -50,6 +52,7 @@ class TestItemModel {
     "id": id,
     "model": model,
     "items": items == null ? null : List<dynamic>.from(items.map((x) => x.toJson())),
+    "obj": obj == null ? null : obj.toJson(),
   };
 }
 
@@ -69,14 +72,15 @@ class Item {
     this.discountPrice,
     this.promoCode,
     this.companyName,
-    this.isAdded=false,
+    this.buList,
+    this.isAdded
   });
 
   int itemNo;
   String itemId;
   String itemName;
   int itemTypeNo;
-  String itemTypeName;
+  ItemTypeName itemTypeName;
   int buNo;
   String buName;
   double salesPrice;
@@ -86,6 +90,7 @@ class Item {
   double discountPrice;
   dynamic promoCode;
   dynamic companyName;
+  dynamic buList;
   bool isAdded;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -93,7 +98,7 @@ class Item {
     itemId: json["itemId"] == null ? null : json["itemId"],
     itemName: json["itemName"] == null ? null : json["itemName"],
     itemTypeNo: json["itemTypeNo"] == null ? null : json["itemTypeNo"],
-    itemTypeName: json["itemTypeName"] == null ? null : json["itemTypeName"],
+    itemTypeName: json["itemTypeName"] == null ? null : itemTypeNameValues.map[json["itemTypeName"]],
     buNo: json["buNo"] == null ? null : json["buNo"],
     buName: json["buName"] == null ? null : json["buName"],
     salesPrice: json["salesPrice"] == null ? null : json["salesPrice"].toDouble(),
@@ -103,7 +108,8 @@ class Item {
     discountPrice: json["discountPrice"] == null ? null : json["discountPrice"].toDouble(),
     promoCode: json["promoCode"],
     companyName: json["companyName"],
-    isAdded:false,
+    buList: json["buList"],
+    isAdded: false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -111,7 +117,7 @@ class Item {
     "itemId": itemId == null ? null : itemId,
     "itemName": itemName == null ? null : itemName,
     "itemTypeNo": itemTypeNo == null ? null : itemTypeNo,
-    "itemTypeName": itemTypeName == null ? null : itemTypeName,
+    "itemTypeName": itemTypeName == null ? null : itemTypeNameValues.reverse[itemTypeName],
     "buNo": buNo == null ? null : buNo,
     "buName": buName == null ? null : buName,
     "salesPrice": salesPrice == null ? null : salesPrice,
@@ -121,5 +127,54 @@ class Item {
     "discountPrice": discountPrice == null ? null : discountPrice,
     "promoCode": promoCode,
     "companyName": companyName,
+    "buList": buList,
   };
+}
+
+enum ItemTypeName { PATHOLOGY }
+
+final itemTypeNameValues = EnumValues({
+  "PATHOLOGY": ItemTypeName.PATHOLOGY
+});
+
+class Obj {
+  Obj({
+    this.draw,
+    this.recordsFiltered,
+    this.recordsTotal,
+    this.data,
+  });
+
+  String draw;
+  String recordsFiltered;
+  int recordsTotal;
+  List<Item> data;
+
+  factory Obj.fromJson(Map<String, dynamic> json) => Obj(
+    draw: json["draw"] == null ? null : json["draw"],
+    recordsFiltered: json["recordsFiltered"] == null ? null : json["recordsFiltered"],
+    recordsTotal: json["recordsTotal"]==null?0:int.parse(json["recordsTotal"]?.toString()??"0"),
+    data: json["data"] == null ? null : List<Item>.from(json["data"].map((x) => Item.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "draw": draw == null ? null : draw,
+    "recordsFiltered": recordsFiltered == null ? null : recordsFiltered,
+    "recordsTotal": recordsTotal == null ? null : recordsTotal,
+    "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+  };
+}
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
+  }
 }

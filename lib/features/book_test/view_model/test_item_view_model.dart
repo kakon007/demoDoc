@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/features/book_test/model/test_item_model.dart';
 import 'package:myhealthbd_app/features/book_test/repository/test_item_repository.dart';
@@ -59,35 +60,35 @@ class TestItemViewModel extends ChangeNotifier{
       _isFetchingData = false;
       _testItem=r.dataList;
       //count = r.totalCount;
-      print('Dataaaaaaa2222222:: ' + _testItem.toString());
+      //print('Dataaaaaaa2222222:: ' + _testItem.toString());
       notifyListeners();
       return true;
     });
   }
 
-  // getMoreData({var fromDate,var todate}) async {
-  //   if (!isFetchingMoreData && !isFetchingData && hasMoreData) {
-  //     startIndex+=limit;
-  //     _pageCount++;
-  //     isFetchingMoreData = true;
-  //     Either<AppError, PrescriptionListM> result =
-  //     await PrescriptionListRepository().fetchPrescriptionList(fromDate: fromDate,toDate:fromDate,startIndex: startIndex);
-  //     return result.fold((l) {
-  //       isFetchingMoreData= false;
-  //       hasMoreData = false;
-  //       logger.i(l);
-  //       notifyListeners();
-  //       return false;
-  //     }, (r) {
-  //       hasMoreData = r.totalCount-1>startIndex+limit;
-  //       isFetchingMoreData = false;
-  //       _prescriptionList.addAll(r.datafromprescriptionList);
-  //       count = r.totalCount;
-  //       notifyListeners();
-  //       return true;
-  //     });
-  //   }
-  // }
+  getMoreData({int companyNo}) async {
+  print('scroll');
+      startIndex+=limit;
+      _pageCount++;
+      isFetchingMoreData = true;
+      Either<AppError, TestItemMo> result =
+      await TestItemListRepository().fetchTestListDataData(companyNo: companyNo,startIndex: startIndex);
+      return result.fold((l) {
+        isFetchingMoreData= false;
+        hasMoreData = false;
+        logger.i(l);
+        notifyListeners();
+        return false;
+      }, (r) {
+        hasMoreData = r.totalCount-1>startIndex+limit;
+        isFetchingMoreData = false;
+        _testItem.addAll(r.dataList);
+        count = r.totalCount;
+        notifyListeners();
+        return true;
+      });
+
+  }
 
   addToCart({Item cartList,double salesPrice,double discountAmt,double discountPrice}){
     _cartList.add(cartList);

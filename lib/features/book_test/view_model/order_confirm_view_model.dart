@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/features/appointments/models/available_slots_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/consultation_type_model.dart';
 import 'package:myhealthbd_app/features/appointments/models/doctor_info_model.dart';
@@ -36,6 +37,10 @@ class OrderConfirmViewModel extends ChangeNotifier {
   TextEditingController ticketNumberController = new TextEditingController();
   TextEditingController spouseController = new TextEditingController();
   TextEditingController religionController = new TextEditingController();
+  int valOne = 0;
+  String orgNo;
+  String patientName;
+  String phoneMobile;
   TextEditingController tentativeVisitDateController =
       new TextEditingController();
   bool _forMe = true;
@@ -44,10 +49,21 @@ class OrderConfirmViewModel extends ChangeNotifier {
   String _forMeTextColor = "#FFFFFF";
   String _addPatientBackColor = "#00FFFFFF";
   String _addPatientTextColor = "#8389A9";
+  String hospitalNumber;
+  String salutation;
+  String choseGender;
+  String regNo;
+
+  String choseBlood;
+  String choseMaritalStatus;
   var cartVM =
       Provider.of<TestItemViewModel>(appNavigator.context, listen: false);
-  List<Item> cartList = [];
 
+  List<Item> cartList = [];
+  DateTime selectedDob = DateTime.now();
+  DateTime selectedPreferredDate = DateTime.now();
+  DateTime selectedExpectedDate = DateTime.now();
+  DateTime selectTentativeDate = DateTime.now();
   getAppointType(bool forMe, bool addPatient) {
     _forMe = forMe;
     _addPatient = addPatient;
@@ -64,62 +80,86 @@ class OrderConfirmViewModel extends ChangeNotifier {
   }
 
   saveOrderConfirmDataData(
-      {String gender,
-      String salutation,
+      {
       DateTime selectedDate,
       DateTime preferredDate,
       DateTime expectedDate}) {
     var order = OrderConfirmationModel(
         activeStatus: 1,
-        address: "Dhaka",
-        ageDd: 4,
-        ageMm: 8,
-        ageYy: 27,
-        bloodGroup: "A+",
+        address: addressController.text,
+        ageDd: dayController.text,
+        ageMm: monthController.text,
+        ageYy: yearController.text,
+        bloodGroup: choseBlood,
         companyNo: 2,
-        countryOfArrival: "444",
+        countryOfArrival: countryArrivalController.text,
         diagItemBookingDtlList: cartList.map((e) => DiagItemBookingDtlList(
-            buName: "CLINICAL PATHOLOGY",
-            buNo: 1000006,
-            companyName: null,
-            discountAmt: 0,
-            discountPrice: 430,
-            itemId: "CLI79",
-            itemName: " Urinary Protein (Spot)",
-            itemNo: 11000447,
-            itemTypeName: "PATHOLOGY",
-            itemTypeNo: 1,
-            maxDisPct: 0,
-            promoCode: null,
-            purchasePrice: null,
-            salesPrice: 430)),
-        discountAmt: 0,
-        dob: "1994-01-08T04:29:30.103Z",
-        email: "shakilhossain38@gmail.com",
-        expectedRepDeliDate: "2021-09-06T04:16:26.000Z",
-        fatherName: null,
-        fname: "Shakil",
-        foreignTraveler: 1,
-        gender: gender,
-        hospitalNumber: "MH112105000309",
-        lname: null,
-        maritalStatus: "U",
-        motherName: null,
-        nationalId: "5435454",
-        netTotalAmt: 430,
-        organizationNo: 2,
-        passportNo: "543545345",
-        patientName: "MD Shakil",
-        phoneMobile: "01521494640",
-        preferredSamCollDate: "2021-09-16T04:16:26.000Z",
-        regNo: 1121086649,
-        religion: "BUDDHIST",
-        salutation: salutation,
-        spouseName: "fgf",
-        tentativeVisitDate: "2021-09-12T04:16:26.000Z",
-        ticketNumber: "5543543",
-        totalAmt: 430
-
+            buName: e.buName,
+            buNo: e.buNo,
+            companyName: e.companyName,
+            discountAmt: e.discountAmt.toString(),
+            discountPrice:e.discountPrice.toString(),
+            itemId: e.itemId,
+            itemName: e.itemName,
+            itemNo: e.itemNo,
+            itemTypeName: e.itemTypeName,
+            itemTypeNo: e.itemTypeNo,
+            maxDisPct: e.maxDisPct.toString(),
+            promoCode: e.promoCode,
+            purchasePrice: e.purchasePrice,
+            salesPrice:e.salesPrice.toString())).toList(),
+        // discountAmt: 0,
+        // dob: DateFormat("yyyy-MM-dd").format(selectedDob),
+        // email: emailController.text,
+        // expectedRepDeliDate: DateFormat("yyyy-MM-dd").format(selectedExpectedDate),
+        // fatherName: fathersName.text,
+        // fname: firstNameController.text,
+        // foreignTraveler: valOne,
+        // gender: choseGender,
+        // hospitalNumber: hospitalNumber,
+        // lname: lastNameController.text,
+        // maritalStatus: choseMaritalStatus,
+        // motherName: monthController.text,
+        // nationalId: nidController.text,
+        // netTotalAmt: cartVM.salesPrice.toString(),
+        // organizationNo: orgNo,
+        // passportNo: passportController.text,
+        // patientName: patientName,
+        // phoneMobile: mobileNumberController.text,
+        // preferredSamCollDate: DateFormat("yyyy-MM-dd").format(selectedPreferredDate),
+        // regNo: regNo.toString(),
+        // religion: religionController.text,
+        // salutation: salutation,
+        // spouseName: spouseController.text,
+        // tentativeVisitDate:DateFormat("yyyy-MM-dd").format(selectTentativeDate),
+        // ticketNumber: ticketNumberController.text,
+        // totalAmt: cartVM.salesPrice.toString()
+        discountAmt:0,
+        dob:DateFormat("yyyy-MM-dd").format(selectedDob),
+        email:emailController.text,
+        expectedRepDeliDate:DateFormat("yyyy-MM-dd").format(selectedExpectedDate),
+        fatherName:fathersName.text,
+        fname:firstNameController.text,
+        foreignTraveler:valOne,
+        gender:choseGender,
+        hospitalNumber:hospitalNumber==null? "" : hospitalNumber,
+        lname:lastNameController.text,
+        maritalStatus:choseMaritalStatus,
+        motherName:mothersName.text,
+        nationalId:nidController.text,
+        netTotalAmt:cartVM.subTotal.toString(),
+      organizationNo: orgNo,
+      passportNo: passportController.text,
+      patientName: patientName,
+      phoneMobile: mobileNumberController.text,
+      preferredSamCollDate: DateFormat("yyyy-MM-dd").format(selectedPreferredDate),
+      regNo: regNo.toString(),
+      religion: religionController.text,
+      salutation: salutation,
+      spouseName: spouseController.text,
+      tentativeVisitDate:DateFormat("yyyy-MM-dd").format(selectTentativeDate),
+      ticketNumber: ticketNumberController.text,
+      totalAmt: cartVM.subTotal.toString()
         // activeStatus: "1",
         // foreignTraveler: "0",
         // gender: gender,

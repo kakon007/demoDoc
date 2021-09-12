@@ -27,66 +27,82 @@ class _OrderConfirmationAfterSignInState
   bool isCheckSample = false;
   String _chosenValue;
   String _chosenGender;
-  DateTime selectedDate = DateTime.now();
 
-  int valOne = 1;
 
+  var cartVM =
+  Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+  //String _formatDate = DateFormat("dd/MM/yyyy").format(Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false).selectedDob);
+  Future<Null> _selectBirthDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: cartVM.selectedDob,
+      firstDate: DateTime(1800, 1),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != cartVM.selectedDob)
+      setState(() {
+        cartVM.selectedDob = picked;
+        //cartVM.saveOrderConfirmDataData(selectedDate: selectedDate);
+        var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
+        cartVM.date.value =
+            TextEditingValue(text: "${formattedDate.toString()}");
+      });
+  }
+
+  Future<Null> _preferredDate(BuildContext context) async {
+    var cartVM =
+    Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: cartVM.selectedPreferredDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2050, 1));
+    if (picked != null && picked != cartVM.selectedPreferredDate)
+      setState(() {
+        cartVM.selectedPreferredDate = picked;
+        //cartVM.saveOrderConfirmDataData(preferredDate: selectedDob);
+        var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
+        cartVM.preferredDate.value =
+            TextEditingValue(text: "${formattedDate.toString()}");
+      });
+  }
+  Future<Null> _expectedDate(BuildContext context) async {
+    var cartVM =
+    Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: cartVM.selectedExpectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2050, 1));
+    if (picked != null && picked != cartVM.selectedExpectedDate)
+      setState(() {
+        cartVM.selectedExpectedDate = picked;
+        //cartVM.saveOrderConfirmDataData(expectedDate: cartVM.selectedExpectedDate,);
+        var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
+        cartVM.expectedDate.value =
+            TextEditingValue(text: "${formattedDate.toString()}");
+      });
+  }
+  Future<Null> _selectVisitdate(BuildContext context) async {
+    var cartVM =
+    Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: cartVM.selectTentativeDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2050, 1));
+    if (picked != null && picked != cartVM.selectTentativeDate)
+      setState(() {
+        cartVM.selectTentativeDate = picked;
+        //cartVM.saveOrderConfirmDataData(preferredDate: selectedDob);
+      });
+  }
   @override
   Widget build(BuildContext context) {
     var cartVM =
         Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
-    String _formatDate = DateFormat("dd/MM/yyyy").format(selectedDate);
-    Future<Null> _selectDate(BuildContext context) async {
-      final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1800, 1),
-        lastDate: DateTime.now(),
-      );
-      if (picked != null && picked != selectedDate)
-        setState(() {
-          selectedDate = picked;
-          cartVM.saveOrderConfirmDataData(selectedDate: selectedDate);
-          var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
-          cartVM.date.value =
-              TextEditingValue(text: "${formattedDate.toString()}");
-        });
-    }
-
-    Future<Null> _preferredDate(BuildContext context) async {
-      final DateTime picked = await showDatePicker(
-          context: context,
-          initialDate: selectedDate,
-          firstDate: DateTime.now(),
-          lastDate: DateTime(2050, 1));
-      if (picked != null && picked != selectedDate)
-        setState(() {
-          selectedDate = picked;
-          cartVM.saveOrderConfirmDataData(preferredDate: selectedDate);
-          var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
-          cartVM.preferredDate.value =
-              TextEditingValue(text: "${formattedDate.toString()}");
-        });
-    }
-
-    Future<Null> _expectedDate(BuildContext context) async {
-      final DateTime picked = await showDatePicker(
-          context: context,
-          initialDate: selectedDate,
-          firstDate: DateTime.now(),
-          lastDate: DateTime(2050, 1));
-      if (picked != null && picked != selectedDate)
-        setState(() {
-          selectedDate = picked;
-          cartVM.saveOrderConfirmDataData(expectedDate: selectedDate);
-          var formattedDate = "${picked.year}-${picked.month}-${picked.day}";
-          cartVM.expectedDate.value =
-              TextEditingValue(text: "${formattedDate.toString()}");
-        });
-    }
-
     var username = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
       hintText: 'Username',
@@ -170,10 +186,10 @@ class _OrderConfirmationAfterSignInState
                 fontWeight: FontWeight.w600),
           )),
     );
-    var selectDuration = DropdownButtonHideUnderline(
+    var selectSalutation = DropdownButtonHideUnderline(
       child: DropdownButton<String>(
         icon: Icon(Icons.keyboard_arrow_down_sharp),
-        value: _chosenValue,
+        value: cartVM.salutation,
         //elevation: 5,
         style: TextStyle(color: Colors.black),
         items: <String>[
@@ -201,8 +217,8 @@ class _OrderConfirmationAfterSignInState
         ),
         onChanged: (String value) {
           setState(() {
-            _chosenValue = value;
-            cartVM.saveOrderConfirmDataData(salutation: _chosenValue);
+            cartVM.salutation = value;
+          //  cartVM.saveOrderConfirmDataData(salutation: _chosenValue);
           });
         },
       ),
@@ -210,7 +226,7 @@ class _OrderConfirmationAfterSignInState
     var selectGender = DropdownButtonHideUnderline(
       child: DropdownButton<String>(
         icon: Icon(Icons.keyboard_arrow_down_sharp),
-        value: _chosenGender,
+        value: cartVM.choseGender,
         //elevation: 5,
         style: TextStyle(color: Colors.black),
         items: <String>[
@@ -238,8 +254,8 @@ class _OrderConfirmationAfterSignInState
         ),
         onChanged: (String value) {
           setState(() {
-            _chosenGender = value;
-            cartVM.saveOrderConfirmDataData(gender: _chosenGender);
+          cartVM.choseGender = value;
+            //cartVM.saveOrderConfirmDataData(gender: _chosenGender);
             print(_chosenGender);
           });
         },
@@ -272,7 +288,7 @@ class _OrderConfirmationAfterSignInState
                       border: Border.all(color: Colors.grey)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
-                    child: selectDuration,
+                    child: selectSalutation,
                   ),
                 ),
               ],
@@ -357,7 +373,7 @@ class _OrderConfirmationAfterSignInState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "$_formatDate",
+                    DateFormat("dd-MMM-yyyy").format(cartVM.selectedDob),
                     style: GoogleFonts.poppins(
                         color: AppTheme.signInSignUpColor,
                         fontSize: isTablet ? 18 : 13.0),
@@ -375,8 +391,52 @@ class _OrderConfirmationAfterSignInState
         ],
       ),
       onTap: () {
-        _selectDate(context);
-        print(_selectDate(context));
+        _selectBirthDate(context);
+        //print(_selectBirthDate(context));
+      },
+    );
+    var tentativeDate = GestureDetector(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text('Tentative Visit Date'),
+          ),
+          Container(
+            height: 45.0,
+            margin: EdgeInsets.only(bottom: 15),
+            width: width,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: HexColor("#808080")),
+                borderRadius: BorderRadius.circular(5)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    DateFormat("dd-MMM-yyyy").format(cartVM.selectTentativeDate),
+                    style: GoogleFonts.poppins(
+                        color: AppTheme.signInSignUpColor,
+                        fontSize: isTablet ? 18 : 13.0),
+                  ),
+                  Container(
+                      height: 25,
+                      child: Icon(
+                        Icons.calendar_today_outlined,
+                        color: HexColor("#808080"),
+                      )),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      onTap: () {
+        _selectVisitdate(context);
+        //print(_selectBirthDate(context));
       },
     );
     var mobileNumber = SignUpFormField(
@@ -554,41 +614,42 @@ class _OrderConfirmationAfterSignInState
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey)),
                 height: 50,
-                child: TypeAheadFormField<String>(
-                  textFieldConfiguration: TextFieldConfiguration(
-                      style: TextStyle(fontSize: isTablet ? 18 : 16),
-                      textInputAction: TextInputAction.search,
-                      controller: cartVM.bloodController,
-                      decoration: InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        hintText: "Select One",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                child:   Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Container(
+                    width: 145,
+                    child: DropdownButtonHideUnderline(
+
+                      child: DropdownButton(
+                        icon: Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color:cartVM.choseBlood  != null ? Colors.black54 : HexColor("#D2D2D2"),
+                          ),
                         ),
-                        suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.keyboard_arrow_down,
-                                size: isTablet ? 30 : 25,
-                                color: AppTheme.buttonActiveColor)),
-                      )),
-                  itemBuilder: (_, v) {
-                    return Padding(
-                      padding: EdgeInsets.all(isTablet ? 12 : 10),
-                      child: Text(
-                        "$v",
-                        style: TextStyle(fontSize: isTablet ? 18 : 16),
+                        iconSize: 25.0,
+                        hint: Text('Blood Group', style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                        value: cartVM.choseBlood,
+                        onChanged: (newValue) {
+                          setState(() {
+                            cartVM.choseBlood = newValue;
+                          });
+                        },
+                        items: StringResources.bloodGroupList.map((gender) {
+                          return DropdownMenuItem(
+                            child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                            value: gender,
+                          );
+                        }).toList(),
                       ),
-                    );
-                  },
-                  onSuggestionSelected: (v) {
-                    setState(() {});
-                  },
-                  suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                  suggestionsCallback: (v) {},
                 ),
               ),
             ],
@@ -605,46 +666,42 @@ class _OrderConfirmationAfterSignInState
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey)),
                 height: 50,
-                child: TypeAheadFormField<String>(
-                  textFieldConfiguration: TextFieldConfiguration(
-                      style: TextStyle(fontSize: isTablet ? 18 : 16),
-                      textInputAction: TextInputAction.search,
-                      controller: cartVM.maritalStatusController,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "Select One",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                child:   Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Container(
+                    width: 145,
+                    child: DropdownButtonHideUnderline(
+
+                      child: DropdownButton(
+                        icon: Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color:cartVM.choseMaritalStatus  != null ? Colors.black54 : HexColor("#D2D2D2"),
+                          ),
                         ),
-                        suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.keyboard_arrow_down,
-                                size: isTablet ? 30 : 25,
-                                color: AppTheme.buttonActiveColor)),
-                      )),
-                  itemBuilder: (_, v) {
-                    return Padding(
-                      padding: EdgeInsets.all(isTablet ? 12 : 10),
-                      child: Text(
-                        "$v",
-                        style: TextStyle(fontSize: isTablet ? 18 : 16),
+                        iconSize: 25.0,
+                        hint: Text('Select One', style:  GoogleFonts.roboto(fontSize: 15, color: HexColor("#D2D2D2")),), // Not necessary for Option 1
+                        value: cartVM.choseMaritalStatus,
+                        onChanged: (newValue) {
+                          setState(() {
+                            cartVM.choseMaritalStatus = newValue;
+                          });
+                        },
+                        items: StringResources.maritalList.map((gender) {
+                          return DropdownMenuItem(
+                            child: new Text(gender, style: GoogleFonts.roboto(fontSize: 14),),
+                            value: gender,
+                          );
+                        }).toList(),
                       ),
-                    );
-                  },
-                  onSuggestionSelected: (v) {
-                    setState(() {});
-                  },
-                  suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                  suggestionsCallback: (v) {
-                    // return PreDiagnosisSearchRepository().fetchSearchList(
-                    //     q: v,
-                    //     favoriteType:
-                    //     PrescriptionFavouriteType.chiefComplaint.toString());
-                  },
                 ),
               ),
             ],
@@ -723,7 +780,7 @@ class _OrderConfirmationAfterSignInState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "$_formatDate",
+                    DateFormat("dd-MMM-yyyy").format(cartVM.selectedPreferredDate),
                     style: GoogleFonts.poppins(
                         color: AppTheme.signInSignUpColor,
                         fontSize: isTablet ? 18 : 13.0),
@@ -770,7 +827,7 @@ class _OrderConfirmationAfterSignInState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "$_formatDate",
+                    DateFormat("dd-MMM-yyyy").format(cartVM.selectedExpectedDate),
                     style: GoogleFonts.poppins(
                         color: AppTheme.signInSignUpColor,
                         fontSize: isTablet ? 18 : 13.0),
@@ -975,11 +1032,11 @@ class _OrderConfirmationAfterSignInState
                       Row(
                         children: [
                           Radio(
-                            value: 0,
-                            groupValue: valOne,
+                            value: 1,
+                            groupValue: cartVM.valOne,
                             onChanged: (value) {
                               setState(() {
-                                valOne = value;
+                                cartVM.valOne = value;
                               });
                             },
                             activeColor: Colors.green,
@@ -990,11 +1047,11 @@ class _OrderConfirmationAfterSignInState
                       Row(
                         children: [
                           Radio(
-                            value: 1,
-                            groupValue: valOne,
+                            value: 0,
+                            groupValue: cartVM.valOne,
                             onChanged: (value) {
                               setState(() {
-                                valOne = value;
+                                cartVM.valOne = value;
                               });
                             },
                             activeColor: Colors.green,
@@ -1006,10 +1063,11 @@ class _OrderConfirmationAfterSignInState
                   ),
                 ],
               ),
-              valOne == 0
+              cartVM.valOne == 1
                   ? Column(
                       children: [
-                        tentativeVisitDate,
+                        tentativeDate,
+                        //tentativeVisitDate,
                         SizedBox(
                           height: 10,
                         ),

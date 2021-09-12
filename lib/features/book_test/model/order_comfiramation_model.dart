@@ -51,9 +51,9 @@ class OrderConfirmationModel {
 
   int activeStatus;
   String address;
-  int ageDd;
-  int ageMm;
-  int ageYy;
+  String ageDd;
+  String ageMm;
+  String ageYy;
   String bloodGroup;
   int companyNo;
   String countryOfArrival;
@@ -71,19 +71,19 @@ class OrderConfirmationModel {
   String maritalStatus;
   dynamic motherName;
   String nationalId;
-  int netTotalAmt;
-  int organizationNo;
+  String netTotalAmt;
+  String organizationNo;
   String passportNo;
   String patientName;
   String phoneMobile;
   String preferredSamCollDate;
-  int regNo;
+  String regNo;
   String religion;
   String salutation;
   String spouseName;
   String tentativeVisitDate;
   String ticketNumber;
-  int totalAmt;
+  String totalAmt;
 
   factory OrderConfirmationModel.fromJson(Map<String, dynamic> json) =>
       OrderConfirmationModel(
@@ -205,17 +205,17 @@ class DiagItemBookingDtlList {
   String buName;
   int buNo;
   dynamic companyName;
-  int discountAmt;
-  int discountPrice;
+  String discountAmt;
+  String discountPrice;
   String itemId;
   String itemName;
   int itemNo;
   String itemTypeName;
   int itemTypeNo;
-  int maxDisPct;
+  String maxDisPct;
   dynamic promoCode;
   dynamic purchasePrice;
-  int salesPrice;
+  String salesPrice;
 
   factory DiagItemBookingDtlList.fromJson(Map<String, dynamic> json) =>
       DiagItemBookingDtlList(

@@ -21,7 +21,7 @@ class TestItemViewModel extends ChangeNotifier{
   get logger => null;
   int limit=10;
   int startIndex=0;
-
+  num subTotal = 0;
 
   void resetPageCounter() {
     _pageCount = 1;

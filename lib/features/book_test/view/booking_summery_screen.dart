@@ -21,9 +21,9 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
     var testItemVm = Provider.of<TestItemViewModel>(context);
-    num subTotal = 0;
+
     testItemVm.salesPrice.forEach((num e) {
-      subTotal += e;
+      testItemVm.subTotal += e;
     });
     num discountAmt = 0;
     testItemVm.discountAmt.forEach((num e) {
@@ -438,7 +438,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                                   color: Colors.black),
                             ),
                             Text(
-                              '$subTotal Tk',
+                              '${testItemVm.subTotal} Tk',
                               style: GoogleFonts.poppins(
                                   fontSize: isTablet ? 20 : 14,
                                   color: Colors.black),

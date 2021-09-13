@@ -28,7 +28,7 @@ class TestItemModel {
   bool valid;
   dynamic id;
   dynamic model;
-  List<Item> items;
+  List<TestItem> items;
   Obj obj;
 
   factory TestItemModel.fromJson(Map<String, dynamic> json) => TestItemModel(
@@ -39,7 +39,7 @@ class TestItemModel {
     valid: json["valid"] == null ? null : json["valid"],
     id: json["id"],
     model: json["model"],
-    items: json["items"] == null ? null : List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+    items: json["items"] == null ? null : List<TestItem>.from(json["items"].map((x) => TestItem.fromJson(x))),
     obj: json["obj"] == null ? null : Obj.fromJson(json["obj"]),
   );
 
@@ -56,8 +56,8 @@ class TestItemModel {
   };
 }
 
-class Item {
-  Item({
+class TestItem {
+  TestItem({
     this.itemNo,
     this.itemId,
     this.itemName,
@@ -73,7 +73,8 @@ class Item {
     this.promoCode,
     this.companyName,
     this.buList,
-    this.isAdded
+    this.isAdded,
+    this.isChecked
   });
 
   int itemNo;
@@ -92,8 +93,9 @@ class Item {
   dynamic companyName;
   dynamic buList;
   bool isAdded;
+  bool isChecked=false;
 
-  factory Item.fromJson(Map<String, dynamic> json) => Item(
+  factory TestItem.fromJson(Map<String, dynamic> json) => TestItem(
     itemNo: json["itemNo"] == null ? null : json["itemNo"],
     itemId: json["itemId"] == null ? null : json["itemId"],
     itemName: json["itemName"] == null ? null : json["itemName"],
@@ -110,6 +112,7 @@ class Item {
     companyName: json["companyName"],
     buList: json["buList"],
     isAdded: false,
+    isChecked: false
   );
 
   Map<String, dynamic> toJson() => {
@@ -148,13 +151,13 @@ class Obj {
   String draw;
   String recordsFiltered;
   int recordsTotal;
-  List<Item> data;
+  List<TestItem> data;
 
   factory Obj.fromJson(Map<String, dynamic> json) => Obj(
     draw: json["draw"] == null ? null : json["draw"],
     recordsFiltered: json["recordsFiltered"] == null ? null : json["recordsFiltered"],
     recordsTotal: json["recordsTotal"]==null?0:int.parse(json["recordsTotal"]?.toString()??"0"),
-    data: json["data"] == null ? null : List<Item>.from(json["data"].map((x) => Item.fromJson(x))),
+    data: json["data"] == null ? null : List<TestItem>.from(json["data"].map((x) => TestItem.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {

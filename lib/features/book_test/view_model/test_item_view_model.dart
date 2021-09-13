@@ -6,8 +6,8 @@ import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 
 class TestItemViewModel extends ChangeNotifier{
-  List<Item> _testItem =[];
-  List<Item> _cartList =[];
+  List<TestItem> _testItem =[];
+  List<TestItem> _cartList =[];
   List<double> _salesPrice=[];
   List<double> _discountAmt=[];
   List<double> _discountPrice=[];
@@ -44,11 +44,11 @@ class TestItemViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData({int companyNo}) async {
+  Future<bool> getData({int companyNo,String buList,String doctorSearch}) async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    var res = await TestItemListRepository().fetchTestListDataData(companyNo: companyNo);
+    var res = await TestItemListRepository().fetchTestListDataData(companyNo: companyNo,bulist: buList,doctorSearch: doctorSearch);
     notifyListeners();
     res.fold((l) {
       _appError = l;
@@ -66,13 +66,13 @@ class TestItemViewModel extends ChangeNotifier{
     });
   }
 
-  getMoreData({int companyNo}) async {
+  getMoreData({int companyNo,String buList}) async {
   print('scroll');
       startIndex+=limit;
       _pageCount++;
       isFetchingMoreData = true;
       Either<AppError, TestItemMo> result =
-      await TestItemListRepository().fetchTestListDataData(companyNo: companyNo,startIndex: startIndex);
+      await TestItemListRepository().fetchTestListDataData(companyNo: companyNo,startIndex: startIndex,bulist: buList);
       return result.fold((l) {
         isFetchingMoreData= false;
         hasMoreData = false;
@@ -90,7 +90,7 @@ class TestItemViewModel extends ChangeNotifier{
 
   }
 
-  addToCart({Item cartList,double salesPrice,double discountAmt,double discountPrice}){
+  addToCart({TestItem cartList,double salesPrice,double discountAmt,double discountPrice}){
     _cartList.add(cartList);
     _salesPrice.add(salesPrice);
     _discountAmt.add(discountAmt);
@@ -148,8 +148,8 @@ class TestItemViewModel extends ChangeNotifier{
       _isFetchingData && _testItem.length == 0;
 
 
-  List<Item> get testItemList => _testItem;
-  List<Item> get cartList => _cartList;
+  List<TestItem> get testItemList => _testItem;
+  List<TestItem> get cartList => _cartList;
   List<double> get salesPrice => _salesPrice;
   List<double> get discountAmt => _discountAmt;
   List<double> get discountPrice => _discountPrice;

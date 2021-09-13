@@ -844,12 +844,13 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                                             item.isChecked = val;
                                                             var stringList =
                                                                 _items3.join("&buList%5B%5D=");
-                                                            print(stringList);
+                                                            print("$stringList");
                                                             if (_items3.isEmpty) {
                                                               deptSelectedItem = null;
                                                             } else {
                                                               deptSelectedItem =
                                                                   "&buList%5B%5D=" + stringList;
+                                                              print('fill $deptSelectedItem');
                                                             }
                                                           });
                                                         },

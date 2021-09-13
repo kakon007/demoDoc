@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/features/book_test/model/company_list_model.dart';
+import 'package:myhealthbd_app/features/book_test/model/test_item_model.dart';
 import 'package:myhealthbd_app/features/book_test/view/booking_summery_screen.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/company_list_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
@@ -32,6 +33,13 @@ class _BookTestScreenState extends State<BookTestScreen> {
   TextEditingController deptController = TextEditingController();
   ScrollController _scrollController2 = ScrollController();
 
+  List<TestItem> deptList;
+  var deptItems = <TestItem>[];
+  var deptSelectedItem;
+  List _items3 = [];
+  bool isFiltered = false;
+  var doctorItem = "";
+
   @override
   Future<void> initState() {
 
@@ -39,15 +47,18 @@ class _BookTestScreenState extends State<BookTestScreen> {
       var vm2 = Provider.of<CompanyListViewModel>(context, listen: false);
       await vm2.getData();
       var vm = Provider.of<TestItemViewModel>(context, listen: false);
-      vm.getData(companyNo: 2);
+       await  vm.getData(companyNo: 2);
       bookTestController.text = vm2.companyList.items.first.companyName;
       _scrollController = ScrollController();
 
       _scrollController2.addListener(() {
         if (_scrollController2.position.pixels >= _scrollController2.position.maxScrollExtent - 100) {
-          vm.getMoreData(companyNo: 2);
+          vm.getMoreData(companyNo: vm2.companyNo,buList: deptSelectedItem);
         }
       });
+      deptList=vm.testItemList;
+      deptItems.addAll(deptList);
+      print('list $deptList');
     });
     super.initState();
   }
@@ -69,9 +80,32 @@ class _BookTestScreenState extends State<BookTestScreen> {
     bool isTablet = Responsive.isTablet(appNavigator.context);
     bool isMobile = Responsive.isMobile(appNavigator.context);
 
+    void departmentSearch(String query) {
+      List<TestItem> initialDeptSearch = List<TestItem>();
+      initialDeptSearch.addAll(deptList);
+      if (query.isNotEmpty) {
+        List<TestItem> initialDeptSearchItems = List<TestItem>();
+        initialDeptSearch.forEach((item) {
+          if (item.buName.contains(query)) {
+            initialDeptSearchItems.add(item);
+          }
+        });
+        setState(() {
+          deptItems.clear();
+          deptItems.addAll(initialDeptSearchItems);
+        });
+        return;
+      } else {
+        setState(() {
+          deptItems.clear();
+          deptItems.addAll(deptList);
+        });
+      }
+    }
+
     var searchDepartment = TextField(
         onChanged: (value) {
-         // departmentSearch(value.toUpperCase());
+          departmentSearch(value.toUpperCase());
         },
         controller: deptController,
         decoration: new InputDecoration(
@@ -80,27 +114,27 @@ class _BookTestScreenState extends State<BookTestScreen> {
             padding: EdgeInsets.only(left: width / 8.64, right: width / 8.64),
             child: Icon(Icons.search),
           ),
-          // suffixIcon: Padding(
-          //   padding: EdgeInsets.only(right: width / 8.64),
-          //   child: Container(
-          //     width: 20,
-          //     height: 15,
-          //     decoration: BoxDecoration(
-          //       shape: BoxShape.circle,
-          //       color: AppTheme.appbarPrimary,
-          //     ),
-          //     child: GestureDetector(
-          //         onTap: () {
-          //           deptController.clear();
-          //           departmentSearch('');
-          //         },
-          //         child: Icon(
-          //           Icons.clear,
-          //           size: 15,
-          //           color: Colors.white,
-          //         )),
-          //   ),
-          // ),
+          suffixIcon: Padding(
+            padding: EdgeInsets.only(right: width / 8.64),
+            child: Container(
+              width: 20,
+              height: 15,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppTheme.appbarPrimary,
+              ),
+              child: GestureDetector(
+                  onTap: () {
+                    deptController.clear();
+                    departmentSearch('');
+                  },
+                  child: Icon(
+                    Icons.clear,
+                    size: 15,
+                    color: Colors.white,
+                  )),
+            ),
+          ),
           hintText: StringResources.searchDepartment,
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: HexColor("#D6DCFF"), width: 1),
@@ -135,22 +169,16 @@ class _BookTestScreenState extends State<BookTestScreen> {
               ),
               GestureDetector(
                   onTap: () {
-                    // Future.delayed(Duration.zero, () async {
-                    //   var vm = Provider.of<DoctorListViewModel>(context, listen: false);
-                    //   await Navigator.pop(context);
-                    //   if (deptSelectedItem == null && specialSelectedItem == null) {
-                    //     deptController.clear();
-                    //     departmentSearch('');
-                    //     specialityController.clear();
-                    //     specializationSearch('');
-                    //     _items3.clear();
-                    //     _items4.clear();
-                    //     _items1.clear();
-                    //     _items2.clear();
-                    //     isFiltered = false;
-                    //     await vm.getDoctor(widget.orgNo, widget.companyNo, null, null, doctorItem);
-                    //   }
-                    // });
+                    Future.delayed(Duration.zero, () async {
+                      var testItemVm = Provider.of<TestItemViewModel>(context,listen: false);
+                      await Navigator.pop(context);
+                      if (deptSelectedItem == null ) {
+                        deptController.clear();
+                        _items3.clear();
+                        isFiltered = false;
+                        await testItemVm.getData(companyNo: vm.companyNo,doctorSearch: doctorItem);
+                      }
+                    });
                   },
                   child: Icon(Icons.clear)),
             ],
@@ -277,215 +305,197 @@ class _BookTestScreenState extends State<BookTestScreen> {
                     padding: const EdgeInsets.only(top:20.0),
                     child: GestureDetector(
                       onTap: () {
-                        // FocusScope.of(context).unfocus();
-                        // showModalBottomSheet(
-                        //   //enableDrag: false,
-                        //     shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.only(
-                        //             topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-                        //     context: context,
-                        //     isScrollControlled: true,
-                        //     builder: (context) {
-                        //       return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-                        //         return FractionallySizedBox(
-                        //           heightFactor: .95,
-                        //           child: Column(
-                        //             children: [
-                        //               modalSheetTitle,
-                        //               Expanded(
-                        //                 child: Padding(
-                        //                   padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
-                        //                   child: Column(
-                        //                     children: [
-                        //                       Container(
-                        //                         height: isTablet ? height / 2.7 : height / 3,
-                        //                         decoration: BoxDecoration(
-                        //                           borderRadius: BorderRadius.only(
-                        //                               topLeft: Radius.circular(25),
-                        //                               topRight: Radius.circular(25)),
-                        //                           border: Border.all(
-                        //                             color: HexColor("#D6DCFF"),
-                        //                             width: 1.0,
-                        //                           ),
-                        //                         ),
-                        //                         child: Column(
-                        //                           children: [
-                        //                             searchDepartment,
-                        //                             Expanded(
-                        //                               child: Scrollbar(
-                        //                                 isAlwaysShown: true,
-                        //                                 controller: _scrollController,
-                        //                                 // child: ListView(
-                        //                                 //   controller: _scrollController,
-                        //                                 //   children: deptItems
-                        //                                 //       .map(
-                        //                                 //         (DeptItem item) => Container(
-                        //                                 //       height: 35,
-                        //                                 //       child: CheckboxListTile(
-                        //                                 //         dense: true,
-                        //                                 //         activeColor: AppTheme.signInSignUpColor,
-                        //                                 //         controlAffinity:
-                        //                                 //         ListTileControlAffinity.leading,
-                        //                                 //         title: Text(
-                        //                                 //           item.buName.titleCase,
-                        //                                 //           style: GoogleFonts.poppins(
-                        //                                 //               fontSize: isTablet ? 18 : 15,
-                        //                                 //               fontWeight: item.isChecked == true
-                        //                                 //                   ? FontWeight.w600
-                        //                                 //                   : FontWeight.normal),
-                        //                                 //         ),
-                        //                                 //         value: item.isChecked,
-                        //                                 //         key: Key(
-                        //                                 //             'deptList${deptItems.indexOf(item)}'),
-                        //                                 //         onChanged: (bool val) {
-                        //                                 //           setState(() {
-                        //                                 //             // print('${deptItems.indexOf(item)}');
-                        //                                 //             val == true
-                        //                                 //                 ? _items3.add(item.id)
-                        //                                 //                 : _items3.remove(item.id);
-                        //                                 //             print(_items1);
-                        //                                 //             print(_items3);
-                        //                                 //             item.isChecked = val;
-                        //                                 //             var stringList =
-                        //                                 //             _items3.join("&buList%5B%5D=");
-                        //                                 //             print(stringList);
-                        //                                 //             if (_items3.isEmpty) {
-                        //                                 //               deptSelectedItem = null;
-                        //                                 //             } else {
-                        //                                 //               deptSelectedItem =
-                        //                                 //                   "&buList%5B%5D=" + stringList;
-                        //                                 //             }
-                        //                                 //           });
-                        //                                 //         },
-                        //                                 //       ),
-                        //                                 //     ),
-                        //                                 //   )
-                        //                                 //       .toList(),
-                        //                                 // ),
-                        //                               ),
-                        //                             ),
-                        //                             // SizedBox(height: 10,),
-                        //                           ],
-                        //                         ),
-                        //                       ),
-                        //                       horizontalSpace,
-                        //
-                        //                       SizedBox(
-                        //                         height: isTablet
-                        //                             ? 45
-                        //                             : height >= 600
-                        //                             ? 25
-                        //                             : 15,
-                        //                       ),
-                        //                       Row(
-                        //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //                         children: [
-                        //                           AbsorbPointer(
-                        //                             // absorbing: _items4.isEmpty && _items3.isEmpty ||
-                        //                             //     isFiltered == false
-                        //                             //     ? true
-                        //                             //     : false,
-                        //                             child: SizedBox(
-                        //                               width: width * .9,
-                        //                               height: isTablet ? 50 : width * .25,
-                        //                               child: FlatButton(
-                        //                                 onPressed: () {
-                        //                                   // isFiltered = false;
-                        //                                   // vm2.specialList.forEach((element) {
-                        //                                   //   element.isChecked = false;
-                        //                                   // });
-                        //                                   // vm2.departmentList.forEach((element) {
-                        //                                   //   element.isChecked = false;
-                        //                                   // });
-                        //                                   // deptController.clear();
-                        //                                   // departmentSearch('');
-                        //                                   // specialityController.clear();
-                        //                                   // specializationSearch('');
-                        //                                   // deptSelectedItem = null;
-                        //                                   // specialSelectedItem = null;
-                        //                                   // _items3.clear();
-                        //                                   // _items4.clear();
-                        //                                   // _items1.clear();
-                        //                                   // _items2.clear();
-                        //                                   // vm.getDoctor(widget.orgNo, widget.companyNo, null,
-                        //                                   //     null, doctorItem);
-                        //                                   // Navigator.pop(context);
-                        //                                 },
-                        //                                 textColor: Colors.white,
-                        //                                 // color: _items4.isEmpty && _items3.isEmpty ||
-                        //                                 //     isFiltered == false
-                        //                                 //     ? HexColor("#969EC8")
-                        //                                 //     : AppTheme.appbarPrimary,
-                        //                                 shape: RoundedRectangleBorder(
-                        //                                     borderRadius: BorderRadius.circular(8),
-                        //                                     side: BorderSide(
-                        //                                       // color: _items4.isEmpty && _items3.isEmpty ||
-                        //                                       //     isFiltered == false
-                        //                                       //     ? HexColor("#969EC8")
-                        //                                       //     : AppTheme.appbarPrimary,
-                        //                                         width: 1)),
-                        //                                 child: Text(
-                        //                                   StringResources.clearFilterText,
-                        //                                   key: Key('clearFilterButton'),
-                        //                                   style: GoogleFonts.poppins(),
-                        //                                 ),
-                        //                               ),
-                        //                             ),
-                        //                           ),
-                        //                           AbsorbPointer(
-                        //                             // absorbing: _items4.isEmpty && _items3.isEmpty ||
-                        //                             //     _items1.join('') == _items3.join('') &&
-                        //                             //         _items2.join('') == _items4.join('')
-                        //                             //     ? true
-                        //                             //     : false,
-                        //                             child: SizedBox(
-                        //                               width: width * .9,
-                        //                               height: isTablet ? 50 : width * .25,
-                        //                               child: FlatButton(
-                        //                                 textColor: Colors.white,
-                        //                                 onPressed: () {
-                        //                                   // deptItems.sort((a, b) => b.isChecked ? 1 : -1);
-                        //                                   // specialityItems.sort((a, b) => b.isChecked ? 1 : -1);
-                        //                                   // isFiltered = true;
-                        //                                   // _items1 = List.from(_items3);
-                        //                                   // _items2 = List.from(_items4);
-                        //                                   // Navigator.pop(context);
-                        //                                   // vm.getDoctor(
-                        //                                   //     widget.orgNo,
-                        //                                   //     widget.companyNo,
-                        //                                   //     deptSelectedItem,
-                        //                                   //     specialSelectedItem,
-                        //                                   //     doctorItem);
-                        //                                 },
-                        //                                 color:
-                        //                                 // _items4.isEmpty && _items3.isEmpty ||
-                        //                                 //     _items1.join('') == _items3.join('') &&
-                        //                                 //         _items2.join('') == _items4.join('')
-                        //                                 //     ?
-                        //                                     HexColor("#969EC8"),
-                        //                                 //     : AppTheme.appbarPrimary,
-                        //                                 shape: RoundedRectangleBorder(
-                        //                                   borderRadius: BorderRadius.circular(8),
-                        //                                 ),
-                        //                                 child: Text(
-                        //                                   StringResources.applyFilterText,
-                        //                                   key: Key('applyFilterButtonKey'),
-                        //                                   style: GoogleFonts.poppins(),
-                        //                                 ),
-                        //                               ),
-                        //                             ),
-                        //                           )
-                        //                         ],
-                        //                       ),
-                        //                     ],
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         );
-                        //       });
-                        //     });
+                        print('item $deptItems');
+                        FocusScope.of(context).unfocus();
+                        showModalBottomSheet(
+                          //enableDrag: false,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) {
+                              return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                                return FractionallySizedBox(
+                                  heightFactor: .95,
+                                  child: Column(
+                                    children: [
+                                      modalSheetTitle,
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: width / 6.912, right: width / 6.912),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: isTablet ? height / 2.7 : height / 1.5,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                      topLeft: Radius.circular(25),
+                                                      topRight: Radius.circular(25)),
+                                                  border: Border.all(
+                                                    color: HexColor("#D6DCFF"),
+                                                    width: 1.0,
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    searchDepartment,
+                                                    Expanded(
+                                                      child: Scrollbar(
+                                                        isAlwaysShown: true,
+                                                        controller: _scrollController,
+                                                        child: ListView(
+                                                          controller: _scrollController,
+                                                          children: deptItems
+                                                              .map(
+                                                                (TestItem item) => Container(
+                                                              height: 35,
+                                                              child: CheckboxListTile(
+                                                                dense: true,
+                                                                activeColor: AppTheme.signInSignUpColor,
+                                                                controlAffinity:
+                                                                ListTileControlAffinity.leading,
+                                                                title: Text(
+                                                                  item.buName,
+                                                                  style: GoogleFonts.poppins(
+                                                                      fontSize: isTablet ? 18 : 15,
+                                                                      fontWeight: item.isChecked == true
+                                                                          ? FontWeight.w600
+                                                                          : FontWeight.normal),
+                                                                ),
+                                                                value: item.isChecked,
+                                                                onChanged: (bool val) {
+                                                                  setState(() {
+                                                                    // print('${deptItems.indexOf(item)}');
+                                                                    val == true
+                                                                        ? _items3.add(item.buNo)
+                                                                        : _items3.remove(item.buNo);
+                                                                   // print(_items1);
+                                                                    print(_items3);
+                                                                    item.isChecked = val;
+                                                                    var stringList =
+                                                                    _items3.join("&buList%5B%5D=");
+                                                                    print(stringList);
+                                                                    if (_items3.isEmpty) {
+                                                                      deptSelectedItem = null;
+                                                                    } else {
+                                                                      deptSelectedItem =
+                                                                          "&buList%5B%5D=" + stringList;
+                                                                      print('item ${item.buName}');
+                                                                      print('item $deptSelectedItem');
+                                                                    }
+                                                                  });
+                                                                },
+                                                              ),
+                                                            ),
+                                                          )
+                                                              .toList(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    // SizedBox(height: 10,),
+                                                  ],
+                                                ),
+                                              ),
+                                              horizontalSpace,
+
+                                              SizedBox(
+                                                height: isTablet
+                                                    ? 45
+                                                    : height >= 600
+                                                    ? 25
+                                                    : 15,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  AbsorbPointer(
+                                                    absorbing:_items3.isEmpty ||
+                                                        isFiltered == false
+                                                        ? true
+                                                        : false,
+                                                    child: SizedBox(
+                                                      width: width * .9,
+                                                      height: isTablet ? 50 : width * .25,
+                                                      child: FlatButton(
+                                                        onPressed: () {
+
+                                                          print('lst $_items3');
+                                                          isFiltered = false;
+                                                          testItemVm.testItemList.forEach((element) {
+                                                            print('block');
+                                                            element.isChecked = false;
+                                                            print("chk ${element.isChecked}");
+                                                          });
+                                                          deptItems=testItemVm.testItemList;
+                                                          deptController.clear();
+                                                          departmentSearch('');
+                                                          deptSelectedItem = null;
+                                                          _items3.clear();
+                                                          testItemVm.getData(companyNo: vm.companyNo,doctorSearch: doctorItem);
+                                                          Navigator.pop(context);
+                                                          setState((){});
+                                                        },
+                                                        textColor: Colors.white,
+                                                        color:_items3.isEmpty ||
+                                                            isFiltered == false
+                                                            ? HexColor("#969EC8")
+                                                            : AppTheme.appbarPrimary,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(8),
+                                                            side: BorderSide(
+                                                              color:_items3.isEmpty ||
+                                                                  isFiltered == false
+                                                                  ? HexColor("#969EC8")
+                                                                  : AppTheme.appbarPrimary,
+                                                                width: 1)),
+                                                        child: Text(
+                                                          StringResources.clearFilterText,
+                                                          style: GoogleFonts.poppins(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  AbsorbPointer(
+                                                    absorbing: _items3.isEmpty?true:false,
+                                                    child: SizedBox(
+                                                      width: width * .9,
+                                                      height: isTablet ? 50 : width * .25,
+                                                      child: FlatButton(
+                                                        textColor: Colors.white,
+                                                        onPressed: () {
+                                                          deptItems.sort((a, b) => b.isChecked ? 1 : -1);
+                                                          //specialityItems.sort((a, b) => b.isChecked ? 1 : -1);
+                                                          isFiltered = true;
+                                                          Navigator.pop(context);
+                                                          testItemVm.getData(companyNo: vm.companyNo,buList: deptSelectedItem,doctorSearch: doctorItem);
+                                                        },
+                                                        color:
+                                                         _items3.isEmpty
+                                                            ?
+                                                            HexColor("#969EC8")
+                                                            : AppTheme.appbarPrimary,
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(8),
+                                                        ),
+                                                        child: Text(
+                                                          StringResources.applyFilterText,
+                                                          style: GoogleFonts.poppins(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                            });
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 18.0, bottom: 25),

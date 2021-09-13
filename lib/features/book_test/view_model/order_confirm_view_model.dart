@@ -60,7 +60,7 @@ class OrderConfirmViewModel extends ChangeNotifier {
   var cartVM =
       Provider.of<TestItemViewModel>(appNavigator.context, listen: false);
 
-  List<Item> cartList = [];
+  List<TestItem> cartList = [];
   DateTime selectedDob = DateTime.now();
   bool memberList = false;
   var selectedMemberType;

@@ -88,10 +88,8 @@ class StringResources {
     'AB+',
     'AB-'
   ];
-  static List<String> maritalList = [
-    'Married',
-    'Single'
-  ];
+  static List<String> maritalList = ['Married', 'Single'];
+  static List<String> organizationList = ['Aalock', 'Isnlamic Bank Hospital'];
   static List<String> relationList = [
     'Brother',
     'Mother',

@@ -12,6 +12,7 @@ class AppTheme {
   static Color doctorPrimaryTextColor = HexColor('#333333');
   static Color navBarActiveColor = HexColor('#354291');
   static Color navBarInActiveColor = HexColor('#9CAAFF');
+  static Color buttonColor = HexColor('#8592E5');
   static var doctorDrawerColor = LinearGradient(
       colors: [navBarActiveColor, navBarInActiveColor],
       begin: Alignment.topLeft,
@@ -45,7 +46,7 @@ class AppTheme {
 
 //  static Color colorPrimary = Color(0xff0A5394);
   static Color signInSignUpColor = HexColor("#141D53");
-  static Color appbarPrimary = HexColor("#354291");
+  static Color appbarPrimary = Color(0xff354291);
   static Color colorPrimaryDark = Color(0xff1085eb);
   static Color colorAccent = Color(0xfff7cc1e);
   static Color lightBG = Colors.grey[100];

@@ -13,6 +13,7 @@ import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'admin/admin_home_screen.dart';
 import 'doctor/doctor_home_screen.dart';
 import 'features/auth/view_model/app_navigator.dart';
 import 'features/auth/view_model/auth_view_model.dart';
@@ -80,7 +81,7 @@ class _RootState extends State<Root> {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (BuildContext context) =>
                 // DoctorHomeScreen(
-                AdminDashboard(
+                AdminHomeScreen(
                 )));
           }
         } else if (vm5.accessToken == accessToken) {
@@ -102,7 +103,7 @@ class _RootState extends State<Root> {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (BuildContext context) =>
                 // DoctorHomeScreen(
-                AdminDashboard(
+                AdminHomeScreen(
                 )));
           }
 

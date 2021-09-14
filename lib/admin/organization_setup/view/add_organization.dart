@@ -1,10 +1,18 @@
+import 'package:dashed_container/dashed_container.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view/widgets/upload_digital_signature.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/digital_signature_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
+import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
+import 'package:provider/provider.dart';
 
 class AddOrganizationScreen extends StatefulWidget {
   @override
@@ -24,6 +32,9 @@ class _AddOrganizationScreenState extends State<AddOrganizationScreen> {
   TextEditingController _orgEmail = TextEditingController();
   TextEditingController _orgFax = TextEditingController();
   var pickedDate;
+  String selectedCountry;
+  String selectedDivision;
+  String selectedDistric;
   DateTime selectedExpectedDate = DateTime.now();
   Future<Null> _expectedDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -233,152 +244,293 @@ class _AddOrganizationScreenState extends State<AddOrganizationScreen> {
       controller: _orgFax,
       isFilled: true,
     );
-    String selectOrganization;
-    var selectOrganizations = Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey)),
-      height: 50,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 15.0),
-        child: Container(
-          width: 145,
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton(
-              icon: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(
-                  Icons.keyboard_arrow_down_sharp,
-                  color: selectOrganization != null
-                      ? Colors.black54
-                      : Color(0XFFD2D2D2),
-                ),
+
+    var selectCountry = Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: isTablet ? 50 : 45.0,
+              width: width * .895,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Color(0xffD2D2D2)),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: width * .82,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          onTap: () {
+                            FocusManager.instance.primaryFocus.unfocus();
+                          },
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: selectedCountry != null
+                                ? Colors.black54
+                                : Color(0xffD2D2D2),
+                          ),
+                          iconSize: 25,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, -5, 0, 0),
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          hint: Text(
+                            'Select Country',
+                            style: GoogleFonts.roboto(
+                              fontSize: isTablet ? 17 : 15,
+                              color: Color(0xffD2D2D2),
+                            ),
+                          ),
+                          value: selectedCountry,
+                          onChanged: (newValue) {
+                            setState(() {});
+                          },
+                          items: StringResources.organizationList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 15),
+                              ),
+                              value: gender,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-              iconSize: 25.0,
-              hint: Text(
-                'Select Organization Name',
-                style:
-                    GoogleFonts.roboto(fontSize: 15, color: Color(0xffD2D2D2)),
-              ),
-              // Not necessary for Option 1
-              value: selectOrganization,
-              onChanged: (newValue) {
-                setState(() {
-                  selectOrganization = newValue;
-                });
-              },
-              items: StringResources.organizationList.map((organization) {
-                return DropdownMenuItem(
-                  child: new Text(
-                    organization,
-                    style: GoogleFonts.roboto(fontSize: 14),
-                  ),
-                  value: organization,
-                );
-              }).toList(),
             ),
-          ),
+          ],
         ),
-      ),
+      ],
     );
-    var selectCategory = Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey)),
-      height: 50,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 15.0),
-        child: Container(
-          width: 145,
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton(
-              icon: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(
-                  Icons.keyboard_arrow_down_sharp,
-                  color: selectOrganization != null
-                      ? Colors.black54
-                      : Color(0XFFD2D2D2),
-                ),
+    var selectDivision = Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: isTablet ? 50 : 45.0,
+              width: width * .43,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Color(0xffD2D2D2)),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: width * .35,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          onTap: () {
+                            FocusManager.instance.primaryFocus.unfocus();
+                          },
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: selectedDivision != null
+                                ? Colors.black54
+                                : Color(0xffD2D2D2),
+                          ),
+                          iconSize: 25,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, -5, 0, 0),
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          hint: Text(
+                            'Select Division',
+                            style: GoogleFonts.roboto(
+                              fontSize: isTablet ? 17 : 15,
+                              color: Color(0xffD2D2D2),
+                            ),
+                          ),
+                          value: selectedDivision,
+                          onChanged: (newValue) {
+                            setState(() {});
+                          },
+                          items: StringResources.organizationList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 15),
+                              ),
+                              value: gender,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-              iconSize: 25.0,
-              hint: Text(
-                'Select Category ',
-                style:
-                    GoogleFonts.roboto(fontSize: 15, color: Color(0xffD2D2D2)),
-              ),
-              // Not necessary for Option 1
-              value: selectOrganization,
-              onChanged: (newValue) {
-                setState(() {
-                  selectOrganization = newValue;
-                });
-              },
-              items: StringResources.organizationList.map((organization) {
-                return DropdownMenuItem(
-                  child: new Text(
-                    organization,
-                    style: GoogleFonts.roboto(fontSize: 14),
-                  ),
-                  value: organization,
-                );
-              }).toList(),
             ),
-          ),
+          ],
         ),
-      ),
+      ],
     );
-    var selectCountry = Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey)),
-      height: 50,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 15.0),
-        child: Container(
-          width: 145,
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton(
-              icon: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(
-                  Icons.keyboard_arrow_down_sharp,
-                  color: selectOrganization != null
-                      ? Colors.black54
-                      : Color(0XFFD2D2D2),
+    var selectDistrict = Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: isTablet ? 50 : 45.0,
+              width: width * .43,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Color(0xffD2D2D2)),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: width * .35,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          onTap: () {
+                            FocusManager.instance.primaryFocus.unfocus();
+                          },
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: selectedDistric != null
+                                ? Colors.black54
+                                : Color(0xffD2D2D2),
+                          ),
+                          iconSize: 25,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, -5, 0, 0),
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          hint: Text(
+                            'Select District',
+                            style: GoogleFonts.roboto(
+                              fontSize: isTablet ? 17 : 15,
+                              color: Color(0xffD2D2D2),
+                            ),
+                          ),
+                          value: selectedDistric,
+                          onChanged: (newValue) {
+                            setState(() {});
+                          },
+                          items: StringResources.organizationList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 15),
+                              ),
+                              value: gender,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+    // var digitalSignVm = DigitalSignatureViewModel.watch(context);
+    // var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
+    // var personalInfoVm = PersonalInfoViewModel.read(context);
+    // void _uploadSignature(BuildContext context) {
+    //   showDialog(
+    //       //barrierColor: Color(0x00ffffff),
+    //       context: context,
+    //       builder: (context) {
+    //         return DoctorSignaturePrompt();
+    //       });
+    // }
+
+    var orgLogo = Align(
+      alignment: Alignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // digitalSignVm.imageFile != null
+          //     ?
+          // DashedContainer(
+          //         dashColor: Color(0xffE9ECFE),
+          //         borderRadius: 10.0,
+          //         dashedLength: 10.0,
+          //         blankLength: 2.0,
+          //         child: Container(
+          //           //  constraints: BoxConstraints(maxHeight: 200.0,),
+          //           height: 120.0,
+          //           width: width * .6,
+          //           child: Padding(
+          //             padding: const EdgeInsets.all(20.0),
+          //             child: Image.file(
+          //               digitalSignVm.imageFile,
+          //               height: 60,
+          //               width: 60,
+          //               fit: BoxFit.fitHeight,
+          //             ),
+          //           ),
+          //           // child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
+          //         ),
+          //       )
+          //     : digitalSignVm.signatureImage != null
+          //         ? companyInfoVm.loadProfileImage(
+          //             digitalSignVm.signatureImage, 120.0, 120.0, 20)
+          //         :
+          DashedContainer(
+            dashColor: Color(0xffE9ECFE),
+            borderRadius: 10.0,
+            dashedLength: 10.0,
+            blankLength: 2.0,
+            child: Container(
+              //  constraints: BoxConstraints(maxHeight: 200.0,),
+              height: 120.0,
+              width: width * .6,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Image.asset(
+                  uploadImageIcon,
+                  height: 60,
+                  width: 60,
+                  fit: BoxFit.fitHeight,
                 ),
               ),
-              iconSize: 25.0,
-              hint: Text(
-                'Select Country ',
-                style:
-                    GoogleFonts.roboto(fontSize: 15, color: Color(0xffD2D2D2)),
-              ),
-              // Not necessary for Option 1
-              value: selectOrganization,
-              onChanged: (newValue) {
-                setState(() {
-                  selectOrganization = newValue;
-                });
-              },
-              items: StringResources.organizationList.map((organization) {
-                return DropdownMenuItem(
-                  child: new Text(
-                    organization,
-                    style: GoogleFonts.roboto(fontSize: 14),
-                  ),
-                  value: organization,
-                );
-              }).toList(),
+              // child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
             ),
           ),
-        ),
+          // spaceBetween,
+          // personalInfoVm.isPersonalInfoEditing
+          //     ?
+          spaceBetween,
+          FlatButton(
+            minWidth: width * .6,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            color: AppTheme.buttonActiveColor,
+            onPressed: () {
+              //_uploadSignature(context);
+            },
+            child: Text(
+              'Upload Your Logo',
+              style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: isTablet ? 18 : 15),
+            ),
+          ),
+          // : SizedBox(),
+          spaceBetween,
+        ],
       ),
     );
 
@@ -393,7 +545,7 @@ class _AddOrganizationScreenState extends State<AddOrganizationScreen> {
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               orgName,
               orgCode,
@@ -408,12 +560,61 @@ class _AddOrganizationScreenState extends State<AddOrganizationScreen> {
               expiredOn,
               Padding(
                 padding: EdgeInsets.only(left: 5, right: 5, bottom: 5, top: 5),
-                child: selectOrganizations,
+                child: selectCountry,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 5, right: 5, bottom: 5, top: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    selectDivision,
+                    selectDistrict,
+                  ],
+                ),
               ),
               orgThana,
               orgWebSite,
               orgEmail,
               orgFax,
+              Padding(
+                padding: EdgeInsets.only(left: 5, right: 5, bottom: 5, top: 5),
+                child: Text(
+                  "Your organization logo:",
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                ),
+              ),
+              spaceBetween,
+              orgLogo,
+              spaceBetween,
+              spaceBetween,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: width * .35,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Color(0xffFF6161),
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: Text("Cancel"),
+                    ),
+                  ),
+                  Container(
+                    width: width * .35,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppTheme.buttonActiveColor),
+                      ),
+                      onPressed: () {},
+                      child: Text("Save"),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

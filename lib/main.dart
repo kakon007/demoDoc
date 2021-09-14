@@ -21,9 +21,9 @@ void main() async {
     color: Colors.deepPurpleAccent,
   );
   runApp(
-    // ChangeNotifierProvider(
-    //     create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
-    MaterialApp(home: OrganizationSetupScreen()),
+    ChangeNotifierProvider(
+        create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
+    // MaterialApp(home: OrganizationSetupScreen()),
     // MaterialApp(home: OrderConfirmationAfterSignIn()),
   );
 }

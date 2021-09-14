@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/add_patient/view/patient_portal_user_list.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/admin_drawer.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/manage_admin_profile_prompt.dart';
+import 'package:myhealthbd_app/admin/organization_setup/view/organization_setup_screen.dart';
+import 'package:myhealthbd_app/admin/user_setup/view/user_setup.dart';
 import 'package:myhealthbd_app/doctor/main_app/resource/doctor_const.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';

@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/add_patient/view/patient_portal_user_list.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/admin_drawer.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/manage_admin_profile_prompt.dart';
+import 'package:myhealthbd_app/admin/organization_setup/view/organization_setup_screen.dart';
+import 'package:myhealthbd_app/admin/user_setup/view/user_setup.dart';
 import 'package:myhealthbd_app/doctor/main_app/resource/doctor_const.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -90,30 +92,36 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ],
       ),
     );
-    var addOrganization = Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            addOrg,
-            width: 20,
-            height: 30,
-            color: AppTheme.buttonActiveColor,
-            fit: BoxFit.fitWidth,
-            allowDrawingOutsideViewBox: true,
-            matchTextDirection: true,
-          ),
-          Text(
-            'Add Organization',
-            style: GoogleFonts.poppins(),
-          )
-        ],
+    var addOrganization = InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => OrganizationSetupScreen()));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
+        height: 100,
+        width: 180,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              addOrg,
+              width: 20,
+              height: 30,
+              color: AppTheme.buttonActiveColor,
+              fit: BoxFit.fitWidth,
+              allowDrawingOutsideViewBox: true,
+              matchTextDirection: true,
+            ),
+            Text(
+              'Add Organization',
+              style: GoogleFonts.poppins(),
+            )
+          ],
+        ),
       ),
     );
     var addCom = Container(
@@ -168,37 +176,42 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ],
       ),
     );
-    var addUsers = Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            addUser,
-            width: 20,
-            height: 30,
-            color: AppTheme.buttonActiveColor,
-            fit: BoxFit.fitWidth,
-            allowDrawingOutsideViewBox: true,
-            matchTextDirection: true,
-          ),
-          Text(
-            'Add User',
-            style: GoogleFonts.poppins(),
-          )
-        ],
+    var addUsers = InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => UserSetupScreen()));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
+        height: 100,
+        width: 180,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              addUser,
+              width: 20,
+              height: 30,
+              color: AppTheme.buttonActiveColor,
+              fit: BoxFit.fitWidth,
+              allowDrawingOutsideViewBox: true,
+              matchTextDirection: true,
+            ),
+            Text(
+              'Add User',
+              style: GoogleFonts.poppins(),
+            )
+          ],
+        ),
       ),
     );
     var addPat = Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-              width: 1, color: AppTheme.appbarPrimary)),
+          border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
       height: 100,
       width: 180,
       child: Column(
@@ -229,48 +242,46 @@ class _AdminDashboardState extends State<AdminDashboard> {
             color: photo != '' ? Colors.white : AppTheme.appbarPrimary,
             shape: BoxShape.circle,
             border: Border.all(
-                color: photo != ''
-                    ? AppTheme.buttonActiveColor
-                    : Colors.white,
+                color: photo != '' ? AppTheme.buttonActiveColor : Colors.white,
                 width: 1)),
         height: isTablet
             ? 32
             : width <= 330
-            ? 25
-            : 30,
+                ? 25
+                : 30,
         width: isTablet
             ? 32
             : width <= 330
-            ? 25
-            : 30,
+                ? 25
+                : 30,
         child: Center(
           child: photo != ''
               ? companyInfoVm.loadDoctorProfileImage(
-              photo,
-              isTablet
-                  ? 25
-                  : width <= 330
-                  ? 20
-                  : 22,
-              isTablet
-                  ? 25
-                  : width <= 330
-                  ? 20
-                  : 22,
-              50)
+                  photo,
+                  isTablet
+                      ? 25
+                      : width <= 330
+                          ? 20
+                          : 22,
+                  isTablet
+                      ? 25
+                      : width <= 330
+                          ? 20
+                          : 22,
+                  50)
               : Image.asset(
-            'assets/images/dPro.png',
-            height: isTablet
-                ? 22
-                : width <= 330
-                ? 18
-                : 20,
-            width: isTablet
-                ? 22
-                : width <= 330
-                ? 18
-                : 20,
-          ),
+                  'assets/images/dPro.png',
+                  height: isTablet
+                      ? 22
+                      : width <= 330
+                          ? 18
+                          : 20,
+                  width: isTablet
+                      ? 22
+                      : width <= 330
+                          ? 18
+                          : 20,
+                ),
         ));
     return Scaffold(
       appBar: AppBar(
@@ -280,11 +291,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-              showAlert(context);
-            },
-            child: imageDashboard
-          ),
+              onTap: () {
+                showAlert(context);
+              },
+              child: imageDashboard),
           IconButton(
             icon: Icon(
               Icons.notifications,
@@ -323,9 +333,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             spaceBetween,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                addDoc, addUsers
-              ],
+              children: [addDoc, addUsers],
             ),
             spaceBetween,
             GestureDetector(
@@ -336,9 +344,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-               addPat
-                ],
+                children: [addPat],
               ),
             ),
           ],

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/organization_setup/view/add_organization.dart';
+import 'package:myhealthbd_app/admin/user_setup/view/add_user_setup.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
 
@@ -15,6 +18,145 @@ class UserSetupScreen extends StatefulWidget {
 class _UserSetupScreenState extends State<UserSetupScreen> {
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    var width = MediaQuery.of(context).size.width;
+    var spaceBetween = SizedBox(
+      height: 10,
+    );
+    var selectedOrg;
+    var selectedCompany;
+    var selectOrg = Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: isTablet ? 50 : 45.0,
+              width: width * .92,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Color(0xffD2D2D2)),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: width * .82,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          onTap: () {
+                            FocusManager.instance.primaryFocus.unfocus();
+                          },
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: selectedOrg != null
+                                ? Colors.black54
+                                : Color(0xffD2D2D2),
+                          ),
+                          iconSize: 25,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, -5, 0, 0),
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          hint: Text(
+                            'Select Country',
+                            style: GoogleFonts.roboto(
+                              fontSize: isTablet ? 17 : 15,
+                              color: Color(0xffD2D2D2),
+                            ),
+                          ),
+                          value: selectedOrg,
+                          onChanged: (newValue) {
+                            setState(() {});
+                          },
+                          items: StringResources.organizationList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 15),
+                              ),
+                              value: gender,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+    var selectCompany = Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: isTablet ? 50 : 45.0,
+              width: width * .92,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Color(0xffD2D2D2)),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.0),
+                    child: Container(
+                      width: width * .82,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField(
+                          onTap: () {
+                            FocusManager.instance.primaryFocus.unfocus();
+                          },
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: selectedCompany != null
+                                ? Colors.black54
+                                : Color(0xffD2D2D2),
+                          ),
+                          iconSize: 25,
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, -5, 0, 0),
+                              enabledBorder: InputBorder.none),
+                          isExpanded: true,
+                          hint: Text(
+                            'Company Name',
+                            style: GoogleFonts.roboto(
+                              fontSize: isTablet ? 17 : 15,
+                              color: Color(0xffD2D2D2),
+                            ),
+                          ),
+                          value: selectedCompany,
+                          onChanged: (newValue) {
+                            setState(() {});
+                          },
+                          items: StringResources.organizationList.map((gender) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                gender,
+                                style: GoogleFonts.roboto(fontSize: 15),
+                              ),
+                              value: gender,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text('User Setup'),
@@ -39,32 +181,41 @@ class _UserSetupScreenState extends State<UserSetupScreen> {
                 ),
               ],
             ),
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SignUpFormField(
-                      onChanged: (value) {
-                        // hospitalSearch(value);
-                      },
-                      focusBorderColor: "#8592E5",
-                      // controller: hospitalController,
-                      borderRadius: 30,
-                      minimizeBottomPadding: true,
-                      // hintSize: isTablet ? 17 : 12,
-                      hintText: "Search organization",
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: Icon(
-                          Icons.search_rounded,
-                          //color: Colors.grey,
-                        ),
+                spaceBetween,
+                Padding(
+                  padding: EdgeInsets.only(right: 13, left: 13),
+                  child: selectOrg,
+                ),
+                spaceBetween,
+                Padding(
+                  padding: EdgeInsets.only(right: 13, left: 13),
+                  child: selectCompany,
+                ),
+                spaceBetween,
+                Padding(
+                  padding: EdgeInsets.only(left: 8, right: 15),
+                  child: SignUpFormField(
+                    onChanged: (value) {
+                      // hospitalSearch(value);
+                    },
+                    focusBorderColor: "#8592E5",
+                    // controller: hospitalController,
+                    borderRadius: 30,
+                    minimizeBottomPadding: true,
+                    // hintSize: isTablet ? 17 : 12,
+                    hintText: "Search user",
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: Icon(
+                        Icons.search_rounded,
+                        //color: Colors.grey,
                       ),
                     ),
                   ),
                 ),
+                spaceBetween,
               ],
             ),
           ),
@@ -98,7 +249,7 @@ class _UserSetupScreenState extends State<UserSetupScreen> {
                             Padding(
                               padding: EdgeInsets.only(top: 10, left: 10),
                               child: Text(
-                                'Org id. 01',
+                                'User Id. HHHL-0003',
                                 style: GoogleFonts.poppins(
                                     color: Color(0xffFFB14A)),
                               ),
@@ -115,7 +266,7 @@ class _UserSetupScreenState extends State<UserSetupScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'AALOK Healthcare Limited',
+                                'HHHL-NURSE',
                                 style: GoogleFonts.poppins(
                                     fontSize: 15, fontWeight: FontWeight.w600),
                               ),
@@ -144,9 +295,37 @@ class _UserSetupScreenState extends State<UserSetupScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: 10.0, left: 10),
-                          child: Text(
-                            'Address: House 76 (Level 1) Road 4, Block B Niketan, Gulshan 1 Dhaka 1212, Bangladesh',
-                            style: GoogleFonts.poppins(),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'User Type: Organization',
+                                    style: GoogleFonts.poppins(fontSize: 13),
+                                  ),
+                                  Text(
+                                    'User Type: Organization',
+                                    style: GoogleFonts.poppins(fontSize: 13),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Created at: 04-07-2021',
+                                    style: GoogleFonts.poppins(fontSize: 13),
+                                  ),
+                                  Text(
+                                    'Account Status: Regular',
+                                    style: GoogleFonts.poppins(fontSize: 13),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         Divider(
@@ -248,7 +427,7 @@ class _UserSetupScreenState extends State<UserSetupScreen> {
                                                                           TextSpan>[
                                                                         TextSpan(
                                                                             text:
-                                                                                'Do you really want to delete this organization?'),
+                                                                                'Do you really want to delete this user?'),
                                                                       ],
                                                                     ),
                                                                   ),
@@ -392,7 +571,38 @@ class _UserSetupScreenState extends State<UserSetupScreen> {
                                     )),
                               ),
                               SizedBox(
-                                width: 30,
+                                width: 15,
+                              ),
+                              Container(
+                                width: 180,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.appbarPrimary,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.key,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "Change Password",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 15,
                               ),
                               Container(
                                 width: 80,
@@ -438,7 +648,7 @@ class _UserSetupScreenState extends State<UserSetupScreen> {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-                builder: (BuildContext context) => AddOrganizationScreen()),
+                builder: (BuildContext context) => AddUserSetupScreen()),
           );
         },
         child: Container(

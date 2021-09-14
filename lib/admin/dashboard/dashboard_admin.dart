@@ -42,8 +42,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
+      height:  width<=330? 80 : 100,
+      width: width<=330? 140 : 180,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -51,7 +51,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           SvgPicture.asset(
             appointReport,
             width: 20,
-            height: 30,
+            height: width<=330? 25 :30,
             color: AppTheme.buttonActiveColor,
             fit: BoxFit.fitWidth,
             allowDrawingOutsideViewBox: true,
@@ -59,7 +59,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           Text(
             'Appointment Report',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
           )
         ],
       ),
@@ -68,8 +68,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
+      height:  width<=330? 80 : 100,
+      width: width<=330? 140 : 180,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +77,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           SvgPicture.asset(
             reportCheckIcon,
             width: 20,
-            height: 30,
+            height: width<=330? 25 :30,
             color: AppTheme.buttonActiveColor,
             fit: BoxFit.fitWidth,
             allowDrawingOutsideViewBox: true,
@@ -85,7 +85,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           Text(
             'Collection Report',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
           )
         ],
       ),
@@ -94,8 +94,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
+      height:  width<=330? 80 : 100,
+      width: width<=330? 140 : 180,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +103,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           SvgPicture.asset(
             addOrg,
             width: 20,
-            height: 30,
+            height: width<=330? 25 :30,
             color: AppTheme.buttonActiveColor,
             fit: BoxFit.fitWidth,
             allowDrawingOutsideViewBox: true,
@@ -111,7 +111,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           Text(
             'Add Organization',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
           )
         ],
       ),
@@ -120,8 +120,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
+      height:  width<=330? 80 : 100,
+      width: width<=330? 140 : 180,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +129,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           SvgPicture.asset(
             addCompany,
             width: 20,
-            height: 30,
+            height: width<=330? 25 :30,
             color: AppTheme.buttonActiveColor,
             fit: BoxFit.fitWidth,
             allowDrawingOutsideViewBox: true,
@@ -137,7 +137,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           Text(
             'Add Company',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
           )
         ],
       ),
@@ -146,8 +146,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
+      height:  width<=330? 80 : 100,
+      width: width<=330? 140 : 180,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -155,7 +155,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           SvgPicture.asset(
             addDoctor,
             width: 20,
-            height: 30,
+            height: width<=330? 25 :30,
             color: AppTheme.buttonActiveColor,
             fit: BoxFit.fitWidth,
             allowDrawingOutsideViewBox: true,
@@ -163,7 +163,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           Text(
             'Add Doctor',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
           )
         ],
       ),
@@ -172,8 +172,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
+      height:  width<=330? 80 : 100,
+      width: width<=330? 140 : 180,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -181,7 +181,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           SvgPicture.asset(
             addUser,
             width: 20,
-            height: 30,
+            height: width<=330? 25 :30,
             color: AppTheme.buttonActiveColor,
             fit: BoxFit.fitWidth,
             allowDrawingOutsideViewBox: true,
@@ -189,7 +189,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           Text(
             'Add User',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
           )
         ],
       ),
@@ -199,8 +199,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
               width: 1, color: AppTheme.appbarPrimary)),
-      height: 100,
-      width: 180,
+      height:  width<=330? 80 : 100,
+      width: width<=330? 140 : 180,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -208,7 +208,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           SvgPicture.asset(
             addPatient,
             width: 20,
-            height: 30,
+            height: width<=330? 25 :30,
             color: AppTheme.buttonActiveColor,
             fit: BoxFit.fitWidth,
             allowDrawingOutsideViewBox: true,
@@ -216,7 +216,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
           Text(
             'Add Patient',
-            style: GoogleFonts.poppins(),
+            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
           )
         ],
       ),
@@ -263,12 +263,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
             height: isTablet
                 ? 22
                 : width <= 330
-                ? 18
+                ? 16
                 : 20,
             width: isTablet
                 ? 22
                 : width <= 330
-                ? 18
+                ? 16
                 : 20,
           ),
         ));
@@ -276,7 +276,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       appBar: AppBar(
         title: Text(
           companyInfoVm?.details?.name ?? "",
-          style: GoogleFonts.poppins(fontSize: 15),
+          style: GoogleFonts.poppins(fontSize:width<=330? 12 : 15),
         ),
         actions: [
           GestureDetector(
@@ -288,6 +288,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           IconButton(
             icon: Icon(
               Icons.notifications,
+              size:  width<=330? 25 : 30,
               color: Colors.white,
             ),
           ),
@@ -296,7 +297,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           builder: (context) => IconButton(
             icon: Icon(
               Icons.notes,
-              size: 30,
+              size:  width<=330? 25 : 30,
               color: Colors.white,
             ),
             onPressed: () => Scaffold.of(context).openDrawer(),
@@ -307,41 +308,43 @@ class _AdminDashboardState extends State<AdminDashboard> {
       drawer: Drawer(
         child: AdminDashboardDrawer(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [appointmentReport, collectionreport],
-            ),
-            spaceBetween,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [addOrganization, addCom],
-            ),
-            spaceBetween,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                addDoc, addUsers
-              ],
-            ),
-            spaceBetween,
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        PatientPortalUserList()));
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [appointmentReport, collectionreport],
+              ),
+              spaceBetween,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [addOrganization, addCom],
+              ),
+              spaceBetween,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-               addPat
+                  addDoc, addUsers
                 ],
               ),
-            ),
-          ],
+              spaceBetween,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          PatientPortalUserList()));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                 addPat
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

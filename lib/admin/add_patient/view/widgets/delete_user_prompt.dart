@@ -19,6 +19,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
       height: 10,
     );
     bool isTablet = Responsive.isTablet(context);
+    var width = MediaQuery.of(context).size.width;
     return Material(
       type: MaterialType.transparency,
       child: Align(
@@ -28,7 +29,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
           child: Stack(
             children: [
               Container(
-                height: 300,
+                height: width<=330? 320 : 300,
                 width:
                 MediaQuery.of(context)
                     .size
@@ -42,7 +43,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                         left: 20,
                         right: 20),
                     child: Container(
-                      height: 180,
+                      height: width<=330? 160 : 180,
                       width: isTablet
                           ? 450
                           : 350,
@@ -94,7 +95,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                                       .poppins(
                                     fontSize: isTablet
                                         ? 18
-                                        : 16.0,
+                                        : width<=330? 14 : 16.0,
                                     color: Colors
                                         .black,
                                   ),
@@ -140,7 +141,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                                     child:
                                     SizedBox(
                                       height:
-                                      50,
+                                      width<=330? 40:50,
                                       width: isTablet
                                           ? 170
                                           : 120,
@@ -149,7 +150,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                                         child:
                                         Text(
                                           "No",
-                                          style: GoogleFonts.poppins(color: Color(0xff354291), fontWeight: FontWeight.w500, fontSize: isTablet ? 18 : 15),
+                                          style: GoogleFonts.poppins(color: Color(0xff354291), fontWeight: FontWeight.w500, fontSize: isTablet ? 18 :width<=330? 13 : 15),
                                         ),
                                       ),
                                     ),
@@ -173,7 +174,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                                     child:
                                     SizedBox(
                                       height:
-                                      50,
+                                      width<=330? 40:50,
                                       width: isTablet
                                           ? 170
                                           : 120,
@@ -182,7 +183,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                                         child:
                                         Text(
                                           "Yes",
-                                          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: isTablet ? 18 : 15),
+                                          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: isTablet ? 18 :width<=330? 13 : 15),
                                         ),
                                       ),
                                     ),

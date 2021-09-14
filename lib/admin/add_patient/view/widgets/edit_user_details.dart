@@ -68,7 +68,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                 Padding(
                   padding: EdgeInsets.only(left: 15.0),
                   child: Container(
-                    width: width * .87,
+                    width: width <=330 ? width*.85 : width* .87,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField(
                         onTap: () {
@@ -134,7 +134,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                 Padding(
                   padding: EdgeInsets.only(left: 15.0),
                   child: Container(
-                    width: width * .87,
+                    width: width <=330 ? width*.85 : width* .87,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField(
                         onTap: () {
@@ -200,7 +200,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                 Padding(
                   padding: EdgeInsets.only(left: 15.0),
                   child: Container(
-                    width: width * .87,
+                    width: width <=330 ? width*.85 : width* .87,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField(
                         onTap: () {
@@ -286,7 +286,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
           padding: const EdgeInsets.only(left: 5.0, right: 5),
           child: Container(
             height: isTablet ? 50 : 45.0,
-            width: width,
+            width:  width,
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: HexColor('#EAEBED')),
@@ -297,7 +297,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                 Padding(
                   padding: EdgeInsets.only(left: 15.0),
                   child: Container(
-                    width: width * .87,
+                    width:width<=330? width*.85:  width * .87,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField(
                         onTap: () {
@@ -352,7 +352,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
           padding: const EdgeInsets.only(left: 5.0, right: 5),
           child: Container(
             height: isTablet ? 50 : 45.0,
-            width: width,
+            width:  width,
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: HexColor('#EAEBED')),
@@ -363,7 +363,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                 Padding(
                   padding: EdgeInsets.only(left: 15.0),
                   child: Container(
-                    width: width * .87,
+                    width:width<=330? width*.85:  width * .87,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField(
                         onTap: () {
@@ -418,7 +418,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
           padding: const EdgeInsets.only(left: 5.0, right: 5),
           child: Container(
             height: isTablet ? 50 : 45.0,
-            width: width,
+            width:  width,
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: HexColor('#EAEBED')),
@@ -429,7 +429,7 @@ class _EditUserDetailsState extends State<EditUserDetails> {
                 Padding(
                   padding: EdgeInsets.only(left: 15.0),
                   child: Container(
-                    width: width * .87,
+                    width:width<=330? width*.85:  width * .87,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField(
                         onTap: () {

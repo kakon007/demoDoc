@@ -61,7 +61,7 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
       height: isTablet
           ? 400
           : width < 330
-              ? 280
+              ? 160
               : 180.0,
       child: Stack(
         children: [
@@ -181,7 +181,7 @@ class _ManageDoctorProfilePromptState extends State<ManageDoctorProfilePrompt> {
                                 padding: const EdgeInsets.only(left: 5.0),
                                 child: Text( PersonalInfoViewModel.watch(context).personalInfoData?.doctorName??"",  style: GoogleFonts.poppins(
                                    // color: AppTheme.buttonActiveColor,
-                                    fontSize: isTablet ? 18 : 13),),
+                                    fontSize: isTablet ? 18 : 12),),
                               ),
                               SizedBox(height: 10,),
                               GestureDetector(

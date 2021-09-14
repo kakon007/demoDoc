@@ -56,9 +56,9 @@ class _ManageAdminProfilePromptState extends State<ManageAdminProfilePrompt> {
           //   minHeight: isTablet ? 165 : 130,
           // ),
           height: isTablet
-              ? 400
+              ? 200
               : width < 330
-              ? 280
+              ? 160
               : 180.0,
           child: Stack(
             children: [

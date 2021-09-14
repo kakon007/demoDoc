@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/add_patient/view/widgets/edit_user_details.dart';
 import 'package:myhealthbd_app/admin/add_patient/view/widgets/user_details_prompt.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 import 'delete_user_prompt.dart';
 
@@ -16,6 +17,8 @@ class UserListCard extends StatefulWidget {
 class _UserListCardState extends State<UserListCard> {
   @override
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    var width = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
@@ -45,7 +48,7 @@ class _UserListCardState extends State<UserListCard> {
                       Text(
                         'User id. GHATAIL01',
                         style: GoogleFonts.poppins(
-                            color: Color(0xffFFB14A)),
+                            color: Color(0xffFFB14A), fontSize: width<=330? 12 : 14),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 10,top: 15),
@@ -60,9 +63,9 @@ class _UserListCardState extends State<UserListCard> {
                           },
                           child: Container(
                             constraints: BoxConstraints(
-                              minWidth: 100,
+                              minWidth: width<=330? 80 : 100,
                             ),
-                            height: 30,
+                            height: width<=330? 25 : 30,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: AppTheme.buttonActiveColor),
@@ -72,6 +75,7 @@ class _UserListCardState extends State<UserListCard> {
                                 "View Details",
                                 style: GoogleFonts.roboto(
                                     color: Colors.white,
+                                    fontSize: width<=330? 12 : 14,
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
@@ -83,7 +87,7 @@ class _UserListCardState extends State<UserListCard> {
                   ),
                   Row(
                     children: [
-                      Text('MH22012014368',style: GoogleFonts.poppins(fontSize: 16,fontWeight: FontWeight.w500),),
+                      Text('MH22012014368',style: GoogleFonts.poppins(fontSize: width<=330? 14 : 16,fontWeight: FontWeight.w500),),
                       SizedBox(width: 10,),
                       Icon(
                         Icons.circle,
@@ -96,7 +100,7 @@ class _UserListCardState extends State<UserListCard> {
                       Text(
                         'Active',
                         style: GoogleFonts.poppins(
-                            color: Color(0xff55CFA6), fontSize: 11),
+                            color: Color(0xff55CFA6), fontSize: width<=330? 10 :11),
                       ),
                     ],
                   ),
@@ -106,20 +110,20 @@ class _UserListCardState extends State<UserListCard> {
                     children: [
                       Row(
                         children: [
-                          Text('Created at:',style: GoogleFonts.poppins(fontSize: 12),),
+                          Text('Created at:',style: GoogleFonts.poppins(fontSize: width<=330? 10 : 12),),
                           SizedBox(
                             width: 10,
                           ),
-                          Text('04-07-2021',style: GoogleFonts.poppins(fontSize: 12),),
+                          Text('04-07-2021',style: GoogleFonts.poppins(fontSize: width<=330? 10 :12),),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Account Status:',style: GoogleFonts.poppins(fontSize: 12),),
+                          Text('Account Status:',style: GoogleFonts.poppins(fontSize: width<=330? 10 :12),),
                           SizedBox(
                             width: 10,
                           ),
-                          Text('Regular',style: GoogleFonts.poppins(fontSize: 12),),
+                          Text('Regular',style: GoogleFonts.poppins(fontSize: width<=330? 10 :12),),
                         ],
                       ),
                       SizedBox(width: 10,)
@@ -147,20 +151,21 @@ class _UserListCardState extends State<UserListCard> {
                           });
                     },
                     child: Container(
-                        height: 35,
-                        width: 35,
+                        height:width<=330? 25 : 35,
+                        width: width<=330? 25 :35,
                         decoration: BoxDecoration(
                             color: Color(0xffFF8585),
                             borderRadius: BorderRadius.all(
                                 Radius.circular(5))),
                         child: Icon(
                           Icons.delete,
+                          size: width<=330? 20 : 30,
                           color: Colors.white,
                         )),
                   ),
 
                   SizedBox(
-                    width: 30,
+                    width: width<=330? 20 :30,
                   ),
                   GestureDetector(
                     onTap: (){
@@ -172,8 +177,8 @@ class _UserListCardState extends State<UserListCard> {
                           });
                     },
                     child: Container(
-                      width: 130,
-                      height: 35,
+                      width: width<=330? 100 :130,
+                      height: width<=330? 25 :35,
                       decoration: BoxDecoration(
                         color: AppTheme.buttonActiveColor,
                         borderRadius: BorderRadius.circular(5),
@@ -184,7 +189,7 @@ class _UserListCardState extends State<UserListCard> {
                           Text(
                             "Reset Password",
                             style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: width<=330? 11 : 14,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -202,8 +207,8 @@ class _UserListCardState extends State<UserListCard> {
                       }));
                     },
                     child: Container(
-                      width: 130,
-                      height: 35,
+                      width: width<=330? 100 :130,
+                      height: width<=330? 25 :35,
                       decoration: BoxDecoration(
                         color: AppTheme.buttonActiveColor,
                         borderRadius: BorderRadius.circular(5),
@@ -214,7 +219,7 @@ class _UserListCardState extends State<UserListCard> {
                           Icon(
                             Icons.edit,
                             color: Colors.white,
-                            size: 20,
+                            size: width<=330? 15 : 20,
                           ),
                           SizedBox(
                             width: 5,
@@ -222,7 +227,7 @@ class _UserListCardState extends State<UserListCard> {
                           Text(
                             "Update Info",
                             style: GoogleFonts.poppins(
-                                fontSize: 14,
+                                fontSize: width<=330? 11 : 14,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),

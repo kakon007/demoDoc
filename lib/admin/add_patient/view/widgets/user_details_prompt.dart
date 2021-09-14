@@ -42,7 +42,7 @@ class _UserDetailsPromptState extends State<UserDetailsPrompt> {
           )),
       height: 40,
       child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding:  EdgeInsets.only(left: 10, right: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -57,39 +57,39 @@ class _UserDetailsPromptState extends State<UserDetailsPrompt> {
 
     );
     var detailsSection =      Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+      padding:  EdgeInsets.only(left: width<=330 ? 10 : 15, right: width<=330 ? 10 : 15, top: 15),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-              height: 100,
-              width: 100,
+              height: width<=330 ? 80 : 100,
+              width:width<=330 ? 80 : 100,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
 
                   border: Border.all(color: AppTheme.appbarPrimary,width: 1)),
               child: Image.asset('assets/images/doc.png')),
           Padding(
-            padding: const EdgeInsets.only(left: 15),
+            padding:  EdgeInsets.only(left: width<=330 ? 10 : 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Username : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
-                Text('MH22012014368',style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
+                Text('Username : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: width<=330 ? 11 : 14),),
+                Text('MH22012014368',style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: width<=330 ? 11 : 14),),
                 SizedBox(height: 10,),
                 Row(
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('User Id:',style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
-                        Text('MH22012014368',style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
+                        Text('User Id:',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: width<=330 ? 11 : 14),),
+                        Text('MH22012014368',style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: width<=330 ? 11 : 14),),
                       ],),
                     SizedBox(width: 15,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Job Title:',style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
-                        Text('Sample Title',style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
+                        Text('Job Title:',style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: width<=330 ? 11 : 14),),
+                        Text('Sample Title',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: width<=330 ? 11 : 14),),
                       ],),
                   ],
                 )
@@ -101,7 +101,7 @@ class _UserDetailsPromptState extends State<UserDetailsPrompt> {
     );
     var spaceBetween= SizedBox(height: 5,);
     var presentAddress = Column(children: [
-      Center(child: Text('Present Address',style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize: 14),)),
+      Center(child: Text('Present Address',style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize: width<=330 ? 12 :14),)),
       spaceBetween,
       Container(
           width: width,
@@ -111,7 +111,7 @@ class _UserDetailsPromptState extends State<UserDetailsPrompt> {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('Care of : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('Care of : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: width<=330 ? 12 :14),),
               ))
       ),
       Container(
@@ -122,7 +122,7 @@ class _UserDetailsPromptState extends State<UserDetailsPrompt> {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('Post office : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('Post office : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: width<=330 ? 12 :14),),
               ))
       ),
       Container(
@@ -133,7 +133,7 @@ class _UserDetailsPromptState extends State<UserDetailsPrompt> {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('Thana/Upzilla : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('Thana/Upzilla : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: width<=330 ? 12 :14),),
               ))
       ),
       Container(
@@ -144,7 +144,7 @@ class _UserDetailsPromptState extends State<UserDetailsPrompt> {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('District : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('District : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize:width<=330 ? 12 : 14),),
               ))
       ),
       Container(
@@ -155,13 +155,13 @@ class _UserDetailsPromptState extends State<UserDetailsPrompt> {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('Division : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('Division : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: width<=330 ? 12 :14),),
               ))
       ),
     ],);
 
 var permanentAddress = Column(children: [
-      Center(child: Text('Present Address',style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize: 14),)),
+      Center(child: Text('Present Address',style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize:width<=330 ? 12 : 14),)),
       spaceBetween,
       Container(
           width: width,
@@ -171,7 +171,7 @@ var permanentAddress = Column(children: [
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('Care of : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('Care of : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: width<=330 ? 12 :14),),
               ))
       ),
       Container(
@@ -182,7 +182,7 @@ var permanentAddress = Column(children: [
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('Post office : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('Post office : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize:width<=330 ? 12 : 14),),
               ))
       ),
       Container(
@@ -193,7 +193,7 @@ var permanentAddress = Column(children: [
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('Thana/Upzilla : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('Thana/Upzilla : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: width<=330 ? 12 :14),),
               ))
       ),
       Container(
@@ -204,7 +204,7 @@ var permanentAddress = Column(children: [
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('District : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('District : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: width<=330 ? 12 :14),),
               ))
       ),
       Container(
@@ -215,43 +215,41 @@ var permanentAddress = Column(children: [
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('Division : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                child: Text('Division : ',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: width<=330 ? 12 :14),),
               ))
       ),
     ],);
-    return Center(
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(
-                15,
-              )),
-          width: isTablet
-              ? 420
-              : width < 330
-              ? 300
-              : width*.9,
-          constraints: BoxConstraints(
-            minHeight: isTablet ? 165 : 130,
-          ),
-          height: isTablet
-              ? 400
-              : width < 330
-              ? 280
-              : 600.0,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              titleSection,
-         detailsSection,
-              Divider(height:20,thickness: 1.5,),
-               presentAddress,
-              spaceBetween,
-              spaceBetween,
-              permanentAddress,
-              spaceBetween
-            ],
-          ),
-        ));
+    return SingleChildScrollView(
+      child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(
+                  15,
+                )),
+            width: isTablet
+                ? 420
+                : width < 330
+                ? 300
+                : width*.9,
+            constraints: BoxConstraints(
+              minHeight: isTablet ? 165 : 130,
+            ),
+            height: 600.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                titleSection,
+           detailsSection,
+                Divider(height:20,thickness: 1.5,),
+                 presentAddress,
+                spaceBetween,
+                spaceBetween,
+                permanentAddress,
+                spaceBetween
+              ],
+            ),
+          )),
+    );
   }
 }

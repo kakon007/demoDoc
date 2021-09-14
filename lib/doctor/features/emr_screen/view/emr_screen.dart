@@ -598,7 +598,8 @@ class _EmrScreenState extends State<EmrScreen> {
                                                     ),
                                                   ),
                                                 )
-                                                    :ListView.separated(
+                                                    :
+                                                ListView.separated(
                                                     itemCount: vm.prescriptionList.length,
                                                     shrinkWrap: true,
                                                     itemBuilder:

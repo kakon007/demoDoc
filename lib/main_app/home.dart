@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view/appointment_report.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/view/book_test_screen.dart';
 import 'package:myhealthbd_app/features/book_test/view/booking_summery_screen.dart';
@@ -137,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen>
         },
         locationData: _currentPosition,
       ),
-      BookTestScreen(),
+      AppointmentReport(),
       if (!isLoggedIn) ...[
         SignInDashboardForAppoinmentPrompt("To access your Appointments,"),
         SignInDashboardForPatientPrompt("To access your Patient Portal,"),

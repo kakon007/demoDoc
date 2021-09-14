@@ -322,13 +322,24 @@ class _AdminDashboardState extends State<AdminDashboard> {
               spaceBetween,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [addOrganization, addCom],
+                children: [GestureDetector(
+                    onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => OrganizationSetupScreen()));
+                      },
+
+                    child: addOrganization), addCom],
               ),
               spaceBetween,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  addDoc, addUsers
+                  addDoc, GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => UserSetupScreen()));
+                      },
+                      child: addUsers)
                 ],
               ),
               spaceBetween,

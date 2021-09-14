@@ -1,3 +1,4 @@
+import 'package:dashed_container/dashed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
@@ -17,12 +19,23 @@ class AddCompanyScreen extends StatefulWidget {
 }
 
 class _AddCompanyScreenState extends State<AddCompanyScreen> {
+  var _noteFieldFocusNode2 = FocusNode();
   TextEditingController _companyId = TextEditingController();
   TextEditingController _companyName = TextEditingController();
   TextEditingController _companyCode = TextEditingController();
   TextEditingController _addressCode = TextEditingController();
   TextEditingController _contPerDesign = TextEditingController();
   TextEditingController _phoneNumber = TextEditingController();
+  TextEditingController _companyTelephone = TextEditingController();
+  TextEditingController _companyThana = TextEditingController();
+  TextEditingController _contactPerson = TextEditingController();
+  TextEditingController _companySlogan = TextEditingController();
+  TextEditingController _companyFax = TextEditingController();
+  TextEditingController _companyEmail = TextEditingController();
+  TextEditingController _companyWebsite = TextEditingController();
+  TextEditingController _companyPhoneNo = TextEditingController();
+  TextEditingController promotionalTextEditingController =
+      TextEditingController();
   var pickedDate;
   DateTime selectedExpectedDate = DateTime.now();
   Future<Null> _expectedDate(BuildContext context) async {
@@ -43,6 +56,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
 
   @override
   var valOne = 1;
+  var promotionalValOne = 1;
   Widget build(BuildContext context) {
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
@@ -119,7 +133,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
       hintSize: isTablet ? 17 : 12,
       hintText: 'Company Slogan',
       minimizeBottomPadding: true,
-      controller: _companyCode,
+      controller: _companySlogan,
     );
     var address = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
@@ -179,7 +193,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
       hintSize: isTablet ? 17 : 12,
       hintText: 'Contact Person',
       minimizeBottomPadding: true,
-      controller: _addressCode,
+      controller: _contactPerson,
     );
     var contactContPerDesign = SignUpFormField(
       hintSize: isTablet ? 17 : 12,
@@ -283,7 +297,7 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                               enabledBorder: InputBorder.none),
                           isExpanded: true,
                           hint: Text(
-                            'Select Country',
+                            'Select Category',
                             style: GoogleFonts.roboto(
                                 fontSize: isTablet ? 17 : 15,
                                 color: HexColor("#D2D2D2")),
@@ -512,7 +526,297 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
       hintText: 'Company Thana',
       minimizeBottomPadding: true,
       isFilled: true,
-      controller: _contPerDesign,
+      controller: _companyThana,
+    );
+    var companyTelephone = SignUpFormField(
+      hintSize: isTablet ? 17 : 12,
+      hintText: 'Company Telephone',
+      minimizeBottomPadding: true,
+      isFilled: true,
+      controller: _companyTelephone,
+    );
+    var companyFax = SignUpFormField(
+      hintSize: isTablet ? 17 : 12,
+      hintText: 'Company Fax',
+      minimizeBottomPadding: true,
+      isFilled: true,
+      controller: _companyFax,
+    );
+    var companyEmail = SignUpFormField(
+      hintSize: isTablet ? 17 : 12,
+      hintText: 'Company Email',
+      minimizeBottomPadding: true,
+      isFilled: true,
+      controller: _companyEmail,
+    );
+    var companyWebsite = SignUpFormField(
+      hintSize: isTablet ? 17 : 12,
+      hintText: 'Company Website',
+      minimizeBottomPadding: true,
+      isFilled: true,
+      controller: _companyWebsite,
+    );
+    var companyPhoneNo = SignUpFormField(
+      hintSize: isTablet ? 17 : 12,
+      hintText: 'Company Phone No',
+      minimizeBottomPadding: true,
+      isFilled: true,
+      controller: _companyPhoneNo,
+    );
+    var promotionalInfo = Row(
+      children: [
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text('Promotional Info'),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            Row(
+              children: [
+                Radio(
+                  value: 1,
+                  groupValue: promotionalValOne,
+                  onChanged: (value) {
+                    setState(() {
+                      promotionalValOne = value;
+                    });
+                  },
+                  activeColor: Colors.green,
+                ),
+                Text('On')
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                  value: 0,
+                  groupValue: promotionalValOne,
+                  onChanged: (value) {
+                    setState(() {
+                      promotionalValOne = value;
+                    });
+                  },
+                  activeColor: Colors.green,
+                ),
+                Text('Off')
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+    var promotionalInfoField = Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Color(0xffD2D2D2)),
+          borderRadius: BorderRadius.circular(8)),
+      width: isTablet ? width * 92 : MediaQuery.of(context).size.width * .89,
+      height: isTablet ? 200 : 100,
+      child: SizedBox(
+        height: 500,
+        child: TextField(
+          maxLines: null,
+          keyboardType: TextInputType.multiline,
+          //maxLength: 75,
+          maxLengthEnforced: false,
+          autofocus: false,
+          textInputAction: TextInputAction.newline,
+          focusNode: _noteFieldFocusNode2,
+          controller: promotionalTextEditingController,
+          cursorColor: HexColor('#C5CAE8'),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: 'Type your promotional message',
+            hintStyle: GoogleFonts.poppins(
+                fontSize: isTablet ? 15 : 11, fontWeight: FontWeight.w400),
+            fillColor: Colors.white,
+          ),
+          onSubmitted: (v) {
+            //vm2.search(_searchTextEditingController2.text,widget.accessToken);
+          },
+          // inputFormatters: [
+          //   LengthLimitingTextInputFormatter(75),
+          // ]
+        ),
+      ),
+    );
+    var yourCompanyImage = Align(
+      alignment: Alignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Your Company Image:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          spaceBetween,
+          DashedContainer(
+            dashColor: Color(0xffE9ECFE),
+            borderRadius: 10.0,
+            dashedLength: 10.0,
+            blankLength: 16.0,
+            strokeWidth: 2,
+            child: Container(
+              //  constraints: BoxConstraints(maxHeight: 200.0,),
+              height: 145.0,
+              width: width * .43,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Image.asset(
+                      uploadImageIcon,
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                  Text(
+                    '272 X 150 pixel',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    'Tap to upload',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              // child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
+            ),
+          ),
+          spaceBetween,
+          // FlatButton(
+          //   minWidth: width * .6,
+          //   shape:
+          //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          //   color: AppTheme.buttonActiveColor,
+          //   onPressed: () {
+          //     //_uploadSignature(context);
+          //   },
+          //   child: Text(
+          //     'Upload Your Logo',
+          //     style: GoogleFonts.roboto(
+          //         color: Colors.white,
+          //         fontWeight: FontWeight.w600,
+          //         fontSize: isTablet ? 18 : 15),
+          //   ),
+          // ),
+          // : SizedBox(),
+          spaceBetween,
+        ],
+      ),
+    );
+    var yourCompanyLogo = Align(
+      alignment: Alignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Your Company Logo:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          spaceBetween,
+          DashedContainer(
+            dashColor: Color(0xffE9ECFE),
+            borderRadius: 10.0,
+            dashedLength: 10.0,
+            blankLength: 16.0,
+            strokeWidth: 2,
+            child: Container(
+              //  constraints: BoxConstraints(maxHeight: 200.0,),
+              height: 145.0,
+              width: width * .43,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Image.asset(
+                      uploadImageIcon,
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                  Text(
+                    '66 X 66 pixel',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    'Tap to upload',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              // child: Icon(Icons.insert_photo_rounded,size: 80,color: Colors.grey.shade200,),
+            ),
+          ),
+          spaceBetween,
+          // FlatButton(
+          //   minWidth: width * .6,
+          //   shape:
+          //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          //   color: AppTheme.buttonActiveColor,
+          //   onPressed: () {
+          //     //_uploadSignature(context);
+          //   },
+          //   child: Text(
+          //     'Upload Your Logo',
+          //     style: GoogleFonts.roboto(
+          //         color: Colors.white,
+          //         fontWeight: FontWeight.w600,
+          //         fontSize: isTablet ? 18 : 15),
+          //   ),
+          // ),
+          // : SizedBox(),
+          spaceBetween,
+        ],
+      ),
+    );
+    var saveButton = Padding(
+      padding: EdgeInsets.only(left: 8, right: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: width * .35,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Color(0xffFF6161),
+                ),
+              ),
+              onPressed: () {},
+              child: Text("Cancel"),
+            ),
+          ),
+          Container(
+            width: width * .35,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    AppTheme.buttonActiveColor),
+              ),
+              onPressed: () {},
+              child: Text("Save"),
+            ),
+          ),
+        ],
+      ),
     );
 
     return Scaffold(
@@ -559,7 +863,25 @@ class _AddCompanyScreenState extends State<AddCompanyScreen> {
                 ),
               ),
               spaceBetween1,
-              companyThana
+              companyThana,
+              companyTelephone,
+              companyFax,
+              companyEmail,
+              companyWebsite,
+              companyPhoneNo,
+              promotionalInfo,
+              promotionalValOne == 1 ? promotionalInfoField : SizedBox(),
+              spaceBetween,
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [yourCompanyImage, yourCompanyLogo],
+                ),
+              ),
+              saveButton,
+              spaceBetween,
+              spaceBetween
             ],
           ),
         ),

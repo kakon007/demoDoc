@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myhealthbd_app/admin/add_patient/view/widgets/edit_user_details.dart';
+import 'package:myhealthbd_app/admin/add_patient/view/widgets/user_details_prompt.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 
 import 'delete_user_prompt.dart';
@@ -47,24 +49,34 @@ class _UserListCardState extends State<UserListCard> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 10,top: 15),
-                        child: Container(
-                          constraints: BoxConstraints(
-                            minWidth: 100,
-                          ),
-                          height: 30,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: AppTheme.buttonActiveColor),
-                          //color: HexColor("#107B3E"),
-                          child: Center(
-                            child: Text(
-                              "View Details",
-                              style: GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
+                        child: GestureDetector(
+                          onTap: (){
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+
+                                  return UserDetailsPrompt();
+                                });
+                          },
+                          child: Container(
+                            constraints: BoxConstraints(
+                              minWidth: 100,
                             ),
+                            height: 30,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: AppTheme.buttonActiveColor),
+                            //color: HexColor("#107B3E"),
+                            child: Center(
+                              child: Text(
+                                "View Details",
+                                style: GoogleFonts.roboto(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            //color: AppTheme.buttonActiveColor,
                           ),
-                          //color: AppTheme.buttonActiveColor,
                         ),
                       ),
                     ],
@@ -131,7 +143,7 @@ class _UserListCardState extends State<UserListCard> {
                           context: context,
                           builder: (context) {
 
-                            return DeleteUserPrompt();
+                            return DeleteUserPrompt(isResetPassword: false,);
                           });
                     },
                     child: Container(
@@ -150,55 +162,72 @@ class _UserListCardState extends State<UserListCard> {
                   SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    width: 130,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      color: AppTheme.buttonActiveColor,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Reset Password",
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                  GestureDetector(
+                    onTap: (){
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+
+                            return DeleteUserPrompt(isResetPassword: true,);
+                          });
+                    },
+                    child: Container(
+                      width: 130,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: AppTheme.buttonActiveColor,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Reset Password",
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    width: 130,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      color: AppTheme.buttonActiveColor,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Update Info",
-                          style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return EditUserDetails();
+                      }));
+                    },
+                    child: Container(
+                      width: 130,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: AppTheme.buttonActiveColor,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Update Info",
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

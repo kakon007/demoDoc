@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class DeleteUserPrompt extends StatefulWidget {
-
+  bool isResetPassword;
+  DeleteUserPrompt({this.isResetPassword});
 
   @override
   _DeleteUserPromptState createState() => _DeleteUserPromptState();
@@ -101,7 +102,7 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                                       TextSpan>[
                                     TextSpan(
                                         text:
-                                        'Do you really want to delete the user?'),
+                                        widget.isResetPassword?'Do you really want to reset password?' :'Do you really want to delete the user?'),
                                   ],
                                 ),
                               ),
@@ -158,8 +159,6 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                                   width: 15,
                                 ),
                                 GestureDetector(
-                                  key: Key(
-                                      'switchAccountYesButtonKey'),
                                   onTap:
                                       () async {},
                                   child:
@@ -218,8 +217,8 @@ class _DeleteUserPromptState extends State<DeleteUserPrompt> {
                     //   width: 90,
                     // ),
                     child: Icon(
-                      Icons
-                          .refresh,
+                      widget.isResetPassword? Icons.refresh : Icons
+                          .delete_sweep,
                       color:
                       Color(0xffFF8585),
                       size: 30,

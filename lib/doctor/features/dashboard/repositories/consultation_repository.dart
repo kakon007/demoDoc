@@ -13,9 +13,14 @@ class ConsultationStatusRepository {
     // var url =
     //     "${Urls.baseUrl}prescription-service-api/api/prescription/getTemplateListByDoctor";
     try {
+      var body = {
+        "shiftdtlNo":null,
+        "fromDate":DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        "toDate":DateFormat('yyyy-MM-dd').format(DateTime.now())
+      };
+      print(DateFormat('yyyy-MM-dd').format(DateTime.now()));
       var response = await ApiClient().postRequest(
-          "prescription-service-api/api/consultation/doctor-wise-consultation-status",
-          {"shiftdtlNo":null,"fromDate":DateFormat("yyyy-MM-dd").format(DateTime.now()),"toDate":DateFormat("yyyy-MM-dd").format(DateTime.now())});
+          "prescription-service-api/api/consultation/doctor-wise-consultation-status",body);
       print('status ${response.body}');
       if (response.statusCode == 200) {
         var body=response.body;

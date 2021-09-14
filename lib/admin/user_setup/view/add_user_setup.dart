@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/user_setup/view/basic_info_Screen.dart';
+import 'package:myhealthbd_app/admin/user_setup/view/widgets/modules.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class AddUserSetupScreen extends StatefulWidget {
@@ -61,7 +62,7 @@ class _AddUserSetupScreenState extends State<AddUserSetupScreen> {
               child: TabBarView(
                 children: [
                   BasicInfoScreen(),
-                  Container(),
+                  Modules(),
                   Container(),
                 ],
               ),

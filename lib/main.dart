@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myhealthbd_app/admin/company/view/add_new_company_screen.dart';
 import 'package:myhealthbd_app/admin/company/view/company_setup_screen.dart';
+import 'package:myhealthbd_app/admin/dashboard/dashboard_admin.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/view/book_test_screen.dart';
 import 'package:myhealthbd_app/main_app/flavour/flavour_config.dart';
@@ -20,8 +21,8 @@ void main() async {
     color: Colors.deepPurpleAccent,
   );
   runApp(
-    // ChangeNotifierProvider(
-    //     create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
-    MaterialApp(home: AddCompanyScreen()),
+    ChangeNotifierProvider(
+        create: (context) => AccessTokenProvider(), child: MyHealthBdApp()),
+    //MaterialApp(home: AdminDashboard()),
   );
 }

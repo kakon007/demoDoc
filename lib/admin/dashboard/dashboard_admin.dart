@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/add_patient/view/patient_portal_user_list.dart';
+import 'package:myhealthbd_app/admin/company/view/company_setup_screen.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/admin_drawer.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/manage_admin_profile_prompt.dart';
+import 'package:myhealthbd_app/admin/doctor_setup/view/doctor_setup_screen.dart';
 import 'package:myhealthbd_app/doctor/main_app/resource/doctor_const.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -197,8 +199,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     var addPat = Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-              width: 1, color: AppTheme.appbarPrimary)),
+          border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
       height: 100,
       width: 180,
       child: Column(
@@ -229,48 +230,46 @@ class _AdminDashboardState extends State<AdminDashboard> {
             color: photo != '' ? Colors.white : AppTheme.appbarPrimary,
             shape: BoxShape.circle,
             border: Border.all(
-                color: photo != ''
-                    ? AppTheme.buttonActiveColor
-                    : Colors.white,
+                color: photo != '' ? AppTheme.buttonActiveColor : Colors.white,
                 width: 1)),
         height: isTablet
             ? 32
             : width <= 330
-            ? 25
-            : 30,
+                ? 25
+                : 30,
         width: isTablet
             ? 32
             : width <= 330
-            ? 25
-            : 30,
+                ? 25
+                : 30,
         child: Center(
           child: photo != ''
               ? companyInfoVm.loadDoctorProfileImage(
-              photo,
-              isTablet
-                  ? 25
-                  : width <= 330
-                  ? 20
-                  : 22,
-              isTablet
-                  ? 25
-                  : width <= 330
-                  ? 20
-                  : 22,
-              50)
+                  photo,
+                  isTablet
+                      ? 25
+                      : width <= 330
+                          ? 20
+                          : 22,
+                  isTablet
+                      ? 25
+                      : width <= 330
+                          ? 20
+                          : 22,
+                  50)
               : Image.asset(
-            'assets/images/dPro.png',
-            height: isTablet
-                ? 22
-                : width <= 330
-                ? 18
-                : 20,
-            width: isTablet
-                ? 22
-                : width <= 330
-                ? 18
-                : 20,
-          ),
+                  'assets/images/dPro.png',
+                  height: isTablet
+                      ? 22
+                      : width <= 330
+                          ? 18
+                          : 20,
+                  width: isTablet
+                      ? 22
+                      : width <= 330
+                          ? 18
+                          : 20,
+                ),
         ));
     return Scaffold(
       appBar: AppBar(
@@ -280,11 +279,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-              showAlert(context);
-            },
-            child: imageDashboard
-          ),
+              onTap: () {
+                showAlert(context);
+              },
+              child: imageDashboard),
           IconButton(
             icon: Icon(
               Icons.notifications,
@@ -318,13 +316,31 @@ class _AdminDashboardState extends State<AdminDashboard> {
             spaceBetween,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [addOrganization, addCom],
+              children: [
+                addOrganization,
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CompanySetupScreen()));
+                    },
+                    child: addCom)
+              ],
             ),
             spaceBetween,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                addDoc, addUsers
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DoctorSetupScreen()));
+                    },
+                    child: addDoc),
+                addUsers
               ],
             ),
             spaceBetween,
@@ -336,9 +352,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-               addPat
-                ],
+                children: [addPat],
               ),
             ),
           ],

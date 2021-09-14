@@ -1,25 +1,172 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myhealthbd_app/admin/company/view/add_new_company_screen.dart';
+import 'package:myhealthbd_app/admin/doctor_setup/view/add_new_doctor_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
+import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/views/widgets/SignUpField.dart';
-import 'package:myhealthbd_app/root.dart';
 
-class CompanySetupScreen extends StatefulWidget {
+class DoctorSetupScreen extends StatefulWidget {
   @override
-  _CompanySetupScreenState createState() => _CompanySetupScreenState();
+  _DoctorSetupScreenState createState() => _DoctorSetupScreenState();
 }
 
-class _CompanySetupScreenState extends State<CompanySetupScreen> {
+class _DoctorSetupScreenState extends State<DoctorSetupScreen> {
   @override
+  String selectOrganization;
   Widget build(BuildContext context) {
+    bool isTablet = Responsive.isTablet(context);
+    bool isMobile = Responsive.isMobile(context);
+    var width = MediaQuery.of(context).size.width;
+    var organizationName = Padding(
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: isTablet ? 50 : 45.0,
+                width: width * 0.92,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Color(0xffD2D2D2)),
+                    borderRadius: BorderRadius.circular(8)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.0, right: 15),
+                      child: Container(
+                        width: width * 0.8,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField(
+                            onTap: () {
+                              FocusManager.instance.primaryFocus.unfocus();
+                            },
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              color: selectOrganization != null
+                                  ? Colors.black54
+                                  : Color(0XFFD2D2D2),
+                            ),
+                            iconSize: 25,
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(0, -5, 0, 0),
+                                enabledBorder: InputBorder.none),
+                            isExpanded: true,
+                            hint: Text(
+                              'Organization Name',
+                              style: GoogleFonts.roboto(
+                                  fontSize: isTablet ? 17 : 15,
+                                  color: Color(0XFFD2D2D2)),
+                            ),
+                            value: selectOrganization,
+                            onChanged: (newValue) {
+                              setState(() {});
+                            },
+                            items:
+                                StringResources.organizationList.map((gender) {
+                              return DropdownMenuItem(
+                                child: new Text(
+                                  gender,
+                                  style: GoogleFonts.roboto(fontSize: 15),
+                                ),
+                                value: gender,
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+    var companyName = Padding(
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: isTablet ? 50 : 45.0,
+                width: width * 0.7,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Color(0xffD2D2D2)),
+                    borderRadius: BorderRadius.circular(8)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.0, right: 15),
+                      child: Container(
+                        width: width * 0.6,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButtonFormField(
+                            onTap: () {
+                              FocusManager.instance.primaryFocus.unfocus();
+                            },
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_sharp,
+                              color: selectOrganization != null
+                                  ? Colors.black54
+                                  : Color(0XFFD2D2D2),
+                            ),
+                            iconSize: 25,
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(0, -5, 0, 0),
+                                enabledBorder: InputBorder.none),
+                            isExpanded: true,
+                            hint: Text(
+                              'Company Name',
+                              style: GoogleFonts.roboto(
+                                  fontSize: isTablet ? 17 : 15,
+                                  color: Color(0XFFD2D2D2)),
+                            ),
+                            value: selectOrganization,
+                            onChanged: (newValue) {
+                              setState(() {});
+                            },
+                            items:
+                                StringResources.organizationList.map((gender) {
+                              return DropdownMenuItem(
+                                child: new Text(
+                                  gender,
+                                  style: GoogleFonts.roboto(fontSize: 15),
+                                ),
+                                value: gender,
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+    double imageHeight = 35;
+    double imageWidth = width <= 330 ? 120 : 120;
+    var spaceBetween = SizedBox(
+      height: 10,
+    );
     return Scaffold(
       appBar: AppBar(
-        title: Text("Company Setup"),
+        title: Text("Doctor Setup"),
         backgroundColor: Color(0xff354291),
       ),
       body: SingleChildScrollView(
@@ -42,32 +189,40 @@ class _CompanySetupScreenState extends State<CompanySetupScreen> {
                   ),
                 ],
               ),
-              child: Row(
+              child: Column(
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SignUpFormField(
-                        onChanged: (value) {
-                          // hospitalSearch(value);
-                        },
-                        textFieldKey: Key('hospitalSearchFieldKey'),
-                        focusBorderColor: "#8592E5",
-                        // controller: hospitalController,
-                        borderRadius: 30,
-                        minimizeBottomPadding: true,
-                        // hintSize: isTablet ? 17 : 12,
-                        hintText: "Search Company",
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 20.0),
-                          child: Icon(
-                            Icons.search_rounded,
-                            //color: Colors.grey,
+                  spaceBetween,
+                  organizationName,
+                  spaceBetween,
+                  companyName,
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SignUpFormField(
+                            onChanged: (value) {
+                              // hospitalSearch(value);
+                            },
+                            textFieldKey: Key('hospitalSearchFieldKey'),
+                            focusBorderColor: "#8592E5",
+                            // controller: hospitalController,
+                            borderRadius: 30,
+                            minimizeBottomPadding: true,
+                            // hintSize: isTablet ? 17 : 12,
+                            hintText: "Search Company",
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 20.0),
+                              child: Icon(
+                                Icons.search_rounded,
+                                //color: Colors.grey,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -95,70 +250,200 @@ class _CompanySetupScreenState extends State<CompanySetupScreen> {
                         ],
                       ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                'Company id. 01',
-                                style: TextStyle(color: Color(0xffFFB14A)),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  FontAwesomeIcons.equals,
-                                  color: AppTheme.buttonActiveColor,
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(
+                                      color: AppTheme.buttonActiveColor),
+                                  color: Colors.white,
                                 ),
-                                // icon: Text(
-                                //   "=",
-                                //   style: TextStyle(
-                                //       color: AppTheme.buttonActiveColor,
-                                //       fontSize: 25),
-                                // )
+                                height: imageHeight,
+                                width: 35,
+                                child: Center(
+                                    child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(19),
+                                  // child: Image.file(
+                                  //   _image,
+                                  //   height: 110,
+                                  //   width: 110,
+                                  //   fit: BoxFit.fill,
+                                  // ))
+                                  // : photo != ''
+                                  // ? companyInfoVm.loadDoctorProfileImage(photo, 110, 110, 19)
+                                  child: Image.asset(
+                                    'assets/images/dPro.png',
+                                    height: 80,
+                                    width: width <= 330 ? 80 : 80,
+                                  ),
+                                )),
                               ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Doctor id. 01',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xffFFB14A)),
+                                      ),
+                                      // SizedBox(
+                                      //   width: 100,
+                                      // ),
+                                      // Row(
+                                      //   children: [
+                                      //     Icon(
+                                      //       Icons.edit,
+                                      //       color: AppTheme.buttonActiveColor,
+                                      //       size: 16,
+                                      //     ),
+                                      //     Text(
+                                      //       'Add Signature',
+                                      //       style: TextStyle(
+                                      //           fontWeight: FontWeight.bold,
+                                      //           fontSize: 12,
+                                      //           color:
+                                      //               AppTheme.buttonActiveColor),
+                                      //     )
+                                      //   ],
+                                      // )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 30),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'MD. Akramuzzaman',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.circle,
+                                              size: 12,
+                                              color: Colors.green,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              'Active',
+                                              style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize: 11),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.edit,
+                                    color: AppTheme.buttonActiveColor,
+                                    size: 16,
+                                  ),
+                                  Text(
+                                    'Add Signature',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                        color: AppTheme.buttonActiveColor),
+                                  )
+                                ],
+                              )
                             ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 30),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Aalok Healthcare ltd(branch Mirpur 1)',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.circle,
-                                      size: 12,
-                                      color: Colors.green,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'Active',
-                                      style: TextStyle(
-                                          color: Colors.green, fontSize: 11),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
                           ),
                           SizedBox(
                             height: 15,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40.0),
-                            child: Text(
-                              'Address: House 76 (Level 1) Road 4, Block B Niketan, Gulshan 1 Dhaka 1212, Bangladesh',
-                              style: TextStyle(),
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                'Company: ',
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Aalok Healthcare Ltd(Branch Mirpur 10)',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Degree: ',
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 40.0),
+                                child: Text(
+                                  'MBBS.MDBCs',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Phone No:',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '01788017656',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Chamber:',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'Address1',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           Divider(
                             thickness: 1,
@@ -388,7 +673,7 @@ class _CompanySetupScreenState extends State<CompanySetupScreen> {
                                       });
                                 },
                                 child: Container(
-                                    height: 40,
+                                    height: 35,
                                     width: 40,
                                     decoration: BoxDecoration(
                                         color: Color(0xffFF8585),
@@ -396,19 +681,48 @@ class _CompanySetupScreenState extends State<CompanySetupScreen> {
                                             Radius.circular(5))),
                                     child: Icon(
                                       Icons.delete,
+                                      size: 15,
                                       color: Colors.white,
                                     )),
                               ),
                               SizedBox(
-                                width: 30,
+                                width: 10,
                               ),
-                              FlatButton(
-                                  height: 40,
-                                  minWidth:
-                                      MediaQuery.of(context).size.width * .3,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                  color: AppTheme.buttonActiveColor,
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: AppTheme.buttonActiveColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                  ),
+                                  onPressed: () async {},
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.videocam,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Video Configuration',
+                                        style: GoogleFonts.roboto(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  )),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: AppTheme.buttonActiveColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                  ),
                                   onPressed: () async {},
                                   child: Row(
                                     children: [
@@ -424,7 +738,7 @@ class _CompanySetupScreenState extends State<CompanySetupScreen> {
                                         'Edit',
                                         style: GoogleFonts.roboto(
                                             color: Colors.white,
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.w600),
                                       ),
                                     ],
@@ -438,141 +752,6 @@ class _CompanySetupScreenState extends State<CompanySetupScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: Container(
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 5,
-                            blurRadius: 5,
-                            offset: Offset(0, 1), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Company id. 01',
-                                style: TextStyle(color: Color(0xffFFB14A)),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  FontAwesomeIcons.equals,
-                                  color: AppTheme.buttonActiveColor,
-                                ),
-                                // icon: Text(
-                                //   "=",
-                                //   style: TextStyle(
-                                //       color: AppTheme.buttonActiveColor,
-                                //       fontSize: 25),
-                                // )
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 30),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Aalok Healthcare ltd(branch Mirpur 1)',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.circle,
-                                      size: 12,
-                                      color: Colors.green,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'Active',
-                                      style: TextStyle(
-                                          color: Colors.green, fontSize: 11),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40.0),
-                            child: Text(
-                              'Address: House 76 (Level 1) Road 4, Block B Niketan, Gulshan 1 Dhaka 1212, Bangladesh',
-                              style: TextStyle(),
-                            ),
-                          ),
-                          Divider(
-                            thickness: 1,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xffFF8585),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                  )),
-                              SizedBox(
-                                width: 30,
-                              ),
-                              FlatButton(
-                                  height: 40,
-                                  minWidth:
-                                      MediaQuery.of(context).size.width * .3,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                  color: AppTheme.buttonActiveColor,
-                                  onPressed: () async {},
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                        size: 18,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        'Edit',
-                                        style: GoogleFonts.roboto(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  )),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
               ),
             )
@@ -582,7 +761,7 @@ class _CompanySetupScreenState extends State<CompanySetupScreen> {
       floatingActionButton: InkWell(
         onTap: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddCompanyScreen()));
+              MaterialPageRoute(builder: (context) => AddDoctorSetupScreen()));
         },
         child: Container(
           height: 50,

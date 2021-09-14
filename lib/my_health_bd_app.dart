@@ -196,11 +196,12 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => OrderConfirmViewModel()),
       ChangeNotifierProvider<ConsultationViewModel>(
           create: (context) => ConsultationViewModel()),
-
       ChangeNotifierProvider<TestItemViewModel>(
           create: (context) => TestItemViewModel()),
       ChangeNotifierProvider<CompanyListViewModel>(
           create: (context) => CompanyListViewModel()),
+      ChangeNotifierProvider<UserImageViewModel>(
+          create: (context) => UserImageViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

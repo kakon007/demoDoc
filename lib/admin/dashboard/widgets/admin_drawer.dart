@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/admin/admin_home_screen.dart';
+import 'package:myhealthbd_app/admin/dashboard/dashboard_admin.dart';
 import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
 import 'package:myhealthbd_app/doctor/features/profile/view_model/personal_info_view_model.dart';
+import 'package:myhealthbd_app/features/dashboard/view/widgets/sign_out_prompt.dart';
 import 'package:myhealthbd_app/features/setting/view/setting_screen.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/user_image_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -12,27 +15,22 @@ import 'package:myhealthbd_app/main_app/resource/const.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:provider/provider.dart';
 
-import '../../../appointment_report/view/appointment_report.dart';
-
-class DashboardDrawer extends StatefulWidget {
-  const DashboardDrawer({Key key}) : super(key: key);
+class AdminDashboardDrawer extends StatefulWidget {
+  const AdminDashboardDrawer({Key key}) : super(key: key);
 
   @override
-  _DashboardDrawerState createState() => _DashboardDrawerState();
+  _AdminDashboardDrawerState createState() => _AdminDashboardDrawerState();
 }
 
-class _DashboardDrawerState extends State<DashboardDrawer> {
+class _AdminDashboardDrawerState extends State<AdminDashboardDrawer> {
   int selectedCard = 0;
 
   @override
   Widget build(BuildContext context) {
     List<DrawerItems> drawerItems = [
       DrawerItems(imageString: dashboardImageIcon, title: 'Dashboard'),
-      DrawerItems(imageString: workImageIcon, title: 'Worklist'),
-      DrawerItems(
-          imageString: 'assets/icons/report.svg', title: 'Appointment Report'),
-      // DrawerItems(imageString: prescriptionImageIcon, title: 'Rx Setup'),
       DrawerItems(imageString: moreImageIcon, title: 'More'),
+      DrawerItems(imageString: signOutImageIcon, title: 'Sign out'),
     ];
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var photo = companyInfoVm.details?.photo ?? '';
@@ -88,7 +86,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            PersonalInfoViewModel.watch(context).personalInfoData?.doctorName??"",
+                            companyInfoVm.details.name ?? "",
                             style: GoogleFonts.poppins(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
@@ -146,22 +144,31 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
                         });
                         if (index == 0) {
                           Navigator.pop(context);
-                        } else if (index == 1) {
+                        } else if (index == 0) {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      DoctorHomeScreen(
+                                      AdminHomeScreen(
                                         index: index,
                                       )),
                               (Route<dynamic> route) => false);
-                        } else if (index == 2) {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  AppointmentReport()));
-                        } else {
+                        } else if (index == 1) {
+                          print('more');
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //     builder: (BuildContext context) =>
+                          //         AppointmentReport()));
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   SettingScreen()));
+                        } else {
+                          // setState(() {
+                          //   selectedCard = 0;
+                          // });
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SignOutPrompt();
+                              });
                         }
                       },
                     ),

@@ -409,7 +409,6 @@ class _OrderConfirmationAfterSignInState
           'MRS.',
           'MR.',
           'Miss.',
-          'Miss.',
           'MOHAMMAD',
           'SON OF.',
           'DAUGHTER OF',
@@ -509,12 +508,12 @@ class _OrderConfirmationAfterSignInState
             height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 5, right: 10),
+            padding: const EdgeInsets.only(left: 5, right: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.27,
+                  width: MediaQuery.of(context).size.width * 0.32,
                   height: 45,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),

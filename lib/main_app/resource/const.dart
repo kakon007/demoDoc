@@ -11,6 +11,7 @@ const Duration  kDefaultTimeToPreventAutoRefresh = const Duration(minutes: 5);
 //doctor constants
 const String  workImageIcon= "assets/images/work.svg";
 const String  dashboardImageIcon= "assets/images/dashboard.svg";
+const String  signOutImageIcon= "assets/images/sign_out.svg";
 const String  prescriptionImageIcon= "assets/images/prescription.svg";
 const String  profileImageIcon= "assets/images/profile.svg";
 const String  rxSetupImageIcon= "assets/images/rx_setup.svg";

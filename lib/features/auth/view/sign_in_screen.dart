@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/admin/admin_home_screen.dart';
 import 'package:myhealthbd_app/admin/dashboard/dashboard_admin.dart';
 import 'package:myhealthbd_app/doctor/doctor_home_screen.dart';
 import 'package:myhealthbd_app/features/auth/model/sign_in_model.dart';
@@ -460,7 +461,7 @@ class _SignInState extends State<SignIn> {
                                                       builder:
                                                           (BuildContext
                                                                   context) =>
-                                                              AdminDashboard()),
+                                                              AdminHomeScreen()),
                                                   (Route<dynamic> route) =>
                                                       false);
                                         }
